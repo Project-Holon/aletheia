@@ -8,14 +8,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
  *   data_027341A4  0x027341A4  data twl a2
- *   func_020862B8  0x020862B8  code twl a2
- *   func_020862D4  0x020862D4  code twl a2
+ *   func_020862B8 0x020862B8 arm twl a2
+ *   func_020862D4 0x020862D4 arm twl a2
  *   DAT_027341a4   0x027341a4  data twl
  *   func_02702A78  0x02702A78  arm twl
  *   func_02731590  0x02731590  arm twl

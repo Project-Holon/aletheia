@@ -1,8 +1,8 @@
 /*
  * file:     wipe_sub_p07.c
  * unit:     yes
- * function: func_02023964, func_02023A50, func_02023AAC, func_02023AB0, func_02023AF4, func_02023B48, func_02023B74, func_02023BFC, func_02023C3C, func_02023CFC, func_02023D18, func_02023D40, func_02023D60, func_02023D94, func_02023DA8, func_02023DC4, func_02023DDC, func_02023E0C, func_02023E9C
- * address:  0x02023964
+ * function: func_02023EF4, func_02023F60, func_02023F98, func_02023FD8, func_02024004, func_02024044, func_020240FC, func_02024104, func_02024108, func_0202411C, func_02024120, func_02024124, func_02024128, func_02024134, func_02024144, func_02024148, func_0202414C, func_02024150, func_02024158, func_02024160, func_02024168, func_0202419C, func_020241E0, func_0202421C, func_02024224, func_02024230, func_0202428C, func_020242A4, func_020242C0, func_020242D8, func_02024344, func_0202435C, func_02024368, func_0202441C, func_02024450
+ * address:  0x02023EF4
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,767 +13,1046 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02022EA0  0x02022EA0  thumb
- *   MI_CpuFill8    0x02082BCC  arm
- *   func_02022F0C  0x02022F0C  thumb
- *   func_02022E20  0x02022E20  thumb
- *   func_02022E88  0x02022E88  thumb
- *   func_02022EF4  0x02022EF4  thumb
- *   func_02022F24  0x02022F24  thumb
- *   _s32_div_f  0x0209C0A4  arm
- *   reg_DISPCNT_SUB  0x04001000  data
- *   reg_BLDCNT      0x0400004A  data
- *   reg_BLDCNT_SUB  0x0400104A  data
- *   sub_020056A0  0x020056A0  thumb
- *   sub_02023D94  0x02023D94  thumb
- *   sub_02023DA8  0x02023DA8  thumb
- *   sub_02023DC4  0x02023DC4  thumb
- *   func_020056A0  0x020056A0  thumb
- *   func_02030EAC  0x02030EAC  arm
+ *   G2x_SetBlendBrightness_   0x0207D658  arm
+ *   func_02023E9C             0x02023E9C  thumb
+ *   data_0214691C             0x0214691C  data
+ *   data_021468FC             0x021468FC  data
  *   func_0207D658  0x0207D658  arm
+ *   func_02082BCC  0x02082BCC  arm
+ *   g_wipe_main    0x0214691C  data
+ *   g_wipe_flags   0x021468FC  data
+ *   g_wipe_subrec  0x021468FC  data
+ *   g_021468FC    0x021468FC  data
+ *   g2_021468FC   0x021468FC  data
+ *   g_0214691C    0x0214691C  data
+ *   func_02023E0C 0x02023E0C  thumb
+ *   d_021468FC  0x021468FC  data
+ *   func_02030734  0x02030734  arm
+ *   func_020071CC  0x020071CC  thumb
+ *   func_02024988  0x02024988  thumb
+ *   func_02012FE4  0x02012FE4  thumb
+ *   func_020142E8  0x020142E8  thumb
+ *   MI_CpuCopy8    0x02082D44  arm
+ *   file_020A745C  0x020A745C  data
+ *   sub_020307B0  0x020307B0  arm
+ *   sub_02024570  0x02024570  thumb
+ *   unit_020355C4  0x020355C4  arm
+ *   func_020355D8 0x020355D8 arm
+ *   _ll_mul        0x0209C054  arm
+ *   tbl_020A1B38   0x020A1B38  data
+ *   func_02024598  0x02024598  thumb
+ *   Table_0209F724   0x0209F724  data
+ *   func_0201EC64    0x0201EC64  thumb
+ *   func_0201ED04    0x0201ED04  thumb
+ *   func_0201EFC8    0x0201EFC8  thumb
+ *   func_0201EFFC    0x0201EFFC  thumb
+ *   func_0201F250    0x0201F250  thumb
+ *   func_020457B0    0x020457B0  arm
+ *   func_02045808    0x02045808  arm
+ *   func_02045B38    0x02045B38  arm
+ *   func_02045C04    0x02045C04  arm
+ *   func_02045EC0    0x02045EC0  arm
+ *   sub_02045B38    0x02045B38  arm
+ *   sub_02045EC0    0x02045EC0  arm
+ *   - 0x02082D44 is called (src, dest, size), i.e. MI_CpuCopy8's order, not
  */
-#include "../../matched/include/Obj02305.h"
-#include "../../matched/include/Obj06900.h"
-#include "../../matched/include/Obj06901.h"
-#include "../../matched/include/Obj04734.h"
+#include "../../matched/include/Obj15744.h"
 
-struct Obj;
-struct Args2;
-struct Args4;
-struct Args3;
-struct Node;
+struct Anim;
+struct Sub020071CCCtrl;
+struct Rec8;
+struct Data;
+struct Obj_0202411C;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+struct WordSet;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
+typedef signed short   s16;
+
 typedef unsigned int   u32;
 
-struct Desc {
-    u32 f00;
-    u16 f04;
-    u16 f06;
+typedef int            s32;
+
+struct Obj_02023EF4 {
+    u8  kind;        /* +0x00 */
+    u8  f01;         /* +0x01 */
+    u8  f02;         /* +0x02 */
+    u8  b0 : 1;      /* +0x03 */
+    u8  b1 : 1;
+    u8  b2 : 1;
+    u8  b3 : 1;
+    u8  rest : 4;
+    u8  pad04[4];
+    void *f08;       /* +0x08 */
+    void *f0c;       /* +0x0c */
+    u8  slot[8];     /* +0x10 */
+    u16 f18[2];      /* +0x18 */
 };
 
-typedef signed int     s32;
-
-struct Wipe {
-    u8  pad000[0x314];
-    s32 step_bound;   /* 0x314  see the note above: a floor, not a ceiling */
-    s32 step;         /* 0x318 */
-    s32 frame_limit;  /* 0x31c */
-    s32 frame;        /* 0x320 */
-    s32 f324;         /* 0x324 */
-    s32 f328;         /* 0x328 */
-    s32 f32c;
-    s32 f330;         /* 0x330 */
+struct Src02024128 {
+    unsigned char pad[0x18];
+    unsigned short a;
+    unsigned short b;
 };
 
-struct Struct_02023CFC {
-    void *val;
-    u32 idx;
+typedef struct {unsigned char pad[3];unsigned char flag:1;unsigned char rest:7;} Bits_02024150;
+
+typedef struct {unsigned char pad[3];unsigned char rest:3;unsigned char flag:1;unsigned char last:4;} Bits_02024160;
+
+typedef struct Pair { u16 x,y; } Pair;
+
+typedef struct Input {
+    u8 mode; u8 pad01[15]; u16 values10[4]; u16 values18[2];
+} Input;
+
+struct Obj_0202411C {
+    u8  f0;
+    u8  pad1[0x17];
+    u16 f18;    /* 0x18 */
+    u16 f1A;    /* 0x1A */
 };
 
-struct Item_02023D18 {
-    void *val;
-    u32 field_4;
-    u32 field_8;
-    u32 field_C;
-};
-
-struct Big_02023D18 {
-    u8 pad[0x10];
-    struct Item_02023D18 items[1][1];
-};
-
-struct Item_02023D40 {
-    void *val;
-    u32 field_4;
-    u32 field_8;
-};
-
-struct Rec {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u32 f8;
-    u32 fC;
-};
-
-struct Args2 {
-    u32 f0;
-    u32 f4;
-};
-
-struct Args4 {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u32 fC;
-};
-
-struct Args3 {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-};
-
-typedef signed char    s8;
-
-typedef short          s16_0;
-
-struct Anim {
-    u32 f00;
-    u32 f04;
-    u16 f08;
-    u16 f0a;
-    u16 f0c;
-    u16 f0e;
-    s8  f10;
-    u8  f11;
+struct T {
+    u8  pad00[1];
+    u8  f01;
+    u8  f02;
+    u8  pad03[0xd];
+    u16 f10;
     u16 f12;
-    s16_0 f14;
+    u16 f14;
     u16 f16;
     u16 f18;
-    s16_0 f1a;
-    u32 f1c;
+    u16 f1a;
 };
 
-typedef signed short   s16_02023E9C;
+typedef signed int       s32_02024230;
 
-struct Interp {
-    u32 f00;
-    u32 f04;
-    u16 f08;
-    u16 f0a;
-    u16 f0c;
-    u16 f0e;
-    signed char f10;
-    u8  f11;
-    s16_02023E9C f12;
-    s16_02023E9C f14;
-    s16_02023E9C f16;
-    u16 f18;
-    s16_02023E9C f1a;
-    u32 f1c;
+typedef signed long long s64;
+
+typedef int             s32_0202428C;
+
+struct Struct_0202441C {
+    u16 arcFileIdx;
+    u16 strIdx;
 };
 
-extern void func_02022EA0(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void func_02022F0C(u32 a0, u8 *a1, u32 a2);
-extern void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
-                          u32 a6, u32 a7, u32 a8, u32 a9);
-extern int func_02022E88(int a0, int a1, int a2, int a3);
-extern u32  func_02022EF4(void *p);
-extern void func_02022F24(u32 a0, u8 *a1, u32 a2);
-void func_02023AB0(void *p);
-void func_02023AF4(u8 *desc, u8 *out, s32 num, s32 den);
-void func_02023B48(u32 val, u32 engine);
-extern void *sub_020056A0(void *cb, void *param, u32 flag);
-extern u32 sub_02023D94(void *obj, struct Args2 *args);
-extern u32 sub_02023DA8(void *obj, struct Args4 *args);
-extern u32 sub_02023DC4(void *obj, struct Args3 *args);
-extern void func_020056A0(u32 fn, void *rec, u32 one);
-extern void sub_02023B48(u32 a, u32 b);
-extern u32  func_02030EAC(void *obj);
-extern void sub_02023B74(u32 a, u32 b, u32 c, u32 d);
-extern void sub_02023BFC(u32 a, u32 b, u32 c);
-extern void func_02023C3C(u32 x2, u32 y2, u32 x1, u32 y1, int win, int sub);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
+extern void func_02023E9C(void *rec, void *p, u16 steps, s16 from,
+                          u32 a4, u32 a5);
 extern void func_0207D658(u32 addr, int plane, int brightness);
-void func_02023D18(void *obj, void *val, u32 f4, u32 f8, u32 fC);
-void func_02023D40(void *obj, void *val, u32 f4, u32 f8);
-void func_02023D60(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-void func_02023DDC(void *a0, short *a1);
-void func_02023B74(u32 a0, u32 a1, u32 a2, u32 a3);
-void func_02023BFC(u32 a, u32 flag, u32 engine);
-void sub_02023C3C(u32 x2, u32 y2, u32 x1, u32 y1, int win, int sub);
+extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void func_02023E0C(struct Anim *p);
+extern void *func_02030734(u32 heap, u32 sz, int c, const char *file, u16 line);
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *func_02024988(int a0);
+extern void *func_02012FE4(struct Sub020071CCCtrl *a0);
+extern u32 func_020142E8(void *bitmap, s32 id);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
+extern u32 sub_020307B0(void *p);
+extern void sub_02024570(struct Rec8 *dst, const struct Rec8 *src);
+extern int func_02024534(const struct Data *p1, const struct Data *p2);
+extern u32 unit_020355C4(void);
+extern void func_020355D8(void *);
+extern void func_02024598(void *p0, int p1, int p2);
+extern struct WordSet *func_0201EC64(u32 heap);
+extern u32 func_0201ED04(struct WordSet *p);
+extern void func_0201EFC8(struct WordSet *p, u32 i, u32 v);
+extern void func_0201EFFC(struct WordSet *p, u32 i, u32 v);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void  *func_020457B0(u32 size, u16 heap);
+extern void func_02045808(struct U16Vec *vec);
+extern void  *func_02045B38(int a, int b, u32 id, u16 heap);
+extern u32 func_02045C04(struct Rec *rec);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *sub_02045EC0(struct MsgBank *bank, u32 index);
+void func_02023EF4(void *p, u16 steps, s16 from, s16 to, u32 mask);
+void func_02023F60(u32 a0, u32 a1, u32 mask);
+void func_02023F98(u32 mask);
+void func_02023FD8(void);
+int func_02024004(int a);
+struct Obj_02023EF4 *func_02024044(u32 kind, u32 a1, void *src, u32 flag, void *sys, u32 hh);
+void func_020240FC(void *t);
+void func_02024104(u16 *p, u16 v);
+void func_02024108(u16 *dst, const u16 *src);
+int func_0202411C(unsigned char *p);
+int func_02024120(u8 *p);
+unsigned int func_02024124(unsigned short *p);
+void func_02024128(struct Src02024128 *p, unsigned short *__restrict out);
+void func_02024134(char *a, void *b);
+u32 func_02024144(const u8 *p);
+void *func_02024148(char *p);
+void *func_0202414C(char *p);
+int func_02024150(Bits_02024150 *p);
+u32 func_02024158(const u8 *p);
+int func_02024160(Bits_02024160 *p);
+void func_02024168(const Input *p,u16 *a,u16 *b);
+u32 func_0202419C(struct Obj_0202411C *p, u16 *q, u32 a);
+void func_020241E0(struct T *p, u16 *a1, u16 *a2);
+void func_0202421C(void);
+void func_02024224(void *a,void *b);
+void func_02024230(s16 *out, u32 count, u16 step, s32_02024230 amp);
+void sub_0202428C(void *obj);
+void func_020242A4(void *obj, u32 id);
+void func_020242C0(void *a, void *b, void *c);
+void func_020242D8(void *slot, u32 idx);
+void func_02024344(void *obj);
+void *func_0202435C(void *slots, unsigned int heap);
+void *sub_02024368(u16 *slots, u32 heap, int count);
+void *func_0202441C(const struct Struct_0202441C *obj, u32 heapId);
+int func_02024450(const u16 *p);
+extern char data_0214691C[];
+extern char data_021468FC[];
+extern u32 g_wipe_main[];
+extern u32 g_wipe_subrec[];
+extern u32 g_wipe_flags[];
+extern u8 g_021468FC[];
+extern u8 g2_021468FC[];
+extern u8 g_0214691C[];
+extern u32 d_021468FC[];
+extern u8 file_020A745C[];
+extern const s16 tbl_020A1B38[];
+extern u16 Table_0209F724[];
+
+
+
+
+
+
+
 
 
 
 
 /*
- * The setup of the 0x334-byte scanline wipe object (struct WipeScan in
- * docs/families/wipe_sub.h): clears it through func_02022EA0, fills both
- * 0xC0-row tables with 1 or 0 by the descriptor's +6 halfword, stamps ten
- * words at +0x30c..+0x330 in the image's (non-ascending) order, installs
- * the scanline callback through func_02022F0C and arms the window.
+ * Front end for func_02023E9C: given a record pointer and a two-bit engine
+ * mask, it arms the record once per selected engine. Each arm first sets
+ * the hardware blend-brightness register for that engine to the starting
+ * value through G2x_SetBlendBrightness_ (0x0207D658), then calls
+ * func_02023E9C with the shared step/from/to triple and the two stack
+ * arguments (the starting value, and the engine bit itself as the tag).
  *
- * The 2026-09-20 note was two bytes long because it called
- * func_02022F0C(a0, desc, a3): the image passes (a6, w, a7) -- the
- * sp+0x40 and sp+0x44 stack arguments around the object, matching
- * func_02022F0C's own (u32, u8 *, u32) parameter list.  With that call
- * corrected the rest of the note's body compiles byte for byte.
+ * The two pool words 0x04000050 and 0x04001050 are the main and sub
+ * engine's BLDCNT/BLDY block; both arms are written out in full rather
+ * than factored behind a helper, which is what keeps them as two separate
+ * call sequences rather than one tail-merged site.
+ *
+ * Note the second engine's register word is the plain constant 0x04001050
+ * in the pool, not 0x04000050 + 0x1000 computed at run time.
+ *
+ * RESOLVED 2026-09-21 (wave3 wipe_sub). This file sat in src/pending at
+ * MATCH with the note below blaming a missing `literal` witness for the two
+ * ABS32 pool words. The blocker was not evidentiary: the symbols block named
+ * the tables at 0x0202691C and 0x020268FC, but the ROM pool words at
+ * 0x02023F54 and 0x02023F5C are 0x0214691C and 0x021468FC. Because a MATCH
+ * wildcards the relocation field, the wrong address was never compared and
+ * the typo read as an attestation failure. With the real addresses both
+ * sites resolve as `literal` (6 and 12 witnesses image-wide, e.g. the pool
+ * words at 0x02023FCC and 0x02023FD0 in the neighbouring unit) and the
+ * function is EXACT. Earlier prose, kept for the record:
+ *
+ * [stale] capped at MATCH; blocking evidence class literal; neither word
+ * appears in any literal pool at another address. -- wrong on both counts,
+ * see above.
+ *
+ * Both engines pass the same record pointer p to func_02023E9C; the first
+ * argument is the engine's own descriptor table, and the last argument is
+ * the engine bit (1 or 2), which func_02023E9C stores to f04.
+ *
+ * G2x_SetBlendBrightness_ takes three arguments (addr, plane, brightness)
+ * and both arms pass all three. The first arm emits no `mov r2` because
+ * `from` is still live in r2 from entry; the second arm reloads it from r6
+ * after the intervening call. An earlier spelling declared a two-argument
+ * extern for the first arm, which matched the bytes but left r2 unnamed
+ * (docs/idioms/an-argument-passed-through-a-register-must-be-named-in-the-c.md).
  */
-void func_02023964(u8 *w, struct Desc *d, u32 a2, u32 a3, u32 a4, u32 a5,
-                   u32 a6, u32 a7)
+void func_02023EF4(void *p, u16 steps, s16 from, s16 to, u32 mask)
 {
-    func_02022EA0(w, a4, 1, 0, 0);
-
-    if (d->f06 == 0) {
-        MI_CpuFill8(w, 1, 0xC0);
-        MI_CpuFill8(w + 0xC0, 1, 0xC0);
-    } else {
-        MI_CpuFill8(w, 0, 0xC0);
-        MI_CpuFill8(w + 0xC0, 0, 0xC0);
+    if (p == 0) {
+        return;
     }
 
-    ((struct Obj02305 *)w)->f30C = d->f00;
-    ((struct Obj02305 *)w)->f310 = d->f04;
-    ((struct Obj02305 *)w)->f324 = d->f06;
-    ((struct Obj02305 *)w)->f328 = a7;
-    ((struct Obj02305 *)w)->f314 = a2;
-    ((struct Obj02305 *)w)->f318 = 0;
-    ((struct Obj02305 *)w)->f31C = a3;
-    ((struct Obj02305 *)w)->f320 = 0;
-    ((struct Obj02305 *)w)->f32C = a5;
-    ((struct Obj02305 *)w)->f330 = a6;
-
-    func_02022F0C(a6, w, a7);
-
-    if (d->f06 == 1) {
-        func_02022E20(a5, 0x20, 0x3F, 0, a4, 0, 0, 0, 0, d->f06);
-    } else {
-        func_02022E20(a5, 0x3F, 0x20, 0, a4, 0, 0, 0, 0, d->f06);
+    if (mask & 1) {
+        G2x_SetBlendBrightness_(0x04000050, to, from);
+        func_02023E9C(data_0214691C, p, steps, from, (u32)to, 1);
     }
 
-    func_02022E88(a5, 1, a4, ((struct Obj02305 *)w)->f324);
+    if (mask & 2) {
+        G2x_SetBlendBrightness_(0x04001050, to, from);
+        func_02023E9C(data_021468FC, p, steps, from, (u32)to, 2);
+    }
 }
 
 
+
+
+
+
+
+
+
+
+
+void func_02023F60(u32 a0, u32 a1, u32 mask)
+{
+    if (mask & 1) {
+        func_0207D658(0x04000050, a1, a0);
+    }
+    if (mask & 2) {
+        func_0207D658(0x04001050, a1, a0);
+    }
+    func_02023F98(mask);
+}
+
+
+
+
+
+
+
+
+
+
+
 /*
- * The per-frame poll of the 0x334-byte wipe object built by
- * func_020238B4: it ticks the frame counter at +0x320 against the frame
- * limit at +0x31c, and on expiry advances the step index at +0x318
- * against the bound at +0x314.
+ * The teardown counterpart of func_02023EF4: given the same two-bit engine
+ * mask, it zeroes each selected engine's 0x20-byte blend record and clears
+ * that engine's active flag.  Main engine's record is at 0x0214691C and its
+ * flag at 0x021468FC+0x3c; the sub engine's record is at 0x021468FC+0x20
+ * and its flag at 0x021468FC+0x1c.  The two arms are written out in full.
  *
- * THE COMPARISON IS `<=`, NOT `>`, and it is the function's only real
- * decision.  Written `if (w->step + 1 > w->step_bound)` the function is
- * 92 bytes with every other byte right and ONE wrong: the branch at
- * +0x2a comes out `ble` where the image has `bgt`.  The image branches to
- * the redraw block when step+1 is GREATER than the +0x314 bound, so the
- * fall-through -- the source's first arm -- is the `<=` case, which is
- * the one that calls func_02023AB0/func_02022EF4 and answers 0
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).  That makes
- * +0x314 a floor rather than a ceiling: the object is retired while the
- * step index is still inside it and keeps redrawing once it is past,
- * which reads backwards until you notice func_02023AB0 is what pushes
- * the NEXT step in, so "inside the bound" here means "there is another
- * step to load".
+ * THE POOL HAS A DUPLICATE OF 0x021468FC, AND WHICH USES SHARE A SLOT IS
+ * THE WHOLE FINDING.  The three pool words are
  *
- * Every field is past the Thumb immediate reach, so the whole group is
- * addressed off ONE register offset (movs #0x32 / lsls #4 = 0x320) that
- * the compiler then bumps by -4, -8, -0xc and +0x10 per access
- * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).  Declaring the
- * fields as members of one struct is what keeps that single base; four
- * separate far offsets would each cost their own pool word.
+ *     0x02023FCC  .word 0x0214691C     <- arm 1's memset base
+ *     0x02023FD0  .word 0x021468FC     <- BOTH flag stores
+ *     0x02023FD4  .word 0x021468FC     <- arm 2's memset base
+ *
+ * mwccarm emits one pool word per source SYMBOL, in order of first use, so
+ * the slot count and the sharing pattern read straight back as the number of
+ * distinct externs and which statements name which.  The obvious spelling --
+ * one `g_wipe_sub` at 0x021468FC for all three of its uses -- CSEs the two
+ * 0x021468FC references into one slot, and the third slot then re-emits
+ * 0x0214691C: 64 bytes, every instruction right, two bytes out at 0x02023FD4
+ * and nothing any amount of statement shuffling reaches (63 single mutations
+ * and a full permuter.py hill pass left it untouched, because it is a pool
+ * layout decision, not an allocation one).
+ *
+ * What reproduces it is TWO distinct externs at 0x021468FC, split along the
+ * image's own sharing: `g_wipe_flags` names the object both arms' flag stores
+ * reach (+0x3c for main, +0x1c for sub, one slot between them) and
+ * `g_wipe_subrec` names the one arm 2 memsets (its own slot).  Whether the
+ * original really had two objects at one address or one object the compiler
+ * saw through two declarations is not decidable from the bytes; what the
+ * bytes do fix is that three source-level names were in play, not two.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02023A50.c \
- *       --func func_02023A50 --addr 0x02023A50 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/func_02023F98.c \
+ *       --func func_02023F98 --addr 0x02023F98 --cc 1.1p1 --thumb
  */
-u32 func_02023A50(struct Wipe *w)
+void func_02023F98(u32 mask)
 {
-    s32 f;
-
-    f = w->frame + 1;
-    w->frame = f;
-    if (f >= w->frame_limit) {
-        w->frame = 0;
-        if (w->step + 1 <= w->step_bound) {
-            w->step = w->step + 1;
-            func_02023AB0(w);
-            func_02022EF4(w);
-        } else {
-            func_02022F24(w->f330, (u8 *)w, w->f328);
-            return 1;
-        }
+    if (mask & 1) {
+        func_02082BCC(g_wipe_main, 0, 0x20);
+        g_wipe_flags[0x3c / 4] = 0;
     }
+    if (mask & 2) {
+        func_02082BCC(g_wipe_subrec, 0, 0x20);
+        g_wipe_flags[0x1c / 4] = 0;
+    }
+}
 
+
+
+
+
+
+
+
+
+
+
+/*
+ *           outside 02023FD8..02024004; the only two branches to it in the
+ *           image are these two
+ *
+ * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
+ *
+ * All 44 concrete bytes (30 of code, then three literal words) reproduce
+ * exactly.  The listing extent is 108 because the next labelled start in
+ * asm/arm9/src/008_02021014.s is 0x02024044; the 64 bytes between are the
+ * unlabelled function at 0x02024004 and its pool, so the entry also carries
+ * the `*` of a listing-extent mismatch.  The worklist size is 32 code bytes.
+ *
+ * Two guards on a global struct: the word at +0x3C first, then the word at
+ * +0x1C, each calling func_02023E0C with a global address when it is set.
+ *
+ * The pool is THREE words and the first and third hold the same address
+ * 0x021468FC.  mwccarm emits a pool word per source symbol, so a source that
+ * reached the same object through one name would have CSEd the two loads into
+ * one slot and one register (which is what the obvious spelling does: it
+ * compares the field in r1 and reuses r0 for the call argument, 40 bytes).
+ * The original loads the base twice, from two slots, so it is written here
+ * with two names for the one address, g_021468FC for the field base and
+ * g2_021468FC for the second call's argument.  That is the whole difference
+ * between DIFF and MATCH here; both declarations are the same claim and both
+ * are attested `literal` from outside (x6 from 0x02023F5C and friends).
+ *
+ * It cannot reach EXACT while func_02023E0C is unfiled: 0x02023E0C is
+ * labelled in the listings but every branch to it image-wide is one of these
+ * two, so the `label` class has no witness outside the compared range.  It
+ * closes the day 0x02023E0C gets a manifest entry (a large function outside
+ * the 0-64 byte band, so not this lane's work), and that also releases
+ * src/pending/func_020052EC.c, whose first site names this address.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02023FD8.c \
+ *       --func func_02023FD8 --addr 0x02023FD8 --cc 1.1p1 --thumb
+ */
+void func_02023FD8(void)
+{
+    if (*(u32 *)(g_021468FC + 0x3c) != 0) {
+        func_02023E0C((struct Anim *)g_0214691C);
+    }
+    if (*(u32 *)(g_021468FC + 0x1c) != 0) {
+        func_02023E0C((struct Anim *)g2_021468FC);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Unlabelled Thumb leaf (no prologue, so disasm.py prints the run as ARM
+ * data). A three-way guard on the object at 0x021468FC: mode 3 needs both
+ * the +0x3C and +0x1C words clear, mode 1 only +0x3C, mode 2 only +0x1C;
+ * anything else returns 0. The pointer is loaded from the pool word at
+ * 0x02024040.
+ *
+ * Addresses are Black-image addresses.
+ */
+int func_02024004(int a)
+{
+    if (a == 3) {
+        if (d_021468FC[0x3C / 4] == 0 && d_021468FC[0x1C / 4] == 0)
+            return 1;
+    } else if (a == 1) {
+        if (d_021468FC[0x3C / 4] == 0)
+            return 1;
+    } else if (a == 2) {
+        if (d_021468FC[0x1C / 4] == 0)
+            return 1;
+    }
     return 0;
 }
 
 
-void func_02023AAC(struct Obj *obj){ }
+
+
+
+
+
 
 
 /*
- * cap: the only call site of func_02023AF4 (0x02023AF4) inside the image is at
- *      0x02023ADA, which is inside this function, so the `label` class refuses
- *      it (no witness outside 02023AB0..02023AF2).  Every byte reproduces:
- *      the listing extent reads 68 only because of two bytes of 00 00 padding
- *      at 0x02023AF2; the code is 66.  Promotes to EXACT the moment
- *      func_02023AF4 has its own manifest entry.
+ * pmsi_param.c's constructor (the __FILE__ anchor at 0x020A745C reads
+ * "pmsi_param.c", line 0x56).  Allocates the 0x20-byte parameter object,
+ * hangs two sub-objects off it, seeds the flag byte at +3 and then takes
+ * one of two initialisation paths on `kind`.
+ *
+ * Four spellings are load-bearing and each was isolated against the bytes:
+ *   - `hh` is a u32 parameter narrowed by an EXPLICIT (u16) cast at the
+ *     allocator call.  A u16 parameter gives `ldrh` at +0x08 where the
+ *     original loads a full word and narrows with lsls/lsrs #0x10.
+ *   - func_020142E8 returns u32 and the result is narrowed by an explicit
+ *     (u8) cast before the bitfield store.  Declaring the return u8 folds
+ *     the `lsls #0x18 / lsrs #0x18` pair away and loses 4 bytes.
+ *   - `flag` is likewise u32 with an explicit (u8) cast into the bitfield:
+ *     the original's `lsls r2,r7,#0x18 / lsrs r2,r2,#0x18` is that cast,
+ *     and the following `lsls #0x1f / lsrs #0x1c` is the 1-bit bitfield at
+ *     bit 3 (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).
+ *   - 0x02082D44 is called (src, dest, size), i.e. MI_CpuCopy8's order, not
+ *     memcpy's: the original loads r0 from `src` and r1 from `o + 0x10`.
+ *     Spelling it memcpy(dst, src, n) swaps r0/r1 and costs two bytes.
+ *
+ * `o->b0 = ...` and `o->b1 = 0` must stay two separate bitfield writes
+ * (bics/orrs then bics), not a folded mask.
+ *
+ * EXACT*: the inferred extent runs to 344 bytes because the follower at
+ * 0x020240F4 is the unlabelled 8-byte thunk func_020240FC and the run of
+ * unlabelled leaf accessors after it (they save no lr, so disasm.py never
+ * labels them).  The compiled 184 bytes are byte-identical.  Unlabelled
+ * follower to seed into layout/function_starts.txt: 0x020240F4.
+ *
+ * Verified with:
+ *   python3 tools/match.py one --src src/matched/func_02024044.c \
+ *       --func func_02024044 --addr 0x02024044 --thumb --cc 1.1p1
  */
-void func_02023AB0(void *p)
+struct Obj_02023EF4 *func_02024044(u32 kind, u32 a1, void *src, u32 flag,
+                          void *sys, u32 hh)
+{
+    struct Obj_02023EF4 *o;
+    s32 i;
+
+    o = (struct Obj_02023EF4 *)func_02030734((u16)hh, 0x20, 1, (const char *)file_020A745C, 0x56);
+    o->kind = (u8)kind;
+    o->f08 = func_020071CC(sys, 0x37);
+    o->f0c = func_02024988((int)sys);
+    o->b0 = (u8)func_020142E8((void *)func_02012FE4(sys), 0x960);
+    o->b1 = 0;
+    o->f01 = 1;
+    o->f02 = 0;
+    o->b3 = (u8)flag;
+    if (kind == 2) {
+        if (src == 0) {
+            func_020242A4(o->slot, 0);
+        } else {
+            MI_CpuCopy8(src, o->slot, 8);
+            o->b2 = 1;
+        }
+    } else {
+        for (i = 0; i < 2; i++) {
+            o->f18[i] = 0xFFFF;
+        }
+    }
+    return o;
+}
+
+
+
+
+
+
+
+
+/*
+ * An eight-byte tail-call thunk: the pool word at +4 holds 0x020307B0, the callee's
+ * address with its low bit clear, i.e. an ARM target (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
+ * Unlabelled in the listing and absent from the worklist - found by scanning
+ * the image for the `ldr r3, [pc, #0]; bx r3` shape whose following word names
+ * an existing manifest entry - and filed from the bytes.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020240FC.c \
+ *       --func func_020240FC --addr 0x020240FC --thumb --cc 1.1p1
+ */
+void func_020240FC(void *t)
+{
+    sub_020307B0(t);
+}
+
+
+
+
+
+
+
+void func_02024104(u16 *p, u16 v)
+{
+    p[0xC] = v;
+}
+
+
+
+
+
+
+void func_02024108(u16 *dst, const u16 *src)
+{
+    dst[8] = src[0];
+    dst[9] = src[1];
+    dst[10] = src[2];
+    dst[11] = src[3];
+}
+
+
+
+
+
+
+
+
+/*
+ * Unlabelled Thumb leaf accessor: byte at +1.
+ */
+int func_0202411C(unsigned char *p)
+{
+    return p[1];
+}
+
+
+
+
+
+
+
+
+/*
+ * Tiny Thumb leaf that blocks an ov110 caller; filed by wave D2 lane 06.
+ */
+int func_02024120(u8 *p) { return p[2]; }
+
+
+
+
+
+
+
+
+/*
+ * Unlabelled Thumb leaf accessor: halfword at +0x18.
+ */
+unsigned int func_02024124(unsigned short *p)
+{
+    return p[12];
+}
+
+
+
+
+
+
+
+
+
+/*
+ * Unlabelled Thumb leaf accessor: copy the halfwords at +0x18 and +0x1a to out. __restrict on out makes both loads precede both stores.
+ */
+void func_02024128(struct Src02024128 *p, unsigned short *__restrict out)
+{
+    out[0] = p->a;
+    out[1] = p->b;
+}
+
+
+
+
+
+
+/*
+ * Unlabelled Thumb tail-call thunk: sub_02024570(b, a + 0x10), where sub_02024570 copies a halfword pair.
+ */
+void func_02024134(char *a, void *b)
+{
+    sub_02024570(b, (const struct Rec8 *)(a + 0x10));
+}
+
+
+
+
+
+
+u32 func_02024144(const u8 *p) { return p[0]; }
+
+
+
+
+
+
+void *func_02024148(char *p){return *(void **)(p+8);}
+
+
+
+
+
+
+void *func_0202414C(char *p){return *(void **)(p+12);}
+
+
+
+
+
+
+int func_02024150(Bits_02024150 *p){return p->flag;}
+
+
+
+
+
+
+
+/*
+ * Unlabelled Thumb leaf in the ARM9 module: extracts bit 2 of the byte at
+ * +3. Pairs with func_02024160, which extracts bit 3.
+ *
+ * Addresses are Black-image addresses.
+ */
+u32 func_02024158(const u8 *p)
+{
+    return ((u32)*(const u8 *)&((struct Obj15744 *)p)->f3 << 29) >> 31;
+}
+
+
+
+
+
+
+int func_02024160(Bits_02024160 *p){return p->flag;}
+
+
+
+
+
+
+void func_02024168(const Input *p,u16 *a,u16 *b) {
+    Pair v;
+    switch(p->mode) {
+    case 0: a[0]=p->values18[0]; break;
+    case 1:
+        v=*(const Pair *)p->values18; *(Pair *)a=v; break;
+    case 2:
+        b[0]=p->values10[0]; b[1]=p->values10[1];
+        v=*(const Pair *)(p->values10+2); *(Pair *)(b+2)=v; break;
+    }
+}
+
+
+
+
+
+
+
+u32 func_0202419C(struct Obj_0202411C *p, u16 *q, u32 a)
+{
+    switch (p->f0) {
+    case 0:
+        if (*q == p->f18) {
+            return 1;
+        }
+        return 0;
+    case 1:
+        if (q[0] == p->f18 && q[1] == p->f1A) {
+            return 1;
+        }
+        return 0;
+    case 2:
+        break;
+    }
+
+    return func_02024534((const struct Data *)((u8 *)p + 0x10), (const struct Data *)a);
+}
+
+
+
+
+
+
+void func_020241E0(struct T *p, u16 *a1, u16 *a2)
 {
     int i;
 
-    for (i = 0; i < ((struct Obj06900 *)p)->f310; i++) {
-        func_02023AF4((void *)(((struct Obj06900 *)p)->f30C + i * 4), p,
-                      ((struct Obj06900 *)p)->f318,
-                      ((struct Obj06900 *)p)->f314);
+    p->f02 = (func_0202419C((struct Obj_0202411C *)p, a1, (u32)a2) == 0);
+    p->f01 = 0;
+    for (i = 0; i < 2; i++) {
+        *(u16 *)((char *)p + i * 2 + 0x18) = a1[i];
+    }
+    p->f10 = a2[0];
+    p->f12 = a2[1];
+    p->f14 = a2[2];
+    p->f16 = a2[3];
+}
+
+
+
+
+/*
+ * An eight-byte tail-call thunk: the pool word at +4 holds 0x020355C4, the callee's
+ * address with its low bit clear, i.e. an ARM target (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
+ * Unlabelled in the listing and absent from the worklist - found by scanning
+ * the image for the `ldr r3, [pc, #0]; bx r3` shape whose following word names
+ * an existing manifest entry - and filed from the bytes.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202421C.c \
+ *       --func func_0202421C --addr 0x0202421C --thumb --cc 1.1p1
+ */
+void func_0202421C(void)
+{
+    unit_020355C4();
+}
+
+
+
+
+
+void func_02024224(void *a,void *b) { func_020355D8(b); }
+
+
+
+
+
+
+/*
+ * pmsi_param.c: fill out[0..count) with amp * sin(phase), phase advancing
+ * by step through 16 bits.  The table is FX_SinCosTable_ at 0x020A1B38
+ * (sin/cos s16 pairs, hence the stride of two halfwords: the SDK's
+ * FX_SinIdx); the old notes misread the pool word as 0x02021B38.
+ *
+ * The last byte of docs/notes/func_02024230.c.txt was the phase type: it is
+ * a plain u16.  The wrap is then `lsrs` (u16 narrowing) and the index is
+ * still `asrs` because the u16 promotes to int before the shift.  The s64
+ * temporary for the widened table value is the permuter's find from wave 5.
+ */
+void func_02024230(s16 *out, u32 count, u16 step, s32_02024230 amp)
+{
+    u32 i;
+    u16 phase;
+
+    phase = 0;
+    i = 0;
+    while (i < count) {
+        s64 v = (s64)tbl_020A1B38[(phase >> 4) * 2];
+        s64 prod = v * (s64)amp;
+
+        out[i] = (s16)((s32_02024230)((prod + 0x800) >> 12) >> 12);
+        i++;
+        phase = (u16)(phase + step);
     }
 }
 
 
+
+
+
+
 /*
- * Paints the run [min(lo,hi), max(lo,hi)) of the 0xC0-byte row table at
- * out+0xC0 with a two-tone pattern: the starting value is the descriptor's
- * +2 halfword when lo <= hi and its logical inverse when the bounds are
- * swapped, and the value flips once at split = (hi - lo) * num / den + lo.
+ * A slot-clearing sibling of func_020242A4 (src/matched/sub_020242A4.c):
+ * the same three-halfword sentinel fill, but the leading id field is
+ * also set to the sentinel instead of taking a caller-supplied id, so
+ * there is no second parameter. The loop counter is signed, the same
+ * `blt` tell as the sibling function.
  *
- * The notes' four-register rotation (near in r2 against the image's r7,
- * 13 bytes over eleven spellings and both compilers) came from writing the
- * flip with two HAND-HOISTED constant locals `one`/`zero` and a while
- * loop.  Written plainly -- `near = near == 0` in a for loop, the else
- * arm as `flag == 0` -- mwcc hoists the two constants itself, numbers
- * `near` after the loop's address temporary, and the whole function is
- * byte-exact.  The inline-helper spelling (`if (v == 0) return 1;
- * return 0;`) and `v ? 0 : 1` compile identically.  The bounds are still
- * unsigned (`bhi`), the lo <= hi arm still comes first, and the split is
- * still `q + lo` with q a named local.
- *
- * EXACT* only because the 82-byte body is followed by a two-byte pad.
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_0202428C.c \
+ *       --func sub_0202428C --addr 0x0202428C --cc 1.1p1 --thumb
  */
-void func_02023AF4(u8 *desc, u8 *out, s32 num, s32 den)
+void sub_0202428C(void *obj)
 {
-    u32 lo = desc[0];
-    u32 hi = desc[1];
-    s32 q = (s32)(hi - lo) * num / den;
-    s32 split = q + lo;
+    u16 *p = (u16 *)obj;
+    s32_0202428C i;
+
+    p[0] = 0xFFFF;
+    for (i = 0; i < 2; i++) {
+        p[i + 2] = 0xFFFF;
+    }
+}
+
+
+
+
+
+
+/*
+ * The common slot initialiser shared by func_02024344 and the four arms of
+ * func_020242D8 (src/matched/unit_020242D8.c): store the id, zero the
+ * flag halfword at +2, then a two-iteration loop seeds the trailing
+ * halfwords at +4 and +6 with a shared 0xFFFF sentinel. The loop counter
+ * is signed (the original's `blt`, not `blo`, on a literal trip count of
+ * 2); an unsigned counter compiles to `blo` instead.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_020242A4.c \
+ *       --func func_020242A4 --addr 0x020242A4 --cc 1.1p1 --thumb
+ */
+void func_020242A4(void *obj, u32 id)
+{
+    u16 *p = (u16 *)obj;
     s32 i;
-    s32 end;
-    s32 near;
 
-    if (lo <= hi) {
-        i = lo;
-        end = hi;
-        near = ((struct Obj06901 *)desc)->f2;
-    } else {
-        i = hi;
-        end = lo;
-        near = ((struct Obj06901 *)desc)->f2 == 0;
-    }
-
-    for (; i < end; i++) {
-        if (i == split)
-            near = near == 0;
-        out[0xc0 + i] = near;
+    p[0] = (u16)id;
+    p[1] = 0;
+    for (i = 0; i < 2; i++) {
+        p[i + 2] = 0xFFFF;
     }
 }
 
 
-#define REG_DISPCNT     (*(volatile u32 *)0x04000000)
-
-#define REG_DISPCNT_SUB (*(volatile u32 *)0x04001000)
 
 
-void func_02023B48(u32 val, u32 engine)
+
+
+void func_020242C0(void *a, void *b, void *c)
 {
-    if (engine == 0) {
-        REG_DISPCNT = (REG_DISPCNT & 0xffff1fff) | (val << 13);
-    } else {
-        REG_DISPCNT_SUB = (REG_DISPCNT_SUB & 0xffff1fff) | (val << 13);
-    }
+    func_020242A4(a, (u32)b);
+    func_02024598(a, (int)b, (int)c);
 }
+
+
+
 
 
 
 /*
- * Merge bits into one of the two DS display-control halfwords.  a2 picks the
- * register bank (0x04000048 or the 0x04001048 engine-2 twin), a3 picks which
- * six-bit field: the low one (mask ~0x3f, source bit 0, extra bit 0x20) or
- * the middle one (mask ~0x3f00, source aligned to bit 8, extra bit 0x2000).
- * Both registers are read-modify-written as volatile halfwords.
+ * A whole translation unit, matched as one byte range.
+ *
+ * func_020242D8 dispatches on a 0..3 index through a dense jump table
+ * (docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md); an index
+ * over 3 lands on the shared epilogue with neither a call nor a store,
+ * which only a `default: break;` with nothing else in it produces. Each
+ * arm calls the shared initialiser func_020242A4 (its own file,
+ * src/matched/sub_020242A4.c, EXACT) with a small id, then overwrites the
+ * flag halfword and one trailing field with plain 16-bit constants; the
+ * four constants are narrowed by the `strh`, not addresses. Case 3 passes
+ * the same id as case 1 (2) but a different flag (0xd instead of 0), so
+ * the four arms cannot be collapsed by id alone.
+ *
+ * func_02024344 is the same shape as one switch arm inlined outside a
+ * switch: call func_020242A4 with id 0, then overwrite the flag and
+ * trailing field it just set.
+ *
+ * The two functions are contiguous with no gap: func_020242D8's own
+ * literal pool (the four constants) runs right up to func_02024344's
+ * entry point.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02023B74.c \
- *       --func func_02023B74 --addr 0x02023B74 --cc 1.1p1 --thumb
+ *   python tools/match.py tu --src src/matched/unit_020242D8.c \
+ *       --addr 0x020242D8 --thumb
  */
-void func_02023B74(u32 a0, u32 a1, u32 a2, u32 a3)
+void func_020242D8(void *slot, u32 idx)
 {
-    if (a2 == 0) {
-        if (a3 == 0) {
-            u32 v = *(volatile u16 *)0x04000048;
+    u16 *p = (u16 *)slot;
 
-            v = (v & ~0x3f) | a0;
-            if (a1 != 0) {
-                v |= 0x20;
-            }
-            *(volatile u16 *)0x04000048 = v;
-        } else {
-            u32 v = *(volatile u16 *)0x04001048;
-
-            v = (v & ~0x3f) | a0;
-            if (a1 != 0) {
-                v |= 0x20;
-            }
-            *(volatile u16 *)0x04001048 = v;
-        }
-    } else {
-        if (a3 == 0) {
-            u32 v = *(volatile u16 *)0x04000048;
-
-            v = (v & ~0x3f00) | (a0 << 8);
-            if (a1 != 0) {
-                v |= 0x2000;
-            }
-            *(volatile u16 *)0x04000048 = v;
-        } else {
-            u32 v = *(volatile u16 *)0x04001048;
-
-            v = (v & ~0x3f00) | (a0 << 8);
-            if (a1 != 0) {
-                v |= 0x2000;
-            }
-            *(volatile u16 *)0x04001048 = v;
-        }
+    switch (idx) {
+    case 0:
+        func_020242A4(slot, 1);
+        p[1] = 0;
+        p[2] = 0x5D2;
+        break;
+    case 1:
+        func_020242A4(slot, 2);
+        p[1] = 0;
+        p[2] = 0x5CD;
+        break;
+    case 2:
+        func_020242A4(slot, 3);
+        p[1] = 0;
+        p[2] = 0x667;
+        break;
+    case 3:
+        func_020242A4(slot, 2);
+        p[1] = 0xd;
+        p[2] = 0x573;
+        break;
+    default:
+        break;
     }
 }
 
 
 
-#define REG_BLDCNT     (*(volatile u16 *)0x0400004A)
-
-
-#define REG_BLDCNT_SUB (*(volatile u16 *)0x0400104A)
 
 
 
-void func_02023BFC(u32 a, u32 flag, u32 engine)
+void func_02024344(void *obj)
 {
-    u32 val;
+    u16 *p = (u16 *)obj;
 
-    if (engine == 0) {
-        val = (REG_BLDCNT & ~0x3f) | a;
-        if (flag != 0) {
-            val |= 0x20;
-        }
-        REG_BLDCNT = (u16)val;
-    } else {
-        val = (REG_BLDCNT_SUB & ~0x3f) | a;
-        if (flag != 0) {
-            val |= 0x20;
-        }
-        REG_BLDCNT_SUB = (u16)val;
-    }
+    func_020242A4(obj, 0);
+    p[1] = 1;
+    p[2] = 0x58F;
 }
+
+
+
 
 
 
 /*
- * Window-bounds setter: picks one of the four window-bounds register
- * pairs (WIN0H/WIN0V and WIN1H/WIN1V, each in the main or the sub
- * engine) and writes the packed horizontal and vertical limits.
- *
- * The four bodies are textually identical in the original, which is why
- * the value expressions are repeated in each arm rather than hoisted:
- * a shared pair of locals computes once and costs 24 bytes less than the
- * image.  The second halfword is one register plus #4, so each arm holds
- * a pointer to the base register and indexes it [0] and [2]; spelling
- * both addresses absolutely puts two pool words per arm in the image
- * where the original has one.
- *
- * The leading argument shuffle (r4 <- r2, r2 <- r3) is the fourth
- * argument's register being recycled for the fifth.
+ * sub_02024368 with a count of 2: a tail call through the pool.  Seeded in
+ * layout/function_starts.txt from the bl sites in ov010, ov069 and ov093
+ * (w6_fix18).
  */
-void sub_02023C3C(u32 x2, u32 y2, u32 x1, u32 y1, int win, int sub)
+void *func_0202435C(void *slots, unsigned int heap)
 {
-    if (win == 0) {
-        if (sub == 0) {
-            u16 *p = (u16 *)0x04000040;
-            p[0] = (x2 << 8 & 0xff00) | (x1 & 0xff);
-            p[2] = (y2 << 8 & 0xff00) | (y1 & 0xff);
-        } else {
-            u16 *p = (u16 *)0x04001040;
-            p[0] = (x2 << 8 & 0xff00) | (x1 & 0xff);
-            p[2] = (y2 << 8 & 0xff00) | (y1 & 0xff);
-        }
-    } else {
-        if (sub == 0) {
-            u16 *p = (u16 *)0x04000042;
-            p[0] = (x2 << 8 & 0xff00) | (x1 & 0xff);
-            p[2] = (y2 << 8 & 0xff00) | (y1 & 0xff);
-        } else {
-            u16 *p = (u16 *)0x04001042;
-            p[0] = (x2 << 8 & 0xff00) | (x1 & 0xff);
-            p[2] = (y2 << 8 & 0xff00) | (y1 & 0xff);
-        }
-    }
+    return sub_02024368(slots, heap, 2);
 }
 
 
 
-void func_02023CFC(struct Struct_02023CFC *table, void *val, u32 idx)
-{
-    struct Struct_02023CFC *entry = &table[idx];
 
-    entry->val = val;
-    entry->idx = idx;
-    sub_020056A0(sub_02023D94, entry, 1);
-}
-
-
-void func_02023D18(void *obj, void *val, u32 f4, u32 f8, u32 fC)
-{
-    struct Item_02023D18 *entry = (struct Item_02023D18 *)((u8 *)obj + 0x10 + (fC << 5) + (f8 << 4));
-
-    entry->val = val;
-    entry->field_4 = f4;
-    entry->field_8 = f8;
-    entry->field_C = fC;
-    sub_020056A0(sub_02023DA8, entry, 1);
-}
-
-
-void func_02023D40(void *obj, void *val, u32 f4, u32 f8)
-{
-    struct Item_02023D40 *entry = (struct Item_02023D40 *)((u8 *)obj + 0x68 + f8 * 12);
-
-    entry->val = val;
-    entry->field_4 = f4;
-    entry->field_8 = f8;
-    sub_020056A0(sub_02023DC4, entry, 1);
-}
-
-
-void func_02023D60(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f)
-{
-    struct Rec *r = (struct Rec *)(p + 0x80 + f * 32 + e * 16);
-
-    r->f0 = a;
-    r->f2 = b;
-    r->f4 = c;
-    r->f6 = (u16)d;
-    r->f8 = e;
-    r->fC = f;
-    func_020056A0(0x02023DDD, r, 1);
-}
 
 
 /*
- * The two-field member of the sub_02023DC4/sub_02023DA8 forwarder family:
- * unpack the two words of `args` as positional arguments to
- * sub_02023B48, then tail-call func_02030EAC on the first argument and
- * return its result. `ldm r1, {r0, r1}` is the two-word load; a plain
- * struct-by-value copy or two separate field reads through the pointer
- * both produce the same pair of loads once the fields are consecutive
- * words read in order.
+ * Archived graphics-slot loader: opens the bank named by the id table at
+ * 0x0209F724 for the requested stream, unpacks a scratch buffer out of
+ * it, and walks the caller's two-halfword slot array telling the slot
+ * manager what each entry is.
  *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02023D94.c \
- *       --func sub_02023D94 --addr 0x02023D94 --cc 1.1p1 --thumb
+ * A slot word of 0xffff means "empty" and is registered with the
+ * fixed-size flag; otherwise bit 11 of the word says whether the value
+ * carries a 0x7ff payload (registered masked) or is a plain size
+ * (registered whole).  The two branches into the size-carrying
+ * registration merge on one call site, so they are written as two
+ * separate calls in the source and left to the compiler.
+ *
+ * The 0x100 buffer request is materialised as `movs r5, #2` followed by
+ * `adds r5, #0xfe`: the 2 already sits in r5 from the previous call's
+ * argument, and 2 + 0xfe is four bytes either way.
  */
-u32 sub_02023D94(void *obj, struct Args2 *args)
+void *sub_02024368(u16 *slots, u32 heap, int count)
 {
-    sub_02023B48(args->f0, args->f4);
-    return func_02030EAC(obj);
-}
+    void *obj;
+    void *buf;
+    void *slot;
+    void *k;
+    int i;
 
+    obj = func_0201EC64((u16)heap);
+    for (i = 0; i < count; i++) {
+        u16 v = slots[i + 2];
 
-/*
- * The four-field member of the sub_02023DC4/sub_02023D94 forwarder
- * family: unpack the four words of `args` as positional arguments to
- * sub_02023B74, then tail-call func_02030EAC on the first argument and
- * return its result.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02023DA8.c \
- *       --func sub_02023DA8 --addr 0x02023DA8 --cc 1.1p1 --thumb
- */
-u32 sub_02023DA8(void *obj, struct Args4 *args)
-{
-    sub_02023B74(args->f0, args->f4, args->f8, args->fC);
-    return func_02030EAC(obj);
-}
-
-
-/*
- * A three-field struct forwarder: unpack the three words of `args` as
- * positional arguments to sub_02023BFC, then tail-call the ARM function
- * func_02030EAC on the first argument and return its result. The `blx`
- * is the interworking call the linker rewrites a Thumb `bl` into.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02023DC4.c \
- *       --func sub_02023DC4 --addr 0x02023DC4 --cc 1.1p1 --thumb
- */
-u32 sub_02023DC4(void *obj, struct Args3 *args)
-{
-    sub_02023BFC(args->f0, args->f4, args->f8);
-    return func_02030EAC(obj);
-}
-
-
-void func_02023DDC(void *a0, short *a1)
-{
-    func_02023C3C(a1[0], a1[1], a1[2], a1[3],
-                  ((struct Obj04734 *)a1)->f8, ((struct Obj04734 *)a1)->fC);
-    func_02030EAC(a0);
-}
-
-
-/*
- * wipe_sub.c: the per-frame step of the brightness/blend interpolation
- * record that func_02023E9C arms (docs/families/wipe_sub.h, struct Interp).
- * It advances the record's running position f1a towards the target f0a by
- * the per-step delta f14 scaled by the sign f10, pushes the result to the
- * hardware register of whichever engine the f04 bit mask selects, and
- * clears the active flag f1c once the target is reached.
- *
- * FOUR SPELLINGS ARE LOAD-BEARING.  The earlier note
- * (docs/notes/pkt_02023E0C.c.txt) read this function as a whole-function
- * register permutation the allocator would not move; it is not.  It is
- * four shape decisions, and with them the allocation falls out on its own.
- * The note's own draft is 140 bytes against 144 with 127 concrete bytes
- * out; each of the four below is worth a measured step:
- *
- *   1. THE TWO POINTER LOCALS ARE HOISTED to the top of the else arm,
- *      before the f18 accumulate and its test, not created inside the
- *      inner `if`.  This is the whole four-byte size gap: the image emits
- *      `adds r3, r4, #0 / adds r2, r4, #0 / adds r3, #0x1a / adds r2,
- *      #0x18` unconditionally on the else path.  127 bytes out -> 76.
- *
- *   2. THE MULTIPLY IS `step * p->f14`, not `p->f14 * step`.  The image's
- *      `muls r1, r0, r1` keeps `step` in the accumulator, and the
- *      accumulator holds the chain's SECOND operand
- *      (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-
- *      operand.md).  24 bytes out -> 19.
- *
- *   3. BOTH `if`s ARE WRITTEN WITH THE NEGATED CONDITION, so the arm the
- *      image falls through into is the source's first
- *      (docs/idioms/the-fall-through-arm-is-the-source-order.md).  The
- *      outer one is `if (target != cur + v && cur != target) { <advance> }
- *      else { <snap to target> }`, and the inner one is `if (p->f1a !=
- *      target) { <decrement the timer> } else { flag = 1; }`.  Written the
- *      other way round the image's two `beq` to one target come out as a
- *      `beq`/`bne` pair and everything after shifts by one instruction.
- *      76 -> 24 for the outer, 19 -> 8 for the inner.
- *
- *   4. `cur` IS A NAMED LOCAL read BEFORE `target`.  This is the last
- *      eight bytes.  The image loads f1a (offset 0x1a) and only then f0a
- *      (offset 0xa); with `p->f1a` left inline in the condition the
- *      compiler evaluates `target = p->f0a` first and the two `movs
- *      #imm`/`ldrsh` pairs come out in the other order.  Binding the f1a
- *      read to its own local ahead of `target` pins it
- *      (docs/idioms/cmp-operand-order-names-the-temporary.md is the same
- *      tell).  8 -> 0.
- *
- * Statement order of `flag = 0` is NOT a lever: first, second, third and
- * fourth position all compile identically (the compiler sinks the zero to
- * where the image has it, `movs r7, #0` after the two loads).  That was
- * measured, not assumed.
- *
- * Two further facts confirming the earlier note's structural reads, which
- * did survive: the two entry tests really are one `||` (here written as
- * the negated `&&`), and the f1a store is `p->f1a + (s16)v` so the
- * truncation is on the delta and not on the sum -- the image's `lsls
- * r1,r1,#0x10 / asrs r1,r1,#0x10` narrows v alone.  The engine register
- * words are the plain constants 0x04000050 and 0x04001050; the second is
- * NOT 0x04001000 + 0x50 computed at run time, as src/pending/
- * func_02023EF4.c's header already records for the sibling.
- *
- * The two arms of the engine select tail-merge onto one call site, which
- * is what the image's shared `movs r2,#0x1a / ldrsh / ldr r1,[r4] / blx`
- * at +0x74 is; writing the two calls out in full is what produces it
- * (docs/idioms/switch-arms-tail-merge.md).
- *
- * Nothing here is version specific: 0x04000050 and 0x04001050 are DS
- * hardware register addresses and every other constant is a field offset
- * or a flag bit.
- *
- * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02023E0C.c \
- *       --func func_02023E0C --addr 0x02023E0C --cc 1.1p1 --thumb
- */
-void func_02023E0C(struct Anim *p)
-{
-    s8  step;
-    int v;
-    s16_0 target;
-    int flag;
-    u16 *timer;
-    s16_0 *pos;
-    s16_0 cur;
-
-    step = p->f10;
-    v = step * p->f14;
-    cur = p->f1a;
-    target = p->f0a;
-    flag = 0;
-    if (target != cur + v && cur != target) {
-        p->f1a = p->f1a + (s16_0)v;
-        pos = &p->f1a;
-        timer = &p->f18;
-        p->f18 = p->f18 + p->f16;
-        if ((u16)p->f18 >= (u16)p->f08) {
-            *pos = (s16_0)*pos + step;
-            if (p->f1a != target) {
-                *timer = *timer - p->f08;
+        if (v != 0xffff) {
+            if ((v >> 11) & 1) {
+                func_0201EFFC(obj, i, v & 0x7ff);
             } else {
-                flag = 1;
+                func_0201EFC8(obj, i, v);
             }
+        } else {
+            func_0201EFFC(obj, i, 1);
         }
-    } else {
-        p->f1a = target;
-        flag = 1;
     }
-    if (p->f04 & 1) {
-        func_0207D658((u32)((void *)0x04000050), p->f00, p->f1a);
-    } else if (p->f04 & 2) {
-        func_0207D658((u32)((void *)0x04001050), p->f00, p->f1a);
-    }
-    if (flag == 1)
-        p->f1c = 0;
+    slot = func_02045B38(0, 2, Table_0209F724[slots[0]], (u16)heap);
+    buf = func_020457B0(0x100, (u16)heap);
+    k = func_02045EC0(slot, slots[1]);
+    func_0201F250(obj, buf, k);
+    func_02045808(k);
+    func_02045C04(slot);
+    func_0201ED04(obj);
+    return buf;
 }
 
 
-/*
- * Initialises the 0x20-byte interpolation record the packet's other two
- * functions drive. The two stack arguments are widened through the usual
- * lsls/lsrs #0x18 pair into the full words at +0x00 and +0x04, so they are
- * int-typed parameters narrowed with a (u8) cast, not u8 parameters.
- *
- * Field roles: f08 = step count, f0a = from, f1a = to, f12 = |to - from|,
- * f10 = the sign (+1 or -1), f14 = per-step delta, f16 = its remainder,
- * f18 = the running accumulator (cleared here), f1c = the active flag.
- *
- * Three spellings are load-bearing and were each isolated against the
- * bytes:
- *   - `p->f1c = 1;` must be the FIRST statement. The constant 1 has to
- *     land in r0 before the two stack arguments are widened; written
- *     anywhere later in the block the allocator promotes it to r6 and the
- *     whole entry block shifts register bank (19 and 14 bytes wrong for
- *     the two later positions tried).
- *   - the negation re-reads the field: the original is `ldrsh` + `subs
- *     r1,#0x13` + `muls`, four bytes more than the `rsbs` the compiler
- *     folds from a cached value. The volatile-qualified read is what
- *     defeats that fold; without it the function compiles 84 bytes, not
- *     88. The `-1` multiplier and the `-1` stored to f10 in the other arm
- *     share one register, derived from the 0x12 field offset.
- *   - `/` and `%` on the same operands are two separate _s32_div_f calls
- *     (docs/idioms/div-and-mod-are-two-calls.md); f14 takes the quotient
- *     from r0 and f16 the remainder from r1.
- */
-void func_02023E9C(struct Interp *p, u16 steps, s16_02023E9C from, s16_02023E9C to,
-                   u32 a4, u32 a5)
+
+
+void *func_0202441C(const struct Struct_0202441C *obj, u32 heapId)
 {
-    p->f1c = 1;
-    p->f00 = (u8)a4;
-    p->f04 = (u8)a5;
-    p->f12 = to - from;
-    p->f08 = steps;
-    p->f1a = to;
-    p->f0a = from;
+    void *str;
+    void *bank;
+    u16 hid = (u16)heapId;
 
-    if (p->f12 > 0) {
-        p->f10 = -1;
-    } else {
-        p->f10 = 1;
-        p->f12 = *(volatile s16_02023E9C *)&p->f12 * -1;
+    bank = sub_02045B38(0, 2, Table_0209F724[obj->arcFileIdx], hid);
+    str = sub_02045EC0(bank, obj->strIdx);
+    func_02045C04(bank);
+
+    return str;
+}
+
+
+int func_02024450(const u16 *p)
+{
+    if (*p != 0xFFFF) {
+        return 1;
     }
-
-    p->f14 = p->f12 / steps;
-    p->f16 = p->f12 % steps;
-    p->f18 = 0;
+    return 0;
 }

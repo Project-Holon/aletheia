@@ -1,8 +1,8 @@
 /*
  * file:     weather_task_p26.c
  * unit:     yes
- * function: func_021A652C, func_021A658C, func_021A661C
- * address:  0x021A652C
+ * function: func_021A6A3C, func_021A6A64
+ * address:  0x021A6A3C
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,83 +13,39 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_021A5B6C  0x021A5B6C  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_021AB0F8  0x021AB0F8  thumb  ov021
+ *   func_0216D608  0x0216D608  thumb
+ *   func_020061E4  0x020061E4  thumb
+ *   func_021A6908  0x021A6908  thumb
  */
-typedef unsigned char u8;
-
 typedef unsigned short u16;
+
+typedef struct {
+    int pad[7];
+    int f1c;
+} S_021A6A3C;
 
 typedef unsigned int u32;
 
-extern int func_0216D3CC(int a0);
-extern u16 func_0216D5F8(void *p);
-extern int func_021A5B6C(u32 a, u32 b, u32 c, u32 d);
-extern u16 func_021AB0F0(u32 attr);
-extern u16 func_021AB0F8(u32 attr);
-int func_021A652C(void *a, void *b, int c, int d, u16 e, int f);
-int func_021A658C(void *a, void *b, int c, int d, u16 e, int f);
-int func_021A661C(void *a, void *b, int c, int d, u16 e, int f);
+extern u16 func_0216D608(int a);
+extern void func_020061E4(u32 a);
+extern int func_021A6908(S_021A6A3C *a, int b, int c);
+int func_021A6A3C(S_021A6A3C *a, int b, int c);
+int func_021A6A64(S_021A6A3C *a, int b, int c);
 
 
-
-int func_021A652C(void *a, void *b, int c, int d, u16 e, int f)
+int func_021A6A3C(S_021A6A3C *a, int b, int c)
 {
-    if (func_0216D3CC((int)b) == 1) {
-        if (e != 9) {
-            if (e != func_0216D5F8(b) && f == 0) {
-                return 3;
-            }
-            return func_021A658C(a, b, c, d, e, f);
-        }
-        return 1;
+    if (func_0216D608(a->f1c) == 2) {
+        func_020061E4(0x55e);
     }
-    return 0;
+    return func_021A6908(a, b, c);
 }
 
 
-
-int func_021A658C(void *a, void *b, int c, int d, u16 e, int f)
+int func_021A6A64(S_021A6A3C *a, int b, int c)
 {
-    int r;
-    int loc;
-    if (func_0216D3CC((int)b) == 0) {
-        return 0;
+    if (func_0216D608(a->f1c) == 3) {
+        func_020061E4(0x55e);
     }
-    if (e == 9) {
-        return func_021A652C(a, b, c, d, e, f);
-    }
-    r = func_021A5B6C((u32)a, (u32)b, e, (u32)(&loc));
-    if (f == 1 && r != 0 && (r & 0x10) == 0) {
-        r = 0;
-    }
-    if (loc != -1) {
-        int t;
-        func_021AB0F0(loc);
-        t = func_021AB0F8(loc);
-        if (r == 0) {
-            if (t & 2) {
-                return 2;
-            }
-            if (f == 1) {
-                return 2;
-            }
-        }
-    }
-    return 4;
-}
-
-
-int func_021A661C(void *a, void *b, int c, int d, u16 e, int f)
-{
-    if (func_0216D3CC((int)b) == 0) {
-        return 0;
-    }
-    if (e == 9) {
-        return func_021A652C(a, b, c, d, e, f);
-    }
-    return func_021A658C(a, b, c, d, e, f);
+    return func_021A6908(a, b, c);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     musical_dressup_sys_p08.c
  * unit:     yes
- * function: func_02157000, func_0215700C, func_02157028, func_0215716C, func_02157174, func_0215725C, func_02157260, func_02157278, func_02157298, func_021572A8, func_021572C0, func_021572E4, func_02157364, func_0215736C, func_02157374, func_02157384, func_02157394, func_0215739C, func_02157450, func_02157650
+ * function: func_02157000, func_0215700C, func_02157028, func_0215716C, func_02157174, func_0215725C, func_02157260, func_02157278, func_02157298, func_021572A8, func_021572C0, func_021572E4, func_02157364, func_0215736C, func_02157374, func_02157384, func_02157394, func_0215739C, func_02157450, func_02157650, func_0215765C, func_02157660, func_02157664, func_02157668
  * address:  0x02157000
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -766,4 +766,27 @@ void func_02157650(int *p, int v)
 {
     if (*p == 0x29)
         *p = v;
+}
+
+
+void func_0215765C(void);
+void func_02157660(void);
+void func_02157664(void);
+void func_02157668(void);
+
+/* Four empty leaves (unused callback slots). */
+void func_0215765C(void)
+{
+}
+
+void func_02157660(void)
+{
+}
+
+void func_02157664(void)
+{
+}
+
+void func_02157668(void)
+{
 }

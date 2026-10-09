@@ -1,45 +1,89 @@
 /*
- * function: func_0203E420
- * address:  0x0203E420
- * packet:   pkt_0203DC70
+ * file:     net_state_p55.c
+ * unit:     yes
+ * function: func_0203E484, func_0203E4E8
+ * address:  0x0203E484
  * region:   arm9
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * net_irc_wireless.c.  Runs the context's +0x78 method on the caller's
- * argument, copies 0x4C bytes of its result to +0xB4 and returns the +0x90
- * buffer.  The earlier notes (func_0203E420.c.txt, pkt_0203E420.c.txt) read
- * the function as taking no argument; the image keeps r0 untouched through
- * the global load (`ldr r1, =g`), which is the argument being forwarded to
- * the method, the same shape as func_0203E458.
+ * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   str_020A7D34  0x020A7D34  data
+ *   str_020A7D4C  0x020A7D4C  data
+ *   func_02034714 0x02034714  arm
+ *   func_0203DAC4 0x0203DAC4  arm
+ *   func_0203CEAC  0x0203CEAC  arm
  *   g_021469F0     0x021469F0  data
- *   func_02082D44  0x02082D44  arm
  */
-
 typedef unsigned char u8;
+
 typedef unsigned int  u32;
 
-struct Ctx {
-    u8    pad_00[0x78];
-    void *(*fn_78)(void *arg);
-};
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_0203DAC4(const u8 *mac);
+extern int func_0203CEAC(int a0);
+void func_0203E484(u32 a, u32 b, int *p);
+u32 func_0203E4E8(void);
+extern const u8 str_020A7D34[];
+extern const u8 str_020A7D4C[];
+extern u8  *g_021469F0;
 
-extern struct Ctx *g_021469F0;
-extern void func_02082D44(const void *src, void *dst, u32 size);
 
-void *func_0203E420(void *arg)
+/*
+ *           --suggest-split offers nothing (single function, the one
+ *           unresolved site's only witness is inside this range).
+ *           the file string at 0x020A7D34 ("net_irq_wireless.c") ends at
+ *           0x020A7D46, six bytes before this message, so the `string` class
+ *           refuses. Every concrete byte of the body reproduces (the register
+ *           choice for the loop bound and the index is fixed by declaring the
+ *           index first).
+ */
+void func_0203E484(u32 a, u32 b, int *p)
 {
-    struct Ctx *p = g_021469F0;
-    void *r;
+    int i;
+    int n;
+
+    if (p[0] >= 4) {
+        func_02034714((const char *)str_020A7D34, 0x2a5, (const char *)str_020A7D4C);
+    }
+    n = p[0];
+    if (n > 4) {
+        n = 4;
+    }
+    for (i = 0; i < n; i++) {
+        func_0203DAC4((u8 *)(p + 1) + i * 8);
+    }
+}
+
+
+/*
+ * Gated state step: only a context whose +0x109 state is 0x10 advances, and
+ * it does so by seeding +0x107 from +0x108, re-entering the sub-state and
+ * parking the state byte at 9.  The final store re-reads the global, because
+ * the call in between may have replaced the context pointer - the same
+ * reload the store-after-a-call shape produces.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203E4E8.c \
+ *       --func func_0203E4E8 --addr 0x0203E4E8 --cc 1.1p1 --arm
+ */
+u32 func_0203E4E8(void)
+{
+    u8 *p = g_021469F0;
 
     if (p == 0)
         return 0;
-    r = p->fn_78(arg);
-    func_02082D44(r, (u8 *)p + 0xB4, 0x4C);
-    return (u8 *)p + 0x90;
+    if (p[0x109] != 0x10)
+        return 0;
+    p[0x107] = p[0x108] + 1;
+    func_0203CEAC(0);
+    g_021469F0[0x109] = 9;
+    return 1;
 }

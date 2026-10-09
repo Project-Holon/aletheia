@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_027022E0  0x027022E0  code twl
+ *   func_027022E0  0x027022E0  arm twl
  */
 
 typedef unsigned int u32;

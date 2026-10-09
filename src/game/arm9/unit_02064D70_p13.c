@@ -12,6 +12,7 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ *   - 0x02147D28 / 0x02147D2C are &g_02147D18[0].tx / .ty (member offset in
  * symbols:
  *   g_02147B88     0x02147B88  data  a4
  *   g_02147B98     0x02147B98  data  a4
@@ -19,7 +20,6 @@
  *   g_02148018     0x02148018  data  a4
  *   g_02147C18     0x02147C18  data  a4
  *   g_020A81F8  0x020A81F8  data  a2
- *   - 0x02147D28 / 0x02147D2C are &g_02147D18[0].tx / .ty (member offset in
  *   func_02066754  0x02066754  arm
  */
 typedef unsigned char  u8;

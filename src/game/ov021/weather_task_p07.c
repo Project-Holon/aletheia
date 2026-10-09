@@ -1,8 +1,8 @@
 /*
  * file:     weather_task_p07.c
  * unit:     yes
- * function: func_021A2A84, func_021A2AAC, func_021A2AB8, func_021A2B8C, func_021A2BB8, func_021A2BC4, func_021A2BD4, func_021A2C10, func_021A2C24, func_021A2C28, func_021A2C2C, func_021A2C30, func_021A2C6C, func_021A2C98, func_021A2CC8, func_021A2CEC, func_021A2CF8, func_021A2D04
- * address:  0x021A2A84
+ * function: func_021A31D0, func_021A3208, func_021A3220, func_021A322C, func_021A3238, func_021A3244, func_021A3250, func_021A32A8, func_021A330C, func_021A3364
+ * address:  0x021A31D0
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,417 +13,255 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
- *   func_0204B294  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204BA20  0x0204BA20  arm
- *   data_021D88E0  0x021D88E0  data  a4
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_02005C64  0x02005C64  thumb
- *   func_02028A7C  0x02028A7C  thumb
- *   func_020061E4  0x020061E4  thumb
- *   func_02028B50  0x02028B50  thumb
- *   func_02006148  0x02006148  thumb
- *   func_020061F8  0x020061F8  thumb
- *   func_021A0224  0x021A0224  thumb  ov021
+ *   data_021D890C  0x021D890C  data  a2
+ *   func_021A3098  0x021A3098  thumb  ov021
+ *   func_021A3938  0x021A3938  thumb  ov021
+ *   func_021A394C  0x021A394C  thumb  ov021
+ *   func_021A3A20  0x021A3A20  thumb
+ *   func_021A3A3C  0x021A3A3C  thumb  ov021
+ *   func_02188C7C  0x02188C7C  thumb
+ *   func_02188CFC  0x02188CFC  thumb
+ *   func_021A3460  0x021A3460  thumb
+ *   func_0216DDC0  0x0216DDC0  thumb  ov010
+ *   func_021A3960  0x021A3960  thumb
+ *   func_0219E634  0x0219E634  thumb
+ *   func_0219E570  0x0219E570  thumb
+ *   func_0216DDDC  0x0216DDDC  thumb  ov010
+ *   func_021A3074  0x021A3074  thumb
+ *   func_0216D83C  0x0216D83C  thumb  ov010
+ *   func_0216D854  0x0216D854  thumb  ov010
+ *   func_0216D86C  0x0216D86C  thumb  ov010
+ *   func_021641E8  0x021641E8  thumb  ov010
+ *   func_021641F8  0x021641F8  thumb  ov010
+ *   func_02164280  0x02164280  thumb  ov010
+ *   func_02188C5C  0x02188C5C  thumb  ov021
+ *   func_021BB480  0x021BB480  thumb  ov021
+ *   func_0219E2F4  0x0219E2F4  thumb  ov021
+ *   func_021B7D38  0x021B7D38  thumb  ov021
+ *   func_0219E784  0x0219E784  thumb  ov021
+ *   func_021B7C38  0x021B7C38  thumb  ov021
+ *   _ll_mul        0x0209C054  arm
  */
-#include "../../matched/include/Obj02344.h"
-#include "../../matched/include/Obj07494.h"
-#include "../../matched/include/Obj18004.h"
-#include "../../matched/include/Obj12086.h"
-#include "../../matched/include/Obj18005.h"
-#include "../../matched/include/Obj18006.h"
-
-struct Obj;
-struct Actor;
-struct SoundSys2;
-typedef unsigned char  u8;
+#include "../../matched/include/Obj19768.h"
+#include "../../matched/include/Obj19769.h"
+#include "../../matched/include/Obj18019.h"
+#include "../../matched/include/Obj18020.h"
 
 typedef unsigned short u16;
 
-typedef unsigned int   u32;
-
-typedef signed short   s16;
-
-typedef signed char    s8;
-
-typedef signed int     s32;
-
 typedef struct {
-    u32 f0;
-    s16 f4;
-    s16 f6;
-    s16 f8;
-    s16 fA;
-    s16 fC;
-    s16 fE;
-    s16 f10;
-    s16 f12;
-    s32 f14;
-    void (*f18)(u32 a, s32 b, u32 c);
-} Obj;
-
-typedef struct {
-    u32 arg;
-    short x4;
-    short timer;
-    short reload;
-    u8 padA[0xE];
-    void (*cb)(u32 arg, int x, int a);
-} Obj021A2B8C;
-
-typedef struct { u16 id; u16 x, y, z; } Q;
-
-typedef struct {
-    u16 state;
     u16 id;
-    u32 pad4;
-    u32 flag;
-} Snd021A2C30;
+    u16 val;
+} Ent021A31D0;
 
-typedef struct {
-    u16 state;
-    u16 id;
-    u32 pad4;
-    u32 flag;
-} Snd021A2C6C;
+typedef unsigned int u32;
 
-typedef struct {
-    u16 state;
-    u16 id;
-    u32 pad4;
-    u32 flag;
-} Snd021A2C98;
+typedef unsigned char u8;
 
-typedef struct {
-    u8 pad[0x77C];
-    u8 active;
-    u8 mode;
-    u8 half;
-    u8 pad77F;
-    u32 value;
-} Obj021A2CC8;
+typedef signed short s16;
 
-typedef struct {
-    u32 pad0;
-    u32 handle;
-    u8 pad8[0x774];
-    u8 active;
-    u8 mode;
-    u8 half;
-    u8 pad77F;
-    u32 value;
-} Obj021A2D04;
+typedef signed int s32;
 
-extern void func_02082BCC();
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-void func_0204B3DC(struct Obj *h, unsigned int v);
-void func_0204BA20(struct Actor *a, u32 v);
-extern void func_0204B3B4(struct Obj *p);
-int func_02005C64(void);
-void func_02028A7C(struct SoundSys2 *s, u32 id);
-void func_020061E4(u32 a);
-void func_02028B50(u8 *p, int a0);
-int func_02006148(u32 a0);
-void func_020061F8(int h);
-void func_021A0224(u8 *p, u32 a, u32 b, u32 c, u32 d, u16 e);
-int func_021A2A84(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u32 e2, u32 e3, u32 e4, u32 e5);
-void func_021A2AAC(char *p, int a, int b, int c, int d);
-s32 func_021A2AB8(Obj *o, u32 arg);
-int func_021A2B8C(Obj021A2B8C *p, int a);
-void func_021A2BB8(u32 a);
-int func_021A2BC4(u32 a);
-void func_021A2BD4(u32 *p, u32 a, const Q *q, int b, u16 e);
-void func_021A2C10(u8 *p);
-unsigned char *func_021A2C24(unsigned char *o);
-u32 func_021A2C28(u8 *p);
-void func_021A2C2C(u8 *p, u32 v);
-void func_021A2C30(Snd021A2C30 *p, int a, u16 id);
-void func_021A2C6C(Snd021A2C6C *p, int a);
-void func_021A2C98(Snd021A2C98 *p, int a);
-void func_021A2CC8(Obj021A2CC8 *p, u8 mode, u32 value, int n);
-void func_021A2CEC(char *p);
-u8 func_021A2CF8(char *p);
-void func_021A2D04(Obj021A2D04 *p);
-extern u32 data_021D88E0[];
+u32 func_021A3098(u8 *p);
+extern int func_021A3938(u32 a, u32 b);
+extern void func_021A394C(u8 *p);
+extern int func_021A3A20(u32 a);
+extern int func_021A3A3C(u32 *p);
+extern void *func_02188C7C(unsigned char *p);
+extern u32 func_02188CFC(u8 *p);
+extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
+extern void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
+extern void *func_021A3960(unsigned char *p);
+extern void func_0219E634();
+extern u32 func_0219E570(u32 o, u32 k, u32 flag);
+extern u8 *func_0216DDDC(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
+extern void *func_021A3074(unsigned char *p);
+extern int func_0216D83C(void *p);
+extern int func_0216D854(void *p);
+extern int func_0216D86C(void *p);
+extern int func_021641E8(int a);
+extern int func_021641F8(int a);
+extern void func_02164280(int x, int y, int *p);
+extern u32 func_02188C5C(u8 *p);
+extern void *func_021BB480(void *p);
+extern void func_0219E2F4(void *o, void *out);
+extern void func_021B7D38(u32, s16 *, int *);
+extern void func_0219E784(u32 o, u32 idx, s16 *v);
+extern int func_021B7C38(u8 *o);
+int func_021A31D0(u16 id);
+int func_021A3208(u8 *a);
+void func_021A3220(u8 *p, u32 res);
+void func_021A322C(u8 *p);
+int func_021A3238(u8 *p);
+int func_021A3244(void *p);
+void func_021A3250(u32 *a);
+void func_021A32A8(unsigned char **a, u32 b);
+void func_021A330C(unsigned char **a, u32 b, s16 *c, s16 *d, s16 *e);
+void func_021A3364(u32 *a, int b, int *out);
+extern const Ent021A31D0 data_021D890C[2][10];
 
 
 
-
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_021A2A84(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u32 e2, u32 e3, u32 e4, u32 e5)
+int func_021A31D0(u16 id)
 {
-((struct Obj02344 *)((u8 *)(a)))->f0 = b;
-((struct Obj02344 *)((u8 *)(a)))->f6 = 0;
-((struct Obj02344 *)((u8 *)(a)))->fA = 0;
-((struct Obj02344 *)((u8 *)(a)))->f4 = d;
-((struct Obj02344 *)((u8 *)(a)))->fC = e0;
-((struct Obj02344 *)((u8 *)(a)))->f8 = c;
-((struct Obj02344 *)((u8 *)(a)))->fE = e1;
-((struct Obj02344 *)((u8 *)(a)))->f10 = e2;
-((struct Obj02344 *)((u8 *)(a)))->f12 = e3;
-((struct Obj02344 *)((u8 *)(a)))->f14 = e4;
-((struct Obj02344 *)((u8 *)(a)))->f18 = e5;
-return a;
-}
+    int j;
+    int i;
+    const Ent021A31D0 *e;
 
-
-
-
-
-
-void func_021A2AAC(char *p, int a, int b, int c, int d)
-{
-    ((struct Obj07494 *)p)->fC = a;
-    ((struct Obj07494 *)p)->fE = b;
-    ((struct Obj07494 *)p)->f10 = c;
-    ((struct Obj07494 *)p)->f14 = d;
-}
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-s32 func_021A2AB8(Obj *o, u32 arg)
-{
-    u32 flags;
-    s32 neg;
-
-    flags = 0;
-    if (o->f10 == 0) {
-        flags |= 1;
-    } else {
-        neg = o->f10 > 0 ? 0 : 1;
-        if ((o->f8 >= o->fE && neg == 0) || (o->f8 <= o->fE && neg == 1)) {
-            flags |= 1;
-            o->f8 = o->fE;
+    for (j = 0; j < 2; j++) {
+        e = data_021D890C[j];
+        for (i = 0; i < 10; i++) {
+            if (e->id == id)
+                return i;
+            e++;
         }
     }
-    if (o->f14 == 0) {
-        flags |= 2;
-    } else {
-        neg = o->f14 > 0 ? 0 : 1;
-        if ((o->f4 >= o->fC && neg == 0) || (o->f4 <= o->fC && neg == 1)) {
-            flags |= 2;
-            o->f4 = o->fC;
-        }
-    }
-    o->f6--;
-    if (o->f6 <= 0) {
-        o->f18(o->f0, o->f4, arg);
-        o->f6 = o->f8;
-        if (!(flags & 1)) {
-            o->f8 += o->f10;
-        }
-        if (!(flags & 2)) {
-            o->fA++;
-            if (o->fA >= o->f12) {
-                o->fA = 0;
-                o->f4 += (s16)o->f14;
-            }
-        }
-    }
-    return (flags & 1) ? 1 : 0;
+    return 10;
 }
 
 
 
-
-
-
-int func_021A2B8C(Obj021A2B8C *p, int a)
+int func_021A3208(u8 *a)
 {
-    p->timer--;
-    if (p->timer <= 0) {
-        p->cb(p->arg, p->x4, a);
-        p->timer = p->reload;
-        return 1;
+    switch (func_021A3098(a)) {
+    case 2:
+    case 3:
+        return 0;
     }
-    return 0;
-}
-
-
-
-
-
-
-/*
- * Tail-call thunk: pins arguments 2 and 3 to 0 and 56.
- *
- * Addresses are Black-image addresses.
- */
-void func_021A2BB8(u32 a)
-{
-    func_02082BCC(a, 0, 56);
-}
-
-
-
-
-
-
-int func_021A2BC4(u32 a)
-{
-if (((struct Obj18004 *)((u8 *)(a)))->f30 != 0) {
     return 1;
 }
-return 0;
-}
-
-
-
-
-
-void func_021A2BD4(u32 *p, u32 a, const Q *q, int b, u16 e)
-{
-    p[0] = a;
-    p[1] = (u32)func_0204B294((void *)b, q->x, q->y, q->z, data_021D88E0, 0, e);
-    func_0204B3DC((struct Obj *)p[1], 0);
-    func_0204BA20((struct Actor *)p[1], 0);
-}
-
-
-
 
 
 
 /*
- * Pattern-generated from the ov021 family.
+ * Unlabelled leaf (no lr save, prints as .word data in the listing),
+ * filed as a blocker of ov018 func_0217BCDC: tail call on the object's
+ * word at +0x4, the second argument passing through in r1.
+ */
+void func_021A3220(u8 *p, u32 res)
+{
+    func_021A3938(((struct Obj19768 *)p)->f4, res);
+}
+
+
+
+/*
+ * Unlabelled leaf (no lr save, prints as .word data in the listing),
+ * filed as a blocker of ov018 func_0217BCDC: tail call on the object's
+ * word at +0x4, the same shape as func_021A3038.
+ */
+void func_021A322C(u8 *p)
+{
+    func_021A394C((u8 *)(((struct Obj19769 *)p)->f4));
+}
+
+
+
+/*
+ * Tail-call thunk: the object's word at +0x4.
  *
  * Addresses are Black-image addresses.
  */
-void func_021A2C10(u8 *p)
+int func_021A3238(u8 *p)
 {
-    u32 v = ((struct Obj12086 *)p)->f4;
-    if (v != 0) {
-        func_0204B3B4((struct Obj *)v);
-        ((struct Obj12086 *)p)->f4 = 0;
+    return func_021A3A20(((struct Obj18019 *)p)->f4);
+}
+
+
+
+/*
+ * Tail-call thunk: ldr r0,[r0,#4]; ldr r3,[pc]; bx r3; .word func_021A3A3C.
+ * Unlabelled in the ARM9 listings (the .word run at 0x021A3244 in ov021);
+ * blocker target of ov010's func_0216A244 (pkt_0216A244).
+ */
+int func_021A3244(void *p)
+{
+    return func_021A3A3C(((struct Obj18020 *)p)->f4);
+}
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ * func_0216DDC0 forwards r0-r3 to func_0216DD60, so it takes four
+ * arguments; the fourth is the literal 0 whose register the compiler also
+ * uses as the v[0] index.
+ */
+void func_021A3250(u32 *a)
+{
+    s16 v[8];
+    void *h = func_02188C7C((u8 *)a[0]);
+
+    if (func_02188CFC((u8 *)a[0]) == 0) {
+        func_021A3460((u32)a, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
+        func_0216DDC0((u32)h, v[2], v[0], 0);
+        return;
     }
+    func_0219E634(func_021A3960((u8 *)a[1]), &v[3]);
+    func_0219E570((u32)h, (u32)(&v[3]), 0);
 }
 
 
 
-
-
 /*
- * Unlabelled leaf (adds r0,#8; bx lr), filed for the ov026 lane.
- */
-unsigned char *func_021A2C24(unsigned char *o)
-{
-    return o + 8;
-}
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x4 of the object.
- */
-u32 func_021A2C28(u8 *p)
-{
-    return ((struct Obj18005 *)p)->f4;
-}
-
-
-
-
-
-
-/*
- * Field setter at +0x8.
- *
  * Addresses are Black-image addresses.
  */
-void func_021A2C2C(u8 *p, u32 v)
+void func_021A32A8(unsigned char **a, u32 b)
 {
-    ((struct Obj18006 *)p)->f8 = v;
+    s16 v[8];
+    void *h = func_02188C7C(a[0]);
+
+    if (func_02188CFC(a[0]) == 0) {
+        func_021A3460((u32)a, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
+        func_0216DDDC((u32)h, v[2], v[0], v[1] << 16, b, 0);
+        return;
+    }
+    func_0219E634(func_021A3960(a[1]), &v[3]);
+    func_0219E570((u32)h, (u32)(&v[3]), 0);
 }
 
 
 
-
-void func_021A2C30(Snd021A2C30 *p, int a, u16 id)
+void func_021A330C(unsigned char **a, u32 b, s16 *c, s16 *d, s16 *e)
 {
-    func_021A2C6C((Snd021A2C6C *)p, a);
-    if (func_02005C64() == 0) {
-        p->state = 1;
-        p->id = id;
-        if (p->flag != 0)
-            func_02028A7C((struct SoundSys2 *)a, p->id);
-        else
-            func_020061E4(p->id);
-    } else {
-        p->state = 2;
-        p->id = id;
+    void *t = func_021A3074((unsigned char *)a);
+
+    if (func_02188CFC(a[0]) == 0) {
+        *c = func_0216D83C(t);
+        *d = func_0216D854(t);
+        *e = func_0216D86C(t);
+        *c = *c + func_021641E8(b);
+        *e = *e + func_021641F8(b);
     }
 }
 
 
 
-
-void func_021A2C6C(Snd021A2C6C *p, int a)
+void func_021A3364(u32 *a, int b, int *out)
 {
-    if (p->state == 1) {
-        p->state = 0;
-        if (p->flag != 0)
-            func_02028B50((u8 *)a, p->id);
-        else
-            func_020061F8(func_02006148(p->id));
+    int v[3];
+    s16 d[3];
+    s16 r[4];
+    s16 z;
+    s16 y;
+    s16 x;
+    void *e;
+    u32 h;
+    int m;
+
+    e = func_021A3960((void *)a[1]);
+    if (func_02188CFC((u8 *)a[0]) == 0) {
+        func_021A330C((unsigned char **)a, b, &z, &y, &x);
+        func_02164280(z, x, out);
+        out[1] = y << 16;
+        return;
     }
-}
-
-
-
-
-void func_021A2C98(Snd021A2C98 *p, int a)
-{
-    if (p->state == 2 && func_02005C64() == 0) {
-        p->state = 1;
-        if (p->flag != 0)
-            func_02028A7C((struct SoundSys2 *)a, p->id);
-        else
-            func_020061E4(p->id);
-    }
-}
-
-
-
-void func_021A2CC8(Obj021A2CC8 *p, u8 mode, u32 value, int n)
-{
-    p->active = 1;
-    p->mode = mode;
-    p->value = value;
-    p->half = n / 2;
-}
-
-
-void func_021A2CEC(char *p)
-{
-    p[0x77c] = 0;
-}
-
-
-
-u8 func_021A2CF8(char *p)
-{
-    return p[0x77c];
-}
-
-
-
-void func_021A2D04(Obj021A2D04 *p)
-{
-    func_021A0224((u8 *)p->handle, 0x7FDF, p->value, p->mode, p->mode, p->half);
+    h = (u32)func_021BB480((void *)func_02188C5C((u8 *)a[0]));
+    func_0219E2F4(e, r);
+    func_021B7D38(h, r, v);
+    func_0219E784((u32)e, b, d);
+    m = func_021B7C38((u8 *)h);
+    out[0] = v[0] + (int)(((long long)d[0] * m + 0x800) >> 12);
+    out[1] = v[1] + (int)(((long long)d[1] * m + 0x800) >> 12);
+    out[2] = v[2] + (int)(((long long)d[2] * m + 0x800) >> 12);
 }

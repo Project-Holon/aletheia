@@ -12,6 +12,7 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ *   func_0203F1FC 0x0203F1FC  thumb, not otherwise called in arm9_main
  * symbols:
  *   func_0216736C    0x0216736C  thumb  ov010
  *   MI_CpuFill8  0x02082BCC  arm
@@ -39,7 +40,6 @@
  *   func_0200E918  0x0200E918  thumb
  *   func_0200E938  0x0200E938  thumb
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_0203F1FC 0x0203F1FC  thumb, not otherwise called in arm9_main
  *   func_0201AA18  0x0201AA18  thumb
  *   func_020457B0  0x020457B0  arm
  *   func_0201AB28  0x0201AB28  thumb

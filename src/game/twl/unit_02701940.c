@@ -16,14 +16,14 @@
  *   data_02732FC8  0x02732FC8  data twl a2
  *   data_02733FC8  0x02733FC8  data twl a2
  *   data_04000208  0x04000208  data twl a2
- *   func_020879E0  0x020879E0  code twl a2
- *   func_02087988  0x02087988  code twl a2
- *   func_0208799C  0x0208799C  code twl a2
- *   func_02087A04  0x02087A04  code twl a2
- *   func_02088610  0x02088610  code twl a2
- *   func_02088688  0x02088688  code twl a2
+ *   func_020879E0 0x020879E0 arm twl a2
+ *   func_02087988 0x02087988 arm twl a2
+ *   func_0208799C 0x0208799C arm twl a2
+ *   func_02087A04 0x02087A04 arm twl a2
+ *   func_02088610 0x02088610 arm twl a2
+ *   func_02088688 0x02088688 arm twl a2
  *   func_02700DB8  0x02700DB8  arm twl
- *   func_027001F0  0x027001F0  code twl a2
+ *   func_027001F0 0x027001F0 arm twl a2
  */
 typedef unsigned int u32;
 typedef signed int s32;

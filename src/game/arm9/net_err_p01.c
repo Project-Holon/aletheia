@@ -1,7 +1,7 @@
 /*
  * file:     net_err_p01.c
  * unit:     yes
- * function: func_0200F2D4, func_0200F300, func_0200F34C, func_0200F38C, func_0200F43C, func_0200F4E4, func_0200F520, func_0200F594, func_0200F5EC, func_0200F698, func_0200F6B8, func_0200F6D8, func_0200F734, func_0200F7B8, func_0200F7C0, func_0200F7DC, func_0200F7F4, func_0200F800, func_0200F824, func_0200F83C, func_0200FA84, func_0200FA94
+ * function: func_0200F2D4, func_0200F300, func_0200F34C, func_0200F38C, func_0200F43C, func_0200F4E4, func_0200F520, func_0200F594, func_0200F5EC, func_0200F698, func_0200F6B8, func_0200F6D8, func_0200F734, func_0200F7B8, func_0200F7C0, func_0200F7DC, func_0200F7F4, func_0200F800, func_0200F824, func_0200F83C, func_0200FA84, func_0200FA94, func_0200FAAC, func_0200FB24, func_0200FB38, func_0200FB4C
  * address:  0x0200F2D4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -71,8 +71,13 @@
  *   func_0200FD38  0x0200FD38  thumb
  *   func_020351A0  0x020351A0  arm
  *   func_020053EC  0x020053EC  thumb
+ *   func_0203CDBC  0x0203CDBC  arm
+ *   sub_02010054   0x02010054  thumb
+ *   g0214617C      0x0214617C  data
+ *   g_021461BC     0x021461BC  data  a4
  */
 #include "../../matched/include/Obj11713.h"
+#include "../../matched/include/Obj03039.h"
 
 #define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
 #define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
@@ -139,6 +144,10 @@ typedef struct {
     u8 _reserve:2;
 } GXWndPlane;
 
+struct Blk16_0200FAAC {
+    u32 w[4];
+};
+
 extern int func_0203D5D4(void);
 extern int func_02059A5C(void *b, void *c);
 extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
@@ -197,6 +206,8 @@ extern void GXS_SetGraphicsMode(u32 bgMode);
 extern void func_0200FD38(u32 a, u32 b);
 extern int func_020351A0(u32 v);
 extern void func_020053EC(void);
+extern int   sub_02010054(void);
+extern int   func_0203CDBC(void);
 int func_0200F2D4(void);
 int sub_0200F300(void);
 int sub_0200F34C(void *a, void *b, void *c);
@@ -220,13 +231,21 @@ void sub_0200F824(void);
 void func_0200F83C(void);
 void sub_0200FA84(void);
 void sub_0200FA94(void);
+void sub_0200FAAC(void);
+u32 sub_0200FB24(void);
+void func_0200FB38(void);
+void func_0200FB4C(unsigned int x);
 extern struct Sub0200F6B8Obj sub_0200F6B8_Obj;
 extern struct Sub0200F7C0Obj sub_0200F7C0_Obj;
 extern struct Sub0200F7C0Flags sub_0200F7C0_Flags;
-extern u8   g_0214617C[];
+extern u32  g_0214617C[];
+extern u8    g0214617C[];
+extern unsigned char g_021461BC[];
+
 
 
 int func_0200F2D4(void){ int t0, t1, t2; t0 = func_0203D5D4(); if ((unsigned int)(t0) == (unsigned int)(2)) { if ((unsigned int)(*(unsigned char *)((char *)(0x2146178))) == (unsigned int)(0)) { t1 = func_0203CF5C((int)*(unsigned char *)((char *)(0x2146178))); *(unsigned char *)((char *)(0x2146178)) = (unsigned char)t1; return t1; } else { *(unsigned char *)((char *)(0x2146178)) = (unsigned char)0; return 0; } } else { t2 = func_0203CF5C((int)t0); return t2; } }
+
 
 
 
@@ -270,6 +289,7 @@ int sub_0200F300(void)
 
 
 
+
 /*
  * A three-way friend-key comparator: bails out (0) if func_02059A5C(a, c)
  * flags the pair invalid. Otherwise compares b against a with
@@ -298,6 +318,7 @@ int sub_0200F34C(void *a, void *b, void *c)
     }
     return 2;
 }
+
 
 
 
@@ -344,6 +365,7 @@ int func_0200F38C(void *a, int *out)
     }
     return 2;
 }
+
 
 
 
@@ -403,6 +425,7 @@ int func_0200F43C(void *obj, u64 key, int *out)
 
 
 
+
 /*
  * note:     promoted from src/pending 2026-09-19 with NO C change: the only unresolved site was the
  *           call at +0x0012 to func_0200F38C, which became a `matched` witness when
@@ -428,6 +451,7 @@ int func_0200F4E4(void *o)
 
 
 
+
 void sub_0200F520(void *obj, void *src, int i, int sel, int flag)
 {
     if (flag != 0) {
@@ -440,6 +464,7 @@ void sub_0200F520(void *obj, void *src, int i, int sel, int flag)
     sub_02009918(obj, i, 1, sub_0200853C(src));
     sub_02009918(obj, i, 8, sub_02008554(src));
 }
+
 
 
 
@@ -461,6 +486,7 @@ void sub_0200F594(void *a0, void *a1, void *a2, int a3, void *a4, int mode)
     }
     sub_02009918(obj, a3, 8, sub_02008554(a1));
 }
+
 
 
 
@@ -506,6 +532,7 @@ int func_0200F5EC(void *a0, void *a1, void *a2, void *a3)
 
 
 
+
 /*
  * note:     wave 16: promoted.  0x02156B70 is the unlabelled ov009 leaf matched
  *           in src/matched/func_02156B70.c (ov009/pkt_02156B70); it attests as
@@ -529,6 +556,7 @@ void sub_0200F698(void *a, void *b)
 
 
 
+
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0200F6B8.c \
@@ -539,6 +567,7 @@ void sub_0200F6B8(void)
     func_0203064C(1, 8, 0x4920);
     MI_CpuFill8(&sub_0200F6B8_Obj, 0, 0x64);
 }
+
 
 
 
@@ -565,6 +594,7 @@ void sub_0200F6D8(u32 kind)
     obj[1] = func_02030734((u16)kind, (1u << 14) >> 3, 0, name, 0xbc);
     obj[2] = func_02030734((u16)kind, 0x20, 0, name, 0xbd);
 }
+
 
 
 
@@ -644,10 +674,12 @@ void sub_0200F734(void)
 
 
 
+
 u32 func_0200F7B8(u32 a0)
 {
     return func_0200FC0C(a0);
 }
+
 
 
 
@@ -686,10 +718,12 @@ void sub_0200F7C0(u32 value)
 
 
 
+
 void sub_0200F7DC(void)
 {
     sub_0200F7B8(1);
 }
+
 
 
 
@@ -700,10 +734,12 @@ void sub_0200F7E8(u32 value)
 
 
 
+
 void sub_0200F7F4(void)
 {
     sub_0200F7E8(0);
 }
+
 
 
 
@@ -728,6 +764,7 @@ void sub_0200F800(void)
 
 
 
+
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0200F824.c \
@@ -743,10 +780,12 @@ void sub_0200F824(void)
 
 
 
+
 static inline GXDispCnt GXS_GetDispCnt(void)
 {
     return *(volatile GXDispCnt *)&reg_GXS_DB_DISPCNT;
 }
+
 
 
 
@@ -757,10 +796,12 @@ static inline GXWndPlane G2_GetWndOutsidePlane(void)
 
 
 
+
 static inline GXWndPlane G2_GetWndOBJInsidePlane(void)
 {
     return *(volatile GXWndPlane *)((u8 *)&reg_G2_WINOUT + 1);
 }
+
 
 
 
@@ -771,10 +812,12 @@ static inline GXWndPlane G2S_GetWndOutsidePlane(void)
 
 
 
+
 static inline GXWndPlane G2S_GetWndOBJInsidePlane(void)
 {
     return *(volatile GXWndPlane *)((u8 *)&reg_G2S_DB_WINOUT + 1);
 }
+
 
 
 
@@ -789,6 +832,7 @@ static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect)
 
 
 
+
 static inline void G2_SetWndOBJInsidePlane(int wnd, BOOL effect)
 {
     u32 tmp = (reg_G2_WINOUT & ~0x3F00) | (wnd << 8);
@@ -797,6 +841,7 @@ static inline void G2_SetWndOBJInsidePlane(int wnd, BOOL effect)
     }
     reg_G2_WINOUT = (u16)tmp;
 }
+
 
 
 
@@ -811,6 +856,7 @@ static inline void G2S_SetWndOutsidePlane(int wnd, BOOL effect)
 
 
 
+
 static inline void G2S_SetWndOBJInsidePlane(int wnd, BOOL effect)
 {
     u32 tmp = (reg_G2S_DB_WINOUT & ~0x3F00) | (wnd << 8);
@@ -822,10 +868,12 @@ static inline void G2S_SetWndOBJInsidePlane(int wnd, BOOL effect)
 
 
 
+
 static inline void GX_SetVisiblePlane(int plane)
 {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1F00) | (plane << 8);
 }
+
 
 
 
@@ -836,10 +884,12 @@ static inline void GX_SetVisibleWnd(int window)
 
 
 
+
 static inline void GXS_SetVisiblePlane(int plane)
 {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1F00) | (plane << 8);
 }
+
 
 
 
@@ -850,10 +900,12 @@ static inline void GXS_SetVisibleWnd(int window)
 
 
 
+
 static inline BOOL PAD_DetachedCover(void)
 {
     return (BOOL)((HW_BUTTON_XY_BUF & 0x8000) >> 15);
 }
+
 
 
 
@@ -864,10 +916,12 @@ static inline u16 PAD_Read(void)
 
 
 
+
 static inline u16 KeyFilter(u16 k)
 {
     return (u16)(k & ~((k & 0x40) << 1) & ~((k & 0x20) >> 1));
 }
+
 
 
 
@@ -916,7 +970,7 @@ void func_0200F83C(void)
         func_0201034C();
         sub_0200F824();
     }
-    sub_0200FEBC(*(u32 *)(g_0214617C + 0x44) == 1);
+    sub_0200FEBC(g_0214617C[0x11] == 1);
     func_02037190();
     if (func_02037200() == 2) {
         GXS_SetGraphicsMode(dispCnt.bgMode);
@@ -929,6 +983,7 @@ void func_0200F83C(void)
         G2_SetWndOBJInsidePlane(objMain.planeMask, objMain.effect);
     }
 }
+
 
 
 
@@ -946,6 +1001,7 @@ void sub_0200FA84(void)
         sub_0200FA94();
     }
 }
+
 
 
 
@@ -968,5 +1024,103 @@ void sub_0200FA94(void)
     func_020351A0(2);
     for (;;) {
         func_020053EC();
+    }
+}
+
+
+
+/*
+ * Wave 13: the parked MATCH named its global as 0x0202617C, a transcription
+ * slip; the pool word at 0x0200FB20 reads 0x0214617C, the net_err.c module
+ * object every sibling uses (literal x42), and the site resolves with it.
+ */
+void sub_0200FAAC(void)
+{
+    u8 *g = g0214617C;
+    u8 t;
+
+    if (sub_02010054() == 0) {
+        return;
+    }
+    if (((struct Obj03039 *)g)->f2C != 0) {
+        return;
+    }
+    ((struct Obj03039 *)g)->f2C = 1;
+    if (func_0203CDBC() != 0) {
+        return;
+    }
+    ((struct Obj03039 *)g)->f59 = ((u8 *)func_0203D798())[0x65];
+    *(struct Blk16_0200FAAC *)(g + 0x48) = *(struct Blk16_0200FAAC *)func_0203CA98();
+    ((struct Obj03039 *)g)->f58 = (u8)func_0203C990();
+    t = ((struct Obj03039 *)g)->f59;
+    if (t == 1 || t == 2 || t == 6) {
+        if ((u32)(((struct Obj03039 *)g)->f4C - 1) <= 1) {
+            ((struct Obj03039 *)g)->f5C = 2;
+        } else {
+            ((struct Obj03039 *)g)->f5C = 1;
+        }
+        return;
+    }
+    ((struct Obj03039 *)g)->f5C = 2;
+}
+
+
+
+/*
+ * A getter on the module-wide object at 0x0214617C (the same object
+ * unit_0200F7C0.c names sub_0200F7C0_Obj): returns field +0x5c when field
+ * +0x2c is set, 0 otherwise.
+ *
+ * EXACT* because the 20 compiled bytes fall 52 short of the disasm.py
+ * extent: an unlabelled follower, sub_0200FB38, hides in the run of
+ * literal-pool .word data right after this function (see
+ * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * sub_0200FB38 itself (a conditional store: bump the object's +0x2c field
+ * from 1 to 2) is a documented near miss: every write attempt reproduces
+ * all twenty bytes but with r0 and r1 swapped throughout, a pure
+ * register-numbering difference no source restructuring here changed, in
+ * the same class as the codegen near misses in docs/MATCHING.md.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_0200FB24.c \
+ *       --func sub_0200FB24 --addr 0x0200FB24 --cc 1.1p1
+ */
+u32 sub_0200FB24(void)
+{
+    u32 *obj = (u32 *)0x0214617C;
+
+    if (obj[0x2c / 4] != 0) {
+        return obj[0x5c / 4];
+    }
+    return 0;
+}
+
+
+
+/*
+ * Unlabelled Thumb leaf accessor: if the u32 at +0x2c of the object at
+ * g_0214617C is 1, set it to 2.
+ */
+void func_0200FB38(void)
+{
+    if (g_0214617C[11] == 1) {
+        g_0214617C[11] = 2;
+    }
+}
+
+
+
+/*
+ * Unlabelled Thumb leaf: if the u32 at +0x2c of the object at g_0214617C is
+ * not 2, store the argument at +0x60, set two flag bytes of the object at
+ * g_021461BC, and set +0x2c to 2.
+ */
+void func_0200FB4C(unsigned int x)
+{
+    if (g_0214617C[11] != 2) {
+        g_0214617C[24] = x;
+        g_021461BC[0x1a] = 1;
+        g_021461BC[0x19] = 1;
+        g_0214617C[11] = 2;
     }
 }

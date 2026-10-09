@@ -93,13 +93,13 @@
 #include "../../matched/include/Obj02702.h"
 
 struct O;
-typedef unsigned char  u8;
+typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-typedef unsigned int   u32;
+typedef unsigned int u32;
 
-typedef signed int     s32;
+typedef signed int s32;
 
 typedef struct {
     u32 pad0;
@@ -112,7 +112,7 @@ typedef struct {
     u16 queued;
 } Obj021A1C34;
 
-typedef signed short   s16;
+typedef signed short s16;
 
 typedef struct {
     u32 f0;
@@ -131,7 +131,7 @@ typedef struct {
     u8 flag;
     u8 pad28[0x18];
     u8 sub40[4];
-} Obj;
+} Obj_021A1E08;
 
 typedef struct O {
     u32 pad0[8];
@@ -159,7 +159,7 @@ typedef struct O_021A20C8 {
     u8  f26;
 } O_021A20C8;
 
-typedef signed char    s8;
+typedef signed char s8;
 
 typedef struct {
     int x;
@@ -174,19 +174,19 @@ extern void *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
 extern u32 func_020307B0(void *p);
 extern u8 func_021A2CF8(char *p);
 extern int func_021A0244(u8 *p);
-extern void func_021A2D04(Obj *o);
+extern void func_021A2D04(Obj_021A1E08 *o);
 extern void func_021A2CEC(char *p);
-extern int func_021A282C(Obj *o, s32 x);
-extern void func_021A2860(Obj *o, s32 x);
-extern void func_021A28CC(Obj *o, s32 x);
+extern int func_021A282C(Obj_021A1E08 *o, s32 x);
+extern void func_021A2860(Obj_021A1E08 *o, s32 x);
+extern void func_021A28CC(Obj_021A1E08 *o, s32 x);
 extern void func_021A2968(u8 *p);
-extern s32 func_021A2724(Obj *o, u32 a, s32 x);
+extern s32 func_021A2724(Obj_021A1E08 *o, u32 a, s32 x);
 extern void func_021A2C98(void *p, u32 a);
-extern void func_021A27F8(Obj *o);
+extern void func_021A27F8(Obj_021A1E08 *o);
 extern u8 func_021A2970(u8 *p);
-extern void func_021A2924(Obj *o);
-extern void func_021A28A0(Obj *o);
-extern int func_021A284C(Obj *o);
+extern void func_021A2924(Obj_021A1E08 *o);
+extern void func_021A28A0(Obj_021A1E08 *o);
+extern int func_021A284C(Obj_021A1E08 *o);
 extern void func_021A26D8(int *p);
 extern void func_021A2C2C(u8 *p, u32 v);
 extern u8 func_021A273C(u8 *p);
@@ -236,7 +236,7 @@ void func_021A1D04(u8 *p, int x);
 int func_021A1D78(u16 a, u16 b);
 u32 *func_021A1DB4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 h, u16 i);
 void func_021A1DF8(u8 *p);
-void func_021A1E08(Obj *o, s32 x);
+void func_021A1E08(Obj_021A1E08 *o, s32 x);
 void func_021A1FEC(O *p, u32 v, u8 b, u32 c, u32 d, u32 e, u32 g);
 void func_021A2050(O_021A2050 *p, u32 a, u32 b);
 void func_021A20C8(O_021A20C8 *p);
@@ -543,7 +543,7 @@ void func_021A1DF8(u8 *p)
 
 
 
-void func_021A1E08(Obj *o, s32 x)
+void func_021A1E08(Obj_021A1E08 *o, s32 x)
 {
     if (func_021A2CF8((char *)o) != 0 && func_021A0244((u8 *)o->f4) == 0) {
         func_021A2D04(o);
@@ -697,12 +697,12 @@ void func_021A20C8(O_021A20C8 *p)
         return;
     }
     if (p->f26 <= 0xb) {
-        func_021A2724((Obj *)p, p->f20[0x11], 0);
+        func_021A2724((Obj_021A1E08 *)p, p->f20[0x11], 0);
     }
     if (p->f26 <= 0xc) {
-        func_021A2924((Obj *)p);
-        func_021A28A0((Obj *)p);
-        func_021A284C((Obj *)p);
+        func_021A2924((Obj_021A1E08 *)p);
+        func_021A28A0((Obj_021A1E08 *)p);
+        func_021A284C((Obj_021A1E08 *)p);
     }
     func_021A26D8((int *)p);
 }

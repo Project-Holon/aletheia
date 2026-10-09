@@ -1,6 +1,6 @@
 /*
  * file:     unit_021DDC04.c
- * function: func_021DDC04
+ * function: func_021DDC04, func_021DDC18
  * address:  0x021DDC04
  * packet:   pkt_021D8684
  * region:   ov093
@@ -11,6 +11,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   d_021F17FC     0x021F17FC  data   ov093  a4
  *   func_021DDC04   0x021DDC04  thumb
  *   func_021DDCD8   0x021DDCD8  thumb
  * Leaf with no calls and no pool; 9 instructions, 20 bytes: push {r4, lr}; sub sp, #8; movs r4, #6; str r4, [sp]; movs r4, #0; str r4, [sp, #4]; bl func_021DDCD8; add sp, #8; pop {r4, pc}.
@@ -29,3 +30,12 @@ void func_021DDC04(int a, int b, int c, int d)
     func_021DDCD8(a, b, c, d, 6, 0);
 }
 
+
+extern int d_021F17FC[];
+int *func_021DDC18(int *p);
+
+int *func_021DDC18(int *p)
+{
+    *p = 2;
+    return d_021F17FC;
+}

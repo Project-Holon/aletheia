@@ -1,7 +1,7 @@
 /*
  * file:     iss_3ds_sys_p02.c
  * unit:     yes
- * function: func_0202B90C, func_0202B914, func_0202B920, func_0202B928, func_0202B934, func_0202B93C, func_0202B944, func_0202B958, func_0202B9C8, func_0202B9E0, func_0202B9F0, func_0202BA24, func_0202BA60, func_0202BA7C, func_0202BA9C, func_0202BABC
+ * function: func_0202B90C, func_0202B914, func_0202B920, func_0202B928, func_0202B934, func_0202B93C, func_0202B944, func_0202B958, func_0202B9C8, func_0202B9E0, func_0202B9F0, func_0202BA24, func_0202BA60, func_0202BA7C, func_0202BA9C, func_0202BABC, func_0202BAE8
  * address:  0x0202B90C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -361,4 +361,14 @@ void func_0202BABC(u8 *o)
     ((struct Obj02601 *)o)->f4 = 1;
     func_0202B9E0((int)o, func_0202B9F0((const struct Obj *)o, func_02005C44()));
     func_0202BB48((int)o);
+}
+
+
+void func_0202BAE8(u32 *p);
+
+void func_0202BAE8(u32 *p)
+{
+    if (p[1] != 0) {
+        p[1] = 0;
+    }
 }

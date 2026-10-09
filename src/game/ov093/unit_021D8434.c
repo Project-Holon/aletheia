@@ -1,7 +1,7 @@
 /*
  * file:     unit_021D8434.c
  * unit:     yes
- * function: func_021D8434, func_021D8444, func_021D8454, func_021D845C, func_021D8470, func_021D8484, func_021D84F0, func_021D84F8, func_021D8510, func_021D8538, func_021D8548, func_021D8564, func_021D85B0, func_021D85C0, func_021D85F4
+ * function: func_021D8434, func_021D8444, func_021D8454, func_021D845C, func_021D8470, func_021D8484, func_021D84F0, func_021D84F8, func_021D8510, func_021D8538, func_021D8548, func_021D8564, func_021D85B0, func_021D85C0, func_021D85F4, func_021D8678
  * address:  0x021D8434
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   d_021F0710     0x021F0710  data   ov093  a4
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   func_021D5440  0x021D5440  thumb  ov093
  *   func_021D6F0C  0x021D6F0C  thumb  ov093
@@ -201,4 +202,14 @@ void func_021D85F4(void *a, int b, int c)
         *(u8 *)(p + 0x10 + i) = ((u8 *)v)[i];
     func_021C88C8((void *)b, p);
     func_021C88B4((void *)b, 3, c);
+}
+
+
+extern int d_021F0710[];
+int *func_021D8678(int *p);
+
+int *func_021D8678(int *p)
+{
+    *p = 1;
+    return d_021F0710;
 }

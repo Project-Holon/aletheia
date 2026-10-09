@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_027026DC  0x027026DC  code twl a2
- *   func_020862B8  0x020862B8  code twl a2
+ *   func_027026DC  0x027026DC  arm twl a2
+ *   func_020862B8  0x020862B8  arm twl a2
  */
 
 typedef unsigned short u16;

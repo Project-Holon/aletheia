@@ -1,54 +1,51 @@
 /*
- * file:     net_state_p37.c
- * unit:     yes
- * function: func_0203D10C, func_0203D12C
- * address:  0x0203D10C
+ * unit:     no
+ * function: func_0203D1E8
+ * address:  0x0203D1E8
+ * packet:   pkt_0203D1B4
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
  * symbols:
- *   func_0203CD98  0x0203CD98  arm
- *   func_02037A44  0x02037A44  arm
- */
-#include "../../matched/include/Obj15980.h"
-
-extern int func_0203CD98(void);
-extern void func_02037A44(int a);
-int func_0203D10C(int a0);
-void func_0203D12C(int a);
-
-
-int func_0203D10C(int a0){ int t0 = func_0203D788(); int t1 = func_0203BA98((int)((struct Obj15980 *)((char *)(t0)))->f56, (int)a0, (int)0); return t1; }
-
-
-/*
- * EXACT*, not EXACT: the inferred extent runs on to 0x0203D17C because the
- * four eight-byte ARM long-branch veneers at 0x0203D14C, 0x0203D158,
- * 0x0203D164 and 0x0203D170 save no `lr` and so carry no label.  It is not a
- * byte difference.  They want seeding into layout/function_starts.txt, which
- * is the integrator's file.
+ *   func_0203D788  0x0203D788  arm
  *
- * Guarded forwarding call: the hook at 0x0203CD98 answers whether the
- * connection is up, and only then is the argument handed to 0x02037A44.  The
- * `bl` at the top passes r0 through untouched, so the callee is declared
- * `void` while this one takes the value it later forwards.
+ * TU: net.c.
  *
- * Addresses are Black-image addresses.
+ * Dispatch through the +0xb8 slot of the callback block hanging off +0x340
+ * of the network singleton.  The first parameter is dead: the original
+ * overwrites r0 with the singleton before the call and forwards r1, which
+ * is what spends r4 on a two-argument function that only uses the second.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D12C.c \
- *       --func func_0203D12C --addr 0x0203D12C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D1E8.c \
+ *       --func func_0203D1E8 --addr 0x0203D1E8 --cc 1.1p1 --arm
  */
-void func_0203D12C(int a)
-{
-    if (func_0203CD98() == 0)
-        return;
 
-    func_02037A44(a);
+typedef unsigned char u32_pad;
+typedef unsigned int  u32;
+
+struct NetVtbl {
+    u32_pad pad_00[0xb8];
+    void (*unk_b8)(void *arg);
+};
+
+struct NetSys {
+    u32_pad         pad_000[0x340];
+    struct NetVtbl *vtbl;
+};
+
+extern struct NetSys *func_0203D788(void);
+
+void func_0203D1E8(u32 unused, void *arg)
+{
+    void (*fn)(void *) = func_0203D788()->vtbl->unk_b8;
+
+    if (fn == 0) {
+        return;
+    }
+    fn(arg);
 }

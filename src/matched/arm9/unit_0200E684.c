@@ -12,8 +12,9 @@
  * status:   EXACT
  * function: sub_0200E684, sub_0200E6B0
  *
+ * func_0203F1FC: not otherwise called in arm9_main
  * symbols:
- *   func_0203F1FC 0x0203F1FC  thumb, not otherwise called in arm9_main
+ *   func_0203F1FC 0x0203F1FC  arm
  *
  * alias: sub_0200E684 toggles one flag half of a caller object's field pair
  * addressed by the constant id 0x5c6: it looks the field up through

@@ -7,11 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
- *   func_02087988  0x02087988  code twl a2
- *   func_0208799C  0x0208799C  code twl a2
+ *   func_02087988 0x02087988 arm twl a2
+ *   func_0208799C 0x0208799C arm twl a2
  *   data_02732FA8  0x02732FA8  data twl a4
  */
 

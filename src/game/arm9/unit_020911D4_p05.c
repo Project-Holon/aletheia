@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
@@ -46,6 +46,43 @@
  *   _dflt  0x0209B750  arm
  *   _ddiv  0x0209D1E0  arm
  *   pow_10  0x020A8A7C  data
+ *   __ctype_map  0x020A61DC  data  a2
+ *   s_020A8A40     0x020A8A40  data  a1
+ *   s_020A8A48     0x020A8A48  data  a1
+ *   s_020A8A50     0x020A8A50  data  a1
+ *   s_020A8A54     0x020A8A54  data  a1
+ *   s_020A8A58     0x020A8A58  data  a1
+ *   s_020A8A60     0x020A8A60  data  a1
+ *   s_020A8A68     0x020A8A68  data  a1
+ *   s_020A8A6C     0x020A8A6C  data  a1
+ *   s_020A8A70     0x020A8A70  data  a2
+ *   s_020A8A74     0x020A8A74  data  a1
+ *   s_infinity     0x020A62E4  data  a1
+ *   s_nan          0x020A62DC  data  a1
+ *   __upper_map    0x020A615C  data  a1
+ *   __double_huge  0x020A881C  data  a4
+ *   s_020A8ABC     0x020A8ABC  data  a1
+ *   s_020A8AEC     0x020A8AEC  data  a1
+ *   s_020A8B14     0x020A8B14  data  a1
+ *   s_020A8B2C     0x020A8B2C  data  a1
+ *   s_020A8B3C     0x020A8B3C  data  a1
+ *   s_020A8B44     0x020A8B44  data  a1
+ *   s_020A8B4C     0x020A8B4C  data  a1
+ *   s_020A8B54     0x020A8B54  data  a1
+ *   s_020A8B5C     0x020A8B5C  data  a1
+ *   s_020A8B60     0x020A8B60  data  a1
+ *   s_020A8B64     0x020A8B64  data  a1
+ *   s_020A8B68     0x020A8B68  data  a1
+ *   s_020A8B6C     0x020A8B6C  data  a1
+ *   s_020A8B70     0x020A8B70  data  a1
+ *   s_020A8B74     0x020A8B74  data  a1
+ *   s_020A8B78     0x020A8B78  data  a1
+ *   s_020A8B7C     0x020A8B7C  data  a1
+ *   s_020A8B80     0x020A8B80  data  a1
+ *   s_020A8B84     0x020A8B84  data  a1
+ *   s_020A8B88     0x020A8B88  data  a1
+ *   s_020A8B8C     0x020A8B8C  data  a1
+ *   s_020A8B90     0x020A8B90  data  a1
  */
 
 typedef unsigned int u32;

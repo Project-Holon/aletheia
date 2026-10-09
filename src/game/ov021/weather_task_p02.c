@@ -28,7 +28,7 @@
 struct O;
 typedef unsigned char u8;
 
-typedef unsigned int  u32;
+typedef unsigned int u32;
 
 typedef struct {
     u8 pad[0x20];
@@ -37,9 +37,9 @@ typedef struct {
 
 typedef unsigned short u16;
 
-typedef signed short   s16;
+typedef signed short s16;
 
-typedef signed char    s8;
+typedef signed char s8;
 
 int func_021A21B0(u8 *a0);
 extern void func_021A20C8(struct O *p);

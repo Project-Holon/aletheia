@@ -6,3 +6,6 @@ func_021DABE8, func_021DAD20, func_021DAED8, func_021DB000) and one hidden predi
 - unit_021DA624_p01 | p02 (starts 0x021DAEAC): 0x021DAE94 to 0x021DAEAB holds two Thumb call thunks
   (`ldr r1,[pc,#4]; ldr r3,[pc,#8]; bx r3; nop; .word` to func_021D7320 and `ldr r3,[pc]; bx r3; .word`
   to func_021D7324). They are linker-style veneers, not compilable C: file boundary.
+- Update (round 6): 0x021DAE94 now has a hidden function in p01 (`func_021D7320(p, (u32)func_021DAEC4)`).
+  Its pool word names func_021DAEC4 in p02, so p01 reports MATCH (one wildcarded pool word). The
+  second thunk at 0x021DAEA4 is still a veneer: the boundary stays.

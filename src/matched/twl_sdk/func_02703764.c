@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082D44  0x02082D44  code twl a2
+ *   func_02082D44  0x02082D44  arm twl a2
  */
 
 typedef unsigned char u8;

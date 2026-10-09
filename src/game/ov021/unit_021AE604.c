@@ -1,7 +1,7 @@
 /*
  * file:     unit_021AE604.c
  * unit:     yes
- * function: func_021AE604, func_021AE630
+ * function: func_021AE604, func_021AE630, func_021AE650
  * address:  0x021AE604
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -61,5 +61,30 @@ int func_021AE630(S *s)
         return 0;
     s->fc--;
     s->f0 = 10;
+    return 1;
+}
+
+typedef struct IwaTask {
+    int state;
+    int f4;
+    int f8;
+    int fc;
+    int f10;
+    int f14;
+    int f18;
+    int f1c;
+    int f20;
+    int f24;
+    int cnt;
+} IwaTask;
+
+int func_021AE650(IwaTask *w)
+{
+    w->cnt++;
+    if (w->cnt < 8) {
+        return 0;
+    }
+    w->cnt = 0;
+    w->state = 14;
     return 1;
 }

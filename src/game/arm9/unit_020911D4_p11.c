@@ -1,437 +1,265 @@
 /*
  * unit:     yes
- * function: __dcmp_1, __dcmp_2, __dcmp_3, __dcmp_4, __dcmp_5, __dcmp_6,
- *           __fcmp_1, __fcmp_2, __fcmp_3, __fcmp_4
- * address:  0x0209B7CC
- * packet:   pkt_0209B7CC_compares
+ * function: _s32_to_float, _u32_to_float, _f2s, _f2u, _d2s, _d2u,
+ *           _s32_to_double, _u32_to_double, _f2d
+ * address:  0x0209BDBC
+ * packet:   pkt_0209BDBC_converters
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * verdict:  EXACT per function (tools/match.py one, 10 of 10 re-run in round 4).
+ * verdict:  EXACT per function (tools/match.py one, 9 of 9 re-run in round 4).
  *           tools/match.py tu reports DIFF for this file because its members are
- *           not contiguous: _fgeq (0x0209BB54, the next part) sits between __dcmp_6
- *           and __fcmp_1.
+ *           scattered over 0x0209B750..0x0209C554 with other parts between them.
  *
  * Filed as manifest kind `runtime` (tools/match.py): each function is
  * compared at its layout/runtime_arm9.txt row, and worklist.py keeps the
  * rows out of the game figure.
  *
- * All ten entries are the mrs/msr-apsr float and double comparators: each
- * computes a result and returns it in the condition flags via `mrs ip,
- * apsr` / bic-or-orr of bit 29 (C, the unsigned "hs/lo" family) or bit 30
- * (Z, the "eq/ne" family) / `msr cpsr_flg, ip`, which is a calling
- * convention no C construct can produce.  Verified with:
+ * Each function below is independently leaf code (no shared bodies, no
+ * cross-entry branches), verified with:
  *   python tools/match.py one --src <this file> --func <name> --addr <addr>
  *     --cc 1.1p1 --arm
  *
- * Note: 0x0209BB54..0x0209BBB0 (92 bytes), between __dcmp_6's real end and
- * __fcmp_1's listed start, is NOT part of __dcmp_6 and not a
- * layout/runtime_arm9.txt row; disassembly there is a fifth,
- * unlisted-looking float comparator (movge/movlt, bit 29 only). Left
- * completely untouched -- out of scope for this lane, and
- * layout/runtime_arm9.txt is not to be changed here.
+ * _d2s and _d2u each carry one literal-pool word (the double exponent bias,
+ * 0x41E and 0x43E) inside their own byte extent; kept as `ldr rd, [pc,
+ * #imm]` with an explicit dcd word at the end, exactly as the existing
+ * asm-block precedent (src/matched/OS_GetInitArenaHi.c) does.
  */
 
-asm void __dcmp_1(void)
+asm void _s32_to_float(void)
 {
-    mov ip, #0x200000
-    cmn ip, r1, lsl #1
-    bhs L_0209B840
-    cmn ip, r3, lsl #1
-    bhs L_0209B854
-L_0209B7E0:
-    orrs ip, r3, r1
-    bmi L_0209B810
-    cmp r1, r3
-    cmpeq r0, r2
-    movhs r0, #1
-    movlo r0, #0
-    bx lr
-L_0209B7FC:
-    mov r0, #0
-    mrs ip, cpsr
-    bic ip, ip, #0x20000000
-    msr cpsr_flg, ip
-    bx lr
-L_0209B810:
-    orr ip, r0, ip, lsl #1
-    orrs ip, ip, r2
-    moveq r0, #1
-    mrs ip, cpsr
-    orr ip, ip, #0x20000000
-    msr cpsr_flg, ip
-    bxeq lr
-    cmp r3, r1
-    cmpeq r2, r0
-    movhs r0, #1
-    movlo r0, #0
-    bx lr
-L_0209B840:
-    bne L_0209B7FC
+    ands r2, r0, #0x80000000
+    rsbmi r0, r0, #0
     cmp r0, #0
-    bhi L_0209B7FC
-    cmn ip, r3, lsl #1
-    blo L_0209B7E0
-L_0209B854:
-    bne L_0209B7FC
-    cmp r2, #0
-    bhi L_0209B7FC
-    b L_0209B7E0
+    bxeq lr
+    clz r3, r0
+    movs r0, r0, lsl r3
+    rsb r3, r3, #0x9e
+    ands r1, r0, #0xff
+    add r0, r0, r0
+    orr r0, r2, r0, lsr #9
+    orr r0, r0, r3, lsl #23
+    bxeq lr
+    tst r1, #0x80
+    bxeq lr
+    ands r3, r1, #0x7f
+    andeqs r3, r0, #1
+    addne r0, r0, #1
+    bx lr
 }
 
-asm void __dcmp_2(void)
+asm void _u32_to_float(void)
 {
-    mov ip, #0x200000
-    cmn ip, r1, lsl #1
-    bhs L_0209B8D8
-    cmn ip, r3, lsl #1
-    bhs L_0209B8EC
-L_0209B878:
-    orrs ip, r3, r1
-    bmi L_0209B8A8
-    cmp r1, r3
-    cmpeq r0, r2
-    movhi r0, #1
-    movls r0, #0
-    bx lr
-L_0209B894:
-    mov r0, #0
-    mrs ip, cpsr
-    bic ip, ip, #0x20000000
-    msr cpsr_flg, ip
-    bx lr
-L_0209B8A8:
-    orr ip, r0, ip, lsl #1
-    orrs ip, ip, r2
-    moveq r0, #0
-    mrs ip, cpsr
-    bic ip, ip, #0x20000000
-    msr cpsr_flg, ip
-    bxeq lr
-    cmp r3, r1
-    cmpeq r2, r0
-    movhi r0, #1
-    movls r0, #0
-    bx lr
-L_0209B8D8:
-    bne L_0209B894
     cmp r0, #0
-    bhi L_0209B894
-    cmn ip, r3, lsl #1
-    blo L_0209B878
-L_0209B8EC:
-    bne L_0209B894
-    cmp r2, #0
-    bhi L_0209B894
-    b L_0209B878
+    bxeq lr
+    mov r3, #0x9e
+    bmi L_0209BE20
+    clz ip, r0
+    movs r0, r0, lsl ip
+    sub r3, r3, ip
+L_0209BE20:
+    ands r2, r0, #0xff
+    add r0, r0, r0
+    mov r0, r0, lsr #9
+    orr r0, r0, r3, lsl #23
+    bxeq lr
+    tst r2, #0x80
+    bxeq lr
+    ands r1, r2, #0x7f
+    andeqs r1, r0, #1
+    addne r0, r0, #1
+    bx lr
 }
 
-asm void __dcmp_3(void)
+asm void _f2s(void)
 {
-    mov ip, #0x200000
-    cmn ip, r1, lsl #1
-    bhs L_0209B97C
-    cmn ip, r3, lsl #1
-    bhs L_0209B990
-L_0209B910:
-    orrs ip, r3, r1
-    bmi L_0209B944
-    cmp r1, r3
-    cmpeq r0, r2
-    movls r0, #1
-    movhi r0, #0
-    bx lr
-L_0209B92C:
-    mov r0, #0
-    mrs ip, cpsr
-    bic ip, ip, #0x40000000
-    orr ip, ip, #0x20000000
-    msr cpsr_flg, ip
-    bx lr
-L_0209B944:
-    orr ip, r0, ip, lsl #1
-    orrs ip, ip, r2
-    moveq r0, #1
-    bne L_0209B968
-    mrs ip, cpsr
-    bic ip, ip, #0x20000000
-    orr ip, ip, #0x40000000
-    msr cpsr_flg, ip
-    bxeq lr
-L_0209B968:
-    cmp r3, r1
-    cmpeq r2, r0
-    movls r0, #1
-    movhi r0, #0
-    bx lr
-L_0209B97C:
-    bne L_0209B92C
+    bic r1, r0, #0x80000000
+    mov r2, #0x9e
+    subs r2, r2, r1, lsr #23
+    ble L_0209C4BC
+    mov r1, r1, lsl #8
+    orr r1, r1, #0x80000000
     cmp r0, #0
-    bhi L_0209B92C
-    cmn ip, r3, lsl #1
-    blo L_0209B910
-L_0209B990:
-    bne L_0209B92C
-    cmp r2, #0
-    bhi L_0209B92C
-    b L_0209B910
+    mov r0, r1, lsr r2
+    rsbmi r0, r0, #0
+    bx lr
+L_0209C4BC:
+    mvn r0, r0, asr #31
+    add r0, r0, #0x80000000
+    bx lr
 }
 
-asm void __dcmp_4(void)
+asm void _f2u(void)
 {
-    mov ip, #0x200000
-    cmn ip, r1, lsl #1
-    bhs L_0209BA18
-    cmn ip, r3, lsl #1
-    bhs L_0209BA2C
-L_0209B9B4:
-    orrs ip, r3, r1
-    bmi L_0209B9E4
-    cmp r1, r3
-    cmpeq r0, r2
-    movlo r0, #1
+    tst r0, #0x80000000
+    bne L_0209C4EC
+    mov r1, #0x9e
+    subs r1, r1, r0, lsr #23
+    blt L_0209C500
+    mov r2, r0, lsl #8
+    orr r0, r2, #0x80000000
+    mov r0, r0, lsr r1
+    bx lr
+L_0209C4EC:
+    mov r2, #0xff000000
+    cmp r2, r0, lsl #1
     movhs r0, #0
+    mvnlo r0, #0
     bx lr
-L_0209B9D0:
-    mov r0, #0
-    mrs ip, cpsr
-    orr ip, ip, #0x20000000
-    msr cpsr_flg, ip
+L_0209C500:
+    mvn r0, #0
     bx lr
-L_0209B9E4:
-    orr ip, r0, ip, lsl #1
-    orrs ip, ip, r2
-    moveq r0, #0
-    bne L_0209BA04
-    mrs ip, cpsr
-    orr ip, ip, #0x20000000
-    msr cpsr_flg, ip
-    bxeq lr
-L_0209BA04:
-    cmp r3, r1
-    cmpeq r2, r0
-    movlo r0, #1
-    movhs r0, #0
-    bx lr
-L_0209BA18:
-    bne L_0209B9D0
-    cmp r0, #0
-    bhi L_0209B9D0
-    cmn ip, r3, lsl #1
-    blo L_0209B9B4
-L_0209BA2C:
-    bne L_0209B9D0
-    cmp r2, #0
-    bhi L_0209B9D0
-    b L_0209B9B4
 }
 
-asm void __dcmp_5(void)
+asm void _d2s(void)
 {
-    mov ip, #0x200000
-    cmn ip, r1, lsl #1
-    bhs L_0209BAA4
-    cmn ip, r3, lsl #1
-    bhs L_0209BAB8
-L_0209BA50:
-    orrs ip, r3, r1
-    bmi L_0209BA80
-    cmp r1, r3
-    cmpeq r0, r2
-    moveq r0, #1
-    movne r0, #0
-    bx lr
-L_0209BA6C:
-    mov r0, #0
-    mrs ip, cpsr
-    bic ip, ip, #0x40000000
-    msr cpsr_flg, ip
-    bx lr
-L_0209BA80:
-    orr ip, r0, ip, lsl #1
-    orrs ip, ip, r2
-    moveq r0, #1
-    bxeq lr
-    cmp r3, r1
-    cmpeq r2, r0
-    moveq r0, #1
-    movne r0, #0
-    bx lr
-L_0209BAA4:
-    bne L_0209BA6C
-    cmp r0, #0
-    bhi L_0209BA6C
-    cmn ip, r3, lsl #1
-    blo L_0209BA50
-L_0209BAB8:
-    bne L_0209BA6C
-    cmp r2, #0
-    bhi L_0209BA6C
-    b L_0209BA50
-}
-
-asm void __dcmp_6(void)
-{
-    mov ip, #0x200000
-    cmn ip, r1, lsl #1
-    bhs L_0209BB30
-    cmn ip, r3, lsl #1
-    bhs L_0209BB44
-L_0209BADC:
-    orrs ip, r3, r1
-    bmi L_0209BB0C
-    cmp r1, r3
-    cmpeq r0, r2
-    movne r0, #1
-    moveq r0, #0
-    bx lr
-L_0209BAF8:
-    mov r0, #1
-    mrs ip, cpsr
-    bic ip, ip, #0x40000000
-    msr cpsr_flg, ip
-    bx lr
-L_0209BB0C:
-    orr ip, r0, ip, lsl #1
-    orrs ip, ip, r2
-    moveq r0, #0
-    bxeq lr
-    cmp r3, r1
-    cmpeq r2, r0
-    movne r0, #1
-    moveq r0, #0
-    bx lr
-L_0209BB30:
-    bne L_0209BAF8
-    cmp r0, #0
-    bhi L_0209BAF8
-    cmn ip, r3, lsl #1
-    blo L_0209BADC
-L_0209BB44:
-    bne L_0209BAF8
-    cmp r2, #0
-    bhi L_0209BAF8
-    b L_0209BADC
-}
-
-asm void __fcmp_1(void)
-{
-    mov r3, #0xff000000
-    cmp r3, r0, lsl #1
-    cmphs r3, r1, lsl #1
-    blo L_0209BBF8
-    cmp r0, #0
-    bicmi r0, r0, #0x80000000
-    rsbmi r0, r0, #0
+    bic r3, r1, #0x80000000
+    ldr r2, [pc, #0x3c]
+    subs r2, r2, r3, lsr #20
+    ble L_0209C544
+    cmp r2, #0x20
+    bge L_0209C53C
+    mov r3, r1, lsl #0xb
+    orr r3, r3, #0x80000000
+    orr r3, r3, r0, lsr #21
     cmp r1, #0
-    bicmi r1, r1, #0x80000000
-    rsbmi r1, r1, #0
-    cmp r0, r1
-    movgt r0, #1
-    movle r0, #0
-    mrs ip, cpsr
-    bicle ip, ip, #0x20000000
-    orrgt ip, ip, #0x20000000
-    msr cpsr_flg, ip
-    bx lr
-L_0209BBF8:
-    mov r0, #0
-    mrs ip, cpsr
-    bic ip, ip, #0x20000000
-    msr cpsr_flg, ip
-    bx lr
-}
-
-asm void __fcmp_2(void)
-{
-    mov r3, #0xff000000
-    cmp r3, r0, lsl #1
-    cmphs r3, r1, lsl #1
-    blo L_0209BC5C
-    cmp r0, #0
-    bicmi r0, r0, #0x80000000
+    mov r0, r3, lsr r2
     rsbmi r0, r0, #0
-    cmp r1, #0
-    bicmi r1, r1, #0x80000000
-    rsbmi r1, r1, #0
-    cmp r0, r1
-    movle r0, #1
-    movgt r0, #0
-    mrs ip, cpsr
-    orrgt ip, ip, #0x20000000
-    bicgt ip, ip, #0x40000000
-    bicle ip, ip, #0x20000000
-    orrle ip, ip, #0x40000000
-    msr cpsr_flg, ip
     bx lr
-L_0209BC5C:
+L_0209C53C:
     mov r0, #0
-    mrs ip, cpsr
-    bic ip, ip, #0x40000000
-    orr ip, ip, #0x20000000
-    msr cpsr_flg, ip
     bx lr
+L_0209C544:
+    mvn r0, r1, asr #31
+    add r0, r0, #0x80000000
+    bx lr
+    dcd 0x0000041E
 }
 
-asm void __fcmp_3(void)
+asm void _d2u(void)
 {
-    mov r3, #0xff000000
-    cmp r3, r0, lsl #1
-    cmphs r3, r1, lsl #1
-    blo L_0209BCBC
-    cmp r0, #0
-    bicmi r0, r0, #0x80000000
+    tst r1, #0x80000000
+    bne L_0209C5B8
+    ldr r2, [pc, #0x78]
+    subs r2, r2, r1, lsr #20
+    blt L_0209C5D0
+    cmp r2, #0x40
+    bge L_0209C5AC
+    mov ip, r1, lsl #0xb
+    orr ip, ip, #0x80000000
+    orr ip, ip, r0, lsr #21
+    cmp r2, #0x20
+    ble L_0209C594
+    sub r2, r2, #0x20
+    mov r1, #0
+    mov r0, ip, lsr r2
+    bx lr
+L_0209C594:
+    mov r3, r0, lsl #0xb
+    mov r1, ip, lsr r2
+    mov r0, r3, lsr r2
+    rsb r2, r2, #0x20
+    orr r0, r0, ip, lsl r2
+    bx lr
+L_0209C5AC:
+    mov r1, #0
+    mov r0, #0
+    bx lr
+L_0209C5B8:
+    cmn r1, #0x100000
+    cmpeq r0, #0
+    bhi L_0209C5D0
+    mov r1, #0
+    mov r0, #0
+    bx lr
+L_0209C5D0:
+    mvn r1, #0
+    mvn r0, #0
+    bx lr
+    dcd 0x0000043E
+}
+
+asm void _s32_to_double(void)
+{
+    ands r2, r0, #0x80000000
     rsbmi r0, r0, #0
-    cmp r1, #0
-    bicmi r1, r1, #0x80000000
-    rsbmi r1, r1, #0
-    cmp r0, r1
-    movlt r0, #1
-    movge r0, #0
-    mrs ip, cpsr
-    orrge ip, ip, #0x20000000
-    biclt ip, ip, #0x20000000
-    msr cpsr_flg, ip
-    bx lr
-L_0209BCBC:
-    mov r0, #0
-    mrs ip, cpsr
-    orr ip, ip, #0x20000000
-    msr cpsr_flg, ip
+    cmp r0, #0
+    mov r1, #0
+    bxeq lr
+    mov r3, #0x400
+    add r3, r3, #0x1e
+    clz ip, r0
+    movs r0, r0, lsl ip
+    sub r3, r3, ip
+    movs r1, r0
+    mov r0, r1, lsl #0x15
+    add r1, r1, r1
+    orr r1, r2, r1, lsr #12
+    orr r1, r1, r3, lsl #20
     bx lr
 }
 
-asm void __fcmp_4(void)
+asm void _u32_to_double(void)
 {
-    mov r3, #0xff000000
-    cmp r3, r0, lsl #1
-    blo L_0209BD24
-    cmp r3, r1, lsl #1
-    blo L_0209BD24
-    orr r3, r0, r1
-    movs r3, r3, lsl #1
-    moveq r0, #0
-    bne L_0209BD04
-    mrs ip, cpsr
-    orr ip, ip, #0x40000000
-    msr cpsr_flg, ip
+    cmp r0, #0
+    mov r1, #0
+    bxeq lr
+    mov r3, #0x400
+    add r3, r3, #0x1e
+    bmi L_0209B7B4
+    clz ip, r0
+    movs r0, r0, lsl ip
+    sub r3, r3, ip
+L_0209B7B4:
+    mov r1, r0
+    mov r0, r1, lsl #0x15
+    add r1, r1, r1
+    mov r1, r1, lsr #0xc
+    orr r1, r1, r3, lsl #20
     bx lr
-L_0209BD04:
-    cmp r0, r1
-    movne r0, #1
-    moveq r0, #0
-    mrs ip, cpsr
-    bicne ip, ip, #0x40000000
-    orreq ip, ip, #0x40000000
-    msr cpsr_flg, ip
+}
+
+asm void _f2d(void)
+{
+    and r2, r0, #0x80000000
+    mov ip, r0, lsr #0x17
+    mov r3, r0, lsl #9
+    ands ip, ip, #0xff
+    beq L_0209BD68
+    cmp ip, #0xff
+    beq L_0209BD94
+L_0209BD54:
+    add ip, ip, #0x380
+    mov r0, r3, lsl #0x14
+    orr r1, r2, r3, lsr #12
+    orr r1, r1, ip, lsl #20
     bx lr
-L_0209BD24:
-    mov r0, #1
-    mrs ip, cpsr
-    bic ip, ip, #0x40000000
-    msr cpsr_flg, ip
+L_0209BD68:
+    cmp r3, #0
+    bne L_0209BD7C
+    mov r1, r2
+    mov r0, #0
     bx lr
+L_0209BD7C:
+    mov r3, r3, lsr #1
+    clz ip, r3
+    movs r3, r3, lsl ip
+    rsb ip, ip, #1
+    add r3, r3, r3
+    b L_0209BD54
+L_0209BD94:
+    cmp r3, #0
+    bhi L_0209BDAC
+    ldr r1, [pc, #0x14]
+    orr r1, r1, r2
+    mov r0, #0
+    bx lr
+L_0209BDAC:
+    mvn r0, #0
+    bic r1, r0, #0x80000000
+    bx lr
+    dcd 0x7FF00000
 }

@@ -67,3 +67,5 @@ every part that has it), e03..e21.py (the conversions done this round), go.py LO
 LO..HI, keeps the first file name), renum.py (renumber to p01.. by address), pair.py N M ... (merge numbered
 parts, prints compile errors), mm.py, dd.py (differing rows), protos.py LO HI (prototype variants per function),
 vall.py (re-verify all parts).
+
+Round 6 (lane g_arm9): hidden empty leaves written at 0x0203A858 (p11), 0x0203B16C (p15), 0x0203B224 and 0x0203B228 (p17); old p15|p16 (g_021469DC is now void * in p15) and p17|p18 merged, parts renumbered (56 parts). p11|p12 still blocked by g_021469D8 (struct HugeRecv * vs u8 *).

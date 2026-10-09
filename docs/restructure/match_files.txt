@@ -1,0 +1,13 @@
+arm9/iss_3ds_sys_p01.c
+ov009/dwc_rap_p01.c
+ov009/unit_0215CA8C.c
+ov011/unit_02173CB0.c
+ov021/field_3dbg.c
+ov021/field_fog.c
+ov021/trial_house.c
+ov021/unit_02198D3C.c
+ov021/unit_021A1144.c
+ov093/unit_021DA624_p01.c
+ov114/nhttp_rap_p01.c
+ov132/script_command.c
+ov214/btl_rec_sel_graphic.c

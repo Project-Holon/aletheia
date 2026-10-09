@@ -14,3 +14,9 @@ Cause: func_02041300 first parameter.
 Both views cannot be one prototype without changing bytes. The original probably declared the callee
 differently at the two sites (block-scope or implicit declaration), which is not plausible to reproduce.
 Reason kept split: c99=DIFF.
+
+## Parked (2026-10-09)
+p01 and p02 merge EXACT if func_021BBB84's `u8 bg` parameter is declared
+`volatile u8 bg` (the original reloads the stack argument at every use) together
+with the u32 prototype of func_02041300. Not applied: a volatile parameter has no
+plausible reason in the original source. Review later.

@@ -353,6 +353,70 @@ def data_key(text, td):
 INCLUDE_DIR = os.path.join(ROOT, 'src', 'matched', 'include')
 
 
+_ROW_TOKENS = ('ov230d', 'twl', 'arm9')
+
+
+def _row_region(row, region):
+    """The region whose listing knows this row's address: the row's own
+    overlay/twl token, else the file's region."""
+    for tok in row.split()[3:]:
+        if re.match(r'^(ov\d{3}|ov230d|twl)$', tok):
+            return tok
+    return region
+
+
+def fix_symbol_row(row, region, fallback=None):
+    """-> (row the parser accepts, or None, note).  A `code` kind becomes
+    thumb or arm: the listing label of the address says which, else the
+    fallback rows (same name, kind thumb|arm|data, from other members)."""
+    import match
+    parts = row.split()
+    if len(parts) >= 3 and not re.match(r'^0[xX][0-9A-Fa-f]+$', parts[1]):
+        # a mangled address (`0xfunc_0216EC84`) on an address-bearing name
+        nm = re.match(r'^(?:func|sub|ov\d+_func)_([0-9A-Fa-f]{8})$', parts[0])
+        if nm and parts[1].lower().endswith(nm.group(1).lower()):
+            parts[1] = '0x' + nm.group(1)
+            row = ' '.join(parts)
+    if len(parts) >= 3 and parts[2] == 'code':
+        isa = None
+        try:
+            addr = int(parts[1], 16)
+        except ValueError:
+            return None, 'bad address'
+        for rg in (_row_region(row, region), region, 'arm9'):
+            try:
+                v = match.scan_listing(rg.replace('ov230d', 'ov230')).get(addr)
+            except Exception:
+                v = None
+            if v is not None:
+                isa = 'thumb' if v else 'arm'
+                break
+        if isa is None:
+            # inside a function: the ISA of the label that contains the address
+            for rg in (_row_region(row, region), region, 'arm9'):
+                try:
+                    st_ = match.scan_listing(rg.replace('ov230d', 'ov230'))
+                except Exception:
+                    continue
+                before = [a for a in st_ if a < addr and st_[a] is not None]
+                if before and addr - max(before) < 0x400:
+                    isa = 'thumb' if st_[max(before)] else 'arm'
+                    break
+        if isa is None:
+            for fb in fallback or ():
+                fp = fb.split()
+                if len(fp) >= 3 and fp[2] in ('thumb', 'arm') and fp[1].lower() == parts[1].lower():
+                    isa = fp[2]
+                    break
+        if isa is None:
+            return None, 'kind code, ISA unknown'
+        parts[2] = isa
+        row = ' '.join(parts)
+    if not match.SYMBOL_RE.match(' *   ' + row):
+        return None, 'rejected by match.SYMBOL_RE'
+    return row, ''
+
+
 def merge(members, tu_name, region, start, funcs, out_dir=None, reverse=False):
     """-> (text, problems list, settings dict)."""
     problems = []
@@ -366,6 +430,7 @@ def merge(members, tu_name, region, start, funcs, out_dir=None, reverse=False):
     symbols = collections.OrderedDict()
     parsed = []
     problems_renamed = []
+    dropped_rows = []
     datas = collections.OrderedDict()
     tds = {}
     for rel in members:
@@ -388,7 +453,16 @@ def merge(members, tu_name, region, start, funcs, out_dir=None, reverse=False):
         hm = re.match(r'\s*/\*.*?\*/', raw, re.S)
         rows = re.findall(r'^\s*\*\s+(\w+\s+0x[0-9A-Fa-f]{8}\s+\w+(?:\s+\w+)*)\s*$', hm.group(0), re.M) if hm else []
         rows += re.findall(r'^ \*   (\S+\s+0x[0-9A-Fa-f]{8}\s+.*)$', raw, re.M)
-        for row in rows:                        # header rows with any indent, then the usual form anywhere
+        raw_rows = rows
+        rows = []
+        for row in raw_rows:                    # header rows with any indent, then the usual form anywhere
+            fb = [x for x in raw_rows if x.split()[0] == row.split()[0]]
+            fixed, why = fix_symbol_row(row.rstrip(), region, fb)
+            if fixed is None:
+                dropped_rows.append((rel, row.rstrip(), why))
+                continue
+            rows.append(fixed)
+        for row in rows:
             nm_ = row.split()[0]
             prev_ = symbols.get(nm_)
             if prev_ is not None and prev_.split()[1].lower() != row.split()[1].lower():
@@ -562,6 +636,8 @@ def merge(members, tu_name, region, start, funcs, out_dir=None, reverse=False):
     if out_dir:
         inc = os.path.relpath(INCLUDE_DIR, out_dir).replace(os.sep, '/') + '/'
         text = re.sub(r'(#\s*include\s*")\.\./include/', lambda m: m.group(1) + inc, text)
+    for rel_, row_, why_ in dropped_rows:
+        print('symbols row dropped (%s): %s: %s' % (why_, rel_, row_), file=sys.stderr, flush=True)
     return text, problems, settings, problems_renamed
 
 

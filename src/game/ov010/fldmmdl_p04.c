@@ -144,7 +144,7 @@ extern int func_0216D668();
 extern void func_021642F8(void *a0);
 extern unsigned int func_0216E3D8(unsigned int, unsigned int);
 extern void func_0216D594(void *p, u32 v);
-extern void func_0216E39C(int a0, int a1, int a2);
+extern void func_0216E39C(const char *ctx, u32 id, u8 *w);
 extern void func_02164304(int, u8 *);
 extern int func_0216E51C(void *a, int a1);
 extern void func_0216E544(void *obj, VecFx32 *out);
@@ -371,7 +371,7 @@ void func_0216D040(u8 *o, u16 *r, u32 b, u32 c)
     func_0216CFC4((int)o, (int)r);
     id = func_0216E3D8(b, r[1]);
     func_0216D594(o, id);
-    func_0216E39C(c, id, (int)o);
+    func_0216E39C((const char *)c, id, o);
     p = (s8 *)(o + 0xe4);
     if (id == 0xb9) {
         o[0x7c] = r[7];

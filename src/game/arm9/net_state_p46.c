@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p46.c
  * unit:     yes
- * function: func_0203D798, func_0203D7B0
- * address:  0x0203D798
+ * function: func_0203D9EC, func_0203DA20, func_0203DA4C
+ * address:  0x0203D9EC
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,65 +13,64 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021469E0  0x021469E0  data
- *   func_0203C8E8  0x0203C8E8  arm
+ *   g_021469F0  0x021469F0  data
+ *   d_021469F0   0x021469F0  data  a4
  */
 typedef unsigned char u8;
 
-struct Singleton {
-    u8    pad_00[8];
-    void *unk_08;
-};
+typedef unsigned int  u32;
 
-extern void func_0203C8E8(u8 v);
-void *func_0203D798(void);
-void func_0203D7B0(u8 a0);
-extern struct Singleton g_021469E0;
+extern void func_02034FB8(u32 v);
+extern u32 func_020307B0(void *p);
+void func_0203D9EC(void);
+void func_0203DA20(void);
+int func_0203DA4C(void);
+extern u8 g_021469F0[];
+extern u32 d_021469F0[];
 
 
 /*
- * Accessor for the +8 handle of the singleton at 0x021469E0, with the null
- * case spelled out.  The `moveq r0, #0` is a no-op on the value it guards,
- * so it is only there because the source writes the null return
- * explicitly; a plain `return g->unk_08;` loses the `cmp` and the `moveq`
- * and is eight bytes short.
- *
- * EXACT*, not EXACT: the inferred extent runs to 0x0203D7C8 because the
- * follower at 0x0203D7B0 has no label.  It is not a byte difference; the
- * follower is a pair of eight-byte ARM long-branch veneers (0x0203D7B0 ->
- * 0x0203C8E8 and 0x0203D7BC -> 0x0203C900), which save no lr and so are
- * invisible to disasm.py.  Both want seeding into
- * layout/function_starts.txt, which is the integrator's file.
+ * Tears down the net_irc_wireless singleton at 0x021469F0: releases it
+ * through func_02034FB8(0x20) and the heap release, then clears the slot.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D798.c \
- *       --func func_0203D798 --addr 0x0203D798 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D9EC.c \
+ *       --func func_0203D9EC --addr 0x0203D9EC --arm --cc 1.1p1
  */
-void *func_0203D798(void)
+void func_0203D9EC(void)
 {
-    if (g_021469E0.unk_08 == 0) {
-        return 0;
+    if (*(u32 *)g_021469F0 == 0) {
+        return;
     }
-    return g_021469E0.unk_08;
+    func_02034FB8(0x20);
+    func_020307B0(*(void **)g_021469F0);
+    *(u32 *)g_021469F0 = 0;
 }
 
 
 /*
- *           prologue is `ldr r1, [pc, #0xc]` and saves no lr, so disasm.py
- *           emitted no func_ label there (the unlabelled-leaf idiom) and
- *           evidence().labels has no entry.  sole-ref/code therefore refuses
- *           it, veneer_at() does not recognise it, and the pool word under
- *           test is the only reference to it in the image, so `literal` and
- *           `label` both discard their only witness.  All 12 bytes are
- *           correct.  It becomes EXACT the moment 0x0203C8E8 is seeded into
- *           layout/function_starts.txt (the integrator's file) or a second
- *           referrer is decompiled.
+ * Calls func_0203D9EC when the net_irc_wireless singleton exists and its
+ * +0x101 byte is clear.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/pending/func_0203D7B0.c \
- *       --func func_0203D7B0 --addr 0x0203D7B0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203DA20.c \
+ *       --func func_0203DA20 --addr 0x0203DA20 --arm --cc 1.1p1
  */
-void func_0203D7B0(u8 a0)
+void func_0203DA20(void)
 {
-    func_0203C8E8(a0);
+    u8 *p = *(u8 **)g_021469F0;
+
+    if (p == 0) {
+        return;
+    }
+    if (p[0x101] != 0) {
+        return;
+    }
+    func_0203D9EC();
+}
+
+
+int func_0203DA4C(void)
+{
+    return d_021469F0[0] != 0;
 }

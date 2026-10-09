@@ -15,7 +15,7 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_0217EF50  0xfunc_0217EF50  arm
+ *   func_0217EF50 0x0217EF50 arm
  */
 
 extern int func_0217EF50(int sock);

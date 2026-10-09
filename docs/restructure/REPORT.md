@@ -1,4 +1,4 @@
-# Restructure report (2026-10-09)
+# Restructure report (2026-10-09, after round 8)
 
 Handoff for the next session. Goal of this phase: rebuild `src/game/` as the
 original source files (one `.c` per translation unit, TU). `src/matched/` stays the
@@ -6,24 +6,61 @@ frozen per-function record. Renaming functions is a later, separate step.
 
 ## Where it stands
 
-TUs that are one file (`python tools/gamecheck.py`, file counts from `split_tus.tsv`):
+TUs that are one file (file counts from `split_tus.tsv`; estimate 1816 TUs):
 
 | Area | Whole | Percent |
 |---|---|---|
-| ARM9 | 368 / 403 | 91.3% |
-| Overlays | 1199 / 1325 | 90.5% |
-| twl | 76 / 78 | 97.4% |
+| ARM9 | 371 / 406 | 91.4% |
+| Overlays | 1217 / 1325 | 91.8% |
+| twl | 80 / 82 | 97.6% |
 | ITCM | 2 / 3 | 66.7% |
-| **Total** | **1645 / 1809** | **90.9%** |
+| **Total** | **1670 / 1816** | **92.0%** |
+
+Denominator change in round 6 (+7 TUs): arm9 `unit_02004F94.c` and `unit_02004FD4.c`
+(crt0 helpers copied to WRAM, data words around them; their own units like the
+other crt0 pieces), arm9 `textprint.c` split out of clact on the game's own
+`__FILE__` string (`layout/file_anchors.txt`), and 4 new twl files
+(`unit_0273034C.c`, `unit_02702A8C.c`, `unit_02705320.c`, `unit_02702D68.c`) made
+separate because their neighbours are still empty asm stand-ins; fold them back
+when those become real code. (Round 5 listed 164 split TUs; the recount finds 165
+at that commit: ov093 unit_021EFC1C was missed.)
 
 Checks at this commit:
-- `python tools/gameverify.py`: 2737 files, all EXACT or MATCH except
-  `arm9/unit_020911D4_p11.c` and `_p13.c` (compiler runtime pieces that are not
+- `python tools/gameverify.py`: about 2615 files, all EXACT or MATCH except
+  `arm9/unit_020911D4_p09.c` and `_p11.c` (compiler runtime pieces that are not
   contiguous in the image: every function is EXACT with `match.py one`, the TU
-  compare cannot line up; headers keep EXACT with a note).
+  compare cannot line up).
 - `python tools/gamecheck.py`: 34756 functions present, 0 missing, 0 doubled.
+- 13 files are MATCH (list: `match_files.txt`; was 120 before rounds 6 to 8).
+  Every function in them is EXACT on its own; no function is MATCH in
+  `layout/matched`. Most of the 13 reference hidden functions that are only in
+  `src/game` (not yet filed in src/matched and the layout), so no member entry
+  backs them.
 - Header `status:` equals the TU verdict everywhere (EXACT* kept where the
   per-function verdict is EXACT*).
+- `python tools/match.py selftest`: 329 cases, 0 failures.
+
+Tooling changes in rounds 6 to 8 (so merges keep their evidence):
+- `match.py` `SYMBOL_SHAPE_RE` ended in a literal backspace byte instead of ``,
+  so a malformed symbols row silently ended the block and hid every later row.
+  Fixed; 57 headers with such rows repaired (130 `code` kinds in src/game, 54 in
+  src/matched twl/twl_sdk, prose inside blocks); all 56 src/matched entries still
+  EXACT/EXACT*. A malformed row now stops the check loudly.
+- `restructure.py` validates every row it writes (`fix_symbol_row`).
+- New `tools/gamesyms.py`: lints symbols blocks and restores rows lost in a merge
+  from the members' src/matched headers (keeps a change only if the verdict is
+  equal or better). `gameverify.py` runs the lint first and counts MATCH.
+- `match.py`: a hint naming the site's own overlay is treated like no hint (the
+  own-window rule decides); it was stricter than no hint before.
+- `match.py` whole-file checks: new `member` class (`member_pass()`, run only in
+  `run_tu`). A site of a merged file that the per-function rules leave open is
+  accepted when it lies in member function F, F has an EXACT/EXACT* entry in
+  layout/matched with a src/matched source (not the file under test), F's own
+  compile resolves the same field (same offset in F, same relocation type, same
+  addend for branches) to value V, a value the file computes itself equals V, and
+  the original bytes equal the field written from V. This adapts the evidence
+  rule to the file as the unit: per-function rules only looked at the first
+  member (vendor objects, `@N` templates, `.bss`/`.data` rows). 9 selftest cases.
 
 Coverage (`python tools/worklist.py --summary`, `python tools/coveragemap.py`):
 ARM9 100% (412048 / 412048 bytes), overlays 99.9766% exact game (one open
@@ -40,7 +77,11 @@ functions written into `src/game` are not counted (see "Coverage caveats").
 | `tools/gamepromote.py` | tool | 538 one-member TU folders moved up to `<tu>.c` |
 | Round 3 | 18 | 86.5% |
 | Round 4 | 19 | 89.6% (pushed afe8c8d40) |
-| Round 5 | 19 | 90.9% (this commit) |
+| Round 5 | 19 | 90.9% (pushed 2a101b314) |
+| Round 6 (Claude Code, Sonnet, max 4 at once) | 8 | 91.1%: 178 hidden functions filled (strong gamegaps rows 190 -> 14), 4 TUs closed, 10 TUs reduced |
+| Tooling wave (symbols rows, shape regex, `member` rule) | 6 | MATCH files 120 -> 13 |
+| Round 7 | 4 | 91.5%: ov021 fldeff_splash, fldeff_namipoke, field_g3dobj, field_ground_anime, ircbattlemenu; ov010 scrcmd_musical, game_beacon_search whole |
+| Round 8 | 4 | 92.0%: ov021 pdw_postman, fld3d_ci, field_place_name; ov013 unit_021B0D18, unit_021B1498; ov095 unit_06898BFC, ov056 unit_021F36C0, ov106 irc_ranking whole |
 
 Subagents in opencode use `.opencode/agents/lane.md` (model
 `anthropic/claude-sonnet-5-5`, not committed; it is local opencode config).
@@ -69,21 +110,29 @@ Full list in `LANE_BRIEF.md` (the lane instructions, copied from the scratchpad)
 ### 1. Unmatched code (priority)
 `tools/gamegaps.py` (new) lists code bytes that no `src/game` function compiles.
 Current report: `gamegaps.tsv` / `gamegaps_summary.txt` in this folder.
-- 262 code pieces, 9224 bytes (231 strong, 31 weak; 223 hidden, 39 labeled).
-- **28 pieces (1132 bytes) are EXACT in `layout/matched` but not defined in
-  `src/game`** (for example ov021 0x02198E44, ov013 0x021B3924). gamecheck does not
-  see them. Fix first: put them back into their TUs.
-- 13 header `function:` entries with no definition (for example arm9 `mcss.c`
-  0x02014D90, 0x02015590).
+- After round 6: 12 strong hidden pieces, 1948 bytes (was 190 pieces). They are:
+  ov009 0x0217EA58/64/70, three plain ARM veneers
+  (`ldr ip,[pc]; bx ip`) that gamegaps misclassifies as leaves (veneers are not
+  work; tool fix: recognise this form); twl 0x027315E0 (312 B, draft 8 bytes off,
+  `scratchpad r6/gmisc/d19.txt`); ov039, ov070, ov095 x2 (below); ov132
+  0x021FD4D0 (40 B), ov175 0x021DFA98 (8 B), ov210 0x021C06F8 (4 B), ov230
+  0x02189954 (encrypted view).
+- Round 6 found 8 "labeled" strong rows that are K&R definitions gamegaps cannot
+  parse (ov021 0x02198E44, 0x02198E60, 0x0219A528, 0x0219BF60, 0x0219C0D4,
+  0x021A0EE4; ov010 0x0216E51C; ov016 0x021B979C is a static). Tool fix: read
+  K&R definitions and statics.
 - Largest pieces: ov039 0x021F36FC (824 B; draft 18 bytes off, only spill-slot
   order, `scratchpad r5g01/ov039_func_021F36FC_best18.c`, see the TU's MERGE.md),
   ov070 0x021B86B8 (588 B, not decoded), ov013 0x021B3084 (460 B, the last
   unmatched game function, notes in `src/pending/ov/ov013_func_021B3084.c` pass 7:
   the original needs one extra non-emitting node after `str thr`), ov230 several
-  (decrypted view, numbers not clean), ov107 0x021F1230 (320 B, blocks
-  mb_comm_sys p01|p02), twl 0x027315E0 (312 B), ov036 0x021F3980 (252 B).
-- ov095 unit_0689CB3C leaves at 0x0689CCB4 / 0x0689CCF8: right shape, the compiler
-  keeps `p->n` in a register where the original reloads it.
+  (decrypted view, numbers not clean), twl 0x027315E0 (312 B). Done in round 6:
+  ov107 0x021F1230 (320 B, mb_comm_sys now one file).
+- Parked `volatile` matches (2026-10-09, not applied: no plausible reason in the
+  original source; review later; notes in each TU's MERGE.md): ov095
+  unit_0689CB3C leaves 0x0689CCB4 / 0x0689CCF8 match only with the loop bound
+  read as `*(volatile u8 *)&p->n`; ov088 startmenu p01|p02 merges only with
+  `volatile u8 bg` on func_021BBB84.
 - **twl stand-ins** (empty `asm void f(void) {}` that report EXACT without byte
   compare): still 13 in unit_0272E9E8 (func_0272EA74, EC38, EE98, EFB0, F0BC, F368,
   F570, F740, F8A8, F9C4, FE54, FEF4, FFC8) and 4 in unit_02731718 (027323A8,
@@ -91,10 +140,18 @@ Current report: `gamegaps.tsv` / `gamegaps_summary.txt` in this folder.
   all 29 of unit_0273042C, func_02701AA0, func_02731AF0, and 3 in unit_0272E9E8
   (`src/matched/twl*`, shard `twl_sys` re-verified).
 
-### 2. TUs still split (164)
-List with piece counts: `split_tus.tsv`. Each TU folder has a `MERGE.md` with its
-blockers. Biggest: ov093 btl_server (131 parts, 114 real veneers; 16 non-veneer
-boundaries listed), arm9 net_state (58; g_021469D4/D8/DC/E0/F0 structs not
+### 2. TUs still split (146)
+List with piece counts: `split_tus.tsv` (columns: region, tu, parts, folder
+members). Each TU folder has a `MERGE.md` with its blockers. Not reached yet:
+ov021 field_effect, field_wfbc, weather_task (30), fldmmdl_blact (14), fld_trade
+(4); ov010 comm_player, event_field_proclink, eventdata_system,
+musical_dressup_sys, scrcmd_proc, script_work, symbol_map, fldmmdl; ov013
+unit_021B23E0 (Pool/N plan in MERGE.md); ov018 intrude_field, intrude_subdisp;
+ov019 union_oneself; arm9 net_state and the struct-view arm9 TUs; ov135, ov194,
+ov198, ov208, ov218, ov172 ctvt_draw, ov121 mystery_util. ov102/103/105
+unit_021B7560 were blocked by the data-witness rule only: retry with the `member`
+rule. Biggest: ov093 btl_server (131 parts, 114 real veneers; 16 non-veneer
+boundaries listed), arm9 net_state (56; g_021469D4/D8/DC/E0/F0 structs not
 started), ov009 unit_021573C4 (34), ov172 camera_system (31, strictly alternating
 ARM/Thumb: real), ov021 weather_task (32), fldmmdl_blact (24), ov009 unit_0216F014
 (23, DWCstMatchControl family needs one shared header), ov009 unit_0215FDA4 (18),
@@ -115,9 +172,15 @@ unit_02064D70 (15), clact (13). About 80 to 100 of the 164 are real boundaries
 - Invented field names everywhere (by offset); names are for the renaming phase.
 
 ### 4. Caveats and decisions to review
-- `FINAL_TODO`: lane r2_02 dropped the region word from 9 contested ov093 data
-  symbol rows to turn MATCH into EXACT. Check that this does not weaken the
-  witness rule; restore and accept MATCH if it does.
+- Resolved (2026-10-09): lane r2_02 dropped the region word from 9 contested ov093
+  data symbol rows, which turned MATCH into EXACT. This does not weaken the
+  witness rule. In `match._overlay_pool()` the site's own overlay fixes the
+  address whenever its window holds it, with or without a hint (overlays sharing a
+  window are never resident together). The "contested" refusal is only applied
+  when a hint is present (`self_hint_accepted()`). So a hint naming the site's own
+  overlay was stricter than no hint, and dropping it lets the own-window rule
+  decide. Kept as is. Possible tool fix later: treat a hint equal to the site's
+  region like no hint.
 - ov175 `unit_021DD56C/ov175_func_021DD56C.c`: EXACT in src/matched, but DIFF as a
   TU without its lang setting; left in its folder.
 - `btlv_effvm`, `field_msgbg`: now single files (renamed by gamepromote).
@@ -203,7 +266,7 @@ shared strings and data), and lanes adjusted them (1812 became 1809).
 - Evidence not used yet: alignment gaps between each file's data block, one static
   initialiser entry per file with globals, overlay edges as outer bounds.
 
-So "90.9%" means 1645 of the 1809 estimated TUs are one file.
+So "92.0%" means 1670 of the 1816 estimated TUs are one file.
 
 ## Tools
 - `tools/restructure.py` builds/merges; `tools/gamepromote.py` moves one-piece TUs

@@ -1,8 +1,8 @@
 /*
  * file:     wipe_sub_p05.c
  * unit:     yes
- * function: func_020225F0, func_020225F4, func_02022608, func_0202262C, func_02022640, func_02022670, func_020226A0, func_020226E0, func_020226FC, func_0202271C, func_02022758, func_02022790, func_020227CC, func_02022804, func_02022830, func_0202285C, func_02022888, func_020228B4, func_020228E0, func_0202290C, func_0202291C, func_02022940, func_020229A4, func_02022A44, func_02022A88, func_02022AC4, func_02022AD0, func_02022CEC, func_02022D70, func_02022D78, func_02022D88, func_02022D98, func_02022DCC
- * address:  0x020225F0
+ * function: func_02022E20, func_02022E88, func_02022EA0, func_02022EF4, func_02022F0C, func_02022F24, func_02022F34, func_02022F60, func_02023464, func_020234C0, func_0202350C, func_02023568, func_020235F0, func_0202363C, func_0202368C, func_02023768, func_020237B8, func_0202384C, func_020238B4, func_0202390C
+ * address:  0x02022E20
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,1002 +13,573 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020222CC  0x020222CC  thumb
- *   func_02030EAC  0x02030EAC  arm
- *   func_020056A0  0x020056A0  thumb
- *   func_0202223C  0x0202223C  thumb
- *   func_02022224  0x02022224  thumb
- *   func_020222A8  0x020222A8  thumb
- *   func_020238B4  0x020238B4  thumb
- *   func_0202390C  0x0202390C  thumb
- *   d_0209F570     0x0209F570  data
- *   g_020A73D0     0x020A73D0  data
- *   g_wipe_slot0   0x020A73D0  data
- *   d_0209F56C     0x0209F56C  data
- *   d_0209F574     0x0209F574  data
- *   d_0209F568     0x0209F568  data
- *   func_02023464  0x02023464  thumb
- *   func_020234C0  0x020234C0  thumb
- *   func_020235F0  0x020235F0  thumb
- *   func_0202363C  0x0202363C  thumb
- *   func_0209C0A4  0x0209C0A4  arm
- *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
- *   sub_020056A0   0x020056A0  thumb
- *   func_020307B0  0x020307B0  arm
- *   sub_020222CC  0x020222CC  thumb
- *   func_02022D88  0x02022D88  thumb
+ *   func_02023B74  0x02023B74  thumb
+ *   func_02023BFC  0x02023BFC  thumb
+ *   func_02023C3C  0x02023C3C  thumb
+ *   func_02023D18  0x02023D18  thumb
+ *   func_02023D40  0x02023D40  thumb
+ *   func_02023D60  0x02023D60  thumb
+ *   MI_CpuFill8   0x02082BCC  arm
+ *   sub_020056A0  0x020056A0  thumb
+ *   func_02022518  0x02022518  thumb
  *   MI_CpuCopy8   0x02082D44  arm
- *   func_02023CFC   0x02023CFC  thumb
- *   func_02023D18   0x02023D18  thumb
- *   func_02023D60   0x02023D60  thumb
- *   func_02023D40   0x02023D40  thumb
+ *   func_02030EAC 0x02030EAC  arm
+ *   func_02023464_File  0x020A7450  data
+ *   func_02030734       0x02030734  arm
+ *   func_02022DCC  0x02022DCC  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   func_02022940  0x02022940  thumb
+ *   func_0202291C  0x0202291C  thumb
+ *   g_dat          0x020A7450  data
+ *   func_02022D70   0x02022D70  thumb
+ *   func_02022D98  0x02022D98  thumb
+ *   func_02022AD0  0x02022AD0  thumb
+ *   func_02022568  0x02022568  thumb
+ *   _ll_mul   0x0209C054  arm
+ *   FX_Sqrt   0x0207C7B4  arm
+ *   sub_02022D88   0x02022D88  thumb
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_02023964  0x02023964  thumb
+ *   func_02023A50  0x02023A50  thumb
+ *   func_02023AAC  0x02023AAC  thumb
  */
-#include "../../matched/include/Obj11726.h"
-#include "../../matched/include/Obj15738.h"
+#include "../../matched/include/Obj04050.h"
+#include "../../matched/include/Obj00862.h"
 
-#define REG_VCOUNT  (*(volatile u16 *)0x04000006)
-#define REG_A       ((volatile u16 *)0x04000004)
-#define REG_B       ((volatile u16 *)0x04001040)
-#define REG_C       ((volatile u16 *)0x04001042)
+#define REG_VCOUNT    (*(volatile u16 *)0x04000006)
+#define REG_DISPSTAT  (*(volatile u16 *)0x04000004)
+#define REG_WININ     (*(volatile u16 *)0x04000048)
+#define REG_WINOUT    (*(volatile u16 *)0x0400004A)
+#define REG_DB_WININ  (*(volatile u16 *)0x04001048)
+#define REG_DB_WINOUT (*(volatile u16 *)0x0400104A)
+#define LEAF(REG, MASK, VAL, EFF)            \
+    if (REG_DISPSTAT & 2) {                  \
+        v = (REG & MASK) | (VAL);            \
+        REG = v | EFF;                       \
+    }
+#define SET_OUT(eng, wnd)                                        \
+    if ((eng) == 0) { LEAF(REG_WINOUT, ~0x3F, wnd, 0x20) }       \
+    else { LEAF(REG_DB_WINOUT, ~0x3F, wnd, 0x20) }
+#define SET_IN(eng, which, wnd)                                          \
+    e = (eng);                                                           \
+    if ((which) == 0) {                                                  \
+        if (e == 0) { LEAF(REG_WININ, ~0x3F, wnd, 0x20) }            \
+        else { LEAF(REG_DB_WININ, ~0x3F, wnd, 0x20) }                    \
+    } else {                                                             \
+        if (e == 0) { LEAF(REG_WININ, ~0x3F00, (wnd) << 8, 0x2000) }  \
+        else { LEAF(REG_DB_WININ, ~0x3F00, (wnd) << 8, 0x2000) }          \
+    }
+struct WipeSubElem;
+struct S_02022E20;
 struct Node;
-struct Q;
-struct Task;
-struct S;
-struct Rec;
-struct AnimStep;
-struct Obj;
-struct Struct_02023CFC;
+struct Obj_02022E20;
+struct Quad;
+struct Ctx;
+struct Par;
+struct Wipe_02022E20;
+struct Container;
+struct ctl;
+struct Desc;
+typedef unsigned int  u32;
+
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-typedef unsigned int   u32;
+struct WipeSubElem {
+    u8 buf1[0xC0];
+    u8 buf2[0xC0];
+    u32 unk;
+};
 
-typedef signed int     s32;
+struct Half {
+    u8  pad[0xC0];
+    u8  rows[0xC0];
+    u32 wnd;
+};
 
-struct Sub {
+struct S_02022E20 {
+    struct Half h[2];
+    u8 mode;
+    u8 eng;
+};
+
+struct Task_0 {
     u32   f00;
     u32   f04;
-    s32   f08;
-    u32   f0C;
+    u32   f08;
+    u32   phase;  /* 0x0c */
     u32   f10;
-    u32   f14;
-    void *f18;
-    void *f1C;
-    u32   f20;
-    u16   f24;
-    u16   f26;
-    u32   f28;
-    void *f2C;
+    void *obj;    /* 0x14 */
+    u32   f18;
+    u32   f1c;
+    u32   heap;   /* 0x20 */
 };
 
-
-struct TextObj {
-    u8  pad00[0x150];
-    u16 f150;
+struct Obj_02022E20 {
+    u8  pad00[0x30];
+    u32 f30;      /* 0x30 */
+    u8  pad34[0x10];
+    u32 f44;      /* 0x44 */
 };
 
-struct Obj_0 {
-    u8  pad00[0xC];
-    u32 unk0C;
-    u8  pad10[0x150 - 0x10];
-    u16 unk150;
+struct Task_020234C0 {
+    u32   f00;
+    u32   f04;
+    u32   f08;
+    u32   phase;   /* 0x0c */
+    u32   f10;     /* 0x10 */
+    void *obj;     /* 0x14 */
+    u32   f18;     /* 0x18 */
 };
 
-typedef void (*Task)(void *p);
-
-struct Obj_1 {
-    u8  pad00[0xC];
-    u32 unk0C;
-    u8  pad10[0x28 - 0x10];
-    u32 unk28;
-    u32 unk2C;
+struct Obj_0202350C {
+    u32 f00;
+    u8  pad04[0x0c];
+    u32 f10;       /* 0x10 */
+    u8  pad14[0x0c];
+    u32 f20;       /* 0x20 */
+    u8  pad24[0x0c];
+    u32 f30;       /* 0x30 */
+    u32 f34;
+    u32 f38;
+    u32 f3c;
+    u32 f40;
+    u32 f44;
+    u32 f48;
 };
 
-struct T {
-    u8  pad00[0xc];
-    u32 f0c;
-    u8  pad10[0x14];
-    u16 f24;
-    u8  pad26[2];
+typedef signed int     s32_0202350C;
+
+typedef enum { Z0 } E;
+
+typedef int          s32_02023568;
+
+struct Obj_02023568 {
+    s32_02023568 x;       /* 0x00 */
+    s32_02023568 y;       /* 0x04 */
+    s32_02023568 z;       /* 0x08 */
+    s32_02023568 w;       /* 0x0c */
+    u32 pad10[4];
+    u32 f20;     /* 0x20 */
+    u32 f24;
     u32 f28;
     u32 f2c;
+    u32 f30;
+    u32 f34;
+    s32_02023568 steps;   /* 0x38 */
+    s32_02023568 period;  /* 0x3c */
+    s32_02023568 tick;    /* 0x40 */
+    u32 f44;
+    u32 f48;     /* 0x48 */
 };
 
-struct G {
-    u32 f00;
-    u8  pad04[0xc];
-    u32 f10;
-    u8  pad14[0xc];
-    u32 f20;
-    u32 pad24;
-    u32 f28;
-};
+typedef signed char    s8;
 
-struct Q {
-    u8  pad[0x10];
-    u32 unk10;
-};
-
-struct Obj_02022804 {
-    u8  pad00[0xC];
-    u32 unk0C;
-    u8  pad10[0x24 - 0x10];
-    u16 unk24;
-    u8  pad26[2];
-    u32 unk28;
-    u32 unk2C;
-};
-
-struct Obj_02022830 {
-    u8  pad00[0xC];
-    u32 unk0C;
-    u8  pad10[0x24 - 0x10];
-    u16 unk24;
-    u8  pad26[2];
-    u32 unk28;
-    u32 unk2C;
-};
-
-struct Obj_0202285C {
-    u8  pad00[0xC];
-    u32 unk0C;
-    u8  pad10[0x24 - 0x10];
-    u16 unk24;
-    u8  pad26[2];
-    u32 unk28;
-    u32 unk2C;
-};
-
-struct Obj_02022888 {
-    u8  pad00[0xC];
-    u32 unk0C;
-    u8  pad10[0x24 - 0x10];
-    u16 unk24;
-    u8  pad26[2];
-    u32 unk28;
-    u32 unk2C;
-};
-
-struct Obj_020228B4 {
-    u8  pad00[0xC];
-    u32 unk0C;
-    u8  pad10[0x24 - 0x10];
-    u16 unk24;
-    u8  pad26[2];
-    u32 unk28;
-    u32 unk2C;
-};
-
-struct Obj_020228E0 {
-    u8  pad00[0xC];
-    u32 unk0C;
-    u8  pad10[0x24 - 0x10];
-    u16 unk24;
-    u8  pad26[2];
-    u32 unk28;
-    u32 unk2C;
-};
-
-typedef int           s32_0202290C;
-
-struct Quad_0202290C {
-    u32 a, b, c, d;
-};
-
-typedef int           s32_02022940;
-
-struct Quad_02022940 {
-    s32_02022940 a, b, c, d;
-};
-
-typedef signed int     s32_020229A4;
-
-struct Obj_020229A4 {
+struct S_0202350C {
     u32 f00;
     u32 f04;
     u32 f08;
-    u32 f0c;
+    u32 f0C;
     u32 f10;
-    u32 f14;
+    void *f14;
     u32 f18;
-    u32 f1c;
-    void *f20;    /* 0x20 */
+    u32 f1C;
+    u32 f20;
 };
 
-struct Task_020229A4 {
+struct Rec {
+    u8  pad0[0xc];
+    u32 mode;      /* +0xc */
+    u32 f10;       /* +0x10 */
+    void *entry;   /* +0x14 */
+};
+
+struct Entry {
+    u8  pad0[0x2c];
+    u32 f2c;       /* +0x2c */
+    u32 f30;       /* +0x30 */
+};
+
+typedef signed short s16;
+
+typedef int s32_0;
+
+typedef struct Par {
+    s16 f0;
+    s16 f2;
+    s16 f4;
+    s16 f6;
+    u8  f8;
+    u8  f9;
+    u8  fa;
+    u8  fb;
+} Par;
+
+typedef struct Ctx {
+    u32 pad0[3];
+    u32 c;
+    u32 h10;
+    u32 h14;
+    u32 h18;
+    u32 h1c;
+    u32 h20;
+    u32 h24;
+    u32 h28;
+    u32 h2c;
+    u32 h30;
+    u32 h34;
+} Ctx;
+
+typedef signed int   s32_1;
+
+struct Wipe_02022E20 {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    s32_1 f0c;          /* 0x0c  running offset */
+    u32 f10;
+    u32 f14;
+    s32_1 f18;          /* 0x18  stride */
+    s32_1 left;         /* 0x1c  countdown */
+    s32_1 frame_limit;  /* 0x20 */
+    s32_1 frame;        /* 0x24 */
+    u32 f28;          /* 0x28 */
+    u32 f2c;
+    u32 f30;
+    u32 f34;          /* 0x34 */
+};
+
+typedef signed long long s64;
+
+typedef signed int   s32;
+
+struct Wipe_0202384C {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    s32 f0c;      /* 0x0c */
+    s32 f10;      /* 0x10 */
+    s32 f14;      /* 0x14  half-height of the mirrored band */
+};
+
+struct Buf {
+    s16 pad000[0x180];
+    s16 left[0xC0];   /* 0x300 */
+    s16 right[0xC0];  /* 0x480 */
+};
+
+struct Task_020238B4 {
     u32   f00;
     u32   f04;
     u32   f08;
     u32   phase;  /* 0x0c */
     u32   f10;
-    struct Obj_020229A4 *obj;  /* 0x14 */
+    void *obj;    /* 0x14 */
     u32   f18;
     u32   f1c;
     u32   f20;    /* 0x20 */
-    u16   f24;    /* 0x24 */
 };
 
-struct Obj_02022A44 {
-    u32 pad00[8];
-    u32 f20;      /* 0x20 */
+struct Obj_0202384C {
+    u32 pad000[0xc9];
+    u32 f324;     /* 0x324 */
+    u32 f328;
+    u32 f32c;     /* 0x32c */
 };
 
-struct Task_02022A44 {
+struct Task_0202390C {
     u32   f00;
     u32   f04;
     u32   f08;
     u32   phase;  /* 0x0c */
     u32   f10;
-    struct Obj_02022A44 *obj;  /* 0x14 */
+    struct Obj_0202384C *obj;  /* 0x14 */
 };
 
-typedef int s32_02022A88;
-
-struct AnimStep {
-    s32_02022A88 steps;
-    s32_02022A88 limit;
-    s32_02022A88 counter;
-    s32_02022A88 val;
-    s32_02022A88 target_val;
-    s32_02022A88 step_delta;
-    s32_02022A88 pad18;
-    s32_02022A88 scaled_val;
-};
-
-typedef signed short   s16;
-
-typedef signed int     s32_02022AD0;
-
-struct ctl {
-    u32 pad0;
-    u32 mode;
-    u32 sel;
-};
-
-struct sched {
-    s16 x[0xc0];
-    s16 y[0xc0];
-    u8  pad[0x300];
-    u32 flag;
-};
-
-struct Obj {
-    u8 *base;
-};
-
-struct Container {
-    void *base;
-    s32 count;
-};
-
-extern void func_020222CC(u32 which, int brightness);
-extern u32 func_02030EAC(struct Node *n);
-extern void * func_020056A0(Task fn, void *arg, u32 prio);
-extern void func_0202223C(u32 a, u32 color);
-extern u32 func_02022224(void *win);
-extern void MI_CpuFill8(void *dst, u8 data, u32 size);
-extern void func_020222A8(u32 v);
-extern void func_020238B4(struct Task *t, u32 a1);
-extern u32 func_0202390C(struct Task *t);
-extern void func_02023464(struct Task *t, u8 *cfg);
-extern u32 func_020234C0(struct Task *t);
-extern void func_020235F0(struct S *p, u32 a1);
-extern u32 func_0202363C(struct Rec *r);
-extern s32_0202290C func_0209C0A4(s32_0202290C shifted, s32_0202290C c);
-extern void *func_02030734(u32 a0, u32 a1, int a2, const char *a3, u16 a4);
-extern void  func_02082BCC(void *p, u32 v, u32 n);
-extern void *sub_020056A0(void *fn, void *arg, u32 prio);
-extern u32 func_020307B0(void *p);
-extern void sub_020222CC(u32 which, int brightness);
-extern void *func_02022D88(struct Obj *obj, u32 idx);
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void func_02023CFC(struct Struct_02023CFC *table, void *val, u32 idx);
+extern void func_02023B74(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void func_02023BFC(u32 a0, u32 a1, u32 a2);
+extern void func_02023C3C(u32 x2, u32 y2, u32 x1, u32 y1, int win, int sub);
 extern void func_02023D18(void *obj, void *val, u32 f4, u32 f8, u32 fC);
-extern void func_02023D60(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_02023D40(void *obj, void *val, u32 f4, u32 f8);
-void func_020225F0(void);
-u32 func_020225F4(struct TextObj *obj, u32 value);
-u16 func_02022608(struct Obj_0 *p);
-void func_0202262C(void *obj, struct Q *q);
-void func_02022640(struct Sub *s);
-void func_02022670(struct Sub *s);
-void func_020226A0(u8 *p);
-u32 func_020226E0(struct Obj_1 *p);
-u32 func_020226FC(struct Obj_1 *p);
-void func_0202271C(struct T *p);
-void func_02022758(struct T *p);
-void func_02022790(struct T *p);
-void func_020227CC(struct T *p);
-void func_02022804(struct Obj_02022804 *p);
-void func_02022830(struct Obj_02022830 *p);
-void func_0202285C(struct Obj_0202285C *p);
-void func_02022888(struct Obj_02022888 *p);
-void func_020228B4(struct Obj_020228B4 *p);
-void func_020228E0(struct Obj_020228E0 *p);
-s32_0202290C func_0202290C(s32_0202290C a, s32_0202290C b, s32_0202290C c);
-void func_0202291C(struct Quad_0202290C *dst, struct Quad_0202290C *src);
-void func_02022940(struct Quad_02022940 *cur, struct Quad_02022940 *end, struct Quad_02022940 *step, const u8 *from, const u8 *to, s32_02022940 frames);
-void func_020229A4(struct Task_020229A4 *t, u32 dir);
-u32 func_02022A44(struct Task_02022A44 *t);
-int func_02022A88(struct AnimStep *p);
-void sub_02022AC4(void *unused, u8 *o);
-void func_02022AD0(struct ctl *ctl);
-void func_02022CEC(u32 *a0, u32 a1, u32 a2, u32 a3);
-void func_02022D70(void *a0);
-void func_02022D78(u8 *p);
-void *sub_02022D88(struct Obj *obj, u32 idx);
-void func_02022D98(void *p, struct Container *c);
-void func_02022DCC(u32 a0, void *a1, u32 a2);
-extern const u32 d_0209F570[];
-extern struct G g_020A73D0;
-extern struct G g_wipe_slot0;
-extern const u32 d_0209F56C[];
-extern const u32 d_0209F574[];
-extern const u32 d_0209F568[];
+extern void func_02023D60(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void MI_CpuFill8(void *dst, u32 value, u32 size);
+extern u32 sub_020056A0(void *callback, void *arg, u32 mask);
+extern void func_02022518(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void func_02022568(u32 a0, u32 a1, u32 a2);
+extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+extern u32 func_02030EAC(struct Node *n);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_02022DCC(u32 a0, void *a1, u32 a2);
+extern u32 func_020307B0(void *p);
+extern void func_02022940(struct Quad *cur, struct Quad *end, struct Quad *step, const u8 *from, const u8 *to, s32_0202350C frames);
+extern void func_0202291C(struct Quad *dst, struct Quad *src);
+extern void func_02022D70(void *a0);
+extern s32_0 func_0202290C(s32_0 a, s32_0 b, s32_0 c);
+extern void func_02022CEC(u32 *a0, u32 a1, u32 a2, u32 a3);
+extern void * func_020056A0(void *cb, Ctx *ctx, u32 v);
+extern void *func_02022D88(struct Obj_02022E20 *obj, u32 idx);
+extern void func_02022D98(void *p, struct Container *c);
+extern void func_02022AD0(struct ctl *ctl);
+extern s32_1 FX_Sqrt(s32_1 x);
+extern void *sub_02022D88(struct Obj_0202384C *obj, u32 idx);
+extern void  func_02082BCC(void *p, u32 v, u32 n);
+extern void func_02023964(u8 *w, struct Desc *d, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
+extern u32 func_02023A50(struct Wipe_0202384C *w);
+extern void func_02023AAC(struct Obj_0202384C *obj);
+void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8, u32 a9);
+int func_02022E88(int a0, int a1, int a2, int a3);
+void func_02022EA0(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4);
+u32 func_02022EF4(void *arg);
+void func_02022F0C(u32 a0, u8 *a1, u32 a2);
+void func_02022F24(u32 a0, u8 *a1, u32 a2);
+void func_02022F34(void *p, struct WipeSubElem *elems);
+void func_02022F60(struct S_02022E20 *p);
+void func_02023464(struct Task_0 *t, u8 *cfg);
+u32 func_020234C0(struct Task_020234C0 *t);
+void func_0202350C(struct Obj_0202350C *obj, const u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5);
+u32 func_02023568(struct Obj_02023568 *o);
+void func_020235F0(struct S_0202350C *p, u32 a1);
+u32 func_0202363C(struct Rec *r);
+void func_0202368C(Ctx *ctx, const Par *par, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7, u32 s8);
+u32 func_02023768(struct Wipe_02022E20 *w);
+void func_020237B8(s32_1 a0, s32_1 a1, s32_1 a2, s32_1 a3, s32_1 *out0, s32_1 *out1);
+void func_0202384C(struct Wipe_0202384C *w);
+void func_020238B4(struct Task_020238B4 *t, u32 a1);
+u32 func_0202390C(struct Task_0202390C *t);
+extern const char func_02023464_File[];
 
-
-
-/*
- * The do-nothing default handler the two-entry callback table in
- * func_02022458 is initialised with: a single `bx lr` plus two bytes of
- * section padding.  It has no branch reference anywhere in the image, only
- * the ABS32 pool word at 0x02022474 that takes its address, so an EXACT
- * entry here is what lets func_02022458 resolve that pool word on the
- * `matched` class.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/func_020225F0.c \
- *       --addr 0x020225F0 --thumb
- */
-void func_020225F0(void)
-{
-}
-
-
-
-
-/*
- * Sentinel resolver for the dual-screen text cluster: 0xFFFF in the caller's
- * value means "use the object's own default", which lives in the u16 at
- * +0x150, the same sentinel colour slot func_0202223C and func_02022268 read.
- * Any other value passes through untouched, which is what fixes the return
- * type as u32 rather than u16: the pass-through arm carries no truncation.
- *
- * The 0xFFFF compare constant costs a pool word rather than a movs/lsls pair
- * because it is compared, not materialised into a store.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020225F4.c \
- *       --func func_020225F4 --addr 0x020225F4 --cc 1.1p1 --thumb
- */
-u32 func_020225F4(struct TextObj *obj, u32 value)
-{
-    if (value == 0xFFFF)
-        value = obj->f150;
-    return value;
-}
-
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * func_02022608 picks one of two sub-objects at fixed offsets (0x14, 0x44)
- * of its argument depending on a mode field at +0xc, then returns a
- * halfword out of that sub-object when its own flag at +0x28 is 1, or
- * else falls back to a halfword 0x150 bytes into the *original* argument
- * (0x15 << 4), untouched by the sub-object selection.
- *
- * func_02022628 alone comes out EXACT* against `one`: its own extent runs
- * two bytes into the ordinary linker fill in front of func_0202262C, a
- * real, separately meaningful function.  Pairing the two in one
- * translation unit lets `tu` lay out both sections with that fill in
- * between, which reproduces cleanly.
- *
- * func_0202262C reads a field 0x10 bytes into its second argument and
- * forwards it, with a fixed 0, to func_020222CC (whose own second
- * argument it never reads: see src/matched/func_020222CC.c), then calls
- * func_02030EAC on the first argument.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02022608.c \
- *       --addr 0x02022608 --thumb
- */
-u16 func_02022608(struct Obj_0 *p)
-{
-    struct Sub *b;
-
-    if (p->unk0C == 1) {
-        b = (struct Sub *)((u8 *)p + 0x14);
-    } else {
-        b = (struct Sub *)((u8 *)p + 0x44);
-    }
-    if (b->f28 == 1) {
-        return b->f24;
-    }
-    return p->unk150;
-}
-
-
-
-
-void func_0202262C(void *obj, struct Q *q)
-{
-    func_020222CC(q->unk10, 0);
-    func_02030EAC(obj);
-}
-
-
-
-
-/*
- * Arms the deferred screen task for one of the two sub-objects func_0202208C
- * built, but only for a screen that is still idle: the task handle at +0x28
- * must be null, the resolved sentinel value at +0x24 must be either the
- * pass-through 0x7FFF or zero, and the second handle at +0x2C must be null
- * too.  All three rejections share one epilogue, so the guard is written as a
- * single conjunction rather than a chain of early returns; see
- * docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02022640.c \
- *       --func func_02022640 --addr 0x02022640 --cc 1.1p1 --thumb
- */
-void func_02022640(struct Sub *s)
-{
-    if (s->f28 == 0 && (s->f24 == 0x7FFF || s->f24 == 0) && s->f2C == 0)
-        func_020056A0((Task)func_0202262C, s, 1 << 10);
-}
-
-
-
-/*
- * Per-screen finaliser, the mirror of the arming path in func_02022640: it
- * runs only while the screen is in state 1, its resolved sentinel value at
- * +0x24 is the pass-through 0x7FFF or zero, and the second handle at +0x2C is
- * still null.  It then closes the screen's window through the pointer at
- * +0x10, first the flush at 0x0202223C and then the release thunk at
- * 0x02022224.
- *
- * The +0x10 field is re-read for the second call rather than kept in a
- * register, because the first call can alias it; a cached local would drop
- * the second `ldr`.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02022670.c \
- *       --func func_02022670 --addr 0x02022670 --cc 1.1p1 --thumb
- */
-void func_02022670(struct Sub *s)
-{
-    if (s->f28 == 1 && (s->f24 == 0x7FFF || s->f24 == 0) && s->f2C == 0) {
-        func_0202223C(s->f10, s->f24);
-        func_02022224((void *)s->f10);
-    }
-}
-
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * func_020226A0 is five back-to-back MI_CpuFill8 zero-fills over five
- * sub-ranges of one object (sizes 0x14, 0x30, 0x30, 0x18, 0xC0 at offsets
- * 0, 0x14, 0x44, 0x74, 0x8C); it is one of the "0x0209F5xx/0x0209F6xx"
- * cluster's neighbours and clears the object the setup functions in
- * src/matched/func_02022804.c and siblings configure.
- *
- * func_020226E0 checks a delegate pointer at +0xc, the same guard shape as
- * that cluster: when set, the call forwards to func_02022A44 and returns
- * its result; the fall-through has to be written on the guard's
- * complement (`== 0`) with the delegate call left unconditional after it,
- * or the two blocks come out in the wrong order.  The fall-through sets
- * the flag pair at +0x28 and +0x2c to (1, 1) and calls func_020229A4((struct Task_020229A4 *)p, 1).
- *
- * func_020226FC, immediately after this range, is the same shape again
- * with (0, 1) and mode 0 (src/matched/func_020226FC.c); it is kept in its
- * own file specifically so that its calls to func_020229A4 and
- * func_02022A44 stay outside this range and keep attesting them, and vice
- * versa (docs/MATCHING.md, "the label class" and "the pairwise case across
- * two files").  Bundling all three into one file drops both relocations to
- * MATCH, because each one's only other witness is then inside the same
- * compared range.
- *
- * func_020226A0 alone comes out EXACT* against `one`: its own extent runs
- * two bytes into the ordinary linker fill in front of func_020226E0, which
- * is a real, separately-matched function and not an unlabelled follower.
- * Pairing the two in one translation unit lets `tu` lay out both sections
- * with that fill in between, which reproduces cleanly.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020226A0.c \
- *       --addr 0x020226A0 --thumb
- */
-void func_020226A0(u8 *p)
-{
-    MI_CpuFill8(p, 0, 0x14);
-    MI_CpuFill8(p + 0x14, 0, 0x30);
-    MI_CpuFill8(p + 0x44, 0, 0x30);
-    MI_CpuFill8(p + 0x74, 0, 0x18);
-    MI_CpuFill8(p + 0x8C, 0, 0xC0);
-}
-
-
-
-u32 func_020226E0(struct Obj_1 *p)
-{
-    if (p->unk0C == 0) {
-        p->unk28 = 1;
-        p->unk2C = 1;
-        func_020229A4((struct Task_020229A4 *)((struct Task *)p), 1);
-        return 0;
-    }
-    return func_02022A44((struct Task_02022A44 *)((struct Task *)p));
-}
-
-
-
-/*
- * Same shape as func_020226E0 in src/matched/unit_020226A0.c, and kept in
- * its own file for the same reason: its calls to func_020229A4 and
- * func_02022A44 have to stay outside that unit's compared range to attest
- * its calls, and vice versa.  Sets the flag pair at +0x28 and +0x2c to
- * (0, 1) instead of (1, 1) and calls func_020229A4((struct Task_020229A4 *)p, 0).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020226FC.c \
- *       --func func_020226FC --addr 0x020226FC --cc 1.1p1 --thumb
- */
-u32 func_020226FC(struct Obj_1 *p)
-{
-    if (p->unk0C == 0) {
-        p->unk28 = 0;
-        p->unk2C = 1;
-        func_020229A4((struct Task_020229A4 *)((struct Task *)p), 0);
-        return 0;
-    }
-    return func_02022A44((struct Task_02022A44 *)((struct Task *)p));
-}
-
-
-
-/*
- * wipe.c (docs/families/wipe.h): the slot-0 member of the four setup steps
- * 0x0202271C/0x02022758/0x02022790/0x020227CC (template: func_02022758).
- *
- * THE LEVER (wave 18, lane ties_b; it was DIFF 9 out under 1.1p1 and 1 out
- * under every 2.0 build, docs/notes/pkt_0202271C.c.txt): the pool carries
- * 0x020A73D0 TWICE (0x02022750 for the store, 0x02022754 for the argument),
- * so two source-level names were in play. The slot store goes through
- * g_020A73D0 and the argument is a second extern, g_wipe_slot0, at the same
- * address. With one name 1.1p1 CSEs both uses into r5 (push {r3, r4, r5,
- * lr}); with two it reloads each from its own pool word under push {r4, lr}.
- * Same finding as src/matched/func_02023F98.c in the same module, whose
- * header explains why the bytes fix the number of names but not whether the
- * original had one object or two declarations of it. For the other three
- * slots the two uses differ by the slot offset, so one name suffices there.
- */
-void func_0202271C(struct T *p)
-{
-    if (p->f0c == 0) {
-        g_020A73D0.f00 = (u32)d_0209F570;
-        func_020222A8(p->f24);
-        func_020238B4((struct Task *)p, (u32)(&g_wipe_slot0));
-        p->f28 = 1;
-        p->f2c = 0;
-    } else {
-        func_0202390C((struct Task *)p);
-    }
-}
-
-
-
-/*
- * wipe.c (docs/families/wipe.h): one of the four setup steps
- * 0x0202271C/0x02022758/0x02022790/0x020227CC.  Each installs a rodata
- * word table (0x0209F568..0x0209F574, four u32 words, NOT ARM code: the
- * old headers declared them as arm functions, which is why they had no
- * witness) into one slot of the wipe state at 0x020A73D0, then hands that
- * slot to func_020238B4.  Declared as data, the table address is attested
- * sole-ref/self.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02022758.c  *       --func func_02022758 --addr 0x02022758 --thumb --cc 1.1p1
- */
-void func_02022758(struct T *p)
-{
-    if (p->f0c == 0) {
-        g_020A73D0.f10 = (u32)d_0209F56C;
-        func_020222A8(p->f24);
-        func_020238B4((struct Task *)p, (u32)(&g_020A73D0.f10));
-        p->f28 = 0;
-        p->f2c = 0;
-    } else {
-        func_0202390C((struct Task *)p);
-    }
-}
 
 
 
 
 
 /*
- * wipe.c (docs/families/wipe.h): one of the four setup steps
- * 0x0202271C/0x02022758/0x02022790/0x020227CC.  Each installs a rodata
- * word table (0x0209F568..0x0209F574, four u32 words, NOT ARM code: the
- * old headers declared them as arm functions, which is why they had no
- * witness) into one slot of the wipe state at 0x020A73D0, then hands that
- * slot to func_020238B4.  Declared as data, the table address is attested
- * sole-ref/self.
+ * The family's ten-argument setup dispatcher, called from func_0202350C
+ * with a wipe's configuration block already unpacked into registers and
+ * stack.  The last argument selects the shape: zero takes the window
+ * path (func_02023B74 / func_02023BFC / func_02023C3C) and anything else
+ * takes the blend path (func_02023D18 / func_02023D40 / func_02023D60).
  *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02022790.c  *       --func func_02022790 --addr 0x02022790 --thumb --cc 1.1p1
- */
-void func_02022790(struct T *p)
-{
-    if (p->f0c == 0) {
-        g_020A73D0.f20 = (u32)d_0209F574;
-        func_020222A8(p->f24);
-        func_020238B4((struct Task *)p, (u32)(&g_020A73D0.f20));
-        p->f28 = 1;
-        p->f2c = 0;
-    } else {
-        func_0202390C((struct Task *)p);
-    }
-}
-
-
-
-/*
- * wipe.c (docs/families/wipe.h): one of the four setup steps
- * 0x0202271C/0x02022758/0x02022790/0x020227CC.  Each installs a rodata
- * word table (0x0209F568..0x0209F574, four u32 words, NOT ARM code: the
- * old headers declared them as arm functions, which is why they had no
- * witness) into one slot of the wipe state at 0x020A73D0, then hands that
- * slot to func_020238B4.  Declared as data, the table address is attested
- * sole-ref/self.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020227CC.c  *       --func func_020227CC --addr 0x020227CC --thumb --cc 1.1p1
- */
-void func_020227CC(struct T *p)
-{
-    if (p->f0c == 0) {
-        g_020A73D0.f28 = (u32)d_0209F568;
-        func_020222A8(p->f24);
-        func_020238B4((struct Task *)p, (u32)(&g_020A73D0.f28));
-        p->f28 = 0;
-        p->f2c = 0;
-    } else {
-        func_0202390C((struct Task *)p);
-    }
-}
-
-
-
-/*
- * One of a run of near-identical setup functions on one object
- * (func_02022804, func_02022830, func_0202285C, func_02022888,
- * func_020228B4, func_020228E0, each its own file so that the sibling
- * calls to the shared helpers stay outside the compared range and keep
- * attesting them; see docs/MATCHING.md, "the label class").
- *
- * Checks a delegate pointer at +0xc: when set, the whole call forwards to
- * func_020234C0 and returns.  That arm has to be written as the
- * fall-through (the guard on the complement, `== 0`, with the delegate
- * call left unconditional after it): the mirror phrasing, guarding
- * `!= 0` with the delegate inside the guarded block, lays the blocks out
- * in the opposite order and does not reproduce.  The fall-through calls
- * func_020222A8 with the object's id field at +0x24, then func_02023464
- * with the object pointer and a second, unattested pool constant
- * (0x0209F61C, written as a plain integer literal since nothing in this
- * function's own range names it as a symbol), and finally sets the pair
- * of flag words at +0x28 (to 1) and +0x2c (to 0).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02022804.c \
- *       --func func_02022804 --addr 0x02022804 --cc 1.1p1 --thumb
- */
-void func_02022804(struct Obj_02022804 *p)
-{
-    if (p->unk0C == 0) {
-        func_020222A8(p->unk24);
-        func_02023464((struct Task *)p, (u8 *)0x0209F61C);
-        p->unk28 = 1;
-        p->unk2C = 0;
-        return;
-    }
-    func_020234C0((struct Task *)p);
-}
-
-
-
-/*
- * Same shape as src/matched/func_02022804.c; kept in its own file for the
- * same reason (the sibling calls to the shared helpers have to stay
- * outside the compared range to attest them).  Sets the flag pair to
- * (0, 0) instead of (1, 0), and stashes the constant 0x0209F628.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02022830.c \
- *       --func func_02022830 --addr 0x02022830 --cc 1.1p1 --thumb
- */
-void func_02022830(struct Obj_02022830 *p)
-{
-    if (p->unk0C == 0) {
-        func_020222A8(p->unk24);
-        func_02023464((struct Task *)p, (u8 *)0x0209F628);
-        p->unk28 = 0;
-        p->unk2C = 0;
-        return;
-    }
-    func_020234C0((struct Task *)p);
-}
-
-
-
-/*
- * Same shape as src/matched/func_02022804.c, but the helper pair is
- * func_020235F0 / func_0202363C instead of func_02023464 / func_020234C0;
- * kept in its own file for the same reason (the sibling calls to the
- * shared helpers have to stay outside the compared range to attest them).
- * Sets the flag pair to (1, 0) and stashes the constant 0x0209F6B8.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202285C.c \
- *       --func func_0202285C --addr 0x0202285C --cc 1.1p1 --thumb
- */
-void func_0202285C(struct Obj_0202285C *p)
-{
-    if (p->unk0C == 0) {
-        func_020222A8(p->unk24);
-        func_020235F0((struct S *)p, 0x0209F6B8);
-        p->unk28 = 1;
-        p->unk2C = 0;
-        return;
-    }
-    func_0202363C((struct Rec *)p);
-}
-
-
-
-/*
- * Same shape as src/matched/func_0202285C.c; kept in its own file for the
- * same reason (the sibling calls to the shared helpers have to stay
- * outside the compared range to attest them).  Sets the flag pair to
- * (0, 0) instead of (1, 0), and stashes the constant 0x0209F6C4.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02022888.c \
- *       --func func_02022888 --addr 0x02022888 --cc 1.1p1 --thumb
- */
-void func_02022888(struct Obj_02022888 *p)
-{
-    if (p->unk0C == 0) {
-        func_020222A8(p->unk24);
-        func_020235F0((struct S *)p, 0x0209F6C4);
-        p->unk28 = 0;
-        p->unk2C = 0;
-        return;
-    }
-    func_0202363C((struct Rec *)p);
-}
-
-
-
-/*
- * Same shape as src/matched/func_02022804.c; kept in its own file for the
- * same reason (the sibling calls to the shared helpers have to stay
- * outside the compared range to attest them).  Sets the flag pair to
- * (1, 0) and stashes the constant 0x0209F5EC.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020228B4.c \
- *       --func func_020228B4 --addr 0x020228B4 --cc 1.1p1 --thumb
- */
-void func_020228B4(struct Obj_020228B4 *p)
-{
-    if (p->unk0C == 0) {
-        func_020222A8(p->unk24);
-        func_02023464((struct Task *)p, (u8 *)0x0209F5EC);
-        p->unk28 = 1;
-        p->unk2C = 0;
-        return;
-    }
-    func_020234C0((struct Task *)p);
-}
-
-
-
-/*
- * Same shape as src/matched/func_020228B4.c; kept in its own file for the
- * same reason (the sibling calls to the shared helpers have to stay
- * outside the compared range to attest them).  Sets the flag pair to
- * (0, 0) instead of (1, 0), and stashes the constant 0x0209F640.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020228E0.c \
- *       --func func_020228E0 --addr 0x020228E0 --cc 1.1p1 --thumb
- */
-void func_020228E0(struct Obj_020228E0 *p)
-{
-    if (p->unk0C == 0) {
-        func_020222A8(p->unk24);
-        func_02023464((struct Task *)p, (u8 *)0x0209F640);
-        p->unk28 = 0;
-        p->unk2C = 0;
-        return;
-    }
-    func_020234C0((struct Task *)p);
-}
-
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * func_0202290C is a 16-byte pool-word-and-bx tail call
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md): it computes
- * (b - a) << 7 and forwards it with the third argument straight to
- * func_0209C0A4.  The pool word carries no Thumb bit and the branch is a
- * plain `bx` rather than `blx`, so the callee is declared `arm`; the image
- * labels it as a real function reached from 161 other call sites.
- *
- * func_0202291C is a plain four-word running-sum accumulator.  It does not
- * fold into an ldm/stm pair the way a whole-object assignment would
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md), because each field is
- * added rather than copied.
- *
- * Compiling func_0202291C on its own comes out EXACT* against `one`: its
- * own extent runs to the 2-byte linker fill in front of func_02022940,
- * which is a real function and not an unlabelled follower.  Pairing it
- * with func_0202290C in one translation unit lets `tu` lay out both
- * sections with that fill in between, which reproduces cleanly.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202290C.c \
- *       --addr 0x0202290C --thumb
- */
-s32_0202290C func_0202290C(s32_0202290C a, s32_0202290C b, s32_0202290C c)
-{
-    return func_0209C0A4((b - a) << 7, c);
-}
-
-
-
-void func_0202291C(struct Quad_0202290C *dst, struct Quad_0202290C *src)
-{
-    dst->a += src->a;
-    dst->b += src->b;
-    dst->c += src->c;
-    dst->d += src->d;
-}
-
-
-
-/*
- * wipe.c: seeds a four-channel fade.  cur = from << 7 (fixed point), end =
- * to, step = func_0202290C(from, to, frames) per channel; called from
- * func_0202350C with (obj, &obj->f20, &obj->f10, cfg, cfg + 4, frames).
- * func_0202290C returns its tail callee's value here (the unit that
- * matched it declares it void; the caller stores r0).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02022940.c  *       --func func_02022940 --addr 0x02022940 --thumb --cc 1.1p1
- */
-void func_02022940(struct Quad_02022940 *cur, struct Quad_02022940 *end, struct Quad_02022940 *step,
-                   const u8 *from, const u8 *to, s32_02022940 frames)
-{
-    cur->a = from[0] << 7;
-    cur->b = from[1] << 7;
-    cur->c = from[2] << 7;
-    cur->d = from[3] << 7;
-    end->a = to[0];
-    end->b = to[1];
-    end->c = to[2];
-    end->d = to[3];
-    step->a = func_0202290C(from[0], to[0], frames);
-    step->b = func_0202290C(from[1], to[1], frames);
-    step->c = func_0202290C(from[2], to[2], frames);
-    step->d = func_0202290C(from[3], to[3], frames);
-}
-
-
-
-/*
- * The constructor of the wipe task whose per-frame step is func_02022A44:
- * it allocates and zeroes the 0x24-byte sub-object, picks the pair of
- * start/end extents from the task's direction flag and the sentinel in
- * +0x24, fills the sub-object's eight words and registers the per-frame
- * callback sub_02022AC4 with sub_020056A0 at priority 0x80.
- *
- * The 0x7FFF in +0x24 is a "no explicit extent" sentinel: when it is
- * present the moving edge starts at 0x10 (or ends there, depending on the
- * direction flag) and the other edge starts at 0; when it is absent both
- * edges start at 0 and the moving one is biased by -0x10.  The four arms
- * are written out separately, which is what gives four `b` to the shared
- * continuation rather than a computed pair
+ * The two arms are written out in full rather than factored, which is
+ * what keeps them as two separate three-call sequences with their own
+ * epilogues rather than one tail-merged tail
  * (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md).
  *
- * Both extents reach the sub-object scaled by 128 (`lsls #7`), i.e. as
- * 24.7 fixed point, while the unscaled values stay in r7/r6 for the
- * func_0202290C call and the +0x1c store.
- *
- * The direction test is written `dir == 0` first: the image's `bne` at
- * +0x2e takes the SECOND arm, so the zero case is the fall-through and
- * therefore the source's first
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).  Written the
- * other way round every byte from +0x2e to +0x4a is wrong -- the four arm
- * bodies come out in the mirrored order and r6/r7 trade roles -- while
- * everything before and after stays identical, which is exactly the
- * signature that says polarity rather than shape.
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02022E20.c \
+ *       --func func_02022E20 --addr 0x02022E20 --cc 1.1p1 --thumb
+ */
+void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
+                   u32 a7, u32 a8, u32 a9)
+{
+    if (a9 == 0) {
+        func_02023B74(a1, 0, a3, a4);
+        func_02023BFC(a2, 0, a4);
+        func_02023C3C(a5, a6, a7, a8, a3, a4);
+    } else {
+        func_02023D18((void *)a0, (void *)a1, 0, a3, a4);
+        func_02023D40((void *)a0, (void *)a2, 0, a4);
+        func_02023D60((u8 *)a0, a5, a6, a7, a8, a3, a4);
+    }
+}
+
+
+
+
+
+int func_02022E88(int a0, int a1, int a2, int a3){ int t0, t1; if ((unsigned int)(a3) == (unsigned int)(0)) { t0 = func_02023B48((int)(a1 + 0), (int)(a2 + 0)); return t0; } else { t1 = func_02023CFC(a0, a1, a2); return t1; } }
+
+
+
+
+
+
+/*
+ * Clear 0x30c bytes of an OBJ record, stamp the two attribute words a3/a4
+ * and the mode bytes a1/a2.  a2 == 1 is the "no second slot" spelling: the
+ * word at +0x304 is left alone and the two bytes sit at +0x308/+0x309.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020229A4.c \
- *       --func func_020229A4 --addr 0x020229A4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/func_02022EA0.c \
+ *       --func func_02022EA0 --addr 0x02022EA0 --cc 1.1p1 --thumb
  */
-void func_020229A4(struct Task_020229A4 *t, u32 dir)
+void func_02022EA0(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4)
 {
-    struct Obj_020229A4 *o;
-    s32_020229A4         a;
-    s32_020229A4         b;
-
-    t->obj = (struct Obj_020229A4 *)func_02030734((u16)t->f20, 0x24, 0, (const char *)0x020A7450,
-                                         0x09AC);
-    func_02082BCC(t->obj, 0, 0x24);
-    o = t->obj;
-
-    b = 0;
-    if (dir == 0) {
-        if (t->f24 == 0x7FFF) {
-            a = 0x10;
-        } else {
-            a = b;
-            a = a - 0x10;
-        }
-    } else {
-        if (t->f24 == 0x7FFF) {
-            a = b;
-            b = 0x10;
-        } else {
-            a = b;
-            b = b - 0x10;
-        }
+    MI_CpuFill8(a0, 0, 0x30c);
+    if (a2 == 1) {
+        ((struct Obj04050 *)a0)->f180 = a3;
+        ((struct Obj04050 *)a0)->f308 = a2;
+        ((struct Obj04050 *)a0)->f309 = a1;
+        return;
     }
+    ((struct Obj04050 *)a0)->f180 = a3;
+    ((struct Obj04050 *)a0)->f304 = a4;
+    ((struct Obj04050 *)a0)->f308 = a2;
+    ((struct Obj04050 *)a0)->f309 = a1;
+}
 
-    func_020222CC(t->f10, a);
 
-    o->f00 = t->f04;
-    o->f04 = t->f08;
-    o->f08 = 0;
-    o->f0c = a << 7;
-    o->f10 = b << 7;
-    o->f14 = func_0202290C(a, b, t->f04);
-    o->f18 = t->f10;
-    o->f1c = a;
-    t->phase = t->phase + 1;
-    o->f20 = sub_020056A0((void *)sub_02022AC4, o, 0x80);
+
+
+
+
+u32 func_02022EF4(void *arg)
+{
+    return sub_020056A0(func_02022F34, arg, 0x3FF);
+}
+
+
+
+
+
+
+void func_02022F0C(u32 a0, u8 *a1, u32 a2)
+{
+    func_02022518(a0, (u32)a1, (u32)func_02022F60, a1[0x309], a2);
+}
+
+
+
+
+
+
+void func_02022F24(u32 a0, u8 *a1, u32 a2)
+{
+    func_02022568(a0, a1[0x309], a2);
+}
+
+
+
+
+
+
+void func_02022F34(void *p, struct WipeSubElem *elems)
+{
+    int i;
+
+    for (i = 0; i < 2; i++) {
+        MI_CpuCopy8(elems[i].buf2, elems[i].buf1, 0xC0);
+    }
+    func_02030EAC(p);
+}
+
+
+
+
+static inline void Apply(struct S_02022E20 *p, struct Half *h, int n)
+{
+    int v;
+    int e;
+
+    if (h->rows[n] == 0) {
+        SET_OUT(p->eng, 0x3F)
+        SET_IN(p->eng, h->wnd, 0x20)
+    } else {
+        SET_OUT(p->eng, 0x20)
+        SET_IN(p->eng, h->wnd, 0x3F)
+    }
 }
 
 
 
 /*
- * The per-frame step of a wipe task, the sibling of func_020234C0 at the
- * other end of the family: the same four-phase switch over the task's
- * +0x0c, the same sub-object slot at +0x14, and the same terminal phase 3
- * that is the only one to answer 1.  Phase 1 polls func_02022A88 and
- * advances when it answers 1; phase 2 releases the sub-object's +0x20
- * handle through func_02030EAC, frees the object itself, clears the slot
- * and advances.
+ * The per-scanline window programmer of the wipe family (1284 bytes with
+ * both literal pools; no relocations at all, every pool word is a
+ * hardware register address or a mask).  It reads VCOUNT, steps to the
+ * next line (wrapping at 0xC0) and, for one or both of the two 0x184-byte
+ * halves of the object, sets the outside-window plane mask (0x3F on a
+ * clear row, 0x20 on a set one) and then the window-0 or window-1 inside
+ * mask (chosen by the half's +0x180 word) on the MAIN engine when the
+ * byte at +0x309 is 0 and on the SUB engine otherwise.
+ *
+ * Four facts closed it (the 2026-09-21 note was 140 bytes short):
+ *  - The +0x309 arms are NOT identical: the zero arm writes the main
+ *    engine's WININ/WINOUT at 0x04000048/0x0400004A, reached as
+ *    0x04000004 + 0x44/0x46 off the already-loaded DISPSTAT address, and
+ *    the other arm the sub engine's 0x04001048/0x0400104A.  With both
+ *    arms spelled the same mwcc cross-jumps them, which was the whole
+ *    deficit.
+ *  - The +0x309 byte is read BEFORE the +0x180 word at every WININ
+ *    leaf, so the engine is bound to a local ahead of the window test.
+ *  - The second half's base is a NAMED local `h = &p->h[1]`: passed
+ *    inline, mwcc folds p + 0x184 + n + 0xC0 into one offset and the
+ *    +0x180 word into p + 0x304; the image materialises p + 0x184 once.
+ *  - The body is wrapped in `if (n < 0xC0)`, which lets the exit branch
+ *    reuse a leaf's branch island (`bge` to 0x02022FE6) instead of a
+ *    blt/b pair; and the window-1 mask is `~0x3F00` (pool word
+ *    0xFFFFC0FF), not 0xC0FF.
+ */
+void func_02022F60(struct S_02022E20 *p)
+{
+    int n;
+    struct Half *h;
+
+    n = REG_VCOUNT;
+    if (n < 0xC0) {
+        n = n + 1;
+        if (n > 0xBF)
+            n -= 0xC0;
+
+        if (p->mode == 1) {
+            Apply(p, &p->h[0], n);
+        } else {
+            Apply(p, &p->h[0], n);
+            h = &p->h[1];
+            Apply(p, h, n);
+        }
+    }
+}
+
+
+
+
+/*
+ * Starts one countdown wipe: allocates the 0x4c-byte object on the heap
+ * named by the low half of the task's +0x20 word, parks it at +0x14, hands
+ * the task's saved parameters to func_0202350C, opens the display side
+ * through func_02022E88 with mode 1 or 2 by the caller's cfg[8], and
+ * advances the task's phase.  __FILE__ is "wipe_sub.c" at 0x020A7450,
+ * __LINE__ 0xc7c.
+ *
+ * The notes carried an r4/r6 tie (o against cfg) that 3800 permuter
+ * compiles never moved.  It was not an allocation tie: the func_02022E88
+ * call is written out in BOTH arms of the cfg[8] test, with 1 and 2 as
+ * literals, and mwcc cross-jumps the two calls, leaving `movs r1,#1 / b /
+ * movs r1,#2` in front of one shared call.  A `mode` local assigned in
+ * the if/else puts the test value in r1 and swaps r4/r6 for the whole
+ * function (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md).
+ */
+void func_02023464(struct Task_0 *t, u8 *cfg)
+{
+    struct Obj_02022E20 *o;
+
+    o = func_02030734((u16)t->heap, 0x4c, 0, func_02023464_File, 0xc7c);
+    t->obj = o;
+
+    func_0202350C((struct Obj_0202350C *)o, cfg, t->f04, t->f08, t->f10, t->f18);
+
+    if (cfg[8] == 0) {
+        func_02022E88(t->f18, 1, o->f30, o->f44);
+    } else {
+        func_02022E88(t->f18, 2, o->f30, o->f44);
+    }
+
+    t->phase = t->phase + 1;
+}
+
+
+
+
+/*
+ * The per-frame step of the wipe/transition task set up at 0x02023464.
+ * The task block keeps its phase at +0x0c and the sub-object it allocated
+ * at +0x14.  Phase 1 polls func_02023568 and, once that answers 1, hands
+ * the sub-object's +0x44 field to func_02022DCC and advances; phase 2
+ * frees the sub-object (func_020307B0), clears the slot and advances;
+ * phase 3 is the terminal phase and is the only one that answers 1, which
+ * is how the caller learns the transition has finished.  Phase 0 and any
+ * other value answer 0 and do nothing.
  *
  * THE LEVER, and it is shared with func_02022A44, func_0202390C and
  * func_020234C0 (all three sat at exactly two bytes out until it was
@@ -1033,26 +604,26 @@ void func_020229A4(struct Task_020229A4 *t, u32 dir)
  * added empty case -- is the same two bytes out or worse.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022A44.c \
- *       --func func_02022A44 --addr 0x02022A44 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/func_020234C0.c \
+ *       --func func_020234C0 --addr 0x020234C0 --cc 1.1p1 --thumb
  */
-u32 func_02022A44(struct Task_02022A44 *t)
+u32 func_020234C0(struct Task_020234C0 *t)
 {
-    struct Obj_02022A44 *obj;
-    u32         ret;
+    void *obj;
+    u32   ret;
 
     ret = 0;
     obj = t->obj;
 
     switch (t->phase) {
     case 1:
-        if (func_02022A88((struct AnimStep *)obj) == 1) {
+        if (func_02023568((struct Obj_02023568 *)obj) == 1) {
+            func_02022DCC(((struct Obj00862 *)obj)->f44, (void *)t->f18, t->f10);
             t->phase = t->phase + 1;
         }
         break;
     case 2:
-        func_02030EAC((struct Node *)obj->f20);
-        func_020307B0(t->obj);
+        func_020307B0(obj);
         t->phase = t->phase + 1;
         t->obj = 0;
         ret = 1;
@@ -1070,298 +641,452 @@ u32 func_02022A44(struct Task_02022A44 *t)
 
 
 
-int func_02022A88(struct AnimStep *p)
-{
-    int ret = 0;
 
-    p->counter++;
-    if (p->counter >= p->limit) {
-        p->counter = 0;
-        if (p->steps - 1 > 0) {
-            p->steps--;
-            p->val += p->step_delta;
-        } else {
-            p->val = p->target_val;
-            ret = 1;
+/*
+ * wipe_sub.  Closed 2026-09-24 (wave 21, lane E2) from the DIFF 2 recorded
+ * in docs/notes/func_0202350C.c.txt.  Two matching levers carry it:
+ *   - the zero is an enum-typed local (docs/idioms/an-enum-typed-zero-keeps-
+ *     its-own-web-where-a-u32-zero-is-folded.md), read in image order k8, z,
+ *     kb;
+ *   - a5 is read through a volatile access placed after the f40 store and
+ *     before the f44 store.  That puts a5's load (r0, the call's first
+ *     argument) inside kb's live range, so kb can no longer take r0 and the
+ *     zero does, while the f48 store stays last.  A plain copy of a5 is
+ *     propagated back to the f48 store and does nothing (12 out).
+ */
+void func_0202350C(struct Obj_0202350C *obj, const u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5)
+{
+    u32 k8;
+    u32 kb;
+    E z;
+    u32 v5;
+    func_02022940((struct Quad *)obj, (struct Quad *)(&obj->f20), (struct Quad *)(&obj->f10), cfg, cfg + 4, a2);
+    k8 = cfg[8];
+    z = Z0;
+    kb = cfg[0x0b];
+    obj->f30 = a4;
+    obj->f40 = z;
+    v5 = *(volatile u32 *)&a5;
+    obj->f44 = kb;
+    obj->f34 = k8;
+    obj->f38 = a2;
+    obj->f3c = a3;
+    obj->f48 = v5;
+    func_02022E20(v5, cfg[9], cfg[0x0a], cfg[8], a4, cfg[0], cfg[1],
+                  cfg[2], cfg[3], obj->f44);
+}
+
+
+
+
+/*
+ * One tick of the wipe object.  +0x40 is a frame counter compared against
+ * the step length at +0x3c: until it reaches the step, nothing happens
+ * and the answer is 0.  On a step boundary the counter resets and the
+ * remaining-step count at +0x38 is decremented; while steps remain the
+ * interpolator at +0x10 is advanced (func_0202291C) and the current
+ * position is pushed to func_02023D60 with each of the three 1/128
+ * fixed-point coordinates at +0x00, +0x04, +0x08 rounded toward zero
+ * (`(v + (v >> 6 >> 25)) >> 7`, the compiler's signed /128), plus the
+ * 1/128 scalar at +0x0c.  When the last step is used up the object jumps
+ * straight to its final values (+0x2c, +0x20, +0x24, +0x28) and answers
+ * 1, which is what func_020234C0 waits for.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02023568.c \
+ *       --func func_02023568 --addr 0x02023568 --cc 1.1p1 --thumb
+ */
+u32 func_02023568(struct Obj_02023568 *o)
+{
+    s32_02023568 n;
+
+    n = o->tick + 1;
+    o->tick = n;
+    if (n >= o->period) {
+        o->tick = 0;
+        n = o->steps - 1;
+        if (n > 0) {
+            o->steps = n;
+            func_0202291C((struct Quad *)o, (struct Quad *)((char *)o + 0x10));
+            goto step;
         }
 
-        p->scaled_val = p->val / 128;
+        func_02023D60((u8 *)o->f48, o->f20, o->f24, o->f28, o->f2c, o->f34,
+                      o->f30);
+        return 1;
+
+    step:
+        func_02023D60((u8 *)o->f48, o->x / 128, o->y / 128, o->z / 128,
+                      o->w / 128, o->f34, o->f30);
+    }
+
+    return 0;
+}
+
+
+
+
+
+/*
+ * cap: the call at +0036 to func_0202368C (0x0202368C) is the only reference
+ *      to that address outside its own body, and it is inside this range, so
+ *      the `label` class refuses it.  All 76 bytes and the other relocation
+ *      site (func_02030734) reproduce exactly.  Promotes to EXACT the moment
+ *      func_0202368C has its own manifest entry.
+ */
+void func_020235F0(struct S_0202350C *p, u32 a1)
+{
+    p->f14 = func_02030734((u16)p->f20, 0x38, 0, (const char *)0x020A7450, 0x0D63);
+    func_0202368C(p->f14, (const struct Par *)a1, p->f04, p->f08, p->f10, p->f18, p->f1C, p->f20);
+    p->f0C = p->f0C + 1;
+}
+
+
+
+
+/*
+ *           reproduces (verified with match.py one), the sole unresolved
+ *           relocation is the THM_CALL to func_02023768 ((struct Wipe_02022E20 *)(0202363C..0202368C
+ *           has no outside witness for it)). func_02023768 itself is a real
+ *           DIFF near miss (see docs/notes/func_02023768.c.txt), not an
+ *           EXACT/MATCH file, so it cannot supply a "matched" witness and
+ *           the two cannot be folded into one tu unit yet.
+ *
+ * Dispatch on the +0xc mode word of a record: mode 1 closes the record's
+ * +0x14 entry (via func_02023768) and, once it reports the entry now empty,
+ * frees the pair at entry+0x2c/entry+0x30 through func_02022DCC (with the
+ * record's own +0x10 as the third argument) and bumps +0xc, returning 0;
+ * mode 2 tears the +0x14 entry down through func_02022D70/func_020307B0,
+ * clears +0x14, bumps +0xc and falls into the same "return 1" tail as mode
+ * 3 (mode 3 alone has no other side effect); anything else, and mode 1
+ * without the entry becoming empty, returns 0.
+ */
+u32 func_0202363C(struct Rec *r)
+{
+    void *entry = r->entry;
+    u32 result = 0;
+
+    switch (r->mode) {
+    case 1:
+        if (func_02023768((struct Wipe_02022E20 *)entry) == 1) {
+            struct Entry *e = (struct Entry *)entry;
+            func_02022DCC(e->f2c, (void *)e->f30, r->f10);
+            r->mode = r->mode + 1;
+        }
+        break;
+    case 2:
+        func_02022D70(entry);
+        func_020307B0(r->entry);
+        r->mode = r->mode + 1;
+        r->entry = 0;
+        result = 1;
+        break;
+    case 3:
+        result = 1;
+        break;
+    default:
+        break;
+    }
+
+    return result;
+}
+
+
+
+
+void func_0202368C(Ctx *ctx, const Par *par, u32 a2, u32 a3,
+                   u32 s5, u32 s6, u32 s7, u32 s8)
+{
+    u32 t;
+    s16 *base;
+    u32 off;
+    s32_0 w;
+    s32_0 h;
+
+    t = func_0202290C(par->f0, par->f2, a2);
+    func_02022CEC((u32 *)ctx, par->f8, s5, s8);
+    ctx->c = par->f0 << 7;
+    ctx->h30 = s6;
+    ctx->h10 = par->f4;
+    ctx->h14 = par->f6;
+    ctx->h18 = t;
+    ctx->h1c = a2;
+    ctx->h20 = a3;
+    ctx->h24 = 0;
+    ctx->h34 = s7;
+    ctx->h28 = s8;
+    ctx->h2c = par->fb;
+    func_0202384C((struct Wipe_0202384C *)((struct Wipe_02022E20 *)ctx));
+    off = 0x3ff;
+    func_020056A0(func_02022D98, ctx, off);
+    base = func_02022D88((struct Obj_02022E20 *)ctx, 0);
+    w = *(s16 *)((char *)base + (off - 0xff));
+    off += 0x81;
+    h = *(s16 *)((char *)base + off);
+    func_02022E20(s6, par->f9, par->fa, par->f8,
+                  s5, w, 0, h, 0xc0, ctx->h2c);
+    if (par->f8 == 0) {
+        func_02022E88(s6, 1, s5, ctx->h2c);
+    } else {
+        func_02022E88(s6, 2, s5, ctx->h2c);
+    }
+    func_02022518(ctx->h34, (u32)ctx, (u32)func_02022AD0, s5, s8);
+}
+
+
+
+
+
+/*
+ * The per-frame poll of the wipe object built at 0x02023464, and the near
+ * twin of func_02023A50 at the other end of the family: tick the frame
+ * counter at +0x24 against the limit at +0x20, and on expiry step the
+ * countdown at +0x1c.  A countdown still above zero advances the running
+ * offset at +0x0c by the stride at +0x18, redraws through func_0202384C
+ * and re-arms the callback func_02022D98 at priority 0x3FF; a countdown
+ * that has reached zero finishes through func_02022568 and is the only
+ * path that answers 1.
+ *
+ * The countdown is decremented into a LOCAL and only stored back on the
+ * arm that keeps going: `n = w->left - 1; if (n > 0) { w->left = n; ... }`.
+ * Written as a compound `w->left -= 1` followed by a test of the field the
+ * store lands before the branch and the `ldr`/`subs`/`cmp` triple at
+ * +0x1c..+0x22 becomes four instructions
+ * (docs/idioms/compound-assignment-rereads-the-field-plain-assignment-reuses-the-cached-load.md).
+ *
+ * Like func_02023A50 this has exactly two exits sharing one `movs r0, #0;
+ * pop {r4, pc}` tail, which is what the single trailing `return 0` after
+ * the whole nest buys; a `return 0` in each arm duplicates the epilogue
+ * (docs/idioms/initialise-the-result-before-the-input-or-every-arm-duplicates-the-return.md).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02023768.c \
+ *       --func func_02023768 --addr 0x02023768 --cc 1.1p1 --thumb
+ */
+u32 func_02023768(struct Wipe_02022E20 *w)
+{
+    s32_1 f;
+    s32_1 n;
+
+    f = w->frame + 1;
+    w->frame = f;
+    if (f >= w->frame_limit) {
+        w->frame = 0;
+        n = w->left - 1;
+        if (n > 0) {
+            w->left = n;
+            w->f0c = w->f0c + w->f18;
+            func_0202384C((struct Wipe_0202384C *)w);
+            sub_020056A0((void *)func_02022D98, w, 0x3FF);
+        } else {
+            func_02022568(w->f34, w->f08, w->f28);
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+
+
+
+/*
+ * Compiled to 146 bytes; the listing's inferred 148-byte extent (to
+ * 0x0202384C, the next labelled function) runs 2 bytes past what the
+ * compiler actually emits here, never a byte difference: EXACT*.
+ *
+ * Fixed-point vertical-band test: a0/128 (signed division, the classic
+ * sign-spread rounding-toward-zero idiom) is a limit compared against the
+ * absolute difference of two row indices a2/a3. If the row distance
+ * reaches or exceeds the limit, both outputs are zeroed and the function
+ * returns immediately (void; the original never sets a return value on
+ * either path). If the row distance is inside the limit, the function
+ * computes
+ * sqrt(round(limit'^2) - round(dist'^2)) where limit' = limit<<12 and
+ * dist' = |a3-a2|<<12, each square taken in 64 bit through the compiler's
+ * signed multiply helper _ll_mul (contract r0:r1 * r2:r3 -> r0:r1, see
+ * docs/idioms/consecutive-ll-udiv-calls-are-one-chained-64-bit-expression.md)
+ * and each rounded by +0x800 before its own >>12 splice. FX_Sqrt of the
+ * difference gives a radius r (already >>12'd back to a plain s32 by the
+ * asrs after the call); *out0 = a1 - r (clamped to 0) and
+ * *out1 = *out0 + 2*r (clamped to 0xff).
+ */
+void func_020237B8(s32_1 a0, s32_1 a1, s32_1 a2, s32_1 a3, s32_1 *out0, s32_1 *out1)
+{
+    s32_1 limit = a0 / 128;
+    s32_1 dist = a3 - a2;
+    s32_1 r;
+
+    if (dist < 0) {
+        dist = -dist;
+    }
+
+    if (dist >= limit) {
+        *out0 = 0;
+        *out1 = 0;
+        return;
+    }
+
+    {
+        s64 sq_limit = (s64)(limit << 12) * (s64)(limit << 12);
+        s64 sq_dist  = (s64)(dist  << 12) * (s64)(dist  << 12);
+        s32_1 t0 = (s32_1)((sq_limit + 0x800) >> 12);
+        s32_1 t1 = (s32_1)((sq_dist  + 0x800) >> 12);
+
+        r = FX_Sqrt(t0 - t1) >> 12;
+    }
+
+    *out0 = a1 - r;
+    if (*out0 < 0) {
+        *out0 = 0;
+    }
+    *out1 = *out0 + r * 2;
+    if (*out1 > 0xff) {
+        *out1 = 0xff;
+    }
+}
+
+
+
+/*
+ * Rebuilds the wipe's per-scanline window table, one row for each of the
+ * screen's 0xC0 lines.  sub_02022D88 hands back the buffer whose two s16
+ * arrays live at +0x300 (left edge) and +0x480 (right edge).  Inside the
+ * band (f14, 2*f14] the pair is mirrored from row 2*f14 - y; everywhere
+ * else it is computed through func_020237B8.
+ *
+ * Two facts closed it (the notes stood at 98 bytes against 104):
+ *  - func_020237B8's THIRD argument is w->f14, the value still live in r2
+ *    from the band test, not 0.  That was the "re-load" the notes chased.
+ *  - The guard is an if / else-if / else chain with the call written out
+ *    in BOTH outer arms; mwcc cross-jumps the two copies, leaving the
+ *    `bgt` over a `b` at +0x16 and hoisting &l into r7
+ *    (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md).
+ *
+ * EXACT* only because the 102-byte body is followed by two bytes of
+ * alignment padding before func_020238B4.
+ */
+void func_0202384C(struct Wipe_0202384C *w)
+{
+    struct Buf *b;
+    s32 y;
+    s32 l;
+    s32 r;
+
+    y = 0;
+    b = sub_02022D88((struct Obj_0202384C *)w, 0);
+
+    do {
+        if (y <= w->f14) {
+            func_020237B8(w->f0c, w->f10, w->f14, y, (s32_1 *)&l, (s32_1 *)&r);
+        } else if (y <= w->f14 * 2) {
+            l = b->left[w->f14 * 2 - y];
+            r = b->right[w->f14 * 2 - y];
+        } else {
+            func_020237B8(w->f0c, w->f10, w->f14, y, (s32_1 *)&l, (s32_1 *)&r);
+        }
+        b->left[y] = (s16)l;
+        b->right[y] = (s16)r;
+        y = y + 1;
+    } while (y < 0xC0);
+}
+
+
+
+/*
+ * The constructor of the wipe task whose per-frame step is func_0202390C:
+ * it allocates the 0x334-byte sub-object from the task's own heap id,
+ * zeroes it, hands the task's five parameter words to func_02023964 and
+ * advances the phase.  The sibling of func_02023464 (which builds the
+ * 0x4c-byte object at the other end of the family) and of func_020235F0.
+ *
+ * 0x334 is past every Thumb immediate, and it is needed TWICE (the
+ * allocation size and the memset length), so it is materialised once into
+ * a callee-saved register (movs #0xcd / lsls #2) and reused rather than
+ * spelled at each site; writing it as a literal at both sites costs a pool
+ * word.  That is what makes r6 live across the first call.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020238B4.c \
+ *       --func func_020238B4 --addr 0x020238B4 --cc 1.1p1 --thumb
+ */
+void func_020238B4(struct Task_020238B4 *t, u32 a1)
+{
+    t->obj = func_02030734((u16)t->f20, 0x334, 0, (const char *)0x020A7450, 0x1354);
+    func_02082BCC(t->obj, 0, 0x334);
+    func_02023964(t->obj, (struct Desc *)a1, t->f04, t->f08, t->f10, t->f18, t->f1c,
+                  t->f20);
+    t->phase = t->phase + 1;
+}
+
+
+
+/*
+ * The per-frame step of a wipe task, the third of the family's four
+ * identical phase machines (func_02022A44, func_020234C0, this one and
+ * func_020238B4): the same switch over the task's +0x0c, the same
+ * sub-object slot at +0x14, the same terminal phase 3.
+ *
+ * The two far fields at +0x324 and +0x32c are past every Thumb immediate
+ * reach, so both are addressed with a register offset built once
+ * (movs #0xc9 / lsls #2 = 0x324) and then bumped by 8 for the second
+ * (docs/idioms/thumb-immediate-reach-costs-an-adds.md); reading them as
+ * two separate far offsets would cost a second pool word.
+ *
+ * THE LEVER, and it is shared with func_02022A44, func_0202390C and
+ * func_020234C0 (all three sat at exactly two bytes out until it was
+ * found; func_0202363C in src/matched had it right all along and is where
+ * it was read from).  Phase 2 assigns the result variable 1 as well,
+ * immediately before its `break`:
+ *
+ *     case 2:  ... t->obj = 0; ret = 1; break;
+ *     case 3:  ret = 1; break;
+ *
+ * The assignment is semantically dead -- the caller re-polls and phase 3
+ * answers 1 on the next frame anyway -- but it is what makes phase 2's
+ * `break` compile to a branch onto phase 3's own `movs r4, #1` instead of
+ * onto the shared tail: the compiler cross-jumps the two identical
+ * assignments and phase 2's exit lands on the surviving copy.  Written
+ * without it the function is right in every other byte and the one branch
+ * displacement is two too large.  Nothing else reaches it: 131 single
+ * mutations and 3000 annealing compiles of tools/permuter.py left the
+ * residue untouched (it is a cross-jumping decision, not an allocation
+ * one), and every other switch spelling tried -- goto into phase 3, a
+ * reordered case set, default before case 3, an if/else-if chain, an
+ * added empty case -- is the same two bytes out or worse.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202390C.c \
+ *       --func func_0202390C --addr 0x0202390C --cc 1.1p1 --thumb
+ */
+u32 func_0202390C(struct Task_0202390C *t)
+{
+    struct Obj_0202384C *obj;
+    u32         ret;
+
+    ret = 0;
+    obj = t->obj;
+
+    switch (t->phase) {
+    case 1:
+        if (func_02023A50((struct Wipe_0202384C *)obj) == 1) {
+            func_02022DCC(obj->f324, (void *)obj->f32c, t->f10);
+            t->phase = t->phase + 1;
+        }
+        break;
+    case 2:
+        func_02023AAC((struct Obj_0202384C *)obj);
+        func_020307B0(t->obj);
+        t->phase = t->phase + 1;
+        t->obj = 0;
+        ret = 1;
+        break;
+    case 3:
+        ret = 1;
+        break;
+    default:
+        break;
     }
 
     return ret;
-}
-
-
-
-/*
- * Re-verified 2026-09-23: the MATCH park had turned DIFF (one byte) under
- * the new extents because its header named the callee 0x020202CC.  The
- * pool word at 0x02022ACC is 0x020222CD: the callee is 0x020222CC
- * (src/matched/func_020222CC.c, labelled with sixteen outside branches),
- * so the old "unlabelled leaf, sole reference" blocker was a digit slip.
- * With the address corrected the site resolves `label` and the file is
- * EXACT.
- *
- * An unlabelled leaf forwarder: it drops its own first argument and calls
- * sub_020222CC with the two pointer fields at +0x18 and +0x1c of its
- * second.  The ordinary tail-call form, a pool word and a `bx`
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02022AC4.c \
- *       --func sub_02022AC4 --addr 0x02022AC4 --cc 1.1p1 --thumb
- */
-void sub_02022AC4(void *unused, u8 *o)
-{
-    sub_020222CC((u32)(((struct Obj11726 *)o)->f18), (int)(((struct Obj11726 *)o)->f1C));
-}
-
-
-
-/*
- * The four pool words at 0x02022CDC are 0x04000006, 0x04000004,
- * 0x04001040 and 0x04001042: I/O register addresses, written as cast
- * constants, not relocations.
- *
- * The 8-byte residue docs/notes/func_02022AD0.c.txt records at +0x00CC
- * is closed by ONE statement order: block two must read ctl->sel BEFORE
- * its three array reads, exactly as blocks one and three do.  With
- * sel read last (the note's C) the 0x180 constant is hoisted one slot
- * early and the y[] address lands in r0 instead of r1; with sel first
- * the block is byte-identical to its two neighbours.
- */
-void func_02022AD0(struct ctl *ctl)
-{
-    struct sched *p;
-    s32_02022AD0 line;
-    s32_02022AD0 next;
-    s32_02022AD0 x;
-    s32_02022AD0 y;
-    u32 flag;
-    u32 sel;
-
-    line = REG_VCOUNT;
-    if (line >= 0xc0) {
-        return;
-    }
-    next = line + 1;
-    if (next > 0xbf) {
-        next -= 0xc0;
-    }
-
-    if (ctl->mode == 1) {
-        p = func_02022D88((struct Obj *)ctl, 0);
-        sel = ctl->sel;
-        y = p->y[next];
-        x = p->x[next];
-        flag = p->flag;
-        if (flag == 0) {
-            if (sel == 0) {
-                if ((REG_A[0] & 2) != 0) {
-                    REG_A[0x1e] = ((x << 8) & 0xff00) | (u32)(u8)y;
-                    REG_A[0x20] = 0xc0;
-                }
-            } else {
-                if ((REG_A[0] & 2) != 0) {
-                    REG_B[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
-                    REG_B[2] = 0xc0;
-                }
-            }
-        } else {
-            if (sel == 0) {
-                if ((REG_A[0] & 2) != 0) {
-                    REG_A[0x1f] = ((x << 8) & 0xff00) | (u32)(u8)y;
-                    REG_A[0x21] = 0xc0;
-                }
-            } else {
-                if ((REG_A[0] & 2) != 0) {
-                    REG_C[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
-                    REG_C[2] = 0xc0;
-                }
-            }
-        }
-        return;
-    }
-
-    p = func_02022D88((struct Obj *)ctl, 0);
-    sel = ctl->sel;
-    y = p->y[next];
-    x = p->x[next];
-    flag = p->flag;
-    if (flag == 0) {
-        if (sel == 0) {
-            if ((REG_A[0] & 2) != 0) {
-                REG_A[0x1e] = ((x << 8) & 0xff00) | (u32)(u8)y;
-                REG_A[0x20] = 0xc0;
-            }
-        } else {
-            if ((REG_A[0] & 2) != 0) {
-                REG_B[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
-                REG_B[2] = 0xc0;
-            }
-        }
-    } else {
-        if (sel == 0) {
-            if ((REG_A[0] & 2) != 0) {
-                REG_A[0x1f] = ((x << 8) & 0xff00) | (u32)(u8)y;
-                REG_A[0x21] = 0xc0;
-            }
-        } else {
-            if ((REG_A[0] & 2) != 0) {
-                REG_C[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
-                REG_C[2] = 0xc0;
-            }
-        }
-    }
-
-    p = func_02022D88((struct Obj *)ctl, 1);
-    sel = ctl->sel;
-    y = p->y[next];
-    x = p->x[next];
-    flag = p->flag;
-    if (flag == 0) {
-        if (sel == 0) {
-            if ((REG_A[0] & 2) != 0) {
-                REG_A[0x1e] = ((x << 8) & 0xff00) | (u32)(u8)y;
-                REG_A[0x20] = 0xc0;
-            }
-        } else {
-            if ((REG_A[0] & 2) != 0) {
-                REG_B[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
-                REG_B[2] = 0xc0;
-            }
-        }
-    } else {
-        if (sel == 0) {
-            if ((REG_A[0] & 2) != 0) {
-                REG_A[0x1f] = ((x << 8) & 0xff00) | (u32)(u8)y;
-                REG_A[0x21] = 0xc0;
-            }
-        } else {
-            if ((REG_A[0] & 2) != 0) {
-                REG_C[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
-                REG_C[2] = 0xc0;
-            }
-        }
-    }
-}
-
-
-
-/*
- * Allocate the working buffer for one of the three background planes and
- * stamp its descriptor word: the two small planes share the 0x604-byte
- * buffer (tag 0xa9b, mode word 1, the plane's row limit written at +0x600)
- * while the third takes the 0xc08-byte buffer (tag 0xaa3, mode word 2) and
- * zeroes +0x600 at a 0x604 stride.  a1 outside 0..2 does nothing.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02022CEC.c \
- *       --func func_02022CEC --addr 0x02022CEC --cc 1.1p1 --thumb
- */
-void func_02022CEC(u32 *a0, u32 a1, u32 a2, u32 a3)
-{
-    int i;
-    u8 *p;
-
-    switch (a1) {
-    case 0:
-    case 1:
-        p = func_02030734((u16)a3, 0x604, 0, (const char *)0x020A7450, 0xA9B);
-        a0[1] = 1;
-        a0[0] = (u32)p;
-        a0[2] = a2;
-        ((struct Obj15738 *)p)->f600 = a1;
-        break;
-    case 2:
-        p = func_02030734((u16)a3, 0xC08, 0, (const char *)0x020A7450, 0xAA3);
-        a0[0] = (u32)p;
-        a0[1] = 2;
-        a0[2] = a2;
-        for (i = 0; i < 2; i++) {
-            *(u32 *)(a0[0] + 0x600 + i * 0x604) = i;
-        }
-        break;
-    }
-}
-
-
-
-/*
- * Blocked: 02022D78 (thumb, from header) has no witness outside 02022D70..02022D78. Every concrete byte reproduces.
- * closed:   blocker func_020294C0.c is now a manifest entry (matched class)
- */
-void func_02022D70(void *a0)
-{
-    func_02022D78(a0);
-}
-
-
-
-/*
- * closed:   blocker func_02029488.c is now a manifest entry (matched class)
- *
- * Releases the object the node's first word points at and clears the slot.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_02022D78.c \
- *       --func func_02022D78 --addr 0x02022D78 --thumb --cc 1.1p1
- */
-void func_02022D78(u8 *p)
-{
-    func_020307B0(*(void **)p);
-    *(u32 *)p = 0;
-}
-
-
-
-
-/*
- * Index into a flat array whose base pointer is the first field of
- * `obj`, with a fixed 0x604-byte stride.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02022D88.c \
- *       --func sub_02022D88 --addr 0x02022D88 --cc 1.1p1 --thumb
- */
-void *sub_02022D88(struct Obj *obj, u32 idx)
-{
-    return obj->base + idx * 0x604;
-}
-
-
-
-void func_02022D98(void *p, struct Container *c)
-{
-    s32 i;
-
-    for (i = 0; i < c->count; i++) {
-        u8 *ptr = (u8 *)sub_02022D88((struct Obj *)c, i);
-        MI_CpuCopy8(ptr + 0x300, ptr, 0x300);
-    }
-    func_02030EAC(p);
-}
-
-
-
-/*
- * Open one sprite/OBJ descriptor: a0 == 0 is the "close" spelling (one call
- * with mode 0 and no attribute writes), anything else opens with mode 1, sets
- * the 0x3f field, clears two zero slots through the six-argument entry and
- * finally stamps the 0x20 field.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02022DCC.c \
- *       --func func_02022DCC --addr 0x02022DCC --cc 1.1p1 --thumb
- */
-void func_02022DCC(u32 a0, void *a1, u32 a2)
-{
-    if (a0 == 0) {
-        func_02023CFC(a1, (void *)0, a2);
-        return;
-    }
-    func_02023CFC(a1, (void *)1, a2);
-    func_02023D18(a1, (void *)0x3f, 0, 0, a2);
-    func_02023D60(a1, 0, 0, 0, 0, 0, a2);
-    func_02023D40(a1, (void *)0x20, 0, a2);
 }

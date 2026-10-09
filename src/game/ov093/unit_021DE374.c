@@ -1,6 +1,6 @@
 /*
  * file:     unit_021DE374.c
- * function: func_021DE374
+ * function: func_021DE374, func_021DE3C8
  * address:  0x021DE374
  * packet:   pkt_ov093_021DE374
  * region:   ov093
@@ -8,9 +8,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
+ *   d_021F156C     0x021F156C  data   ov093  a4
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021DCFF8  0x021DCFF8  thumb  ov093
  *   func_021D7704  0x021D7704  thumb  ov093
@@ -37,4 +38,14 @@ void func_021DE374(int a, int b, int c)
         v = 100 - func_021DCFF8(a, 2);
         func_021D7704(0x35, (int)(v > 0 ? (float)(v << 12) + 0.5f : (float)(v << 12) - 0.5f) / 100);
     }
+}
+
+
+extern int d_021F156C[];
+int *func_021DE3C8(int *p);
+
+int *func_021DE3C8(int *p)
+{
+    *p = 1;
+    return d_021F156C;
 }

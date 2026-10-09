@@ -1,7 +1,7 @@
 /*
  * file:     unit_021903B0_p01.c
  * unit:     yes
- * function: func_021903B0, func_021905A4, func_02190650
+ * function: func_021903B0, func_021905A4, func_02190650, func_021906E0
  * address:  0x021903B0
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -30,6 +30,9 @@
  *   g_021A52EC     0x021A52EC  data
  *   g_021A531C     0x021A531C  data
  *   func_020923B0  0x020923B0  arm
+ *   func_0219327C  0x0219327C  arm  ov009
+ *   func_0217F21C  0x0217F21C  arm  ov009
+ *   g_021A5344     0x021A5344  data ov009
  */
 struct GPIOperation_s;
 typedef struct GPIBuffer_021903B0 {
@@ -99,6 +102,27 @@ typedef struct {
 
 typedef unsigned int   u32;
 
+typedef struct {
+    char *buffer;
+    int size;
+    int len;
+    int pos;
+} GPIBuffer;
+
+typedef struct {
+    int type;
+    int sock;
+    GPIBuffer inputBuffer;
+    GPIBuffer outputBuffer;
+    char nick[0x1f];
+    char uniquenick[0x59];
+    char email[0x33];
+    char firstname[0x1f];
+    char lastname[0x86];
+    int icquin;
+    int skip;
+} GPISearchData;
+
 extern void *func_0217EAB0(unsigned long size);
 extern void func_02193734(int *p, int b);
 extern int func_0217EB18(int pf, int type, int protocol);
@@ -112,15 +136,20 @@ extern unsigned int func_0217F264(void);
 extern void *func_020923B0(void *p, int c, u32 n);
 extern int func_0218E114(void *a, int b, int c, void **pp, int d, int e, int f);
 extern int func_02186E9C(void *a, int x);
+extern void func_0219327C(char *p, int b, int n);
+extern char *func_0217F21C(char *s);
 int func_021903B0(void **connection, GPIOperation *operation);
 int func_021905A4(int connection, GPISearchData_021905A4 **out, int type);
 int func_02190650(void *a, int a1, int a2, int a3, int a4);
+int func_021906E0(int *connection, char *nick, char *uniquenick, char *email, char *firstname, char *lastname, int icquin, int skip, int blocking, int callback, int param);
 extern char g_021A5280[];
 extern char g_021A5290[];
 extern char g_021A52B8[];
 extern char g_021A5240[];
 extern char g_021A52EC[];
 extern char g_021A531C[];
+extern char g_021A5344[];
+
 
 
 /*
@@ -186,6 +215,7 @@ int func_021903B0(void **connection, GPIOperation *operation)
 }
 
 
+
 /*
  * gpiCreateSearchData-alike: allocate a 0x1a0-byte GPISearchData, clear it,
  * default the socket to -1 and the type to the caller's, hand the caller a
@@ -223,6 +253,7 @@ int func_021905A4(int connection, GPISearchData_021905A4 **out, int type)
 }
 
 
+
 /*
  * Bump the +0x238 counter of the object at *a, run the three-stage request
  * with a local out-parameter, and stop at the first stage that reports an
@@ -250,5 +281,60 @@ int func_02190650(void *a, int a1, int a2, int a3, int a4)
         if (r != 0)
             return r;
     }
+    return 0;
+}
+
+
+int func_021906E0(int *connection, char *nick, char *uniquenick, char *email,
+                  char *firstname, char *lastname, int icquin, int skip,
+                  int blocking, int callback, int param)
+{
+    GPISearchData *data;
+    int result;
+
+    if ((nick == 0) || (*nick == 0))
+        if ((email == 0) || (*email == 0))
+            if ((firstname == 0) || (*firstname == 0))
+                if ((lastname == 0) || (*lastname == 0))
+                    if (icquin == 0)
+                        if ((uniquenick == 0) || (*uniquenick == 0)) {
+                            func_02193734(connection, (int)g_021A5344);
+                            return 2;
+                        }
+
+    result = func_021905A4((int)connection, (GPISearchData_021905A4 * *)&data, 1);
+    if (result != 0)
+        return result;
+
+    if (nick == 0)
+        data->nick[0] = 0;
+    else
+        func_0219327C(data->nick, (int)nick, 0x1f);
+    if (uniquenick == 0)
+        data->uniquenick[0] = 0;
+    else
+        func_0219327C(data->uniquenick, (int)uniquenick, 0x15);
+    if (email == 0)
+        data->email[0] = 0;
+    else
+        func_0219327C(data->email, (int)email, 0x33);
+    func_0217F21C(data->email);
+    if (firstname == 0)
+        data->firstname[0] = 0;
+    else
+        func_0219327C(data->firstname, (int)firstname, 0x1f);
+    if (lastname == 0)
+        data->lastname[0] = 0;
+    else
+        func_0219327C(data->lastname, (int)lastname, 0x1f);
+
+    data->icquin = icquin;
+    if (skip < 0)
+        skip = 0;
+    data->skip = skip;
+
+    result = func_02190650(connection, (int)data, blocking, callback, param);
+    if (result != 0)
+        return result;
     return 0;
 }

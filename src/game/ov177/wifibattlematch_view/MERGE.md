@@ -14,3 +14,11 @@ Open boundaries:
   p02 declares func_021E88B0(S *, int, u8, int, int, int) (only the third argument is narrowed in the original), while the
   definition in p03 takes (const Desc *, u8, u8, u8, u8, u16) and its body casts x, y and width to u8 explicitly. Next: try
   (const Desc *, u8 x, u8 y, int width, int height, int heap) with the body casts kept, and make v in func_021E888C u8.
+
+Round 6 (lane s_mid2), p02|p03 findings:
+- S_021E888C in p02 is the same object as Desc in p03 (f1c is Desc.count at 0x1c): use Desc in func_021E888C and the merge compiles
+  after `(const char *)d_021E8DD4` at the func_02030734 call.
+- Making func_021E888C take `u16 a` (wide caller lever) removes the heap narrowing at the call to func_021E88B0 (definition keeps u16 heap).
+- Left: the original caller passes height (v, an int) with no narrowing while the callee reads height as a byte from the stack
+  (`add r0,sp,#0x68; ldrb`). With u8 height the caller adds lsls/lsrs; with int height the callee loses the ldrb. The two views cannot
+  both be built from one prototype: probably a real boundary or an implicit call (mwcc rejects the implicit form here).

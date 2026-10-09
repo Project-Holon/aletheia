@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02088610  0x02088610  code twl
+ *   func_02088610  0x02088610  arm twl
  */
 
 typedef unsigned int u32;

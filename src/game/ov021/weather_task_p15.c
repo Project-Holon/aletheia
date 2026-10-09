@@ -1,8 +1,8 @@
 /*
  * file:     weather_task_p15.c
  * unit:     yes
- * function: func_021A4AA8, func_021A4B00
- * address:  0x021A4AA8
+ * function: func_021A5408, func_021A5458
+ * address:  0x021A5408
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,74 +13,73 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021A572C  0x021A572C  thumb  ov021
  *   func_0216D5F8  0x0216D5F8  thumb  ov010
  *   func_0216D4B4  0x0216D4B4  thumb  ov010
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_021A4994  0x021A4994  thumb  ov021
- *   func_021A491C  0x021A491C  thumb  ov021
+ *   func_0216D5E0  0x0216D5E0  thumb  ov010
+ *   func_0216D674  0x0216D674  thumb  ov010
+ *   func_021A3964  0x021A3964  thumb  ov021
  *   func_021A3960  0x021A3960  thumb  ov021
- *   func_021A4B54  0x021A4B54  thumb  ov021
- *   func_021A4B98  0x021A4B98  thumb  ov021
- *   func_021A4C1C  0x021A4C1C  thumb  ov021
- *   func_021A4C50  0x021A4C50  thumb  ov021
+ *   func_0216D7DC  0x0216D7DC  thumb  ov010
+ *   func_021A5318  0x021A5318  thumb  ov021
+ *   func_021AB0F0  0x021AB0F0  thumb  ov021
+ *   func_021AB348  0x021AB348  thumb  ov021
  */
-#include "../../matched/include/Obj02084.h"
-#include "../../matched/include/Obj12738.h"
+#include "../../matched/include/Obj09570.h"
+#include "../../matched/include/Obj19803.h"
 
-typedef unsigned char  u8;
+typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-typedef unsigned int   u32;
+typedef unsigned int u32;
 
-extern u16 func_0216D5F8(void *p);
+extern void *func_021A572C(u8 *p);
+extern u32 func_0216D5F8(void);
 extern void *func_0216D4B4(char *p);
-extern int func_0216D3CC(int a0);
-extern int func_021A4994(u8 *a, void *b, u8 *c);
-extern int func_021A491C(u32, u32, u32);
-extern void *func_021A3960(unsigned char *p);
-extern int func_021A4B54(u8 *, void *, u32);
-extern int func_021A4B98(u8 *, void *, u32);
-extern int func_021A4C1C(int a, int b, u8 *c);
-extern int func_021A4C50(u8 *, void *, u32);
-int ov021_func_021A4AA8(u32 a, u32 b, u8 *c);
-int ov021_func_021A4B00(u8 *a, u32 b);
+extern void func_0216D5E0(int a0, int a1);
+extern void func_0216D674(void *p, u16 v);
+extern void func_021A3964(u8 *p, u32 v);
+void *func_021A3960(unsigned char *p);
+u32 func_0216D7DC(void *p);
+int func_021A5318(u32 *p, u32 m);
+u16 func_021AB0F0(u32 attr);
+int func_021AB348(u32 id);
+int func_021A5408(u8 *a);
+int func_021A5458(u32 *p);
 
 
-int ov021_func_021A4AA8(u32 a, u32 b, u8 *c)
+/*
+ * Addresses are Black-image addresses.
+ */
+int func_021A5408(u8 *a)
 {
-    u32 r = func_0216D5F8((void *)b);
-    if (((struct Obj02084 *)c)->f8 != 9 && ((struct Obj02084 *)c)->f8 != r) {
-        func_0216D4B4((char *)b);
-        return func_021A4994((u8 *)a, (void *)b, (u8 *)((u32)c));
-    }
-    if (func_0216D3CC(b) == 0) {
+    u32 x;
+    u32 y;
+    switch (((struct Obj09570 *)a)->f0) {
+    case 0:
+        break;
+    case 1:
         return 0;
+    case 2:
+    case 3:
+        x = (u32)func_021A572C(a);
+        y = func_0216D5F8();
+        func_0216D4B4((char *)x);
+        func_0216D5E0(x, y);
+        func_0216D674((void *)x, 0);
+        func_021A3964((u8 *)(*(u32 *)&((struct Obj09570 *)a)->fC), 0);
+        break;
     }
-    if (((struct Obj02084 *)c)->f8 == 9) {
-        return func_021A491C(a, b, (u32)c);
-    }
-    return func_021A4994((u8 *)a, (void *)b, (u8 *)((u32)c));
+    return 1;
 }
 
 
-int ov021_func_021A4B00(u8 *a, u32 b)
+int func_021A5458(u32 *p)
 {
-    void *r = func_021A3960(((struct Obj12738 *)a)->fC);
-    int ret = 0;
-    switch (((struct Obj12738 *)a)->f0) {
-    case 0:
-        ret = func_021A4B54(a, r, b);
-        break;
-    case 1:
-        ret = func_021A4B98(a, r, b);
-        break;
-    case 2:
-        ret = func_021A4C1C((int)a, (int)r, (u8 *)b);
-        break;
-    case 3:
-        ret = func_021A4C50(a, r, b);
-        break;
-    }
-    return ret;
+    int x = func_0216D7DC(func_021A3960(*(unsigned char * *)&((struct Obj19803 *)p)->fC));
+
+    if (func_021A5318(p, 2) == 0 && func_021AB348(func_021AB0F0(x)) == 1)
+        return 1;
+    return 0;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     delivery_beacon.c
  * unit:     yes
- * function: func_0215766C, func_021576A8, func_021576AC, func_021576B8, func_021576C4, func_021576CC, func_021576D0, func_02157700, func_02157724, func_02157760, func_02157818, func_02157870, func_0215788C, func_021578A0, func_021578F0, func_02157910, func_02157928, func_02157938
+ * function: func_0215766C, func_021576A8, func_021576AC, func_021576B8, func_021576C4, func_021576CC, func_021576D0, func_02157700, func_02157724, func_02157760, func_02157818, func_02157870, func_0215788C, func_021578A0, func_021578F0, func_02157910, func_02157928, func_02157938, func_02157948
  * address:  0x0215766C
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -344,3 +344,10 @@ a0 = 0;
     a0 = (void *)func_0203CEAC((int)a0);
 loc_02157944:
     return (int)a0;}
+
+
+typedef struct { u8 pad00[0x670]; u16 f670; } Dress_02157948;
+void func_02157948(Dress_02157948 *d)
+{
+    d->f670 = 1;
+}

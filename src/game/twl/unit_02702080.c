@@ -8,16 +8,16 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02087A04  0x02087A04  code twl a2
+ *   func_02087A04 0x02087A04 arm twl a2
  *   data_04004202  0x04004202  data twl a2
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_0209C0A4  0x0209C0A4  code twl a2
+ *   func_0209C0A4 0x0209C0A4 arm twl a2
  */
 typedef unsigned int u32;
 

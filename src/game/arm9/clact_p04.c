@@ -8,17 +8,17 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ *   func_02065CE4  0x02065CE4  104 bytes  -- OPEN (pkt_02065CE4), 4 bytes
+ *   func_02065D4C  0x02065D4C  104 bytes  -- OPEN (pkt_02065D4C), twin of
+ *   func_02066080  0x02066080  220 bytes  -- OPEN (pkt_02065D4C), unattempted
  * symbols:
  *   func_02067AB8  0x02067AB8  arm
  *   func_0204B658  0x0204B658  arm
  *   func_02067B78  0x02067B78  arm
- *   func_02065CE4  0x02065CE4  104 bytes  -- OPEN (pkt_02065CE4), 4 bytes
- *   func_02065D4C  0x02065D4C  104 bytes  -- OPEN (pkt_02065D4C), twin of
- *   func_02066080  0x02066080  220 bytes  -- OPEN (pkt_02065D4C), unattempted
  *   func_020663D0  0x020663D0  arm
  *   func_020664CC  0x020664CC  arm
  *   func_02066620  0x02066620  arm

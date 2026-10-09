@@ -12,7 +12,7 @@
  * symbols:
  *   data_02733FC8  0x02733FC8  data twl a2
  *   data_02732FC8  0x02732FC8  data twl a2
- *   func_027019B4  0x027019B4  code twl a2
+ *   func_027019B4  0x027019B4  arm twl a2
  */
 
 typedef unsigned int u32;

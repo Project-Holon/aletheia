@@ -12,3 +12,10 @@ Each boundary below is a real file boundary for now.
   and needs only r3,r4. A break/result-variable form, void*/int* out, inline getter and do-while forms were tried: no change.
 - unit_0689CB3C_p02.c | unit_0689CB3C_p03.c: 16 bytes at 0x0689CDBC: linker veneer (bx pc; ldr ip,[pc]; bx ip; .word). Real boundary.
 - unit_0689CB3C_p03.c | unit_0689CB3C_p04.c: 48 bytes at 0x0689CE28: three linker veneers. Real boundary.
+
+## Parked (2026-10-09)
+Hidden functions func_0689CCB4 and func_0689CCF8 (loops over p->n, then p->a/b/c)
+match EXACT only when the loop bound is read as `*(volatile u8 *)&p->n` (the
+original reloads p->n every iteration). With them p01 and p02 merge EXACT. Not
+applied: the volatile cast has no plausible reason in the original source.
+Drafts: session scratchpad r8/w8c (lane w8c report). Review later.

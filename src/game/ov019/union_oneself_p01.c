@@ -1,7 +1,7 @@
 /*
  * file:     union_oneself_p01.c
  * unit:     yes
- * function: func_0217BD9C, func_0217BE44, func_0217BE64, func_0217C03C, func_0217C04C, func_0217C074, func_0217C1F0, func_0217C200, func_0217C2AC, func_0217C444, func_0217C450, func_0217C518, func_0217C5A8
+ * function: func_0217BD9C, func_0217BE44, func_0217BE64, func_0217C03C, func_0217C04C, func_0217C074, func_0217C1F0, func_0217C200, func_0217C2AC, func_0217C444, func_0217C450, func_0217C518, func_0217C5A8, func_0217C888
  * address:  0x0217BD9C
  * region:   ov019
  * compiler: dsi/1.1p1
@@ -812,4 +812,10 @@ int func_0217C5A8(Ctx *ctx, Obj_0217C5A8 *obj, u8 *a2, u8 *state)
         return 1;
     }
     return 0;
+}
+
+
+int func_0217C888(void)
+{
+    return 1;
 }

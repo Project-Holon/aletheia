@@ -1,20 +1,12 @@
-# unit_02187010 (ov009)
+# unit_02187010 (ov009): 5 parts left
 
-Merge lane ov_lane004: tools/greedy merge with type policies (rename, first, last; both function orders) left 5 parts.
+Round 6 (s_ov009a): greedy merge rerun; adjacent parts joined where they now verify. Every part verifies on its own.
+Blocker: GPIBuffer, GPIPeerOp, GPIBuddyStatus and GPICallback are declared per part; one canonical GPI block by offset (shared with unit_0218E3B0, unit_0218F9F8, unit_021903B0).
 
-Parts, in address order:
+Parts:
 
 - `unit_02187010_p01.c`
 - `unit_02187010_p02.c`
 - `unit_02187010_p03.c`
 - `unit_02187010_p04.c`
 - `unit_02187010_p05.c`
-
-Boundaries that did not merge (first compiler error, from the last attempt):
-
-- before `ov009_func_02187D60.c`: {'c99': "CCERR: line 135: undefined identifier 'GPIBuffer' | line 160: undefined identifier 'GPIProfileList' | line 186: identifier 'GPIBuffer' redeclared", 'no
-- before `unit_02187010_p02.c`: {'c99': "CCERR: line 139: struct/union/enum/class tag 'GPICallback' redefined | line 142: identifier 'GPICallback' redeclared | line 142: was declared as: 'stru
-- before `ov009_func_021890E0.c`: {'c99': "CCERR: line 87: undefined identifier 'GPIPeerOp' | line 103: identifier 'GPIPeerOp' redeclared | line 103: was declared as: 'int'", 'nolang': "CCERR: l
-- before `ov009_func_02189300.c`: {'c99': "CCERR: line 33: undefined identifier 'GPIBuddyStatus' | line 34: undefined identifier 'GPIBuddyStatusInfo' | line 49: identifier 'GPIBuddyStatus' redec
-
-To merge: give each named struct, global and prototype one declaration (check field offsets agree), then re-run the verify.

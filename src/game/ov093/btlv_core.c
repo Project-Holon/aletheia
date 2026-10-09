@@ -219,7 +219,7 @@ void func_021E8744(int u, void *a, int b, int d);
 void func_021E8798(int u, void *a, int b, int d);
 void func_021E8804(int u, void *a, int b, int d);
 void func_021E8860(int n);
-void func_021E8878(int a, int b, int c);
+void func_021E8878(int a, int b, int c, int d);
 int func_021E889C(int a, int b, int c);
 void func_021E88CC(void);
 void func_021E88F8(void);
@@ -410,7 +410,7 @@ void func_021E8860(int n)
 
 
 
-void func_021E8878(int a, int b, int c)
+void func_021E8878(int a, int b, int c, int d)
 {
     if (func_021B9A24((u8)func_021D775C(2), c) != 0)
         func_021D76BC(0x51, 1);

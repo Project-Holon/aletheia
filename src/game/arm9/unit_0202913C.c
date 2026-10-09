@@ -1,7 +1,7 @@
 /*
  * file:     unit_0202913C.c
  * unit:     yes
- * function: func_0202913C, func_02029154
+ * function: func_0202913C, func_02029154, func_0202916C, func_02029170, func_02029174, func_02029178, func_0202917C, func_02029180, func_02029184, func_02029188
  * address:  0x0202913C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -48,4 +48,60 @@ void func_02029154(void *obj)
         sub_02029344(obj, 12);
         break;
     }
+}
+
+
+void func_0202916C(void);
+
+void func_0202916C(void)
+{
+}
+
+
+void func_02029170(void);
+
+void func_02029170(void)
+{
+}
+
+
+void func_02029174(void);
+
+void func_02029174(void)
+{
+}
+
+
+void func_02029178(void);
+
+void func_02029178(void)
+{
+}
+
+
+void func_0202917C(void);
+
+void func_0202917C(void)
+{
+}
+
+
+void func_02029180(void);
+
+void func_02029180(void)
+{
+}
+
+
+void func_02029184(void);
+
+void func_02029184(void)
+{
+}
+
+
+void func_02029188(void);
+
+void func_02029188(void)
+{
 }

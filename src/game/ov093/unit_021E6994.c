@@ -1,6 +1,6 @@
 /*
  * file:     unit_021E6994.c
- * function: func_021E6994
+ * function: func_021E6994, func_021E69DC
  * address:  0x021E6994
  * packet:   pkt_ov093_021E6994
  * region:   ov093
@@ -11,6 +11,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   d_021F2734     0x021F2734  data   ov093  a4
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
@@ -49,4 +50,14 @@ void func_021E6994(int x, void *a, int c)
         func_021E8BD0((union U *)q, 1);
         func_021C88C8(a, p);
     }
+}
+
+
+extern int d_021F2734[];
+int *func_021E69DC(int *p);
+
+int *func_021E69DC(int *p)
+{
+    *p = 1;
+    return d_021F2734;
 }

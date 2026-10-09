@@ -1,84 +1,113 @@
 /*
  * file:     unit_02180410_p10.c
  * unit:     yes
- * function: gsUdpEngineThink, gsUdpEngineShutdown, gsUdpEngineGetLocalPort
- * address:  0x021814EC
+ * function: func_021815C8
+ * address:  0x021815C8
+ * packet:   pkt_ov009_021815C8
  * region:   ov009
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * sdk:      gsUdpEngineAddMsgHandler (libdwcgscommon.TWL.HYB.a(gsudpengine.o))
  *
  * symbols:
- *   gsUdpEngineGetEngine             0x02180404 arm
- *   gsDebugFormat                    0x0217d254 arm
- *   gt2Think                         0x02195af0 arm
- *   d_021A3B9C                       0x021a3b9c data
- *   gt2CloseSocket                   0x02195ad8 arm
- *   ArrayFree                        0x021841b0 arm
+ *   func_02180404                  0x02180404  arm ov009
+ *   func_0217D254                  0x0217D254  arm ov009
+ *   func_02184144                  0x02184144  arm ov009
+ *   func_02184234                  0x02184234  arm ov009
+ *   g_021A3B9C                     0x021A3B9C  data
+ *   g_021A3CA0                     0x021A3CA0  data
+ *   g_021A3CC4                     0x021A3CC4  data
+ *   g_021A3B7C                     0x021A3B7C  data
  */
-struct GSUdpEngineObject {
-    void *field0;             /* +0x00 */
-    void *field4;             /* +0x04 */
-    void *field8;             /* +0x08 */
-    int   fieldC;             /* +0x0c */
-    char  pad10[0x38 - 0x10];
-    unsigned short field38;   /* +0x38 */
-};
 
-extern struct GSUdpEngineObject *gsUdpEngineGetEngine(void);
-extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel,
-                          char *theTokenStr);
-extern void gt2Think(void *socket);
-extern void gt2CloseSocket(void *socket);
-extern void ArrayFree(void *array);
-int gsUdpEngineThink(void);
-int gsUdpEngineShutdown(void);
-unsigned short gsUdpEngineGetLocalPort(void);
-extern char d_021A3B9C[];
+typedef struct GSUdpRemotePeer {
+    unsigned int mAddr;
+    unsigned short mPort;
+    void *mConnection;
+} GSUdpRemotePeer;
+typedef struct GSUdpMsgHandler {
+    unsigned char mInitialMsg[16];
+    unsigned char mHeader[16];
+    void *mPendingConnections;
+    void (*mClosed)(unsigned int, unsigned short, int, void *);
+    void (*mReceived)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *);
+    void (*mConnected)(unsigned int, unsigned short, int, int, void *);
+    void (*mPingReply)(unsigned int, unsigned short, unsigned int, void *);
+    void (*mNetworkError)(int, void *);
+    void *mUserData;
+} GSUdpMsgHandler;
+typedef struct GSUdpEngineObject {
+    void *mSocket;
+    void *mRemotePeers;
+    void *mMsgHandlers;
+    int mInitialized;
+    void (*mAppConnected)(unsigned int, unsigned short, int, int, void *);
+    void (*mAppClosed)(unsigned int, unsigned short, int, void *);
+    void (*mAppPingReply)(unsigned int, unsigned short, unsigned int, void *);
+    void (*mAppRecvData)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *);
+    void (*mAppConnAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *);
+    void (*mAppNetworkError)(int, void *);
+    int (*mAppUnknownMessage)(unsigned int, unsigned short, unsigned char *, unsigned int, void *);
+    void *mAppUserData;
+    int mAppPendingConnections;
+    unsigned int mLocalAddr;
+    unsigned short mLocalPort;
+} GSUdpEngineObject;
 
+typedef struct { char c[16]; } GSChar16;
 
+extern void *func_02180404(void);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
+extern void func_02184234(void *array, void *newElem);
+extern char g_021A3B9C[];
+extern char g_021A3CA0[];
+extern char g_021A3CC4[];
+extern char g_021A3B7C[];
 
-int gsUdpEngineThink(void)
+int func_021815C8(char *theInitMsg, char *theHeader,
+                  void (*theMsgHandlerError)(int, void *),
+                  void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *),
+                  void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *),
+                  void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *),
+                  void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *),
+                  void *theUserData)
 {
-    struct GSUdpEngineObject *aUdp = gsUdpEngineGetEngine();
+    GSUdpMsgHandler aMsgHandler;
+    GSUdpEngineObject *aUdp;
 
-    if (aUdp->fieldC == 0) {
-        gsDebugFormat(0xc, 0, 0xf, d_021A3B9C);
+    aUdp = func_02180404();
+    if (!aUdp->mInitialized) {
+        func_0217D254(12, 0, 15, g_021A3B9C);
         return 3;
     }
-    gt2Think(aUdp->field0);
-    return 0;
-}
-
-
-
-int gsUdpEngineShutdown(void)
-{
-    struct GSUdpEngineObject *aUdp = gsUdpEngineGetEngine();
-
-    if (aUdp->fieldC == 0) {
-        gsDebugFormat(0xc, 0, 0xf, d_021A3B9C);
-        return 3;
+    if (theInitMsg[0] == 0) {
+        func_0217D254(12, 0, 15, g_021A3CA0);
+        return 10;
     }
-    gt2CloseSocket(aUdp->field0);
-    ArrayFree(aUdp->field8);
-    ArrayFree(aUdp->field4);
-    aUdp->fieldC = 0;
-    return 0;
-}
-
-
-unsigned short gsUdpEngineGetLocalPort(void)
-{
-    struct GSUdpEngineObject *aUdp = gsUdpEngineGetEngine();
-
-    if (aUdp->fieldC == 0) {
-        gsDebugFormat(0xc, 0, 1, d_021A3B9C);
-        return 0;
+    if (theHeader[0] == 0) {
+        func_0217D254(12, 0, 15, g_021A3CC4);
+        return 10;
     }
-    return aUdp->field38;
+
+    aMsgHandler.mClosed = theMsgHandlerClosed;
+    aMsgHandler.mConnected = theMsgHandlerConnected;
+    aMsgHandler.mPingReply = theMsgHandlerPing;
+    aMsgHandler.mReceived = theMsgHandlerRecv;
+    aMsgHandler.mNetworkError = theMsgHandlerError;
+    *(GSChar16 *)aMsgHandler.mInitialMsg = *(GSChar16 *)theInitMsg;
+    *(GSChar16 *)aMsgHandler.mHeader = *(GSChar16 *)theHeader;
+
+    aMsgHandler.mPendingConnections = func_02184144(4, 1, 0);
+    if (aMsgHandler.mPendingConnections == 0) {
+        func_0217D254(12, (char *)2, 1, g_021A3B7C);
+        return 1;
+    }
+    aMsgHandler.mUserData = theUserData;
+    func_02184234(aUdp->mMsgHandlers, &aMsgHandler);
+    return 0;
 }

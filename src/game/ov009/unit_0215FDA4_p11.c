@@ -1,8 +1,8 @@
 /*
  * file:     unit_0215FDA4_p11.c
  * unit:     yes
- * function: func_021619CC, func_02161BE8, func_02161C54, func_02161C80
- * address:  0x021619CC
+ * function: func_02161F98, func_02162128, func_02162248, func_021622C0
+ * address:  0x02161F98
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,287 +13,286 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   CPSi_md5_init    0x021633F0  arm  ov009
- *   CPSi_md5_calc    0x02163438  arm  ov009
- *   MI_CpuFill8      0x02082BCC  arm
- *   CPSi_md5_result  0x021634F0  arm  ov009
- *   CPSi_sha1_init   0x02163C9C  arm  ov009
- *   CPSi_sha1_calc   0x02163CF0  arm  ov009
- *   CPSi_sha1_result 0x02163DA8  arm  ov009
- *   CPSi_rc4_crypt   0x02163EB8  arm  ov009
- *   add1_be8         0x02161748  arm  ov009
- *   func_0215AE18  0x0215AE18  arm  ov009
- *   func_02082D44  0x02082D44  arm
- *   func_0215AF14  0x0215AF14  arm  ov009
- *   make_plaintext           0x02161784  arm  ov009
- *   client_hello             0x02160EE0  arm  ov009
- *   rcv_client_key_exchange  0x02161480  arm  ov009
- *   rcv_server_hello         0x02160C9C  arm  ov009
- *   rcv_certificate          0x02160A7C  arm  ov009
- *   rcv_finished             0x02161678  arm  ov009
- *   CPSiFree                 0x021A82B0  data
+ *   CPSi_TcpReadRaw       0x0215AE18  arm
+ *   CPSi_SocConsumeRaw    0x0215AF14  arm
+ *   tcp_read_raw_nbytes   0x02161BE8  arm
+ *   client_hello_v2       0x02160E1C  arm
+ *   update_digest         0x02161C54  arm
+ *   parse_record_in_buf   0x02161C80  arm
+ *   CPSiAlloc             0x021A8280  data
+ *   CPSiFree              0x021A82B0  data
+ *   func_02162248  0x02162248  arm  ov009
+ *   func_02163C9C  0x02163C9C  arm  ov009
+ *   func_02087988  0x02087988  arm
+ *   func_02163CF0  0x02163CF0  arm  ov009
+ *   func_02163E10  0x02163E10  arm  ov009
+ *   func_0208799C  0x0208799C  arm
+ *   g_021AA648  0x021AA648  data
+ *   g_021A82E4  0x021A82E4  data
+ *   g_021AA650  0x021AA650  data
+ *   CPSi_sha1_init         0x02163c9c  arm
+ *   OS_DisableInterrupts   0x02087988  arm
+ *   CPSi_sha1_calc         0x02163cf0  arm
+ *   CPSi_sha1_result       0x02163da8  arm
+ *   OS_RestoreInterrupts   0x0208799c  arm
+ *   pool                   0x021aa650  data  a4
+ *   pool_initialized       0x021aa648  data
+ *   MI_CpuFill8    0x02082BCC  arm
+ *   MI_CpuCopy8    0x02082D44  arm
+ *   func_021614BC  0x021614BC  arm  ov009
+ *   func_02161598  0x02161598  arm  ov009
+ *   func_02161C54  0x02161C54  arm  ov009
+ *   func_021619CC  0x021619CC  arm  ov009
+ *   func_0215B198  0x0215B198  arm  ov009
+ *   g_021A8280     0x021A8280  data ov009
+ *   g_021A82B0     0x021A82B0  data ov009
  */
-struct _CPSSslConnection;
-struct CPSSoc;
 struct _CPSSoc;
-typedef struct CPSMd5Ctx CPSMd5Ctx;
-
-typedef struct CPSSha1Ctx CPSSha1Ctx;
-
-typedef struct CPSRc4Ctx CPSRc4Ctx;
-
+struct _CPSSslConnection;
 struct _CPSSslConnection {
-    unsigned char pad0[0x1d4];
-    unsigned int f1d4;
-    unsigned char pad1[0x2e4 - 0x1d4 - 4];
-    unsigned char f2e4[8];
-    unsigned char pad2[0x454 - 0x2e4 - 8];
+    char pad0[0x454];
     unsigned char f454;
-    unsigned char state;
-    unsigned char f456;
-    unsigned char pad3[0x5ac - 0x457];
-    unsigned char f5ac;
-    unsigned char pad4[0x824 - 0x5ad];
-    unsigned long f824;
-    unsigned long f828;
-    unsigned long f82c;
+    unsigned char f455;
 };
 
-extern void CPSi_md5_init(CPSMd5Ctx *ctx);
-extern void CPSi_md5_calc(CPSMd5Ctx *ctx, void *data0, int datalen);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void CPSi_md5_result(CPSMd5Ctx *ctx, unsigned char *digest);
+struct _CPSSoc {
+    char pad0[8];
+    unsigned char field_8;
+    char pad1[0xc - 9];
+    struct _CPSSslConnection *con;
+};
+
+typedef unsigned long long u64;
+
+typedef struct {
+    unsigned long state[5];
+    unsigned long count[2];
+    unsigned char buffer[64];
+} CPSSha1Ctx;
+
+typedef struct {
+    u64 x;
+    u64 a;
+    u64 c;
+} Rand32Ctx;
+
+typedef struct CPSSoc {
+    unsigned char pad0[0xC];
+    struct CPSSslConnection *con;
+} CPSSoc;
+
+typedef struct CPSSslConnection {
+    unsigned char pad0[0x1CC];
+    unsigned char send_seq[8];
+    unsigned char pad1[0x2EC - 0x1D4];
+    unsigned char sha1_hash[0x5C];
+    unsigned char sha1_hash_tmp[0x5C];
+    unsigned char md5_hash[0x58];
+    unsigned char md5_hash_tmp[0x58];
+    unsigned char pad2[0x455 - 0x454];
+    unsigned char state;
+} CPSSslConnection;
+
+typedef unsigned int   u32;
+
+typedef unsigned char  u8;
+
+extern unsigned char *CPSi_TcpReadRaw(unsigned long *len, struct _CPSSoc *soc);
+extern void CPSi_SocConsumeRaw(unsigned long len, struct _CPSSoc *soc);
+extern int tcp_read_raw_nbytes(unsigned char *d, int len, struct _CPSSoc *soc);
+extern void client_hello_v2(void *con, unsigned char *s);
+extern void update_digest(void *con, unsigned char *s, unsigned long len);
+extern void parse_record_in_buf(void *con, unsigned char *buf);
+extern void func_02162248(void *random_seed, unsigned long len);
+extern void func_02163C9C(CPSSha1Ctx *ctx);
+extern unsigned long func_02087988(void);
+extern void func_02163CF0(CPSSha1Ctx *ctx, void *data0, int datalen);
+extern void func_02163E10(void *ctx, unsigned char *digest);
+extern unsigned long func_0208799C(unsigned long state);
 extern void CPSi_sha1_init(CPSSha1Ctx *ctx);
+extern unsigned long OS_DisableInterrupts(void);
 extern void CPSi_sha1_calc(CPSSha1Ctx *ctx, void *data0, int datalen);
 extern void CPSi_sha1_result(CPSSha1Ctx *ctx, unsigned char *digest);
-extern void CPSi_rc4_crypt(CPSRc4Ctx *ctx, unsigned char *data, int len);
-extern void add1_be8(unsigned char *d);
-extern unsigned char *func_0215AE18(unsigned long *len, char *soc);
-extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
-extern void func_0215AF14(unsigned long len, struct _CPSSoc *soc);
-extern int make_plaintext(struct _CPSSslConnection *con, unsigned char *s);
-extern void client_hello(struct _CPSSslConnection *con, unsigned char *s);
-extern void rcv_client_key_exchange(struct _CPSSslConnection *con,
-                                    unsigned char *s);
-extern void rcv_server_hello(struct _CPSSslConnection *con, unsigned char *s);
-extern void rcv_certificate(struct _CPSSslConnection *con, unsigned char *s);
-extern void rcv_finished(struct _CPSSslConnection *con, unsigned char *s);
-int make_ciphertext(struct _CPSSslConnection *con, unsigned char *s);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
+extern void func_021614BC(struct _CPSSslConnection *con, unsigned char *d, int flag);
+extern void func_02161598(struct _CPSSslConnection *con, unsigned char *d, int flag);
+extern void func_02161C54(CPSSslConnection *con, unsigned char *s, unsigned long len);
+extern int func_021619CC(CPSSslConnection *con, unsigned char *s);
+extern u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
+void CPS_SslAddRandomSeed(void *random_seed, unsigned long len);
+void func_021622C0(CPSSoc *soc);
+extern unsigned char g_021AA648;
+extern Rand32Ctx g_021A82E4;
+extern unsigned char g_021AA650[20];
+extern unsigned char pool[20];
+extern unsigned char pool_initialized;
 
-
-int make_ciphertext(struct _CPSSslConnection *con, unsigned char *s)
-{
-    void *p;
-    int len;
-    unsigned char tmp[48];
-    unsigned char *mac;
-    char *c = (char *)con;
-
-    len = (s[3] << 8) + s[4];
-    p = s + 5;
-    switch (*(unsigned short *)(c + 0x32)) {
-    case 4: {
-        CPSMd5Ctx *ctx = (CPSMd5Ctx *)(c + 0x3fc);
-        CPSi_md5_init(ctx);
-        CPSi_md5_calc(ctx, *(void **)(c + 0xbc), 16);
-        MI_CpuFill8(tmp, 0x36, 48);
-        CPSi_md5_calc(ctx, tmp, 48);
-        CPSi_md5_calc(ctx, c + 0x1cc, 8);
-        CPSi_md5_calc(ctx, s, 1);
-        CPSi_md5_calc(ctx, s + 3, len + 2);
-        mac = (unsigned char *)p + len;
-        CPSi_md5_result(ctx, mac);
-        CPSi_md5_init(ctx);
-        CPSi_md5_calc(ctx, *(void **)(c + 0xbc), 16);
-        MI_CpuFill8(tmp, 0x5c, 48);
-        CPSi_md5_calc(ctx, tmp, 48);
-        CPSi_md5_calc(ctx, mac, 16);
-        CPSi_md5_result(ctx, mac);
-        len += 16;
-        break;
-    }
-    case 5: {
-        CPSSha1Ctx *ctx = (CPSSha1Ctx *)(c + 0x348);
-        CPSi_sha1_init(ctx);
-        CPSi_sha1_calc(ctx, *(void **)(c + 0xbc), 20);
-        MI_CpuFill8(tmp, 0x36, 40);
-        CPSi_sha1_calc(ctx, tmp, 40);
-        CPSi_sha1_calc(ctx, c + 0x1cc, 8);
-        CPSi_sha1_calc(ctx, s, 1);
-        CPSi_sha1_calc(ctx, s + 3, len + 2);
-        mac = (unsigned char *)p + len;
-        CPSi_sha1_result(ctx, mac);
-        CPSi_sha1_init(ctx);
-        CPSi_sha1_calc(ctx, *(void **)(c + 0xbc), 20);
-        MI_CpuFill8(tmp, 0x5c, 40);
-        CPSi_sha1_calc(ctx, tmp, 40);
-        CPSi_sha1_calc(ctx, mac, 20);
-        CPSi_sha1_result(ctx, mac);
-        len += 20;
-        break;
-    }
-    }
-    s[3] = len >> 8;
-    s[4] = len;
-    CPSi_rc4_crypt((CPSRc4Ctx *)(c + 0xc8), s + 5, len);
-    add1_be8((unsigned char *)(c + 0x1d4));
-    return len + 5;
-}
-
-
-/*
- * sdk:      tcp_read_raw_nbytes (libssl.TWL.HYB.a(ssl.o))
- */
-static int func_02161BE8(unsigned char *d, int len, struct CPSSoc *soc)
-{
-    unsigned long thislen;
-    unsigned char *s;
-
-    do {
-        s = func_0215AE18(&thislen, (char *)soc);
-        if (thislen == 0)
-            return -1;
-        if (thislen > len)
-            thislen = len;
-        func_02082D44(s, d, thislen);
-        func_0215AF14(thislen, (struct _CPSSoc *)soc);
-        len -= thislen;
-        d += thislen;
-    } while (len > 0);
-    return 0;
-}
-
-
-static void update_digest(struct _CPSSslConnection *con, unsigned char *s,
-                          unsigned long len)
-{
-    CPSi_sha1_calc((CPSSha1Ctx *)((char *)con + 0x2ec), s, len);
-    CPSi_md5_calc((CPSMd5Ctx *)((char *)con + 0x3a4), s, len);
-}
+extern unsigned char *(*CPSiAlloc)(unsigned long size);
 
 extern void (*CPSiFree)(void *ptr);
 
 
-static void parse_record_in_buf(struct _CPSSslConnection *con, unsigned char *buf)
+static int parse_record(struct _CPSSoc *soc)
 {
-    unsigned char *s;
-    unsigned char type;
+    unsigned char *buf;
     unsigned long len;
-    int sub;
+    unsigned char *s;
+    struct _CPSSslConnection *con = soc->con;
 
-    if (con->state == 9) {
-        CPSiFree(buf);
+    for (;;) {
+        buf = CPSi_TcpReadRaw(&len, soc);
+        if (len >= 5)
+            break;
+        if (len == 0 || soc->field_8 == 0) {
+            con->f455 = 9;
+            return 9;
+        }
+    }
+
+    if (buf[0] == 0x80) {
+        if (con->f454 != 0 && con->f455 == 0) {
+            len = buf[1];
+            CPSi_SocConsumeRaw(2, soc);
+            s = CPSiAlloc(len);
+            if (s == 0) {
+                con->f455 = 9;
+                return 9;
+            }
+            if (tcp_read_raw_nbytes(s, len, soc) != 0 || s[0] != 1)
+                con->f455 = 9;
+            else
+                client_hello_v2(con, s + 1);
+            update_digest(con, s, len);
+            CPSiFree(s);
+        } else {
+            con->f455 = 9;
+        }
+    } else {
+        len = (buf[3] << 8) + buf[4] + 5;
+        if (len > 0x4805) {
+            con->f455 = 9;
+            return 9;
+        }
+        s = CPSiAlloc(len);
+        if (s == 0) {
+            con->f455 = 9;
+            return 9;
+        }
+        if (tcp_read_raw_nbytes(s, len, soc) != 0) {
+            CPSiFree(s);
+            con->f455 = 9;
+            return 9;
+        }
+        parse_record_in_buf(con, s);
+    }
+    return con->f455;
+}
+
+
+/*
+ * sdk:      set_random (libssl.TWL.HYB.a(ssl.o))
+ */
+static void func_02162128(unsigned char *d, int len)
+{
+    unsigned long enabled;
+    CPSSha1Ctx ctx;
+    unsigned char x[20];
+    int i;
+    int j;
+    int r;
+    unsigned int carry;
+    unsigned long tmp;
+
+    if (g_021AA648 == 0) {
+        g_021A82E4.x = g_021A82E4.a * g_021A82E4.x + g_021A82E4.c;
+        tmp = (unsigned long)(g_021A82E4.x >> 32);
+        func_02162248(&tmp, 4);
+    }
+    r = 20;
+    for (i = 0; i < len;) {
+        if (r == 20) {
+            func_02163C9C(&ctx);
+            enabled = func_02087988();
+            func_02163CF0(&ctx, g_021AA650, 20);
+            func_02163E10(&ctx, x);
+            carry = 1;
+            for (j = 19; j >= 0; j--) {
+                tmp = g_021AA650[j] + x[j] + carry;
+                g_021AA650[j] = (unsigned char)tmp;
+                carry = tmp >> 8;
+            }
+            func_0208799C(enabled);
+            r = 0;
+        }
+        {
+            unsigned char b = x[r++];
+            if (b != 0)
+                d[i++] = b;
+        }
+    }
+}
+
+
+void CPS_SslAddRandomSeed(void *random_seed, unsigned long len)
+{
+    CPSSha1Ctx ctx;
+    unsigned long enabled;
+
+    CPSi_sha1_init(&ctx);
+    enabled = OS_DisableInterrupts();
+    CPSi_sha1_calc(&ctx, pool, 0x14);
+    CPSi_sha1_calc(&ctx, random_seed, len);
+    CPSi_sha1_result(&ctx, pool);
+    OS_RestoreInterrupts(enabled);
+    pool_initialized = 1;
+}
+
+
+extern unsigned char *(*g_021A8280)(unsigned long size);
+
+extern void (*g_021A82B0)(void *p);
+
+
+/*
+ * sdk:      send_change_cipher_spec_and_finished (libssl.TWL.HYB.a ssl.o)
+ *
+ * Static SSL handshake tail: builds the ChangeCipherSpec and Finished records, hashes and encrypts them, sends them.
+ */
+void func_021622C0(CPSSoc *soc)
+{
+    unsigned char *buf;
+    CPSSslConnection *con = soc->con;
+
+    buf = g_021A8280(131);
+    if (buf == 0) {
+        con->state = 9;
         return;
     }
-
-    type = buf[0];
-    len = (buf[3] << 8) + buf[4] + 5;
-    if (con->f1d4 != 0 &&
-        (((con->state == 7 || con->state == 8) && type != 0x15) ||
-         (type == 0x15 && len > 7))) {
-        len = make_plaintext(con, buf);
-        if (con->state == 9) {
-            CPSiFree(buf);
-            return;
-        }
-    }
-
-    s = buf + 5;
-    len -= 5;
-
-    switch (type) {
-    case 0x14:
-        if (con->f1d4 == 0) {
-            con->state = 9;
-        } else {
-            MI_CpuFill8(con->f2e4, 0, 8);
-            con->state = 7;
-        }
-        break;
-    case 0x15:
-        if (len != 2 || s[0] == 2)
-            con->state = 9;
-        break;
-    case 0x16:
-        if (len < 4) {
-            con->state = 9;
-            break;
-        }
-        do {
-            type = s[0];
-            sub = (s[1] << 16) + (s[2] << 8) + s[3];
-            if ((s[1] << 16) + (s[2] << 8) + s[3] > len) {
-                con->state = 9;
-                break;
-            }
-            s += 4;
-            switch (type) {
-            case 1:
-                if (con->f454 != 0 && con->state == 0)
-                    client_hello(con, s);
-                else
-                    con->state = 9;
-                break;
-            case 0x10:
-                if (con->f454 == 0)
-                    con->state = 9;
-                else
-                    rcv_client_key_exchange(con, s);
-                break;
-            case 2:
-                if (sub >= 0x26 && con->f454 == 0)
-                    rcv_server_hello(con, s);
-                else
-                    con->state = 9;
-                break;
-            case 0xb:
-                if (con->state == 2 && con->f454 == 0) {
-                    rcv_certificate(con, s);
-                    con->f5ac = 0;
-                } else {
-                    con->state = 9;
-                }
-                break;
-            case 0xd:
-                if (con->state == 3 && con->f454 == 0)
-                    con->f5ac = 1;
-                else
-                    con->state = 9;
-                break;
-            case 0xe:
-                if (con->f454 == 0 && con->state == 3)
-                    con->state = 4;
-                else
-                    con->state = 9;
-                break;
-            case 0x14:
-                rcv_finished(con, s);
-                break;
-            default:
-                con->state = 9;
-                break;
-            }
-            if (con->state != 9) {
-                update_digest(con, s - 4, sub + 4);
-                s += sub;
-                len -= sub + 4;
-            }
-        } while (len != 0 && con->state != 9);
-        break;
-    case 0x17:
-        if (con->state != 8) {
-            con->state = 9;
-        } else {
-            con->f824 = (unsigned long)buf;
-            con->f82c = 5;
-            con->f828 = len + 5;
-            con->f456 = 1;
-            return;
-        }
-        break;
-    default:
-        con->state = 9;
-        break;
-    }
-    CPSiFree(buf);
+    buf[0] = 20;
+    buf[1] = 3;
+    buf[2] = 0;
+    buf[3] = 0;
+    buf[4] = 1;
+    buf[5] = 1;
+    MI_CpuFill8(con->send_seq, 0, 8);
+    buf[6] = 22;
+    buf[7] = 3;
+    buf[8] = 0;
+    buf[9] = 0;
+    buf[10] = 40;
+    buf[11] = 20;
+    buf[12] = 0;
+    buf[13] = 0;
+    buf[14] = 36;
+    MI_CpuCopy8(con->md5_hash, con->md5_hash_tmp, 0x58);
+    func_021614BC((struct _CPSSslConnection *)con, buf + 15, 0);
+    MI_CpuCopy8(con->md5_hash_tmp, con->md5_hash, 0x58);
+    MI_CpuCopy8(con->sha1_hash, con->sha1_hash_tmp, 0x5C);
+    func_02161598((struct _CPSSslConnection *)con, buf + 31, 0);
+    MI_CpuCopy8(con->sha1_hash_tmp, con->sha1_hash, 0x5C);
+    func_02161C54(con, buf + 11, 40);
+    func_0215B198(buf, func_021619CC(con, buf + 6) + 6, 0, 0, (struct _CPSSoc *)soc);
+    g_021A82B0(buf);
 }

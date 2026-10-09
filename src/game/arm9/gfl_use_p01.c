@@ -8,10 +8,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ *   * 0x02006C01 and 0x02006C2D are two Thumb function pointers. Written as
  * symbols:
  *   sub_0200545C           0x0200545C  thumb
  *   OS_SetIrqFunction      0x02084774  arm
@@ -33,7 +34,6 @@
  *   func_0203D29C  0x0203D29C  arm
  *   sub_02005610   0x02005610  thumb
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
- *   * 0x02006C01 and 0x02006C2D are two Thumb function pointers. Written as
  *   func_02034704   0x02034704  arm
  *   func_0200FB6C   0x0200FB6C  thumb
  *   func_02006C00   0x02006C00  thumb

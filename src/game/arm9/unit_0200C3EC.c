@@ -13,7 +13,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200C3F4, func_0200C3F8, func_0200C404, func_0200C40C,
+ * function: func_0200C40C,, func_0200C3F4, func_0200C3F8, func_0200C404, func_0200C520, func_0200C528
  *           func_0200C418, func_0200C44C, func_0200C464, func_0200C468,
  *           func_0200C480, func_0200C4E8
  *
@@ -231,4 +231,19 @@ void func_0200C4E8(u8 *a)
             a[k] = tmp;
         }
     }
+}
+
+
+int func_0200C520(void);
+
+int func_0200C520(void)
+{
+    return 0x1FC00;
+}
+
+
+void func_0200C528(void);
+
+void func_0200C528(void)
+{
 }

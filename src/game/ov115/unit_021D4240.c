@@ -1,7 +1,7 @@
 /*
  * file:     unit_021D4240.c
  * unit:     yes
- * function: func_021D4240, func_021D426C, func_021D4270
+ * function: func_021D4240, func_021D426C, func_021D4270, func_021D4290, func_021D4298, func_021D429C
  * address:  0x021D4240
  * region:   ov115
  * compiler: dsi/1.1p1
@@ -17,6 +17,7 @@
  *   func_02035C60 0x02035C60 arm
  *   func_020399A8 0x020399A8 arm
  *   func_02039338 0x02039338 arm
+ *   d_021D6640 0x021D6640 data a4
  */
 #include "../../matched/include/Obj22580.h"
 #include "../../matched/include/Obj22581.h"
@@ -52,4 +53,25 @@ void func_021D4270(u32 a, u32 b, u32 c, u8 *p, u32 id)
     if (id == func_020399A8() && a != func_02039338()) {
         *(u32 *)(p + 0x1c) = 1;
     }
+}
+
+
+extern u8 d_021D6640[];
+u8 *func_021D4290(void)
+{
+    return d_021D6640;
+}
+
+
+int func_021D4298(void)
+{
+    return 4;
+}
+
+
+int func_021D429C(int a, int b)
+{
+    if (a == b)
+        return 1;
+    return 0;
 }

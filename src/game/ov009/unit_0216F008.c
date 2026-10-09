@@ -15,7 +15,7 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_0216EC84  0xfunc_0216EC84  arm
+ *   func_0216EC84 0x0216EC84 arm
  */
 
 extern void func_0216EC84(unsigned char aid, unsigned short type, unsigned char *data);

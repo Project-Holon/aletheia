@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_027026DC  0x027026DC  code twl a2
- *   func_020862D4  0x020862D4  code twl
- *   func_02088610  0x02088610  code twl
- *   func_02085DBC  0x02085DBC  code twl
- *   func_02082D44  0x02082D44  code twl
- *   func_02085E50  0x02085E50  code twl
- *   func_020862B8  0x020862B8  code twl
+ *   func_027026DC 0x027026DC arm twl a2
+ *   func_020862D4 0x020862D4 arm twl
+ *   func_02088610 0x02088610 arm twl
+ *   func_02085DBC 0x02085DBC arm twl
+ *   func_02082D44 0x02082D44 arm twl
+ *   func_02085E50 0x02085E50 arm twl
+ *   func_020862B8 0x020862B8 arm twl
  */
 typedef unsigned int u32;
 

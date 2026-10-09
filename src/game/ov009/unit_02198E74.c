@@ -15,7 +15,7 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_02198A0C  0xfunc_02198A0C  arm
+ *   func_02198A0C 0x02198A0C arm
  */
 
 struct _NAT;

@@ -1,7 +1,7 @@
 /*
  * file:     net_state_p11.c
  * unit:     yes
- * function: func_0203A634, func_0203A67C, func_0203A70C, func_0203A730, func_0203A748, func_0203A770, func_0203A7EC, func_0203A804, func_0203A81C
+ * function: func_0203A634, func_0203A67C, func_0203A70C, func_0203A730, func_0203A748, func_0203A770, func_0203A7EC, func_0203A804, func_0203A81C, func_0203A858
  * address:  0x0203A634
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -252,4 +252,11 @@ u32 func_0203A81C(u32 a0, u32 a1, u32 a2)
     if (f == 0)
         return 0;
     return f(a1, func_0203A730(a0), a2);
+}
+
+
+void func_0203A858(void);
+
+void func_0203A858(void)
+{
 }

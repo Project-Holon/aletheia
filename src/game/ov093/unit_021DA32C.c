@@ -1,6 +1,6 @@
 /*
  * file:     unit_021DA32C.c
- * function: func_021DA32C
+ * function: func_021DA32C, func_021DA3CC
  * address:  0x021DA32C
  * packet:   pkt_ov093_021DA32C
  * region:   ov093
@@ -11,6 +11,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   d_021F0970     0x021F0970  data   ov093  a4
  *   func_021D775C   0x021D775C  thumb ov093
  *   func_021C7D54   0x021C7D54  thumb ov093
  *   func_021C7CF4   0x021C7CF4  thumb ov093
@@ -70,4 +71,14 @@ void func_021DA32C(int a, int b, u8 c)
     ((struct Obj06255 *)p)->f4 = k;
     p[0xc] = 1;
     func_021C88C8((void *)b, p);
+}
+
+
+extern int d_021F0970[];
+int *func_021DA3CC(int *p);
+
+int *func_021DA3CC(int *p)
+{
+    *p = 2;
+    return d_021F0970;
 }

@@ -1,6 +1,6 @@
 /*
  * file:     unit_021592F0.c
- * function: func_021592F0
+ * function: func_021592F0, func_0215930C
  * address:  0x021592F0
  * packet:   pkt_021592F0
  * region:   ov010
@@ -39,3 +39,19 @@ a1 = t4 << 2;
 *(int *)((char *)a2 + a1) = a0;
 a0 = 0;
     return a0;}
+
+
+typedef struct { u8 pad00[0x14]; u8 *pc; u8 pad18[4]; u32 *vars; } Ctx_0215930C;
+static inline u8 rd8_0215930C(Ctx_0215930C *c)
+{
+    u8 v = *c->pc;
+    c->pc++;
+    return v;
+}
+int func_0215930C(Ctx_0215930C *c)
+{
+    u8 a = rd8_0215930C(c);
+    u8 b = rd8_0215930C(c);
+    c->vars[a] = c->vars[b];
+    return 0;
+}

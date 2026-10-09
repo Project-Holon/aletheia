@@ -1,7 +1,7 @@
 /*
  * file:     script_work_p04.c
  * unit:     yes
- * function: func_021590D4, func_021590F4, func_021590FC, func_02159104, func_0215910C, func_02159114, func_0215911C, func_02159124, func_02159130, func_02159144, func_02159168, func_02159190, func_02159198, func_021591B4, func_02159204, func_02159240, func_02159244, func_02159248, func_02159254, func_02159260, func_02159284, func_0215929C, func_021592A8, func_021592C0
+ * function: func_021590D4, func_021590F4, func_021590FC, func_02159104, func_0215910C, func_02159114, func_0215911C, func_02159124, func_02159130, func_02159144, func_02159168, func_02159190, func_02159198, func_021591B4, func_02159204, func_02159240, func_02159244, func_02159248, func_02159254, func_02159260, func_02159284, func_0215929C, func_021592A8, func_021592C0, func_021592D8
  * address:  0x021590D4
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -478,3 +478,19 @@ a1 = t4 + 0;
 loc_021592D2:
 a0 = 0;
     return a0;}
+
+
+typedef struct { u8 pad00[0x14]; u8 *pc; u8 pad18[4]; u32 *vars; } Ctx_021592D8;
+static inline u8 rd8_021592D8(Ctx_021592D8 *c)
+{
+    u8 v = *c->pc;
+    c->pc++;
+    return v;
+}
+int func_021592D8(Ctx_021592D8 *c)
+{
+    u8 a = rd8_021592D8(c);
+    u8 b = rd8_021592D8(c);
+    c->vars[a] = b;
+    return 0;
+}

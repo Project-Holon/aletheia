@@ -30,6 +30,10 @@
  *   func_021BE880  0x021BE880  arm  ov114
  *   func_020307B0 0x020307B0 arm
  *   func_02082D44 0x02082D44 arm
+ *   d_021CE31C 0x021CE31C data a2
+ *   d_021CE320 0x021CE320 data a4
+ *   d_021CE3B8 0x021CE3B8 data a4
+ *   d_021CE3A0 0x021CE3A0 data a4
  */
 #include "../../matched/include/Obj08035.h"
 #include "../../matched/include/G_Pair.h"

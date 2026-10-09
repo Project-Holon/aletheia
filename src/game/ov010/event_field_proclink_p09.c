@@ -1,8 +1,8 @@
 /*
  * file:     event_field_proclink_p09.c
  * unit:     yes
- * function: func_021613CC, func_02161484, func_02161534, func_02161554, func_02161610, func_0216163C
- * address:  0x021613CC
+ * function: func_02161724, func_02161824, func_02161850, func_021618A0, func_021618E0
+ * address:  0x02161724
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,278 +13,221 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02034AC4  0x02034AC4  arm
- *   func_02012934  0x02012934  thumb
- *   func_0202138C  0x0202138C  thumb
- *   func_0201AB28  0x0201AB28  thumb
- *   func_021C3CC0  0x021C3CC0  thumb  ov136
- *   func_021C3D44  0x021C3D44  thumb  ov136
- *   func_021C3DA4  0x021C3DA4  thumb  ov136
- *   ov136_id       0x00000088  data
- *   func_02034A5C 0x02034A5C arm
- *   func_021C3E00 0x021C3E00 thumb ov136
- *   func_021C3E04 0x021C3E04 thumb ov136
- *   func_021C3E24 0x021C3E24 thumb ov136
- *   func_020127A4  0x020127A4  thumb
- *   func_02012984  0x02012984  thumb
- *   func_0201B2B0  0x0201B2B0  thumb
- *   func_02030734  0x02030734  arm
- *   d_02172978     0x02172978  data  a1
+ *   func_02188C7C  0x02188C7C  thumb  ov021
+ *   func_0216DEE0  0x0216DEE0  thumb  ov010
+ *   func_0216DE54  0x0216DE54  thumb  ov010
+ *   func_0216D9A0  0x0216D9A0  thumb  ov010
+ *   func_0216D454  0x0216D454  thumb  ov010
+ *   func_0216DB04  0x0216DB04  thumb  ov010
+ *   func_0216DA5C  0x0216DA5C  thumb  ov010
+ *   func_0216DAF8  0x0216DAF8  thumb  ov010
+ *   func_020122C0 0x020122C0 thumb
+ *   func_020124E8 0x020124E8 thumb
+ *   func_020120F4 0x020120F4 thumb
+ *   func_02161938  0x02161938  thumb  ov010
+ *   func_02197D3C  0x02197D3C  thumb  ov021
+ *   func_02161964  0x02161964  thumb  ov010
+ *   func_02161984  0x02161984  thumb  ov010
+ *   func_02161950  0x02161950  thumb  ov010
+ *   func_02188CB4  0x02188CB4  thumb  ov021
+ *   func_021A3074  0x021A3074  thumb  ov021
+ *   func_0216D5F8  0x0216D5F8  thumb  ov010
+ *   d_02171404     0x02171404  data  a1
+ *   d_021713FC     0x021713FC  data  a1
+ *   d_021713F4     0x021713F4  data  a1
+ *   d_021713EC     0x021713EC  data  a1
  */
-#include "../../matched/include/Obj05854.h"
-#include "../../matched/include/Obj18944.h"
+#include "../../matched/include/Obj05855.h"
 
-struct BigObj;
-struct Ctx_02161484;
+struct AnimWork;
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Obj00020;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct Ctx_021613CC {
-    u8 pad00[0x18];
-    u32 **f18;          /* 0x18 */
-    u8 pad1c[0x60 - 0x1C];
-    u8 f60;             /* 0x60 */
-    u8 pad61;
-    u16 f62;            /* 0x62 */
-    u8 pad64[4];
-    u32 f68;            /* 0x68 */
-} Ctx_021613CC;
-
-typedef struct Src_021613CC {
-    u8 pad00[0x2C];
-    u32 f2c;            /* 0x2C */
-    u8 pad30[8];
-    u32 f38;            /* 0x38 */
-    u32 f3c;            /* 0x3C */
-    u32 f40;            /* 0x40 */
-    u16 f44;            /* 0x44 */
-} Src_021613CC;
-
-typedef signed int     s32;
-
-typedef struct Ctx_02161484 {
-    u8 pad00[8];
+typedef struct AnimWork {
+    u32 f00;
+    void *field;        /* 0x04 */
     u32 f08;
-    u32 f0c;
-    u8 pad10[8];
-    u32 **f18;
-    u8 pad1c[0x60 - 0x1C];
-    u8 f60;
-    u8 pad61[7];
-    u32 f68;
-} Ctx_02161484;
+    u8 busy;            /* 0x0C */
+} AnimWork;
 
-typedef struct Src_02161484 {
-    u8 pad00[0x3C];
-    u32 f3c;            /* 0x3C */
-    u32 f40;            /* 0x40 */
-    u16 f44;            /* 0x44 */
-} Src_02161484;
-
-typedef struct Rec {
-    void *f00;          /* 0x00 */
+typedef struct Obj {
+    u8 pad00[4];
     void *f04;          /* 0x04 */
-    u16 f08;            /* 0x08 */
-    u8 f0a;             /* 0x0A */
-    u8 f0b;             /* 0x0B */
-    u32 f0c;            /* 0x0C */
-    u32 f10;            /* 0x10 */
-} Rec;
+    u8 pad08[4];
+    u16 f0c;            /* 0x0C */
+    u8 pad0e[2];
+    void *f10;          /* 0x10 */
+} Obj;
 
-extern void *func_020120F4(const struct Ctx_021613CC *p);
-extern int func_02034AC4(s32 handle);
-extern void *func_02012934(const struct BigObj *p);
-extern u8 func_0202138C(u16 v);
-extern void *func_0201AB28(void *a, u32 b);
-extern void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
-extern void *func_021C3D44(void *a, void *b, unsigned heap);
-extern void *func_021C3DA4(void *a, void *b, unsigned heap);
-extern void func_02034A5C(s32 handle);
-extern u32 func_021C3E00(u32 *p);
-extern int func_021C3E04(u32 *p, void *q);
-extern void func_021C3E24(unsigned char *);
-extern u16 *func_020127A4(void *sv);
-extern u8 func_02012984(const struct BigObj *p);
-extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-int func_021613CC(Ctx_021613CC *c, int a1, int mode, const Src_021613CC *src);
-int func_02161484(Ctx_02161484 *c, void *p);
-void func_02161534(unsigned char *p);
-Rec *func_02161554(Ctx_02161484 *c, int a1, int mode, const Src_02161484 *src);
-int func_02161610(int a0);
-u32 *func_0216163C(char *c);
-extern u8 ov136_id[];
-extern const char d_02172978[];
+extern void *func_02188C7C(u8 *p);
+extern void *func_0216DEE0(void *map);
+extern void *func_0216DE54(void *map, u32 kind);
+extern void func_0216D9A0(void *map);
+extern int func_0216D454(void *obj);
+extern char *func_0216DB04(void *a0);
+extern int func_0216DA5C(void *obj);
+extern void func_0216DAF8(void *obj);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02161938(void *a, u32 b);
+extern void *func_02197D3C(void *a, void *b);
+extern int func_02161964(int a0, int a1);
+extern int func_02161984(int a0);
+void func_02161950(char *p);
+extern void *func_02188CB4(struct Obj00020 *p);
+extern void *func_021A3074(u8 *p);
+extern u16 func_0216D5F8(void *p);
+int func_02161724(void *task, u32 *seq, AnimWork *w);
+void *func_02161824(void *a, void *b);
+int func_02161850(void *a0, int *state, Obj *o);
+/* * Allocator with callback, then a sub-init call and link fields. */ void *func_021618A0(void *p, int a1, int a2, int a3);
+void *func_021618E0(void *a, void *b);
+extern const char d_02171404[];
+extern const char d_021713FC[];
+extern const char d_021713F4[];
+extern const char d_021713EC[];
 
 
-int func_021613CC(Ctx_021613CC *c, int a1, int mode, const Src_021613CC *src)
+/*
+ * Three-step sequence over the field map's objects: step 0 starts the
+ * animations that are not yet running and records them in w->busy, step
+ * 1 waits until every recorded one has finished, step 2 answers done.
+ *
+ * The image keeps a second object that is always NULL (`movs r6, #0;
+ * beq` reuses the movs flags, and the NULL is still passed to
+ * func_0216DA5C in step 1): written as a pointer local set to 0 and
+ * tested. w->field is read into a local before the switch.
+ */
+int func_02161724(void *task, u32 *seq, AnimWork *w)
 {
-    void *sv;
-    void *t;
-    u32 v;
-    int r;
-    u16 h;
+    void *map;
+    void *a;
+    void *b;
+    void *c;
+    void *field;
 
-    sv = func_020120F4((const struct Ctx_021613CC *)(*c->f18));
-    func_02034AC4((u32)ov136_id);
-    if (mode == 0) {
-        t = func_02012934(sv);
-        v = src->f3c;
-        c->f60 = v;
-        h = src->f44;
-        c->f62 = h;
-        if (src->f40 == 6)
-            return (int)func_021C3CC0(sv, 2, (u8)src->f3c, func_0202138C(h), 4);
-        c->f68 = 1;
-        return (int)func_021C3D44(sv, func_0201AB28(t, v), 4);
+    field = w->field;
+    switch (*seq) {
+    case 0:
+        map = func_02188C7C(field);
+        a = func_0216DEE0(map);
+        func_0216DE54(map, 0x30);
+        w->busy = 0;
+        func_0216D9A0(map);
+        if (func_0216D454(a) == 0) {
+            w->busy |= 1;
+            func_0216DB04(a);
+        }
+        b = 0;
+        if (b != 0 && func_0216DA5C(b) == 1) {
+            w->busy |= 4;
+            func_0216DB04(b);
+        }
+        (*seq)++;
+        break;
+    case 1:
+        map = func_02188C7C(field);
+        a = func_0216DEE0(map);
+        func_0216DE54(map, 0x30);
+        if ((w->busy & 1) && func_0216D454(a) == 1) {
+            func_0216DAF8(a);
+            w->busy &= ~1;
+        }
+        if (w->busy & 4) {
+            b = 0;
+            if (func_0216DA5C(b) == 0) {
+                func_0216DAF8(b);
+                w->busy &= ~4;
+            }
+        }
+        if (w->busy & 2) {
+            c = func_0216DE54(map, 0x30);
+            if (func_0216DA5C(c) == 0) {
+                func_0216DAF8(c);
+                w->busy &= ~2;
+            }
+        }
+        if (w->busy == 0)
+            (*seq)++;
+        break;
+    case 2:
+        return 1;
     }
-    if (src->f2c == 2) {
-        r = (int)func_021C3CC0(sv, 2, (u8)src->f38, func_0202138C((u16)src->f38), 4);
-        c->f62 = src->f38;
-        return r;
+    return 0;
+}
+
+
+void *func_02161824(void *a, void *b) { void *t; u32 *p; t=func_020122C0(a,0,func_02161724,0x10); p=func_020124E8(t); p[0]=(u32)a; p[1]=(u32)b; p[2]=(u32)func_020120F4(a); return t; }
+
+
+
+int func_02161850(void *a0, int *state, Obj *o)
+{
+    void *t;
+
+    t = func_02188C7C(o->f04);
+    switch (*state) {
+    case 0:
+        t = func_02161938(t, o->f0c);
+        if (t == 0)
+            return 1;
+        func_02161964((int)o, (int)func_02197D3C(t, o->f10));
+        *state = *state + 1;
+        break;
+    case 1:
+        if (func_02161984((int)o) == 0)
+            return 1;
+        break;
     }
-    c->f68 = 1;
-    return (int)func_021C3DA4(sv, (void *)func_0202138C((u16)src->f38), 4);
+    return 0;
 }
 
 
 
 /*
- * Lever: second state writes f0c separately in each arm; cross-jumping
- * retains the dead branch after func_021C3E04 rather than after movs #0.
+ * Allocator with callback, then a sub-init call and link fields.
  */
-int func_02161484(Ctx_02161484 *c, void *p)
+void *func_021618A0(void *p, int a1, int a2, int a3)
 {
-    void *sv;
-    u32 v;
-    sv = func_020120F4((const struct Ctx_021613CC *)((const struct Ctx_02161484 *)(*c->f18)));
-    if (c->f08 == 0) {
-        if (c->f68 == 0 || c->f68 == 2) {
-            if (func_021C3E00(p) == 1) {
-                func_021C3E04(p, func_0201AB28(func_02012934(sv), c->f60));
-                v = 0;
-            } else if (c->f68 == 0) {
-                v = 2;
-            } else {
-                v = 0;
-            }
-        } else {
-            v = 0;
-        }
-        c->f0c = v;
-        func_02034A5C((u32)ov136_id);
-        return 4;
-    }
-    if (c->f08 == 2) {
-        if (c->f68 == 2) {
-            if (func_021C3E00(p) == 1) {
-                func_021C3E04(p, func_0201AB28(func_02012934(sv), c->f60));
-                c->f0c = 0;
-            } else {
-                c->f0c = 0;
-            }
-        } else {
-            c->f0c = 2;
-        }
-        func_02034A5C((u32)ov136_id);
-        return 4;
-    }
-    c->f0c = 2;
-    func_02034A5C((u32)ov136_id);
-    return 4;
+    void *r0v = func_020122C0(p, 0, func_02161850, 0x34);
+    char *r4 = func_020124E8(r0v);
+
+    func_02161950(r4);
+    ((struct Obj05855 *)r4)->f0 = p;
+    ((struct Obj05855 *)r4)->f4 = a1;
+    ((struct Obj05855 *)r4)->f8 = (int)func_020120F4(p);
+    ((struct Obj05855 *)r4)->fC = a2;
+    ((struct Obj05855 *)r4)->f10 = a3;
+    return r0v;
 }
 
 
 
-void func_02161534(unsigned char *p) { func_02034AC4((u32)ov136_id); func_021C3E24(p); func_02034A5C((u32)ov136_id); }
-
-
-
-
-
-Rec *func_02161554(Ctx_02161484 *c, int a1, int mode, const Src_02161484 *src)
+void *func_021618E0(void *a, void *b)
 {
-    Rec *r;
-    void *sv;
-    void *t;
-    void *k;
-    u32 out;
-    u32 res;
-    u8 x;
+    const char *s;
 
-    sv = func_020120F4((const struct Ctx_021613CC *)((const struct Ctx_02161484 *)(*c->f18)));
-    r = 0;
-    if (mode == 0) {
-        t = func_02012934(sv);
-        if (src->f40 == 8) {
-            c->f68 = 3;
-            k = func_0201AB28(t, src->f3c);
-            x = func_02012984(sv);
-            res = func_0201B2B0(t, k, 3, src->f44, x, &out, 4);
-        } else {
-            c->f68 = 4;
-            k = func_0201AB28(t, src->f3c);
-            res = func_0201B2B0(t, k, 0, *func_020127A4(sv), func_02012984(sv), &out, 4);
-        }
-        r = func_02030734(4, 0x14, 0, d_02172978, 0x868);
-        r->f00 = sv;
-        r->f04 = t;
-        r->f08 = res;
-        r->f0a = src->f3c;
-        r->f0b = out;
-        r->f0c = 1;
-        r->f10 = 1;
+    switch (func_0216D5F8(func_021A3074(func_02188CB4(b)))) {
+    case 0:
+        s = d_02171404;
+        break;
+    case 1:
+        s = d_021713FC;
+        break;
+    case 2:
+        s = d_021713F4;
+        break;
+    case 3:
+        s = d_021713EC;
+        break;
     }
-    return r;
-}
-
-
-
-
-
-int func_02161610(int a0)
-{
-    int t4;
-
-t4 = a0 + 0;
-a0 = ((struct Obj05854 *)t4)->f18;
-a0 = ((struct Obj05854 *)((char *)a0))->f0;
-    func_020120F4((const struct Ctx_021613CC *)((const struct Ctx_02161484 *)a0));
-loc_0216161C:
-a0 = ((struct Obj05854 *)t4)->f68;
-    if (a0 != 3) goto loc_0216162A;
-loc_02161622:
-a0 = 2;
-((struct Obj05854 *)t4)->fC = a0;
-a0 = 4;
-    return a0;
-loc_0216162A:
-    if (a0 != 4) goto loc_02161636;
-loc_0216162E:
-a0 = 0;
-((struct Obj05854 *)t4)->fC = a0;
-a0 = 4;
-    return a0;
-loc_02161636:
-a0 = 0;
-    return a0;}
-
-
-
-
-/*
- * Allocate an 0x10-byte record and store the save handle at +4.
- * The extent also holds the unlabelled leaf at 0x02161668.
- */
-u32 *func_0216163C(char *c)
-{
-    u32 *r;
-
-    r = func_02030734(4, 0x10, 1, d_02172978, 0x8AC);
-    r[1] = (u32)func_020120F4((const struct Ctx_021613CC *)(**(void ** *)&((struct Obj18944 *)c)->f18));
-    return r;
+    return func_021618A0(a, (int)b, 0xFF, (int)s);
 }

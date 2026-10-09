@@ -1,7 +1,7 @@
 /*
  * file:     unit_021E74E4.c
  * unit:     yes
- * function: func_021E74E4, func_021E7554
+ * function: func_021E74E4, func_021E7554, func_021E75D4
  * address:  0x021E74E4
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   d_021F277C     0x021F277C  data   ov093  a4
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
@@ -108,4 +109,14 @@ void func_021E7554(void *a, int b, int c)
     func_021C8860((struct S *)(p + 0xc), k);
     func_021C8860((struct S *)(p + 0xc), v);
     func_021C88C8((void *)b, p);
+}
+
+
+extern int d_021F277C[];
+int *func_021E75D4(int *p);
+
+int *func_021E75D4(int *p)
+{
+    *p = 1;
+    return d_021F277C;
 }

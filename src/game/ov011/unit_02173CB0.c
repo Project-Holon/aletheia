@@ -1,7 +1,7 @@
 /*
  * file:     unit_02173CB0.c
  * unit:     yes
- * function: func_02173CB0, func_02173D00, func_02173D2C, func_02173D5C, func_02173DA0, func_02173DE0, func_02173E2C, func_02173E5C, func_02173E6C, func_02173EB8, func_02173EEC, func_02173F4C, func_02173F74, func_02173F9C, func_02173FC0, func_02173FF4, func_0217403C, func_0217405C, func_0217409C, func_021740AC, func_0217410C, func_021741E8, func_02174248, func_02174258, func_02174298, func_021742A8, func_021742DC, func_021742EC, func_02174320, func_02174374
+ * function: func_02173CB0, func_02173D00, func_02173D2C, func_02173D5C, func_02173DA0, func_02173DE0, func_02173E2C, func_02173E5C, func_02173E6C, func_02173EB8, func_02173EEC, func_02173F4C, func_02173F74, func_02173F9C, func_02173FC0, func_02173FF4, func_0217403C, func_0217405C, func_0217409C, func_021740AC, func_0217410C, func_021741E8, func_02174248, func_02174258, func_02174298, func_021742A8, func_021742DC, func_021742EC, func_02174320, func_02174374, func_021743A0
  * address:  0x02173CB0
  * region:   ov011
  * compiler: dsi/1.1p1
@@ -602,4 +602,10 @@ int func_02174374(int *a)
         return 0;
     }
     return func_0203D3A8(func_020399A8(), 0x21c, 0x10, r);
+}
+
+
+void func_021743A0(int a, int b, void *dst, u8 *p)
+{
+    func_02082D44(dst, p + 0x358, 4);
 }

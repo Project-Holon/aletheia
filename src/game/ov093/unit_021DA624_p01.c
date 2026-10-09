@@ -1,18 +1,20 @@
 /*
  * file:     unit_021DA624_p01.c
  * unit:     yes
- * function: func_021DA624, func_021DA6EC, func_021DA748, func_021DA780, func_021DA7DC, func_021DA808, func_021DA820, func_021DA838, func_021DA844, func_021DA868, func_021DA89C, func_021DA8A8, func_021DA8DC, func_021DA96C, func_021DA9E0, func_021DAA70, func_021DAA94, func_021DAAC0, func_021DAAEC, func_021DAB24, func_021DAB48, func_021DAB78, func_021DABE8, func_021DABF4, func_021DAC1C, func_021DAC6C, func_021DAC90, func_021DAD20, func_021DAD2C, func_021DAD58, func_021DAD84, func_021DADD8, func_021DAE04, func_021DAE38
+ * function: func_021DA624, func_021DA6EC, func_021DA748, func_021DA780, func_021DA7DC, func_021DA808, func_021DA820, func_021DA838, func_021DA844, func_021DA868, func_021DA89C, func_021DA8A8, func_021DA8DC, func_021DA96C, func_021DA9E0, func_021DAA70, func_021DAA94, func_021DAAC0, func_021DAAEC, func_021DAB24, func_021DAB48, func_021DAB78, func_021DABE8, func_021DABF4, func_021DAC1C, func_021DAC6C, func_021DAC90, func_021DAD20, func_021DAD2C, func_021DAD58, func_021DAD84, func_021DADD8, func_021DAE04, func_021DAE38, func_021DAE94
  * address:  0x021DA624
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   MATCH
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021D7320  0x021D7320  thumb  ov093
+ *   func_021DAEC4  0x021DAEC4  thumb  ov093
  *   func_021D775C 0x021D775C thumb ov093
  *   func_021C7D54 0x021C7D54 thumb ov093
  *   func_021C7CF4 0x021C7CF4 thumb ov093
@@ -778,4 +780,14 @@ void func_021DAE38(int unused, void *a, int id, int *f)
         func_021C88C8(a, r);
         *f = 0;
     }
+}
+
+
+void func_021D7320(void *p, u32 v);
+int func_021DAEC4(int a, int b, int c, int d, unsigned short e);
+void func_021DAE94(void *p);
+
+void func_021DAE94(void *p)
+{
+    func_021D7320(p, (u32)func_021DAEC4);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021E4154.c
  * unit:     yes
- * function: func_021E4154, func_021E4220, func_021E4238, func_021E42B0
+ * function: func_021E4154, func_021E4220, func_021E4238, func_021E42B0, func_021E4334
  * address:  0x021E4154
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   d_021F27A4     0x021F27A4  data   ov093  a4
  *   func_021D775C 0x021D775C thumb ov093
  *   func_021C7CF4 0x021C7CF4 thumb ov093
  *   func_021D7B74 0x021D7B74 thumb ov093
@@ -167,4 +168,14 @@ void func_021E42B0(int a0, u8 *s, int k, int *pf)
             *pf = 1;
         }
     }
+}
+
+
+extern int d_021F27A4[];
+int *func_021E4334(int *p);
+
+int *func_021E4334(int *p)
+{
+    *p = 1;
+    return d_021F27A4;
 }

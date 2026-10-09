@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
@@ -42,6 +42,10 @@
  *   d_021D4084 0x021D4084 data a4
  *   d_021D3EFC 0x021D3EFC data a4
  *   func_021C97E0 0x021C97E0 arm ov114
+ *   d_021CF594 0x021CF594 data a4
+ *   d_021CF5F4 0x021CF5F4 data a4
+ *   d_021CF614 0x021CF614 data a4
+ *   d_021CF578                       0x021CF578  data  a4
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "../../matched/include/G_Six.h"

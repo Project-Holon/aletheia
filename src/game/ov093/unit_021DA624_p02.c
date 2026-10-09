@@ -1,7 +1,7 @@
 /*
  * file:     unit_021DA624_p02.c
  * unit:     yes
- * function: func_021DAEAC, func_021DAEC4, func_021DAED8, func_021DAEE4, func_021DAF1C, func_021DAF58, func_021DB000, func_021DB00C, func_021DB0D0
+ * function: func_021DAEAC, func_021DAEC4, func_021DAED8, func_021DAEE4, func_021DAF1C, func_021DAF58, func_021DB000, func_021DB00C, func_021DB0D0, func_021DB0DC
  * address:  0x021DAEAC
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021E8878  0x021E8878  thumb  ov093
  *   func_021D7324   0x021D7324  thumb
  *   func_021D775C   0x021D775C  thumb
  *   func_021D5BDC 0x021D5BDC thumb ov093
@@ -194,3 +195,12 @@ void func_021DB00C(int a, void *b, int c)
 
 
 void *func_021DB0D0(int *p) { *p = 1; return d_021F07E8; }
+
+
+void func_021E8878(int a, int b, int c, int d);
+void func_021DB0DC(int a, int b, int c, int d);
+
+void func_021DB0DC(int a, int b, int c, int d)
+{
+    func_021E8878(a, b, c, d);
+}

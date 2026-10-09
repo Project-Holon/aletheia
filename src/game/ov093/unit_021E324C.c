@@ -1,7 +1,7 @@
 /*
  * file:     unit_021E324C.c
  * unit:     yes
- * function: func_021E324C, func_021E32CC, func_021E32F8, func_021E3324, func_021E3330, func_021E338C, func_021E33BC, func_021E33EC
+ * function: func_021E324C, func_021E32CC, func_021E32F8, func_021E3324, func_021E3330, func_021E338C, func_021E33BC, func_021E33EC, func_021E3414
  * address:  0x021E324C
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   d_021F2844     0x021F2844  data   ov093  a4
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C824C  0x021C824C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
@@ -166,4 +167,14 @@ void func_021E33EC(int u, int a, int b)
         ((struct Obj21473 *)s)->f4 = 1;
         func_021C88C8((void *)a, s);
     }
+}
+
+
+extern int d_021F2844[];
+int *func_021E3414(int *p);
+
+int *func_021E3414(int *p)
+{
+    *p = 1;
+    return d_021F2844;
 }

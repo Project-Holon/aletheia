@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * notes:    libirc irc.o IRC_Connect (TwlSDK add-ins/irc, FINALROM build: the OS_Printf call on line 160 is an
  *           empty macro). Earlier passes (P20 lane 4, G5L2, P2L27, P3L13, P4L06) stayed at 12-16 bytes off with

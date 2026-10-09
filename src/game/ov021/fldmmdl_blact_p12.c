@@ -1,8 +1,8 @@
 /*
  * file:     fldmmdl_blact_p12.c
  * unit:     yes
- * function: func_0219DCC4, func_0219DD18, func_0219DD24, func_0219DD34, func_0219DD44, func_0219DD54, func_0219DD64, func_0219DD74, func_0219DD84, func_0219DD94, func_0219DDA4, func_0219DDB4, func_0219DDC4, func_0219DDD4, func_0219DDE4, func_0219DDF4, func_0219DE04, func_0219DE14, func_0219DE24, func_0219DE34, func_0219DE44, func_0219DE54, func_0219DE64, func_0219DE98, func_0219DECC, func_0219DEDC, func_0219DEEC, func_0219DEFC, func_0219DF0C, func_0219DF1C, func_0219DF2C, func_0219DF3C, func_0219DF4C, func_0219DF5C, func_0219DF6C, func_0219DF7C, func_0219DF8C, func_0219DF9C, func_0219DFAC, func_0219DFBC, func_0219DFCC, func_0219DFDC, func_0219DFEC, func_0219DFFC, func_0219E00C
- * address:  0x0219DCC4
+ * function: func_0219EAD8, func_0219EAEC, func_0219EB18, func_0219EB4C, func_0219EB90, func_0219EBA0, func_0219EBF4, func_0219ED7C, func_0219ED8C
+ * address:  0x0219EAD8
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,112 +13,139 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0219E348  0x0219E348  thumb  ov021
- *   func_0219E354  0x0219E354  thumb  ov021
+ *   func_021B7EE4  0x021B7EE4  thumb  ov021
  *   func_021B8028  0x021B8028  thumb  ov021
- *   func_021B8040  0x021B8040  thumb  ov021
  *   func_0216D89C  0x0216D89C  thumb  ov010
- *   func_0216D568  0x0216D568  thumb  ov010
+ *   func_0219E968  0x0219E968  thumb  ov021
+ *   func_0219EA10  0x0219EA10  thumb  ov021
  *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb  ov010
- *   func_0219DC88  0x0219DC88  thumb
- *   func_0216D6BC  0x0216D6BC  thumb  ov010
+ *   func_0216DA50  0x0216DA50  thumb  ov010
+ *   d_021D84AC     0x021D84AC  data
+ *   func_0216D69C  0x0216D69C  thumb  ov010
+ *   func_0219EA24  0x0219EA24  thumb  ov021
  *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_02163F10  0x02163F10  thumb  ov010
- *   func_0216D6D4  0x0216D6D4  thumb  ov010
- *   func_0219E370  0x0219E370  thumb  ov021
- *   func_0219E6C8  0x0219E6C8  thumb  ov021
+ *   func_0219EA78  0x0219EA78  thumb  ov021
+ *   func_0219EA94  0x0219EA94  thumb  ov021
+ *   func_0219E2F4  0x0219E2F4  thumb  ov021
+ *   func_0216DA7C  0x0216DA7C  thumb  ov010
+ *   func_0216D5F8  0x0216D5F8  thumb  ov010
+ *   func_02197E7C  0x02197E7C  thumb  ov021
+ *   func_0216D438  0x0216D438  thumb  ov010
+ *   func_02197EDC  0x02197EDC  thumb  ov021
  *   func_0216D60C  0x0216D60C  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   func_0219E418  0x0219E418  thumb  ov021
+ *   func_0219E664  0x0219E664  thumb  ov021
+ *   func_0219E9A8  0x0219E9A8  thumb  ov021
+ *   func_0216DA44  0x0216DA44  thumb  ov010
  */
-#include "../../matched/include/Obj05013.h"
+#include "../../matched/include/Obj07482.h"
+#include "../../matched/include/Obj12689.h"
 
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
+typedef signed short   s16;
+
 typedef unsigned int   u32;
 
-typedef signed short   s16;
+typedef struct {
+    u16 x, y, w, h;
+} Rect;
+
+typedef struct {
+    u32 head;
+    Rect r;
+} Obj;
+
+typedef struct {
+    u8  pad[0xc];
+    s16 cnt;
+    u16 val;
+} E_0219EB4C;
 
 typedef signed char    s8;
 
-typedef int BOOL;
+typedef struct {
+    u8 pad[0xc];
+    u8 lo : 4;
+    u8 hi : 4;
+    u8 z;
+    u8 c;
+    u8 d;
+} E_0219EBA0;
 
 typedef struct {
     u16 a;
-    u16 b;
+    u16 pad;
     s16 c;
     u16 d;
-    u16 e;
-    u16 f;
 } S;
 
-extern void *func_0219E348(void *a);
-extern void func_0219E354(u32 a);
-extern void func_021B8028();
-extern u8 func_021B8040(u8 *p);
-extern void func_0216D89C();
-extern void *func_0216D568(void *p, u32 v);
+typedef signed int     s32;
+
+typedef struct {
+    u8  pad[0xc];
+    u8  state : 4;
+    u8  hi : 4;
+    s8  cnt;
+    s8  e;
+    u8  f;
+} E;
+
+typedef struct {
+    u16 f0;
+    u16 f2;
+    s16 f4;
+    u16 f6;
+} Pos;
+
+extern void func_021B7EE4(void *p, void *r);
+extern void func_021B8028(void *p, void *out);
+extern void func_0216D89C(u32, void *);
+extern void *func_0219E968(u32 a, u32 size);
+extern int func_0219EA10(u32 *a, int b);
 extern void func_0216D674(void *p, u16 v);
-extern void func_0216D7CC(u8 *p);
-extern void func_0219DC88(u32 a1, u32 a2, u32 a3, u32 a4);
-extern void *func_0216D6BC(int a0, int a1, int a2);
+extern void func_0216DA50(u8 *p);
+extern void *func_0216D69C(void *p);
+extern u32 func_0219EA24(u32 a, u32 b);
 extern void func_0216D5E0(int a0, int a1);
-extern int func_02163F10(int a0);
-extern void *func_0216D6D4(void *p);
-extern void func_0219E370(u32 a, u32 b, u32 c);
-extern void func_0219E6C8(u32, u16);
-extern int func_0216D60C(int a0, int a1);
-extern void func_020061E4(u32 a);
-int func_0219DCC4(u32 o);
-int func_0219DD18(u32 a, u32 b, u32 c, u32 d);
-u32 func_0219DD24(u32 a1);
-u32 func_0219DD34(u32 a1);
-u32 func_0219DD44(u32 a1);
-u32 func_0219DD54(u32 a1);
-u32 func_0219DD64(u32 a1);
-u32 func_0219DD74(u32 a1);
-u32 func_0219DD84(u32 a1);
-u32 func_0219DD94(u32 a1);
-u32 func_0219DDA4(u32 a1);
-u32 func_0219DDB4(u32 a1);
-u32 func_0219DDC4(u32 a1);
-u32 func_0219DDD4(u32 a1);
-u32 func_0219DDE4(u32 a1);
-u32 func_0219DDF4(u32 a1);
-u32 func_0219DE04(u32 a1);
-u32 func_0219DE14(u32 a1);
-u32 func_0219DE24(u32 a1);
-u32 func_0219DE34(u32 a1);
-u32 func_0219DE44(u32 a1);
-u32 func_0219DE54(u32 a1);
-void func_0219DE64(u32 a, u32 b, u16 c, u16 d);
-int func_0219DE98(u32 a);
-u32 func_0219DECC(u32 a1);
-u32 func_0219DEDC(u32 a1);
-u32 func_0219DEEC(u32 a1);
-u32 func_0219DEFC(u32 a1);
-u32 func_0219DF0C(u32 a1);
-u32 func_0219DF1C(u32 a1);
-u32 func_0219DF2C(u32 a1);
-u32 func_0219DF3C(u32 a1);
-u32 func_0219DF4C(u32 a1);
-u32 func_0219DF5C(u32 a1);
-u32 func_0219DF6C(u32 a1);
-u32 func_0219DF7C(u32 a1);
-u32 func_0219DF8C(u32 a1);
-u32 func_0219DF9C(u32 a1);
-u32 func_0219DFAC(u32 a1);
-u32 func_0219DFBC(u32 a1);
-u32 func_0219DFCC(u32 a1);
-u32 func_0219DFDC(u32 a1);
-u32 func_0219DFEC(u32 a1);
-u32 func_0219DFFC(u32 a1);
-void func_0219E00C(u32 o, u32 id, u32 p, u8 q, S s, u32 fn);
+extern int func_0219EA78();
+extern u32 func_0219EA94(u32 a, u32 *b);
+extern void func_0219E2F4(void *o, void *out);
+extern void func_0216DA7C(u8 *p);
+extern u16 func_0216D5F8(void *p);
+extern int func_02197E7C(int a, int b);
+extern void func_0216D438(char *a0, int a1);
+extern u32 func_02197EDC(u8 *p);
+extern void func_0216D60C(u32, u16);
+extern int func_0219E418(u32, u16);
+extern int func_0219E664(void *o, u32 k, void *buf);
+extern int func_0219E9A8(u32, u32, s32, u16 *);
+extern void func_0216DA44(u32);
+void func_0219EAD8(Obj *p, const Rect *s);
+void func_0219EAEC(u8 *p, u32 a);
+void func_0219EB18(u32 a, u16 b);
+int func_0219EB4C(u32 o);
+int func_0219EB90(u32 *a);
+void func_0219EBA0(u32 o, u32 k);
+int func_0219EBF4(u32 o);
+int func_0219ED7C(u32 *a);
+void func_0219ED8C(u32 a);
+extern u32 d_021D84AC[];
 
 
 
+
+/*
+ * The source pointer is const: that lets mwcc load s->h above the store of w.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_0219EAD8(Obj *p, const Rect *s)
+{
+    p->r = *s;
+}
 
 
 
@@ -126,26 +153,43 @@ void func_0219E00C(u32 o, u32 id, u32 p, u8 q, S s, u32 fn);
 /*
  * Addresses are Black-image addresses.
  */
-int func_0219DCC4(u32 o)
+void func_0219EAEC(u8 *p, u32 a)
 {
-    u32 a;
     u8 buf[12];
-
-    a = (u32)func_0219E348((void *)o);
-    func_0219E354(o);
-    func_021B8028(a, buf);
-    func_0216D89C(o, buf);
-    if (func_021B8040((u8 *)a)) {
-        return 0;
+    if (p[6] != 2) {
+        func_021B7EE4(((struct Obj07482 *)p)->f0, p + 4);
+        func_021B8028(((struct Obj07482 *)p)->f0, buf);
+        func_0216D89C(a, buf);
     }
-    func_0216D568((void *)o, 0x440);
-    func_0216D674((void *)o, 0);
-    func_0216D7CC((u8 *)o);
-    return 0;
 }
 
 
 
+
+void func_0219EB18(u32 a, u16 b)
+{
+    u8 *q = func_0219E968(a, 16);
+    ((struct Obj12689 *)q)->fC = func_0219EA10(d_021D84AC, -1);
+    ((struct Obj12689 *)q)->fE = b;
+    func_0216D674((void *)a, 0);
+    func_0216DA50((u8 *)a);
+}
+
+
+
+
+int func_0219EB4C(u32 o)
+{
+    E_0219EB4C *e;
+
+    e = func_0216D69C((void *)o);
+    e->cnt = e->cnt - 1;
+    if (e->cnt <= 0) {
+        e->cnt = func_0219EA10((u32 *)d_021D84AC, -1);
+        func_0216D5E0((u32)o, (u16)func_0219EA24(e->val, 9));
+    }
+    return func_0219EA78(e, o);
+}
 
 
 
@@ -155,687 +199,107 @@ int func_0219DCC4(u32 o)
  *
  * Addresses are Black-image addresses.
  */
-int func_0219DD18(u32 a, u32 b, u32 c, u32 d)
+int func_0219EB90(u32 *a)
 {
-func_0216D674((void *)a, 0);
-return 0;
+return func_0219EA94((u32)func_0216D69C((void *)a), a);
 }
 
 
 
 
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x0, 0x10, 0x2) and returns 0x1.
- */
-u32 func_0219DD24(u32 a1)
+void func_0219EBA0(u32 o, u32 k)
 {
-    func_0219DC88(a1, 0x0, 0x10, 0x2);
+    E_0219EBA0 *e;
+    S s;
 
-    return 0x1;
+    e = func_0219E968(o, 0x10);
+    func_0219E2F4((void *)o, &s);
+    e->lo = 0;
+    e->z = 0;
+    e->hi = k;
+    e->d = s.d;
+    e->c = s.c;
+    func_0216D674((void *)o, 0);
+    func_0216DA50((u8 *)o);
 }
 
 
 
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x1, 0x10, 0x2) and returns 0x1.
- */
-u32 func_0219DD34(u32 a1)
+int func_0219EBF4(u32 o)
 {
-    func_0219DC88(a1, 0x1, 0x10, 0x2);
+    E *e;
+    u32 k;
+    u16 a[4];
+    u16 b[4];
 
-    return 0x1;
+    e = func_0216D69C((void *)o);
+    switch (e->state) {
+    case 0:
+        func_0216DA50((u8 *)o);
+        func_0216DA7C((u8 *)o);
+        func_0216D438((char *)o, (u16)((u32)func_02197E7C((u16)((u32)func_0216D5F8((void *)o)), (u32)0)));
+        e->state++;
+        break;
+    case 1:
+        if (!func_02197EDC((u8 *)o)) {
+            break;
+        }
+        e->cnt = func_0219EA10((u32 *)d_021D84AC, -1);
+        e->state++;
+    case 2:
+        e->cnt--;
+        if (e->cnt != 0) {
+            break;
+        }
+        e->state++;
+    case 3:
+        k = func_0219EA24(e->hi, 9);
+        func_0216D60C(o, k);
+        if (func_0219E418(o, k)) {
+            e->state = 0;
+            break;
+        }
+        func_0219E2F4((void *)o, a);
+        func_0219E664((void *)o, (u16)k, b);
+        if (a[0] != b[0]) {
+            e->state = 0;
+            break;
+        }
+        if (func_0219E9A8(o, e->f, e->e, b)) {
+            e->state = 0;
+            break;
+        }
+        func_0216D438((char *)o, (u16)((u32)func_02197E7C((u16)k, (u32)0xc)));
+        func_0216DA44(o);
+        e->state++;
+    case 4:
+        if (func_02197EDC((u8 *)o)) {
+            func_0216DA50((u8 *)o);
+            e->state = 0;
+        }
+        break;
+    }
+    return func_0219EA78(e, o);
 }
 
 
 
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x2, 0x10, 0x2) and returns 0x1.
- */
-u32 func_0219DD44(u32 a1)
+int func_0219ED7C(u32 *a)
 {
-    func_0219DC88(a1, 0x2, 0x10, 0x2);
-
-    return 0x1;
+return func_0219EA94((u32)func_0216D69C((void *)a), a);
 }
 
 
 
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x3, 0x10, 0x2) and returns 0x1.
- */
-u32 func_0219DD54(u32 a1)
+void func_0219ED8C(u32 a)
 {
-    func_0219DC88(a1, 0x3, 0x10, 0x2);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x0, 0x8, 0x3) and returns 0x1.
- */
-u32 func_0219DD64(u32 a1)
-{
-    func_0219DC88(a1, 0x0, 0x8, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x1, 0x8, 0x3) and returns 0x1.
- */
-u32 func_0219DD74(u32 a1)
-{
-    func_0219DC88(a1, 0x1, 0x8, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x2, 0x8, 0x3) and returns 0x1.
- */
-u32 func_0219DD84(u32 a1)
-{
-    func_0219DC88(a1, 0x2, 0x8, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x3, 0x8, 0x3) and returns 0x1.
- */
-u32 func_0219DD94(u32 a1)
-{
-    func_0219DC88(a1, 0x3, 0x8, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x0, 0x4, 0x4) and returns 0x1.
- */
-u32 func_0219DDA4(u32 a1)
-{
-    func_0219DC88(a1, 0x0, 0x4, 0x4);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x1, 0x4, 0x4) and returns 0x1.
- */
-u32 func_0219DDB4(u32 a1)
-{
-    func_0219DC88(a1, 0x1, 0x4, 0x4);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x2, 0x4, 0x4) and returns 0x1.
- */
-u32 func_0219DDC4(u32 a1)
-{
-    func_0219DC88(a1, 0x2, 0x4, 0x4);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x3, 0x4, 0x4) and returns 0x1.
- */
-u32 func_0219DDD4(u32 a1)
-{
-    func_0219DC88(a1, 0x3, 0x4, 0x4);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x0, 0x2, 0x5) and returns 0x1.
- */
-u32 func_0219DDE4(u32 a1)
-{
-    func_0219DC88(a1, 0x0, 0x2, 0x5);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x1, 0x2, 0x5) and returns 0x1.
- */
-u32 func_0219DDF4(u32 a1)
-{
-    func_0219DC88(a1, 0x1, 0x2, 0x5);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x2, 0x2, 0x5) and returns 0x1.
- */
-u32 func_0219DE04(u32 a1)
-{
-    func_0219DC88(a1, 0x2, 0x2, 0x5);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x3, 0x2, 0x5) and returns 0x1.
- */
-u32 func_0219DE14(u32 a1)
-{
-    func_0219DC88(a1, 0x3, 0x2, 0x5);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x0, 0x4, 0xa) and returns 0x1.
- */
-u32 func_0219DE24(u32 a1)
-{
-    func_0219DC88(a1, 0x0, 0x4, 0xa);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x1, 0x4, 0xa) and returns 0x1.
- */
-u32 func_0219DE34(u32 a1)
-{
-    func_0219DC88(a1, 0x1, 0x4, 0xa);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x2, 0x4, 0xa) and returns 0x1.
- */
-u32 func_0219DE44(u32 a1)
-{
-    func_0219DC88(a1, 0x2, 0x4, 0xa);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DC88(its own argument 1, 0x3, 0x4, 0xa) and returns 0x1.
- */
-u32 func_0219DE54(u32 a1)
-{
-    func_0219DC88(a1, 0x3, 0x4, 0xa);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-void func_0219DE64(u32 a, u32 b, u16 c, u16 d)
-{
-    u16 *q = func_0216D6BC((u32)a, (u32)4, c);
-    q[0] = d;
-    q[1] = c;
-    func_0216D5E0((u32)a, (u16)b);
-    func_0216D674((void *)a, d);
-    func_02163F10(a);
-    func_0216D7CC((u8 *)a);
-}
-
-
-
-
-
-
-
-int func_0219DE98(u32 a)
-{
-    s16 *q = func_0216D6D4((void *)a);
-    q[1]--;
-    if (q[1] > 0)
-        return 0;
-    func_0216D568((void *)a, 0x400);
+    u8 *q = func_0219E968(a, 16);
+    Pos pos;
+    func_0219E2F4((void *)a, &pos);
+    q[0xc] = 0;
+    q[0xd] = 0;
+    q[0xf] = pos.f6;
+    q[0xe] = pos.f4;
     func_0216D674((void *)a, 0);
-    func_0216D7CC((u8 *)a);
-    return 1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x0, 0x20, 0x1) and returns 0x1.
- */
-u32 func_0219DECC(u32 a1)
-{
-    func_0219DE64(a1, 0x0, 0x20, 0x1);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x1, 0x20, 0x1) and returns 0x1.
- */
-u32 func_0219DEDC(u32 a1)
-{
-    func_0219DE64(a1, 0x1, 0x20, 0x1);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x2, 0x20, 0x1) and returns 0x1.
- */
-u32 func_0219DEEC(u32 a1)
-{
-    func_0219DE64(a1, 0x2, 0x20, 0x1);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x3, 0x20, 0x1) and returns 0x1.
- */
-u32 func_0219DEFC(u32 a1)
-{
-    func_0219DE64(a1, 0x3, 0x20, 0x1);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x0, 0x10, 0x2) and returns 0x1.
- */
-u32 func_0219DF0C(u32 a1)
-{
-    func_0219DE64(a1, 0x0, 0x10, 0x2);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x1, 0x10, 0x2) and returns 0x1.
- */
-u32 func_0219DF1C(u32 a1)
-{
-    func_0219DE64(a1, 0x1, 0x10, 0x2);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x2, 0x10, 0x2) and returns 0x1.
- */
-u32 func_0219DF2C(u32 a1)
-{
-    func_0219DE64(a1, 0x2, 0x10, 0x2);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x3, 0x10, 0x2) and returns 0x1.
- */
-u32 func_0219DF3C(u32 a1)
-{
-    func_0219DE64(a1, 0x3, 0x10, 0x2);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x0, 0x8, 0x3) and returns 0x1.
- */
-u32 func_0219DF4C(u32 a1)
-{
-    func_0219DE64(a1, 0x0, 0x8, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x1, 0x8, 0x3) and returns 0x1.
- */
-u32 func_0219DF5C(u32 a1)
-{
-    func_0219DE64(a1, 0x1, 0x8, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x2, 0x8, 0x3) and returns 0x1.
- */
-u32 func_0219DF6C(u32 a1)
-{
-    func_0219DE64(a1, 0x2, 0x8, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x3, 0x8, 0x3) and returns 0x1.
- */
-u32 func_0219DF7C(u32 a1)
-{
-    func_0219DE64(a1, 0x3, 0x8, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x0, 0x2, 0x5) and returns 0x1.
- */
-u32 func_0219DF8C(u32 a1)
-{
-    func_0219DE64(a1, 0x0, 0x2, 0x5);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x1, 0x2, 0x5) and returns 0x1.
- */
-u32 func_0219DF9C(u32 a1)
-{
-    func_0219DE64(a1, 0x1, 0x2, 0x5);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x2, 0x2, 0x5) and returns 0x1.
- */
-u32 func_0219DFAC(u32 a1)
-{
-    func_0219DE64(a1, 0x2, 0x2, 0x5);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x3, 0x2, 0x5) and returns 0x1.
- */
-u32 func_0219DFBC(u32 a1)
-{
-    func_0219DE64(a1, 0x3, 0x2, 0x5);
-
-    return 0x1;
-}
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x0, 0x4, 0x4) and returns 0x1.
- */
-u32 func_0219DFCC(u32 a1)
-{
-    func_0219DE64(a1, 0x0, 0x4, 0x4);
-
-    return 0x1;
-}
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x1, 0x4, 0x4) and returns 0x1.
- */
-u32 func_0219DFDC(u32 a1)
-{
-    func_0219DE64(a1, 0x1, 0x4, 0x4);
-
-    return 0x1;
-}
-
-
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x2, 0x4, 0x4) and returns 0x1.
- */
-u32 func_0219DFEC(u32 a1)
-{
-    func_0219DE64(a1, 0x2, 0x4, 0x4);
-
-    return 0x1;
-}
-
-
-
-/*
- * Calls func_0219DE64(its own argument 1, 0x3, 0x4, 0x4) and returns 0x1.
- */
-u32 func_0219DFFC(u32 a1)
-{
-    func_0219DE64(a1, 0x3, 0x4, 0x4);
-
-    return 0x1;
-}
-
-
-void func_0219E00C(u32 o, u32 id, u32 p, u8 q, S s, u32 fn)
-{
-    u8 *e;
-
-    e = func_0216D6BC(o, 0x10, p);
-    e[0xc] = id;
-    ((struct Obj05013 *)e)->f0 = p;
-    e[0xd] = q;
-    e[0xe] = s.a;
-    e[0xf] = s.c;
-    ((struct Obj05013 *)e)->f8 = s.e;
-    if (p == 0) {
-        func_02163F10(o);
-    } else {
-        func_0219E370(o, (u16)id, 8);
-        func_0219E6C8(o, id);
-    }
-    func_0216D568((void *)o, 0xa0);
-    func_0216D60C((u32)o, (u16)id);
-    func_0216D674((void *)o, s.a);
-    func_0216D7CC((u8 *)o);
-    if (fn) {
-        func_020061E4(fn);
-    }
+    func_0216DA50((u8 *)a);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021DE980.c
  * unit:     yes
- * function: func_021DE980, func_021DE9B8, func_021DE9D4, func_021DEA1C, func_021DEA58, func_021DEA8C, func_021DEAE8, func_021DEAF4, func_021DEB30, func_021DEB5C
+ * function: func_021DE980, func_021DE9B8, func_021DE9D4, func_021DEA1C, func_021DEA58, func_021DEA8C, func_021DEAE8, func_021DEAF4, func_021DEB30, func_021DEB5C, func_021DEBA8
  * address:  0x021DE980
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   d_021F150C     0x021F150C  data   ov093  a4
  *   d_021F1904 0x021F1904 data a4
  *   func_021D775C 0x021D775C thumb ov093
  *   func_021D7704 0x021D7704 thumb ov093
@@ -180,4 +181,14 @@ void func_021DEB5C(int a, void *b, int c)
         func_021C8860((struct S *)(r + 4), func_021D70A8((void *)a));
         func_021C88C8(b, r);
     }
+}
+
+
+extern int d_021F150C[];
+int *func_021DEBA8(int *p);
+
+int *func_021DEBA8(int *p)
+{
+    *p = 1;
+    return d_021F150C;
 }

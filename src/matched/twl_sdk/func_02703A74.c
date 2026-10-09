@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_027026DC  0x027026DC  code twl
- *   func_02703B98  0x02703B98  code twl
- *   func_020862D4  0x020862D4  code twl
- *   func_02088610  0x02088610  code twl
- *   func_02085DBC  0x02085DBC  code twl
+ *   func_027026DC  0x027026DC  arm twl
+ *   func_02703B98  0x02703B98  arm twl
+ *   func_020862D4  0x020862D4  arm twl
+ *   func_02088610  0x02088610  arm twl
+ *   func_02085DBC  0x02085DBC  arm twl
  */
 
 typedef unsigned int u32;

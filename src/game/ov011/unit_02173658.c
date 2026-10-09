@@ -1,7 +1,7 @@
 /*
  * file:     unit_02173658.c
  * unit:     yes
- * function: func_02173658, func_021736A4, func_021736B0, func_021736C0, func_021736D0, func_021736D8, func_021736E0, func_021736EC, func_02173728, func_02173758, func_0217379C, func_021737A8, func_021737CC, func_02173828, func_021738BC, func_021738E4, func_0217392C, func_02173984, func_021739C8, func_021739E0, func_02173A04, func_02173A2C, func_02173AB4, func_02173AE0, func_02173B20, func_02173B44, func_02173B8C, func_02173B9C, func_02173BE4, func_02173C04, func_02173C50, func_02173C6C
+ * function: func_02173658, func_021736A4, func_021736B0, func_021736C0, func_021736D0, func_021736D8, func_021736E0, func_021736EC, func_02173728, func_02173758, func_0217379C, func_021737A8, func_021737CC, func_02173828, func_021738BC, func_021738E4, func_0217392C, func_02173984, func_021739C8, func_021739E0, func_02173A04, func_02173A2C, func_02173AB4, func_02173AE0, func_02173B20, func_02173B44, func_02173B8C, func_02173B9C, func_02173BE4, func_02173C04, func_02173C50, func_02173C6C, func_02173C9C
  * address:  0x02173658
  * region:   ov011
  * compiler: dsi/1.1p1
@@ -531,4 +531,12 @@ int func_02173C6C(int a, int b)
         return 1;
     }
     return func_0203D3F8((u32)func_020399A8(), b, 0x20C, 0, 0, 0, 0, 0);
+}
+
+
+typedef struct { u32 w[4]; } Rec16_02173C9C;
+
+void func_02173C9C(int a, int b, Rec16_02173C9C *src, u8 *p)
+{
+    *(Rec16_02173C9C *)(p + 0x914) = *src;
 }

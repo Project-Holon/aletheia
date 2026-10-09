@@ -1,8 +1,8 @@
 /*
  * file:     button_man_p08.c
  * unit:     yes
- * function: func_02056460, func_0205650C, func_020565C8, func_02056684, func_020569A4, func_020576D0, func_02057830, func_02057AB8, func_02057B10, func_02057B5C, func_02057BC0, func_02057C9C, func_02057E68
- * address:  0x02056460
+ * function: func_02056420, func_02056460, func_0205650C, func_020565C8, func_02056684, func_020569A4, func_020576D0, func_02057830, func_02057AB8, func_02057B10, func_02057B5C, func_02057BC0, func_02057C9C, func_02057E68
+ * address:  0x02056420
  * region:   arm9
  * compiler: dsi/../1.2/sp2
  * flags:    -O4,p
@@ -684,6 +684,7 @@ void func_020569A4(SPLEmitter *emtr, SPLParticleList *list);
 void func_02056684(struct Emt *e, struct Owner *o, void *pool);
 void func_020565C8(s32 s, s32 t, s32 x, s32 y);
 void func_0205650C(s32 s, s32 t, s32 x, s32 z);
+void func_02056420(s32 sn, s32 cs, struct MtxFx43 *m);
 void func_02056460(s32 sn, s32 cs, struct MtxFx43 *m);
 extern const struct Vec16 g_020A7FEC;
 extern const fx16 FX_SinCosTable_[];
@@ -1687,5 +1688,27 @@ void func_02056460(s32 sn, s32 cs, struct MtxFx43 *m)
     m->m[2] = d + e;
     m->m[5] = d - e;
     m->m[8] = d + cs2;
+    m->m[11] = 0;
+}
+
+
+/*
+ * Row 0 of the billboard basis table: the plain rotation about +Y, an unlabelled
+ * leaf in front of func_02056460.  It is written after func_02056460 because
+ * this compiler places it first in the object only in that source order.
+ */
+void func_02056420(s32 sn, s32 cs, struct MtxFx43 *m)
+{
+    m->m[0] = cs;
+    m->m[3] = 0;
+    m->m[6] = sn;
+    m->m[9] = 0;
+    m->m[1] = 0;
+    m->m[4] = 0x1000;
+    m->m[7] = 0;
+    m->m[10] = 0;
+    m->m[2] = -sn;
+    m->m[5] = 0;
+    m->m[8] = cs;
     m->m[11] = 0;
 }

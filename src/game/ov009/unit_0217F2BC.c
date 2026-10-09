@@ -15,7 +15,7 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_02085A38  0xfunc_02085A38  arm
+ *   func_02085A38 0x02085A38 arm
  */
 
 extern void func_02085A38(unsigned int msec);

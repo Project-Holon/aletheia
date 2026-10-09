@@ -1,73 +1,71 @@
 /*
- * function: func_0203B1D8
- * address:  0x0203B1D8
- * packet:   pkt_0203B1D8
+ * file:     net_state_p17.c
+ * unit:     yes
+ * function: func_0203B258, func_0203B2A8, func_0203B2D0
+ * address:  0x0203B258
  * region:   arm9
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * The trailing `*` is the unlabelled-follower artefact, never a byte
- * difference: the inferred extent runs to 84 bytes because the two `bx lr`
- * filler words at 0x0203B224 and 0x0203B228 have no label (a prologue that
- * saves no lr is never auto-labelled by disasm.py).  The function itself is
- * 72 bytes of code plus one pool word = 76, and all 76 compiled bytes match.
- * 0x0203B224 is the follower to seed into layout/function_starts.txt
- * (integrator's file, not edited here).
- *
- * Closes docs/notes/pkt_0203B1D8.c.txt, which parked this at "DIFF, 3 bytes,
- * one register" -- the +0x8 callback word landing in r1 in the image and r0
- * in every compile -- and concluded it was an unbreakable Chaitin allocation
- * tie.  It was not a tie: THE CALLBACK TAKES AN ARGUMENT.  Spelling the
- * field `void (*f08)(u32)` and calling `s->f08((u32)s)` pins r0 to the
- * argument, so the function pointer must load into r1, and the three bytes
- * fall out together.
- *
- * This is the same family idiom that closed src/matched/func_0203AF40.c in
- * the same wave (there the argument is func_0203D650()'s return value) and
- * that src/pending/func_0203B52C.c already documented in prose.  Across
- * net_state.c, a `ldr rN,[base,#off] / cmp rN,#0 / blx rN` where N is not r0
- * means the callback is being PASSED something, and the thing passed is
- * whatever r0 already holds.  A void-arity guess is what produces the r0
- * spelling.
- *
- * PERMUTER RUN BEFORE THE FIX, and it found nothing, as recorded in the
- * note's appended section: --mode hill --budget 800 exhausted 76 singles
- * with no improvement, --mode anneal --budget 700 spent 700 distinct
- * compiles in 89s and never moved off asm=215 / bytes-out=3.  A
- * function-pointer's ARITY is not in the mutation table (all its mutations
- * are value-preserving except `type`, which changes an integer type, not a
- * signature), so no search over this body could have reached it.
+ * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203C934  0x0203C934  arm
+ *   func_0203D798  0x0203D798  arm
+ *   func_02037894  0x02037894  arm
+ *   func_0203AD80  0x0203AD80  arm
+ *   unk_0203B228   0x0203B228  data
+ *   unk_0203B22C   0x0203B22C  arm
  *   g_021469DC     0x021469DC  data
  */
+struct NetState;
+struct Sys;
+typedef unsigned int u32;
 
-typedef unsigned char  u8;
-typedef unsigned int   u32;
+typedef unsigned short u16;
 
-extern void func_0203C934(void);
-
-struct Sys {
-    u8  pad_00[8];
-    void (*f08)(u32 a);
-};
-
+extern void *func_0203D798(void);
+extern u32   func_02037894(int a0, int a1, int a2, int a3);
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+void func_0203B258(void);
+void func_0203B2A8(int a0);
+void func_0203B2D0(u32 val);
+extern char  unk_0203B228[];
+extern char  unk_0203B22C[];
 extern struct Sys *g_021469DC;
 
-u32 func_0203B1D8(void)
-{
-    struct Sys *s = g_021469DC;
 
-    if (s == 0)
-        return 1;
-    if (s->f08 != 0)
-        s->f08((u32)s);
-    if (g_021469DC == 0)
-        return 1;
-    func_0203C934();
-    return 0;
+/*
+ * Starts a 0x200-entry transfer over channel 1 and reports through
+ * func_0203AD80 at line 517 when the start call answers zero.  The line comes
+ * out as `add r3, r4, #5` because r4 already holds the 0x200 argument, the
+ * same constant-rematerialisation the consecutive-`__LINE__` idiom records.
+ *
+ * Both callback addresses (0x0203B22C and 0x0203B228, the two `bx lr` filler
+ * words in the pool of func_0203B1D8) are declared as symbols: written as
+ * plain integer literals this compiler folds the pair into one pool word plus
+ * a `sub r1, r4, #4`, which is four bytes short of the original's two pool
+ * words.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B258.c \
+ *       --func func_0203B258 --addr 0x0203B258 --cc 1.1p1 --arm
+ */
+void func_0203B258(void)
+{
+    func_0203D798();
+    if (func_02037894(1, 0x200, 1, (int)unk_0203B22C) != 0)
+        func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)unk_0203B228, 0, 0x205);
+}
+
+void func_0203B2A8(int a0){ func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)0x203B228, (int)0, (int)0x214); }
+
+
+void func_0203B2D0(u32 val)
+{
+    func_0203AD80((struct NetState *)g_021469DC, func_0203B258, 0, 0x222);
 }

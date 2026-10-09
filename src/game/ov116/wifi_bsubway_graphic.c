@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
@@ -149,6 +149,8 @@
  *   func_020403F4  0x020403F4  arm
  *   func_020450C8  0x020450C8  arm
  *   func_0203F9B4  0x0203F9B4  arm
+ *   ov129_id 0x81 data
+ *   ov115_id 0x73 data
  */
 #include "../../matched/include/Obj13867.h"
 #include "../../matched/include/Obj22624.h"

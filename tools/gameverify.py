@@ -23,6 +23,7 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import protofix as pf  # noqa: E402
 import restructure as rs  # noqa: E402
+import gamesyms as gs  # noqa: E402
 
 
 def settings_of(raw):
@@ -42,7 +43,7 @@ def main():
     ap.add_argument('--report')
     a = ap.parse_args()
     regions = a.region or sorted(d for d in os.listdir(a.tree) if os.path.isdir(os.path.join(a.tree, d)))
-    rows, bad = [], 0
+    rows, bad, nmatch = [], 0, 0
     for region in regions:
         base = os.path.join(a.tree, region)
         files = []
@@ -64,18 +65,22 @@ def main():
             except ValueError:
                 addr = 0
             reg = (h.get('region') or region).strip()
-            if not addr:
+            badsym = gs.lint(raw.replace('\r\n', '\n'))
+            if badsym:
+                v = {'header': 'bad symbols row: %s' % badsym[0][0].strip()}
+            elif not addr:
                 v = {'header': 'no address'}
             else:
                 v = rs.verify(p, reg, addr, st)
-            ok = rs.lang_ok(v, st) if addr else False
+            ok = rs.lang_ok(v, st) if (addr and not badsym) else False
             bad += 0 if ok else 1
             rel = os.path.relpath(p, ROOT).replace(os.sep, '/')
+            nmatch += 1 if ok and (v.get(st['lang'] or 'nolang', '').startswith('MATCH')) else 0
             rows.append({'file': rel, 'ok': 'yes' if ok else 'NO',
                          'verdict': ' '.join('%s=%s' % kv for kv in v.items())[:300]})
             if not ok:
                 print('NOT EXACT  %s  %s' % (rel, rows[-1]['verdict'][:160]), flush=True)
-    print('files: %d, not exact: %d' % (len(rows), bad))
+    print('files: %d, not exact: %d, MATCH (relocations wildcarded): %d' % (len(rows), bad, nmatch))
     if a.report:
         with open(a.report, 'w', newline='', encoding='utf-8') as f:
             w = csv.DictWriter(f, ['file', 'ok', 'verdict'], delimiter='\t')

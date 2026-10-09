@@ -1,72 +1,69 @@
 /*
  * file:     unit_02180410_p12.c
  * unit:     yes
- * function: func_02181748
- * address:  0x02181748
- * packet:   pkt_ov009_02181748
+ * function: gsUdpEngineNoMoreMsgHandlers, gsUdpEngineNoApp
+ * address:  0x02181828
  * region:   ov009
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      gsUdpEngineRemoveMsgHandler (gsudpengine)
+ * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   gsUdpEngineGetEngine     0x02180404 arm ov009
- *   gsDebugFormat            0x0217D254 arm ov009
- *   ArraySearch              0x021843E8 arm ov009
- *   ArrayDeleteAt            0x0218437C arm ov009
- *   g_021A3B9C               0x021A3B9C data
- *   g_021A3CE4               0x021A3CE4 data
- *   gsUdpMsgHandlerCompare2  0x02180430 arm ov009
+ *   gsUdpEngineGetEngine             0x02180404 arm
+ *   gsDebugFormat                    0x0217d254 arm
+ *   ArrayLength                      0x02184200 arm
+ *   d_021A3B9C                       0x021a3b9c data
  */
+struct GSUdpEngineObject {
+    void *field0;             /* +0x00 */
+    void *field4;             /* +0x04 */
+    void *field8;             /* +0x08 */
+    int   fieldC;             /* +0x0c */
+    void *field10;            /* +0x10 */
+    void *field14;            /* +0x14 */
+    void *field18;            /* +0x18 */
+    void *field1c;            /* +0x1c */
+    void *field20;            /* +0x20 */
+    void *field24;            /* +0x24 */
+    void *field28;            /* +0x28 */
+};
 
-typedef struct { char c[16]; } GSUdpHdr;
+extern struct GSUdpEngineObject *gsUdpEngineGetEngine(void);
+extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel,
+                          char *theTokenStr);
+extern int ArrayLength(void *array);
+int gsUdpEngineNoMoreMsgHandlers(void);
+int gsUdpEngineNoApp(void);
+extern char d_021A3B9C[];
 
-typedef struct GSUdpMsgHandler {
-    char pad0[0x10];
-    char header[16];
-    char pad1[0x1C];
-} GSUdpMsgHandler;
 
-typedef struct GSUdpEngineObject {
-    char pad0[4];
-    void *peers;
-    void *handlers;
-    int initialized;
-} GSUdpEngineObject;
-
-extern GSUdpEngineObject *gsUdpEngineGetEngine(void);
-extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
-extern int ArraySearch(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern void ArrayDeleteAt(void *array, int n);
-extern int gsUdpMsgHandlerCompare2(void *theFirstHandler, void *theSecondHandler);
-extern void *memcpy(void *dst, const void *src, unsigned long n);
-extern char g_021A3B9C[];
-extern char g_021A3CE4[];
-
-int func_02181748(char *theHeader)
+int gsUdpEngineNoMoreMsgHandlers(void)
 {
-    int index;
-    GSUdpMsgHandler aHandler;
-    GSUdpEngineObject *aUdp;
+    struct GSUdpEngineObject *aUdp = gsUdpEngineGetEngine();
 
-    aUdp = gsUdpEngineGetEngine();
-    if (aUdp->initialized == 0)
-    {
-        gsDebugFormat(12, 0, 15, g_021A3B9C);
-        return 3;
+    if (aUdp->fieldC == 0) {
+        gsDebugFormat(0xc, 0, 0xf, d_021A3B9C);
+        return 1;
     }
-    if (theHeader == 0 || theHeader[0] == 0)
-    {
-        gsDebugFormat(12, 0, 15, g_021A3CE4);
-        return 10;
+    return ArrayLength(aUdp->field8) == 0;
+}
+
+
+int gsUdpEngineNoApp(void)
+{
+    struct GSUdpEngineObject *aUdp = gsUdpEngineGetEngine();
+
+    if (aUdp->fieldC == 0) {
+        gsDebugFormat(0xc, 0, 0xf, d_021A3B9C);
+        return 1;
     }
-    *(GSUdpHdr *)aHandler.header = *(GSUdpHdr *)theHeader;
-    index = ArraySearch(aUdp->handlers, &aHandler, gsUdpMsgHandlerCompare2, 0, 0);
-    if (index != -1)
-        ArrayDeleteAt(aUdp->handlers, index);
-    return 0;
+    if (aUdp->field14 != 0 || aUdp->field20 != 0 || aUdp->field10 != 0 ||
+        aUdp->field24 != 0 || aUdp->field18 != 0 || aUdp->field1c != 0 ||
+        aUdp->field28 != 0)
+        return 0;
+    return 1;
 }

@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
@@ -54,6 +54,7 @@
  *   PMi_InsertList 0x0208C6FC  arm
  *   g_02153004     0x02153004  data  a4
  *   PMi_PostSleepCallbackList      0x0215301C  data
+ *   g_02153020                     0x02153020  data
  */
 #define reg_OS_IME (*(vu16 *)0x04000208)
 #define reg_MI_MCCNT1 (*(vu32 *)0x040001A4)

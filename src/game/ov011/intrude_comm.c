@@ -1,7 +1,7 @@
 /*
  * file:     intrude_comm.c
  * unit:     yes
- * function: func_02172BC0, func_02172CB0, func_02172D70, func_021730AC, func_021731C8, func_02173368, func_02173464, func_02173558, func_02173568, func_02173580, func_0217358C, func_02173590, func_021735FC
+ * function: func_02172BC0, func_02172CB0, func_02172D70, func_021730AC, func_021731C8, func_02173368, func_02173464, func_02173558, func_02173568, func_02173580, func_0217358C, func_02173590, func_021735FC, func_02173638, func_02173644, func_02173654
  * address:  0x02172BC0
  * region:   ov011
  * compiler: dsi/1.1p1
@@ -919,4 +919,23 @@ int func_021735FC(int a, Hdr *p)
         return 1;
     }
     return 0;
+}
+
+
+int func_02173638(int a, int b)
+{
+    if (a == b)
+        return 1;
+    return 0;
+}
+
+
+void func_02173644(int a, int b, u8 *p)
+{
+    p[0x93F] |= 2;
+}
+
+
+void func_02173654(void)
+{
 }

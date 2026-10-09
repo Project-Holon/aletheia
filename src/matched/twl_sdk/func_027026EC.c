@@ -11,8 +11,8 @@
  *
  * symbols:
  *   data_027341A4  0x027341A4  data twl a2
- *   func_020862B8  0x020862B8  code twl a2
- *   func_020862D4  0x020862D4  code twl a2
+ *   func_020862B8  0x020862B8  arm twl a2
+ *   func_020862D4  0x020862D4  arm twl a2
  */
 
 typedef unsigned char u8;

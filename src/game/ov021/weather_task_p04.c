@@ -1,7 +1,7 @@
 /*
  * file:     weather_task_p04.c
  * unit:     yes
- * function: func_021A244C, func_021A2564, func_021A25BC, func_021A25CC, func_021A25DC, func_021A2604, func_021A2630, func_021A2638, func_021A2640, func_021A2654, func_021A26C4, func_021A26D8, func_021A2724, func_021A273C, func_021A274C
+ * function: func_021A244C, func_021A2564, func_021A25BC, func_021A25CC, func_021A25DC, func_021A2604, func_021A2630, func_021A2638, func_021A2640, func_021A2654, func_021A26C4, func_021A26D8, func_021A2724, func_021A273C, func_021A274C, func_021A277C, func_021A27B8, func_021A27F8, func_021A282C, func_021A284C, func_021A2860, func_021A28A0
  * address:  0x021A244C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -37,27 +37,35 @@
  *   func_02082BCC  0x02082BCC  arm
  *   data_021D88E8  0x021D88E8  data  a1
  *   func_021A2BC4  0x021A2BC4  thumb  ov021
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_021A2978  0x021A2978  thumb  ov021
+ *   func_021A29A8  0x021A29A8  thumb  ov021
+ *   func_021A29F4  0x021A29F4  thumb  ov021
+ *   func_021A2994  0x021A2994  thumb  ov021
+ *   func_021A2A18  0x021A2A18  thumb  ov021
+ *   func_021A2A68  0x021A2A68  thumb  ov021
  */
 #include "../../matched/include/Obj00954.h"
 #include "../../matched/include/Obj19740.h"
 #include "../../matched/include/Obj18003.h"
-#include "../../matched/include/Obj00954.h"
 #include "../../matched/include/Obj12714.h"
+#include "../../matched/include/Obj12084.h"
 
 struct Actor;
 struct Pt_021A244C;
 struct SoundSys2;
-struct Obj;
+struct Obj_021A2564;
 struct Vec2;
-typedef unsigned char  u8;
+struct Obj_021A277C;
+typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-typedef unsigned int   u32;
+typedef unsigned int u32;
 
-typedef signed short   s16;
+typedef signed short s16;
 
-typedef signed int     s32;
+typedef signed int s32;
 
 typedef s32 fx32;
 
@@ -65,13 +73,13 @@ typedef struct {
     fx32 x;
     fx32 y;
     fx32 z;
-} VecFx32;
+} VecFx32_021A244C;
 
 typedef struct { short x, y; } Pt_021A244C;
 
-typedef struct { char pad[0x774]; int *list; } Obj;
+typedef struct { char pad[0x774]; int *list; } Obj_021A2564;
 
-typedef signed char    s8;
+typedef signed char s8;
 
 struct PtS {
     s16 x;
@@ -95,10 +103,86 @@ typedef struct {
     Slot021A274C slots[0x20];
 } Obj021A274C;
 
+typedef struct Node021A277C {
+    u32 pad0;
+    u32 handle;
+    u8 pad8[0x28];
+    struct Node021A277C *prev;
+    struct Node021A277C *next;
+} Node021A277C;
+
+typedef struct {
+    u8 pad[0x774];
+    Node021A277C *head;
+    int count;
+} Obj021A277C;
+
+typedef struct Node021A27B8 {
+    u32 pad0;
+    u32 handle;
+    u8 pad8[0x28];
+    struct Node021A27B8 *prev;
+    struct Node021A27B8 *next;
+} Node021A27B8;
+
+typedef struct {
+    u8 pad[0x774];
+    Node021A27B8 *head;
+    int count;
+} Obj021A27B8;
+
+typedef struct Node021A27F8 {
+    u32 pad0;
+    u32 handle;
+    u8 pad8[0x28];
+    struct Node021A27F8 *prev;
+    struct Node021A27F8 *next;
+} Node021A27F8;
+
+typedef struct {
+    u8 pad[0x48];
+    void (*cb)(Node021A27F8 *n);
+} Ops021A27F8;
+
+typedef struct {
+    u8 pad[0x20];
+    Ops021A27F8 *ops;
+    u8 pad24[0x750];
+    Node021A27F8 *head;
+} Obj021A27F8;
+
+typedef struct {
+    char pad0[4];
+    unsigned short count;
+} Hdr;
+
+typedef struct {
+    char pad0[0x18];
+    int *arr;
+    int pad1c;
+    Hdr *hdr;
+    char pad24[4];
+    char sub[4];
+} Obj_021A277C;
+
+typedef struct {
+    u8 pad[4];
+    u16 count;
+} Info021A28A0;
+
+typedef struct {
+    u8 pad[0x18];
+    u32 *items;
+    u8 pad1C[4];
+    Info021A28A0 *info;
+    u8 pad24[4];
+    u8 slots[1];
+} Obj021A28A0;
+
 extern void *func_0218EC2C(void);
-extern void func_02048B30(void *cam, VecFx32 *out);
-extern void func_02048AE8(void *cam, VecFx32 *out);
-extern fx32 func_0207CF3C(const VecFx32 *a, const VecFx32 *b);
+extern void func_02048B30(void *cam, VecFx32_021A244C *out);
+extern void func_02048AE8(void *cam, VecFx32_021A244C *out);
+extern fx32 func_0207CF3C(const VecFx32_021A244C *a, const VecFx32_021A244C *b);
 extern void func_021A2D30(void *p, fx32 dist, fx32 *w, fx32 *h);
 extern u32 func_0207C768(u32 a, u32 b);
 u32 func_021A2C28(u8 *p);
@@ -113,10 +197,17 @@ void func_02028ACC(struct SoundSys2 *s, u32 id, u32 who);
 void func_020061F0(u32 a, u32 b);
 extern unsigned char *func_021A2C24(unsigned char *o);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
-u32 func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+u32 func_0204B404(struct Obj_021A2564 *p, const struct Vec2 *delta, u32 which);
 void func_02082BCC(void *p, int v, int n);
+void func_0204B3DC(struct Obj_021A277C *h, unsigned int v);
+extern void func_021A2978(u8 *p, u16 *q, u32 c, u32 a3);
+extern u32 func_021A29A8(u32, u32, u32);
+extern u32 func_021A2994(u32);
+extern void func_021A29F4(u16 *p, u32 a1, u32 a2, u32 a3);
+void func_021A2A18(void *a, int i, int v, void *p, int x);
+void func_021A2A68(u8 *p, int i, int x);
 void func_021A244C(u8 *o, s32 *outX, s32 *outY);
-void func_021A2564(Obj *obj, int px, int py);
+void func_021A2564(Obj_021A2564 *obj, int px, int py);
 void func_021A25BC(unsigned char *o, int arg);
 void func_021A25CC(u8 *p);
 void func_021A25DC(u8 *p, int a);
@@ -130,8 +221,16 @@ void func_021A26D8(int *p);
 int func_021A2724(Obj021A2724 *p, int (*cb)(Obj021A2724 *, int, int), int x);
 u8 func_021A273C(u8 *p);
 Slot021A274C *func_021A274C(Obj021A274C *p);
+void func_021A277C(Obj021A277C *p, Node021A277C *n);
+void func_021A27B8(Obj021A27B8 *p, Node021A27B8 *n);
+void func_021A27F8(Obj021A27F8 *p);
+int func_021A282C(u32 a, u32 b, u32 c, u32 d);
+int func_021A284C(u32 a, u32 b, u32 c, u32 d);
+void func_021A2860(Obj_021A277C *o, int x);
+void func_021A28A0(Obj021A28A0 *p);
 extern u8 g_02148B54[];
 extern const u8 data_021D88E8[];
+
 
 
 
@@ -145,8 +244,8 @@ extern const u8 data_021D88E8[];
  */
 void func_021A244C(u8 *o, s32 *outX, s32 *outY)
 {
-    VecFx32 pos;
-    VecFx32 tgt;
+    VecFx32_021A244C pos;
+    VecFx32_021A244C tgt;
     fx32 w;
     fx32 h;
     fx32 dx;
@@ -163,10 +262,10 @@ void func_021A244C(u8 *o, s32 *outX, s32 *outY)
     cam = func_0218EC2C();
     func_02048B30(cam, &pos);
     func_02048AE8(cam, &tgt);
-    dx = pos.x - ((VecFx32 *)(o + 0x68))->x;
-    dz = pos.z - ((VecFx32 *)(o + 0x68))->z;
+    dx = pos.x - ((VecFx32_021A244C *)(o + 0x68))->x;
+    dz = pos.z - ((VecFx32_021A244C *)(o + 0x68))->z;
     if ((dx < 0 ? -dx : dx) > 0x3E8000 || (dz < 0 ? -dz : dz) > 0x64000) {
-        *(VecFx32 *)(o + 0x68) = pos;
+        *(VecFx32_021A244C *)(o + 0x68) = pos;
         *outX = 0;
         *outY = 0;
         return;
@@ -195,7 +294,7 @@ void func_021A244C(u8 *o, s32 *outX, s32 *outY)
         dz += 0x1000;
     }
     if (dx + dz != 0) {
-        *(VecFx32 *)(o + 0x68) = pos;
+        *(VecFx32_021A244C *)(o + 0x68) = pos;
     }
     *outX = dx >> 12;
     *outY = dz >> 12;
@@ -207,7 +306,8 @@ void func_021A244C(u8 *o, s32 *outX, s32 *outY)
 
 
 
-void func_021A2564(Obj *obj, int px, int py)
+
+void func_021A2564(Obj_021A2564 *obj, int px, int py)
 {
     int *p = obj->list;
     int h;
@@ -235,6 +335,7 @@ void func_021A2564(Obj *obj, int px, int py)
 
 
 
+
 /*
  * Unlabelled tail-call stub, filed for the ov026 lane.
  */
@@ -242,6 +343,7 @@ void func_021A25BC(unsigned char *o, int arg)
 {
     func_021A2C30(o + 0x40, ((struct Obj19740 *)o)->fC, arg);
 }
+
 
 
 
@@ -265,6 +367,7 @@ void func_021A25CC(u8 *p)
 
 
 
+
 void func_021A25DC(u8 *p, int a)
 {
     if (func_02005C64() == 0) {
@@ -274,6 +377,7 @@ void func_021A25DC(u8 *p, int a)
             func_020061E4(a);
     }
 }
+
 
 
 
@@ -297,10 +401,12 @@ void func_021A2604(u8 *p, int a, int b)
 
 
 
+
 unsigned char *func_021A2630(unsigned char *o)
 {
     return func_021A2C24(o);
 }
+
 
 
 
@@ -317,6 +423,7 @@ unsigned int func_021A2638(unsigned char *o)
 
 
 
+
 /*
  * Emitted from the ov021 instruction shape.
  *
@@ -326,6 +433,7 @@ void func_021A2640(u8 *a, struct PtS *b)
 {
     func_0204B454((struct Actor *)func_021A2C28(a), b, 0);
 }
+
 
 
 
@@ -348,15 +456,17 @@ void func_021A2654(int obj, unsigned short *src)
     } else if (pt[1] < -64) {
         pt[1] = pt[1] + 256;
     }
-    func_0204B404((struct Obj *)func_021A2C28((u8 *)obj), (const struct Vec2 *)pt, 0);
+    func_0204B404((struct Obj_021A2564 *)func_021A2C28((u8 *)obj), (const struct Vec2 *)pt, 0);
 }
+
 
 
 
 int func_021A26C4(u32 a, u32 b)
 {
-return func_0204B404((struct Obj *)(func_021A2C28((u8 *)a)), (const struct Vec2 *)b, 0);
+return func_0204B404((struct Obj_021A2564 *)(func_021A2C28((u8 *)a)), (const struct Vec2 *)b, 0);
 }
+
 
 
 
@@ -392,6 +502,7 @@ void func_021A26D8(int *p)
 
 
 
+
 int func_021A2724(Obj021A2724 *p, int (*cb)(Obj021A2724 *, int, int), int x)
 {
     if (cb != 0)
@@ -401,10 +512,12 @@ int func_021A2724(Obj021A2724 *p, int (*cb)(Obj021A2724 *, int, int), int x)
 
 
 
+
 u8 func_021A273C(u8 *p)
 {
     return data_021D88E8[p[0x26]];
 }
+
 
 
 
@@ -418,4 +531,102 @@ Slot021A274C *func_021A274C(Obj021A274C *p)
         }
     }
     return 0;
+}
+
+
+
+void func_021A277C(Obj021A277C *p, Node021A277C *n)
+{
+    Node021A277C *tail;
+
+    p->count++;
+    if (p->head == 0) {
+        p->head = n;
+        n->next = n;
+        p->head->prev = n;
+        return;
+    }
+    tail = p->head->prev;
+    n->prev = tail;
+    n->next = tail->next;
+    tail->next->prev = n;
+    tail->next = n;
+    func_0204B3DC((struct Obj_021A277C *)n->handle, 1);
+}
+
+
+
+void func_021A27B8(Obj021A27B8 *p, Node021A27B8 *n)
+{
+    p->count--;
+    if (p->head == n) {
+        if (n->next == n)
+            p->head = 0;
+        else
+            p->head = n->next;
+    }
+    n->next->prev = n->prev;
+    n->prev->next = n->next;
+    n->next = 0;
+    n->prev = 0;
+    func_0204B3DC((struct Obj_021A277C *)n->handle, 0);
+}
+
+
+
+void func_021A27F8(Obj021A27F8 *p)
+{
+    Node021A27F8 *cur = p->head;
+    Node021A27F8 *nx;
+
+    if (cur != 0 && p->ops->cb != 0) {
+        nx = cur->next;
+        do {
+            p->ops->cb(cur);
+            cur = nx;
+            nx = nx->next;
+        } while (cur != p->head && p->head != 0);
+    }
+}
+
+
+
+/*
+ * Emitted from the ov021 instruction shape.
+ *
+ * Addresses are Black-image addresses.
+ */
+int func_021A282C(u32 a, u32 b, u32 c, u32 d)
+{
+func_021A2978((u8 *)(a + 40), (u16 *)(((struct Obj12084 *)((u8 *)(a)))->f20), b, d);
+return func_021A29A8((a + 40), ((struct Obj12084 *)((u8 *)(a)))->f20, b);
+}
+
+
+
+int func_021A284C(u32 a, u32 b, u32 c, u32 d)
+{
+func_021A29F4((u16 *)(a + 40), b, c, d);
+return func_021A2994((a + 40));
+}
+
+
+
+void func_021A2860(Obj_021A277C *o, int x)
+{
+    int i;
+
+    for (i = 0; i < o->hdr->count; i++) {
+        func_021A2A18(o->sub, i, o->arr[i], (char *)o->hdr + 0xe + i * 12, x);
+    }
+}
+
+
+
+void func_021A28A0(Obj021A28A0 *p)
+{
+    int i;
+
+    for (i = 0; i < p->info->count; i++)
+        func_021A2A68(p->slots, i, p->items[i]);
 }

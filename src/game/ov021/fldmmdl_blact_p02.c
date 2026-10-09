@@ -60,7 +60,7 @@ extern void *func_0216D67C(void *a0);
 extern u32 func_0216D520(void *p);
 extern void *func_0216E3C4(void *p);
 extern int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
-extern u16 func_0219C7EC(u32, u32);
+extern u32 func_0219C7EC(u32, u32);
 extern void func_0219CFB0(u32, u32, u16 *, u16 *, u32, u32, u32);
 extern u32 func_020508D8(u8 *o, u32 i);
 extern void func_02050278(struct BbActSys *o, u32 first, u32 count);

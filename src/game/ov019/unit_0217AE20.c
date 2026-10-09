@@ -1,7 +1,7 @@
 /*
  * file:     unit_0217AE20.c
  * unit:     yes
- * function: func_0217AE20, func_0217AE38, func_0217AE40, func_0217AED4, func_0217AEE8, func_0217AEFC, func_0217AF04, func_0217AF38, func_0217AF4C, func_0217AFB0, func_0217AFE4, func_0217B054, func_0217B098, func_0217B158, func_0217B1D0, func_0217B264, func_0217B370, func_0217B3EC, func_0217B440, func_0217B4C4, func_0217B5E0, func_0217B66C, func_0217B6B4, func_0217B75C, func_0217B798, func_0217B80C, func_0217B83C, func_0217B840, func_0217B8E4, func_0217B8F0, func_0217B908, func_0217B974, func_0217B9BC, func_0217B9CC, func_0217B9F4, func_0217BA10, func_0217BA48, func_0217BA6C, func_0217BAA8, func_0217BAF0, func_0217BB04, func_0217BB20, func_0217BB3C, func_0217BB70, func_0217BCDC
+ * function: func_0217AE20, func_0217AE38, func_0217AE40, func_0217AED4, func_0217AEE8, func_0217AEFC, func_0217AF04, func_0217AF38, func_0217AF4C, func_0217AFB0, func_0217AFE4, func_0217B054, func_0217B098, func_0217B158, func_0217B1D0, func_0217B264, func_0217B370, func_0217B3EC, func_0217B440, func_0217B4C4, func_0217B5E0, func_0217B66C, func_0217B6B4, func_0217B75C, func_0217B798, func_0217B80C, func_0217B83C, func_0217B840, func_0217B8E4, func_0217B8F0, func_0217B908, func_0217B974, func_0217B9BC, func_0217B9CC, func_0217B9F4, func_0217BA10, func_0217BA48, func_0217BA6C, func_0217BAA8, func_0217BAF0, func_0217BB04, func_0217BB20, func_0217BB3C, func_0217BB70, func_0217BCDC, func_0217BD7C, func_0217BD80
  * address:  0x0217AE20
  * region:   ov019
  * compiler: dsi/1.1p1
@@ -1446,6 +1446,22 @@ int func_0217BCDC(int *a, u8 *b, int c, u8 *d)
     default:
         func_0217B8E4((char *)a, 0);
         return 1;
+    }
+    return 0;
+}
+
+
+int func_0217BD7C(void)
+{
+    return 1;
+}
+
+
+int func_0217BD80(u8 *p, int b, int c, u8 *q)
+{
+    if (*q == 0) {
+        *(int *)(p + 0x3568) = 1;
+        (*q)++;
     }
     return 0;
 }

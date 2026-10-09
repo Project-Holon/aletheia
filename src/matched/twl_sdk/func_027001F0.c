@@ -13,7 +13,7 @@
  *   data_02732FC8  0x02732FC8  data twl a2
  *   data_02733FC8  0x02733FC8  data twl a2
  *   data_0273417C  0x0273417C  data twl a2
- *   func_02085DBC  0x02085DBC  code twl a2
+ *   func_02085DBC  0x02085DBC  arm twl a2
  */
 
 typedef unsigned int u32;

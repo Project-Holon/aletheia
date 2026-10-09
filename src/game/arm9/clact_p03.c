@@ -12,6 +12,12 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ *   func_02066748  0x02066748   12 bytes  -- veneer, resolves `veneer`
+ *   func_02065BD0  0x02065BD0  168 bytes  -- OPEN, docs/notes/func_02065BD0.c.txt
+ *   func_0204CBB0  0x0204CBB0  188 bytes  -- closed, resolves `matched`
+ *   func_0204BA7C  0x0204BA7C  112 bytes  -- closed, resolves `matched`
+ *   func_0204CC6C  0x0204CC6C  584 bytes  -- OPEN, soft-float, multi-function
+ *   func_02065C78  0x02065C78  108 bytes  -- closed, resolves `matched`
  * symbols:
  *   g_02146A74     0x02146A74  data
  *   func_0204C804  0x0204C804  arm
@@ -26,12 +32,6 @@
  *   sub_02082BCC  0x02082BCC  arm
  *   sub_02063790  0x02063790  arm
  *   sub_020637D4  0x020637D4  arm
- *   func_02066748  0x02066748   12 bytes  -- veneer, resolves `veneer`
- *   func_02065BD0  0x02065BD0  168 bytes  -- OPEN, docs/notes/func_02065BD0.c.txt
- *   func_0204CBB0  0x0204CBB0  188 bytes  -- closed, resolves `matched`
- *   func_0204BA7C  0x0204BA7C  112 bytes  -- closed, resolves `matched`
- *   func_0204CC6C  0x0204CC6C  584 bytes  -- OPEN, soft-float, multi-function
- *   func_02065C78  0x02065C78  108 bytes  -- closed, resolves `matched`
  */
 struct Entry;
 struct Pool;

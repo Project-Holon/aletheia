@@ -1,6 +1,6 @@
 /*
  * file:     unit_021DF974.c
- * function: func_021DF974
+ * function: func_021DF974, func_021DF9BC
  * address:  0x021DF974
  * packet:   pkt_ov093_021DF974
  * region:   ov093
@@ -11,6 +11,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   d_021F157C     0x021F157C  data   ov093  a4
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D5444  0x021D5444  thumb  ov093
@@ -39,4 +40,14 @@ void func_021DF974(int self, int a, int b)
     v = func_021D775C(0x16);
     if (v == 0xf || v == 10)
         func_021D7704(0x31, func_021DD008(self));
+}
+
+
+extern int d_021F157C[];
+int *func_021DF9BC(int *p);
+
+int *func_021DF9BC(int *p)
+{
+    *p = 1;
+    return d_021F157C;
 }

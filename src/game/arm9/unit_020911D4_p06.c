@@ -1,7 +1,7 @@
 /*
  * file:     unit_020911D4_p06.c
  * unit:     yes
- * function: func_020979C0, func_02098B48
+ * function: func_020979C0, func_02098B48, func_02099228
  * address:  0x020979BC
  * region:   arm9
  * compiler: dsi/1.2
@@ -35,27 +35,33 @@
  *   npio2_hw  0x020A6320  data
  *   two_over_pi  0x020A63A0  data
  */
-
+#define HI(x) (((i32 *)&(x))[1])
+#define LO(x) (((i32 *)&(x))[0])
 /* Matched units compiled in this file, entered 4 bytes before their function:
  * unit_020979BC (0x020979BC) holds func_020979C0
  * unit_02098B44 (0x02098B44) holds func_02098B48
+ * unit_02099224 (0x02099224) holds func_02099228
  */
 
 typedef int i32;
+
 typedef unsigned int u32;
 
-#define HI(x) (((i32 *)&(x))[1])
-#define LO(x) (((i32 *)&(x))[0])
-
-extern int errno;
-extern const float __float_nan;
 extern double func_0209A504(double x);
 extern double func_0209C5E0(double x);
 extern double scalbn(double x, int n);
-
+extern int func_0209953C(double *x, double *y, int e0, int nx, int prec, const i32 *ipio2);
+double func_020979C0(double x, double y);
+int func_02098B48(double x, double *y);
+double func_02099228(double x, double y);
+extern int errno;
+extern const float __float_nan;
 extern const double bp[];
 extern const double dp_h[];
 extern const double dp_l[];
+extern const i32 npio2_hw[];
+extern const i32 two_over_pi[];
+
 
 static const double
 zero    =  0.0,
@@ -85,6 +91,7 @@ cp_l  = -7.02846165095275826516e-09,
 ivln2    =  1.44269504088896338700e+00,
 ivln2_h  =  1.44269502162933349609e+00,
 ivln2_l  =  1.92596299112661746887e-08;
+
 
 /*
  * MSL __ieee754_pow(x, y): fdlibm e_pow.c with the MSL edits listed in
@@ -284,12 +291,6 @@ double func_020979C0(double x, double y)
 	return s*z;
 }
 
-#define HI(x) (((i32 *)&(x))[1])
-#define LO(x) (((i32 *)&(x))[0])
-
-extern const i32 npio2_hw[];
-extern const i32 two_over_pi[];
-extern int func_0209953C(double *x, double *y, int e0, int nx, int prec, const i32 *ipio2);
 
 static const double
 half =  5.00000000000000000000e-01,
@@ -301,6 +302,7 @@ pio2_2  =  6.07710050630396597660e-11,
 pio2_2t =  2.02226624879595063154e-21,
 pio2_3  =  2.02226624871116645580e-21,
 pio2_3t =  8.47842766036889956997e-32;
+
 
 /*
  * fdlibm __ieee754_rem_pio2(x, y), e_rem_pio2.c transcribed unchanged.  The
@@ -433,4 +435,45 @@ int func_02098B48(double x, double *y)
         return -n;
     }
     return n;
+}
+
+
+double func_02099228(double x, double y)
+{
+    static const double one = 1.00000000000000000000e+00;
+    static const double C1 = 4.16666666666666019037e-02;
+    static const double C2 = -1.38888888888741095749e-03;
+    static const double C3 = 2.48015872894767294178e-05;
+    static const double C4 = -2.75573143513906633035e-07;
+    static const double C5 = 2.08757232129817482790e-09;
+    static const double C6 = -1.13596475577881948265e-11;
+
+    double a, hz, z, r, qx;
+    int ix;
+
+    ix = HI(x) & 0x7fffffff;
+    if (ix < 0x3e400000)
+    {
+        if ((int)x == 0)
+            return one;
+    }
+    z = x * x;
+    r = z * (C1 + z * (C2 + z * (C3 + z * (C4 + z * (C5 + z * C6)))));
+    if (ix < 0x3FD33333)
+        return one - (0.5 * z - (z * r - x * y));
+    else
+    {
+        if (ix > 0x3fe90000)
+        {
+            qx = 0.28125;
+        }
+        else
+        {
+            HI(qx) = ix - 0x00200000;
+            LO(qx) = 0;
+        }
+        hz = 0.5 * z - qx;
+        a = one - qx;
+        return a - (hz - (z * r - x * y));
+    }
 }

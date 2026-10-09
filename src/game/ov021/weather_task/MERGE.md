@@ -1,21 +1,20 @@
-# weather_task (ov021)
+# weather_task: merge status
 
-Translation unit 021A1AAC..021A7360, 452 functions. After the lane 025 greedy
-pass (scratchpad/ol020/go20.py with the harmonizer) the TU was 34 parts. In round 4 (r4_ov11) the old p21 DIFF was fixed (an unused static helper clr4 was emitted as a 12-byte function) and old p20+p21+p22 merged, so it is now 32 parts, weather_task_p01.c .. p32.c, all EXACT.
+30 parts remain (was 32). Round 8 lane w8b ran uniq (typedef variants), unifyvec, uniqs
+(plain struct tag variants) and the greedy harmonizer pass: it joined p04+p05 and p06+p07
+(old numbering). Every other boundary still fails. Reasons seen in the last greedy run:
 
-Each boundary between parts still fails to merge. Open kinds:
-- Local struct views of one object differ between neighbours (identifier 'Obj'
-  redeclared, Obj_021A244C in a parameter list, unsigned char * versus struct *
-  for the same global). Needs one canonical struct per object, offsets checked
-  against every view.
-- Prototypes of shared functions differ (func_0216D5F8, func_0216D410,
-  func_0216D83C/854/86C, func_02163E34/58, func_0216D89C, func_021A1BDC,
-  func_021A1C34, func_0218EC2C, func_021A63F0 argument count, func_021A6D9C).
-  Use the definition's prototype and cast the call arguments.
-- void versus value return mismatches (func_0216D5F8 u16 versus u32, others).
-- Boundaries that give c99=DIFF after merging (literal pool or inlining changes), checked in round 4:
-  after the new p20 (func_021A5C3C|func_021A5CA4) and p21|p22 (old p23|p24); the old p21 DIFF was a stale
-  unused static helper and is fixed. The other old DIFF spots (func_021A607C, func_021A666C, the last parts)
-  were not re-tested in round 4.
+- Stand-in prototypes (u8 */u32 parameters, K&R externs such as func_021A1BDC, func_021A1C34,
+  func_0216D5F8, func_021A6D9C, func_021A6DA4) against typed definitions in other parts:
+  give each function its definition's prototype and fix the callers (same method as
+  pdw_postman: a call that passes fewer arguments than the definition takes usually just
+  leaves the register alone; add the argument the register already holds).
+- void/int return mismatches (`return f(...)` of a void callee): make the caller void.
+- Pure DIFF merges (p07, p11, p21 to p24, p26, p27, p31, p32 old numbering): usually a
+  parameter narrowed by a prototype that is only visible in the merged file. In pdw_postman
+  the fix was the callee's parameter type (u16 i became u32 i) and a plain-C rewrite of a
+  goto lookup into two switch cases that load the value into a local.
+- Generic struct tags (Obj, Sub, Elem, Cam, Holder) used for different objects: handled by
+  uniq.py/uniqs.py renames; canonical structs by offset are still to do.
 
-Round 3 check (r3_ov06): no boundary of this TU has uncovered code before it (no bx lr or tail-call stub words), so every remaining boundary is a struct or prototype conflict, not a hidden function.
+Tools used (scratchpad r8/w8b): uniq.py, uniqs.py, unifyvec.py, addv3.py, go31.py, pair2.py, auto2.sh.

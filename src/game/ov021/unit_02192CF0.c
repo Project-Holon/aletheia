@@ -1,7 +1,7 @@
 /*
  * file:     unit_02192CF0.c
  * unit:     yes
- * function: func_02192CF0, func_02192E0C, func_02192EB8, func_02192EE0, func_02192F74, func_02192FA4, func_02192FEC, func_02193044, func_02193060, func_02193068, func_021930C0, func_02193130, func_02193144, func_02193170, func_0219319C, func_021931C4, func_021931F4, func_02193200, func_02193208, func_0219320C, func_02193210, func_02193228, func_02193260, func_021932A0, func_021932C0, func_02193398, func_021933C0, func_02193498, func_021934F8, func_02193544
+ * function: func_02192CF0, func_02192E0C, func_02192EB8, func_02192EE0, func_02192F74, func_02192FA4, func_02192FEC, func_02193044, func_02193060, func_02193068, func_021930C0, func_02193130, func_02193144, func_02193170, func_0219319C, func_021931C4, func_021931F4, func_02193200, func_02193208, func_0219320C, func_02193210, func_02193228, func_02193260, func_021932A0, func_021932C0, func_02193398, func_021933C0, func_02193498, func_021934F8, func_02193544, func_0219361C
  * address:  0x02192CF0
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -760,4 +760,9 @@ int func_02193544(u8 *o, unsigned int *q)
         return 0;
     }
     return 1;
+}
+
+void func_0219361C(u8 *p)
+{
+    *(u32 *)(p + 0x100) = 0;
 }

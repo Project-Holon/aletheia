@@ -5328,8 +5328,18 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
                         st.reason += ("; %s overlaps this address but has "
                                       "no func_ label there" % cands[0])
                 continue
+            # A hint naming the site's own overlay, at an address that
+            # overlay's window holds, adds nothing: the own-window rule
+            # (_overlay_pool()) already fixes the overlay, with or without it,
+            # since overlays sharing a window are never resident together.  So
+            # it is not "contested" either; it resolves as the same line
+            # without the token does (2026-10-09; before, the redundant token
+            # was stricter than no token).
+            own_hint = (region_hint is not None and region_hint == region
+                        and _own_window(region, target))
             if (proof[0] == "sole-ref" and len(proof) > 3
                     and proof[3] == "self" and region_hint is not None
+                    and not own_hint
                     and not _is_arm9_address(target)
                     and _hint_contested(target, region_hint)):
                 # Decided after the `overlay_id` pass: self_hint_accepted().
@@ -5818,8 +5828,179 @@ def layout_tu(obj_path):
     return TULayout(bytes(data), mask, parts, relocs, locals_)
 
 
+# ---------------------------------------------------------------------------
+# member evidence for a whole-file (TU) check
+# ---------------------------------------------------------------------------
+#
+# resolve_relocations() has rules written for one function.  Applied to a
+# merged unit, the vendor-object, compiler-template (@N) and section-relative
+# (.bss/.data) rules look only at the unit's first function, and a witness that
+# lay outside one member's range may lie inside the unit's.  So a site of a
+# later member can stay unresolved in the unit although the member, compiled
+# alone from its src/matched file, resolved it on evidence that was checked
+# against the image.
+#
+# The `member` class accepts such a site when all of this holds:
+#   (a) it lies inside member function F of the unit (F's range from the
+#       unit layout);
+#   (b) F has an EXACT or EXACT* entry in layout/matched whose source is a
+#       src/matched file (never a src/game file, never the file under test);
+#   (c) compiling that source alone with its own header settings resolves the
+#       site at the same offset from F's start, with the same relocation
+#       type, and F itself compares EXACT;
+#   (d) the unit's value is fully determined and equals F's value V.  Where
+#       the unit cannot compute a value of its own (a section-relative slot
+#       with no base), F's resolved field is written into the unit image the
+#       way resolve_relocations() writes a resolved value and the original
+#       bytes must still equal it.  Byte equality alone, without F's resolved
+#       value, never counts.
+# Any other site stays unresolved and the unit stays MATCH.
+
+_MEMBER_INDEX = {}
+_MEMBER_RUNS = {}
+
+
+def _member_index():
+    """{(region, address): (entry, unit start or None)} of every EXACT entry
+    whose source is a src/matched file.  A unit entry also indexes each of its
+    functions whose name ends in an address."""
+    if "i" in _MEMBER_INDEX:
+        return _MEMBER_INDEX["i"]
+    idx = {}
+    for e in load_manifest_entries():
+        if not str(e.get("status", "")).startswith("EXACT"):
+            continue
+        srcp = str(e.get("source", "")).replace("\\", "/")
+        if not srcp.startswith("src/matched/"):
+            continue
+        try:
+            a = int(e["address"], 16)
+        except (KeyError, ValueError):
+            continue
+        reg = e.get("region", "")
+        idx.setdefault((reg, a), (e, None))
+        if str(e.get("kind", "")).endswith("_unit"):
+            for n in e.get("functions", []):
+                m = _ADDR_NAME_RE.match(n)
+                if m:
+                    idx.setdefault((reg, int(m.group(1), 16)), (e, a))
+    _MEMBER_INDEX["i"] = idx
+    return idx
+
+
+def _member_run(e, unit_start):
+    """The alone-compile of a member's src/matched file, cached per process:
+    (Result, address the compile was placed at)."""
+    key = (e.get("source"), e["name"], e["address"], e.get("region", ""))
+    if key in _MEMBER_RUNS:
+        return _MEMBER_RUNS[key]
+    path = os.path.join(ROOT, *str(e["source"]).split("/"))
+    out = (None, 0)
+    try:
+        h = read_header(path)
+        a = int(e["address"], 16)
+        flags = h.get("flags", "-O4,p").split()
+        lang = h.get("lang", "c99")
+        reg = e.get("region") or find_region(a).name
+        thumb = h.get("isa", "").lower() == "thumb"
+        if not h.get("isa"):
+            thumb = resolve_isa(a, reg, argparse.Namespace(thumb=False,
+                                                           arm=False))
+        comp = h.get("compiler", "1.1p1")
+        if str(e.get("kind", "")).endswith("_unit"):
+            r, _tl = run_tu(path, a, comp, flags, thumb, lang, region=reg,
+                            members=False)
+        else:
+            r = run_one(path, e["name"], a, comp, flags, thumb, lang,
+                        region=reg)
+        out = (r, a)
+    except (Exception, SystemExit):
+        pass
+    _MEMBER_RUNS[key] = out
+    return out
+
+
+def member_pass(fake, tl, tgt, place, decls, src, region):
+    """Accept unresolved sites of a unit on the evidence of its members (see
+    above).  Edits fake.data, fake.mask and fake.sites in place; returns the
+    number of sites accepted."""
+    idx = _member_index()
+    own = source_key(src)
+    data = bytearray(fake.data)
+    mask = bytearray(fake.mask)
+    done = 0
+    for st in fake.sites:
+        if st.resolved:
+            continue
+        part = None
+        for base, size, _pad, _names in tl.parts:
+            if base <= st.off < base + size:
+                part = (base, size)
+        if part is None:
+            continue
+        fa = place + part[0]
+        hit = idx.get((region, fa))
+        if hit is None:
+            continue
+        e, unit_start = hit
+        if str(e.get("source", "")).replace("\\", "/") == own:
+            continue
+        r, ra = _member_run(e, unit_start)
+        if (r is None or r.func is None or not r.status.startswith("EXACT")
+                or getattr(r.func, "sites", None) is None):
+            continue
+        rel = (fa - ra) + (st.off - part[0])     # offset in F's own compile
+        fs = None
+        for s in r.func.sites:
+            if s.off == rel and s.rtype == st.rtype:
+                fs = s
+        if fs is None or not fs.resolved or fs.value is None:
+            continue
+        width = RELOC_MASK.get(st.rtype, RELOC_DEFAULT)[1]
+        if st.off + width > len(data) or rel + width > len(r.func.data):
+            continue
+        if st.rtype != R_ARM_ABS32 and st.addend != fs.addend:
+            continue        # a branch encodes the addend too: same P, same addend
+        # (d) a value the unit can compute itself must equal F's value
+        name = st.name
+        if not (name in tl.locals or ANON_NAME_RE.match(name)
+                or name in SECTION_NAMES):
+            info = symbol_address(name, decls)
+            if info is not None:
+                tgt_addr, kind, _origin = info
+                if st.rtype == R_ARM_ABS32:
+                    mine = (tgt_addr + st.addend) & 0xFFFFFFFF
+                    if kind == "thumb":
+                        mine |= 1
+                else:
+                    mine = tgt_addr
+                if mine != fs.value:
+                    continue
+        # write F's resolved field (same address, same instruction field)
+        if st.rtype == R_ARM_ABS32:
+            field = struct.pack("<I", fs.value & 0xFFFFFFFF)[:width]
+        else:
+            field = r.func.data[rel:rel + width]
+        if bytes(tgt[st.off:st.off + width]) != bytes(field):
+            continue        # the original bytes must still equal the field
+        data[st.off:st.off + width] = field
+        for k in range(st.off, st.off + width):
+            mask[k] = 1
+        st.resolved = True
+        st.cls = "member"
+        st.value = fs.value
+        st.reason = ""
+        st.note = "%s at %08X resolved it (%s)" % (
+            e["name"], fa, fs.cls)
+        done += 1
+    if done:
+        fake.data = bytes(data)
+        fake.mask = mask
+    return done
+
+
 def run_tu(src, addr, version, flags, thumb, lang, region=None, keep=False,
-           sdk_include=True):
+           sdk_include=True, members=True):
     work = tempfile.mkdtemp(prefix="bwtu_")
     try:
         obj, cmd, log, rc = compile_tu(src, version, flags, thumb, lang, work,
@@ -5832,8 +6013,11 @@ def run_tu(src, addr, version, flags, thumb, lang, region=None, keep=False,
         rname, tgt = target_bytes(addr, tl.size, region=reg.name)
         fake = FuncBytes("<tu>", tl.data, tl.mask, bool(thumb), ".text",
                          tl.relocs, tl.locals)
-        resolve_relocations(fake, addr, declared_symbols(read_header(src)),
+        tu_decls = declared_symbols(read_header(src))
+        resolve_relocations(fake, addr, tu_decls,
                             src=source_key(src), region=reg.name)
+        if members and any(not s.resolved for s in fake.sites):
+            member_pass(fake, tl, tgt, addr, tu_decls, src, reg.name)
         status, diffs = compare(fake, tgt)
         r = Result(status, log=log)
         r.func = fake
@@ -6125,7 +6309,7 @@ SYMBOL_RE = re.compile(
 # never the end of the block: before 2026-09-29 an `arm9` token silently
 # ended the block and every later line was dropped (w6 tools lane).
 SYMBOL_SHAPE_RE = re.compile(
-    r"^\s*\*\s+([A-Za-z_][A-Za-z0-9_]*|@[0-9]+|\.bss)\s+0[xX][0-9A-Fa-f]+")
+    r"^\s*\*\s+([A-Za-z_][A-Za-z0-9_]*|@[0-9]+|\.bss)\s+0[xX][0-9A-Fa-f]+\b")
 SYMBOLS_OPEN_RE = re.compile(r"^\s*\*?\s*symbols\s*:\s*$", re.IGNORECASE)
 
 
@@ -9028,6 +9212,7 @@ def cmd_selftest(args):
                ["000_02000000.s"])
 
     # --- the three documented end-to-end behaviours -----------------------
+    res += _selftest_member()
     if not args.quick:
         res += _selftest_resolution()
         res += _selftest_overlay_id()
@@ -9088,6 +9273,98 @@ def _selftest_resolution():
             _check(out, name, r.status, want)
     finally:
         shutil.rmtree(work, ignore_errors=True)
+    return out
+
+
+def _selftest_member():
+    """The `member` class of a unit check, run on synthetic units so that no
+    compiler or image is involved: the accepting path and each refusal."""
+    out = []
+    global _member_index, _member_run
+    saved = (_member_index, _member_run)
+    place = 0x02000000
+    base = 0x10                         # the member starts 0x10 into the unit
+    entry = {"name": "func_02000010", "address": "0x02000010",
+             "region": "arm9", "source": "src/matched/arm9/x.c",
+             "status": "EXACT", "kind": "game"}
+    V = 0x0211A2C4
+
+    def member_result(status="EXACT", value=V, off=4, addend=0, name="@9",
+                      rtype=R_ARM_ABS32):
+        fb = FuncBytes("f", struct.pack("<I", 0) * 4, bytearray(b"\x01" * 16),
+                       True, ".text", [(off, rtype, name, addend)], {})
+        fb.data = bytearray(fb.data)
+        # an ABS32 field holds the value; a branch field stands for its
+        # encoding (the test only needs F's field and the original to agree)
+        struct.pack_into("<I", fb.data, off, value)
+        fb.data = bytes(fb.data)
+        s = Site(off, rtype, name, addend)
+        s.resolved, s.value, s.cls = True, value, "vendor"
+        fb.sites = [s]
+        r = Result(status)
+        r.func, r.size = fb, 16
+        return r
+
+    def run(tgt_value, status="EXACT", value=V, exact_entry=True, name="@9",
+            decls=None, rtype=R_ARM_ABS32, unit_addend=0, f_addend=0):
+        e = dict(entry, status="EXACT" if exact_entry else "DIFF")
+        globals()["_member_index"] = lambda: (
+            {("arm9", place + base): (e, None)} if exact_entry else {})
+        globals()["_member_run"] = lambda e_, u: (
+            member_result(status, value, addend=f_addend, name=name,
+                          rtype=rtype), place + base)
+        data = bytearray(0x20)
+        tgt = bytearray(0x20)
+        struct.pack_into("<I", tgt, base + 4, tgt_value)
+        fb = FuncBytes("<tu>", bytes(data), bytearray(b"\x01" * 0x20), True,
+                       ".text", [(base + 4, rtype, name, unit_addend)], {})
+        s = Site(base + 4, rtype, name, unit_addend)
+        s.reason = "unresolved"
+        fb.sites = [s]
+        fb.mask[base + 4:base + 8] = b"\x00" * 4
+        tl = TULayout(bytes(data), bytearray(fb.mask),
+                      [(0, base, 0, ["a"]), (base, 16, 0, ["func_02000010"])],
+                      fb.relocs)
+        n = member_pass(fb, tl, bytes(tgt), place, decls or {},
+                        "src/game/arm9/u.c", "arm9")
+        return n, s, fb
+
+    try:
+        n, s, fb = run(V)
+        _check(out, "member: a site F resolved to the original's value is "
+                    "accepted", (n, s.resolved, s.cls, fb.mask[base + 4]),
+               (1, True, "member", 1))
+        n, s, fb = run(V + 4)
+        _check(out, "member: a value that differs from the original is "
+                    "refused", (n, s.resolved), (0, False))
+        n, s, fb = run(V, value=V + 4)
+        _check(out, "member: F's value differs from the original bytes, "
+                    "refused", (n, s.resolved), (0, False))
+        n, s, fb = run(V, exact_entry=False)
+        _check(out, "member: no EXACT entry for the function, refused",
+               (n, s.resolved), (0, False))
+        n, s, fb = run(V, status="MATCH")
+        _check(out, "member: F's own compile is not EXACT, refused",
+               (n, s.resolved), (0, False))
+        # (d): a named symbol the unit can resolve itself must give F's value
+        dn = "d_0211A2C4"
+        n, s, fb = run(V, name=dn,
+                       decls={dn: Decl(dn, V, "data", "header")})
+        _check(out, "member: a named symbol whose own address equals F's "
+                    "value is accepted", (n, s.resolved), (1, True))
+        n, s, fb = run(V, name=dn,
+                       decls={dn: Decl(dn, V + 8, "data", "header")})
+        _check(out, "member: a named symbol whose own address differs from "
+                    "F's value is refused", (n, s.resolved), (0, False))
+        # a branch encodes its addend: the unit's must equal F's
+        n, s, fb = run(V, rtype=R_ARM_THM_CALL, unit_addend=-4, f_addend=-4)
+        _check(out, "member: a branch with F's addend is accepted",
+               (n, s.resolved), (1, True))
+        n, s, fb = run(V, rtype=R_ARM_THM_CALL, unit_addend=0, f_addend=-4)
+        _check(out, "member: a branch with a different addend is refused",
+               (n, s.resolved), (0, False))
+    finally:
+        _member_index, _member_run = saved
     return out
 
 

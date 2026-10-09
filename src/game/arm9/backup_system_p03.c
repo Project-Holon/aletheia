@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * Merged by tools/restructure.py and a merge lane from the src/matched files of these functions.
  *
@@ -115,6 +115,7 @@
  *   sub_0203422C  0x0203422C  arm
  *   sub_02034630  0x02034630  arm
  *   g_Sink  0x0214699C  data
+ *   _u32_div_f    0x0209C2B0  arm
  */
 #include "../../matched/include/Obj15875.h"
 

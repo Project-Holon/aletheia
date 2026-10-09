@@ -1,7 +1,7 @@
 /*
  * file:     fldmmdl_blact_p04.c
  * unit:     yes
- * function: func_0219CB64, func_0219CB98, func_0219CBD4, func_0219CBE0, func_0219CC80, func_0219CCF0, func_0219CD68, func_0219CDAC, func_0219CE60, func_0219CEAC, func_0219CF00, func_0219CF54, func_0219CFB0, func_0219D064, func_0219D0F4, func_0219D144, func_0219D184, func_0219D1F8, func_0219D208, func_0219D2CC, func_0219D2F4, func_0219D324, func_0219D390, func_0219D3B4, func_0219D3E4, func_0219D3F0, func_0219D448, func_0219D488
+ * function: func_0219CB64, func_0219CB98, func_0219CBD4, func_0219CBE0, func_0219CC80, func_0219CCF0, func_0219CD68, func_0219CDAC, func_0219CE60, func_0219CEAC, func_0219CF00, func_0219CF54, func_0219CFB0, func_0219D064, func_0219D0F4, func_0219D144, func_0219D184, func_0219D1F8, func_0219D208, func_0219D2CC, func_0219D2F4, func_0219D324, func_0219D390, func_0219D3B4, func_0219D3E4, func_0219D3F0, func_0219D448, func_0219D488, func_0219D49C, func_0219D4AC, func_0219D4EC, func_0219D524, func_0219D558, func_0219D584, func_0219D604, func_0219D634, func_0219D680, func_0219D6B8, func_0219D6CC, func_0219D724, func_0219D738, func_0219D780, func_0219D7AC, func_0219D7D0, func_0219D7F0, func_0219D824, func_0219D85C, func_0219D8DC, func_0219D930, func_0219D990, func_0219D9D8, func_0219DA20, func_0219DA80, func_0219DAA4, func_0219DAD0, func_0219DB04
  * address:  0x0219CB64
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -45,10 +45,55 @@
  *   d_021D8064     0x021D8064  data a2
  *   d_021D75C4     0x021D75C4  data ov021 a2
  *   func_0216D524  0x0216D524  thumb  ov010
- *   func_0219D4AC  0x0219D4AC  thumb  ov021
  *   d_021DDD80     0x021DDD80  data ov021 a4
  *   func_0216D528  0x0216D528  thumb  ov010
- *   func_0219D4EC  0x0219D4EC  thumb  ov021
+ *   func_021C6580  0x021C6580  thumb  ov021
+ *   func_021C6AE0  0x021C6AE0  thumb  ov021
+ *   func_021C6AF0  0x021C6AF0  thumb  ov021
+ *   func_021C6AF8  0x021C6AF8  thumb  ov021
+ *   func_021C6AFC  0x021C6AFC  thumb  ov021
+ *   func_021C6574  0x021C6574  thumb  ov021
+ *   func_0216E3C4  0x0216E3C4  thumb  ov010
+ *   func_0216E3CC  0x0216E3CC  thumb  ov010
+ *   func_021C6590  0x021C6590  thumb  ov021
+ *   func_021C6628  0x021C6628  thumb  ov021
+ *   func_0216DFC4  0x0216DFC4  thumb  ov010
+ *   func_0216D6F4  0x0216D6F4  thumb  ov010
+ *   func_0216D548  0x0216D548  thumb  ov010
+ *   func_0216DA20  0x0216DA20  thumb  ov010
+ *   func_0216D57C  0x0216D57C  thumb  ov010
+ *   func_02197EB4  0x02197EB4  thumb  ov021
+ *   func_0216DB10  0x0216DB10  thumb  ov010
+ *   func_0216D708  0x0216D708  thumb  ov010
+ *   func_0216D530  0x0216D530  thumb
+ *   func_021BB3C4  0x021BB3C4  thumb  ov021
+ *   func_0216D5F8  0x0216D5F8  thumb  ov010
+ *   func_0219E784  0x0219E784  thumb  ov021
+ *   func_0207CDB8  0x0207CDB8  arm
+ *   func_0207CFB8  0x0207CFB8  arm
+ *   d_021D80E4     0x021D80E4  data   ov021  a1
+ *   func_0216DA5C  0x0216DA5C  thumb  ov010
+ *   func_0216D5A0  0x0216D5A0  thumb  ov010
+ *   func_0216DA70  0x0216DA70  thumb  ov010
+ *   func_0216D570  0x0216D570  thumb  ov010
+ *   func_0216DCB4  0x0216DCB4  thumb  ov010
+ *   func_0219E2F4  0x0219E2F4  thumb  ov021
+ *   func_0219E334  0x0219E334  thumb  ov021
+ *   func_0216D7E0  0x0216D7E0  thumb  ov010
+ *   func_0216D7D8  0x0216D7D8  thumb  ov010
+ *   func_0216D568  0x0216D568  thumb  ov010
+ *   func_0216DB24  0x0216DB24  thumb  ov010
+ *   func_0216D7DC  0x0216D7DC  thumb  ov010
+ *   func_0216D7E4  0x0216D7E4  thumb  ov010
+ *   func_0219DB5C  0x0219DB5C  thumb  ov021
+ *   func_0219DB0C  0x0219DB0C  thumb  ov021
+ *   func_0219DBC8  0x0219DBC8  thumb  ov021
+ *   func_0219DB44  0x0219DB44  thumb  ov021
+ *   func_0219DB48  0x0219DB48  thumb  ov021
+ *   func_021AB0F8  0x021AB0F8  thumb  ov021
+ *   func_0219DC08  0x0219DC08  thumb  ov021
+ *   func_021AC760  0x021AC760  thumb  ov021
+ *   func_021BBDD4  0x021BBDD4  thumb  ov021
  */
 #include "../../matched/include/Obj19659.h"
 #include "../../matched/include/Obj00429.h"
@@ -79,6 +124,11 @@
 #include "../../matched/include/Obj03119.h"
 #include "../../matched/include/Obj02700.h"
 #include "../../matched/include/Obj04226.h"
+#include "../../matched/include/Obj17972.h"
+#include "../../matched/include/Obj06002.h"
+#include "../../matched/include/Obj09515.h"
+#include "../../matched/include/Obj09517.h"
+#include "../../matched/include/Obj07479.h"
 
 struct BbActSys;
 struct Tagged;
@@ -113,6 +163,8 @@ typedef struct { int a; int b; int c; } S3;
 
 typedef struct { u32 p; u16 id; u16 pad; u32 x; } Slot;
 
+typedef struct { u16 a; u16 b; } E4;
+
 extern void *func_0216E3C8(void *p);
 extern u32 func_0216D518(u8 *p);
 extern void *func_02046E24(u32 a0, u32 a1);
@@ -126,8 +178,8 @@ extern u16 func_0216D4F0(void *p);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
 extern void func_02046EFC(struct Tagged *p);
-extern unsigned short func_0219C7B4(int, unsigned int, unsigned int);
-extern unsigned short func_0219C780(int, int, unsigned int, unsigned int, unsigned int, unsigned int);
+extern u32 func_0219C7B4(u32, u32, u32);
+extern u32 func_0219C780(u32, int, unsigned int, unsigned int, unsigned int, unsigned int);
 extern void func_0216D758(void *a0);
 extern void func_02082BCC(u8 *p, u32 a, u32 b);
 extern void *func_0216D67C(void *a0);
@@ -141,9 +193,53 @@ extern int func_0216DA30(int a0, int a1);
 extern int func_0219C4AC(u32 a, u32 b, u32 c, u32 d);
 extern u16 func_020500F0(struct BbActSys *o, const struct BbActRec *recs, u32 n);
 extern void func_0216D524(void *p, void *v);
-extern void func_0219D4AC(int *obj, int a);
 extern u32 func_0216D528(u8 *p);
-extern void func_0219D4EC(u8 *s);
+extern void func_021C6580(u8 *p, int i);
+extern void func_021C6AE0(u32 a);
+extern void func_021C6AF0(u32 *, u32, u16);
+extern void func_021C6AF8(u32 *p, u32 v);
+extern void func_021C6AFC(u32 *, u16);
+extern u32 func_021C6574(u32, u32 *, u32);
+extern void *func_0216E3C4(void *p);
+extern u8 *func_0216E3CC(u8 *p);
+extern u32 func_021C6590(u32, u32, u32, u32);
+extern void func_021C6628(u32, u32);
+extern int func_0216DFC4(void *a, u32 id);
+extern u32 *func_0216D548(u32 *p, u32 v);
+extern void func_0216D6F4(void *a0);
+extern int func_0216DA20(void *p, unsigned int v);
+extern u32 func_0216D57C(void *p, u32 v);
+extern void func_02197EB4(u32);
+extern int func_0216DB10(void *a0);
+extern void func_0216D708(void *a0);
+extern u32 func_0216D530(u32);
+extern u32 func_021BB3C4(u8 *p, char *a1);
+extern u16 func_0216D5F8(void *p);
+extern u32 func_0219E784(u32, u32, s16 *);
+extern void func_0207CDB8(s16 *, s16 *);
+extern int func_0207CFB8(int, int);
+extern int func_0216DA5C(void *a0);
+extern u16 func_0216D5A0(void *p);
+extern void func_0216DA70(void *a0);
+extern char *func_0216D570(char *p, u32 v);
+extern int func_0216DCB4(void *a0);
+extern void func_0219E2F4(void *o, void *out);
+extern int func_0219E334(u32 a, u32 b);
+extern void func_0216D7E0(void *p, u32 v);
+extern void func_0216D7D8(void *p, u32 v);
+extern void *func_0216D568(void *p, u32 v);
+extern int func_0216DB24(int a0);
+extern u32 func_0216D7DC(void *p);
+extern u32 func_0216D7E4(void *p);
+extern void func_0219DB5C(void *a, u32 b, u32 c, u8 *d);
+extern u32 func_0219DB0C(u32, u32, u32, u32);
+extern void func_0219DBC8(void *a, u32 b, u32 c, u8 *d);
+extern void func_0219DB44(u32, u32, u32, u32);
+extern int func_0219DB48(u32 a, u32 b, u32 c, u32 d);
+extern u16 func_021AB0F8(u32 attr);
+extern int func_0219DC08(u32 a);
+extern void func_021AC760(u32 a, u32 b, u32 c, int d);
+extern void func_021BBDD4(int a, int b, int c);
 void func_0219CB64(u8 *s, const D *d, u32 g);
 void func_0219CB98(u8 *s, u16 k);
 int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
@@ -172,11 +268,44 @@ char *func_0219D3E4(int i);
 unsigned short func_0219D3F0(int *o, int a1, int a2, int a3, int a4, int a5);
 void func_0219D448(int a, int b);
 void func_0219D488(u32 a);
+u32 func_0219D49C(u32 a);
+void func_0219D4AC(int *obj, int a);
+void func_0219D4EC(u8 *s);
+u16 func_0219D524(u32 *s, u32 b, u32 a);
+u16 func_0219D558(u8 *s, u16 k);
+u32 func_0219D584(u32 a, u32 *b, u32 c, u16 *d);
+void func_0219D604(u8 *s, u16 k);
+u32 func_0219D634(u32 a);
+void func_0219D680(u32 a, u32 b);
+int func_0219D6B8(u32 *a, u32 b, u32 c, u32 d);
+void func_0219D6CC(u32 a);
+int func_0219D724(u32 a, char *b);
+u32 func_0219D738(u32 a, int b);
+int func_0219D780(u32 a);
+void func_0219D7AC(u32 a);
+void func_0219D7D0(u32 a);
+void func_0219D7F0(u32 a);
+void func_0219D824(u32 a);
+u32 func_0219D85C(u32 a);
+void func_0219D8DC(void *a);
+void func_0219D930(void *a);
+void func_0219D990(void *a);
+void func_0219D9D8(void *a);
+void func_0219DA20(void *a);
+void func_0219DA80(u32 a, u32 b, u32 a2, u32 a3);
+void func_0219DAA4(u32 a, u32 b, u32 a2, u32 a3);
+void func_0219DAD0(u32 a, u32 x, u32 b, u8 *p);
+int func_0219DB04(u32 a, u32 b, u32 c, u32 d);
 extern unsigned char d_021DDD70[];
 extern char d_021D7F68[];
 extern unsigned short d_021D8064[];
 extern unsigned short d_021D75C4[];
 extern unsigned char d_021DDD80[];
+extern u8 d_021D80E4[];
+
+
+
+
 
 
 
@@ -188,6 +317,10 @@ void func_0219CB64(u8 *s, const D *d, u32 g)
     u16 *q = func_0216E3C8((void *)d);
     func_0219CB24(s, (u32)func_02046E24(func_0216D518((u8 *)(((struct Obj19659 *)s)->f10)), *q), d->id, d->f7, d->f8, g);
 }
+
+
+
+
 
 
 
@@ -211,6 +344,10 @@ void func_0219CB98(u8 *s, u16 k)
 
 
 
+
+
+
+
 /*
  * Emitted from the ov021 instruction shape.
  *
@@ -220,6 +357,10 @@ int func_0219CBD4(u32 a, u32 b, u32 c, u32 d)
 {
 return func_0219CA98((u32 *)(a + 20), b, (u16 *)c, (u16 *)d);
 }
+
+
+
+
 
 
 
@@ -256,6 +397,10 @@ void func_0219CBE0(u8 *o)
 
 
 
+
+
+
+
 void func_0219CC80(u8 *o)
 {
     u8 *c = *(u8 * *)&((struct Obj04225 *)o)->f1C;
@@ -286,6 +431,10 @@ void func_0219CC80(u8 *o)
     func_020307B0((void *)((u32)c));
     *(u32 *)&((struct Obj04225 *)o)->f1C = 0;
 }
+
+
+
+
 
 
 
@@ -330,6 +479,10 @@ int func_0219CCF0(u8 *s)
 
 
 
+
+
+
+
 /*
  * Fills the first free 0xC-byte entry (tag 0xFFFF... see pool) of the table.
  *
@@ -352,6 +505,10 @@ void func_0219CD68(u8 *o, u16 a, u8 b, u8 c, u16 d, u32 e)
         }
     }
 }
+
+
+
+
 
 
 
@@ -404,6 +561,10 @@ void func_0219CDAC(u8 *o)
 
 
 
+
+
+
+
 /*
  * Claims the first free 0x14-byte slot of the table at *(*(+0x1c)+0x10).
  *
@@ -434,6 +595,10 @@ int func_0219CE60(u8 *o, u32 a, u32 b, u32 c, u16 e, u32 w)
 
 
 
+
+
+
+
 void func_0219CEAC(int *obj)
 {
     unsigned int i;
@@ -457,6 +622,10 @@ void func_0219CEAC(int *obj)
         }
     }
 }
+
+
+
+
 
 
 
@@ -499,6 +668,10 @@ int func_0219CF00(int *t, unsigned int id, unsigned short *out)
 
 
 
+
+
+
+
 int func_0219CF54(int *t, unsigned int id)
 {
     unsigned int i;
@@ -531,6 +704,10 @@ int func_0219CF54(int *t, unsigned int id)
     }
     return 0;
 }
+
+
+
+
 
 
 
@@ -580,10 +757,14 @@ void func_0219CFB0(int *obj, int a1, unsigned char *src, int a3, int a5, int a6,
 
 
 
+
+
+
+
 void func_0219D064(int *obj, int *rec)
 {
     unsigned short x[3];
-    unsigned short r;
+    u32 r;
 
     x[0] = 0xFFFF;
     *((unsigned char *)rec + 0xd) = 0;
@@ -609,6 +790,10 @@ void func_0219D064(int *obj, int *rec)
         func_0216D758((void *)rec[1]);
     }
 }
+
+
+
+
 
 
 
@@ -643,6 +828,10 @@ void func_0219D0F4(int *obj)
 
 
 
+
+
+
+
 int func_0219D144(int *obj, unsigned int a, int b)
 {
     unsigned int i;
@@ -659,6 +848,10 @@ int func_0219D144(int *obj, unsigned int a, int b)
     }
     return 0;
 }
+
+
+
+
 
 
 
@@ -698,6 +891,10 @@ void func_0219D184(int *obj, int key)
 
 
 
+
+
+
+
 /*
  * Clears the byte at +0xd, then tail calls with 0 and 0x28.
  *
@@ -708,6 +905,10 @@ void func_0219D1F8(u8 *p)
     *((u8 *)p + 0xd) = 0;
     func_02082BCC(p, 0, 0x28);
 }
+
+
+
+
 
 
 
@@ -761,6 +962,10 @@ void func_0219D208(int a, unsigned int id)
 
 
 
+
+
+
+
 /*
  * Promoted 2026-09-27 (lane ov010 blocker tree).  The call at +0x08 is a
  * Thumb `bl` (d0 f7 10 f9), not an interworking `blx`: the target must be
@@ -780,6 +985,10 @@ void func_0219D2CC(int *obj)
 
 
 
+
+
+
+
 void func_0219D2F4(u8 *s)
 {
     Slot *e = *(Slot * *)&((struct Obj04225 *)s)->f20;
@@ -794,6 +1003,10 @@ void func_0219D2F4(u8 *s)
         func_020307B0(((struct Obj04225 *)s)->f20);
     }
 }
+
+
+
+
 
 
 
@@ -825,6 +1038,10 @@ void func_0219D324(int *obj, int *rec)
 
 
 
+
+
+
+
 void func_0219D390(u8 *s)
 {
     Slot *e = *(Slot * *)&((struct Obj03579 *)s)->f20;
@@ -837,6 +1054,10 @@ void func_0219D390(u8 *s)
         }
     }
 }
+
+
+
+
 
 
 
@@ -860,6 +1081,10 @@ int func_0219D3B4(u8 *s, u32 p, u16 id)
 
 
 
+
+
+
+
 /*
  * Indexes an array of 8-byte records based at 0x021D7F68.
  */
@@ -867,6 +1092,10 @@ char *func_0219D3E4(int i)
 {
     return d_021D7F68 + i * 8;
 }
+
+
+
+
 
 
 
@@ -899,6 +1128,10 @@ unsigned short func_0219D3F0(int *o, int a1, int a2, int a3, int a4, int a5)
 
 
 
+
+
+
+
 void func_0219D448(int a, int b)
 {
     int h;
@@ -914,9 +1147,512 @@ void func_0219D448(int a, int b)
 }
 
 
+
+
+
+
 void func_0219D488(u32 a)
 {
     void *s = (void *)func_0216D528((u8 *)a);
     func_0219D4EC(s);
     func_020307B0(s);
+}
+
+
+
+
+
+
+/*
+ * Promoted from src/pending/: the blocker this file named is filed.
+ * func_0216D528 (0x0216D528) is a matched manifest entry, so the `matched`
+ * class attests the bl site here and every concrete byte plus every
+ * relocation field reproduces.
+ *
+ * Emitted from the ov021 instruction shape.
+ *
+ * Addresses are Black-image addresses.
+ */
+u32 func_0219D49C(u32 a)
+{
+return ((struct Obj17972 *)((u8 *)(func_0216D528((u8 *)((u32)func_0216D67C((void *)a))))))->f4;
+}
+
+
+
+
+
+
+
+/*
+ * Allocates n*4 bytes (n = *(u16 *)(obj+8)), stores the pointer at obj+0xc,
+ * then writes 0xFFFF into the high halfword of each 4-byte entry.
+ */
+void func_0219D4AC(int *obj, int a)
+{
+    int i;
+    *(int *)&((struct Obj04226 *)obj)->fC =
+        (int)(unsigned short *)func_02030734(a, ((struct Obj04226 *)obj)->f8 * 4,
+                                             1, (const char *)d_021DDD80, 0x7f);
+    for (i = 0; i < (int)((struct Obj04226 *)obj)->f8; i++) {
+        unsigned short *p = *(unsigned short * *)&((struct Obj04226 *)obj)->fC;
+        p[i * 2 + 1] = 0xFFFF;
+    }
+}
+
+
+
+
+
+
+
+void func_0219D4EC(u8 *s)
+{
+    int i = 0;
+    E4 *e = *(E4 * *)&((struct Obj06002 *)s)->fC;
+    if (i < ((struct Obj06002 *)s)->f8) {
+        for (; i < ((struct Obj06002 *)s)->f8; i++, e++) {
+            if (e->b != 0xFFFF) {
+                func_021C6580((u8 *)(((struct Obj06002 *)s)->f4), e->a);
+            }
+        }
+    }
+    func_020307B0(((struct Obj06002 *)s)->fC);
+}
+
+
+
+
+
+
+
+u16 func_0219D524(u32 *s, u32 b, u32 a)
+{
+    int i;
+    E4 *e = *(E4 * *)&((struct Obj09515 *)s)->fC;
+    int n = ((struct Obj09515 *)s)->f8;
+    for (i = 0; i < n; i++, e++) {
+        if (e->b == 0xFFFF) {
+            e->b = b;
+            e->a = a;
+            return i;
+        }
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+u16 func_0219D558(u8 *s, u16 k)
+{
+    int i;
+    E4 *e = *(E4 * *)&((struct Obj09517 *)s)->fC;
+    int n = ((struct Obj09517 *)s)->f8;
+    for (i = 0; i < n; i++, e++) {
+        if (e->b == k) {
+            return e->a;
+        }
+    }
+    return 0xFFFF;
+}
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ */
+u32 func_0219D584(u32 a, u32 *b, u32 c, u16 *d)
+{
+    u32 buf[9];
+    u32 t;
+    u32 r;
+    int i;
+    t = func_0216D518((u8 *)a);
+    func_021C6AE0((u32)buf);
+    if (d[0] != 0xFFFF) {
+        func_021C6AF0(buf, t, d[0]);
+    }
+    if (d[1] != 0xFFFF) {
+        func_021C6AF0(buf, t, d[1]);
+    }
+    func_021C6AF8((u32 *)buf, t);
+    for (i = 0; i < 3; i++) {
+        if (d[i + 2] != 0xFFFF) {
+            func_021C6AFC(buf, d[i + 2]);
+        }
+    }
+    r = func_021C6574(b[1], buf, 0);
+    func_0219D524(b, c, r);
+    return r;
+}
+
+
+
+
+
+void func_0219D604(u8 *s, u16 k)
+{
+    int i;
+    int n = ((struct Obj07479 *)s)->f8;
+    E4 *e = *(E4 * *)&((struct Obj07479 *)s)->fC;
+    for (i = 0; i < n; i++, e++) {
+        if (e->b == k) {
+            func_021C6580((u8 *)(((struct Obj07479 *)s)->f4), e->a);
+            e->b = 0xFFFF;
+            return;
+        }
+    }
+}
+
+
+
+
+
+u32 func_0219D634(u32 a)
+{
+    u16 *p;
+    u32 b;
+    u32 *s;
+    u32 r;
+    p = func_0216E3C4((void *)a);
+    b = (u32)func_0216D67C((void *)a);
+    s = (u32 *)func_0216D528((u8 *)b);
+    r = func_0219D558((u8 *)s, *p);
+    if (r == 0xFFFF) {
+        r = func_0219D584(b, s, *p, (u16 *)func_0216E3CC((u8 *)p));
+    }
+    return func_021C6590(s[1], r, 0, 0);
+}
+
+
+
+
+
+void func_0219D680(u32 a, u32 b)
+{
+    u8 *s = (u8 *)func_0216D528(func_0216D67C((void *)a));
+    u16 v = func_0216D598((void *)a);
+    func_021C6628(((struct Obj07479 *)s)->f4, b);
+    if (func_0216DFC4((void *)a, v) == 0) {
+        func_0219D604(s, v);
+    }
+}
+
+
+
+
+
+/*
+ * Emitted from the ov021 instruction shape.
+ *
+ * Addresses are Black-image addresses.
+ */
+int func_0219D6B8(u32 *a, u32 b, u32 c, u32 d)
+{
+func_0216D6F4((void *)a);
+return (int)func_0216D548(a, 2);
+}
+
+
+
+
+
+void func_0219D6CC(u32 a)
+{
+    u32 k = 2;
+    if (func_0216DA20((void *)a, 2) == 0) {
+        func_0219D7AC(a);
+        func_0219D7D0(a);
+        if (func_0216D57C((void *)a, k << 8) != 0) {
+            func_02197EB4(a);
+        } else if (func_0216DB10((void *)a) == 0 && func_0219D780(a) == 1) {
+            func_0216D708((void *)a);
+        }
+        func_0219D7F0(a);
+        func_0219D824(a);
+    }
+}
+
+
+
+
+
+/*
+ * Promoted from src/pending/: the blocker this file named is filed.
+ * func_0216D530 (0x0216D530) is a matched manifest entry, so the `matched`
+ * class attests the bl site here and every concrete byte plus every
+ * relocation field reproduces.
+ *
+ * Emitted from the ov021 instruction shape.
+ *
+ * Addresses are Black-image addresses.
+ */
+int func_0219D724(u32 a, char *b)
+{
+return func_021BB3C4((u8 *)func_0216D530((u32)func_0216D67C((void *)a)), b);
+}
+
+
+
+
+
+u32 func_0219D738(u32 a, int b)
+{
+    s16 v[4];
+    int r;
+    func_0219E784(a, func_0216D5F8((void *)a), v);
+    v[1] = 0;
+    func_0207CDB8(v, v);
+    r = func_0207CFB8(v[0], v[2]) - b;
+    if (r < 0) {
+        r += 0x10000;
+    }
+    return d_021D80E4[r >> 12];
+}
+
+
+
+
+
+int func_0219D780(u32 a)
+{
+    if (func_0216DA5C((void *)a) == 1) {
+        return 1;
+    }
+    if (func_0216D57C((void *)a, 0x800) == 0) {
+        return 1;
+    }
+    func_0216D5A0((void *)a);
+    return 1;
+}
+
+
+
+
+
+void func_0219D7AC(u32 a)
+{
+    if (func_0216D57C((void *)a, 0x800) != 0 && func_0219D85C(a) == 1) {
+        func_0216DA70((void *)a);
+    }
+}
+
+
+
+
+
+void func_0219D7D0(u32 a)
+{
+    if (func_0216D57C((void *)a, 0x20) != 0) {
+        func_0219D8DC((void *)a);
+    }
+    func_0216D570((char *)a, 0xA0);
+}
+
+
+
+
+
+void func_0219D7F0(u32 a)
+{
+    if (func_0216D57C((void *)a, 0x80) != 0) {
+        func_0219D990((void *)a);
+    } else if (func_0216D57C((void *)a, 0x20) != 0) {
+        func_0219D930((void *)a);
+    }
+    func_0216D570((char *)a, 0xA0);
+}
+
+
+
+
+
+void func_0219D824(u32 a)
+{
+    if (func_0216D57C((void *)a, 0x100) != 0) {
+        func_0219DA20((void *)a);
+    } else if (func_0216D57C((void *)a, 0x40) != 0) {
+        func_0219D9D8((void *)a);
+    }
+    func_0216D570((char *)a, 0x140);
+}
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ */
+u32 func_0219D85C(u32 a)
+{
+    u32 v1[2];
+    u32 v0[2];
+    u32 r6 = -1;
+    u32 r5 = -1;
+    u32 t;
+    if (func_0216DCB4((void *)a) == 0) {
+        t = (u32)(void *)func_0216D530((u32)(func_0216D67C((void *)a)));
+        func_0219E2F4((void *)a, v0);
+        func_0219E334(a, (u32)v1);
+        r6 = func_021BB3C4((u8 *)t, (char *)v1);
+        r5 = func_021BB3C4((u8 *)t, (char *)v0);
+    }
+    func_0216D7E0((void *)a, r6);
+    func_0216D7D8((void *)a, r5);
+    if (r5 == -1) {
+        func_0216D568((void *)a, 0x800);
+        return 0;
+    }
+    func_0216D570((char *)a, 0x800);
+    return 1;
+}
+
+
+
+
+
+void func_0219D8DC(void *a)
+{
+    u32 b;
+    u32 c;
+    u32 d;
+    if (func_0219D85C((u32)a) != 0 && func_0216DB24((int)a) == 1) {
+        b = func_0216D7DC((void *)a);
+        c = func_0216D7E4((void *)a);
+        d = (u32)func_0216E3C4((void *)a);
+        func_0219DA80((u32)a, b, c, d);
+        func_0219DB04((u32)a, b, c, d);
+        func_0219DB5C(a, b, c, (u8 *)d);
+    }
+}
+
+
+
+
+
+void func_0219D930(void *a)
+{
+    u32 b;
+    u32 c;
+    u32 d;
+    if (func_0219D85C((u32)a) != 0 && func_0216DB24((int)a) == 1) {
+        b = func_0216D7DC((void *)a);
+        c = func_0216D7E4((void *)a);
+        d = (u32)func_0216E3C4((void *)a);
+        func_0219DAA4((u32)a, b, c, d);
+        func_0219DAD0((u32)a, b, c, (u8 *)d);
+        func_0219DB0C((u32)a, b, c, d);
+        func_0219DB5C(a, b, c, (u8 *)d);
+    }
+}
+
+
+
+
+
+void func_0219D990(void *a)
+{
+    u32 b;
+    u32 c;
+    u32 d;
+    if (func_0219D85C((u32)a) != 0 && func_0216DB24((int)a) == 1) {
+        b = func_0216D7DC((void *)a);
+        c = func_0216D7E4((void *)a);
+        d = (u32)func_0216E3C4((void *)a);
+        func_0219DB0C((u32)a, b, c, d);
+        func_0219DB5C(a, b, c, (u8 *)d);
+    }
+}
+
+
+
+
+
+void func_0219D9D8(void *a)
+{
+    u32 b;
+    u32 c;
+    u32 d;
+    if (func_0219D85C((u32)a) != 0 && func_0216DB24((int)a) == 1) {
+        b = func_0216D7DC((void *)a);
+        c = func_0216D7E4((void *)a);
+        d = (u32)func_0216E3C4((void *)a);
+        func_0219DBC8(a, b, c, (u8 *)d);
+        func_0219DB44((u32)a, b, c, d);
+    }
+}
+
+
+
+
+
+void func_0219DA20(void *a)
+{
+    u32 b;
+    u32 c;
+    u32 d;
+    if (func_0219D85C((u32)a) != 0 && func_0216DB24((int)a) == 1) {
+        b = func_0216D7DC((void *)a);
+        c = func_0216D7E4((void *)a);
+        d = (u32)func_0216E3C4((void *)a);
+        func_0219DBC8(a, b, c, (u8 *)d);
+        func_0219DB44((u32)a, b, c, d);
+        func_0219DAA4((u32)a, b, c, d);
+        func_0219DB48((u32)a, b, c, d);
+    }
+}
+
+
+
+
+
+void func_0219DA80(u32 a, u32 b, u32 a2, u32 a3)
+{
+    if (func_021AB0F8(b) & 0x20)
+        func_021AC760(func_0219DC08(a), a, 0, 0);
+}
+
+
+
+
+
+void func_0219DAA4(u32 a, u32 b, u32 a2, u32 a3)
+{
+    if (b != 0xFFFFFFFF && (func_021AB0F8(b) & 0x20))
+        func_021AC760(func_0219DC08(a), a, 1, 0);
+}
+
+
+
+
+
+void func_0219DAD0(u32 a, u32 x, u32 b, u8 *p)
+{
+    u32 h;
+    int f;
+    if (b != 0xFFFFFFFF && (func_021AB0F8(b) & 8)) {
+        h = func_0219DC08(a);
+        f = 0;
+        if (p[5] == 2)
+            f = 1;
+        func_021BBDD4(a, h, f);
+    }
+}
+
+
+/*
+ * Emitted from the ov021 instruction shape.
+ *
+ * Addresses are Black-image addresses.
+ */
+int func_0219DB04(u32 a, u32 b, u32 c, u32 d)
+{
+return func_0219DB0C(a, b, c, d);
 }

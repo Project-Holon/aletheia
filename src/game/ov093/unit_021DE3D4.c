@@ -1,7 +1,7 @@
 /*
  * file:     unit_021DE3D4.c
  * unit:     yes
- * function: func_021DE3D4, func_021DE3FC, func_021DE440
+ * function: func_021DE3D4, func_021DE3FC, func_021DE440, func_021DE494
  * address:  0x021DE3D4
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   d_021F1394     0x021F1394  data   ov093  a4
  *   func_021D775C 0x021D775C thumb ov093
  *   func_021D7704 0x021D7704 thumb ov093
  *   d_021F163C 0x021F163C data a4
@@ -80,4 +81,14 @@ void func_021DE440(void *a, void *b, int c, int *d)
         func_021C88C8(b, m);
         *d = 0;
     }
+}
+
+
+extern int d_021F1394[];
+int *func_021DE494(int *p);
+
+int *func_021DE494(int *p)
+{
+    *p = 1;
+    return d_021F1394;
 }

@@ -1,8 +1,8 @@
 /*
  * file:     unit_021E5974.c
  * unit:     yes
- * function: func_021E5974, func_021E5A34
- * address:  0x021E5974
+ * function: func_021E5968, func_021E5974, func_021E5A34
+ * address:  0x021E5968
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   d_021F2584     0x021F2584  data   ov093  a4
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C7F24  0x021C7F24  thumb  ov093
  *   func_021C7F4C  0x021C7F4C  thumb  ov093
@@ -59,6 +60,16 @@ extern unsigned char func_021B9A40(unsigned int x);
 extern int func_021E5B3C(int, int);
 extern int func_021E5B4C(int, int);
 extern int func_021E5B5C(int, int);
+extern int d_021F2584[];
+int *func_021E5968(int *p);
+
+int *func_021E5968(int *p)
+{
+    *p = 1;
+    return d_021F2584;
+}
+
+
 void func_021E5974(void *a, void *b, int c);
 int *func_021E5A28(int *p);
 void func_021E5A34(void *x, void *a, int c);

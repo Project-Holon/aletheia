@@ -1,7 +1,7 @@
 /*
  * file:     unit_021A1144.c
  * unit:     yes
- * function: func_021A1144, func_021A117C, func_021A1190, func_021A119C, ov021_func_021A11A8, func_021A1244, func_021A1288, func_021A1298, func_021A12A4, func_021A12BC, func_021A12D4, func_021A1358, func_021A136C, func_021A1388, func_021A139C, func_021A13C0, func_021A13E4
+ * function: func_021A1144, func_021A117C, func_021A1190, func_021A119C, ov021_func_021A11A8, func_021A1244, func_021A1288, func_021A1298, func_021A12A4, func_021A12BC, func_021A12D4, func_021A1358, func_021A136C, func_021A1388, func_021A139C, func_021A13C0, func_021A13E4, func_021A13F8, func_021A1404, func_021A1410, func_021A141C
  * address:  0x021A1144
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -13,6 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0217D160  0x0217D160  thumb  ov018
+ *   func_0217D1C0  0x0217D1C0  thumb  ov018
+ *   func_0217D3AC  0x0217D3AC  thumb  ov018
+ *   func_0217D4DC  0x0217D4DC  thumb  ov018
  *   func_02034AC4  0x02034AC4  arm
  *   func_02188C80  0x02188C80  thumb  ov021
  *   func_020120F4  0x020120F4  thumb
@@ -343,4 +347,48 @@ void func_021A13C0(u32 *p, u32 a)
 void ov021_func_021A13E4(u32 *p)
 {
     p[8] = (u32)func_0217CFE4(func_02188C80((void *)p[5]));
+}
+
+void func_0217D160(int a0);
+typedef struct HidObj_021A13F8 {
+    int f0[8];
+    int f20;
+} HidObj_021A13F8;
+
+void func_021A13F8(HidObj_021A13F8 *w)
+{
+    func_0217D160(w->f20);
+}
+
+void func_0217D1C0(u8 *w, int b);
+typedef struct HidObj_021A1404 {
+    int f0[8];
+    u8 *f20;
+} HidObj_021A1404;
+
+void func_021A1404(HidObj_021A1404 *w, int b)
+{
+    func_0217D1C0(w->f20, b);
+}
+
+void func_0217D3AC(int id);
+typedef struct HidObj_021A1410 {
+    int f0[8];
+    int f20;
+} HidObj_021A1410;
+
+void func_021A1410(HidObj_021A1410 *w)
+{
+    func_0217D3AC(w->f20);
+}
+
+void *func_0217D4DC(void *w, int b, int c);
+typedef struct HidObj_021A141C {
+    int f0[8];
+    void *f20;
+} HidObj_021A141C;
+
+void *func_021A141C(HidObj_021A141C *w, int b)
+{
+    return func_0217D4DC(w->f20, b, (int)w);
 }

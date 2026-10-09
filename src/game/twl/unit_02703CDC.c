@@ -21,7 +21,7 @@
  *   data_02150FEC  0x02150FEC  data a1
  *   func_02703F60  0x02703F60  arm twl
  *   func_02085DBC  0x02085DBC  arm twl
- *   func_02088610  0x02088610  code twl
+ *   func_02088610 0x02088610 arm twl
  */
 typedef unsigned int u32;
 

@@ -1,6 +1,6 @@
 /*
  * file:     unit_021E54AC.c
- * function: func_021E54AC
+ * function: func_021E54AC, func_021E54E0
  * address:  0x021E54AC
  * packet:   pkt_ov093_021E54AC
  * region:   ov093
@@ -8,12 +8,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * The callee's word result is a one-word struct (see
  * docs/idioms/a-one-word-struct-result-passed-by-value-costs-a-second-frame-word.md).
  *
  * symbols:
+ *   d_021F26B4     0x021F26B4  data   ov093  a4
  *   func_021E89C0  0x021E89C0  thumb  ov093
  *   func_021B9A50  0x021B9A50  thumb  ov093
  *   func_021E556C  0x021E556C  thumb  ov093
@@ -30,4 +31,14 @@ void func_021E54AC(int a, int b, int c, int d)
     Word t = func_021E89C0();
     int e = func_021B9A50(c);
     func_021E556C(a, b, c, d, e, 7, t, 0x98);
+}
+
+
+extern int d_021F26B4[];
+int *func_021E54E0(int *p);
+
+int *func_021E54E0(int *p)
+{
+    *p = 1;
+    return d_021F26B4;
 }

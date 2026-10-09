@@ -1,7 +1,7 @@
 /*
  * file:     unit_021DA3D8.c
  * unit:     yes
- * function: func_021DA3D8, func_021DA528, func_021DA5BC
+ * function: func_021DA3D8, func_021DA528, func_021DA5BC, func_021DA618
  * address:  0x021DA3D8
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   d_021F09A0     0x021F09A0  data   ov093  a4
  *   func_021D775C 0x021D775C thumb ov093
  *   func_021C7D54 0x021C7D54 thumb ov093
  *   func_021C7CF4 0x021C7CF4 thumb ov093
@@ -184,4 +185,14 @@ int func_021DA5BC(void *a, void *b)
         }
     }
     return 0;
+}
+
+
+extern int d_021F09A0[];
+int *func_021DA618(int *p);
+
+int *func_021DA618(int *p)
+{
+    *p = 2;
+    return d_021F09A0;
 }

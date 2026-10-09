@@ -15,7 +15,7 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_02197BA4  0xfunc_02197BA4  arm
+ *   func_02197BA4 0x02197BA4 arm
  */
 
 extern int func_02197BA4(void *connection, unsigned char *message, int len);

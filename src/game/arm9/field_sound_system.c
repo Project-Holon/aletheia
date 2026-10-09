@@ -1,7 +1,7 @@
 /*
  * file:     field_sound_system.c
  * unit:     yes
- * function: func_02028844, func_0202889C, func_020288C4, func_02028900, func_02028988, func_020289B8, func_020289D4, func_020289F8, func_02028A14, func_02028A50, func_02028A58, func_02028A64, func_02028A70, func_02028A7C, func_02028ACC, func_02028B18, func_02028B50, func_02028BA0, func_02028BDC, func_02028C30, func_02028C50, func_02028CB0, func_02028CD4, func_02028D2C, func_02028D54, func_02028D7C, func_02028D8C, func_02028DB8, func_02028DCC, func_02028E0C, func_02028E48, func_02028E80, func_02028EAC, func_02028F18, func_02028FD0, func_02028FE0, func_02029040, func_020290F0
+ * function: func_02028844, func_0202889C, func_020288C4, func_02028900, func_02028988, func_020289B8, func_020289D4, func_020289F8, func_02028A14, func_02028A50, func_02028A58, func_02028A64, func_02028A70, func_02028A7C, func_02028ACC, func_02028B18, func_02028B50, func_02028BA0, func_02028BDC, func_02028C30, func_02028C50, func_02028CB0, func_02028CD4, func_02028D2C, func_02028D54, func_02028D7C, func_02028D8C, func_02028DB8, func_02028DCC, func_02028E0C, func_02028E48, func_02028E80, func_02028EAC, func_02028F18, func_02028FD0, func_02028FE0, func_02029040, func_020290F0, func_02029128, func_0202912C, func_02029130, func_02029134, func_02029138
  * address:  0x02028844
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -1568,4 +1568,39 @@ void func_020290F0(u8 *p)
         func_02029364(p);
         break;
     }
+}
+
+
+void func_02029128(void);
+
+void func_02029128(void)
+{
+}
+
+
+void func_0202912C(void);
+
+void func_0202912C(void)
+{
+}
+
+
+void func_02029130(void);
+
+void func_02029130(void)
+{
+}
+
+
+void func_02029134(void);
+
+void func_02029134(void)
+{
+}
+
+
+void func_02029138(void);
+
+void func_02029138(void)
+{
 }

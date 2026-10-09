@@ -8,12 +8,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
  *   func_02075BAC  0x02075BAC  arm
+ *   g_020A5D08       0x20A5D08  data
  */
 struct Obj02075BAC;
 struct SNDTrackInfo;

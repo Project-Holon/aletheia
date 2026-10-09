@@ -1,69 +1,76 @@
 /*
  * file:     unit_02180410_p13.c
  * unit:     yes
- * function: gsUdpEngineNoMoreMsgHandlers, gsUdpEngineNoApp
- * address:  0x02181828
+ * function: func_021818EC
+ * address:  0x021818EC
+ * packet:   pkt_ov009_021818EC
  * region:   ov009
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * sdk:      gsUdpEngineGetPeerOutBufferFreeSpace (gsudpengine.o)
  *
  * symbols:
- *   gsUdpEngineGetEngine             0x02180404 arm
- *   gsDebugFormat                    0x0217d254 arm
- *   ArrayLength                      0x02184200 arm
- *   d_021A3B9C                       0x021a3b9c data
+ *   func_02180404                  0x02180404  arm ov009
+ *   func_0217D254                  0x0217D254  arm ov009
+ *   func_021843E8                  0x021843E8  arm ov009
+ *   func_02184208                  0x02184208  arm ov009
+ *   func_02195E50                  0x02195E50  arm ov009
+ *   func_02180448                  0x02180448  arm ov009
+ *   g_021A3B9C                     0x021A3B9C  data
  */
-struct GSUdpEngineObject {
-    void *field0;             /* +0x00 */
-    void *field4;             /* +0x04 */
-    void *field8;             /* +0x08 */
-    int   fieldC;             /* +0x0c */
-    void *field10;            /* +0x10 */
-    void *field14;            /* +0x14 */
-    void *field18;            /* +0x18 */
-    void *field1c;            /* +0x1c */
-    void *field20;            /* +0x20 */
-    void *field24;            /* +0x24 */
-    void *field28;            /* +0x28 */
-};
 
-extern struct GSUdpEngineObject *gsUdpEngineGetEngine(void);
-extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel,
-                          char *theTokenStr);
-extern int ArrayLength(void *array);
-int gsUdpEngineNoMoreMsgHandlers(void);
-int gsUdpEngineNoApp(void);
-extern char d_021A3B9C[];
+typedef void (*GSUdpErrCB)(int, void *);
+typedef struct GSUdpMsgHandler {
+    char pad0[0x34];
+    GSUdpErrCB errCB;
+    void *userData;
+} GSUdpMsgHandler;
+typedef struct GSUdpRemotePeer {
+    unsigned int ip;
+    unsigned short port;
+    void *connection;
+} GSUdpRemotePeer;
+typedef struct GSUdpEngineObject {
+    char pad0[4];
+    void *peers;
+    void *handlers;
+    int initialized;
+    char pad10[0x24 - 0x10];
+    GSUdpErrCB socketErrorCB;
+    int (*unrecognizedCB)(unsigned int, unsigned short, unsigned char *, int, void *);
+    void *userData;
+} GSUdpEngineObject;
+extern void *func_02180404(void);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int func_02184200(const int *p);
+extern void *func_02184208(void *array, int n);
 
+extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
+extern int func_02195E50(const int *p);
+extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
+extern char g_021A3B9C[];
 
-int gsUdpEngineNoMoreMsgHandlers(void)
+int func_021818EC(unsigned int theIp, unsigned short thePort)
 {
-    struct GSUdpEngineObject *aUdp = gsUdpEngineGetEngine();
+    GSUdpEngineObject *aUdp;
+    GSUdpRemotePeer aRemotePeer;
+    GSUdpRemotePeer *aRemotePeerFound;
+    int index;
 
-    if (aUdp->fieldC == 0) {
-        gsDebugFormat(0xc, 0, 0xf, d_021A3B9C);
-        return 1;
-    }
-    return ArrayLength(aUdp->field8) == 0;
-}
-
-
-int gsUdpEngineNoApp(void)
-{
-    struct GSUdpEngineObject *aUdp = gsUdpEngineGetEngine();
-
-    if (aUdp->fieldC == 0) {
-        gsDebugFormat(0xc, 0, 0xf, d_021A3B9C);
-        return 1;
-    }
-    if (aUdp->field14 != 0 || aUdp->field20 != 0 || aUdp->field10 != 0 ||
-        aUdp->field24 != 0 || aUdp->field18 != 0 || aUdp->field1c != 0 ||
-        aUdp->field28 != 0)
+    aUdp = func_02180404();
+    if (aUdp->initialized == 0) {
+        func_0217D254(12, 0, 15, g_021A3B9C);
         return 0;
-    return 1;
+    }
+    aRemotePeer.ip = theIp;
+    aRemotePeer.port = thePort;
+    index = func_021843E8(aUdp->peers, &aRemotePeer, func_02180448, 0, 0);
+    if (index == -1)
+        return 0;
+    aRemotePeerFound = (GSUdpRemotePeer *)func_02184208(aUdp->peers, index);
+    return func_02195E50(aRemotePeerFound->connection);
 }

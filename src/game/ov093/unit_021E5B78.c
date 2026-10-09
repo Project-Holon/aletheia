@@ -1,18 +1,19 @@
 /*
  * file:     unit_021E5B78.c
  * unit:     yes
- * function: func_021E5B78, func_021E5C18, func_021E5C64, func_021E5C88, func_021E5CC8, func_021E5CD4, func_021E5D24, func_021E5D54, func_021E5DAC, func_021E5E2C, func_021E5E70, func_021E5E7C, func_021E5EB8, func_021E5F0C, func_021E5F18, func_021E5F30, func_021E5F48, func_021E5FD0, func_021E5FEC, func_021E6004, func_021E6010, func_021E6054, func_021E60A8, func_021E6120, func_021E612C, func_021E6158
- * address:  0x021E5B78
+ * function: func_021E5B6C, func_021E5B78, func_021E5C18, func_021E5C64, func_021E5C88, func_021E5CC8, func_021E5CD4, func_021E5D24, func_021E5D54, func_021E5DAC, func_021E5E2C, func_021E5E70, func_021E5E7C, func_021E5EB8, func_021E5F0C, func_021E5F18, func_021E5F30, func_021E5F48, func_021E5FD0, func_021E5FEC, func_021E6004, func_021E6010, func_021E6054, func_021E60A8, func_021E6120, func_021E612C, func_021E6158
+ * address:  0x021E5B6C
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   d_021F2454     0x021F2454  data   ov093  a4
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C7F24  0x021C7F24  thumb  ov093
  *   func_021C7F4C  0x021C7F4C  thumb  ov093
@@ -116,6 +117,16 @@ extern u8 func_021D5440(u8 *p);
 extern int func_021D5B7C(void *m);
 extern int func_021D62A8(struct Unk021D62A8 *p);
 extern int func_021D5BDC(struct UtilWork *p, u32 n);
+extern int d_021F2454[];
+int *func_021E5B6C(int *p);
+
+int *func_021E5B6C(int *p)
+{
+    *p = 1;
+    return d_021F2454;
+}
+
+
 void func_021E5B78(int a, void *b, int c);
 int *func_021E5C0C(int *p);
 void func_021E5C18(u8 *p, void *a, int b);

@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  * closed (lane 09, 2026-10-01): irc.o's statics (sdkobj lists them as local data) are
  *   defined here as TU `static ... = init;`. As file statics the zero for the three
  *   callback clears is set up before the unit_number strb (0xFF in r3, 0 in r2), which

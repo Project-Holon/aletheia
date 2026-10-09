@@ -1,9 +1,9 @@
 /*
  * file:     unit_02180410_p11.c
  * unit:     yes
- * function: func_021815C8
- * address:  0x021815C8
- * packet:   pkt_ov009_021815C8
+ * function: func_02181748
+ * address:  0x02181748
+ * packet:   pkt_ov009_02181748
  * region:   ov009
  * compiler: 1.1p1
  * flags:    -O4,p
@@ -11,103 +11,62 @@
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      gsUdpEngineAddMsgHandler (libdwcgscommon.TWL.HYB.a(gsudpengine.o))
+ * sdk:      gsUdpEngineRemoveMsgHandler (gsudpengine)
  *
  * symbols:
- *   func_02180404                  0x02180404  arm ov009
- *   func_0217D254                  0x0217D254  arm ov009
- *   func_02184144                  0x02184144  arm ov009
- *   func_02184234                  0x02184234  arm ov009
- *   g_021A3B9C                     0x021A3B9C  data
- *   g_021A3CA0                     0x021A3CA0  data
- *   g_021A3CC4                     0x021A3CC4  data
- *   g_021A3B7C                     0x021A3B7C  data
+ *   gsUdpEngineGetEngine     0x02180404 arm ov009
+ *   gsDebugFormat            0x0217D254 arm ov009
+ *   ArraySearch              0x021843E8 arm ov009
+ *   ArrayDeleteAt            0x0218437C arm ov009
+ *   g_021A3B9C               0x021A3B9C data
+ *   g_021A3CE4               0x021A3CE4 data
+ *   gsUdpMsgHandlerCompare2  0x02180430 arm ov009
  */
 
-typedef struct GSUdpRemotePeer {
-    unsigned int mAddr;
-    unsigned short mPort;
-    void *mConnection;
-} GSUdpRemotePeer;
+typedef struct { char c[16]; } GSUdpHdr;
+
 typedef struct GSUdpMsgHandler {
-    unsigned char mInitialMsg[16];
-    unsigned char mHeader[16];
-    void *mPendingConnections;
-    void (*mClosed)(unsigned int, unsigned short, int, void *);
-    void (*mReceived)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *);
-    void (*mConnected)(unsigned int, unsigned short, int, int, void *);
-    void (*mPingReply)(unsigned int, unsigned short, unsigned int, void *);
-    void (*mNetworkError)(int, void *);
-    void *mUserData;
+    char pad0[0x10];
+    char header[16];
+    char pad1[0x1C];
 } GSUdpMsgHandler;
+
 typedef struct GSUdpEngineObject {
-    void *mSocket;
-    void *mRemotePeers;
-    void *mMsgHandlers;
-    int mInitialized;
-    void (*mAppConnected)(unsigned int, unsigned short, int, int, void *);
-    void (*mAppClosed)(unsigned int, unsigned short, int, void *);
-    void (*mAppPingReply)(unsigned int, unsigned short, unsigned int, void *);
-    void (*mAppRecvData)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *);
-    void (*mAppConnAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *);
-    void (*mAppNetworkError)(int, void *);
-    int (*mAppUnknownMessage)(unsigned int, unsigned short, unsigned char *, unsigned int, void *);
-    void *mAppUserData;
-    int mAppPendingConnections;
-    unsigned int mLocalAddr;
-    unsigned short mLocalPort;
+    char pad0[4];
+    void *peers;
+    void *handlers;
+    int initialized;
 } GSUdpEngineObject;
 
-typedef struct { char c[16]; } GSChar16;
-
-extern void *func_02180404(void);
-extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern void func_02184234(void *array, void *newElem);
+extern GSUdpEngineObject *gsUdpEngineGetEngine(void);
+extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
+extern int ArraySearch(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
+extern void ArrayDeleteAt(void *array, int n);
+extern int gsUdpMsgHandlerCompare2(void *theFirstHandler, void *theSecondHandler);
+extern void *memcpy(void *dst, const void *src, unsigned long n);
 extern char g_021A3B9C[];
-extern char g_021A3CA0[];
-extern char g_021A3CC4[];
-extern char g_021A3B7C[];
+extern char g_021A3CE4[];
 
-int func_021815C8(char *theInitMsg, char *theHeader,
-                  void (*theMsgHandlerError)(int, void *),
-                  void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *),
-                  void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *),
-                  void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *),
-                  void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *),
-                  void *theUserData)
+int func_02181748(char *theHeader)
 {
-    GSUdpMsgHandler aMsgHandler;
+    int index;
+    GSUdpMsgHandler aHandler;
     GSUdpEngineObject *aUdp;
 
-    aUdp = func_02180404();
-    if (!aUdp->mInitialized) {
-        func_0217D254(12, 0, 15, g_021A3B9C);
+    aUdp = gsUdpEngineGetEngine();
+    if (aUdp->initialized == 0)
+    {
+        gsDebugFormat(12, 0, 15, g_021A3B9C);
         return 3;
     }
-    if (theInitMsg[0] == 0) {
-        func_0217D254(12, 0, 15, g_021A3CA0);
+    if (theHeader == 0 || theHeader[0] == 0)
+    {
+        gsDebugFormat(12, 0, 15, g_021A3CE4);
         return 10;
     }
-    if (theHeader[0] == 0) {
-        func_0217D254(12, 0, 15, g_021A3CC4);
-        return 10;
-    }
-
-    aMsgHandler.mClosed = theMsgHandlerClosed;
-    aMsgHandler.mConnected = theMsgHandlerConnected;
-    aMsgHandler.mPingReply = theMsgHandlerPing;
-    aMsgHandler.mReceived = theMsgHandlerRecv;
-    aMsgHandler.mNetworkError = theMsgHandlerError;
-    *(GSChar16 *)aMsgHandler.mInitialMsg = *(GSChar16 *)theInitMsg;
-    *(GSChar16 *)aMsgHandler.mHeader = *(GSChar16 *)theHeader;
-
-    aMsgHandler.mPendingConnections = func_02184144(4, 1, 0);
-    if (aMsgHandler.mPendingConnections == 0) {
-        func_0217D254(12, (char *)2, 1, g_021A3B7C);
-        return 1;
-    }
-    aMsgHandler.mUserData = theUserData;
-    func_02184234(aUdp->mMsgHandlers, &aMsgHandler);
+    *(GSUdpHdr *)aHandler.header = *(GSUdpHdr *)theHeader;
+    index = ArraySearch(aUdp->handlers, &aHandler, gsUdpMsgHandlerCompare2, 0, 0);
+    if (index != -1)
+        ArrayDeleteAt(aUdp->handlers, index);
     return 0;
 }

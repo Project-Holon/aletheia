@@ -1,7 +1,7 @@
 /*
  * file:     fldeff_iwakudaki.c
  * unit:     yes
- * function: func_021ADC6C, func_021ADCB8, func_021ADCDC, func_021ADCF0, func_021ADD38, func_021ADD64, func_021ADD7C, func_021ADDE8, func_021ADE4C, func_021ADE70, func_021ADEA0, func_021ADEDC, func_021ADF00, func_021ADF14, func_021ADF68, func_021ADF94, func_021AE01C, func_021AE030, func_021AE04C, func_021AE050, func_021AE090, func_021AE0CC, func_021AE198, func_021AE1FC, func_021AE288, func_021AE348, func_021AE430, func_021AE454, func_021AE498, func_021AE4B4, func_021AE4E0, func_021AE524, func_021AE550, func_021AE56C, func_021AE58C, func_021AE5A8, func_021AE5BC
+ * function: func_021ADC6C, func_021ADCB8, func_021ADCDC, func_021ADCF0, func_021ADD38, func_021ADD64, func_021ADD7C, func_021ADDE8, func_021ADE4C, func_021ADE70, func_021ADEA0, func_021ADEDC, func_021ADF00, func_021ADF14, func_021ADF68, func_021ADF94, func_021AE01C, func_021AE030, func_021AE04C, func_021AE050, func_021AE090, func_021AE0CC, func_021AE198, func_021AE1FC, func_021AE288, func_021AE348, func_021AE430, func_021AE454, func_021AE498, func_021AE4B4, func_021AE4E0, func_021AE524, func_021AE550, func_021AE56C, func_021AE58C, func_021AE5A8, func_021AE5BC, func_021AE5D4, func_021AE5EC
  * address:  0x021ADC6C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -1002,4 +1002,38 @@ if (func_0216D454((void *)((struct Obj12100 *)((u8 *)(a)))->f8) == 1) {
     ((struct Obj12100 *)((u8 *)(a)))->f0 = 9;
 }
 return 0;
+}
+
+typedef struct IwaTask {
+    int state;
+    int f4;
+    int f8;
+    int fc;
+    int f10;
+    int f14;
+    int f18;
+    int f1c;
+    int f20;
+    int f24;
+    int cnt;
+} IwaTask;
+
+int func_021AE5D4(IwaTask *w)
+{
+    w->cnt++;
+    if (w->cnt >= 30) {
+        w->cnt = 0;
+        w->state = 10;
+    }
+    return 0;
+}
+
+int func_021AE5EC(IwaTask *w)
+{
+    if (w->fc <= 1) {
+        w->state = 13;
+        return 1;
+    }
+    w->state = 11;
+    return 1;
 }

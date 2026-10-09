@@ -1,7 +1,7 @@
 /*
  * file:     unit_021DEFC4.c
  * unit:     yes
- * function: func_021DEFC4, func_021DF0C4, func_021DF144, func_021DF150, func_021DF1B0, func_021DF288
+ * function: func_021DEFC4, func_021DF0C4, func_021DF144, func_021DF150, func_021DF1B0, func_021DF288, func_021DF2A4, func_021DF2B0, func_021DF2BC, func_021DF2C8, func_021DF2D4, func_021DF2E0, func_021DF2EC, func_021DF2F8, func_021DF304, func_021DF310, func_021DF31C, func_021DF328, func_021DF334, func_021DF340, func_021DF34C, func_021DF358, func_021DF364
  * address:  0x021DEFC4
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,6 +13,23 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   d_021F15CC     0x021F15CC  data   ov093  a4
+ *   d_021F147C     0x021F147C  data   ov093  a4
+ *   d_021F136C     0x021F136C  data   ov093  a4
+ *   d_021F15D4     0x021F15D4  data   ov093  a4
+ *   d_021F13CC     0x021F13CC  data   ov093  a4
+ *   d_021F1494     0x021F1494  data   ov093  a4
+ *   d_021F149C     0x021F149C  data   ov093  a4
+ *   d_021F14E4     0x021F14E4  data   ov093  a4
+ *   d_021F1594     0x021F1594  data   ov093  a4
+ *   d_021F13F4     0x021F13F4  data   ov093  a4
+ *   d_021F14A4     0x021F14A4  data   ov093  a4
+ *   d_021F1574     0x021F1574  data   ov093  a4
+ *   d_021F1374     0x021F1374  data   ov093  a4
+ *   d_021F14D4     0x021F14D4  data   ov093  a4
+ *   d_021F14EC     0x021F14EC  data   ov093  a4
+ *   d_021F1424     0x021F1424  data   ov093  a4
+ *   d_021F153C     0x021F153C  data   ov093  a4
  *   func_021D775C 0x021D775C thumb ov093
  *   func_021C83D4 0x021C83D4 thumb ov093
  *   func_021D57FC 0x021D57FC thumb ov093
@@ -38,6 +55,7 @@
  *   d_021F15B4 0x021F15B4 data a4
  *   d_021F15C4 0x021F15C4 data a4
  *   func_021D7704   0x021D7704  thumb ov093
+
  */
 #include "../../matched/include/Obj03702.h"
 #include "../../matched/include/Obj10069.h"
@@ -215,4 +233,174 @@ void func_021DF288(void *a, void *b, int c)
 {
     if (c == func_021D775C(2))
         func_021D7704(0x35, 2 << 10);
+}
+
+
+extern int d_021F15CC[];
+int *func_021DF2A4(int *p);
+
+int *func_021DF2A4(int *p)
+{
+    *p = 1;
+    return d_021F15CC;
+}
+
+
+extern int d_021F147C[];
+int *func_021DF2B0(int *p);
+
+int *func_021DF2B0(int *p)
+{
+    *p = 1;
+    return d_021F147C;
+}
+
+
+extern int d_021F136C[];
+int *func_021DF2BC(int *p);
+
+int *func_021DF2BC(int *p)
+{
+    *p = 1;
+    return d_021F136C;
+}
+
+
+extern int d_021F15D4[];
+int *func_021DF2C8(int *p);
+
+int *func_021DF2C8(int *p)
+{
+    *p = 1;
+    return d_021F15D4;
+}
+
+
+extern int d_021F13CC[];
+int *func_021DF2D4(int *p);
+
+int *func_021DF2D4(int *p)
+{
+    *p = 1;
+    return d_021F13CC;
+}
+
+
+extern int d_021F1494[];
+int *func_021DF2E0(int *p);
+
+int *func_021DF2E0(int *p)
+{
+    *p = 1;
+    return d_021F1494;
+}
+
+
+extern int d_021F149C[];
+int *func_021DF2EC(int *p);
+
+int *func_021DF2EC(int *p)
+{
+    *p = 1;
+    return d_021F149C;
+}
+
+
+extern int d_021F14E4[];
+int *func_021DF2F8(int *p);
+
+int *func_021DF2F8(int *p)
+{
+    *p = 1;
+    return d_021F14E4;
+}
+
+
+extern int d_021F1594[];
+int *func_021DF304(int *p);
+
+int *func_021DF304(int *p)
+{
+    *p = 1;
+    return d_021F1594;
+}
+
+
+extern int d_021F13F4[];
+int *func_021DF310(int *p);
+
+int *func_021DF310(int *p)
+{
+    *p = 1;
+    return d_021F13F4;
+}
+
+
+extern int d_021F14A4[];
+int *func_021DF31C(int *p);
+
+int *func_021DF31C(int *p)
+{
+    *p = 1;
+    return d_021F14A4;
+}
+
+
+extern int d_021F1574[];
+int *func_021DF328(int *p);
+
+int *func_021DF328(int *p)
+{
+    *p = 1;
+    return d_021F1574;
+}
+
+
+extern int d_021F1374[];
+int *func_021DF334(int *p);
+
+int *func_021DF334(int *p)
+{
+    *p = 1;
+    return d_021F1374;
+}
+
+
+extern int d_021F14D4[];
+int *func_021DF340(int *p);
+
+int *func_021DF340(int *p)
+{
+    *p = 1;
+    return d_021F14D4;
+}
+
+
+extern int d_021F14EC[];
+int *func_021DF34C(int *p);
+
+int *func_021DF34C(int *p)
+{
+    *p = 1;
+    return d_021F14EC;
+}
+
+
+extern int d_021F1424[];
+int *func_021DF358(int *p);
+
+int *func_021DF358(int *p)
+{
+    *p = 1;
+    return d_021F1424;
+}
+
+
+extern int d_021F153C[];
+int *func_021DF364(int *p);
+
+int *func_021DF364(int *p)
+{
+    *p = 1;
+    return d_021F153C;
 }

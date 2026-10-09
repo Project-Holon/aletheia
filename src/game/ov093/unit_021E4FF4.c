@@ -1,6 +1,6 @@
 /*
  * file:     unit_021E4FF4.c
- * function: func_021E4FF4
+ * function: func_021E4FF4, func_021E5080
  * address:  0x021E4FF4
  * packet:   pkt_ov093_021E4FF4
  * region:   ov093
@@ -11,6 +11,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   d_021F26E4     0x021F26E4  data   ov093  a4
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
@@ -61,4 +62,14 @@ void func_021E4FF4(int a, void *b, int c)
         ((struct Obj13524 *)w)->f4 = 0xa;
         func_021C88C8(b, w);
     }
+}
+
+
+extern int d_021F26E4[];
+int *func_021E5080(int *p);
+
+int *func_021E5080(int *p)
+{
+    *p = 1;
+    return d_021F26E4;
 }

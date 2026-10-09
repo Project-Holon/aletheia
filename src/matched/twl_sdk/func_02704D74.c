@@ -11,8 +11,8 @@
  *
  * symbols:
  *   DAT_02734450   0x02734450  data twl
- *   func_02087A04  0x02087A04  code twl
- *   func_02088688  0x02088688  code twl
+ *   func_02087A04  0x02087A04  arm twl
+ *   func_02088688  0x02088688  arm twl
  */
 
 typedef unsigned int u32;

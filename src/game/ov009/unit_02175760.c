@@ -15,7 +15,7 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_0216B804  0xfunc_0216B804  arm
+ *   func_0216B804 0x0216B804 arm
  */
 
 extern void func_0216B804(void);

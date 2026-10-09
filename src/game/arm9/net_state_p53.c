@@ -1,56 +1,45 @@
 /*
- * file:     net_state_p53.c
- * unit:     yes
- * function: func_0203DC4C, func_0203DC68
- * address:  0x0203DC4C
+ * function: func_0203E420
+ * address:  0x0203E420
+ * packet:   pkt_0203DC70
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * net_irc_wireless.c.  Runs the context's +0x78 method on the caller's
+ * argument, copies 0x4C bytes of its result to +0xB4 and returns the +0x90
+ * buffer.  The earlier notes (func_0203E420.c.txt, pkt_0203E420.c.txt) read
+ * the function as taking no argument; the image keeps r0 untouched through
+ * the global load (`ldr r1, =g`), which is the argument being forwarded to
+ * the method, the same shape as func_0203E458.
  *
  * symbols:
  *   g_021469F0     0x021469F0  data
+ *   func_02082D44  0x02082D44  arm
  */
+
 typedef unsigned char u8;
+typedef unsigned int  u32;
 
-struct Ctx_0203DC4C {
-    u8 pad_00[0x103];
-    u8 f103;
+struct Ctx {
+    u8    pad_00[0x78];
+    void *(*fn_78)(void *arg);
 };
 
-struct Ctx_0203DC68 {
-    u8 pad_00[0x109];
-    u8 state;
-};
+extern struct Ctx *g_021469F0;
+extern void func_02082D44(const void *src, void *dst, u32 size);
 
-void func_0203DC4C(void);
-extern struct Ctx_0203DC4C *g_021469F0;
-
-
-/*
- * net_irc_wireless.c.  Callback installed at +0x2C by func_0203D8F0 and
- * by states 4 and 14 of func_0203DC70: flags +0x103 of the live context.
- * An unlabelled ARM leaf.
- */
-void func_0203DC4C(void)
+void *func_0203E420(void *arg)
 {
-    struct Ctx_0203DC4C *p = g_021469F0;
+    struct Ctx *p = g_021469F0;
+    void *r;
 
-    if (p != 0)
-        p->f103 = 1;
-}
-
-
-/*
- * net_irc_wireless.c.  The state setter of the wireless state machine
- * func_0203DC70: stores the new state at +0x109.  An unlabelled ARM leaf
- * (no lr save), filed as the `matched` witness for func_0203DC70's 27 calls.
- */
-void func_0203DC68(struct Ctx_0203DC68 *p, int state)
-{
-    p->state = state;
+    if (p == 0)
+        return 0;
+    r = p->fn_78(arg);
+    func_02082D44(r, (u8 *)p + 0xB4, 0x4C);
+    return (u8 *)p + 0x90;
 }
