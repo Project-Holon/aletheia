@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F8480.c
  * unit:     yes
- * function: func_021F8480, func_021F8518, func_021F8590, func_021F8604, func_021F8658, func_021F86A4, func_021F86E4, func_021F8790, func_021F88B0, func_021F8950, func_021F8A0C, func_021F8AA8, func_021F8B5C, func_021F8C30, func_021F8D18, func_021F8D5C, func_021F8D98, func_021F8E60, func_021F8E90, func_021F8EE8, func_021F8EFC, func_021F8F58, func_021F8F88, func_021F8FB0, func_021F8FC8, func_021F9008
+ * function: func_021F8480, func_021F8518, func_021F8590, func_021F8604, func_021F8658, func_021F86A4, func_021F86E4, func_021F8790, func_021F88B0, func_021F8950, func_021F8A0C, func_021F8AA8, func_021F8B5C, func_021F8C30, func_021F8D18, func_021F8D5C, func_021F8D98, func_021F8E60, func_021F8E90, func_021F8EE8, func_021F8EFC, func_021F8F58, func_021F8F88, func_021F8FB0, func_021F8FC8, func_021F9008, func_021F9048
  * address:  0x021F8480
  * region:   ov185
  * compiler: dsi/1.1p1
@@ -797,3 +797,19 @@ int func_021F9008(int a, int b, int c)
     }
     return ok;
 }
+
+#include "../../matched/include/Obj24763.h"
+
+int func_021F9048(char *p,unsigned x,unsigned y)
+{
+    int inside=((unsigned)(x-0xb8)<=0x28)&((unsigned)(y-0x40)<=0x28);
+    if(inside) {
+        int pair[2];
+        pair[0]=x;
+        pair[1]=y;
+        func_021FD860((int)((struct Obj24763 *)p)->f3C,1,pair);
+        func_020061E4(0x703);
+    }
+    return inside;
+}
+

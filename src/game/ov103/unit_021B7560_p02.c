@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B7560_p02.c
  * unit:     yes
- * function: func_021B795C, func_021B7970, func_021B7AE8, func_021B7B34, func_021B7B3C, func_021B7C08, func_021B7C4C, func_021B7C54, func_021B7C5C, func_021B7C64, func_021B7C68, func_021B7D08, func_021B7D30, func_021B7D44, func_021B7D4C, func_021B7D58, func_021B7DFC, func_021B7EB8, func_021B7F04, func_021B7F4C, func_021B7F50, func_021B7F60, func_021B7F78, func_021B7F7C, func_021B7FC8, func_021B7FF0, func_021B7FFC, func_021B8000, func_021B8004, func_021B8008, func_021B800C, func_021B8074, func_021B80E4, func_021B8100, func_021B8138, func_021B81A4, func_021B824C, func_021B82DC, func_021B831C, func_021B8338, func_021B8348, func_021B8358, func_021B8364, func_021B856C, func_021B8728, func_021B8828, func_021B8A44, func_021B8AF4, func_021B8B1C, func_021B8B38, func_021B8BC0, func_021B8BD8, func_021B8BFC, func_021B8C14, func_021B8C40, func_021B8C4C, func_021B8CA0, func_021B8CB0, func_021B8D54, func_021B8D9C, func_021B8DE4, func_021B8F00, func_021B8FA0, func_021B9060, func_021B9110, func_021B9174, func_021B9184, func_021B91A8, func_021B91B4
+ * function: func_021B795C, func_021B7970, func_021B7AE8, func_021B7B34, func_021B7B3C, func_021B7C08, func_021B7C4C, func_021B7C54, func_021B7C5C, func_021B7C64, func_021B7C68, func_021B7D08, func_021B7D30, func_021B7D44, func_021B7D4C, func_021B7D58, func_021B7DFC, func_021B7EB8, func_021B7F04, func_021B7F4C, func_021B7F50, func_021B7F60, func_021B7F78, func_021B7F7C, func_021B7FC8, func_021B7FF0, func_021B7FFC, func_021B8000, func_021B8004, func_021B8008, func_021B800C, func_021B8074, func_021B80E4, func_021B8100, func_021B8138, func_021B81A4, func_021B824C, func_021B82DC, func_021B831C, func_021B8338, func_021B8348, func_021B8358, func_021B8364, func_021B856C, func_021B8728, func_021B8828, func_021B8A44, func_021B8AF4, func_021B8B1C, func_021B8B38, func_021B8BC0, func_021B8BD8, func_021B8BFC, func_021B8C14, func_021B8C40, func_021B8C4C, func_021B8CA0, func_021B8CB0, func_021B8D54, func_021B8D9C, func_021B8DE4, func_021B8F00, func_021B8FA0, func_021B9060, func_021B9110, func_021B9174, func_021B9184, func_021B91A8, func_021B91B4, func_021B9214
  * address:  0x021B795C
  * region:   ov103
  * compiler: dsi/1.1p1
@@ -1609,3 +1609,11 @@ int func_021B91B4(u8 *p,u32 *rect) {
  if((((struct Obj03741 *)p)->f58)++>15)((struct Obj03741 *)p)->f58=0;
  return 0;
 }
+
+#include "../../matched/include/Obj22213.h"
+
+int func_021B9214(void *p)
+{
+    return ((struct Obj22213 *)p)->f5C;
+}
+

@@ -1,7 +1,7 @@
 /*
  * file:     mictest.c
  * unit:     yes
- * function: func_02183B60, func_02183C50, func_02183CCC, func_02183D0C, func_02183D1C, func_02183D34, func_02183D3C, func_02183D40, func_02183D44, func_02183D4C, func_02183DAC, func_02183E18, func_02183E60, func_02183EC0, func_02183ED4, func_02183F08, func_02183F30, func_02183F40, func_02183F6C, func_02183F98, func_02183FA0, func_02183FC4, func_02184138, func_02184144, func_0218414C, func_021841C8, func_021841F4, func_021841F8, func_021842B4, func_021842BC, func_02184360, func_02184398, func_02184408, func_0218441C, func_02184470, func_0218448C, func_0218449C, func_021844C8, func_021845AC, func_021845E0, func_02184600, func_02184680, func_02184780, func_02184818, func_0218483C
+ * function: func_02183B60, func_02183C50, func_02183CCC, func_02183D0C, func_02183D1C, func_02183D34, func_02183D3C, func_02183D40, func_02183D44, func_02183D4C, func_02183DAC, func_02183E18, func_02183E60, func_02183EC0, func_02183ED4, func_02183F08, func_02183F30, func_02183F40, func_02183F6C, func_02183F98, func_02183FA0, func_02183FC4, func_02184138, func_02184144, func_0218414C, func_021841C8, func_021841F4, func_021841F8, func_021842B4, func_021842BC, func_02184360, func_02184398, func_02184408, func_0218441C, func_02184470, func_0218448C, func_0218449C, func_021844C8, func_021845AC, func_021845E0, func_02184600, func_02184680, func_02184780, func_02184818, func_0218483C, func_0218484C
  * address:  0x02183B60
  * region:   ov168
  * compiler: dsi/1.1p1
@@ -1227,3 +1227,11 @@ int func_0218483C(void)
 {
     return func_02035C08((void *)0x0218486E);
 }
+
+extern u32 func_020362DC(void);
+
+int func_0218484C(void)
+{
+    return func_0218483C() == 0 || (func_020362DC() & 2) != 0;
+}
+

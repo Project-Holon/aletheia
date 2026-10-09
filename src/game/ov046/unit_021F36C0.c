@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F36C0.c
  * unit:     yes
- * function: func_021F36C0, func_021F3838, func_021F38D4, func_021F3A04, func_021F3A28, func_021F3A88, func_021F3AD0, func_021F3B18, func_021F3B5C, func_021F3BC8, func_021F3BE8, func_021F3BFC, func_021F3C8C, func_021F3D40, func_021F3DE8, func_021F3EFC, func_021F3FA8, func_021F4020, func_021F4064, func_021F4078
+ * function: func_021F36C0, func_021F3838, func_021F38D4, func_021F3A04, func_021F3A28, func_021F3A88, func_021F3AD0, func_021F3B18, func_021F3B5C, func_021F3BC8, func_021F3BE8, func_021F3BFC, func_021F3C8C, func_021F3D40, func_021F3DE8, func_021F3EFC, func_021F3FA8, func_021F4020, func_021F4064, func_021F4078, func_021F40D8
  * address:  0x021F36C0
  * region:   ov046
  * compiler: dsi/1.1p1
@@ -729,3 +729,13 @@ void func_021F4078(u32 a, int b, int c)
     for (i = 0; i < 6; i++)
         func_021BB3DC((u32 *)h, v1[i], v2[i]);
 }
+
+int func_021F40D8(int *p)
+{
+    if (p[1] > 0x40000)
+        return 0;
+    if (p[0] >= 0x100000 && p[2] >= 0x1e0000)
+        return 1;
+    return 0;
+}
+

@@ -127,6 +127,27 @@ unit_02064D70 (15), clact (13). About 80 to 100 of the 164 are real boundaries
   `src/matched` + `layout/function_starts.txt` is a separate job (pattern:
   commit b913cdd40).
 
+## Follow-up lanes (2026-10-09, after round 5)
+
+- **Lost functions (lane f1):** 13 of the 28 EXACT-but-missing functions are now in
+  their TUs (ov195, ov168, ov136, ov170, ov185, ov013 021B3924, ov046, ov047, ov036
+  021F3980, ov048, ov068, ov103; ov093 021EFCE4 sits in its own file
+  `ov093/unit_021EFC1C/` after a 16-byte uncovered veneer). gamegaps now reports
+  15 lost pieces (328 bytes) and 9 header entries; all remaining ones are
+  gamegaps blind spots: multi-line K&R definitions its regex does not read,
+  `alarmCallback` mapped to the wrong address, and six arm9 `push {r0-r3}`
+  vararg heads defined under their body labels. Fix in `tools/gamegaps.py`.
+  mcss.c header no longer lists the branch targets 0x02014D90 and 0x02015590.
+- **twl stand-ins:** now real C: func_0272FE54, func_0272FEF4, func_0272FFC8,
+  func_0272EE98, func_02732944 (shard twl_sys re-verified, stable). Left: 9 in
+  unit_0272E9E8 (EC38 best 40 bytes off; EFB0, F0BC, F368, F570, F740, F8A8, F9C4,
+  EA74 not started) and 02732A64 and 027323A8 in unit_02731718.
+- **02732A64/02732A70 are one 268-byte function:** nothing branches or calls to
+  0x02732A70 (the only reference is the pool word to 0x02732A64). Drop the
+  func_02732A70 entry from `layout/function_starts.txt` when that function is
+  written. Best drafts (not EXACT): 02732A64 8 bytes short (`cmp #1; b` dispatch),
+  027323A8 12 bytes short (loop guard, pool-loaded 1).
+
 ## Hidden functions: how they were found, matched and stored
 
 **What they are.** Small functions the original listing never labelled: setters,

@@ -1,7 +1,7 @@
 /*
  * file:     box2_ui.c
  * unit:     yes
- * function: func_021ED824, func_021ED888, func_021ED8A4, func_021ED904, func_021ED918, func_021ED9B4, func_021ED9C8, func_021EDA70, func_021EDAB0, func_021EDB1C, func_021EDB34, func_021EDB64, func_021EDB94, func_021EDBE8, func_021EDC0C, func_021EDD38, func_021EDECC, func_021EDF5C, func_021EDFC4, func_021EE008, func_021EE038, func_021EE0FC, func_021EE120, func_021EE200, func_021EE224, func_021EE234, func_021EE244, func_021EE26C, func_021EE2C4, func_021EE364, func_021EE3CC, func_021EE3E4, func_021EE408, func_021EE418, func_021EE42C, func_021EE43C, func_021EE454, func_021EE470, func_021EE474, func_021EE510, func_021EE520, func_021EE544, func_021EE57C, func_021EE64C, func_021EE65C, func_021EE72C, func_021EE744, func_021EE754, func_021EE7C4, func_021EE7F4, func_021EE850, func_021EE8A8, func_021EE944, func_021EE95C, func_021EE96C, func_021EE9C4, func_021EE9F4, func_021EEA48, func_021EEB18, func_021EEB30, func_021EEB40, func_021EEBDC, func_021EEBF4, func_021EEC04, func_021EEC1C, func_021EEC38, func_021EEC50, func_021EEC6C, func_021EECB0, func_021EECE4, func_021EEDB8, func_021EEDD0, func_021EEDE0, func_021EEE7C, func_021EEE94, func_021EEEA4, func_021EEF50, func_021EEF68, func_021EEF74, func_021EEFA4, func_021EF048, func_021EF0A8, func_021EF108, func_021EF170, func_021EF180, func_021EF194, func_021EF1A4, func_021EF1B4, func_021EF1C4, func_021EF1D4, func_021EF1FC, func_021EF224, func_021EF248, func_021EF264, func_021EF274, func_021EF310, func_021EF31C, func_021EF32C, func_021EF33C, func_021EF34C, func_021EF35C, func_021EF36C, func_021EF3A0, func_021EF3D8, func_021EF3EC, func_021EF400, func_021EF45C, func_021EF480, func_021EF4A4, func_021EF4C0, func_021EF4E4, func_021EF508, func_021EF534, func_021EF57C, func_021EF5C4, func_021EF5E8, func_021EF60C, func_021EF630, func_021EF660, func_021EF670, func_021EF680, func_021EF68C, func_021EF69C, func_021EF6A8, func_021EF6CC, func_021EF6E0, func_021EF738, func_021EF75C
+ * function: func_021ED824, func_021ED888, func_021ED8A4, func_021ED904, func_021ED918, func_021ED9B4, func_021ED9C8, func_021EDA70, func_021EDAB0, func_021EDB1C, func_021EDB34, func_021EDB64, func_021EDB94, func_021EDBE8, func_021EDC0C, func_021EDD38, func_021EDECC, func_021EDF5C, func_021EDFC4, func_021EE008, func_021EE038, func_021EE0FC, func_021EE120, func_021EE200, func_021EE224, func_021EE234, func_021EE244, func_021EE26C, func_021EE2C4, func_021EE364, func_021EE3CC, func_021EE3E4, func_021EE408, func_021EE418, func_021EE42C, func_021EE43C, func_021EE454, func_021EE470, func_021EE474, func_021EE510, func_021EE520, func_021EE544, func_021EE57C, func_021EE64C, func_021EE65C, func_021EE72C, func_021EE744, func_021EE754, func_021EE7C4, func_021EE7F4, func_021EE850, func_021EE8A8, func_021EE944, func_021EE95C, func_021EE96C, func_021EE9C4, func_021EE9F4, func_021EEA48, func_021EEB18, func_021EEB30, func_021EEB40, func_021EEBDC, func_021EEBF4, func_021EEC04, func_021EEC1C, func_021EEC38, func_021EEC50, func_021EEC6C, func_021EECB0, func_021EECE4, func_021EEDB8, func_021EEDD0, func_021EEDE0, func_021EEE7C, func_021EEE94, func_021EEEA4, func_021EEF50, func_021EEF68, func_021EEF74, func_021EEFA4, func_021EF048, func_021EF0A8, func_021EF108, func_021EF170, func_021EF180, func_021EF194, func_021EF1A4, func_021EF1B4, func_021EF1C4, func_021EF1D4, func_021EF1FC, func_021EF224, func_021EF248, func_021EF264, func_021EF274, func_021EF310, func_021EF31C, func_021EF32C, func_021EF33C, func_021EF34C, func_021EF35C, func_021EF36C, func_021EF3A0, func_021EF3D8, func_021EF3EC, func_021EF400, func_021EF45C, func_021EF480, func_021EF4A4, func_021EF4C0, func_021EF4E4, func_021EF508, func_021EF534, func_021EF57C, func_021EF5C4, func_021EF5E8, func_021EF60C, func_021EF630, func_021EF660, func_021EF670, func_021EF680, func_021EF68C, func_021EF69C, func_021EF6A8, func_021EF6CC, func_021EF6E0, func_021EF738, func_021EF75C, func_021EF770
  * address:  0x021ED824
  * region:   ov170
  * compiler: dsi/1.1p1
@@ -2731,3 +2731,14 @@ void func_021EF75C(struct WinMgr *mgr)
 {
     func_0202CD64(mgr, 9, 1, 0, 0xb);
 }
+
+int func_021EF770(struct WinMgr *mgr)
+{
+    s8 buf[2];
+    func_0202CF98(mgr, 9, &buf[1], &buf[0]);
+    if (buf[1] == 0x15) {
+        return 1;
+    }
+    return 0;
+}
+

@@ -1,7 +1,7 @@
 /*
  * file:     shinka_demo_view.c
  * unit:     yes
- * function: func_022058F8, func_022059A0, func_022059FC, func_02205A10, func_02205A1C, func_02205A28, func_02205A34, func_02205A84, func_02205AAC, func_02205AC0, func_02205B24, func_02205B60, func_02205B64, func_02205B6C, func_02205BAC, func_02205BC8, func_02205BD0, func_02205BD8, func_02205BDC, func_02205C48, func_02205C58, func_02205C6C, func_02205C74, func_02205D28, func_02205D50, func_0220602C, func_02206044, func_0220604C, func_02206050, func_02206058, func_0220605C, func_02206064, func_0220606C, func_02206070, func_02206074, func_02206078, func_0220609C, func_022060BC, func_022060C8, func_02206108, func_0220623C, func_02206264, func_02206274, func_022063AC, func_022063E0, func_022065C8, func_02206604, func_02206664, func_0220672C, func_0220673C, func_02206750, func_02206768, func_022067B0, func_022067BC, func_022067FC, func_0220682C, func_0220685C, func_02206A3C, func_02206A5C, func_02206E2C, func_02207510, func_022076A0, func_02207868, func_022081A4, func_0220826C, func_0220827C, func_022082DC, func_022083CC, func_022083DC, func_022083EC, func_02208410, func_02208420, func_02208430, func_02208478, func_02208514, func_0220851C, func_02208570, func_022086BC, func_022086C8, func_02208714, func_0220871C, func_02208770, func_0220878C, func_02208804, func_02208814, func_0220882C, func_02208844, func_02208850, func_02208860, func_0220887C, func_02208994, func_022089A4, func_02208A24, func_02208A2C, func_02208A38, func_02208A48, func_02208A54, func_02208A6C, func_02208A78, func_02208AB0, func_02208B54, func_02208B6C, func_02208C10, func_02208C18, func_02208C28
+ * function: func_022058F8, func_022059A0, func_022059FC, func_02205A10, func_02205A1C, func_02205A28, func_02205A34, func_02205A84, func_02205AAC, func_02205AC0, func_02205B24, func_02205B60, func_02205B64, func_02205B6C, func_02205BAC, func_02205BC8, func_02205BD0, func_02205BD8, func_02205BDC, func_02205C48, func_02205C58, func_02205C6C, func_02205C74, func_02205D28, func_02205D50, func_0220602C, func_02206044, func_0220604C, func_02206050, func_02206058, func_0220605C, func_02206064, func_0220606C, func_02206070, func_02206074, func_02206078, func_0220609C, func_022060BC, func_022060C8, func_02206108, func_0220623C, func_02206264, func_02206274, func_022063AC, func_022063E0, func_022065C8, func_02206604, func_02206664, func_0220672C, func_0220673C, func_02206750, func_02206768, func_022067B0, func_022067BC, func_022067FC, func_0220682C, func_0220685C, func_02206A3C, func_02206A5C, func_02206E2C, func_02207510, func_022076A0, func_02207868, func_022081A4, func_0220826C, func_0220827C, func_022082DC, func_022083CC, func_022083DC, func_022083EC, func_02208410, func_02208420, func_02208430, func_02208478, func_02208514, func_0220851C, func_02208570, func_022086BC, func_022086C8, func_02208714, func_0220871C, func_02208770, func_0220878C, func_02208804, func_02208814, func_0220882C, func_02208844, func_02208850, func_02208860, func_0220887C, func_02208994, func_022089A4, func_02208A24, func_02208A2C, func_02208A38, func_02208A48, func_02208A54, func_02208A6C, func_02208A78, func_02208AB0, func_02208B54, func_02208B6C, func_02208C10, func_02208C18, func_02208C28, func_02208C30
  * address:  0x022058F8
  * region:   ov195
  * compiler: dsi/1.1p1
@@ -657,7 +657,7 @@ extern u32 func_0207C768(u32 a, u32 b);
 extern void func_0207B640(Matrix *,fx32_02207868,fx32_02207868);
 extern void func_0207BC08(const Vec *,const Matrix *,Vec *);
 extern fx32_02207868 func_0207C7E8(fx32_02207868);
-extern int func_02208C30(Anim_0220878C *p);
+extern int func_02208C30(Anim_02208C28 *p);
 extern void func_02050B80(u32 heap);
 extern void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
 extern int func_02051758(int a0);
@@ -3022,7 +3022,7 @@ void func_0220878C(Anim_0220878C *p)
         }
         break;
     case 5:
-        if (func_02208C30(p))
+        if (func_02208C30((Anim_02208C28 *)p))
             p->state = 6;
         break;
     case 6:
@@ -3364,4 +3364,11 @@ int func_02208C18(Anim_02208C18 *p)
 void func_02208C28(Anim_02208C28 *p)
 {
     p->state = 3;
+}
+
+int func_02208C30(Anim_02208C28 *p)
+{
+    if (p->state == 0)
+        return 1;
+    return 0;
 }

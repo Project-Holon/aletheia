@@ -1,7 +1,7 @@
 /*
  * file:     gimmick_obj_elboard.c
  * unit:     yes
- * function: func_021F3D38, func_021F3D78, func_021F3DA8, func_021F3DF0, func_021F3E2C, func_021F3E6C, func_021F3EE8, func_021F4058, func_021F4104, func_021F4188, func_021F420C, func_021F4290, func_021F4314, func_021F43E4, func_021F440C, func_021F4454, func_021F4488, func_021F44B8, func_021F44D8, func_021F4590, func_021F45F0, func_021F4650, func_021F4698, func_021F472C, func_021F474C, func_021F4784, func_021F47B0, func_021F47B4, func_021F47B8, func_021F47BC, func_021F4948, func_021F4B40, func_021F4B54, func_021F4B7C, func_021F4BF0, func_021F4C10, func_021F4C20, func_021F4DBC, func_021F4DE4, func_021F4DF4
+ * function: func_021F3D38, func_021F3D78, func_021F3DA8, func_021F3DF0, func_021F3E2C, func_021F3E6C, func_021F3EE8, func_021F4058, func_021F4104, func_021F4188, func_021F420C, func_021F4290, func_021F4314, func_021F43E4, func_021F440C, func_021F4454, func_021F4488, func_021F44B8, func_021F44D8, func_021F4590, func_021F45F0, func_021F4650, func_021F4698, func_021F472C, func_021F474C, func_021F4784, func_021F47B0, func_021F47B4, func_021F47B8, func_021F47BC, func_021F4948, func_021F4B40, func_021F4B54, func_021F4B7C, func_021F4BF0, func_021F4C10, func_021F4C20, func_021F4DBC, func_021F4DE4, func_021F4DF4, func_021F4E3C
  * address:  0x021F3D38
  * region:   ov048
  * compiler: dsi/1.1p1
@@ -1197,3 +1197,15 @@ int func_021F4DF4(int *p, int v)
         return 1;
     return 0;
 }
+
+extern u32 func_020111E8(void);
+
+int func_021F4E3C(int *p)
+{
+    if (p[0] == 0)
+        return 1;
+    if (p[0] == func_020111E8())
+        return 1;
+    return 0;
+}
+

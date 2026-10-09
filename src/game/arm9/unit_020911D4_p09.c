@@ -1,7 +1,7 @@
 /*
  * file:     unit_020911D4_p09.c
  * unit:     yes
- * function: func_0209A0F0, func_0209A368, func_0209A390, func_0209A504, func_0209A524, func_0209A6E8, func_0209A7A8, func_0209AA08, func_0209AB80, func_0209AB8C
+ * function: func_0209A0F0, func_0209A368, func_0209A394, func_0209A504, func_0209A524, func_0209A6E8, func_0209A7A8, func_0209AA0C, func_0209AB80, func_0209AB8C
  * address:  0x0209A0EC
  * region:   arm9
  * compiler: dsi/1.1p1

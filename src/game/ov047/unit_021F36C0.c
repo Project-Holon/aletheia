@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F36C0.c
  * unit:     yes
- * function: func_021F36C0, func_021F370C, func_021F3740, func_021F3800
+ * function: func_021F36C0, func_021F370C, func_021F3740, func_021F3800, func_021F381C
  * address:  0x021F36C0
  * region:   ov047
  * compiler: dsi/1.1p1
@@ -35,6 +35,10 @@
  *   _s32_div_f     0x0209C0A4  arm
  *   d_021F3840     0x021F3840  data  ov047  a1
  *   func_02082BCC 0x02082BCC arm
+ *   func_021A30C8  0x021A30C8  thumb  ov021
+ *   func_021AB100  0x021AB100  thumb  ov021
+ *   func_021AB0F0  0x021AB0F0  thumb  ov021
+ *   func_021AB44C  0x021AB44C  thumb  ov021
  */
 #include "../../matched/include/Obj20524.h"
 
@@ -144,3 +148,18 @@ void func_021F3740(int a)
 }
 
 void func_021F3800(u32 a) { func_02082BCC(func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)a)),31),0,4); }
+
+extern u32 func_021A30C8(void **ctx);
+extern int func_021AB100(u32 attr);
+extern u16 func_021AB0F0(u32 attr);
+extern int func_021AB44C(u16 id);
+
+int func_021F381C(int *p)
+{
+    int r4 = func_021A30C8((void **)(*p));
+    if (func_021AB100(r4) == 0) {
+        return 0;
+    }
+    return func_021AB44C(func_021AB0F0(r4));
+}
+

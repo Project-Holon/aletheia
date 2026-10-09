@@ -1,7 +1,7 @@
 /*
  * file:     mb_seq.c
  * unit:     yes
- * function: func_021C6984, func_021C6A5C, func_021C6AD4, func_021C6AF0, func_021C6B4C, func_021C6BC4, func_021C6BD8, func_021C6BF0, func_021C6C34, func_021C6E18, func_021C6E28, func_021C6E64, func_021C6E98, func_021C6EA4, func_021C6FA8, func_021C6FD4, func_021C7024, func_021C7048, func_021C7064, func_021C7084, func_021C7094, func_021C70C0, func_021C70EC, func_021C7110, func_021C714C, func_021C7178, func_021C71A8, func_021C71BC, func_021C71D0, func_021C7250, func_021C7298, func_021C730C, func_021C7350, func_021C7360, func_021C73C8, func_021C7420, func_021C7430, func_021C7494, func_021C74BC, func_021C74C8, func_021C74F8, func_021C7504, func_021C7540, func_021C758C, func_021C7600, func_021C7620, func_021C7648, func_021C7658, func_021C76A8, func_021C76B8, func_021C76BC, func_021C76C0, func_021C76C8, func_021C76D0, func_021C770C
+ * function: func_021C6984, func_021C6A5C, func_021C6AD4, func_021C6AF0, func_021C6B4C, func_021C6BC4, func_021C6BD8, func_021C6BF0, func_021C6C34, func_021C6E18, func_021C6E28, func_021C6E64, func_021C6E98, func_021C6EA4, func_021C6FA8, func_021C6FD4, func_021C7024, func_021C7048, func_021C7064, func_021C7084, func_021C7094, func_021C70C0, func_021C70EC, func_021C7110, func_021C714C, func_021C7178, func_021C71A8, func_021C71BC, func_021C71D0, func_021C7250, func_021C7298, func_021C730C, func_021C7350, func_021C7360, func_021C73C8, func_021C7420, func_021C7430, func_021C7494, func_021C74BC, func_021C74C8, func_021C74F8, func_021C7504, func_021C7540, func_021C758C, func_021C7600, func_021C7620, func_021C7648, func_021C7658, func_021C76A8, func_021C76B8, func_021C76BC, func_021C76C0, func_021C76C8, func_021C76D0, func_021C770C, func_021C7738
  * address:  0x021C6984
  * region:   ov136
  * compiler: dsi/1.1p1
@@ -1551,3 +1551,9 @@ int func_021C770C(u8 *a0)
     }
     return 0;
 }
+
+int func_021C7738(void)
+{
+    return (func_020362DC() & 0x400) ? 1 : 0;
+}
+
