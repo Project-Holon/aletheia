@@ -194,7 +194,18 @@
  * with a latency path of 2 to the end; no emitted instruction can be that node. Same family as the
  * 8-byte head result of P6L13: with f1 (flexible f8) only the two ring updates differ (37 B), and a
  * ring declared [4] changes nothing (the ring store AO stays inside G, so str ring -> str f4 stays
- * an edge). Not filed. * symbols:
+ * an edge). Not filed.
+ * pass 8 2026-10-09 f2 (about 30 compiles, best stays 6 B): tried one at a time in the success block for
+ * an extra non-emitting node after str thr. All 6 B with block 16 unchanged (12 nodes): duplicate
+ * p->f4 = 0 (also with a different first value), comma statement for the f0 and f4 stores, p->f8 =
+ * p->f8, p->f4 = p->f4, dead local loads (f8, ring), (void)p->f8, a dead copy of thr, a local struct
+ * and a local array that receive thr and 0 (and feed the stores), `if (thr || 1)` around the f4
+ * store, `ret = (p->f8 = p->f8, 1)`, non-volatile f0 with a dead `p->f0 = 0` before the real store.
+ * Reusing thr as the zero (thr = 0; p->f4 = thr) is folded into the same zero copy (webs are split,
+ * so no WAR edge appears). Worse: p->f4 = ret - 1 (220 off), a second volatile f0 store (209), a
+ * non-volatile dead f0 store with volatile f0 (215), `p->f8 = p->f8 & 0` (211). Every redundant
+ * store or load is removed before the pre pass; every form that survives it emits an instruction.
+ * No source form found for the node. Parked. * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4
  *   d_021B4C2C  0x021B4C2C  data  a4
