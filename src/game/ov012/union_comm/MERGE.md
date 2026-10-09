@@ -1,36 +1,12 @@
-# union_comm.c (ov012)
+# union_comm (ov012)
 
-Translation unit 02172BC0..0217422C, 88 functions, confidence weak (tools/tuboundary.py).
+Round 4 (r4_ov04): 9 parts -> 7. Hidden functions added: func_021733C4, func_021733C8, func_02173400, func_02173404 (p06) and func_02173D7C (p07). Old p06+p07 and p08+p09 merged.
 
-The member files below each match on their own. Merging them into one
-`union_comm.c` is blocked by:
-
-- ov012_func_02172BC0.c..ov012_func_0217416C.c: prototype of func_02082BCC differs between members (src/matched/ov/ov012_func_021734E0.c); prototype of func_02082BCC differs between members (src/matched/ov/ov012_func_02173524.c); prototype of func_
-- ov012_func_02172BC0.c..ov012_func_02173928.c: prototype of func_02082BCC differs between members (src/matched/ov/ov012_func_021734E0.c); prototype of func_02082BCC differs between members (src/matched/ov/ov012_func_02173524.c); prototype of func_
-- ov012_func_02172BC0.c..ov012_func_02173248.c: c99=CCERR: line 192: warning: types that are declared in parameter lists ('Work_0217303C') go out of scope at the end of the function declaration/definition, | line 192: warning: this is probably not 
-- ov012_func_02172BC0.c..ov012_func_02172D50.c: c99=CCERR: line 112: illegal implicit conversion from 'struct  *' to | line 112: 'struct Work_02172C4C *' nolang=CCERR: line 112: illegal implicit conversion from 'struct  *' to | line 112: 'struct Wo
-- ov012_func_02172BC0.c..ov012_func_02172C98.c: c99=CCERR: line 99: illegal implicit conversion from 'struct  *' to | line 99: 'struct Work_02172C4C *' nolang=CCERR: line 99: illegal implicit conversion from 'struct  *' to | line 99: 'struct Work_0
-- ov012_func_02172D68.c..ov012_func_02173248.c: c99=CCERR: line 261: illegal implicit conversion from 'struct  *' to | line 261: 'struct  *' | line 263: illegal implicit conversion from 'struct  *' to nolang=CCERR: line 261: illegal implicit conver
-- ov012_func_02172D68.c..ov012_func_02172EEC.c: c99=CCERR: line 170: illegal implicit conversion from 'struct  *' to | line 170: 'struct  *' nolang=CCERR: line 170: illegal implicit conversion from 'struct  *' to | line 170: 'struct  *'
-- ov012_func_02172E48.c..ov012_func_02172EEC.c: c99=CCERR: line 94: illegal implicit conversion from 'struct  *' to | line 94: 'struct  *' nolang=CCERR: line 94: illegal implicit conversion from 'struct  *' to | line 94: 'struct  *'
-- ov012_func_02172FF0.c..ov012_func_02173248.c: c99=CCERR: line 164: illegal implicit conversion from 'struct Entry_021730C8 *' to | line 164: 'struct Entry_021730F8 *' | line 188: illegal implicit conversion from 'struct Entry_021730F8 *' to nolan
-- ov012_func_021730F8.c..ov012_func_02173248.c: c99=CCERR: line 90: illegal implicit conversion from 'struct Entry_021730F8 *' to | line 90: 'struct Entry_021731E0 *' nolang=CCERR: line 90: illegal implicit conversion from 'struct Entry_021730F8 *'
-- ov012_func_0217325C.c..ov012_func_02173928.c: prototype of func_02082BCC differs between members (src/matched/ov/ov012_func_021734E0.c); prototype of func_02082BCC differs between members (src/matched/ov/ov012_func_02173524.c); prototype of func_
-- ov012_func_0217325C.c..ov012_func_02173650.c: prototype of func_02082BCC differs between members (src/matched/ov/ov012_func_021734E0.c); prototype of func_02082BCC differs between members (src/matched/ov/ov012_func_02173524.c); prototype of func_
-- ov012_func_0217325C.c..ov012_func_021734E0.c: prototype of func_02082BCC differs between members (src/matched/ov/ov012_func_021734E0.c)
-- ov012_func_0217325C.c..ov012_func_02173408.c: c99=DIFF nolang=DIFF
-- ov012_func_02173934.c..ov012_func_0217416C.c: global d_02175624 declared two ways (src/matched/ov/ov012_func_02173F54.c); global d_02175624 declared two ways (src/matched/ov/ov012_func_02173FE0.c); global d_02175624 declared two ways (src/matched
-- ov012_func_02173CCC.c..ov012_func_0217416C.c: c99=DIFF nolang=DIFF
-- ov012_func_02173CCC.c..ov012_func_02173EEC.c: c99=DIFF nolang=DIFF
-- ov012_func_02173CCC.c..ov012_func_02173DE4.c: c99=DIFF nolang=DIFF
-
-Members, in address order:
-
-- `ov012_func_02172E48.c`
-- `ov012_func_021730F8.c`
-- `ov012_func_0217325C.c`
-- `ov012_func_02173408.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names union_comm.c` again.
+Left: p01..p05 are separated by struct views of one object (pair merges tried, each stops on pointer type conflicts):
+- p01|p02: Work_0 vs the unnamed struct returned by func_02172BC0
+- p02|p03: func_0217303C argument struct
+- p03|p04: Entry_02172EDC vs Entry_021730F8 (func_021730C8)
+- p04|p05: Entry_021730F8 vs Entry_021731E0 (func_021731E0)
+- p05|p06: Rec_02173248 vs Rec (func_0217325C)
+- p06|p07: Work_021734E0 vs unnamed struct (func_021734E0); func_02082BCC has two prototypes
+A single canonical struct per object, by offset, is the next step.

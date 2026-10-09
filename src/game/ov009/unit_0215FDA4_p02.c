@@ -1,72 +1,82 @@
 /*
  * file:     unit_0215FDA4_p02.c
  * unit:     yes
- * function: func_0216009C, func_021600E4
- * address:  0x0216009C
+ * function: cache_session
+ * address:  0x0215FEE0
+ * packet:   pkt_ov009_0215FEE0
  * region:   ov009
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * sdk:      cache_session (ssl.o)
  *
  * symbols:
- *   func_02085A30  0x02085A30  arm
- *   func_02085988  0x02085988  arm
- *   g_021A1D40  0x021A1D40  data
- *   g_02150FEC  0x02150FEC  data
- *   OS_SetThreadPriority  0x02085988  arm
- *   OSi_ThreadInfo        0x02150FEC  data
- */
-typedef struct {
-	int pad0;
-	void *current;
-} ThreadInfo;
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_GetTick            0x020870D0  arm
+ *   MI_CpuCopy8           0x02082D44  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   session               0x021AA664  data
+*/
 
-typedef unsigned short u16;
+struct _CPSSslConnection;
 
-typedef unsigned long u32;
+typedef struct CPSSslSession {
+    char pad0[0x50];
+    unsigned long field_50;
+    unsigned long field_54;
+    unsigned short field_58;
+    unsigned char field_5a;
+    char pad1[0x5c - 0x5b];
+} CPSSslSession;
 
-typedef struct OSThread OSThread;
+extern CPSSslSession session[4];
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long long OS_GetTick(void);
+extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
-typedef struct OSThreadInfo {
-    u16 isNeedRescheduling;
-    u16 irqDepth;
-    OSThread *current;
-} OSThreadInfo;
-
-extern void *func_02085A30(char *p);
-extern int func_02085988(void *thread, unsigned long prio);
-extern void OS_SetThreadPriority(OSThread *thread, u32 prio);
-unsigned long func_0216009C(void);
-extern unsigned long g_021A1D40[2];
-extern ThreadInfo g_02150FEC;
-extern OSThreadInfo OSi_ThreadInfo;
-
-
-/*
- * sdk:      enter_computebound (libssl.TWL.HYB.a(ssl.o))
- */
-unsigned long func_0216009C(void)
+static void cache_session(struct _CPSSslConnection *con, unsigned long ip,
+                          unsigned short port)
 {
-	unsigned long old_priority;
-	void *thread;
+    int i;
+    CPSSslSession *p;
+    CPSSslSession *candidate;
+    unsigned long biggest;
+    unsigned long enabled;
+    unsigned long now;
 
-	if (g_021A1D40[1] >= 32) {
-		return -1;
-	}
-	thread = g_02150FEC.current;
-	old_priority = (long unsigned int)func_02085A30(thread);
-	func_02085988(thread, g_021A1D40[1]);
-	return old_priority;
-}
-
-
-static void exit_computebound(unsigned long old_priority)
-{
-    if (old_priority >= 0x20)
-        return;
-    OS_SetThreadPriority(OSi_ThreadInfo.current, old_priority);
+    enabled = OS_DisableInterrupts();
+    now = (unsigned long)(OS_GetTick() >> 16);
+    biggest = 0;
+    candidate = session;
+    for (i = 0; i < 4; i++) {
+        p = &session[i];
+        if (p->field_5a && ip != 0 && ip == p->field_54 && port != 0 &&
+            port == p->field_58) {
+            candidate = p;
+            break;
+        }
+        if (biggest == (unsigned long)-1)
+            continue;
+        if (!p->field_5a) {
+            biggest = (unsigned long)-1;
+            candidate = p;
+        } else {
+            unsigned long age = now - p->field_50;
+            if (age > biggest) {
+                biggest = age;
+                candidate = p;
+            }
+        }
+    }
+    MI_CpuCopy8((char *)con + 0x74, candidate, 0x20);
+    MI_CpuCopy8(con, (char *)candidate + 0x20, 0x30);
+    candidate->field_50 = now;
+    candidate->field_5a = 1;
+    candidate->field_54 = ip;
+    candidate->field_58 = port;
+    OS_RestoreInterrupts(enabled);
 }

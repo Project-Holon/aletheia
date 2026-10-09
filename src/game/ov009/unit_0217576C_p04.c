@@ -1,8 +1,8 @@
 /*
  * file:     unit_0217576C_p04.c
  * unit:     yes
- * function: func_02175FB8, func_02175FC8, func_02175FE4
- * address:  0x02175FB8
+ * function: func_02175EFC, func_02175F1C, func_02175F3C, func_02175F4C
+ * address:  0x02175EFC
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,42 +13,62 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0217603C  0x0217603C  arm  ov009
- *   func_0217637C  0x0217637C  arm  ov009
- *   func_02177748  0x02177748  arm  ov009
+ *   g_021AAA20  0x021AAA20  data
+ *   func_02176A8C  0x02176A8C  arm  ov009
  */
-extern int func_02175F3C(void);
-extern int func_0217603C(void);
-extern unsigned char *func_0217637C(int index);
-extern void func_02177748(int aid);
-unsigned char func_02175FB8(void);
-int func_02175FC8(void);
-void func_02175FE4(void);
+#include "../../matched/include/G_NNThinkGlobal.h"
+#include "../../matched/include/G_NNThinkGlobal.h"
+
+extern unsigned long long func_020870D0(int a);
+extern void func_02176A8C(int a, int b);
+int func_02175EFC(void);
+/* * Stores the argument, calls the pair-returning helper and keeps both words. */ void func_02175F1C(int a);
+/* * The word at +4 of the module state block. */ int func_02175F3C(void);
+void func_02175F4C(int state);
+extern struct NNThinkGlobal g_021AAA20;
 
 
-unsigned char func_02175FB8(void)
+
+int func_02175EFC(void)
 {
-    return *(unsigned char *)(func_02175F3C() + 0x16);
+    unsigned int v = *(unsigned int *)(func_02175F3C() + 0x61c) - 9;
+
+    return v <= 2;
+}
+
+
+
+/*
+ * Stores the argument, calls the pair-returning helper and keeps both words.
+ */
+void func_02175F1C(int a)
+{
+    unsigned long long v;
+
+    *(int *)(((char *)&g_021AAA20) + 4) = a;
+    v = func_020870D0(a);
+    *(int *)(((char *)&g_021AAA20) + 0x18) = (int)v;
+    *(int *)(((char *)&g_021AAA20) + 0x1c) = (int)(v >> 32);
+}
+
+
+
+/*
+ * The word at +4 of the module state block.
+ */
+int func_02175F3C(void)
+{
+    return *(int *)(((char *)&g_021AAA20) + 4);
 }
 
 
 /*
- * Cleared when the word at +0x7b0 of the module block is one.
+ * DWCi_SetMatchStatus: records the new match state, logging a change first.
  */
-int func_02175FC8(void)
+void func_02175F4C(int state)
 {
-    return *(int *)(func_02175F3C() + 0x7b0) != 1;
-}
-
-
-/*
- * DWCi_ResetLastSomeDataRecvTimeByAidAll: restamps every node's transport record.
- */
-void func_02175FE4(void)
-{
-    int i;
-
-    for (i = 0; i < func_0217603C(); i++) {
-        func_02177748(func_0217637C(i)[0x16]);
+    if (*(int *)(*(char **)(((char *)&g_021AAA20) + 4) + 0x61c) != state) {
+        func_02176A8C(*(int *)(*(char **)(((char *)&g_021AAA20) + 4) + 0x61c), state);
     }
+    *(int *)(*(char **)(((char *)&g_021AAA20) + 4) + 0x61c) = state;
 }

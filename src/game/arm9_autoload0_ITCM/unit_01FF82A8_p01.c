@@ -1,125 +1,104 @@
 /*
  * file:     unit_01FF82A8_p01.c
  * unit:     yes
- * function: func_01FF836C, func_01FF8414
- * address:  0x01FF836C
+ * function: func_01FF82A8
+ * address:  0x01FF82A8
+ * packet:   pkt_01FF82A8
  * region:   arm9_autoload0_ITCM
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
- * isa:      arm
+ * isa:      thumb
  * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
- * symbols:
- *   func_01FF82A8    0x01FF82A8  thumb
- *   OS_IsResetOccurred        0x02084A28  arm
- *   OS_IsRunOnTwl             0x02085D3C  arm
- *   OSi_ReloadRomData         0x01FF8540  arm
- *   OSi_VerifyStaticSegments  0x01FF836C  arm
- *   OSi_DoBoot                0x01FF8460  arm
  */
+
 typedef unsigned char u8;
-
-typedef unsigned short u16;
-
 typedef unsigned int u32;
-
 typedef int BOOL;
 
-extern BOOL func_01FF82A8(const u8 *src, u32 len, const void *digest);
-extern int OS_IsResetOccurred(void);
-extern int OS_IsRunOnTwl(void);
-extern void OSi_ReloadRomData(int);
-extern void OSi_VerifyStaticSegments(void);
-extern void OSi_DoBoot(void);
-void func_01FF836C(void);
-void func_01FF8414(void);
-
-
-/*
- * SDK: OSi_VerifyStaticSegments, TwlSDK/lib/ARM9-TS/Rom/libos.TWL.HYB.a
- * (os_reset.o), definition at build/libraries/os/common/src/os_reset.c:339.
- * The Rom object is ARM and is byte-identical to this 168-byte extent: its
- * .itcm section for OSi_VerifyStaticSegments is 0xA8 bytes, its
- * DW_AT_decl_line is 339, and the relocation-free code is
- * e92d40f8 e24dd020 e59f7094 e3a04001 e5d7001c ... a4: 0x02ffe000.
- *
- * Built with SDK_OS_RESET_COMPACT, so the HMAC-SHA1 is a call out to
- * OSi_VerifyStaticSegmentHash (0x01FF82A8) rather than the inline
- * SVC_HMACSHA1 sequence.  DWARF decl_file/line inside the subprogram:
- * result 341 (r4), i 345 (r0), table 356 (fbreg 16), compareDigests 357
- * (fbreg 0), address 381, size 382, and a 0x8-byte `struct Segment` with
- * `address` at +0 and `size` at +4 -- the shape the ldm {r0,r1} at +0x74
- * loads.  Decoded line map over this extent:
- *   +0x00 340  result = TRUE
- *   +0x0c 341  header = (const CARDRomHeaderTWL *)HW_TWL_ROM_HEADER_BUF
- *   +0x08 343  if (((const u8 *)header)[0x1C] & 1)
- *   +0x1c-0x28 358-361  table[0..3] = &ntr.main_ram_address,
- *                            &ntr.sub_ram_address, &main_ltd_ram_address,
- *                            &sub_ltd_ram_address  (0x28, 0x38, 0x1C8,
- *                            0x1D8)
- *   +0x2c-0x38 362-365  compareDigests[0..3] = &((const u8*)header)[0x3A0],
- *                            sub_static_digest 0x314,
- *                            main_ltd_static_digest 0x350,
- *                            sub_ltd_static_digest 0x364
- *   +0x5c 366  for (i = 0; i < SEGMENT_TOTAL; ++i)
- *   +0x64 381  address = table[i]->address
- *   +0x70 383  if (i == 0)
- *   +0x78 385  address += 0x4000
- *   +0x7c 386  size -= 0x4000
- *   +0x80 394  result &= OSi_VerifyStaticSegmentHash(address, size, ...)
- *   +0x94 399  while (result == FALSE) -- the fail-stop spin
- */
-void func_01FF836C(void)
+asm BOOL func_01FF82A8(const u8 *src, u32 len, const void *digest)
 {
-    BOOL result = 1;
-    const u8 *header = (const u8 *)0x02FFE000;
-    if ((header[0x1C] & 0x01) != 0)
-    {
-        int i;
-        struct Segment { const u8 *address; u32 size; } *(table[4]);
-        const void *(compareDigests[4]);
-
-        table[0] = (struct Segment *)&header[0x28];
-        table[1] = (struct Segment *)&header[0x38];
-        table[2] = (struct Segment *)&header[0x1C8];
-        table[3] = (struct Segment *)&header[0x1D8];
-
-        compareDigests[0] = &header[0x3A0];
-        compareDigests[1] = &header[0x314];
-        compareDigests[2] = &header[0x350];
-        compareDigests[3] = &header[0x364];
-
-        for (i = 0; i < 4; ++i)
-        {
-            const u8 *address = table[i]->address;
-            u32 size = table[i]->size;
-            if (i == 0)
-            {
-                address += 0x4000;
-                size -= 0x4000;
-            }
-            result &= func_01FF82A8(address, size, compareDigests[i]);
-        }
-    }
-    while (result == 0)
-    {
-    }
-}
-
-
-void func_01FF8414(void)
-{
-    while (!OS_IsResetOccurred()) {
-    }
-    *(volatile u16 *)0x04000208 = 0;
-    if (OS_IsRunOnTwl() == 1) {
-        OSi_ReloadRomData(1);
-        OSi_VerifyStaticSegments();
-    } else {
-        OSi_ReloadRomData(0);
-    }
-    OSi_DoBoot();
+    PUSH    {R3, R4, R5, R6, R7, LR}
+    SUB     SP, #0xB8
+    MOV     R4, R1
+    MOV     R5, R0
+    MOV     R7, R2
+    ADD     R0, SP, #0x54
+    MOV     R3, #0x60
+    ADD     R3, R0
+    MOV     R2, #0
+    STR     R2, [R3]
+    SWI     0x24
+    LDR     R0, =0x01FF8328
+    ADD     R1, SP, #0x14
+    MOV     R2, #0x0
+    MOV     R3, #0x36
+@0:
+    LDRB    R6, [R0, R2]
+    EOR     R6, R3
+    STRB    R6, [R1, R2]
+    ADD     R2, R2, #0x1
+    CMP     R2, #0x40
+    BLT     @0
+    ADD     R0, SP, #0x54
+    SWI     0x25
+    ADD     R0, SP, #0x54
+    MOV     R1, R5
+    MOV     R2, R4
+    SWI     0x25
+    ADD     R0, SP, #0x0
+    ADD     R1, SP, #0x54
+    SWI     0x26
+    ADD     R0, SP, #0x54
+    MOV     R3, #0x60
+    ADD     R3, R0
+    MOV     R2, #0
+    STR     R2, [R3]
+    SWI     0x24
+    LDR     R0, =0x01FF8328
+    ADD     R1, SP, #0x14
+    MOV     R2, #0x0
+    MOV     R3, #0x5C
+@1:
+    LDRB    R6, [R0, R2]
+    EOR     R6, R3
+    STRB    R6, [R1, R2]
+    ADD     R2, R2, #0x1
+    CMP     R2, #0x40
+    BLT     @1
+    ADD     R0, SP, #0x54
+    SWI     0x25
+    ADD     R0, SP, #0x54
+    ADD     R1, SP, #0x0
+    MOV     R2, #0x14
+    SWI     0x25
+    ADD     R0, SP, #0x0
+    ADD     R1, SP, #0x54
+    SWI     0x26
+    ADD     R0, SP, #0x0
+    MOV     R1, R7
+    SWI     0x28
+    CMP     R0, #0x0
+    BEQ     @2
+    MOV     R0, #0x1
+@2:
+    ADD     SP, #0xB8
+    POP     {R3, R4, R5, R6, R7, PC}
+    NOP
+    dcd 0xDEC00621
+    dcd 0x3FCE98BA
+    dcd 0x9DE392A6
+    dcd 0x01EDF246
+    dcd 0x08CCE376
+    dcd 0xFA632356
+    dcd 0xDFECD4CA
+    dcd 0x3478629A
+    dcd 0x3C636D8F
+    dcd 0x92CA22FE
+    dcd 0x23978820
+    dcd 0xC2AECFD2
+    dcd 0xFE8D6732
+    dcd 0x986483CA
+    dcd 0x373EFDAC
+    dcd 0x24584687
 }

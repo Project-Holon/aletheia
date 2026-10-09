@@ -1,8 +1,9 @@
 /*
  * file:     ircbattlemenu_p14.c
  * unit:     yes
- * function: func_021988F4, func_02198918
- * address:  0x021988F4
+ * function: func_02198C08
+ * address:  0x02198C08
+ * packet:   pkt_ov021_02198C08
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,36 +11,39 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
  * symbols:
- *   func_021984C0 0x021984C0  thumb  ov021
- */
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed short   s16;
-
-extern void func_021984C0(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g, u32 h);
-int func_021988F4(u8 *a);
-int func_02198918(u8 *a);
-
-
-int func_021988F4(u8 *a)
-{
-    func_021984C0(a, 1, 0x2000, 24, 3, 0, 0xA0, 0);
-    return 1;
-}
-
-
-/*
+ *   func_0216D6BC  0x0216D6BC  thumb  ov010
+ *   func_02163E7C  0x02163E7C  thumb  ov010
+ *   func_0216D60C  0x0216D60C  thumb  ov010
+ *   func_0216D674  0x0216D674  thumb  ov010
+ *   func_0216D568  0x0216D568  thumb  ov010
+ *   func_0216D7CC  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
-int func_02198918(u8 *a)
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed char    s8;
+extern void *func_0216D6BC(int a0, int a1, int a2);
+extern void func_02163E7C(int a, int b);
+extern int func_0216D60C(int a0, int a1);
+extern u32 func_0216D674(u32, u32);
+extern void *func_0216D568(void *p, u32 v);
+extern u32 func_0216D7CC(u32);
+
+void func_02198C08(u32 a, u32 b, u32 c, u32 d)
 {
-    func_021984C0(a, 2, 0x2000, 24, 3, 0, 0xA0, 0);
-    return 1;
+    u16 *p;
+
+    p = func_0216D6BC(a, 8, c);
+    p[0] = b;
+    p[1] = d;
+    p[2] = c;
+    func_02163E7C(a, ((b << 16) >> 16));
+    func_0216D60C(a, (u16)b);
+    func_0216D674(a, d);
+    func_0216D568((void *)a, 32);
+    func_0216D7CC(a);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B6D8C_p01.c
  * unit:     yes
- * function: func_021B6D8C, func_021B6F84, func_021B6FA8, func_021B7024, func_021B7068, func_021B7098, func_021B70C4, func_021B7164, func_021B7240, func_021B7318, func_021B73BC
+ * function: func_021B6D8C, func_021B6F84, func_021B6FA8, func_021B7024, func_021B7068, func_021B7098, func_021B70C4, func_021B7164, func_021B7240, func_021B7318, func_021B73BC, func_021B74B0, func_021B74F4, func_021B7540, func_021B75FC, func_021B7620, func_021B7774, GetBssidData, GetSecurityData
  * address:  0x021B6D8C
  * region:   ov016
  * compiler: dsi/../2.0/sp1p2
@@ -26,22 +26,23 @@
  *   aoss_data     0x021DAAB4  data
  *   AOSSi_Status  0x021B89C8  thumb
  *   AOSS_Ntohs        0x021B834C  thumb
- *   CheckRecvSeqID   0x021B74F4  thumb
  *   AOSS_Ntohl       0x021B8324  thumb
  *   aoss_set_error   0x021B6D74  thumb
- *   GetProductInfo   0x021B7540  thumb
  *   GetSecurityType  0x021B796C  thumb
- *   GetSecurityData  0x021B785C  thumb
  *   gSeqID          0x021DCDA0  data
  *   CryptSeqNo      0x021B8068  thumb
- *   CheckSeqID      0x021B74B0  thumb
  *   AOSS_MALLOC     0x021B61B0  thumb
  *   DecodeRC4       0x021B7E78  thumb
  *   AOSS_FREE       0x021B61C0  thumb
  *   aoss_get_error  0x021B6D80  thumb
+ *   AttrNo        0x021DAAB0  data
+ *   GetWEPData    0x021B7620  thumb
+ *   GetWPAData    0x021B7774  thumb
+ *   GetBssidData  0x021B782C  thumb
  */
 #include "../../matched/include/G_AOSS_BSS.h"
 #include "../../matched/include/G_AOSS_DATA_SECTION.h"
+#include "../../matched/include/G_AOSS_BSS.h"
 
 /*
  * aoss.o's main .bss section (3424 bytes at 0x021DC040). The vendor object
@@ -253,6 +254,44 @@ typedef struct {
     unsigned char  Data[1];
 } tagASTSpktCryptData;
 
+typedef struct {
+    unsigned char  DataID;
+    unsigned char  DataType;
+    unsigned short length;
+    unsigned short offset;
+    unsigned char  Data[256];
+} VariableData;
+
+typedef struct {
+    unsigned short size;
+    unsigned char  WEP[1];
+} tagWepData;
+
+typedef struct {
+    tagASTSsubAttrHeader info;
+    tagWepData           WEP;
+} tagASTSpktWEP40;
+
+typedef struct {
+    unsigned short size;
+    unsigned char  WpaPsk[1];
+} tagWpaPskData;
+
+typedef struct {
+    tagASTSsubAttrHeader info;
+    tagWpaPskData        WpaPsk;
+} tagASTSpktTKIP;
+
+typedef struct {
+    unsigned short size;
+    unsigned char  Bssid[1];
+} tagBssidData;
+
+typedef struct {
+    tagASTSsubAttrHeader info;
+    tagBssidData         Bssid;
+} tagASTSpktBssid;
+
 extern void *AOSS_Memset(void *s, int c, int n);
 extern void *AOSS_Memcpy(void *dest, void *src, int n);
 extern int AOSS_Strlen(char *s);
@@ -261,15 +300,10 @@ extern int AOSS_Rand(void);
 extern unsigned short AOSS_Htons(unsigned short hostshort);
 extern int AOSSi_Status(int stat);
 extern unsigned short AOSS_Ntohs(unsigned short netshort);
-extern int CheckRecvSeqID(char *SendSeqID, unsigned char *RecvSeqID);
 extern unsigned long AOSS_Ntohl(unsigned long netlong);
 extern void aoss_set_error(unsigned int type);
-extern int GetProductInfo(char *ProductData, PRODUCT_INFO_AOSS *ProductInfo);
 extern int GetSecurityType(unsigned int type);
-extern int GetSecurityData(int Mode, unsigned char *pData, int Length, ASTS_DATA_INFO *SecurityInfo,
-                           PRODUCT_INFO_AOSS *Info);
 extern int CryptSeqNo(unsigned char *Data, int Datalen, char *KeyData, int Keylen);
-extern int CheckSeqID(unsigned short CMD, unsigned char *RecvSeqID);
 extern void *AOSS_MALLOC(int a);
 extern int DecodeRC4(unsigned char *srcData, unsigned char *DecodeData, int SizeOfData,
                      unsigned char CRC, unsigned char *iv, unsigned char *key, int keylen);
@@ -286,12 +320,24 @@ int AstsSetInitRes(int Mode, RECV_INFO *recv_info, int *Retry, SEQID_INFO *pSeqI
 int AstsSetSecureRes(int Mode, RECV_INFO *recv_info, int *Retry, SEQID_INFO *pSeqID);
 int AstsRestartRes(int Mode, RECV_INFO *recv_info, int *Retry, SEQID_INFO *pSeqID);
 int DecodePacket(unsigned char *tpkt);
+int CheckSeqID(unsigned short CMD, unsigned char *RecvSeqID);
+int CheckRecvSeqID(char *SendSeqID, unsigned char *RecvSeqID);
+int GetProductInfo(char *ProductData, PRODUCT_INFO_AOSS *ProductInfo);
+unsigned long aoss_get_bin(void *ptr, int num);
+int GetWEPData(tagASTSpktWEP40 *pWEP, ASTS_DATA_WEP *Info);
+int GetWPAData(tagASTSpktTKIP *pWPA, ASTS_DATA_TKIP *Info);
+int GetBssidData(tagASTSpktBssid *pBssid, char *BSSID);
+int GetSecurityData(int Mode, unsigned char *pData, int Length, ASTS_DATA_INFO *SecurityInfo, PRODUCT_INFO_AOSS *Info);
 extern struct AOSS_BSS aoss_bss;
 extern ASTS_DATA_INFO SecurityInfo[2];
 extern char aoss_str_10367[];
 extern char aoss_str_10375[];
 extern struct AOSS_DATA_SECTION aoss_data;
 extern unsigned char gSeqID[8];
+extern unsigned char AttrNo[];
+
+
+
 
 
 int AOSS_seq_data_copy(struct aoss_info *aossInfo)
@@ -636,5 +682,291 @@ int DecodePacket(unsigned char *tpkt)
     AOSS_Memcpy(pRc4, DecodeData, size);
     hdr->size = AOSS_Htons(size);
     AOSS_FREE(DecodeData);
+    return 0;
+}
+
+
+
+int CheckSeqID(unsigned short CMD, unsigned char *RecvSeqID)
+{
+    int i, flag, ret;
+
+    ret = 0;
+    flag = 0;
+    for (i = 0; i < 6; i++) {
+        if (gSeqID[i] != 0) {
+            flag = 1;
+            break;
+        }
+    }
+    if (flag) {
+        if (AOSS_Memcmp(gSeqID, RecvSeqID, 6) != 0)
+            ret = 1;
+    } else if (CMD != 0x1000) {
+        ret = 2;
+    }
+    return ret;
+}
+
+
+
+int CheckRecvSeqID(char *SendSeqID, unsigned char *RecvSeqID)
+{
+    int ret = 0;
+
+    CryptSeqNo(RecvSeqID, 8, aoss_str_10375, AOSS_Strlen(aoss_str_10375));
+    if (AOSS_Memcmp(SendSeqID, RecvSeqID, 6) != 0) {
+        ret -= 1;
+    } else if (AOSS_Ntohs(*(unsigned short *)(SendSeqID + 6)) + 1 != AOSS_Ntohs(*(unsigned short *)(RecvSeqID + 6))) {
+        ret -= 2;
+    }
+    return ret;
+}
+
+
+
+int GetProductInfo(char *ProductData, PRODUCT_INFO_AOSS *ProductInfo)
+{
+    int Num;
+    int length;
+    VariableData *Data;
+
+    AOSS_Memset(ProductInfo, 0, 0x104);
+    Data = (VariableData *)ProductData;
+    for (;;) {
+        length = AOSS_Ntohs(Data->length);
+        if (length <= 0)
+            return -1;
+        switch (Data->DataID) {
+        case 0:
+            AOSS_Memcpy(ProductInfo->ProductInfo[0], Data->Data, length);
+            break;
+        case 1:
+            AOSS_Memcpy(ProductInfo->ProductInfo[1], Data->Data, length);
+            break;
+        case 2:
+            AOSS_Memcpy(ProductInfo->ProductInfo[2], Data->Data, length);
+            break;
+        case 3:
+        case 4:
+            Num = AOSS_Ntohs(Data->Data[0]);
+            if (Num <= 0)
+                return -2;
+            break;
+        case 5:
+            aoss_bss.gData_apAddr = AOSS_Ntohl(aoss_get_bin(Data->Data, length));
+            break;
+        case 6:
+            aoss_bss.gData_apMask = AOSS_Ntohl(aoss_get_bin(Data->Data, length));
+            break;
+        default:
+            return -1;
+        }
+        if (Data->offset == 0)
+            break;
+        Data = (VariableData *)(ProductData + AOSS_Ntohs(Data->offset));
+    }
+    return 0;
+}
+
+
+unsigned long aoss_get_bin(void *ptr, int num)
+{
+    unsigned long ret = 0;
+    int i;
+    unsigned char *p = (unsigned char *)ptr + (num - 1);
+
+    for (i = 0; i < num; i++) {
+        ret = (ret << 8) + *p--;
+    }
+    return ret;
+}
+
+
+
+int GetWEPData(tagASTSpktWEP40 *pWEP, ASTS_DATA_WEP *Info)
+{
+    VariableData *Data;
+    unsigned int length;
+
+    Data = (VariableData *)pWEP->WEP.WEP;
+    for (;;) {
+        length = AOSS_Ntohs(Data->length);
+        switch (Data->DataID) {
+        case 0x10:
+        case 0x11:
+        case 0x12:
+        case 0x13:
+            if (length > 5)
+                return -1;
+            break;
+        case 0x20:
+        case 0x21:
+        case 0x22:
+        case 0x23:
+            if (length > 0xD)
+                return -1;
+            break;
+        case 0x15:
+        case 0x25:
+            if (length > 0x21)
+                return -1;
+            break;
+        }
+        switch (Data->DataID) {
+        case 0x10:
+        case 0x20:
+            AOSS_Memcpy(Info->Data[0], Data->Data, length);
+            Info->KeyLen = length;
+            break;
+        case 0x11:
+        case 0x21:
+            AOSS_Memcpy(Info->Data[1], Data->Data, length);
+            Info->KeyLen = length;
+            break;
+        case 0x12:
+        case 0x22:
+            AOSS_Memcpy(Info->Data[2], Data->Data, length);
+            Info->KeyLen = length;
+            break;
+        case 0x13:
+        case 0x23:
+            AOSS_Memcpy(Info->Data[3], Data->Data, length);
+            Info->KeyLen = length;
+            break;
+        case 0x15:
+        case 0x25:
+            if (length != 0 && Data->Data[length - 1] != 0)
+                return -1;
+            AOSS_Memcpy(Info->SSID, Data->Data, length);
+            break;
+        default:
+            return -1;
+        }
+        if (Data->offset == 0)
+            break;
+        Data = (VariableData *)(pWEP->WEP.WEP + AOSS_Ntohs(Data->offset));
+    }
+    return 0;
+}
+
+
+
+int GetWPAData(tagASTSpktTKIP *pWPA, ASTS_DATA_TKIP *Info)
+{
+    VariableData *Data;
+    unsigned int length;
+
+    Data = (VariableData *)pWPA->WpaPsk.WpaPsk;
+    for (;;) {
+        length = AOSS_Ntohs(Data->length);
+        switch (Data->DataID) {
+        case 0x30:
+        case 0x40:
+            if (length > 0x40)
+                return -1;
+            break;
+        case 0x35:
+        case 0x45:
+            if (length > 0x21)
+                return -1;
+            break;
+        }
+        switch (Data->DataID) {
+        case 0x30:
+        case 0x40:
+            AOSS_Memcpy(Info->Data, Data->Data, length);
+            Info->KeyLen = length;
+            break;
+        case 0x35:
+        case 0x45:
+            if (length != 0 && Data->Data[length - 1] != 0)
+                return -1;
+            AOSS_Memcpy(Info->SSID, Data->Data, length);
+            break;
+        default:
+            return -1;
+        }
+        if (Data->offset == 0)
+            break;
+        Data = (VariableData *)(pWPA->WpaPsk.WpaPsk + AOSS_Ntohs(Data->offset));
+    }
+    return 0;
+}
+
+
+int GetBssidData(tagASTSpktBssid *pBssid, char *BSSID)
+{
+    VariableData *Data;
+    int length;
+
+    Data = (VariableData *)pBssid->Bssid.Bssid;
+    length = AOSS_Ntohs(Data->length);
+    if (length <= 0)
+        return -1;
+    if (Data->DataID != 0x70)
+        return -1;
+    AOSS_Memcpy(BSSID, Data->Data, length);
+    return 0;
+}
+
+
+int GetSecurityData(int Mode, unsigned char *pData, int Length, ASTS_DATA_INFO *SecurityInfo,
+                    PRODUCT_INFO_AOSS *Info)
+{
+    tagASTSsubAttrHeader *pSec;
+    int size;
+    int wLen;
+    int ret;
+    int Level;
+    int Len;
+
+    Level = 0;
+    if (Length <= 0)
+        return -2;
+    for (;;) {
+        pSec = (tagASTSsubAttrHeader *)pData;
+        if (pSec->SubAttrNo == AttrNo[Mode])
+            break;
+        size = AOSS_Ntohs(pSec->length) + 4;
+        Length -= size;
+        pData += size;
+        if (Length <= 0)
+            return -4;
+    }
+    pData += 4;
+    Len = AOSS_Ntohs(pSec->length);
+    do {
+        switch (*pData) {
+        case 3:
+            ret = GetWEPData((tagASTSpktWEP40 *)pData, &SecurityInfo[Mode].WepData_40);
+            Level |= 1;
+            break;
+        case 4:
+            ret = GetWEPData((tagASTSpktWEP40 *)pData, &SecurityInfo[Mode].WepData_104);
+            Level |= 2;
+            break;
+        case 5:
+            ret = GetWPAData((tagASTSpktTKIP *)pData, &SecurityInfo[Mode].TkipData);
+            Level |= 4;
+            break;
+        case 6:
+            ret = GetWPAData((tagASTSpktTKIP *)pData, &SecurityInfo[Mode].AesData);
+            Level |= 8;
+            break;
+        case 10:
+            ret = GetBssidData((tagASTSpktBssid *)pData, Info->ProductInfo[Mode + 3]);
+            break;
+        default:
+            ret = -3;
+            break;
+        }
+        if (ret != 0)
+            return ret;
+        wLen = AOSS_Ntohs(((tagASTSsubAttrHeader *)pData)->length) + 4;
+        Len -= wLen;
+        pData += wLen;
+    } while (Len > 0);
+    aoss_bss.gData_aLevel |= Level;
     return 0;
 }

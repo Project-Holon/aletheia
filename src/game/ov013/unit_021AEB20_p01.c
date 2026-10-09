@@ -1,7 +1,7 @@
 /*
  * file:     unit_021AEB20_p01.c
  * unit:     yes
- * function: func_021AEB20, func_021AEB78, func_021AEB7C, func_021AEC74
+ * function: func_021AEB20, func_021AEB78, func_021AEB7C, func_021AEC74, func_021AECC4, func_021AED08
  * address:  0x021AEB20
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -33,8 +33,12 @@
  *   func_021B1F2C 0x021B1F2C arm ov013
  *   func_021B20B0 0x021B20B0 arm ov013
  *   func_021B1F54 0x021B1F54 arm ov013
+ *   func_021B2180  0x021B2180  arm  ov013
+ *   func_021B0614  0x021B0614  arm  ov013
+ *   func_021AEDEC 0x021AEDEC thumb ov013
  */
 #include "../../matched/include/G_Work.h"
+#include "../../matched/include/Obj19303.h"
 
 struct S;
 struct Node;
@@ -63,11 +67,17 @@ extern int func_021B07F8(const u8 *src, u32 n);
 extern struct Node *func_021B1F2C(unsigned int i);
 extern int func_021B20B0(int p, int x);
 extern int func_021B1F54(struct Node *p);
+extern int func_021B2180(int a, int b);
+extern int func_021B0614(void *p);
+extern void func_021AEDEC(struct Node *p);
 void func_021AEB20(void);
-void func_021AEB78(void);
-void func_021AEB7C(int mode, u32 n, void **bufs, u32 size, int unused, u32 arg6);
-int func_021AEC74(int i);
+/* * Unlabelled leaf (no lr save, so disasm.py never labels it); its address * is taken as a completion callback by func_021AEB7C. */ void func_021AEB78(void);
+/* * Microphone sampling step: with mode 0 clears the n buffers; otherwise * stops the pending auto-sampling (param block at G+0x1A20, busy flag * G+0x1A4B), picks the sample window, processes each buffer and, unless * G+0x19B0 is set, analyses the window. Callback is the empty leaf * func_021AEB78. */ void func_021AEB7C(int mode, u32 n, void **bufs, u32 size, int unused, u32 arg6);
+/* * note: 2026-10-05 the call to func_021B20B0 is written in each arm of the * null test (new allocation, existing node); the compiler cross-jumps the * shared tail and the first arm uses the call result register directly. */ int func_021AEC74(int i);
+int func_021AECC4(int x);
+void func_021AED08(int unused,int code,void *p);
 extern struct Work *d_021B3C80;
+
 
 
 void func_021AEB20(void)
@@ -84,6 +94,7 @@ void func_021AEB20(void)
     func_021B0D08(1);
 }
 
+
 /*
  * Unlabelled leaf (no lr save, so disasm.py never labels it); its address
  * is taken as a completion callback by func_021AEB7C.
@@ -91,6 +102,7 @@ void func_021AEB20(void)
 void func_021AEB78(void)
 {
 }
+
 
 
 /*
@@ -141,6 +153,7 @@ void func_021AEB7C(int mode, u32 n, void **bufs, u32 size, int unused, u32 arg6)
 }
 
 
+
 /*
  * note: 2026-10-05 the call to func_021B20B0 is written in each arm of the
  *   null test (new allocation, existing node); the compiler cross-jumps the
@@ -167,4 +180,34 @@ int func_021AEC74(int i)
     }
     d_021B3C80->f1A1C = p;
     return 1;
+}
+
+
+
+int func_021AECC4(int x)
+{
+    u8 *p = *(u8 **)(((u8 *)d_021B3C80) + 0x1A1C);
+    int r;
+
+    if (p != 0 && ((struct Obj19303 *)p)->fC == 4) {
+        r = 0;
+        if (func_021B2180((int)p, 0) != 0) {
+            return r;
+        }
+        if (func_021B0614(*(void **)(((u8 *)d_021B3C80) + 0x1A1C)) != 0) {
+            r = 1;
+        }
+        return r;
+    }
+    return 0;
+}
+
+
+void func_021AED08(int unused,int code,void *p)
+{
+    switch(code) {
+    case 9: func_021AEDEC(p); break;
+    case 7: func_021B0614(p); break;
+    case 12: func_021AEDEC(p); break;
+    }
 }

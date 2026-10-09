@@ -1,8 +1,8 @@
 /*
  * file:     unit_0215FDA4_p13.c
  * unit:     yes
- * function: func_021619CC, func_02161BE8, func_02161C54, func_02161C80
- * address:  0x021619CC
+ * function: func_02162418, func_021625B8, func_0216286C
+ * address:  0x02162418
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,287 +13,250 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   CPSi_md5_init    0x021633F0  arm  ov009
- *   CPSi_md5_calc    0x02163438  arm  ov009
- *   MI_CpuFill8      0x02082BCC  arm
- *   CPSi_md5_result  0x021634F0  arm  ov009
- *   CPSi_sha1_init   0x02163C9C  arm  ov009
- *   CPSi_sha1_calc   0x02163CF0  arm  ov009
- *   CPSi_sha1_result 0x02163DA8  arm  ov009
- *   CPSi_rc4_crypt   0x02163EB8  arm  ov009
- *   add1_be8         0x02161748  arm  ov009
- *   func_0215AE18  0x0215AE18  arm  ov009
- *   func_02082D44  0x02082D44  arm
- *   func_0215AF14  0x0215AF14  arm  ov009
- *   make_plaintext           0x02161784  arm  ov009
- *   client_hello             0x02160EE0  arm  ov009
- *   rcv_client_key_exchange  0x02161480  arm  ov009
- *   rcv_server_hello         0x02160C9C  arm  ov009
- *   rcv_certificate          0x02160A7C  arm  ov009
- *   rcv_finished             0x02161678  arm  ov009
- *   CPSiFree                 0x021A82B0  data
+ *   func_0216003C  0x0216003C  arm  ov009
+ *   func_02162128  0x02162128  arm  ov009
+ *   MI_CpuCopy8    0x02082D44  arm
+ *   func_0215FE3C  0x0215FE3C  arm  ov009
+ *   func_0215B198  0x0215B198  arm  ov009
+ *   func_02161C54  0x02161C54  arm  ov009
+ *   g_021A8280     0x021A8280  data
+ *   g_021A1D40     0x021A1D40  data
+ *   g_021A82B0     0x021A82B0  data
+ *   CPSi_TcpWrite2Raw   0x0215B198 arm ov009
+ *   set_random          0x02162128 arm ov009
+ *   CPSi_big_from_char  0x02164CC4 arm ov009
+ *   enter_computebound  0x0216009C arm ov009
+ *   CPSi_big_power      0x0216469C arm ov009
+ *   exit_computebound   0x021600E4 arm ov009
+ *   update_digest       0x02161C54 arm ov009
+ *   alert_nocert        0x021A1980 data
+ *   CPSiAlloc           0x021A8280 data
+ *   CPSiFree            0x021A82B0 data
+ *   parse_record  0x02161F98  arm
  */
-struct _CPSSslConnection;
-struct CPSSoc;
+#define NELEMS(a) (sizeof(a) / sizeof((a)[0]))
 struct _CPSSoc;
-typedef struct CPSMd5Ctx CPSMd5Ctx;
+typedef struct CPSSoc {
+    unsigned char pad0[0xC];
+    struct CPSSslConnection *con;
+    unsigned char pad10[0x18 - 0x10];
+    unsigned short remote_port;     /* +0x18 */
+    unsigned long remote_ip;        /* +0x1c */
+} CPSSoc;
 
-typedef struct CPSSha1Ctx CPSSha1Ctx;
+typedef struct CPSSslConnection {
+    unsigned char pad0[0x30];
+    unsigned char session_id_len;   /* +0x30 */
+    unsigned char pad31[3];
+    unsigned char client_random[32];/* +0x34 */
+    unsigned char pad54[0x74 - 0x54];
+    unsigned char session_id[32];   /* +0x74 */
+    unsigned char pad94[0x455 - 0x94];
+    unsigned char state;            /* +0x455 */
+} CPSSslConnection;
 
-typedef struct CPSRc4Ctx CPSRc4Ctx;
+typedef unsigned int   u32;
+
+typedef unsigned char  u8;
+
+typedef struct _CPSSslConnection _CPSSslConnection;
+
+typedef struct _CPSSoc {
+    char pad0[0xc];
+    _CPSSslConnection *con;
+} _CPSSoc;
 
 struct _CPSSslConnection {
-    unsigned char pad0[0x1d4];
-    unsigned int f1d4;
-    unsigned char pad1[0x2e4 - 0x1d4 - 4];
-    unsigned char f2e4[8];
-    unsigned char pad2[0x454 - 0x2e4 - 8];
-    unsigned char f454;
-    unsigned char state;
-    unsigned char f456;
-    unsigned char pad3[0x5ac - 0x457];
-    unsigned char f5ac;
-    unsigned char pad4[0x824 - 0x5ad];
-    unsigned long f824;
-    unsigned long f828;
-    unsigned long f82c;
+    unsigned char premaster[0x30];
+    unsigned char pad0[0x455 - 0x30];
+    unsigned char error;
+    unsigned char pad1[0x494 - 0x456];
+    unsigned char modulus[0x100];
+    int modlen;
+    unsigned char pubexp[8];
+    int pubexplen;
+    unsigned char pad2[0x5ac - 0x5a4];
+    unsigned char flag;
 };
 
-extern void CPSi_md5_init(CPSMd5Ctx *ctx);
-extern void CPSi_md5_calc(CPSMd5Ctx *ctx, void *data0, int datalen);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void CPSi_md5_result(CPSMd5Ctx *ctx, unsigned char *digest);
-extern void CPSi_sha1_init(CPSSha1Ctx *ctx);
-extern void CPSi_sha1_calc(CPSSha1Ctx *ctx, void *data0, int datalen);
-extern void CPSi_sha1_result(CPSSha1Ctx *ctx, unsigned char *digest);
-extern void CPSi_rc4_crypt(CPSRc4Ctx *ctx, unsigned char *data, int len);
-extern void add1_be8(unsigned char *d);
-extern unsigned char *func_0215AE18(unsigned long *len, char *soc);
-extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
-extern void func_0215AF14(unsigned long len, struct _CPSSoc *soc);
-extern int make_plaintext(struct _CPSSslConnection *con, unsigned char *s);
-extern void client_hello(struct _CPSSslConnection *con, unsigned char *s);
-extern void rcv_client_key_exchange(struct _CPSSslConnection *con,
-                                    unsigned char *s);
-extern void rcv_server_hello(struct _CPSSslConnection *con, unsigned char *s);
-extern void rcv_certificate(struct _CPSSslConnection *con, unsigned char *s);
-extern void rcv_finished(struct _CPSSslConnection *con, unsigned char *s);
-int make_ciphertext(struct _CPSSslConnection *con, unsigned char *s);
+extern unsigned long func_0216003C(void);
+extern void func_02162128(unsigned char *d, int len);
+extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
+extern void func_0215FE3C(CPSSslConnection *con, unsigned long ip, unsigned short port);
+extern u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
+extern void func_02161C54(CPSSslConnection *con, unsigned char *s, unsigned long len);
+extern unsigned long CPSi_TcpWrite2Raw(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, _CPSSoc *soc);
+extern void set_random(unsigned char *d, int len);
+extern void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes, int digits);
+extern unsigned long enter_computebound(void);
+extern void CPSi_big_power(unsigned short *c, unsigned short *a, unsigned short *b, int digits, unsigned short *n);
+extern void exit_computebound(unsigned long old_priority);
+extern void update_digest(_CPSSslConnection *con, unsigned char *s, unsigned long len);
+extern int parse_record(struct _CPSSoc *soc);
+extern unsigned short g_021A1D40[2];
+extern unsigned char alert_nocert[7];
 
 
-int make_ciphertext(struct _CPSSslConnection *con, unsigned char *s)
-{
-    void *p;
-    int len;
-    unsigned char tmp[48];
-    unsigned char *mac;
-    char *c = (char *)con;
+extern unsigned char *(*g_021A8280)(unsigned long size);
 
-    len = (s[3] << 8) + s[4];
-    p = s + 5;
-    switch (*(unsigned short *)(c + 0x32)) {
-    case 4: {
-        CPSMd5Ctx *ctx = (CPSMd5Ctx *)(c + 0x3fc);
-        CPSi_md5_init(ctx);
-        CPSi_md5_calc(ctx, *(void **)(c + 0xbc), 16);
-        MI_CpuFill8(tmp, 0x36, 48);
-        CPSi_md5_calc(ctx, tmp, 48);
-        CPSi_md5_calc(ctx, c + 0x1cc, 8);
-        CPSi_md5_calc(ctx, s, 1);
-        CPSi_md5_calc(ctx, s + 3, len + 2);
-        mac = (unsigned char *)p + len;
-        CPSi_md5_result(ctx, mac);
-        CPSi_md5_init(ctx);
-        CPSi_md5_calc(ctx, *(void **)(c + 0xbc), 16);
-        MI_CpuFill8(tmp, 0x5c, 48);
-        CPSi_md5_calc(ctx, tmp, 48);
-        CPSi_md5_calc(ctx, mac, 16);
-        CPSi_md5_result(ctx, mac);
-        len += 16;
-        break;
-    }
-    case 5: {
-        CPSSha1Ctx *ctx = (CPSSha1Ctx *)(c + 0x348);
-        CPSi_sha1_init(ctx);
-        CPSi_sha1_calc(ctx, *(void **)(c + 0xbc), 20);
-        MI_CpuFill8(tmp, 0x36, 40);
-        CPSi_sha1_calc(ctx, tmp, 40);
-        CPSi_sha1_calc(ctx, c + 0x1cc, 8);
-        CPSi_sha1_calc(ctx, s, 1);
-        CPSi_sha1_calc(ctx, s + 3, len + 2);
-        mac = (unsigned char *)p + len;
-        CPSi_sha1_result(ctx, mac);
-        CPSi_sha1_init(ctx);
-        CPSi_sha1_calc(ctx, *(void **)(c + 0xbc), 20);
-        MI_CpuFill8(tmp, 0x5c, 40);
-        CPSi_sha1_calc(ctx, tmp, 40);
-        CPSi_sha1_calc(ctx, mac, 20);
-        CPSi_sha1_result(ctx, mac);
-        len += 20;
-        break;
-    }
-    }
-    s[3] = len >> 8;
-    s[4] = len;
-    CPSi_rc4_crypt((CPSRc4Ctx *)(c + 0xc8), s + 5, len);
-    add1_be8((unsigned char *)(c + 0x1d4));
-    return len + 5;
-}
+extern void (*g_021A82B0)(void *p);
 
 
 /*
- * sdk:      tcp_read_raw_nbytes (libssl.TWL.HYB.a(ssl.o))
+ * sdk:      send_client_hello (libssl.TWL.HYB.a(ssl.o))
  */
-static int func_02161BE8(unsigned char *d, int len, struct CPSSoc *soc)
+static void func_02162418(CPSSoc *soc)
 {
-    unsigned long thislen;
-    unsigned char *s;
+    CPSSslConnection *con = soc->con;
+    unsigned long sec;
+    unsigned char *buf;
+    unsigned char *d;
+    int i;
 
-    do {
-        s = func_0215AE18(&thislen, (char *)soc);
-        if (thislen == 0)
-            return -1;
-        if (thislen > len)
-            thislen = len;
-        func_02082D44(s, d, thislen);
-        func_0215AF14(thislen, (struct _CPSSoc *)soc);
-        len -= thislen;
-        d += thislen;
-    } while (len > 0);
-    return 0;
+    buf = g_021A8280(0x98);
+    if (buf == 0) {
+        con->state = 9;
+        return;
+    }
+    buf[9] = 3;
+    buf[10] = 0;
+    sec = func_0216003C();
+    con->client_random[0] = sec >> 24;
+    con->client_random[1] = sec >> 16;
+    con->client_random[2] = sec >> 8;
+    con->client_random[3] = sec;
+    func_02162128(con->client_random + 4, 28);
+    MI_CpuCopy8(con->client_random, buf + 11, 32);
+    func_0215FE3C(con, soc->remote_ip, soc->remote_port);
+    if (con->session_id_len == 0) {
+        buf[43] = 0;
+        d = buf + 44;
+    } else {
+        buf[43] = 32;
+        MI_CpuCopy8(con->session_id, buf + 44, 32);
+        d = buf + 76;
+    }
+    d[0] = 0;
+    d[1] = 4;
+    d += 2;
+    for (i = 0; i < NELEMS(g_021A1D40); i++) {
+        d[0] = g_021A1D40[i] >> 8;
+        d[1] = g_021A1D40[i];
+        d += 2;
+    }
+    d[0] = 1;
+    d[1] = 0;
+    d += 2;
+    i = d - buf - 5;
+    buf[0] = 22;
+    buf[1] = 3;
+    buf[2] = 0;
+    buf[3] = i >> 8;
+    buf[4] = i;
+    buf[5] = 1;
+    buf[6] = (i - 4) >> 16;
+    buf[7] = (i - 4) >> 8;
+    buf[8] = i - 4;
+    func_0215B198(buf, i + 5, 0, 0, (struct _CPSSoc *)soc);
+    func_02161C54(con, buf + 5, i);
+    g_021A82B0(buf);
 }
 
-
-static void update_digest(struct _CPSSslConnection *con, unsigned char *s,
-                          unsigned long len)
-{
-    CPSi_sha1_calc((CPSSha1Ctx *)((char *)con + 0x2ec), s, len);
-    CPSi_md5_calc((CPSMd5Ctx *)((char *)con + 0x3a4), s, len);
-}
+extern void *(*CPSiAlloc)(unsigned long size);
 
 extern void (*CPSiFree)(void *ptr);
 
 
-static void parse_record_in_buf(struct _CPSSslConnection *con, unsigned char *buf)
+static void send_client_key_exchange(_CPSSoc *soc)
 {
-    unsigned char *s;
-    unsigned char type;
-    unsigned long len;
-    int sub;
+    _CPSSslConnection *con;
+    unsigned short *a;
+    unsigned short *n;
+    int digits;
+    unsigned char *buf;
+    int modlen;
+    unsigned short *b;
+    unsigned short *tmp_var;
+    unsigned long old_priority;
+    int i;
+    unsigned char *tmp;
+    unsigned char *d;
 
-    if (con->state == 9) {
-        CPSiFree(buf);
+    con = soc->con;
+    if (con->flag != 0)
+        CPSi_TcpWrite2Raw(alert_nocert, 7, 0, 0, soc);
+
+    con->premaster[0] = 3;
+    con->premaster[1] = 0;
+    set_random(&con->premaster[2], 0x2e);
+
+    modlen = con->modlen;
+    digits = modlen * 2 / 2;
+    buf = CPSiAlloc(modlen);
+    if (buf == 0) {
+        con->error = 9;
         return;
     }
+    buf[0] = 0;
+    buf[1] = 2;
+    set_random(&buf[2], modlen - 0x33);
+    buf[modlen - 0x31] = 0;
+    MI_CpuCopy8(con, buf + modlen - 0x30, 0x30);
 
-    type = buf[0];
-    len = (buf[3] << 8) + buf[4] + 5;
-    if (con->f1d4 != 0 &&
-        (((con->state == 7 || con->state == 8) && type != 0x15) ||
-         (type == 0x15 && len > 7))) {
-        len = make_plaintext(con, buf);
-        if (con->state == 9) {
-            CPSiFree(buf);
-            return;
-        }
+    a = CPSiAlloc(digits * 8);
+    if (a == 0) {
+        CPSiFree(buf);
+        con->error = 9;
+        return;
     }
+    tmp_var = a + digits;
+    b = tmp_var + digits;
+    n = b + digits;
+    CPSi_big_from_char(tmp_var, buf, modlen, digits);
+    CPSi_big_from_char(b, con->pubexp, con->pubexplen, digits);
+    CPSi_big_from_char(n, con->modulus, modlen, digits);
+    old_priority = enter_computebound();
+    CPSi_big_power(a, tmp_var, b, digits, n);
+    exit_computebound(old_priority);
 
-    s = buf + 5;
-    len -= 5;
-
-    switch (type) {
-    case 0x14:
-        if (con->f1d4 == 0) {
-            con->state = 9;
-        } else {
-            MI_CpuFill8(con->f2e4, 0, 8);
-            con->state = 7;
-        }
-        break;
-    case 0x15:
-        if (len != 2 || s[0] == 2)
-            con->state = 9;
-        break;
-    case 0x16:
-        if (len < 4) {
-            con->state = 9;
-            break;
-        }
-        do {
-            type = s[0];
-            sub = (s[1] << 16) + (s[2] << 8) + s[3];
-            if ((s[1] << 16) + (s[2] << 8) + s[3] > len) {
-                con->state = 9;
-                break;
-            }
-            s += 4;
-            switch (type) {
-            case 1:
-                if (con->f454 != 0 && con->state == 0)
-                    client_hello(con, s);
-                else
-                    con->state = 9;
-                break;
-            case 0x10:
-                if (con->f454 == 0)
-                    con->state = 9;
-                else
-                    rcv_client_key_exchange(con, s);
-                break;
-            case 2:
-                if (sub >= 0x26 && con->f454 == 0)
-                    rcv_server_hello(con, s);
-                else
-                    con->state = 9;
-                break;
-            case 0xb:
-                if (con->state == 2 && con->f454 == 0) {
-                    rcv_certificate(con, s);
-                    con->f5ac = 0;
-                } else {
-                    con->state = 9;
-                }
-                break;
-            case 0xd:
-                if (con->state == 3 && con->f454 == 0)
-                    con->f5ac = 1;
-                else
-                    con->state = 9;
-                break;
-            case 0xe:
-                if (con->f454 == 0 && con->state == 3)
-                    con->state = 4;
-                else
-                    con->state = 9;
-                break;
-            case 0x14:
-                rcv_finished(con, s);
-                break;
-            default:
-                con->state = 9;
-                break;
-            }
-            if (con->state != 9) {
-                update_digest(con, s - 4, sub + 4);
-                s += sub;
-                len -= sub + 4;
-            }
-        } while (len != 0 && con->state != 9);
-        break;
-    case 0x17:
-        if (con->state != 8) {
-            con->state = 9;
-        } else {
-            con->f824 = (unsigned long)buf;
-            con->f82c = 5;
-            con->f828 = len + 5;
-            con->f456 = 1;
-            return;
-        }
-        break;
-    default:
-        con->state = 9;
-        break;
+    tmp = CPSiAlloc(modlen + 0x49);
+    if (tmp == 0) {
+        CPSiFree(buf);
+        CPSiFree(a);
+        con->error = 9;
+        return;
     }
+    tmp[0] = 0x16;
+    tmp[1] = 3;
+    tmp[2] = 0;
+    tmp[3] = (modlen + 4) >> 8;
+    tmp[4] = modlen + 4;
+    tmp[5] = 0x10;
+    tmp[6] = modlen >> 16;
+    tmp[7] = modlen >> 8;
+    tmp[8] = modlen;
+    d = &tmp[9];
+    if (modlen & 1) {
+        tmp[9] = a[modlen / 2];
+        d = &tmp[10];
+    }
+    for (i = modlen / 2 - 1; i >= 0; i--) {
+        *d++ = a[i] >> 8;
+        *d++ = a[i];
+    }
+    CPSi_TcpWrite2Raw(tmp, modlen + 9, 0, 0, soc);
+    update_digest(con, &tmp[5], modlen + 4);
+    CPSiFree(tmp);
+    CPSiFree(a);
     CPSiFree(buf);
+}
+
+
+static int mustget_change_cipher_spec_and_finished(struct _CPSSoc *soc)
+{
+    if (parse_record(soc) != 7)
+        return 1;
+    if (parse_record(soc) != 6)
+        return 1;
+    return 0;
 }

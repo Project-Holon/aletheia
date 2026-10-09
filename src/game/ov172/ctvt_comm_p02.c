@@ -1,57 +1,25 @@
 /*
- * file:     ctvt_comm_p02.c
- * unit:     yes
- * function: func_021B7B30, func_021B7B3C
- * address:  0x021B7B30
+ * function: func_021B7B5C
+ * address:  0x021B7B5C
+ * packet:   pkt_021B62A8
  * region:   ov172
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
- * isa:      thumb
+ * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
- * symbols:
- *   func_021BE100  0x021BE100  thumb  ov172
- *   func_02085D3C  0x02085D3C  arm
- *   func_021B7B5C  0x021B7B5C  arm    ov172
- */
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed int     s32;
-
-extern int func_021BE100(void);
-extern int func_02085D3C(int a);
-extern void func_021B7B5C(int a, int b, int c);
-u32 func_021B7B30(int unused, char *base, int i);
-void func_021B7B3C(int x, int y, int z);
-
-
-/*
- * Field getter, u32 at +0x34 of record i (stride 0x1c).
+ * A four-byte ARM long-branch veneer, `ldr pc, [pc, #-4]` over the pointer
+ * word 0x02701248, the arm half of the overlay's import table into the
+ * TWL region.  No C spelling produces it, so it is written as an asm
+ * function, the same way the other hand-written bodies under src/matched
+ * are; the pointer word is a plain constant, not a relocation.
  *
  * Addresses are Black-image addresses.
  */
-u32 func_021B7B30(int unused, char *base, int i)
-{
-    return *(u32 *)(base + i * 0x1c + 0x34);
-}
 
-
-void func_021B7B3C(int x, int y, int z)
+asm void func_021B7B5C(void)
 {
-    int r = func_021BE100();
-    if (r != 1) {
-        return;
-    }
-    r = func_02085D3C(r);
-    if (r != 1) {
-        return;
-    }
-    func_021B7B5C(3, 3, z);
+    ldr pc, [pc, #-4]
+    dcd 0x02701248
 }

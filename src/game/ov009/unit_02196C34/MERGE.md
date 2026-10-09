@@ -1,53 +1,22 @@
-# unit_02196C34.c (ov009)
+# unit_02196C34 (ov009)
 
-Translation unit 02196C34..02197CFC, 26 functions, confidence proven (tools/tuboundary.py).
+Round 3 (lane r3_ov03): the greedy merge with the call-argument harmonizer was re-run; the parts below are what is left. Every part verifies byte-exact on its own.
 
-The member files below each match on their own. Merging them into one
-`unit_02196C34.c` is blocked by:
+Ten parts left (was 11). Boundaries stop on GTI2Connection / GTI2Socket redefinitions with different member subsets (socket, buffer, peer, lastSend, field_44) and on Sock / GT2ConnectionCallbacks being undefined in one part.
 
-- ov009_func_02196C34.c..ov009_func_02197CE0.c: prototype of gti2ConnectionError differs between members (src/matched/ov_sdk/ov009_func_021970BC.c); prototype of func_02197D5C differs between members (src/matched/ov_sdk/ov009_func_021971BC.c); prot
-- ov009_func_02196C34.c..ov009_func_02197678.c: prototype of gti2ConnectionError differs between members (src/matched/ov_sdk/ov009_func_021970BC.c); prototype of func_02197D5C differs between members (src/matched/ov_sdk/ov009_func_021971BC.c); prot
-- ov009_func_02196C34.c..ov009_func_021971BC.c: prototype of gti2ConnectionError differs between members (src/matched/ov_sdk/ov009_func_021970BC.c); prototype of func_02197D5C differs between members (src/matched/ov_sdk/ov009_func_021971BC.c); prot
-- ov009_func_02196C34.c..ov009_func_02196D00.c: c99=CCERR: line 119: illegal implicit conversion from 'struct Conn_02196D00 *' to | line 119: 'struct Conn_02196C34 *' nolang=CCERR: line 119: illegal implicit conversion from 'struct Conn_02196D00 *'
-- ov009_func_02196DC4.c..ov009_func_021971BC.c: prototype of func_02197D5C differs between members (src/matched/ov_sdk/ov009_func_021971BC.c); prototype of func_02195408 differs between members (src/matched/ov_sdk/ov009_func_021971BC.c)
-- ov009_func_0219725C.c..ov009_func_02197678.c: prototype of gti2BufferWriteData differs between members (src/matched/ov_sdk/ov009_func_02197594.c); prototype of gti2BufferWriteData differs between members (src/matched/ov_sdk/ov009_func_021975FC.c)
-- ov009_func_0219725C.c..ov009_func_02197458.c: c99=CCERR: line 184: illegal implicit conversion from 'struct GTI2Connection_02197458 *' to | line 184: 'struct GTI2Connection_021973E4 *' nolang=CCERR: line 184: illegal implicit conversion from 'str
-- ov009_func_021973E4.c..ov009_func_02197458.c: c99=CCERR: line 110: illegal implicit conversion from 'struct GTI2Connection_02197458 *' to | line 110: 'struct GTI2Connection_021973E4 *' nolang=CCERR: line 110: illegal implicit conversion from 'str
-- ov009_func_0219754C.c..ov009_func_02197678.c: prototype of gti2BeginReliableMessage differs between members (src/matched/ov_sdk/ov009_func_021975FC.c)
-- ov009_func_0219754C.c..ov009_func_02197594.c: c99=CCERR: line 78: illegal implicit conversion from 'struct GTI2Connection_02197594 *' to | line 78: 'struct GTI2Connection_0219754C *' nolang=CCERR: line 78: illegal implicit conversion from 'struct
-- ov009_func_02197700.c..ov009_func_02197CE0.c: prototype of gti2BeginReliableMessage differs between members (src/matched/ov_sdk/ov009_func_021977E8.c); prototype of gti2EndReliableMessage differs between members (src/matched/ov_sdk/ov009_func_021
-- ov009_func_02197700.c..ov009_func_02197930.c: prototype of gti2BeginReliableMessage differs between members (src/matched/ov_sdk/ov009_func_021977E8.c); prototype of gti2EndReliableMessage differs between members (src/matched/ov_sdk/ov009_func_021
-- ov009_func_02197700.c..ov009_func_021977E8.c: prototype of gti2BeginReliableMessage differs between members (src/matched/ov_sdk/ov009_func_021977E8.c); prototype of gti2EndReliableMessage differs between members (src/matched/ov_sdk/ov009_func_021
-- ov009_func_02197784.c..ov009_func_021977E8.c: prototype of gti2BeginReliableMessage differs between members (src/matched/ov_sdk/ov009_func_021977E8.c); prototype of gti2EndReliableMessage differs between members (src/matched/ov_sdk/ov009_func_021
-- ov009_func_02197868.c..ov009_func_02197930.c: c99=CCERR: line 40: struct/union/enum/class tag 'GTI2Socket' redefined | line 47: struct/union/enum/class tag 'GTI2Connection' redefined nolang=CCERR: line 40: struct/union/enum/class tag 'GTI2Socket'
-- ov009_func_021978CC.c..ov009_func_02197930.c: c99=CCERR: line 40: struct/union/enum/class tag 'GTI2Socket' redefined | line 47: struct/union/enum/class tag 'GTI2Connection' redefined nolang=CCERR: line 40: struct/union/enum/class tag 'GTI2Socket'
-- ov009_func_02197A30.c..ov009_func_02197CE0.c: prototype of gti2ConnectionSendData differs between members (src/matched/ov_sdk/ov009_func_02197BA4.c); prototype of gti2ConnectionSendData differs between members (src/matched/ov_sdk/ov009_func_02197
-- ov009_func_02197A30.c..ov009_func_02197BA4.c: prototype of gti2ConnectionSendData differs between members (src/matched/ov_sdk/ov009_func_02197BA4.c)
-- ov009_func_02197AD8.c..ov009_func_02197BA4.c: c99=CCERR: line 21: the file '../arm9_sdk/libc/string.h' cannot be opened nolang=CCERR: line 21: the file '../arm9_sdk/libc/string.h' cannot be opened
-- ov009_func_02197BB8.c..ov009_func_02197CE0.c: c99=CCERR: line 23: the file '../arm9_sdk/libc/string.h' cannot be opened nolang=CCERR: line 23: the file '../arm9_sdk/libc/string.h' cannot be opened
-- ov009_func_02197BB8.c..ov009_func_02197BD4.c: c99=CCERR: line 19: the file '../arm9_sdk/libc/string.h' cannot be opened nolang=CCERR: line 19: the file '../arm9_sdk/libc/string.h' cannot be opened
+Shared GameSpy gt2 transport objects (same layout in unit_02194EC4, unit_02195E80,
+unit_02196C34): each part declares its own partial view of struct Conn / GTI2Connection and
+Sock / GTI2Socket. Offsets seen in unit_02194EC4 (they agree across the views):
+GTI2Socket: socket 0, ip 4, port 8, connections 0xC, closedConnections 0x10, close 0x14,
+error 0x18, callbackLevel 0x1C, connectAttemptCallback 0x20, socketErrorCallback 0x24,
+sendDump 0x28, recvDump 0x2C (size 0x30).
+GTI2Connection: socket 8, state 0xC, result 0x18, level 0x24, callbacks (connected 0x28,
+received 0x2C, closed 0x30, ping 0x34), filters at 0x98 (p05 view) and 0x9C (p06 view), size 0xA0.
+The next step is one canonical struct per object with those fields, applied to every part
+(ol041/unif41.py recurses forever on the self-referential Conn/Sock members: write the block
+by hand, then run the greedy merge again). Also func_02184208 and func_02197FDC have different
+prototypes per part (void *filters vs typed array, Sock * vs Sock_02195340 *).
 
-Members, in address order:
+Parts: unit_02196C34_p01.c, unit_02196C34_p02.c, unit_02196C34_p03.c, unit_02196C34_p04.c, unit_02196C34_p05.c, unit_02196C34_p06.c, unit_02196C34_p07.c, unit_02196C34_p08.c, unit_02196C34_p09.c, unit_02196C34_p10.c
 
-- `ov009_func_02196C34.c`
-- `ov009_func_02196DC4.c`
-- `ov009_func_0219725C.c`
-- `ov009_func_021973E4.c`
-- `ov009_func_02197458.c`
-- `ov009_func_0219754C.c`
-- `ov009_func_02197594.c`
-- `ov009_func_02197700.c`
-- `ov009_func_02197784.c`
-- `ov009_func_021977E8.c`
-- `ov009_func_02197868.c`
-- `ov009_func_021978CC.c`
-- `ov009_func_02197930.c`
-- `ov009_func_02197A30.c`
-- `ov009_func_02197AD8.c`
-- `ov009_func_02197BA4.c`
-- `ov009_func_02197BB8.c`
-- `ov009_func_02197BD4.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_02196C34.c` again.
+Round 4 (lane r4_ov03): unit_02194EC4 is now one file with the canonical GTI2Socket / GTI2Connection block (see unit_02194EC4.c). Copy that block here. Extra offsets seen in this TU: GTI2Socket protocolType 0x40, protocolOffset 0x44 (headerBase, overhead, magicOffset). GTI2Connection full view is struct GTI2Connection_02196658 in unit_02195E80_p05 (ip 0, port 4, socket 8, state 0xC, initiated 0x10, freeAtAcceptReject 0x14, connectionResult 0x18, startTime 0x1C, timeout 0x20, callbackLevel 0x24, callbacks 0x28, initialMessage 0x38, initialMessageLen 0x3C, data 0x40, incomingBuffer 0x44, outgoingBuffer 0x50, incomingBufferMessages 0x5C, outgoingBufferMessages 0x60, serialNumber 0x64, expectedSerialNumber 0x66, response 0x68, lastSend 0x88, challengeTime 0x8C, pendingAck 0x90, pendingAckTime 0x94, sendFilters 0x98, receiveFilters 0x9C). Use it as the base, rename per-part field_NN views to it.

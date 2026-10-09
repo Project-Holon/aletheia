@@ -1,8 +1,8 @@
 /*
  * file:     btl_server_p03.c
  * unit:     yes
- * function: func_021B9A00, func_021B9A24, func_021B9A40, func_021B9A50, func_021B9A5C, func_021B9A6C, func_021B9AB0, func_021B9AC8
- * address:  0x021B9A00
+ * function: func_021BBCD4, func_021BBD20, func_021BBD2C, func_021BBD80, func_021BBD8C
+ * address:  0x021BBCD4
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,101 +13,181 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021B99F0 0x021B99F0 thumb ov093
- *   func_021B8C20 0x021B8C20 thumb ov093
- *   func_021B99E0  0x021B99E0  thumb  ov093
+ *   func_021BD2B4  0x021BD2B4  thumb  ov093
+ *   func_021BD34C  0x021BD34C  thumb  ov093
+ *   func_021D5BDC  0x021D5BDC  thumb  ov093
+ *   func_021C6110  0x021C6110  thumb  ov093
+ *   func_021BB920  0x021BB920  thumb  ov093
+ *   func_021D74E4  0x021D74E4  thumb  ov093
+ *   func_021BC220  0x021BC220  thumb  ov093
+ *   func_021BBFA8  0x021BBFA8  thumb  ov093
+ *   func_021BBF88 0x021BBF88 thumb ov093
+ *   func_021BBF98 0x021BBF98 thumb ov093
+ *   func_021BC610 0x021BC610 thumb ov093
+ *   func_021D5B68 0x021D5B68 thumb ov093
+ *   func_021BDC98 0x021BDC98 thumb ov093
+ *   func_021BD9D4 0x021BD9D4 thumb ov093
+ *   func_021B8588 0x021B8588 thumb ov093
+ *   func_021BCCE0 0x021BCCE0 thumb ov093
+ *   func_021BDA00 0x021BDA00 thumb ov093
+ *   func_021C5200 0x021C5200 thumb ov093
+ *   func_021BC4DC 0x021BC4DC thumb ov093
+ *   func_021C4614 0x021C4614 thumb ov093
+ *   func_021BC2B0 0x021BC2B0 thumb ov093
+ *   func_021C6158 0x021C6158 thumb ov093
  */
+#include "../../matched/include/Obj02777.h"
+
+struct UtilWork;
 typedef unsigned char u8;
 
 typedef unsigned int u32;
 
-typedef enum { FALSE = 0, TRUE = 1 } BOOL;
+typedef struct { u32 a; u32 kind : 4; u32 x : 3; u32 y : 3; u32 z : 1; u32 pad : 21; u32 c; u8 d, f; unsigned short pad2; } E;
 
-typedef unsigned short u16;
+typedef struct {
+    u8 *f0; void *f4; u8 pad8[4]; int *fC; u8 pad10[4]; u32 f14;
+    u8 pad18[0x3e0 - 0x18]; u8 g3e0[0xee]; u8 g4ce[0x77c - 0x4ce];
+    u8 init; u8 pad77d[5]; u8 n; u8 k; u8 pad784[0x5c]; E e[6];
+} S;
 
-typedef signed char s8;
+extern void func_021BD2B4(u8 *it, u8 **q);
+extern int func_021BD34C(u8 *it, u8 **q, u8 **x);
+extern int func_021D5BDC(struct UtilWork *p, u32 n);
+extern void func_021C6110(u8 *p, u8 *a, u32 n);
+extern void func_021BB920(u8 *p);
+extern void func_021D74E4(void);
+extern int func_021BC220(u8 *p, u8 *o);
+extern u8 func_021BBFA8(u8 *p, u8 k);
+extern int func_021BBF88(u8 *, int);
+extern int func_021BBF98(u8 *, int);
+extern u8 func_021BC610(S *p, int a, E *q, int n);
+extern int func_021D5B68(void *p);
+extern void func_021BDC98(u8 *p, u8 *a, u8 v);
+extern void func_021BD9D4(u8 *p, u8 i, u8 a, u8 b, int c);
+extern u32 func_021B8588(void **p);
+extern void func_021BCCE0(S *p, E *e);
+extern int func_021BDA00(u8 *p);
+extern int func_021C5200(u8 *p);
+extern int func_021BC4DC(u8 *p, u8 *out);
+extern void func_021C4614(u8 *p);
+extern int func_021BC2B0(u8 *p);
+extern void func_021C6158(u8 *p, u8 *a);
+void func_021BBCD4(u8 *p);
+void func_021BBD20(u8 *p);
+int func_021BBD2C(u8 *p, int a);
+void func_021BBD80(u8 *p);
+int func_021BBD8C(S *p, int a);
 
-typedef signed short s16;
 
-typedef signed int s32;
-
-struct Unk021EFD70 { u16 n0; volatile u16 n1; u8 b[6]; };
-
-extern u32 func_021B99F0(u32);
-extern u8 func_021B8C20(int, u32, u32);
-extern struct Unk021EFD70 *func_021B99E0(int i);
-int func_021B9A00(u32 x, u8 *out);
-int func_021B9A24(unsigned int a, unsigned int b);
-unsigned char func_021B9A40(unsigned int x);
-unsigned char func_021B9A50(unsigned int x);
-/* 021B9A5C cmp r0,#0; bne; movs r0,#1; else 0; zext8 */ u8 func_021B9A5C(u32 x);
-int func_021B9A6C(int a, u32 b);
-int func_021B9AB0(int x);
-int func_021B9AC8(int a);
-
-int func_021B9A00(u32 x, u8 *out)
+void func_021BBCD4(u8 *p)
 {
-    if (func_021B99F0(x) == 0) {
-        *out = func_021B8C20(2, x, (u8)(x >> 1));
-        return 1;
+    u32 it;
+    u8 *x;
+    u32 n;
+
+    func_021BD2B4((u8 *)&it, (u8 **)p);
+    if (func_021BD34C((u8 *)&it, (u8 **)p, &x) != 0) {
+        n = 12;
+        do {
+            if (func_021D5BDC((struct UtilWork *)x, n) != 0)
+                func_021C6110(p, x, n);
+        } while (func_021BD34C((u8 *)&it, (u8 **)p, &x) != 0);
     }
-    return 0;
-}
-
-int func_021B9A24(unsigned int a, unsigned int b)
-{
-    unsigned char v = func_021B9A40(a);
-    if (v == func_021B9A40(b)) return 1;
-    return 0;
-}
-
-unsigned char func_021B9A40(unsigned int x)
-{
-    BOOL result;
-    if (x < 12) result = FALSE;
-    else result = TRUE;
-    return result;
 }
 
 
-unsigned char func_021B9A50(unsigned int x)
+
+void func_021BBD20(u8 *p)
 {
-    return func_021B9A5C(func_021B9A40(x));
+    p[0x77c] = 0;
 }
 
 
-/* 021B9A5C  cmp r0,#0; bne; movs r0,#1; else 0; zext8 */
-/*
- * Leaf with no calls and no pool; 8 instructions, 16 bytes: cmp r0, #0; bne loc_021B9A64; movs r0, #1; b loc_021B9A66; movs r0, #0; lsls r0, r0, #0x18; lsrs r0, r0, #0x18; bx lr.
- */
-u8 func_021B9A5C(u32 x) { return x == 0; }
 
-
-int func_021B9A6C(int a, u32 b)
+int func_021BBD2C(u8 *p, int a)
 {
-    struct Unk021EFD70 *p = func_021B99E0(a);
+    int *q;
+
+    ((struct Obj02777 *)p)->f14 = 0;
+    q = *(int * *)&((struct Obj02777 *)p)->fC;
+    q[0] = 0;
+    q[1] = 0;
+    if (p[0x77c] == 0) {
+        func_021BB920((u8 *)(((struct Obj02777 *)p)->f0));
+        func_021D74E4();
+        p[0x77d] = 0;
+        p[0x77c] = 1;
+        if (func_021BC220(p, (u8 *)a) != 0) {
+            ((struct Obj02777 *)p)->f14 = 3;
+            return 3;
+        }
+    }
+    p[0x783] = func_021BBFA8(p, p[0x783]);
+    return ((struct Obj02777 *)p)->f14;
+}
+
+
+
+void func_021BBD80(u8 *p)
+{
+    p[0x77c] = 0;
+}
+
+
+
+int func_021BBD8C(S *p, int a)
+{
+    int *q;
     u32 i;
+    int saved;
+    int ret;
 
-    for (i = 0; i < p->n0; i++) {
-        if (b == p->b[i])
-            return 1;
+    p->f14 = 0;
+    q = p->fC;
+    q[0] = 0;
+    q[1] = 0;
+    if (p->init == 0) {
+        func_021BB920(p->f0);
+        func_021D74E4();
+        saved = func_021BBF88(p->g3e0, 0);
+        p->n = func_021BC610(p, a, p->e, 6);
+        p->k = 0;
+        for (i = 0; i < p->n; i++) {
+            if (p->e[i].kind == 3 && p->e[i].z == 0) {
+                if (func_021D5B68((void *)p->e[i].a) == 0) {
+                    func_021BDC98((u8 *)p, (u8 *)p->e[i].a, p->e[i].y);
+                    p->e[i].f = 1;
+                }
+            }
+        }
+        for (i = 0; i < p->n; i++) {
+            if (p->e[i].kind == 3 && p->e[i].z == 0) {
+                if (func_021D5B68((void *)p->e[i].a) != 0) {
+                    func_021BD9D4((u8 *)p, p->e[i].d, p->e[i].x, p->e[i].y, 1);
+                    p->e[i].f = 1;
+                }
+            }
+        }
+        if (func_021B8588(p->f4) == 3) {
+            for (i = 0; i < p->n; i++) {
+                if (p->e[i].kind == 6 && p->e[i].z == 0)
+                    func_021BCCE0(p, &p->e[i]);
+            }
+        }
+        p->init = 1;
     }
-    for (i = 0; i < p->n1; i++) {
-        if (b == *((u8 *)p + 7 + i))
-            return 1;
+    func_021BDA00((u8 *)p);
+    func_021C5200((u8 *)p);
+    func_021BC4DC((u8 *)p, p->g4ce);
+    ret = 0;
+    if (saved == func_021BBF98(p->g3e0, 0)) {
+        func_021C4614((u8 *)p);
+        return ret;
     }
-    return 0;
-}
-
-int func_021B9AB0(int x)
-{
-    switch (x) {
-    case 2: return 1;
-    case 3: return 2;
-    default: return 0;
+    if (func_021BC2B0((u8 *)p) == 0) {
+        func_021C6158((u8 *)p, p->g4ce);
+        return 2;
     }
-}
-
-int func_021B9AC8(int a) {
-    switch (a) { case 2: return 2; case 3: return 1; default: return 0; }
+    return 4;
 }

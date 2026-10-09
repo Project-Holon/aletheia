@@ -1,8 +1,8 @@
 /*
  * file:     clact_p06.c
  * unit:     yes
- * function: func_0204C788, func_0204C7A4, func_0204C804
- * address:  0x0204C788
+ * function: sub_0204D048, sub_0204D0C4
+ * address:  0x0204D048
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,118 +13,126 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sub_020307B0   0x020307B0  arm
- *   func_0204C8B8  0x0204C8B8  arm
- *   MI_CpuFill8    0x02082BCC  arm
+ *   sub_0204CFDC  0x0204CFDC  arm
+ *   sub_0204B59C  0x0204B59C  arm
+ *   sub_0204B5D4  0x0204B5D4  arm
+ *   sub_0204B5F4  0x0204B5F4  arm
+ *   sub_0204B570  0x0204B570  arm
+ *   gUnk_020A1394  0x020A1394  data
+ *   sub_0204D134   0x0204D134  arm
  */
-struct Xfer;
-typedef unsigned char u8;
+struct Actor;
+struct Req;
+typedef unsigned char  u8;
 
-struct Pool_0204C788 {
-    u8    pad_00[4];
-    void *ents;   /* 0x04 */
-};
+typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct Entry {
-    u32 unk_00;
-    u8  pad_04[0x0c];
+typedef signed short   s16;
+
+struct Obj {
+    u8 unk_00[1];
 };
 
-struct Table {
-    u8            pad_00[4];
-    struct Entry *ents;
-    u32           count;
+struct Req {
+    u8   pad_00[8];
+    s16  unk_08;
+    u8   pad_0a[2];
+    u32  unk_0c;
+    u32  unk_10;
+    u16  unk_14;
+    u16  unk_16;
 };
 
-struct Pool_0204C804 {
-    u8            pad_00[4];
-    struct Entry *ents;    /* 0x04 */
-    u32           count;   /* 0x08 */
+struct Sub {
+    u32 kind;
 };
 
-extern u32 sub_020307B0(void *p);
-extern void func_0204C8B8(struct Xfer *x);
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
+typedef signed int     s32;
+
+extern struct Obj *sub_0204CFDC(void *owner, const struct Req *r, void *c, u32 space,
+                                u16 e);
+extern void sub_0204B59C(struct Obj *o, s16 value, u32 axis);
+extern void sub_0204B5D4(struct Actor *actor, u32 value, u32 which);
+extern void sub_0204B5F4(struct Actor *actor, u16 value);
+extern void sub_0204B570(struct Actor *actor, u32 value);
+extern s32 sub_0204D134(const struct Req *r);
+struct Obj *sub_0204D048(void *owner, const struct Req *r, void *c, u32 space, u16 e);
+void sub_0204D0C4(struct Sub *s, void *c, u32 e);
 
 
 /*
- * Release the 0x10-byte entry array func_0204C718 allocates at +0x04 and NULL
- * the pointer.  The pointer has to survive the free call, so the object is
- * kept in r4 and the store is written after it.
+ * Build the object with sub_0204CFDC, then apply the six remaining fields
+ * of the request to it: two axes share sub_0204B59C and two more share
+ * sub_0204B5D4, selected by a trailing 0/1 argument, and the last two are
+ * plain halfwords.
+ *
+ * The fifth argument is forwarded untouched: `ldrh r4, [sp, #0x18]` reads
+ * this function's own stack argument (six pushed registers above it) and
+ * `str r4, [sp]` writes it straight back out as sub_0204CFDC's, with r0-r3
+ * never disturbed in between.
+ *
+ * The literals 0 and 1 are each materialised once, into r5 and r4, and
+ * reused across four call sites rather than rematerialised per call
+ * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md,
+ * the "an argument shares it" case).  The `s16` field at +8 is loaded twice
+ * with `ldrsh`, once per call, because the intervening call could have
+ * written it.
+ *
+ * Was parked at MATCH.  0x0204B59C is reached from exactly two `bl` sites
+ * image-wide, 0x0204D06C and 0x0204D080, and both of them are the two call
+ * sites above, so no outside `label` witness exists and no cut can create
+ * one: a split that removed this function would remove both sites at once.
+ * The route taken instead was to decompile 0x0204B59C itself, which is the
+ * first of three unlabelled leaf accessors now covered by
+ * src/matched/unit_0204B59C.c; both sites here resolve `matched` against
+ * that entry.  The C in this file is unchanged.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C788.c \
- *       --func func_0204C788 --addr 0x0204C788 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/sub_0204D048.c \
+ *       --func sub_0204D048 --addr 0x0204D048 --cc 1.1p1 --arm
  */
-void func_0204C788(struct Pool_0204C788 *p)
+struct Obj *sub_0204D048(void *owner, const struct Req *r, void *c, u32 space, u16 e)
 {
-    sub_020307B0(p->ents);
-    p->ents = 0;
+    struct Obj *o = sub_0204CFDC(owner, r, c, space, e);
+
+    sub_0204B59C(o, r->unk_08, 0);
+    sub_0204B59C(o, r->unk_08, 1);
+    sub_0204B5D4((struct Actor *)o, r->unk_0c, 0);
+    sub_0204B5D4((struct Actor *)o, r->unk_10, 1);
+    sub_0204B5F4((struct Actor *)o, r->unk_14);
+    sub_0204B570((struct Actor *)o, r->unk_16);
+    return o;
 }
 
-
-/*
- * Blocked at MATCH: all 96 concrete bytes are correct, but the PC24 at
- * +0x0034 (the call to func_0204C8B8) has no witness of any class.
- * 0x0204C8B8 has exactly one branch reference image wide and it is that
- * call, so no cut frees it; the unblock is a `matched` entry at 0x0204C8B8,
- * which src/pending/func_0204C8B8.c cannot supply, being itself byte-correct
- * but capped at MATCH by the handler table at 0x020A138C having no second
- * pool word anywhere in the image.
- *
- * Tear down every live entry of a 16-byte-record table: the record count is
- * at +0x08 and the array base at +0x04, and a record is live when its first
- * word is non-null.  Each live record is handed to func_0204C8B8 and then
- * zeroed.
- *
- * The array base is re-read from +0x04 on both sides of the func_0204C8B8
- * call, which is what fixes it as a field load rather than a cached local:
- * the callee may move the table.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0204C7A4.c \
- *       --func func_0204C7A4 --addr 0x0204C7A4 --cc 1.1p1 --arm
- */
-void func_0204C7A4(struct Table *t)
-{
-    u32 i;
-
-    for (i = 0; i < t->count; i++) {
-        if (t->ents[i].unk_00 != 0) {
-            func_0204C8B8((struct Xfer *)(&t->ents[i]));
-            MI_CpuFill8(&t->ents[i], 0, sizeof(struct Entry));
-        }
-    }
-}
+extern void (*const gUnk_020A1394[][3])(struct Sub *s, void *c, u32 e);
 
 
 /*
- * Find the first free 0x10-byte entry of a pool, free meaning a zero word at
- * +0x00.  Returns NULL when the pool is full.  A leaf: nothing here calls
- * anything, so both the entry array and the count are hoisted out of the loop
- * and the element address is only materialised on the arm that returns it
- * (`addeq r0, r2, r1, lsl #4`).
+ * Constructor for the 0x7c-byte sub-object embedded at +0x68 of the
+ * 0x0204Bxxx owner, and the counterpart of the destructor at 0x0204D104:
+ * derive the kind tag from the request with sub_0204D134, stamp it into
+ * word 0, then run row 6 of the handler table at 0x020A1394 with the object
+ * and the two forwarded arguments.
  *
- * The scaled register offset `ldr r0, [r2, r1, lsl #4]` is the subscript form
- * `p->ents[i].unk_00`; a walking cursor would have produced a post-indexed
- * load and an extra add
- * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
+ * The kind stays in ip across the table load and is stored only just before
+ * the `blx`, which is the ordinary effect of the store having no consumer:
+ * the index is needed for the table load either way, so the store sinks to
+ * the last position that still precedes the call.
+ *
+ * The table is row 6 of the one eight-by-three array based at 0x020A1394;
+ * see src/matched/func_0204D324.c for the row map and why the base rather
+ * than the row is the relocation's symbol.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C804.c \
- *       --func func_0204C804 --addr 0x0204C804 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/sub_0204D0C4.c \
+ *       --func sub_0204D0C4 --addr 0x0204D0C4 --cc 1.1p1 --arm
  */
-struct Entry *func_0204C804(struct Pool_0204C804 *p)
+void sub_0204D0C4(struct Sub *s, void *c, u32 e)
 {
-    u32 i;
+    u32 kind = sub_0204D134(c);
 
-    for (i = 0; i < p->count; i++) {
-        if (p->ents[i].unk_00 == 0) {
-            return &p->ents[i];
-        }
-    }
-
-    return 0;
+    s->kind = kind;
+    gUnk_020A1394[6][kind](s, c, e);
 }

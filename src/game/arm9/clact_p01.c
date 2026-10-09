@@ -1,7 +1,7 @@
 /*
  * file:     clact_p01.c
  * unit:     yes
- * function: sub_0204A48C, sub_0204A5AC, func_0204A600, func_0204A648, func_0204A698, sub_0204A6C8, func_0204A7A0, func_0204A8D4, func_0204A9D0, func_0204AA94, func_0204AB84, func_0204ABBC, func_0204ABF0, func_0204AC18, func_0204ACEC, sub_0204ADA4, sub_0204ADEC, sub_0204AEC0, sub_0204AF28, func_0204AFD8, func_0204B034, func_0204B084, func_0204B09C, func_0204B0C8, func_0204B0F4, func_0204B100, func_0204B1CC, func_0204B22C, func_0204B248, func_0204B258, func_0204B270, func_0204B294, func_0204B324, func_0204B3B4, func_0204B3DC, func_0204B3F4, func_0204B404, func_0204B454, func_0204B49C, func_0204B4EC, func_0204B528, func_0204B53C, func_0204B550, func_0204B560, sub_0204B570, sub_0204B59C, func_0204B5AC, sub_0204B5C0, func_0204B5D4, func_0204B5E4, func_0204B5F4, func_0204B5FC, func_0204B604, func_0204B658, func_0204B688, func_0204B6E4, func_0204B6F4, func_0204B714, func_0204B728, func_0204B764, func_0204B784, func_0204B7C8, func_0204B7F0, func_0204B7F8, func_0204B800, func_0204B838, func_0204B84C, func_0204B864, func_0204B878, func_0204B898, func_0204B8A0, func_0204B8C4, func_0204B8D4, func_0204B8F4, func_0204B908, func_0204B918, func_0204B92C, func_0204B944, func_0204B954, func_0204B95C, func_0204B974, func_0204B98C, func_0204B9A0, func_0204B9C4, func_0204BA00, func_0204BA10, func_0204BA20, func_0204BA38, func_0204BA7C, func_0204BAEC, func_0204BB04, func_0204BB20, func_0204BB38, func_0204BB54, func_0204BB8C, func_0204BBC8, func_0204BC40, func_0204BC94, func_0204BCD8, func_0204BCF4, func_0204BD18
+ * function: sub_0204A48C, sub_0204A5AC, func_0204A600, func_0204A648, func_0204A698, sub_0204A6C8, func_0204A7A0, func_0204A8D4, func_0204A9D0, func_0204AA94, func_0204AB84, func_0204ABBC, func_0204ABF0, func_0204AC18, func_0204ACEC, sub_0204ADA4, sub_0204ADEC, sub_0204AEC0, sub_0204AF28, func_0204AFD8, func_0204B034, func_0204B084, func_0204B09C, func_0204B0C8, func_0204B0F4, func_0204B100, func_0204B1CC, func_0204B22C, func_0204B248, func_0204B258, func_0204B270, func_0204B294, func_0204B324, func_0204B3B4, func_0204B3DC, func_0204B3F4, func_0204B404, func_0204B454, func_0204B49C, func_0204B4EC, func_0204B528, func_0204B53C, func_0204B550, func_0204B560, sub_0204B570, sub_0204B59C, func_0204B5AC, sub_0204B5C0, func_0204B5D4, func_0204B5E4, func_0204B5F4, func_0204B5FC, func_0204B604, func_0204B658, func_0204B688, func_0204B6E4, func_0204B6F4, func_0204B714, func_0204B728, func_0204B764, func_0204B784, func_0204B7C8, func_0204B7F0, func_0204B7F8, func_0204B800, func_0204B838, func_0204B84C, func_0204B864, func_0204B878, func_0204B898, func_0204B8A0, func_0204B8C4, func_0204B8D4, func_0204B8F4, func_0204B908, func_0204B918, func_0204B92C, func_0204B944, func_0204B954, func_0204B95C, func_0204B974, func_0204B98C, func_0204B9A0, func_0204B9C4, func_0204BA00, func_0204BA10, func_0204BA20, func_0204BA38, func_0204BA7C, func_0204BAEC, func_0204BB04, func_0204BB20, func_0204BB38, func_0204BB54, func_0204BB8C, func_0204BBC8, func_0204BC40, func_0204BC94, func_0204BCD8, func_0204BCF4, func_0204BD18, func_0204BD3C, func_0204BD64, func_0204BD7C, func_0204BD94, func_0204BE28
  * address:  0x0204A48C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,28 +10,20 @@
  * isa:      arm
  * status:   EXACT
  *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
  * symbols:
  *   g_02146A74     0x02146A74  data
  *   s_clact_c      0x020A7F74  data
  *   sub_02030734   0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_0204D7E0  0x0204D7E0  arm
- *   func_0204BC94  0x0204BC94  arm
- *   func_0204BA38  0x0204BA38  arm
  *   func_0204C660  0x0204C660  arm
- *   func_0204BAEC  0x0204BAEC  arm
- *   func_0204BB20  0x0204BB20  arm
- *   func_0204BCD8  0x0204BCD8  arm
- *   func_0204BE28  0x0204BE28  arm
  *   func_0204C6E4  0x0204C6E4  arm
  *   func_0204D8AC  0x0204D8AC  arm
  *   sub_020307B0   0x020307B0  arm
  *   lbl_02146A74  0x02146A74 data
- *   func_0204BB54 0x0204BB54 arm
- *   func_0204BB8C 0x0204BB8C arm
  *   func_02066998 0x02066998 arm
- *   func_0204BB04 0x0204BB04  arm
- *   func_0204BCF4 0x0204BCF4  arm
  *   func_0204C7A4 0x0204C7A4  arm
  *   unk_02146A74   0x02146A74  data
  *   func_0204D9D4  0x0204D9D4  arm
@@ -46,7 +38,6 @@
  *   func_020862F0   0x020862F0  arm
  *   func_0207E780   0x0207E780  arm
  *   func_0207E804   0x0207E804  arm
- *   func_0204AB84  0x0204AB84  arm
  *   func_02049250  0x02049250  arm
  *   func_0204DD08  0x0204DD08  arm
  *   func_0204DEE8  0x0204DEE8  arm
@@ -56,11 +47,6 @@
  *   func_0207E5D0  0x0207E5D0  arm
  *   func_0204E074  0x0204E074  arm
  *   func_0204CAE4  0x0204CAE4  arm
- *   sub_0204B270   0x0204B270  arm
- *   sub_0204B22C   0x0204B22C  arm
- *   func_0204BBC8  0x0204BBC8  arm
- *   func_0204BC40  0x0204BC40  arm
- *   sub_0204B3B4   0x0204B3B4  arm
  *   sub_0204CFA4   0x0204CFA4  arm
  *   sub_0204CFDC   0x0204CFDC  arm
  *   func_0204D048  0x0204D048  arm
@@ -68,17 +54,10 @@
  *   func_0204D104  0x0204D104  arm
  *   func_0204CF74  0x0204CF74  arm
  *   func_0204B528  0x0204B528  arm
- *   sub_0204B53C   0x0204B53C  arm
- *   sub_0204B550   0x0204B550  arm
- *   sub_0204B560   0x0204B560  arm
- *   sub_0204B59C  0x0204B59C  arm
  *   sub_0204B5AC  0x0204B5AC  arm
- *   sub_0204B5C0  0x0204B5C0  arm
  *   sub_0206380C  0x0206380C  arm
  *   func_0204C98C  0x0204C98C  arm
  *   func_0204D324  0x0204D324  arm
- *   func_0204B95C  0x0204B95C  arm
- *   sub_0204B878   0x0204B878  arm
  *   sub_0204B95C   0x0204B95C  arm
  *   sub_0204D4C4   0x0204D4C4  arm
  *   sub_0204D3C4   0x0204D3C4  arm
@@ -90,18 +69,24 @@
  *   func_0204D768  0x0204D768  arm
  *   func_0204D7C4  0x0204D7C4  arm
  *   g_020A7F3C     0x020A7F3C  data
- *   func_0204BD94  0x0204BD94  arm
- *   func_0204BB38  0x0204BB38  arm
- *   func_0204BD18  0x0204BD18  arm
  *   func_0204C944  0x0204C944  arm
  *   func_02063078  0x02063078  arm
- *   func_0204BD3C  0x0204BD3C  arm
- *   func_0204BD64  0x0204BD64  arm
- *   func_0204BD7C  0x0204BD7C  arm
+ *   func_0206343C  0x0206343C  arm
+ *   func_02063640  0x02063640  arm
+ *   func_02065AA8   0x02065AA8  arm
+ *   func_02030734   0x02030734  arm
+ *   func_0204BE84   0x0204BE84  arm
+ *   func_02065B64   0x02065B64  arm
  */
+#include "../../matched/include/Obj16080.h"
+#include "../../matched/include/Obj16081.h"
+#include "../../matched/include/Obj16082.h"
+#include "../../matched/include/Obj16083.h"
+#include "../../matched/include/Obj11428.h"
+
 struct Bank;
 struct Caps;
-struct Obj;
+struct Obj_0204A48C;
 struct Res;
 struct Pool;
 struct Table;
@@ -122,7 +107,7 @@ struct Obj0204D478;
 struct Rec;
 struct Cmd;
 struct Ring;
-
+struct NNSG2dOamManagerInstance;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
@@ -232,7 +217,7 @@ struct Sub {
     u32 bound;
 };
 
-struct Obj {
+struct Obj_0204A48C {
     struct Sub w[2];
 };
 
@@ -513,17 +498,19 @@ struct Clact {
     struct Rec_204BA38  rec[2];         /* 0x18 */
 };
 
-extern struct Sys *g_02146A74;
-extern const char s_clact_c[];
-extern const struct Templ g_020A1430;
-extern struct Clact g_020A7F3C;
+struct Obj_0204BD3C {
+    u8 pad_00[0x80];
+    u32 f80;
+    u8 pad_84[0x14];
+    u32 f98;
+    u32 f9c;
+};
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void  func_02082BCC(void *dst, int fill, u32 size);
 extern void func_0204D7E0(struct Res *res, u32 heapId, const struct Cfg *cfg, const struct Caps *caps);
 extern void func_0204C660(struct Pool *p, u8 n, u32 heapId);
-extern void func_0204BE28(int *p);
 extern void func_0204C6E4(struct Pool *p);
 extern void func_0204D8AC(struct Res *res);
 extern u32 sub_020307B0(void *p);
@@ -549,8 +536,7 @@ extern void func_0207E51C(void *dest, void *src, u32 size);
 extern void func_0207E5D0(void *dest, void *src, u32 size);
 extern s32 func_0204E074(struct Owner *pool, s32 idx, void *a, void *b);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_0204BD94(struct Obj_0204B034 *obj, u8 *src, int count, u32 heap);
-extern void func_0204BE38(struct Obj *obj, int on);
+extern void func_0204BE38(struct Obj_0204A48C *obj, int on);
 extern void func_0204CAE4(struct Actor *o);
 extern void sub_0204CFA4(struct Req *out, u16 i, u16 j, u32 c,
                          u32 a, u32 x, u32 y);
@@ -579,9 +565,12 @@ extern void         func_0204D768(struct Ctl *c, const struct Cmd *cmd);
 extern void         func_0204D7C4(struct Ctl *c);
 extern void func_0204C944(struct Ring *b);
 extern void func_02063078(void);
-extern void func_0204BD3C(char *p, int a, int b, int which);
-extern void func_0204BD64(struct Sub *s);
-extern void func_0204BD7C(struct Sub *s);
+extern unsigned int func_02063138(void *p, int a, int b, int which);
+extern void func_0206343C(struct NNSG2dOamManagerInstance *pMan, u32 bound);
+extern void func_02063640(struct NNSG2dOamManagerInstance *pMan);
+extern void func_02065AA8(u8 *o);
+extern void  func_0204BE84(void *dst, void *src);
+extern void func_02065B64(int p0, void *p1);
 void sub_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 void sub_0204A5AC(void);
 void func_0204A600(void);
@@ -604,6 +593,7 @@ int sub_0204AEF4(u32 idx, u32 alternate);
 s32 sub_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 void sub_0204AFD8(u32 i);
 struct Obj_0204B034 *func_0204B034(u8 *a0, u32 a1, u32 heap);
+asm void func_0204B084(void);
 void func_0204B09C(EntryTable *o, int idx, Vec16 *v);
 void sub_0204B0C8(EntryTable *owner, u32 index, Vec16 *out);
 void func_0204B0F4(struct Actor *a0, int a1);
@@ -680,10 +670,20 @@ void func_0204BB54(void);
 void func_0204BB8C(void);
 void func_0204BBC8(struct Bank *bank);
 void func_0204BC40(struct Bank *bank);
-void func_0204BC94(struct Obj *o, u32 base, u32 count, u32 base2, u8 count2);
-void func_0204BCD8(struct Obj *o);
-void func_0204BCF4(struct Obj *o);
-void func_0204BD18(struct Obj *o);
+void func_0204BC94(struct Obj_0204A48C *o, u32 base, u32 count, u32 base2, u8 count2);
+void func_0204BCD8(struct Obj_0204A48C *o);
+void func_0204BCF4(struct Obj_0204A48C *o);
+void func_0204BD18(struct Obj_0204A48C *o);
+void func_0204BD3C(char *p, int a, int b, int which);
+void func_0204BD64(struct Sub *s);
+void func_0204BD7C(struct Sub *s);
+void func_0204BD94(struct Obj_0204BD3C *obj, u8 *src, int count, u32 heap);
+void func_0204BE28(int *p);
+extern struct Sys *g_02146A74;
+extern const char s_clact_c[];
+extern const struct Templ g_020A1430;
+extern struct Clact g_020A7F3C;
+
 
 /*
  * Blocked at MATCH: all 288 concrete bytes are correct and seven of the ten
@@ -736,7 +736,7 @@ void sub_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId)
     dims[5] = cfg->unk_1a;
 
     func_0204D7E0((struct Res *)((u8 *)g_02146A74 + 0x104), heapId, (const struct Cfg *)arg, (const struct Caps *)dims);
-    func_0204BC94((struct Obj *)g_02146A74, cfg->unk_08, cfg->unk_09, cfg->unk_0a,
+    func_0204BC94((struct Obj_0204A48C *)g_02146A74, cfg->unk_08, cfg->unk_09, cfg->unk_0a,
                   cfg->unk_0b);
     func_0204BA38((u8 *)g_02146A74 + 0x40, (const s16 *)cfg, heapId);
     func_0204C660((struct Pool *)((u8 *)g_02146A74 + 0xe0), cfg->unk_0c, heapId);
@@ -748,6 +748,7 @@ void sub_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId)
     func_0204BAEC(1);
     func_0204BB20(1);
 }
+
 
 /*
  * Was blocked at MATCH pending func_0204D8AC (+0x003C), which was itself
@@ -779,13 +780,14 @@ void sub_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId)
 void sub_0204A5AC(void)
 {
     func_0204BAEC(0);
-    func_0204BCD8((struct Obj *)g_02146A74);
+    func_0204BCD8((struct Obj_0204A48C *)g_02146A74);
     func_0204BE28((int *)((u8 *)g_02146A74 + 0x40));
     func_0204C6E4((struct Pool *)((u8 *)g_02146A74 + 0xe0));
     func_0204D8AC((struct Res *)((u8 *)g_02146A74 + 0x104));
     sub_020307B0(g_02146A74);
     g_02146A74 = 0;
 }
+
 
 /*
  * note:     re-verified 2026-09-20: MATCH; see verify output
@@ -810,6 +812,7 @@ void func_0204A600(void)
     func_0204BAEC(1);
 }
 
+
 /*
  * The cell-actor manager's teardown pass, and the exact inverse of
  * src/pending/sub_0204A600.c: each guard re-reads the context pointer from
@@ -832,13 +835,14 @@ void func_0204A648(void)
     if (func_0204BB04() == 0)
         return;
 
-    func_0204BCF4((struct Obj *)g_02146A74);
+    func_0204BCF4((struct Obj_0204A48C *)g_02146A74);
 
     if (g_02146A74->unk_0ec != 0)
         func_0204C7A4((struct Table *)((char *)(u8 *)g_02146A74 + 0xe0));
 
     func_0204BB20(1);
 }
+
 
 /*
  * Cell-actor latch-only tick: latch off, flush the actor bank list, latch
@@ -853,6 +857,7 @@ void func_0204A698(void)
     func_0204BB54();
     func_0204BAEC(1);
 }
+
 
 /*
  * Claims the first entry of the display-object table (0x40-byte slots at
@@ -908,6 +913,7 @@ found:
     }
     return -1;
 }
+
 
 /*
  * Claims the first busy cell (bit 31 of +0x3c) of the singleton's table at
@@ -970,6 +976,7 @@ found:
     return -1;
 }
 
+
 /*
  * Retire one slot of the 0x40-byte table at +0x10c of the singleton behind
  * 0x02146A74.  The two eight-byte sub-objects at +0x2c and +0x34 are returned
@@ -1026,6 +1033,7 @@ void sub_0204A8D4(u32 i)
     g_02146A74->owner.slots[i].unk_3c_1 = 0;
 }
 
+
 void func_0204A9D0(int a, struct Sub0204A9D0 *b)
 {
     if (func_020637BC((const u32 *)((u32)g_02146A74->owner.slots + (a << 6)), 1) != 0) {
@@ -1041,6 +1049,7 @@ void func_0204A9D0(int a, struct Sub0204A9D0 *b)
         func_0207E804((void *)b->f14, p, b->f10);
     }
 }
+
 
 void func_0204AA94(int a, void *b, u32 c, int d, int e)
 {
@@ -1062,6 +1071,7 @@ void func_0204AA94(int a, void *b, u32 c, int d, int e)
     }
 }
 
+
 /*
  * Copy the 36-byte header of a 64-byte-stride record out of the actor
  * table hung off the manager's pointer member at +0x10c into the caller's
@@ -1074,6 +1084,7 @@ void func_0204AB84(u32 idx, struct Rec *dst)
 
     *dst = *src;
 }
+
 
 /*
  * Snapshot one actor record into a local 36-byte buffer and hand it to
@@ -1090,6 +1101,7 @@ int func_0204ABBC(u32 idx, u32 flag)
     func_0204AB84(idx, &buf);
     return func_020637B4((int *)(&buf), mode);
 }
+
 
 /*
  * The short-form entry point of sub_0204AC18: same call with the two
@@ -1111,6 +1123,7 @@ s32 sub_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g)
 {
     return sub_0204AC18(a, b, c, d, 0, 0, g);
 }
+
 
 /*
  *           the call inside this function, so `label` has no outside witness
@@ -1144,6 +1157,7 @@ found:
 
     return i;
 }
+
 
 /*
  * The clact.c record-claim scan: walk the ClRes cell table for a free slot
@@ -1200,6 +1214,7 @@ found:
     return (int)i;
 }
 
+
 /*
  * Reset one entry of the 0x18-byte table hanging off +0x110 of the
  * singleton at 0x02146A74: set the top bit of the word at +0x14 and clear
@@ -1227,6 +1242,7 @@ void sub_0204ADA4(u32 i)
     g_02146A74->owner.slots2[i].unk_14_31 = 1;
     g_02146A74->owner.slots2[i].unk_14_0 = 0;
 }
+
 
 /*
  * Flush both halves of one slot of the 0x18-byte-stride table at +0x110 of
@@ -1272,6 +1288,7 @@ void sub_0204ADEC(u32 idx, struct Dest *dest, u32 count, u32 size)
     }
 }
 
+
 /*
  * A getter and its one caller.  sub_0204AEC0 copies the 0x14-byte record
  * out of slot `idx` of the 0x18-byte-stride table at +0x110 of the
@@ -1290,6 +1307,7 @@ void sub_0204AEC0(u32 idx, struct Record *dest)
     *dest = g_02146A74->owner.slots2[idx].record;
 }
 
+
 int sub_0204AEF4(u32 idx, u32 alternate)
 {
     struct Record record;
@@ -1303,6 +1321,7 @@ int sub_0204AEF4(u32 idx, u32 alternate)
     sub_0204AEC0(idx, &record);
     return func_02063800((char *)(&record), selector);
 }
+
 
 /*
  * Claim the first live slot of the 0x14-byte entry pool that lives at
@@ -1366,6 +1385,7 @@ found:
     return idx;
 }
 
+
 /*
  * Tear down one entry of the 0x14-byte table hanging off +0x114 of the
  * singleton at 0x02146A74: free the two payload pointers at +0 and +4 if
@@ -1398,6 +1418,7 @@ void sub_0204AFD8(u32 i)
     s->unk_10 = 1;
 }
 
+
 /*
  * clact.c's 0xA0-byte cell-actor allocation helper: carve the record with the
  * three-argument allocator, hand it and the caller's three values to the
@@ -1417,9 +1438,10 @@ struct Obj_0204B034 *func_0204B034(u8 *a0, u32 a1, u32 heap)
 {
     struct Obj_0204B034 *p = (struct Obj_0204B034 *)func_02030734(heap, 0xa0, 0, s_clact_c, 0x633);
 
-    func_0204BD94(p, a0, a1, heap);
+    func_0204BD94((struct Obj_0204BD3C *)p, a0, a1, heap);
     return p;
 }
+
 
 asm void func_0204B084(void)
 {
@@ -1430,6 +1452,7 @@ asm void func_0204B084(void)
     bl func_020307B0
     ldmfd sp!, {r4, pc}
 }
+
 
 /*
  * Unlabelled arm9 leaf (the label at 0x0204B09C also spans the next leaf at
@@ -1444,6 +1467,7 @@ void func_0204B09C(EntryTable *o, int idx, Vec16 *v)
     e->x = x << 12;
     e->y = y << 12;
 }
+
 
 /*
  * EXACT*, not EXACT: the listing extent runs 12 bytes long because what
@@ -1469,10 +1493,12 @@ void sub_0204B0C8(EntryTable *owner, u32 index, Vec16 *out)
     out->y = item->y >> 12;
 }
 
+
 void func_0204B0F4(struct Actor *a0, int a1)
 {
-    func_0204BE38((struct Obj *)a0, a1);
+    func_0204BE38((struct Obj_0204A48C *)a0, a1);
 }
+
 
 /*
  * The cell-actor bank constructor.  The __FILE__ pointer is the same
@@ -1523,6 +1549,7 @@ struct Bank *sub_0204B100(int count, u8 flag, u32 heapId)
     return bank;
 }
 
+
 /*
  * The inverse of src/matched/sub_0204B100.c: quiesce the cell-actor bank,
  * tear down every live actor record, then free the record array and the bank
@@ -1554,6 +1581,7 @@ u32 sub_0204B1CC(struct Bank *bank)
     return sub_020307B0(bank);
 }
 
+
 /*
  * Three leaf accessors of clact.c's bank header, packed end to end with no
  * literal pool between them.  Only the first has a `func_` label in the
@@ -1583,16 +1611,19 @@ void sub_0204B22C(struct Bank *bank, u32 mode)
     bank->mode = mode;
 }
 
+
 u32 sub_0204B248(struct Bank *bank)
 {
     return bank->mode;
 }
+
 
 void sub_0204B258(struct Bank *bank, void *p)
 {
     bank->unk_08 = p;
     bank->source = 1;
 }
+
 
 /*
  * The companion of sub_0204B258 in src/matched/unit_0204B22C.c: point the
@@ -1609,6 +1640,7 @@ void sub_0204B270(struct Bank *bank)
     bank->unk_08 = (u8 *)g_02146A74 + 0x40;
     bank->source = 0;
 }
+
 
 /*
  * Build a 0x20-byte request on the stack out of three of the singleton's
@@ -1646,6 +1678,7 @@ struct Actor *sub_0204B294(void *owner, u32 i, u32 j, u32 k,
     return sub_0204CFDC(owner, position, &req, f, g);
 }
 
+
 /*
  * Same request-builder shape as sub_0204B294: a 0x20-byte request is staged
  * on the stack from three of the singleton's parallel tables (0x40-byte
@@ -1669,6 +1702,7 @@ struct Actor *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g)
     return func_0204D048((void *)owner, (const struct Req *)e, &req, f, g);
 }
 
+
 /*
  * Tear-down for the 0x0204Bxxx object: hand the handle at +8 and the owner
  * to func_0204CA30, run the embedded sub-object at +0x68 through
@@ -1690,6 +1724,7 @@ void sub_0204B3B4(struct Actor *p)
     func_0204D104((struct Dispatchable *)(&p->ctl));
     func_0204CAE4(p);
 }
+
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -1723,10 +1758,12 @@ void sub_0204B3DC(struct Actor *p, u32 v)
     p->unk_60_26 = v;
 }
 
+
 u32 sub_0204B3F4(struct Actor *p)
 {
     return p->unk_60_26;
 }
+
 
 void sub_0204B404(struct Actor *p, const struct Vec2 *delta, u32 which)
 {
@@ -1738,6 +1775,7 @@ void sub_0204B404(struct Actor *p, const struct Vec2 *delta, u32 which)
     dest.y = delta->y + pos.y;
     func_0204B528((struct Actor *)p, (const struct Pt *)(&dest));
 }
+
 
 /*
  * Read the actor's screen position back in the coordinate space named by
@@ -1762,6 +1800,7 @@ void sub_0204B454(struct Actor *actor, struct PtS *out, u16 space)
     out->x = out->x - origin.x;
     out->y = out->y - origin.y;
 }
+
 
 /*
  * The write side of src/matched/sub_0204B4EC.c: set one axis of the actor's
@@ -1790,6 +1829,7 @@ void sub_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis)
     sub_0204B550(actor, value, axis);
 }
 
+
 /*
  * The read side of src/matched/sub_0204B49C.c: one axis of the actor's
  * position, expressed in the coordinate space named by `space`.
@@ -1816,6 +1856,7 @@ s16 sub_0204B4EC(struct Actor *actor, u32 space, u32 axis)
     return v - o;
 }
 
+
 /*
  * Store the actor's screen position pair at +0x0c/+0x0e.  Copied field by
  * field rather than as a four-byte aggregate: a struct assignment of this
@@ -1833,6 +1874,7 @@ void sub_0204B528(struct Actor *actor, const struct Pt *src)
     actor->pos.y = src->y;
 }
 
+
 /*
  * The read side of src/matched/sub_0204B528.c: copy the actor's screen
  * position pair out of +0x0c/+0x0e, field by field.
@@ -1846,6 +1888,7 @@ void sub_0204B53C(const struct Actor *actor, struct Pt *out)
     out->x = actor->pos.x;
     out->y = actor->pos.y;
 }
+
 
 /*
  * Write one axis of the actor's screen position: axis 0 is x at +0x0c, any
@@ -1865,6 +1908,7 @@ void sub_0204B550(struct Actor *actor, signed short value, u32 axis)
         actor->pos.y = value;
     }
 }
+
 
 /*
  * The read side of src/matched/sub_0204B550.c: one axis of the actor's screen
@@ -1891,6 +1935,7 @@ s16 sub_0204B560(const struct Actor *actor, u32 axis)
     }
 }
 
+
 /*
  * Two more leaf accessors of the 0xE4-byte cell actor.  0x0204B588 saves no
  * lr and so carries no label in the listing
@@ -1916,11 +1961,13 @@ void sub_0204B570(struct Actor *actor, u32 value)
     actor->unk_60_18 = value;
 }
 
+
 void sub_0204B588(struct Actor *actor, const struct Pt *src)
 {
     actor->unk_10.x = src->x;
     actor->unk_10.y = src->y;
 }
+
 
 /*
  * Three leaf accessors on the display object, 56 bytes end to end with no
@@ -1954,6 +2001,7 @@ void sub_0204B59C(struct Actor *o, signed short v, u32 sel)
     }
 }
 
+
 /*
  * Unlabelled ARM leaf: copy two words from src into the pair at +0x14/+0x18
  * of dst.  `ldr r2,[r1]; ldr r1,[r1,#4]; str r2,[r0,#0x14]; str r1,[r0,#0x18]`.
@@ -1965,15 +2013,13 @@ void func_0204B5AC(struct Actor *dst, struct Pair *src)
     dst->p = v;
 }
 
+
 void sub_0204B5C0(const struct Actor *o, struct Pair *p)
 {
     p->x = o->p.x;
     p->y = o->p.y;
 }
 
-#include "../../matched/include/Obj16080.h"
-
-#include "../../matched/include/Obj16081.h"
 
 /*
  * Write and read one of the two u32 slots at +0x14 and +0x18 of the cell
@@ -1997,6 +2043,7 @@ void sub_0204B5D4(struct Actor_0204B5D4 *actor, u32 value, u32 which)
     }
 }
 
+
 u32 sub_0204B5E4(const struct Actor_0204B5D4 *actor, u32 which)
 {
     if (which == 0) {
@@ -2005,6 +2052,7 @@ u32 sub_0204B5E4(const struct Actor_0204B5D4 *actor, u32 which)
         return actor->unk_18;
     }
 }
+
 
 /*
  * The write and read of the u16 at +0x58 of the cell actor.  Neither saves lr,
@@ -2026,10 +2074,12 @@ void sub_0204B5F4(struct Actor_0204B5F4 *actor, u16 value)
     actor->unk_58 = value;
 }
 
+
 u16 sub_0204B5FC(const struct Actor_0204B5F4 *actor)
 {
     return actor->unk_58;
 }
+
 
 /*
  * The setter side of sub_0204B658 (src/matched/sub_0204B658.c): sets or
@@ -2051,6 +2101,7 @@ void func_0204B604(struct Actor_0204B604 *actor, u32 which, u32 set)
 
     actor->f_14 |= mask;
 }
+
 
 /*
  * The test side of sub_0204B604 in src/matched/unit_0204B5F4.c: is bit
@@ -2083,6 +2134,7 @@ u32 sub_0204B658(const struct Actor_0204B658 *actor, u32 which)
 
     return result;
 }
+
 
 /*
  * Two accessors of the cell actor's u32 flag word at +0x60.  0x0204B6E4 saves
@@ -2128,10 +2180,12 @@ void sub_0204B688(struct Actor_0204B688 *actor, u32 value)
     }
 }
 
+
 u32 sub_0204B6E4(const struct Actor_0204B688 *actor)
 {
     return actor->f_16;
 }
+
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -2165,10 +2219,12 @@ void sub_0204B6F4(struct Obj_0204B6F4 *o, u32 v, u32 flag)
     o->bits60.flag = flag;
 }
 
+
 u32 sub_0204B714(struct Obj_0204B6F4 *o)
 {
     return (unsigned char)o->bits60.fieldB;
 }
+
 
 /*
  * Install a transform into the object at +0x40: query the two axis slots
@@ -2203,13 +2259,16 @@ void sub_0204B728(struct Obj_0204B728 *o, const struct Xform *m)
     o->unk_40 = *m;
 }
 
+
 static inline void copy_inline1(const Struct36 *src, Struct36 *dst) {
     *dst = *src;
 }
 
+
 static inline void copy_inline2(Struct36 *dst, const Struct36 *src) {
     *dst = *src;
 }
+
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -2240,6 +2299,7 @@ void func_0204B764(const char *src, Struct20 *dst)
     *dst = *s;
 }
 
+
 void func_0204B784(char *dst, const Struct36 *src)
 {
     Struct36 s;
@@ -2249,11 +2309,13 @@ void func_0204B784(char *dst, const Struct36 *src)
     *(Struct36 *)(dst + 0x1c) = s;
 }
 
+
 void func_0204B7C8(const char *src, Struct36 *dst)
 {
     const Struct36 *s = (const Struct36 *)(src + 0x1c);
     *dst = *s;
 }
+
 
 /*
  * u16 field read at +0x5c.  Unlabelled in the current listings: the prologue
@@ -2266,6 +2328,7 @@ u16 func_0204B7F0(u8 *p)
     return ((struct Obj16080 *)p)->f5C;
 }
 
+
 /*
  * Same as func_0204B7F0 one field up, at +0x5e.  Unlabelled leaf for the
  * same reason.
@@ -2275,9 +2338,6 @@ u16 func_0204B7F8(u8 *p)
     return ((struct Obj16081 *)p)->f5E;
 }
 
-#include "../../matched/include/Obj16082.h"
-
-#include "../../matched/include/Obj16083.h"
 
 /*
  * Field at +0x60 is an 8-bit bitfield in a whole word: the original is a
@@ -2290,17 +2350,21 @@ void func_0204B800(struct Node *node, u32 val)
     func_0204C98C(node->unk_008, node);
 }
 
+
 int func_0204B838(int a0){ return (((unsigned int)((((struct Obj16082 *)((char *)(a0)))->f60 << 0x18)) >> 0x18) & 0xff); }
+
 
 void func_0204B84C(S *p, unsigned int v)
 {
     p->f60 = (p->f60 & ~0x30000) | ((v & 3) << 16);
 }
 
+
 u32 func_0204B864(u8 *a0)
 {
     return (u8)((((struct Obj16083 *)a0)->f60 << 14) >> 30);
 }
+
 
 /*
  * Stores a 16-bit value at +0x5a of the object, then runs the sub-object at
@@ -2325,6 +2389,7 @@ void sub_0204B878(struct Obj_204B800 *p, u16 value)
     func_0204D324((struct Obj0204D324 *)(&p->unk_68), value);
     func_0204B95C((struct Actor_0204B95C *)p);
 }
+
 
 /*
  * A whole translation unit range, matched as one byte range.
@@ -2362,6 +2427,7 @@ u16 sub_0204B898(struct Obj_0204B898 *p)
     return p->unk_5a;
 }
 
+
 void sub_0204B8A0(struct Obj_0204B898 *p, u16 v)
 {
     if (v == p->unk_5a) {
@@ -2370,6 +2436,7 @@ void sub_0204B8A0(struct Obj_0204B898 *p, u16 v)
     sub_0204B878((struct Obj_204B800 *)p, v);
     sub_0204B95C((struct Actor *)p);
 }
+
 
 /*
  * Forward the sub-object embedded at +0x68 of the 0x0204Bxxx object to
@@ -2389,6 +2456,7 @@ void sub_0204B8C4(struct Obj_0204B8C4 *p, u32 value)
 {
     sub_0204D3A0((struct Obj_0204B8C4 *)(&p->unk_68), value);
 }
+
 
 /*
  * Run sub_0204D4C4 over the sub-object embedded at +0x68 of the
@@ -2412,6 +2480,7 @@ void sub_0204B8D4(struct Obj_0204B8D4 *p, u32 arg)
     sub_0204D3C4((struct Obj_0204B8D4 *)(&p->unk_68), 0x1000);
 }
 
+
 /*
  * Read +0x10 of the record sub_0204D444 hands back for the sub-object
  * embedded at +0x68 of the 0x0204Bxxx object (see
@@ -2433,7 +2502,9 @@ u32 sub_0204B8F4(struct Obj_204B8F4 *p)
     return sub_0204D444((struct Obj_204B8F4 *)(&p->unk_68))->unk_10;
 }
 
+
 void func_0204B908(int a0, int a1){ func_0204D478((struct Obj0204D478 *)((int)(a0 + 0x68)), (int)a1); }
+
 
 /*
  * Hand the record sub_0204D444 returns for the sub-object at +0x68
@@ -2455,6 +2526,7 @@ u16 sub_0204B918(struct Obj_204B8F4 *p)
     return sub_02062F1C(sub_0204D444((struct Obj_204B8F4 *)(&p->unk_68)));
 }
 
+
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -2471,10 +2543,12 @@ void sub_0204B92C(struct Obj_204B92C *p, u32 v)
     p->unk_60_25 = v;
 }
 
+
 u32 sub_0204B944(struct Obj_204B92C *p)
 {
     return p->unk_60_25;
 }
+
 
 /*
  * A leaf setter for the word at +0x54 of the cell-actor record: two
@@ -2491,6 +2565,7 @@ void func_0204B954(struct Actor_0204B954 *a, u32 v)
 {
     a->unk_54 = v;
 }
+
 
 /*
  * Set the flag at +0x0c of the animation record func_0204D410 selects out of
@@ -2509,6 +2584,7 @@ void func_0204B95C(struct Actor_0204B95C *a)
     func_0204D410(&a->ctl)->flag = 1;
 }
 
+
 /*
  * Set the flag at +0x0c of the animation record func_0204D410 selects out of
  * the cell actor's +0x68 sub-object.  func_0204B95C next door is the same
@@ -2526,6 +2602,7 @@ void func_0204B974(struct Actor_0204B974 *a)
     func_0204D410(&a->ctl)->flag = 0;
 }
 
+
 /*
  * Read the u32 at +0x0c of the record func_0204D444 selects out of the cell
  * actor's +0x68 sub-object.  The pair func_0204B95C / func_0204B974 writes the
@@ -2539,6 +2616,7 @@ u32 func_0204B98C(struct Actor_0204B98C *a)
 {
     return func_0204D444(&a->ctl)->value;
 }
+
 
 /*
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at +0x001C
@@ -2560,6 +2638,7 @@ void func_0204B9A0(struct Actor *a)
     func_0204D410(&a->ctl)->flag = 1;
     func_0204D510(&a->ctl);
 }
+
 
 /*
  * Three functions, 0x0204B9C4 / 0x0204BA00 / 0x0204BA10.  Only the first is
@@ -2604,15 +2683,18 @@ void func_0204B9C4(struct Actor_204B9C4 *a, u32 v)
     }
 }
 
+
 void func_0204BA00(struct Actor_204B9C4 *a, const struct Cmd *cmd)
 {
     func_0204D768(&a->ctl, cmd);
 }
 
+
 void func_0204BA10(struct Actor_204B9C4 *a)
 {
     func_0204D7C4(&a->ctl);
 }
+
 
 /*
  * Store the logical negation of the argument into bit 0 of the cell actor's
@@ -2637,6 +2719,7 @@ void func_0204BA20(struct Actor_0204BA20 *a, u32 v)
         a->hidden = 0;
     }
 }
+
 
 /*
  * Copy two signed halfword pairs from the caller's array into clact.c's
@@ -2665,8 +2748,9 @@ void func_0204BA38(void *a, const s16 *src, u32 mode)
     g_020A7F3C.rec[1].x = src[2];
     g_020A7F3C.rec[1].y = src[3];
 
-    func_0204BD94(a, (u8 *)g_020A7F3C.rec, 2, mode);
+    func_0204BD94((struct Obj_0204BD3C *)a, (u8 *)g_020A7F3C.rec, 2, mode);
 }
+
 
 /*
  * Record the two VRAM base offsets of a cell-actor resource set in the
@@ -2699,6 +2783,7 @@ void func_0204BA7C(u32 set, u16 bias, u32 v)
     g_02146A74->unk_0f4 = v;
 }
 
+
 /*
  * Store a word at +0xf8 of the cell-actor singleton, silently doing nothing
  * before the system is constructed.  A leaf: the guarded store predicates to
@@ -2714,6 +2799,7 @@ void func_0204BAEC(u32 v)
         g_02146A74->unk_0f8 = v;
     }
 }
+
 
 /*
  * The reader for the word func_0204BAEC writes, returning 0 before the system
@@ -2735,6 +2821,7 @@ u32 func_0204BB04(void)
     }
 }
 
+
 /*
  * Store a word at +0xfc of the cell-actor singleton, silently doing nothing
  * before the system is constructed.  A leaf: the guarded store predicates to
@@ -2750,6 +2837,7 @@ void func_0204BB20(u32 v)
         g_02146A74->unk_0fc = v;
     }
 }
+
 
 /*
  * The reader for the word func_0204BB20 writes, returning 0 before the system
@@ -2770,6 +2858,7 @@ u32 func_0204BB38(void)
         return 0;
     }
 }
+
 
 /*
  * Drop the singleton's +0xfc latch: if it is set, release the two OAM
@@ -2795,9 +2884,10 @@ void func_0204BB54(void)
         return;
     }
 
-    func_0204BD18((struct Obj *)g_02146A74);
+    func_0204BD18((struct Obj_0204A48C *)g_02146A74);
     func_0204BB20(0);
 }
+
 
 /*
  * Blocked at MATCH: all 60 concrete bytes are correct, but the PC24 at +0x001C
@@ -2834,6 +2924,7 @@ void func_0204BB8C(void)
         cur = cur->next;
     } while (cur != g_02146A74->head);
 }
+
 
 /*
  * Link a cell-actor bank into the singleton's priority-ordered ring at
@@ -2889,6 +2980,7 @@ found:
     prev->next = bank;
 }
 
+
 /*
  * The inverse of src/matched/func_0204BBC8.c: unlink a cell-actor bank from
  * the singleton's ring at +0x100 and NULL both of its own links.  When the
@@ -2925,6 +3017,7 @@ void func_0204BC40(struct Bank *bank)
     bank->prev = 0;
 }
 
+
 /*
  * Blocked at MATCH: all 68 concrete bytes are correct and the call to
  * func_02063078 resolves off the second call site in
@@ -2950,12 +3043,13 @@ void func_0204BC40(struct Bank *bank)
  *   python tools/match.py one --src src/pending/func_0204BC94.c \
  *       --func func_0204BC94 --addr 0x0204BC94 --cc 1.1p1 --arm
  */
-void func_0204BC94(struct Obj *o, u32 base, u32 count, u32 base2, u8 count2)
+void func_0204BC94(struct Obj_0204A48C *o, u32 base, u32 count, u32 base2, u8 count2)
 {
     func_02063078();
     func_0204BD3C((char *)(&o->w[0]), base, count, 0);
     func_0204BD3C((char *)(&o->w[1]), base2, count2, 1);
 }
+
 
 /*
  * Release both of a cell actor's 0x20-byte OAM sub-records and then flush the
@@ -2970,12 +3064,13 @@ void func_0204BC94(struct Obj *o, u32 base, u32 count, u32 base2, u8 count2)
  *   python tools/match.py one --src src/matched/func_0204BCD8.c \
  *       --func func_0204BCD8 --addr 0x0204BCD8 --cc 1.1p1 --arm
  */
-void func_0204BCD8(struct Obj *o)
+void func_0204BCD8(struct Obj_0204A48C *o)
 {
-    func_0204BD18(o);
-    func_0204BCF4(o);
+    func_0204BD18((struct Obj_0204A48C *)o);
+    func_0204BCF4((struct Obj_0204A48C *)o);
     func_02063078();
 }
+
 
 /*
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at
@@ -2987,7 +3082,7 @@ void func_0204BCD8(struct Obj *o)
  * Run func_0204BD64 over both of a cell actor's 0x20-byte OAM sub-records.
  * func_0204BD18 next door is the same loop against func_0204BD7C.
  */
-void func_0204BCF4(struct Obj *o)
+void func_0204BCF4(struct Obj_0204A48C *o)
 {
     int i;
 
@@ -2995,6 +3090,7 @@ void func_0204BCF4(struct Obj *o)
         func_0204BD64(&o->w[i]);
     }
 }
+
 
 /*
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at
@@ -3004,7 +3100,7 @@ void func_0204BCF4(struct Obj *o)
  *
  * Run func_0204BD7C over both of a cell actor's 0x20-byte OAM sub-records.
  */
-void func_0204BD18(struct Obj *o)
+void func_0204BD18(struct Obj_0204A48C *o)
 {
     int i;
 
@@ -3012,3 +3108,92 @@ void func_0204BD18(struct Obj *o)
         func_0204BD7C(&o->w[i]);
     }
 }
+
+
+void func_0204BD3C(char *p, int a, int b, int which)
+{
+    if (b == 0) {
+        ((struct Obj11428 *)p)->f1C = 0;
+        return;
+    }
+    func_02063138(p, a, b, which);
+    ((struct Obj11428 *)p)->f1C = 1;
+}
+
+
+
+/*
+ * Blocked at MATCH: all 24 concrete bytes are correct, but the PC24 at +0x0010
+ * (the call to func_0206343C) has no witness of any class.  0x0206343C has
+ * exactly one branch reference image wide and it is that call, so no cut frees
+ * it; the only unblock is a `matched` entry at 0x0206343C, a 508-byte function
+ * in pkt_02063078, claimed by lane-C and far outside this lane.
+ *
+ * Release one bound 0x20-byte OAM sub-record of a cell actor.  The "bound"
+ * flag at +0x1c is the same one func_0204BD3C sets, and an unbound record is
+ * an early return predicated onto the compare (`popeq`).
+ */
+void func_0204BD64(struct Sub *s)
+{
+    if (s->bound == 0) {
+        return;
+    }
+
+    func_0206343C((struct NNSG2dOamManagerInstance *)s, s->bound);
+}
+
+
+
+/*
+ * Blocked at MATCH: all 24 concrete bytes are correct, but the PC24 at +0x0010
+ * (the call to func_02063640) has no witness of any class.  0x02063640 has
+ * exactly one branch reference image wide and it is that call; the only unblock
+ * is a `matched` entry at 0x02063640, a 316-byte function in pkt_02063640,
+ * claimed by lane-C.
+ *
+ * Release one bound 0x20-byte OAM sub-record of a cell actor.  The "bound"
+ * flag at +0x1c is the same one func_0204BD3C sets, and an unbound record is
+ * an early return predicated onto the compare (`popeq`).  The r1 read at the
+ * call is a leftover, not an argument: 0x02063640 overwrites r1 at +0x1C with
+ * `ldrh r1, [r5, #8]` before any use (docs/notes/func_02063640.c.txt).
+ */
+void func_0204BD7C(struct Sub *s)
+{
+    if (s->bound == 0) {
+        return;
+    }
+
+    func_02063640((struct NNSG2dOamManagerInstance *)s);
+}
+
+
+
+/*
+ *           this body (the tool prints "no witness outside 0204BD94..0204BE2C");
+ *           func_0204BE84 lives in pkt_0204BE84, which is not this lane's.
+ *
+ * Byte-identical at 148 bytes; only the two PC24 call fields at +0x14 and
+ * +0x68 stay wildcarded.  The 0x020A7F74 pool word is ABS32 into the string
+ * area and resolves `literal`, and func_02065B64 resolves `matched`.
+ *
+ * Spellings that mattered: `for (i = 0; i < count; i++)` with an unsigned `i`
+ * and a signed `count` is what gives the single `popls` loop guard and the
+ * `blo` back-edge.  Adding an explicit `if (count <= 0) return;` in front of
+ * the loop emits BOTH `pople` and `popls` and costs four bytes of layout.
+ */
+void func_0204BD94(struct Obj_0204BD3C *obj, u8 *src, int count, u32 heap)
+{
+    u32 i;
+
+    func_02065AA8((u8 *)obj);
+    obj->f80 = 1;
+    obj->f98 = (u32)func_02030734(heap, count * 0x48, 0, s_clact_c, 0xfc7);
+    obj->f9c = count;
+    for (i = 0; i < count; i++) {
+        func_0204BE84((void *)(obj->f98 + i * 0x48), src + i * 0x10);
+        func_02065B64((int)obj, (void *)(obj->f98 + i * 0x48));
+    }
+}
+
+
+void func_0204BE28(int *p){ func_020307B0((void *)p[0x26]); }

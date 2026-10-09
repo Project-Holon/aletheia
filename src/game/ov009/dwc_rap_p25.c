@@ -1,8 +1,8 @@
 /*
  * file:     dwc_rap_p25.c
  * unit:     yes
- * function: func_02157048, func_021570B8
- * address:  0x02157048
+ * function: func_02156B70, func_02156B8C
+ * address:  0x02156B70
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,69 +13,48 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   d_021A8268  0x021A8268  data  ov009  a4
- *   d_021A1C78  0x021A1C78  data  ov009  a1
- *   d_021A1C7C  0x021A1C7C  data  ov009  a1
- *   func_02034714  0x02034714  arm
- *   func_02030734  0x02030734  arm
- *   func_02060C5C  0x02060C5C  arm
- *   func_02156F14  0x02156F14  thumb  ov009
- *   func_02060C94  0x02060C94  arm
- *   func_020307B0  0x020307B0  arm
+ *   g_021A8264  0x021A8264  data
  */
-#include "../../matched/include/G_Obj.h"
+#include "../../matched/include/G__anon_Work.h"
+#include "../../matched/include/Obj18652.h"
 
-typedef unsigned int u32;
+typedef signed short s16;
+
+typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-typedef struct {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u32 fC;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1C;
-    u16 f20;
-} Obj;
+typedef unsigned int u32;
 
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_02030734(u32 heap, u32 size, int align, const char *file, u16 line);
-extern void *func_02060C5C(void *start, u32 size, u32 attr);
-extern void func_02156F14(void);
-extern void func_02060C94(void *heap);
-extern u32 func_020307B0(void *p);
-void func_02157048(u32 a, u32 b);
-void func_021570B8(void);
-extern Obj *d_021A8268;
-extern char d_021A1C78[];
-extern char d_021A1C7C[];
+s16 func_02156B70(void);
+int func_02156B8C(void);
+extern struct _anon_Work *g_021A8264;
 
 
-void func_02157048(u32 a, u32 b)
+/*
+ * Reads the signed halfword at +0x782 of the ov009 work block held in the
+ * bss pointer at 0x021A8264, or 0 when no block is allocated.  A leaf with
+ * no lr-saving prologue whose only caller is in arm9 (sub_0200F698), so
+ * the listing emits it as data words.
+ */
+s16 func_02156B70(void)
 {
-    if (d_021A8268 != 0) {
-        func_02034714(d_021A1C78, 0, d_021A1C78);
-    }
-    d_021A8268 = (Obj *)func_02030734(0, 0x24, 1, d_021A1C7C, 0x14C);
-    d_021A8268->f4 = (u32)func_02030734(a, b - 0x80, 0, d_021A1C7C, 0x14D);
-    d_021A8268->f0 = (u32)func_02060C5C((void *)((d_021A8268->f4 + 0x1f) & ~0x1f), b - 0xc0, 0);
-    d_021A8268->f20 = 0;
+    if (g_021A8264 != 0)
+        return g_021A8264->val;
+    return 0;
 }
 
 
-void func_021570B8(void)
+/*
+ * Recursive MATCH unblocker: callee of func_021BF050 (ov099) +0002. Coherent
+ * Thumb code only in ov009 (ov010 holds the tail of another function), so the
+ * ov009 shard makes that site attest as `matched`.
+ */
+int func_02156B8C(void)
 {
-    if (d_021A8268 == 0) {
-        func_02034714(d_021A1C78, 0, d_021A1C78);
-    }
-    if (d_021A8268->f1C == 1 || d_021A8268->fC != 0) {
-        func_02156F14();
-    }
-    func_02060C94((void *)d_021A8268->f0);
-    func_020307B0((void *)d_021A8268->f4);
-    func_020307B0(d_021A8268);
-    d_021A8268 = 0;
+    int *p = (int *)g_021A8264;
+
+    if (p != 0)
+        return ((struct Obj18652 *)p)->f774;
+    return 0;
 }

@@ -17,26 +17,12 @@
  *   func_021BA87C 0x021BA87C arm ov114
  *   func_021BEF08  0x021BEF08  arm  ov114
  */
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fc;
-    int f10;
-    int f14;
-    int f18;
-    int f1c;
-    int f20;
-} BgnEnd;
-
-typedef unsigned char  u8;
-
-typedef unsigned int u32;
+#include "nhttp_types.h"
 
 extern void func_021BA87C(u8 *p, int v);
 extern void func_021BA874(u8 *p, int v);
 extern u8 *func_021BEF08(void);
-void func_021BA7DC(BgnEnd *info_p);
+void func_021BA7DC(NHTTPBgnEndInfo *info_p);
 int func_021BA820(int a, int b);
 void func_021BA850(int a);
 
@@ -44,17 +30,17 @@ void func_021BA850(int a);
 /*
  * sdk:      NHTTPi_InitBgnEndInfo (libnhttp.TWL.HYB.a(nhttp_bgnend.o))
  */
-void func_021BA7DC(BgnEnd *info_p)
+void func_021BA7DC(NHTTPBgnEndInfo *info_p)
 {
-    info_p->f0 = 0;
-    info_p->f4 = 0;
-    info_p->f8 = 0;
-    info_p->fc = -1;
+    info_p->alloc = 0;
+    info_p->free = 0;
+    info_p->isOpened = 0;
+    info_p->socket = -1;
     func_021BA87C((u8 *)info_p, 0);
     func_021BA874((u8 *)info_p, 0);
-    info_p->f18 = 0;
-    info_p->f1c = 0;
-    info_p->f20 = 0;
+    info_p->isThreadEnd = 0;
+    info_p->commThreadStack = 0;
+    info_p->forDebugCallback = 0;
 }
 
 

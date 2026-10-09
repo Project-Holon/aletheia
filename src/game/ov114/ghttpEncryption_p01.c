@@ -21,50 +21,33 @@
  *   ghiEncryptorSslCleanupFunc  0x021C1C98 arm ov114
  *   ghiEncryptorSslEncryptFunc  0x021C1C88 arm ov114
  *   ghiEncryptorSslDecryptFunc  0x021C1C90 arm ov114
- *   d_021CE758    0x021CE758  data  a4
- *   d_021CE75C    0x021CE75C  data  a4
- *   d_021CE7B0    0x021CE7B0  data  a4
+ *   g_021CE758    0x021CE758  data  a4
+ *   g_021CE75C    0x021CE75C  data  a4
+ *   g_021CE7B0    0x021CE7B0  data  a4
  *   d_021CE6AE    0x021CE6AE  data  a1
  *   func_020948E0 0x020948E0  arm
  *   func_021C137C 0x021C137C  arm
  *   func_0217D254 0x0217D254  arm
  */
-typedef struct GHIConnection {
-    char pad0[0x14];
-    char *URL;
-    char pad1[0x17C];
-    int encryptorInited;
-    int encryptorEngine;
-    int f19c;
-    int f1a0;
-    int f1a4;
-    int f1a8;
-    int f1ac;
-    int f1b0;
-    int (*initFunc)();
-    int (*cleanupFunc)();
-    int (*startFunc)();
-    int (*encryptFunc)();
-    int (*decryptFunc)();
-    int f1c8;
-} GHIConnection;
+#include "ghttp_types.h"
+
 
 extern GHIConnection *ghiRequestToConnection(int request);
 extern int strncmp(const char *a, const char *b, unsigned int n);
-extern int ghiEncryptorSslInitFunc();
-extern int ghiEncryptorSslStartFunc();
-extern int ghiEncryptorSslCleanupFunc();
-extern int ghiEncryptorSslEncryptFunc();
-extern int ghiEncryptorSslDecryptFunc();
+extern int ghiEncryptorSslInitFunc(GHIConnection *connection, GHIEncryptor *encryptor);
+extern int ghiEncryptorSslStartFunc(GHIConnection *connection, GHIEncryptor *encryptor);
+extern void ghiEncryptorSslCleanupFunc(GHIConnection *connection, void *encryptor);
+extern int ghiEncryptorSslEncryptFunc(GHIConnection *connection, void *encryptor, const char *plainText, int plainTextLen, char *cipherText, int *cipherTextLen);
+extern int ghiEncryptorSslDecryptFunc(GHIConnection *connection, void *encryptor, char *readPos, int *readLen, char *writePos, int *writeLen);
 extern int func_020948E0(const char *s1, const char *s2);
 extern int func_021C137C(char *url, void *theRootCAList);
-extern void func_0217D254(int, int, int, void *, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 int func_021C109C(int request, int engine);
 int func_021C1184(int ctx, int arg);
 extern char g_021CE74C[];
-extern char d_021CE758[];
-extern char d_021CE75C[];
-extern char d_021CE7B0[];
+extern char g_021CE758[];
+extern char g_021CE75C[];
+extern char g_021CE7B0[];
 extern char d_021CE6AE[];
 
 
@@ -82,34 +65,34 @@ int func_021C109C(int request, int engine)
         return 0;
     if (engine == 5)
         engine = 4;
-    if (connection->encryptorEngine == engine)
+    if (connection->encryptor.engine == engine)
         return 1;
-    if (connection->encryptorInited != 0 && connection->encryptorEngine != engine)
+    if (connection->encryptor.mInterface != 0 && connection->encryptor.engine != engine)
         return 0;
     if (engine == 0)
     {
         if (strncmp(connection->URL, g_021CE74C, 8) == 0)
             return 0;
     }
-    connection->encryptorEngine = engine;
+    connection->encryptor.engine = engine;
     if (engine == 0)
     {
-        connection->encryptorInited = 0;
+        connection->encryptor.mInterface = 0;
         return 1;
     }
-    connection->encryptorInited = 0;
-    connection->initFunc = ghiEncryptorSslInitFunc;
-    connection->startFunc = ghiEncryptorSslStartFunc;
-    connection->cleanupFunc = ghiEncryptorSslCleanupFunc;
-    connection->encryptFunc = ghiEncryptorSslEncryptFunc;
-    connection->decryptFunc = ghiEncryptorSslDecryptFunc;
-    connection->f19c = 0;
-    connection->f1a0 = 0;
-    connection->f1a4 = 0;
-    connection->f1a8 = 1;
-    connection->f1ac = 0;
-    connection->f1b0 = 0;
-    connection->f1c8 = 1;
+    connection->encryptor.mInterface = 0;
+    connection->encryptor.initFunc = ghiEncryptorSslInitFunc;
+    connection->encryptor.startFunc = ghiEncryptorSslStartFunc;
+    connection->encryptor.cleanupFunc = ghiEncryptorSslCleanupFunc;
+    connection->encryptor.encryptFunc = ghiEncryptorSslEncryptFunc;
+    connection->encryptor.decryptFunc = ghiEncryptorSslDecryptFunc;
+    connection->encryptor.field_08 = 0;
+    connection->encryptor.initialized = 0;
+    connection->encryptor.sessionEstablished = 0;
+    connection->encryptor.encryptOnBuffer = 1;
+    connection->encryptor.encryptOnSend = 0;
+    connection->encryptor.handshaking = 0;
+    connection->handleStatus = 1;
     return 1;
 }
 
@@ -117,10 +100,10 @@ int func_021C109C(int request, int engine)
 int func_021C1184(int ctx, int arg)
 {
     if (arg != 0 && ctx != 0) {
-        if (func_020948E0((const char *)ctx, d_021CE758) != 0)
+        if (func_020948E0((const char *)ctx, g_021CE758) != 0)
             goto done;
     }
-    func_0217D254(8, 4, 1, d_021CE75C, d_021CE7B0, d_021CE6AE, 0x74, ctx, arg);
+    func_0217D254(8, (char *)4, 1, g_021CE75C, g_021CE7B0, d_021CE6AE, 0x74, ctx, arg);
     return 0;
 done:
     return func_021C137C((char *)ctx, (void *)arg);

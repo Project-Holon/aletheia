@@ -1,31 +1,7 @@
-# unit_02199D1C.c (ov009)
+# unit_02199D1C (ov009)
 
-Translation unit 02199D1C..0219AEB4, 13 functions, confidence proven (tools/tuboundary.py).
+Round 4 (lane r4_ov03): 7 parts -> 2. Canonical _NATNegotiator (size 0x54) and NatnegGlobals (0x021AE698) applied; every part verifies EXACT.
 
-The member files below each match on their own. Merging them into one
-`unit_02199D1C.c` is blocked by:
+Parts: unit_02199D1C_p01.c (func_02199D1C .. func_0219A7AC), unit_02199D1C_p02.c (func_0219A968 .. func_0219AB8C).
 
-- ov009_func_02199D1C.c..ov009_func_0219AB8C.c: global g_021AE698 declared two ways (src/matched/ov_sdk/ov009_func_0219A4A4.c); prototype of gsDebugFormat differs between members (src/matched/ov_sdk/ov009_func_0219A52C.c); prototype of func_021994F
-- ov009_func_02199D1C.c..ov009_func_0219A054.c: c99=CCERR: line 109: struct/union/enum/class tag '_NATNegotiator' redefined | line 120: struct/union/enum/class tag '_NATNegotiator' redefined | line 140: identifier 'NATNegotiator' redeclared nolang=
-- ov009_func_02199FB4.c..ov009_func_0219A054.c: c99=CCERR: line 71: struct/union/enum/class tag '_NATNegotiator' redefined nolang=CCERR: line 71: struct/union/enum/class tag '_NATNegotiator' redefined
-- ov009_func_0219A4A4.c..ov009_func_0219AB8C.c: prototype of func_021994F0 differs between members (src/matched/ov_sdk/ov009_func_0219A7AC.c); prototype of func_0217D254 differs between members (src/matched/ov_sdk/ov009_func_0219AB8C.c)
-- ov009_func_0219A4A4.c..ov009_func_0219A620.c: c99=CCERR: line 110: identifier 'NATNegotiator' redeclared | line 110: was declared as: 'struct NATNegotiator' | line 110: now declared as: 'struct _NATNegotiator' nolang=CCERR: line 110: identifier '
-- ov009_func_0219A52C.c..ov009_func_0219A620.c: c99=CCERR: line 96: identifier 'NATNegotiator' redeclared | line 96: was declared as: 'struct NATNegotiator' | line 96: now declared as: 'struct _NATNegotiator' nolang=CCERR: line 96: identifier 'NATN
-- ov009_func_0219A7AC.c..ov009_func_0219AB8C.c: prototype of func_0217D254 differs between members (src/matched/ov_sdk/ov009_func_0219AB8C.c)
-- ov009_func_0219A7AC.c..ov009_func_0219A968.c: c99=CCERR: line 68: struct/union/enum/class tag '_NATNegotiator' redefined | line 79: identifier 'NATNegotiator' redeclared | line 79: was declared as: 'struct _NATNegotiator' nolang=CCERR: line 68: s
-- ov009_func_0219AA08.c..ov009_func_0219AB8C.c: c99=CCERR: line 35: the file '../arm9_sdk/libc/string.h' cannot be opened | line 104: identifier 'NATNegotiator' redeclared | line 104: was declared as: 'struct NATNegotiator' nolang=CCERR: line 35: t
-
-Members, in address order:
-
-- `ov009_func_02199FB4.c`
-- `ov009_func_0219A4A4.c`
-- `ov009_func_0219A52C.c`
-- `ov009_func_0219A620.c`
-- `ov009_func_0219A7AC.c`
-- `ov009_func_0219A968.c`
-- `ov009_func_0219AA08.c`
-- `ov009_func_0219AB8C.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_02199D1C.c` again.
+Blocker p01|p02: struct _NatNegPacket is defined with different member subsets (offset table in unit_02199394/MERGE.md). p02 also keeps per-part renamed NatNegPacket_02199D1C and SOCSockAddrIn_02199D1C copies (temporary renames, to be replaced by the canonical packet block).

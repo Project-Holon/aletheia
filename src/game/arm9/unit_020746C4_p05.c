@@ -1,10 +1,10 @@
 /*
  * file:     unit_020746C4_p05.c
  * unit:     yes
- * function: func_02074C70, func_02074CD0
- * address:  0x02074C70
+ * function: func_02074894, func_020748E0
+ * address:  0x02074894
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: dsi/../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
@@ -13,108 +13,117 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020743EC  0x020743EC  arm
- *   func_0207466C  0x0207466C  arm
- *   func_02075014  0x02075014  arm
- *   func_02074450  0x02074450  arm
- *   func_02074E10  0x02074E10  arm
- *   func_02075404  0x02075404  arm
- *   func_0208A2BC  0x0208A2BC  arm
+ *   func_02061184  0x02061184  arm
+ *   func_020749F8  0x020749F8  arm
+ *   func_020611D4  0x020611D4  arm
+ *   func_02074770  0x02074770  arm
+ *   func_0206062C  0x0206062C  arm
+ *   func_020605B4  0x020605B4  arm
+ *   func_02074A34  0x02074A34  arm
  */
-#include "../../matched/include/Obj11687.h"
 
-typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed   int   s32;
 
-extern void *func_02074388(int index);
-extern u32 func_02074FA8(u32, u32, u32);
-extern u32 func_0207466C(u32);
-u32 func_02074C70(u32 a, u32 b, u32 c, u32 d, u32 *out) {
-    void *p = func_02074388(a);
-    u32 r;
-    if (p == 0) return 3;
-    if (b & 8) {
-        r = func_02074FA8(((struct Obj11687 *)p)->f0, c, d);
-        if (r == 0) return 7;
-    } else {
-        r = func_0207466C(((struct Obj11687 *)p)->f0);
-    }
-    if (out != 0) *out = r;
-    return 0;
-}
+typedef struct S {
+    u32  f00;        /* 0x00 -- owner/key word */
+    char pad_04[8];
+    u16  f0c;        /* 0x0c -- slot count */
+} S;
 
-typedef struct { u32 f0; u16 slot[4]; } Grp;
-
-union Hdr {
-    unsigned w;
-    struct { unsigned v : 24; unsigned flag : 1; unsigned rest : 7; } b;
-};
-
-extern void *func_020743EC(int index);
-extern u32   func_0207466C(u32 a);
-extern u32   func_02075014(u32 a, u32 b, u32 c);
-extern void *func_02074450(int index);
-extern u32   func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out);
-extern u32   func_02075404(u32 a, u32 b, u32 c, u32 d, u32 *heap);
-extern void  func_0208A2BC(u32 bank, u32 i, u32 waveArc);
+struct H;
+extern int func_02061184(struct H *h, u32 a1);
+struct Table;
+extern int func_020749F8(struct Table *t);
+struct NNSiFndHeapHead;
+extern int func_020611D4(struct NNSiFndHeapHead *heap, u32 tagName);
 
 /*
- * The third kind dispatcher: look up the group (error 4), load or look up its
- * bank (flag bit 2; error 8), then for each of the group's four halfword slots
- * that is not 0xffff resolve the entry (error 5), load its wave through
- * func_02074E10 (its own error code is returned as is), bind the sequence's
- * banks through func_02075404 when header bit 24 and flag bit 4 are both set
- * (error 9), and finally assign the loaded wave archive to the bank slot.
+ * The close path for one handle: func_02061184 decides whether the key is
+ * still live (0 when not), func_020749F8 reports drain progress (the caller
+ * gets remaining count - 1 when it advanced), and only when the drain is
+ * complete does func_020611D4 unlink the key, after which the call still
+ * answers -1.
  *
- * THE LAST LEVER (wave 12, from 2 bytes out): func_0208A2BC takes THREE
- * arguments, not two.  Its own prologue saves r0, r1 AND r2 (`mov r4, r2` at
- * 0x0208A2C8), which is the SDK's SND_AssignWaveArc(bank, index, waveArc)
- * shape.  The image's `ldrne r2, [sp, #4]` at 0x02074DD0 was never a
- * scratch register choice: it loads `sub` straight into the third argument
- * register for the call, and the `cmpne r2, #0` guard reads it from there.
- * Every other lever (the union header, one-argument func_02074450, the
- * func_02074E10 result returned as is, the int counter, the ../2.0/sp2 pin)
- * is documented in docs/notes/pkt_02074CD0.c.txt.
+ * PINNED ../2.0/sp2, the same pin three cluster siblings carry
+ * (func_02073AD0, func_02073B3C, func_02073CA0). docs/notes/func_02074894.c.txt
+ * recorded this exact C as a 30-byte DIFF (76 vs 80) under dsi/1.1p1 and listed
+ * six rejected respellings of the tail. The residue was never in the C: 1.1p1
+ * shares the constant 0 between func_020611D4's second argument and the `-1`
+ * return, parking it in a callee-saved register (`mov r4,#0` ... `sub r0,r4,#1`)
+ * and widening the prologue by a push slot, where the image rematerialises
+ * `mov r1,#0` and `mvn r0,#0`. That is the repeated-small-constant tell of
+ * docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md.
+ * Under the pin the note's own C is 76 bytes, 0 concrete mismatches.
  *
- * With the three-argument callee the body is byte-exact under the project
- * default dsi/1.1p1 AND under ../2.0/sp2 / ../2.0/sp2p2 (all three checked),
- * so no front-end pin is recorded: the two-argument prototype was what made
- * 1.1p1 look wrong in the earlier notes.
+ * All three call sites resolve by `label`, so nothing further was needed.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02074894.c \
+ *       --func func_02074894 --addr 0x02074894 --cc ../2.0/sp2 --arm
  */
-u32 func_02074CD0(u32 a, u32 flags, u32 c, u32 d, u32 *out)
+s32 func_02074894(S *p)
 {
-    Grp *g;
-    union Hdr *o;
-    u32 bank;
-    int i;
-    u32 want;
-    u32 sub;
-    u32 r;
-
-    g = func_020743EC(a);
-    if (g == 0) return 4;
-
-    if (flags & 2) {
-        bank = func_02075014(g->f0, c, d);
-        if (bank == 0) return 8;
-    } else {
-        bank = func_0207466C(g->f0);
+    if (func_02061184((struct H *)p->f00, p->f0c) == 0) {
+        return -1;
     }
+    if (func_020749F8((struct Table *)p) != 0) {
+        return p->f0c - 1;
+    }
+    func_020611D4((void *)p->f00, 0);
+    return -1;
+}
 
-    want = flags & 4;
-    for (i = 0; i < 4; i++) {
-        if (g->slot[i] != 0xffff) {
-            o = func_02074450(g->slot[i]);
-            if (o == 0) return 5;
-            r = func_02074E10(g->slot[i], flags, c, d, &sub);
-            if (r != 0) return r;
-            if ((o->w >> 24) & 1 && want != 0) {
-                if (func_02075404(sub, bank, (u32)i, o->b.v, (u32 *)c) == 0) return 9;
+struct Node { u8 pad00[8]; u32 f08; u32 f0c; u32 f10; u32 f14; };
+struct Obj  { u32 f00; u8 list[8]; u16 f0c; };
+
+extern void  func_02074770(struct Obj *o);
+extern void *func_0206062C(void *list, void *cur);
+extern void  func_020605B4(void *list, void *node);
+extern void  func_02074A34(void);
+
+/*
+ * Bounded sibling of func_02074770: drains request lists while the key k is
+ * below the live count at +0x0C (k == 0 forwards to func_02074770), then
+ * func_020611D4(f00, k), func_02074A34 once if any callback ran,
+ * func_02061184(f00, f0c) and func_020749F8(o).
+ *
+ * Two levers closed the 19-byte floor of docs/notes/pkt_02074894.c.txt:
+ *  1. The null cursor of each outer iteration's SECOND func_0206062C is the
+ *     node cursor n itself (n = 0 at entry and 0 again whenever the inner walk
+ *     ends), not a literal 0.  That is the image's `mov r1, r8` with r8 = n,
+ *     and it is what lets one zero serve n, any and the head cursor.
+ *  2. Declaration order a, any, n (a in r6, any in r7), per
+ *     docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
+ */
+void func_020748E0(struct Obj *o, s32 k)
+{
+    void *a;
+    u32 any;
+    struct Node *n;
+
+    n   = 0;
+    any = 0;
+    if (k == 0) { func_02074770(o); return; }
+
+    while (k < o->f0c) {
+        a = func_0206062C(o->list, 0);
+        n = (struct Node *)func_0206062C(a, n);
+        while (n != 0) {
+            if (n->f0c != 0) {
+                ((void (*)(void *, u32, u32, u32))n->f0c)
+                    ((u8 *)n + 0x20, n->f08, n->f10, n->f14);
+                any = 1;
             }
-            if (bank != 0 && sub != 0) {
-                func_0208A2BC(bank, (u32)i, sub);
-            }
+            n = (struct Node *)func_0206062C(a, n);
         }
+        func_020605B4(o->list, a);
     }
-    if (out != 0) *out = bank;
-    return 0;
+
+    func_020611D4((struct NNSiFndHeapHead *)o->f00, k);
+    if (any != 0) func_02074A34();
+    func_02061184((struct H *)o->f00, o->f0c);
+    func_020749F8((struct Table *)o);
 }

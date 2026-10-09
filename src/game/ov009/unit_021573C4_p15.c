@@ -1,8 +1,8 @@
 /*
  * file:     unit_021573C4_p15.c
  * unit:     yes
- * function: func_0215AA5C, func_0215AA70, func_0215AA88, func_0215AAB0
- * address:  0x0215AA5C
+ * function: func_02159244, func_021592A8, func_0215938C
+ * address:  0x02159244
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,73 +13,106 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_02150FEC  0x02150FEC  data
- *   func_0215A970  0x0215A970  arm  ov009
- *   g_021A826C  0x021A826C  data
+ *   check_socket                     0x02159190 arm
+ *   OSi_ThreadInfo                   0x02150fec data
+ *   func_021578C8  0x021578C8  arm  ov009
+ *   func_02157D8C  0x02157D8C  arm  ov009
  */
-extern unsigned short func_0215A970(void);
-void func_0215AA5C(int v);
-void func_0215AA70(void);
-void func_0215AA88(void);
-void func_0215AAB0(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
-extern char g_02150FEC[];
-extern char g_021A826C[];
+struct _OSThread;
+struct _CPSSoc;
+struct _CPSSoc {
+	unsigned char pad0[0x33];
+	unsigned char sack;
+	unsigned char pad1[6];
+	unsigned short mss;
+};
+
+extern unsigned long check_socket(unsigned char *iphdr, unsigned char *tcphdr, struct _CPSSoc *soc);
+void func_021592A8(unsigned char *tcphdr, struct _CPSSoc *soc);
+extern int func_021578C8(void);
+extern int func_02157D8C(void);
+int func_0215938C(void);
+extern int OSi_ThreadInfo;
 
 
-/*
- * Stores a word at +0xa4 of the block held in the second word of the module state block.
- */
-void func_0215AA5C(int v)
+
+static struct _CPSSoc *find_socket(unsigned char *iphdr, unsigned char *tcphdr)
 {
-    int blk = *(int *)(g_02150FEC + 4);
+	struct _CPSSoc *soc;
+	struct _OSThread *t;
 
-    *(int *)(blk + 0xa4) = v;
+	t = *(struct _OSThread **)((char *)&OSi_ThreadInfo + 8);
+	while (t != 0) {
+		soc = *(struct _CPSSoc **)((char *)t + 0xa4);
+
+		if (soc != 0 && *(struct _OSThread **)soc != 0) {
+			if (check_socket(iphdr, tcphdr, soc) != 0)
+				return soc;
+		}
+		t = *(struct _OSThread **)((char *)t + 0x68);
+	}
+	return 0;
+}
+
+
+
+void func_021592A8(unsigned char *tcphdr, struct _CPSSoc *soc)
+{
+	long len;
+	unsigned char *p;
+
+	soc->mss = 536;
+	len = ((tcphdr[0xc] & 0xf0) / 4) - 20;
+	p = tcphdr + 0x14;
+	while (len-- > 0) {
+		switch (*p++) {
+		case 0:
+			return;
+		case 1:
+			break;
+		case 2:
+			if (len <= 2)
+				return;
+			if (p[0] != 4)
+				return;
+			soc->mss = (p[1] << 8) | p[2];
+			p += 3;
+			len -= 3;
+			break;
+		case 4:
+			if (len <= 0)
+				return;
+			if (p[0] != 2)
+				return;
+			soc->sack = 1;
+			p++;
+			len--;
+			break;
+		default: {
+			unsigned long l;
+
+			if (len <= 0)
+				return;
+			l = p[0];
+			if (l < 2)
+				return;
+			l--;
+			len -= l;
+			p += l;
+		}
+		}
+	}
 }
 
 
 /*
- * Clears the word at +0xa4 of the block the state object holds.
+ * One when the test fails, else the second call.
  */
-void func_0215AA70(void)
+int func_0215938C(void)
 {
-    int *p = *(int **)(g_02150FEC + 4);
-
-    *(int *)((char *)p + 0xa4) = 0;
-}
-
-
-/*
- * Puts the object at +0xa4 of the current root into mode 0xa and clears its
- * +0x50 word.
- */
-void func_0215AA88(void)
-{
-    char *q = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
-
-    if (q != 0) {
-        *(unsigned char *)(q + 8) = 0xa;
-        *(int *)(q + 0x50) = 0;
+    if (func_021578C8() == 0) {
+        return 1;
     }
-}
 
-
-/*
- * sdk:      CPS_SocBind (libcps.TWL.HYB.a(network.o))
- */
-void func_0215AAB0(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip)
-{
-    char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
-
-    if (soc == 0)
-        return;
-    if (remote_ip == 0x7f000001)
-        remote_ip = *(unsigned long *)(g_021A826C + 0x50);
-    *(unsigned short *)(soc + 0x1a) = remote_port;
-    *(unsigned short *)(soc + 0x18) = *(unsigned short *)(soc + 0x1a);
-    *(unsigned long *)(soc + 0x20) = remote_ip;
-    *(unsigned long *)(soc + 0x1c) = remote_ip;
-    if (local_port != 0)
-        *(unsigned short *)(soc + 0xa) = local_port;
-    else
-        *(unsigned short *)(soc + 0xa) = func_0215A970();
+    return func_02157D8C();
 }

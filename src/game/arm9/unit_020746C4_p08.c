@@ -1,8 +1,8 @@
 /*
  * file:     unit_020746C4_p08.c
  * unit:     yes
- * function: func_020751F4, func_0207524C, func_02075274, func_020752A4
- * address:  0x020751F4
+ * function: func_02074BEC, func_02074C70, func_02074CD0
+ * address:  0x02074BEC
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,92 +13,139 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020751F4    0x020751F4  arm
- *   func_020896AC    0x020896AC  arm
- *   func_020896CC    0x020896CC  arm
- *   func_0208A38C    0x0208A38C  arm
+ *   func_02074324  0x02074324  arm
+ *   func_02074F3C  0x02074F3C  arm
+ *   func_0207466C  0x0207466C  arm
+ *   func_020743EC  0x020743EC  arm
+ *   func_02075014  0x02075014  arm
+ *   func_02074450  0x02074450  arm
+ *   func_02074E10  0x02074E10  arm
+ *   func_02075404  0x02075404  arm
+ *   func_0208A2BC  0x0208A2BC  arm
  */
-struct SNDBankData;
-struct SNDWaveArc;
-typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+#include "../../matched/include/Obj08948.h"
+#include "../../matched/include/Obj11687.h"
 
-
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
-struct Global;
-extern struct Global *func_020742E4(struct Global *val);
-extern u32 func_0207466C(u32);
-extern void func_02074694(u32, u32);
-void func_020751F4(u32 a, u32 b, u32 c) {
-    u32 t, s;
-    if (b == 0) return;
-    s = func_02087988();
-    t = (u32)func_020742E4((struct Global *)b);
-    if (func_0207466C(c) == a) func_02074694(c, 0);
-    func_020742E4((struct Global *)t);
-    func_0208799C(s);
-}
-
-typedef unsigned int u32;
-
-typedef unsigned char u8;
+typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-extern void func_020751F4(u32 a, u32 b, u32 c);
-extern void func_020896AC(const void *start, const void *end);
-extern void func_020896CC(const void *start, const void *end);
-extern void func_0208A38C(struct SNDBankData *bank);
-extern void func_020896EC(const void *start, const void *end);
-extern void func_0208A424(struct SNDWaveArc *waveArc);
-void func_0207524C(u8 *p, u32 len, u32 b, u32 c);
-void func_02075274(u8 *p, u32 len, u32 b, u32 c);
-void func_020752A4(int a, int b, int c, int d);
+typedef unsigned int   u32;
+
+typedef struct { u32 f0; u16 slot[4]; } Grp;
+
+union Hdr {
+    unsigned w;
+    struct { unsigned v : 24; unsigned flag : 1; unsigned rest : 7; } b;
+};
+
+extern void *func_02074324(int index);
+extern u32  func_02074F3C(u32 a, u32 b, u32 c);
+extern u32  func_0207466C(u32 a);
+extern void *func_02074388(int index);
+extern u32 func_02074FA8(u32, u32, u32);
+extern void *func_020743EC(int index);
+extern u32   func_02075014(u32 a, u32 b, u32 c);
+extern void *func_02074450(int index);
+extern u32   func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out);
+extern u32   func_02075404(u32 a, u32 b, u32 c, u32 d, u32 *heap);
+extern void  func_0208A2BC(u32 bank, u32 i, u32 waveArc);
+u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out);
+u32 func_02074C70(u32 a, u32 b, u32 c, u32 d, u32 *out);
+u32 func_02074CD0(u32 a, u32 flags, u32 c, u32 d, u32 *out);
 
 
-/*
- *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
- *
- * Reads a bank header, then invalidates the range [p, p + len) of sequence
- * data; the length survives in r4 across the first call.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0207524C.c \
- *       --func func_0207524C --addr 0x0207524C --cc 1.1p1 --arm
- */
-void func_0207524C(u8 *p, u32 len, u32 b, u32 c)
+u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out)
 {
-    func_020751F4((u32)p, b, c);
-    func_020896AC(p, p + len);
+    u8 *p = func_02074324(a);
+    u32 r;
+
+    if (p == 0) return 2;
+    r = func_02074CD0(((struct Obj08948 *)p)->f4, b, c, d, 0);
+    if (r != 0) return r;
+    if (b & 1) {
+        r = func_02074F3C(((struct Obj08948 *)p)->f0, c, d);
+        if (r == 0) return 6;
+    } else {
+        r = func_0207466C(((struct Obj08948 *)p)->f0);
+    }
+    if (out != 0) *out = r;
+    return 0;
+}
+
+u32 func_02074C70(u32 a, u32 b, u32 c, u32 d, u32 *out) {
+    void *p = func_02074388(a);
+    u32 r;
+    if (p == 0) return 3;
+    if (b & 8) {
+        r = func_02074FA8(((struct Obj11687 *)p)->f0, c, d);
+        if (r == 0) return 7;
+    } else {
+        r = func_0207466C(((struct Obj11687 *)p)->f0);
+    }
+    if (out != 0) *out = r;
+    return 0;
 }
 
 
 /*
- *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
+ * The third kind dispatcher: look up the group (error 4), load or look up its
+ * bank (flag bit 2; error 8), then for each of the group's four halfword slots
+ * that is not 0xffff resolve the entry (error 5), load its wave through
+ * func_02074E10 (its own error code is returned as is), bind the sequence's
+ * banks through func_02075404 when header bit 24 and flag bit 4 are both set
+ * (error 9), and finally assign the loaded wave archive to the bank slot.
  *
- * The bank flavour: same range invalidate plus the bank teardown.
+ * THE LAST LEVER (wave 12, from 2 bytes out): func_0208A2BC takes THREE
+ * arguments, not two.  Its own prologue saves r0, r1 AND r2 (`mov r4, r2` at
+ * 0x0208A2C8), which is the SDK's SND_AssignWaveArc(bank, index, waveArc)
+ * shape.  The image's `ldrne r2, [sp, #4]` at 0x02074DD0 was never a
+ * scratch register choice: it loads `sub` straight into the third argument
+ * register for the call, and the `cmpne r2, #0` guard reads it from there.
+ * Every other lever (the union header, one-argument func_02074450, the
+ * func_02074E10 result returned as is, the int counter, the ../2.0/sp2 pin)
+ * is documented in docs/notes/pkt_02074CD0.c.txt.
  *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_02075274.c \
- *       --func func_02075274 --addr 0x02075274 --cc 1.1p1 --arm
+ * With the three-argument callee the body is byte-exact under the project
+ * default dsi/1.1p1 AND under ../2.0/sp2 / ../2.0/sp2p2 (all three checked),
+ * so no front-end pin is recorded: the two-argument prototype was what made
+ * 1.1p1 look wrong in the earlier notes.
  */
-void func_02075274(u8 *p, u32 len, u32 b, u32 c)
+u32 func_02074CD0(u32 a, u32 flags, u32 c, u32 d, u32 *out)
 {
-    func_020751F4((u32)p, b, c);
-    func_020896CC(p, p + len);
-    func_0208A38C((struct SNDBankData *)p);
-}
+    Grp *g;
+    union Hdr *o;
+    u32 bank;
+    int i;
+    u32 want;
+    u32 sub;
+    u32 r;
 
+    g = func_020743EC(a);
+    if (g == 0) return 4;
 
-/*
- * Kept as its own file rather than folded with func_020752D4, its immediate
- *  * neighbour: the two are the only callers of 0x0208A424 anywhere in the image,
- *  * so any range holding both has no witness left for that site and caps at
- *  * MATCH. Split, each file is the other's witness.
- */
-void func_020752A4(int a, int b, int c, int d)
-{
-    func_020751F4(a, c, d);
-    func_020896EC((const void *)a, (const void *)(a + b));
-    func_0208A424((struct SNDWaveArc *)a);
+    if (flags & 2) {
+        bank = func_02075014(g->f0, c, d);
+        if (bank == 0) return 8;
+    } else {
+        bank = func_0207466C(g->f0);
+    }
+
+    want = flags & 4;
+    for (i = 0; i < 4; i++) {
+        if (g->slot[i] != 0xffff) {
+            o = func_02074450(g->slot[i]);
+            if (o == 0) return 5;
+            r = func_02074E10(g->slot[i], flags, c, d, &sub);
+            if (r != 0) return r;
+            if ((o->w >> 24) & 1 && want != 0) {
+                if (func_02075404(sub, bank, (u32)i, o->b.v, (u32 *)c) == 0) return 9;
+            }
+            if (bank != 0 && sub != 0) {
+                func_0208A2BC(bank, (u32)i, sub);
+            }
+        }
+    }
+    if (out != 0) *out = bank;
+    return 0;
 }

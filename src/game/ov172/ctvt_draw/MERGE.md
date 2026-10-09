@@ -1,26 +1,15 @@
-# ctvt_draw.c (ov172)
+# ctvt_draw (ov172)
 
-Translation unit 021BA174..021BE468, 104 functions, confidence likely (tools/tuboundary.py).
+Translation unit 021BA174..021BE0B0. Three Thumb parts, each byte-exact.
 
-The member files below each match on their own. Merging them into one
-`ctvt_draw.c` is blocked by:
-
-- ov172_func_021BA174.c..ov172_func_021BE43C.c: prototype of func_0203D34C differs between members (src/matched/ov/ov172_func_021BA8C4.c); prototype of func_020409B4 differs between members (src/matched/ov/ov172_func_021BA8C4.c); prototype of func_
-- ov172_func_021BA174.c..ov172_func_021BDC70.c: prototype of func_0203D34C differs between members (src/matched/ov/ov172_func_021BA8C4.c); prototype of func_020409B4 differs between members (src/matched/ov/ov172_func_021BA8C4.c); prototype of func_
-- ov172_func_021BBA6C.c..ov172_func_021BDC70.c: prototype of func_02030734 differs between members (src/matched/ov/ov172_func_021BBA94.c); prototype of func_020409B4 differs between members (src/matched/ov/ov172_func_021BBE5C.c); prototype of func_
-- ov172_func_021BD0C4.c..ov172_func_021BDC70.c: prototype of func_021BE034 differs between members (src/matched/ov/ov172_func_021BD134.c); prototype of func_021BE03C differs between members (src/matched/ov/ov172_func_021BD134.c); prototype of func_
-- ov172_func_021BD5D8.c..ov172_func_021BDC70.c: prototype of func_02040588 differs between members (src/matched/ov/ov172_func_021BD820.c); prototype of func_02049238 differs between members (src/matched/ov/ov172_func_021BDB5C.c)
-- ov172_func_021BD5D8.c..ov172_func_021BD820.c: prototype of func_02040588 differs between members (src/matched/ov/ov172_func_021BD820.c)
-- ov172_func_021BD844.c..ov172_func_021BDC70.c: prototype of func_02049238 differs between members (src/matched/ov/ov172_func_021BDB5C.c)
-- ov172_func_021BD844.c..ov172_func_021BDB5C.c: prototype of func_02049238 differs between members (src/matched/ov/ov172_func_021BDB5C.c)
-- ov172_func_021BDCB8.c..ov172_func_021BE43C.c: prototype of func_021B8BA4 differs between members (src/matched/ov/ov172_func_021BE210.c); prototype of func_021B8B8C differs between members (src/matched/ov/ov172_func_021BE210.c); prototype of func_
-
-Members, in address order:
-
-- `ov172_func_021BD5D8.c`
-- `ov172_func_021BD844.c`
-- `ov172_func_021BDB5C.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names ctvt_draw.c` again.
+- p01: old p01+p02 merged (func_021BA280 takes `u16 b` and returns `char *`; its call site
+  casts the result; func_0201C724 and func_02045EC0 use the u32_021BCC40 typedef in the
+  shared declarations).
+- p01 | p02: merged build differs only in func_021BCC40 (13 bytes, r6/r7 swap). The
+  function is exact with the getters func_021BE034/03C/044/00C declared extern; when
+  their definitions (p02) are in the same file it changes register allocation. Return
+  type of the getters (u32 vs the u32_021BCC40 `unsigned long` typedef) did not help.
+  func_0201C724 needs `short` on its x argument in func_021BDEF0 (sign-extension in the
+  caller); a canonical prototype with a short parameter breaks func_021BCC40.
+- p02 | p03: extra zero-extensions and shifted pools; func_021BD820's bgId must be u8
+  (passed to a u8 parameter), func_021BE210(p, v) has `u8 *` versus `char *` views.

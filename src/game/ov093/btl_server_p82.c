@@ -1,8 +1,8 @@
 /*
  * file:     btl_server_p82.c
  * unit:     yes
- * function: func_021C7008, func_021C7038
- * address:  0x021C7008
+ * function: func_021C8588, func_021C859C, func_021C85B8, func_021C85D4
+ * address:  0x021C8588
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,67 +13,107 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D74F8 0x021D74F8 thumb ov093
- *   func_021D7540 0x021D7540 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D75EC 0x021D75EC thumb ov093
- *   func_021D70F0 0x021D70F0 thumb ov093
- *   func_021D7630  0x021D7630  thumb  ov093
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021C70D4  0x021C70D4  thumb  ov093
- *   func_021D794C  0x021D794C  thumb  ov093
+ *   func_021C87A0 0x021C87A0 thumb ov093
+ *   func_021C87B0 0x021C87B0 thumb ov093
+ *   func_021C87C0 0x021C87C0 thumb ov093
+ *   func_021C87D0 0x021C87D0 thumb ov093
+ *   func_021C87E0 0x021C87E0 thumb ov093
+ *   func_021C87F0 0x021C87F0 thumb ov093
+ *   func_021C8800 0x021C8800 thumb ov093
+ *   func_021BD1E0 0x021BD1E0 thumb ov093
+ *   func_02082BCC 0x02082BCC arm
  */
+#include "../../matched/include/Obj00294.h"
+
 typedef unsigned char u8;
 
 typedef unsigned int u32;
 
 typedef unsigned short u16;
 
-typedef signed char s8;
+struct Flags { u8 low : 3; u8 a : 1; u8 b : 1; u8 high : 3; };
 
-typedef signed short s16;
+struct Unk021BD1E0 {
+    u16 f0; u8 f2; u8 f3; u8 f4;
+    u8 b0 : 1; u8 b1 : 1; u8 rest : 6;
+};
 
-typedef signed int s32;
+extern void func_021C87A0(void *);
+extern void func_021C87B0(void *);
+extern void func_021C87C0(void *);
+extern void func_021C87D0(void *);
+extern void func_021C87E0(void *);
+extern void func_021C87F0(void *);
+extern void func_021C8800(void *);
+extern void func_021BD1E0(struct Unk021BD1E0 *);
+extern void func_02082BCC(void *, int, u32);
+void func_021C8588(unsigned char *p);
+void func_021C859C(u8 *p);
+void func_021C85B8(u8 *p);
+void func_021C85D4(u8 *p, int index, int clear);
 
-extern void func_021D74F8(int);
-extern void func_021D7540(int);
-extern u8 func_021D5440(u8 *p);
-extern void func_021D75EC(int, u32);
-extern void func_021D70F0(void *a, int id);
-extern void func_021D7630(int key, u32 val);
-extern int func_021D775C(int key);
-extern void func_021C70D4(u8 *p, u8 *b);
-extern int func_021D794C(int a, int b);
-void func_021C7008(u8 *p, u8 *a);
-int func_021C7038(u8 *p, u8 *a, u8 *b, u32 q, u8 s);
-
-void func_021C7008(u8 *p, u8 *a)
+void func_021C8588(unsigned char *p)
 {
-    int line = 12265;
-    func_021D74F8(line);
-    func_021D75EC(2, func_021D5440(a));
-    func_021D70F0(p, 27);
-    func_021D7540(line + 3);
+    *(int *)&((struct Obj00294 *)p)->f1A64 = 0;
+    func_021C85D4(p, 0, 1);
+}
+
+void func_021C859C(u8 *p)
+{
+    if (((struct Obj00294 *)p)->f1A64 < 6) {
+        ++((struct Obj00294 *)p)->f1A64;
+        func_021C85D4(p, ((struct Obj00294 *)p)->f1A64, 1);
+    }
+}
+
+void func_021C85B8(u8 *p)
+{
+    if (((struct Obj00294 *)p)->f1A64 != 0) {
+        --((struct Obj00294 *)p)->f1A64;
+        func_021C85D4(p, ((struct Obj00294 *)p)->f1A64, 0);
+    }
 }
 
 
-int func_021C7038(u8 *p, u8 *a, u8 *b, u32 q, u8 s)
+void func_021C85D4(u8 *p, int index, int clear)
 {
-    int x, y, r;
-    func_021D74F8(12290);
-    func_021D75EC(3, func_021D5440(a));
-    func_021D75EC(4, func_021D5440(b));
-    func_021D75EC(0x15, s);
-    func_021D75EC(0x16, q);
-    func_021D7630(0x4b, 0);
-    func_021D7630(0x4c, 0);
-    func_021C70D4(p, b);
-    func_021D70F0(p, 0x3e);
-    x = func_021D775C(0x4b);
-    y = func_021D775C(0x4c);
-    func_021D7540(12303);
-    if (y) return 3;
-    r = func_021D794C(q, s);
-    if (r == 0 && x) r = 3;
-    return r;
+    u8 *q = p + 0x874 + index * 0x290;
+    *(u8 * *)&((struct Obj00294 *)p)->f850 = q;
+    *(u8 * *)&((struct Obj00294 *)p)->f854 = q + 0x48;
+    *(u8 * *)&((struct Obj00294 *)p)->f858 = q + 0x90;
+    *(u8 * *)&((struct Obj00294 *)p)->f85C = q + 0xd8;
+    *(u8 * *)&((struct Obj00294 *)p)->f860 = q + 0x120;
+    *(u8 * *)&((struct Obj00294 *)p)->f864 = q + 0x168;
+    *(u8 * *)&((struct Obj00294 *)p)->f868 = q + 0x1b0;
+    *(u8 * *)&((struct Obj00294 *)p)->f4A8 = q + 0x1f8;
+    *(u8 * *)&((struct Obj00294 *)p)->f1AB0 = q + 0x200;
+    *(u8 * *)&((struct Obj00294 *)p)->f1AB4 = q + 0x214;
+    *(u8 * *)&((struct Obj00294 *)p)->f4B4 = q + 0x228;
+    *(u8 * *)&((struct Obj00294 *)p)->f4AC = q + 0x22e;
+    *(u8 * *)&((struct Obj00294 *)p)->f4B0 = q + 0x241;
+    *(u8 * *)&((struct Obj00294 *)p)->f86C = q + 0x254;
+    *(u8 * *)&((struct Obj00294 *)p)->f870 = q + 0x270;
+    p[0x77f] = q[0x28c];
+    ((struct Flags *)(p + 0x78a))->a = q[0x28d];
+    ((struct Flags *)(p + 0x78a))->b = q[0x28e];
+    if (clear) {
+        func_021C87A0(q);
+        func_021C87B0(((struct Obj00294 *)p)->f854);
+        func_021C87C0(((struct Obj00294 *)p)->f858);
+        func_021C87D0(((struct Obj00294 *)p)->f85C);
+        func_021C87E0(((struct Obj00294 *)p)->f860);
+        func_021C87F0(((struct Obj00294 *)p)->f864);
+        func_021C8800(((struct Obj00294 *)p)->f868);
+        func_021BD1E0(*(struct Unk021BD1E0 * *)&((struct Obj00294 *)p)->f4A8);
+        func_02082BCC(((struct Obj00294 *)p)->f1AB0, 0, 0x14);
+        func_02082BCC(((struct Obj00294 *)p)->f1AB4, 0, 0x14);
+        func_02082BCC(((struct Obj00294 *)p)->f4B4, 0, 6);
+        func_02082BCC(((struct Obj00294 *)p)->f4AC, 0, 0x13);
+        func_02082BCC(((struct Obj00294 *)p)->f4B0, 0, 0x13);
+        func_02082BCC(((struct Obj00294 *)p)->f86C, 0, 0x1c);
+        func_02082BCC(((struct Obj00294 *)p)->f870, 0, 0x1c);
+        p[0x77f] = 6;
+        ((struct Flags *)(p + 0x78a))->a = 0;
+        ((struct Flags *)(p + 0x78a))->b = 0;
+    }
 }

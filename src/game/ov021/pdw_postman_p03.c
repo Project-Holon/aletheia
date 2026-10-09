@@ -1,8 +1,8 @@
 /*
  * file:     pdw_postman_p03.c
  * unit:     yes
- * function: func_021B7740, func_021B7794, func_021B77E4, func_021B7834, func_021B785C, func_021B7864, func_021B7884, func_021B791C, func_021B7934, func_021B7954, func_021B7970
- * address:  0x021B7740
+ * function: func_021B76B4, func_021B76F8, func_021B7740, func_021B7794, func_021B77E4, func_021B7834, func_021B785C, func_021B7864, func_021B7884, func_021B791C, func_021B7934, func_021B7954, func_021B7970
+ * address:  0x021B76B4
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -16,6 +16,8 @@
  *   func_0201292C  0x0201292C  thumb
  *   func_02009310  0x02009310  thumb
  *   func_02009330  0x02009330  thumb
+ *   func_02007E50  0x02007E50  thumb
+ *   func_02009364  0x02009364  thumb
  *   func_02007E3C  0x02007E3C  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_02012EBC  0x02012EBC  thumb
@@ -56,9 +58,9 @@ typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-struct Rec { unsigned short *f0; char pad04[4]; void *f8; char fC[4]; u16 f10; };
-
 typedef unsigned int   u32;
+
+struct Rec { unsigned short *f0; char pad04[4]; void *f8; char fC[4]; u16 f10; };
 
 struct Ent { u8 pad00[0xB3]; u8 fB3; };
 
@@ -94,9 +96,11 @@ typedef struct {
     int count;
 } Ctx;
 
-extern void *func_0201292C(const struct BigObj *p);
-extern u16 func_02009310(const struct Sub02009210Obj *obj, int i);
-extern u8 func_02009330(const struct Sub02009210Obj *obj, int i);
+void *func_0201292C(const struct BigObj *p);
+u16 func_02009310(const struct Sub02009210Obj *obj, int i);
+u8 func_02009330(const struct Sub02009210Obj *obj, int i);
+int func_02007E50(void *saved, int a, int b, int c);
+void func_02009364(struct Sub02009210Obj *obj, int i);
 extern int func_02007E3C(void *ctx, void *a, int b, int key);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
@@ -118,6 +122,8 @@ extern u32 func_021B87C8(u32, u32);
 extern u16 *func_021B9464(u16 *p);
 extern void func_021B87BC(u32 a);
 extern u16 func_021B91A8(u8 *p);
+void func_021B76B4(void *a0, int a1, int a2);
+int func_021B76F8(void *p, int key, void *q);
 void *func_021B7740(void *p, int key, void *q, int idx);
 void *func_021B7794(void *p);
 struct Ent *func_021B77E4(void *a, void *b, struct Ent *c);
@@ -130,6 +136,55 @@ int func_021B7934(u32 a, u32 b);
 u32 func_021B7954(u32 a);
 void func_021B7970(Ctx *c);
 extern const char g_021DE2A0[];
+
+
+
+/*
+ * Iterates 0x14 slots of a container, matching each non-null entry through a
+ * four-argument predicate and releasing the ones it accepts.
+ */
+void func_021B76B4(void *a0, int a1, int a2)
+{
+    void *saved = func_0201292C(a0);
+    u32 i;
+
+    for (i = 0; i < 0x14; i++) {
+        int r6 = func_02009310((const struct Sub02009210Obj *)a2, i);
+        int r2 = func_02009330((const struct Sub02009210Obj *)a2, i);
+        if (r6 != 0) {
+            if (func_02007E50(saved, r6, r2, a1) == 1)
+                func_02009364((struct Sub02009210Obj *)a2, i);
+        }
+    }
+}
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ */
+int func_021B76F8(void *p, int key, void *q)
+{
+    void *ctx;
+    u32 i;
+    int n;
+    void *a;
+    int b;
+
+    ctx = func_0201292C(p);
+    i = 0;
+    n = 0;
+    for (; i < 0x14; i++) {
+        a = (void *)func_02009310(q, i);
+        b = func_02009330(q, i);
+        if (a != 0) {
+            if (func_02007E3C(ctx, a, b, key) == 0)
+                n++;
+        }
+    }
+    return n;
+}
+
 
 
 void *func_021B7740(void *p, int key, void *q, int idx)
@@ -158,9 +213,7 @@ void *func_021B7740(void *p, int key, void *q, int idx)
 }
 
 
-/*
- * Addresses are Black-image addresses.
- */
+
 void *func_021B7794(void *p)
 {
     void *a;
@@ -177,6 +230,7 @@ void *func_021B7794(void *p)
     r->f8 = func_021B7640((u32)a, func_02188C84((u8 *)r->f0), (u32)b, (int *)r->fC);
     return res;
 }
+
 
 
 struct Ent *func_021B77E4(void *a, void *b, struct Ent *c)
@@ -198,6 +252,7 @@ struct Ent *func_021B77E4(void *a, void *b, struct Ent *c)
 }
 
 
+
 void *func_021B7834(void *a, int *out, void *buf)
 {
     int i;
@@ -212,10 +267,12 @@ void *func_021B7834(void *a, int *out, void *buf)
 }
 
 
+
 void func_021B785C(u8 *p, u32 i)
 {
     func_0200A13C(p, i);
 }
+
 
 
 u8 func_021B7864(void *a)
@@ -230,6 +287,7 @@ u8 func_021B7864(void *a)
     }
     return p[0xB3];
 }
+
 
 
 struct Obj *func_021B7884(u16 heap, u32 n, int a2)
@@ -254,12 +312,14 @@ struct Obj *func_021B7884(u16 heap, u32 n, int a2)
 }
 
 
+
 void func_021B791C(void **o)
 {
     func_020307B0(o[7]);
     func_020307B0(o[2]);
     func_020307B0(o);
 }
+
 
 
 /*
@@ -275,12 +335,14 @@ return func_021B87C8((a + 32), b);
 }
 
 
+
 u32 func_021B7954(u32 a)
 {
 ((struct Obj18100 *)((u8 *)(a)))->f2 = 0;
 func_021B87BC((a + 32));
 return (u32)func_021B9464((u16 *)(a + 80));
 }
+
 
 
 void func_021B7970(Ctx *c)

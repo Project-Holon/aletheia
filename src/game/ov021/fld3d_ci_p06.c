@@ -1,8 +1,8 @@
 /*
  * file:     fld3d_ci_p06.c
  * unit:     yes
- * function: func_021C2484, func_021C24A8, func_021C24BC, func_021C24F0, func_021C2734
- * address:  0x021C2484
+ * function: func_021C3490, func_021C34B4, func_021C34C4, func_021C34F8, func_021C3510, func_021C3530, func_021C360C
+ * address:  0x021C3490
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,110 +13,73 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020480E4  0x020480E4  arm
- *   func_021C1A84  0x021C1A84  thumb  ov021
- *   func_020515CC  0x020515CC  arm
- *   func_02048F4C  0x02048F4C  arm
- *   func_02030734  0x02030734  arm
- *   d_021DE3D8     0x021DE3D8  data  a4
+ *   func_0200BC2C  0x0200BC2C  thumb
+ *   func_021C341C  0x021C341C  thumb  ov021
+ *   func_0200BCB8  0x0200BCB8  thumb
+ *   func_021C36EC  0x021C36EC  thumb  ov021
+ *   func_0200BCA8  0x0200BCA8  thumb
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_02017E40  0x02017E40  thumb
+ *   func_02018584  0x02018584  thumb
+ *   func_020185C4  0x020185C4  thumb
+ *   func_0201ADD0  0x0201ADD0  thumb
+ *   func_021C3670  0x021C3670  thumb  ov021
+ *   func_020181F4  0x020181F4  thumb
+ *   func_020180F4  0x020180F4  thumb
+ *   d_021DA8C8     0x021DA8C8  data  ov021  a4
  */
-#include "../../matched/include/Obj07228.h"
-#include "../../matched/include/Obj20162.h"
+#include "../../matched/include/Obj04896.h"
 
-struct Ctx;
+typedef unsigned int u32;
+
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
-
-typedef unsigned int   u32;
 
 typedef signed short   s16;
 
 typedef signed char    s8;
 
-typedef struct {
-    int x;
-    int y;
-    int z;
-} Vec;
+typedef unsigned long long u64;
 
-typedef struct {
-    int f0;
-    Vec v;
-} Inner;
+typedef struct { u16 x, y; } P;
 
-typedef struct {
-    char pad0[0x20];
-    Inner **f20;
-    int f24;
-    Vec f28;
-} Obj;
+typedef struct { u32 v[4]; } T4;
 
-typedef struct {
-    u32 w0;
-    u16 h4;
-    u16 h6;
-    u16 a[2];
-    u16 hc;
-    u16 he;
-    u16 b[4];
-    u16 c[4];
-    u32 w20;
-} Src;
+extern void *func_0200BC2C(void *e, int i);
+extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern int func_021C341C(u32 *p, u32 b);
+extern int func_0200BCB8(void *e);
+extern int func_021C36EC(u32 a, u32 b);
+extern u32 func_0200BCA8(void *e, u32 i);
+extern void func_02017E40(void *mon, u32 id, u32 v);
+extern u32 func_02018584(u16 a, u16 b, u16 c);
+extern void func_020185C4(void *mon);
+extern void func_0201ADD0(unsigned int a, int b, void *buf);
+extern int func_021C3670(void *, u32);
+extern void func_020181F4(void *p, u16 move, u32 slot);
+extern void func_020180F4(void *p, int move);
+int func_021C3490(void **p, int i);
+int func_021C34B4(void **a, int b);
+u8 func_021C34C4(void **p);
+void *func_021C34F8(void *a, u32 b);
+u32 func_021C3510(u32 a, u32 b);
+void func_021C3530(void *mon, u32 b);
+void func_021C360C(void *a, u32 b);
+extern const T4 d_021DA8C8;
 
-typedef struct {
-    u32 kind;
-    u16 id;
-    u32 val;
-} E0;
 
-typedef struct {
-    u16 idx;
-    u16 zero;
-} E2;
 
-typedef struct {
-    u16 idx;
-    u16 zero;
-    u16 idx2;
-    E2 *list;
-    u16 cnt;
-} E1;
+/*
+ * Levels gained by the slot-i day-care Pokemon (EXACT*: pad).
+ */
+int func_021C3490(void **p, int i)
+{
+    int lv = func_02017E1C(func_0200BC2C(p[2], i), 0x9E, 0);
 
-typedef struct {
-    E0 *e0;
-    E1 *e1;
-    E2 *e2;
-    E2 *e3;
-    E0 *p10;
-    u16 n10;
-    E1 *p18;
-    u16 n1c;
-    u16 pad1e;
-    u16 h20;
-    u16 h22;
-    u16 h24;
-    u16 h26;
-    u32 w28;
-    u8 total;
-    u8 na;
-    u8 nb;
-    u8 nc;
-    u32 w30;
-} Out;
+    return func_021C341C((u32 *)p, i) - lv;
+}
 
-extern void func_020480E4(struct Ctx *c, u32 i);
-extern u32 func_021C1A84(u32);
-int func_020515CC(int *p, int a, int b, int c);
-extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
-extern void *func_02030734(u32, u32, int, const char *, u16);
-extern u32 func_020307B0(void *p);
-int func_021C2484(u8 *a, u8 *b);
-void func_021C24A8(char *p, int k);
-void func_021C24BC(Obj *p);
-void func_021C24F0(Out *out, u32 b, u32 heap);
-void func_021C2734(void **p);
-extern u8 d_021DE3D8;
 
 
 /*
@@ -124,151 +87,121 @@ extern u8 d_021DE3D8;
  *
  * Addresses are Black-image addresses.
  */
-int func_021C2484(u8 *a, u8 *b)
+int func_021C34B4(void **a, int b)
 {
-func_021C2734((void **)b);
-func_020480E4((struct Ctx *)(((struct Obj07228 *)((u8 *)(a)))->f14), ((((struct Obj07228 *)((u8 *)(a)))->f18 << 16) >> 16));
-((struct Obj07228 *)((u8 *)(a)))->f18 = (~0);
-return func_021C1A84(((struct Obj07228 *)((u8 *)(a)))->f0);
+return ((func_021C3490((void **)a, b) + 1) * 100);
 }
 
 
+
 /*
- * EXACT*: the 72-byte listing extent runs on into the unlabelled leaf
- * func_021C24BC (ov021_func_021C24BC.c), whose EXACT entry attests the
- * pool word 0x021C24BD as matched.
+ * Compatibility of the two deposited Pokemon, 0 when fewer than two (EXACT*: pad).
  */
-void func_021C24A8(char *p, int k)
+u8 func_021C34C4(void **p)
 {
-    func_020515CC((int *)(((struct Obj20162 *)p)->f58), k, (int)func_021C24BC, 0);
+    void *a;
+
+    if (func_0200BCB8(p[2]) < 2)
+        return 0;
+    a = func_0200BC2C(p[2], 0);
+    return func_021C36EC((u32)a, (u32)func_0200BC2C(p[2], 1));
 }
 
 
+
+void *func_021C34F8(void *a, u32 b)
+{
+func_0200BCA8(((struct Obj04896 *)a)->f8, b);
+return func_0200BC2C(((struct Obj04896 *)a)->f8, b);
+}
+
+
+
 /*
- * Unlabelled thumb leaf (push {r4} only), reached through the pool word
- * 0x021C24BD in func_021C24A8. Char-pointer offsets give the same bytes
- * scheduled differently (34 differ); the struct-typed accesses keep the
- * zero-initialiser stores ahead of the loads, as in the original.
+ * Saturating 32-bit add (EXACT*: pad).
+ */
+u32 func_021C3510(u32 a, u32 b)
+{
+    u64 s = (u64)a + b;
+
+    if (s > 0xFFFFFFFF)
+        return 0xFFFFFFFF;
+    return s;
+}
+
+
+
+/*
+ * Learnset walk as in func_021C4084. Load-bearing: lv is read from the
+ * first entry copy right after it is made (the value stays in the
+ * register), mv from the second copy, and mv is u32/int (u16 sinks its
+ * load to the call).
+ */
+void func_021C3530(void *mon, u32 b)
+{
+    P buf[26];
+    P e, d, c, a;
+    u32 species;
+    u32 form;
+    u32 max;
+    int oldlv;
+    int newlv;
+    u32 exp;
+    int i;
+    int end;
+    int lv;
+    u32 mv;
+
+    species = func_02017E1C(mon, 5, 0);
+    form = func_02017E1C(mon, 0x6f, 0);
+    max = func_02018584(species, form, 100);
+    oldlv = func_02017E1C(mon, 0x9e, 0);
+    exp = func_021C3510(func_02017E1C(mon, 8, 0), b);
+    if (max < exp)
+        exp = max;
+    func_02017E40(mon, 8, exp);
+    func_020185C4(mon);
+    i = 0;
+    newlv = func_02017E1C(mon, 0x9e, 0);
+    func_0201ADD0((u16)species, (u16)form, buf);
+    goto test;
+body:
+    e = a;
+    lv = e.y;
+    d = a;
+    mv = d.x;
+    if (newlv < lv)
+        return;
+    if (oldlv < lv)
+        func_021C360C(mon, mv);
+    i++;
+test:
+    a = buf[i];
+    c = a;
+    end = 0;
+    if (c.x == 0xffff && c.y == 0xffff)
+        end = 1;
+    if (!end)
+        goto body;
+}
+
+
+
+/*
  * Addresses are Black-image addresses.
  */
-void func_021C24BC(Obj *p)
+void func_021C360C(void *a, u32 b)
 {
-    Vec o = { 0, 0, 0 };
+    T4 t = d_021DA8C8;
+    int i;
 
-    o.z = 0x40;
-    p->f28.x = o.x + (*p->f20)->v.x;
-    p->f28.y = o.y + (*p->f20)->v.y;
-    p->f28.z = o.z + (*p->f20)->v.z;
-}
-
-
-void func_021C24F0(Out *out, u32 b, u32 heap)
-{
-    Src s;
-    u16 ids[8];
-    u8 na, nb, nc, total, baseb, basec;
-    u8 i, j, n;
-
-    func_02048F4C(&s, 0x75, b);
-    na = 0;
-    for (i = 0; i < 2; i++) {
-        if (s.a[i] != 0xFFFF) {
-            na++;
+    if (b != 0 && func_021C3670(a, b) == 0) {
+        for (i = 0; i < 4; i++) {
+            if (func_02017E1C(a, t.v[i], 0) == 0) {
+                func_020181F4(a, b, (u8)i);
+                return;
+            }
         }
+        func_020180F4(a, (u16)b);
     }
-    nc = 0;
-    nb = 0;
-    for (i = 0; i < 4; i++) {
-        if (s.b[i] != 0xFFFF) {
-            nb++;
-        }
-    }
-    for (i = 0; i < 4; i++) {
-        if (s.c[i] != 0xFFFF) {
-            nc++;
-        }
-    }
-    baseb = 0 + na;
-    basec = baseb + nb;
-    total = na + nb + nc;
-    if (total != 0) {
-        out->e0 = func_02030734(heap, total * 12, 1, (const char *)&d_021DE3D8, 0x566);
-    }
-    if (na != 0) {
-        out->e1 = func_02030734(heap, na * 16, 1, (const char *)&d_021DE3D8, 0x56a);
-    }
-    if (nb != 0) {
-        out->e2 = func_02030734(heap, nb * 4, 1, (const char *)&d_021DE3D8, 0x56e);
-    }
-    if (nc != 0) {
-        out->e3 = func_02030734(heap, nc * 4, 1, (const char *)&d_021DE3D8, 0x572);
-    }
-    out->total = total;
-    out->na = na;
-    out->nb = nb;
-    out->nc = nc;
-    out->h20 = s.h4;
-    out->h22 = s.h6;
-    out->h24 = s.hc;
-    out->h26 = s.he;
-    ids[0] = s.a[0];
-    ids[1] = s.a[1];
-    ids[2] = s.b[0];
-    ids[3] = s.b[1];
-    ids[4] = s.b[2];
-    ids[5] = s.c[0];
-    ids[6] = s.c[1];
-    ids[7] = s.c[2];
-    n = 0;
-    for (j = 0; j < 8; j++) {
-        if (ids[j] != 0xFFFF) {
-            out->e0[n].kind = 0x73;
-            out->e0[n].id = ids[j];
-            out->e0[n].val = 0;
-            n++;
-        }
-    }
-    for (i = 0; i < nb; i++) {
-        out->e2[i].idx = baseb + i;
-        out->e2[i].zero = 0;
-    }
-    for (i = 0; i < nc; i++) {
-        out->e3[i].idx = basec + i;
-        out->e3[i].zero = 0;
-    }
-    for (i = 0; i < na; i++) {
-        out->e1[i].idx = 0 + i;
-        out->e1[i].zero = 0;
-        out->e1[i].idx2 = 0 + i;
-    }
-    if (na >= 1) {
-        out->e1[0].list = out->e2;
-        out->e1[0].cnt = nb;
-    }
-    if (na >= 2) {
-        out->e1[1].list = out->e3;
-        out->e1[1].cnt = nc;
-    }
-    out->p10 = out->e0;
-    out->n10 = total;
-    out->n1c = na;
-    out->p18 = out->e1;
-    out->w28 = s.w0;
-    out->w30 = s.w20;
-}
-
-
-/*
- * Frees the four optional buffers (EXACT*: trailing pad).
- */
-void func_021C2734(void **p)
-{
-    if (p[2] != 0)
-        func_020307B0(p[2]);
-    if (p[3] != 0)
-        func_020307B0(p[3]);
-    if (p[1] != 0)
-        func_020307B0(p[1]);
-    if (p[0] != 0)
-        func_020307B0(p[0]);
 }

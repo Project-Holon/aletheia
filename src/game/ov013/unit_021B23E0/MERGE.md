@@ -1,34 +1,5 @@
-# unit_021B23E0.c (ov013)
+# unit_021B23E0 (ov013)
 
-Translation unit 021B23E0..021B2F98, 21 functions, confidence weak (tools/tuboundary.py).
+9 parts (from 5 plus 9 folder members). Left: d_021B60D8 has views Ctx{f0,cb,arg,fC,state}, Ctx_021B2488{b0,fC}, Ctx{b0}, u8, St{state@0x10}, struct Sess (G_Sess.h). A shared local struct Sess {u8 b0; u8 f1; pad; cb@4; arg@8; fC@0xC; state@0x10; f14} in every part, dropping the G_Sess.h include, would let them merge. d_021B4BD0 and d_021B4BE0 have the same problem (Stat vs struct Stats).
 
-The member files below each match on their own. Merging them into one
-`unit_021B23E0.c` is blocked by:
-
-- ov013_func_021B23E0.c..ov013_func_021B2ED8.c: global d_021B60D8 declared two ways (src/matched/ov/ov013_func_021B2488.c); global d_021B60D8 declared two ways (src/matched/ov/ov013_func_021B24FC.c); global d_021B4BD0 declared two ways (src/matched
-- ov013_func_021B23E0.c..ov013_func_021B275C.c: global d_021B60D8 declared two ways (src/matched/ov/ov013_func_021B2488.c); global d_021B60D8 declared two ways (src/matched/ov/ov013_func_021B24FC.c); global d_021B4BD0 declared two ways (src/matched
-- ov013_func_021B23E0.c..ov013_func_021B25B0.c: global d_021B60D8 declared two ways (src/matched/ov/ov013_func_021B2488.c); global d_021B60D8 declared two ways (src/matched/ov/ov013_func_021B24FC.c)
-- ov013_func_021B23E0.c..ov013_func_021B2488.c: c99=CCERR: line 49: struct/union/enum/class tag 'Ctx' redefined | line 53: identifier 'Ctx' redeclared | line 53: was declared as: 'struct Ctx' nolang=CCERR: line 49: struct/union/enum/class tag 'Ctx'
-- ov013_func_021B25FC.c..ov013_func_021B275C.c: global d_021B4BD0 declared two ways (src/matched/ov/ov013_func_021B2620.c); global d_021B60D8 declared two ways (src/matched/ov/ov013_func_021B2724.c)
-- ov013_func_021B25FC.c..ov013_func_021B2620.c: global d_021B4BD0 declared two ways (src/matched/ov/ov013_func_021B2620.c)
-- ov013_func_021B279C.c..ov013_func_021B2ED8.c: global d_021B60D8 declared two ways (src/matched/ov/ov013_func_021B2894.c); global d_021B60D8 declared two ways (src/matched/ov/ov013_func_021B29A4.c); global d_021B60D8 declared two ways (src/matched
-- ov013_func_021B279C.c..ov013_func_021B29A4.c: global d_021B60D8 declared two ways (src/matched/ov/ov013_func_021B2894.c); global d_021B60D8 declared two ways (src/matched/ov/ov013_func_021B29A4.c)
-- ov013_func_021B2894.c..ov013_func_021B29A4.c: global d_021B60D8 declared two ways (src/matched/ov/ov013_func_021B29A4.c)
-- ov013_func_021B2A20.c..ov013_func_021B2ED8.c: global d_021B4C0C declared two ways (src/matched/ov/ov013_func_021B2BE0.c)
-- ov013_func_021B2A20.c..ov013_func_021B2BE0.c: c99=CCERR: line 63: struct/union/enum/class tag 'Pool' redefined | line 159: 'freeList' is not a member of class 'struct Pool' | line 160: 'freeList' is not a member of class 'struct Pool' nolang=CCER
-- ov013_func_021B2AA0.c..ov013_func_021B2BE0.c: c99=CCERR: line 49: struct/union/enum/class tag 'Pool' redefined | line 126: 'freeList' is not a member of class 'struct Pool' | line 127: 'freeList' is not a member of class 'struct Pool' nolang=CCER
-
-Members, in address order:
-
-- `ov013_func_021B23E0.c`
-- `ov013_func_021B2488.c`
-- `ov013_func_021B25FC.c`
-- `ov013_func_021B2620.c`
-- `ov013_func_021B2894.c`
-- `ov013_func_021B2A20.c`
-- `ov013_func_021B2AA0.c`
-- `ov013_func_021B2BE0.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021B23E0.c` again.
+Round 4 (r4_ov05): greedy pass fails every boundary (Ctx, Ctx_021B2488, St, Sess, Stat, Stats, Pool, N, G views of d_021B60D8, d_021B4BD0, d_021B4BE0, d_021B4C0C). Canonical Sess: u8 b0 @0, cb @4, arg @8, fC @0xC, state @0x10, f14 @0x14. Not applied.

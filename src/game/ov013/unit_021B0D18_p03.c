@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B0D18_p03.c
  * unit:     yes
- * function: func_021B12FC, func_021B133C
+ * function: func_021B12FC, func_021B133C, func_021B1398
  * address:  0x021B12FC
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -24,6 +24,12 @@
 struct Node;
 typedef unsigned int   u32;
 
+struct Node {
+    int f0;
+    struct Node *prev;
+    struct Node *next;
+};
+
 extern int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(int s);
 extern struct Node *func_021B14A8(u32 type);
@@ -31,11 +37,13 @@ extern u32 func_021B14F8(struct Node *n);
 extern void func_021B2FE4(void *p);
 void func_021B12FC(void);
 void func_021B133C(unsigned int n);
+void func_021B1398(void);
 extern struct {
     void *head;
     void *tail;
 } g_021B4B98;
 extern int g_021B4BA0[3];
+
 
 
 void func_021B12FC(void)
@@ -53,6 +61,7 @@ void func_021B12FC(void)
 }
 
 
+
 void func_021B133C(unsigned int n)
 {
     int s;
@@ -64,5 +73,28 @@ void func_021B133C(unsigned int n)
         func_021B2FE4(p);
     }
     g_021B4BA0[n] = 0;
+    OS_RestoreInterrupts(s);
+}
+
+
+void func_021B1398(void)
+{
+    int s;
+    int i;
+    struct Node *p;
+    struct Node *q;
+
+    s = OS_DisableInterrupts();
+    p = g_021B4B98.head;
+    while (p != 0) {
+        q = p;
+        p = p->next;
+        func_021B2FE4(q);
+    }
+    g_021B4B98.head = 0;
+    g_021B4B98.tail = 0;
+    for (i = 0; i < 3; i++) {
+        g_021B4BA0[i] = 0;
+    }
     OS_RestoreInterrupts(s);
 }

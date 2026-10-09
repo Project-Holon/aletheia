@@ -1,7 +1,7 @@
 /*
  * file:     game_beacon_search_p01.c
  * unit:     yes
- * function: func_02164B38, func_02164B6C, func_02164BC4, func_02164C04, func_02164C20, func_02164C38, func_02164C64, func_02164D6C
+ * function: func_02164B38, func_02164B6C, func_02164BC4, func_02164C04, func_02164C20, func_02164C38, func_02164C64, func_02164D6C, func_02164E04, func_02164E8C, func_02164EB4
  * address:  0x02164B38
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -50,10 +50,19 @@
  *   func_02177BF4  0x02177BF4  thumb  ov014
  *   func_02010498  0x02010498  thumb
  *   func_0203D0FC  0x0203D0FC  arm
- *   func_02164E04  0x02164E04  thumb ov010
  *   func_02082BCC  0x02082BCC  arm
  *   func_0203CF3C  0x0203CF3C  arm
  *   func_02026A60  0x02026A60  thumb
+ *   func_02178098  0x02178098  thumb ov014
+ *   func_0203CF10  0x0203CF10  arm
+ *   func_02164F9C  0x02164F9C  thumb ov010
+ *   func_020267E4 0x020267E4 thumb
+ *   func_0203D1B4  0x0203D1B4  arm
+ *   func_02039414  0x02039414  arm
+ *   func_02085D3C  0x02085D3C  arm
+ *   func_02087E60  0x02087E60  arm
+ *   func_02012944  0x02012944  thumb
+ *   func_02008530  0x02008530  thumb
  */
 #include "../../matched/include/Obj07302.h"
 #include "../../matched/include/Obj12361.h"
@@ -62,6 +71,7 @@
 #include "../../matched/include/Obj18983.h"
 #include "../../matched/include/Obj18984.h"
 #include "../../matched/include/Obj09313.h"
+#include "../../matched/include/Obj18986.h"
 
 struct Desc;
 struct SeqWork2;
@@ -73,6 +83,7 @@ struct Comm;
 struct Rec44;
 struct SaveBlock;
 struct BigObj;
+struct Sub0200852CObj;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
@@ -111,6 +122,31 @@ typedef struct Ent {
     u8 rest : 2;
 } Ent;
 
+typedef struct Hdr_02164B38 { u8 x[2]; u8 b0:1; u8 b1:5; u8 b6:1; u8 b7:1; } Hdr_02164B38;
+
+typedef struct Obj { void *src; u8 gap[12]; Hdr_02164B38 hdr; } Obj;
+
+typedef struct Hdr_02164EB4 {
+    u8 f00;             /* 0x00 */
+    u8 f01_lo : 4;      /* 0x01 */
+    u8 f01_hi : 4;
+    u8 f02_0 : 1;       /* 0x02 */
+    u8 f02_1 : 5;
+    u8 f02_6 : 1;
+    u8 f02_7 : 1;
+    u8 f03_0 : 1;       /* 0x03 */
+    u8 f03_1 : 1;
+    u8 f03_2 : 6;
+    u32 f04;            /* 0x04 */
+} Hdr_02164EB4;
+
+typedef struct Flags {
+    u32 b0 : 1;
+    u32 b1 : 4;
+    u32 b5 : 1;
+    u32 rest : 26;
+} Flags;
+
 extern struct Desc *func_020122C0(void *,void *,void *,u32);
 extern void *func_020124E8(struct Obj *p);
 extern int func_02164A2C(void *,u32 *,struct SeqWork2 *);
@@ -142,14 +178,23 @@ extern int func_02158570(u16 v);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void func_0202640C(struct Comm *p, u32 a, u32 b);
 extern void func_02164FD0(u8 *obj, int flag);
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
+extern void MI_CpuFill8(void *, u8, u32);
 extern void func_02177BF4(u32 id);
 extern void func_02010498(void);
 extern void  func_0203D0FC(int a);
-extern Ent  *func_02164E04(u8 *obj, int *out);
-extern void  func_02082BCC(void *dst, int v, int n);
+extern void func_02082BCC(void *, int, int);
 extern void *func_0203CF3C(u32 a);
 extern int func_02026A60(struct Req *r);
+extern u8 func_02178098(u8 i);
+extern u32 func_0203CF10(u32 a);
+extern Ent  *func_02164F9C(Ent *a, Ent *b);
+extern void func_020267E4(void *);
+extern int func_0203D1B4(void);
+extern u32 func_02039414(void);
+extern int func_02085D3C(void);
+extern Flags *func_02087E60(void);
+extern u8 *func_02012944(void *p);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 void *func_02164B38(void *a, void *b, u8 c);
 u8 *func_02164B6C(void *unused, void *arg);
 int func_02164BC4(int *st, int unused, int *q);
@@ -159,10 +204,17 @@ int func_02164C38(int a,int b,u8 *p);
 void func_02164C5C(u8 *p);
 void func_02164C64(void *unused, void *sys, PollWork *w);
 u8 *func_02164D6C(u8 *obj, int *arg);
+Ent *func_02164E04(u8 *obj, int *out);
+void *func_02164E8C(Obj *p);
+void func_02164EB4(Hdr_02164EB4 *p, void *src);
 extern const char d_021729BC[];
 extern u8 d_02171C30[];
 
+
+
 void *func_02164B38(void *a, void *b, u8 c){void *t=func_020122C0(a,0,(void *)func_02164A2C,0x1c);u8 *p=func_020124E8(t);void *v=func_020120F4(a);((struct Obj07302 *)p)->f4=v;((struct Obj07302 *)p)->f8=func_02012EBC(v);((struct Obj07302 *)p)->f0=a; p[0x18]=c;return t;}
+
+
 
 
 /*
@@ -182,6 +234,8 @@ u8 *func_02164B6C(void *unused, void *arg)
     }
     return p;
 }
+
+
 
 
 /*
@@ -206,19 +260,31 @@ int func_02164BC4(int *st, int unused, int *q)
     return 0;
 }
 
+
+
 void func_02164C04(u8 *p){((struct Obj12363 *)p)->f4=1; ((struct Obj12363 *)p)->f80=func_02010360(4,(void *)0x8005);}
+
+
 
 int func_02164C20(int a,int b,u8 *p) { func_020103E4(*(u8 * *)&((struct Obj18982 *)p)->f80); func_0203CEAC((int)func_02164C5C); return 1; }
 
+
+
 int func_02164C38(int a,int b,u8 *p) { if(((struct Obj18983 *)p)->f4==0) { func_020307B0(p); if(func_0200FB24()) func_0200FBA0(); return 1; } return 0; }
 
+
+
 void func_02164C5C(u8 *p) { ((struct Obj18984 *)p)->f4=0; }
+
+
 
 
 static inline int PAD_DetectFold(void)
 {
     return (*(vu16 *)0x02FFFFA8 & 0x8000) >> 15;
 }
+
+
 
 
 /*
@@ -287,6 +353,8 @@ end:
 }
 
 
+
+
 /*
  * Per-frame poll: state 1 finishes a request; otherwise, while the 9-byte
  * record at +0x74 is empty, picks an entry with func_02164E04 and copies it in.
@@ -332,4 +400,90 @@ u8 *func_02164D6C(u8 *obj, int *arg)
         rec = 0;
     }
     return rec;
+}
+
+
+
+
+/*
+ * Scans 16 slots for the best usable entry, stores its index through *out
+ * and returns its record; 0 when none.
+ *
+ * Addresses are Black-image addresses.
+ */
+Ent *func_02164E04(u8 *obj, int *out)
+{
+    int none = -1;
+    int best = -1;
+    int i;
+    Ent *p;
+    int r;
+    for (i = 0; i < 16; i++) {
+        r = func_02178098(i);
+        if ((u32)(r - 2) > 1) {
+            continue;
+        }
+        if (r == 2 && ((struct Obj18986 *)obj)->fC != 0) {
+            continue;
+        }
+        p = (Ent *)func_0203CF10(i);
+        if (p == 0) {
+            continue;
+        }
+        if (p->lo < p->hi) {
+            if (best == none) {
+                best = i;
+            } else if (func_02164F9C(p, (Ent *)func_0203CF10(best)) == p) {
+                best = i;
+            }
+        } else {
+            func_02177BF4(i);
+        }
+    }
+    if (best != -1) {
+        *out = best;
+        return (Ent *)func_0203CF10(best);
+    }
+    return 0;
+}
+
+
+
+/*
+ * diagnostic: tu --suggest-split found one image-wide witness, at 02164E9C inside this caller; no viable partition.
+ * extent: trailing two zero alignment bytes at 02164EB2; next labelled function 02164EB4.
+ *
+ * 2026-10-05 (D8 lane 15): 020267E4 now filed EXACT as src/matched/arm9/func_020267E4.c (MI_CpuCopy8(d_02146940+4, p, 0x5C)).
+ * Re-run after the integrator regenerates the layout; expected EXACT.
+ */
+void *func_02164E8C(Obj *p) { func_02164EB4((Hdr_02164EB4 *)(&p->hdr), p->src); func_020267E4((u8 *)p+0x18); p->hdr.b1=2; return &p->hdr; }
+
+
+/*
+ * Clears a 100-byte record and fills its header bitfields from SDK
+ * queries; 0x02FFFFA8 is the shared-area halfword read as a cast
+ * constant (no relocation).
+ */
+void func_02164EB4(Hdr_02164EB4 *p, void *src)
+{
+    int v;
+    int t;
+
+    func_02082BCC(p, 0, 100);
+    p->f00 = 3;
+    p->f01_lo = (u8)func_0203D1B4();
+    p->f01_hi = 3;
+    p->f02_0 = (u8)func_02039414();
+    p->f02_1 = 0;
+    p->f04 = func_02008530((const struct Sub0200852CObj *)func_02012944(src));
+    p->f02_7 = (u8)func_02085D3C();
+    p->f02_6 = 0;
+    t = (*(volatile u16 *)0x02FFFFA8 & 0x8000) >> 15;
+    p->f03_1 = (u8)t;
+    if (p->f02_7 == 1) {
+        v = 1;
+        if (func_02087E60()->b0 == 0 || func_02087E60()->b5 == 0)
+            v = 0;
+        p->f02_6 = v;
+    }
 }

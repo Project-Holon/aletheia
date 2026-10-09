@@ -1,7 +1,7 @@
 /*
  * file:     iss_road_sys_p01.c
  * unit:     yes
- * function: func_0202B1AC, func_0202B1EC, func_0202B1F4
+ * function: func_0202B1AC, func_0202B1EC, func_0202B1F4, func_0202B1FC
  * address:  0x0202B1AC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -36,9 +36,12 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern struct Vec12 *func_02012AA0(struct Rec44 *p);
 extern u32 func_020307B0(void *p);
 extern void func_0202B230(u8 *p);
+extern void func_0202B20C(u8 *p);
 struct Node *func_0202B1AC(u32 a, u32 heapId);
 void func_0202B1EC(void *ptr);
 void func_0202B1F4(u8 *a0);
+void func_0202B1FC(u8 *a0);
+
 
 
 
@@ -68,10 +71,12 @@ struct Node *func_0202B1AC(u32 a, u32 heapId)
 
 
 
+
 void func_0202B1EC(void *ptr)
 {
     func_020307B0(ptr);
 }
+
 
 
 /*
@@ -82,4 +87,13 @@ void func_0202B1EC(void *ptr)
 void func_0202B1F4(u8 *a0)
 {
     func_0202B230(a0);
+}
+
+
+/*
+ * A bare tail-call thunk to func_0202B20C.
+ */
+void func_0202B1FC(u8 *a0)
+{
+    func_0202B20C(a0);
 }

@@ -1,21 +1,6 @@
-# unit_06898CE0.c (ov095)
+# ov095 unit_06898CE0: boundaries left
 
-Translation unit 06898CE0..06898E1C, 8 functions, confidence weak (tools/tuboundary.py).
+Each boundary below is a real file boundary for now (uncovered bytes, an ARM/Thumb switch, a lang change, or an asm veneer).
 
-The member files below each match on their own. Merging them into one
-`unit_06898CE0.c` is blocked by:
-
-- ov095_func_06898CE0.c..ov095_func_06898DE0.c: global g_0689E7E0 declared two ways (src/matched/ov/ov095_func_06898D54.c)
-- ov095_func_06898D10.c..ov095_func_06898DE0.c: global g_0689E7E0 declared two ways (src/matched/ov/ov095_func_06898D54.c)
-- ov095_func_06898D54.c..ov095_func_06898DE0.c: c99=DIFF nolang=DIFF
-- no verified entry for 06898D44, 06898DD0, 06898E0C
-
-Members, in address order:
-
-- `ov095_func_06898D10.c`
-- `ov095_func_06898D54.c`
-- `ov095_func_06898DE0.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_06898CE0.c` again.
+- unit_06898CE0_p01.c | unit_06898CE0_p02.c: 16 uncovered bytes before the next part (stub, pool or padding)
+- unit_06898CE0_p02.c | unit_06898CE0_p03.c: lang change "c99" -> "" (merge not tried across it); 16 uncovered bytes before the next part (stub, pool or padding)

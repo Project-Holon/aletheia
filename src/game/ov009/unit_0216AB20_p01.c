@@ -62,31 +62,39 @@ struct DWCstAccUserData
 
 struct DWCstDwcCnt
 {
-    int field0;                     /* +0x00 */
-    void (*gt2Connected)(void);     /* +0x04 */
-    void (*gt2Received)(void);      /* +0x08 */
-    void (*gt2Closed)(void);        /* +0x0c */
-    void (*gt2Ping)(void);          /* +0x10 */
-    unsigned long sendBufSize;      /* +0x14 */
-    unsigned long recvBufSize;      /* +0x18 */
-    void *gp;                       /* +0x1c */
-    struct DWCstAccUserData *userdata; /* +0x20 */
-    int state;                      /* +0x24 */
-    int field28;                    /* +0x28 */
-    u8 pad2c[1];
-    u8 flag2d;                      /* +0x2d */
-    u8 pad2e[0x64 - 0x2e];
-    int field64;                    /* +0x64 */
-    void *gameName;                 /* +0x68 */
-    void *secretKey;                /* +0x6c */
-    int field70;                    /* +0x70 */
-    int field74;                    /* +0x74 */
-    int field78;                    /* +0x78 */
-    int field7c;                    /* +0x7c */
-    int field80;                    /* +0x80 */
-    int field84;                    /* +0x84 */
-    int field88;                    /* +0x88 */
-    int field8c;                    /* +0x8c */
+	int field0;
+	void (*gt2Connected)(void);
+	void (*gt2Received)(void);
+	void (*gt2Closed)(void);
+	void (*gt2Ping)(void);
+	unsigned long sendBufSize;
+	unsigned long recvBufSize;
+	void *gp;
+	struct DWCstAccUserData *userdata;
+	int state;
+	int field28;
+	unsigned char pad2c[0x1];
+	unsigned char flag2d;
+	unsigned char pad2e[0x36];
+	int field64;
+	void *gameName;
+	void *secretKey;
+	int field70;
+	int field74;
+	int field78;
+	int field7c;
+	void (*field80)(int, int, int, int, int, void *);
+	void *field84;
+	int field88;
+	int field8c;
+	unsigned char pad90[0x8];
+	int field98;
+	unsigned char pad9c[0x2c4];
+	void *qr2;
+	volatile unsigned char status364;
+	unsigned char pad365[0x37];
+	unsigned char flag39c;
+	unsigned char pad39d[0x3];
 };
 
 struct DWCstGlobal

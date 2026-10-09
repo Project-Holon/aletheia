@@ -1,38 +1,28 @@
 # unit_021F4560.c (ov107)
 
-Translation unit 021F4560..021F636C, 27 functions, confidence proven (tools/tuboundary.py).
+Merged as far as the verifier and the compile allow. Remaining parts:
 
-The member files below each match on their own. Merging them into one
-`unit_021F4560.c` is blocked by:
+- `unit_021F4560_p01.c`: func_021F4560 .. func_021F4E9C (6 functions), MATCH
+- `unit_021F4560_p02.c`: MBi_ChildCallback, MBi_GetBeaconPeriodDispersion (2 functions), MATCH
+- `unit_021F4560_p03.c`: MB_Init .. MBi_CallReset (7 functions), MATCH
+- `unit_021F4560_p04.c`: MBi_CommEnd .. MBi_CheckWmErrcode (11 functions), EXACT
 
-- ov107_func_021F4560.c..ov107_func_021F6334.c: global d_021F6F90 declared two ways (src/matched/ov_sdk/ov107_func_021F46C8.c); global mbi_life_mp declared two ways (src/matched/ov_sdk/ov107_func_021F46C8.c); prototype of WM_StartMPEx differs betwe
-- ov107_func_021F4560.c..ov107_func_021F5CAC.c: global d_021F6F90 declared two ways (src/matched/ov_sdk/ov107_func_021F46C8.c); global mbi_life_mp declared two ways (src/matched/ov_sdk/ov107_func_021F46C8.c); prototype of WM_StartMPEx differs betwe
-- ov107_func_021F4560.c..ov107_func_021F4E9C.c: global d_021F6F90 declared two ways (src/matched/ov_sdk/ov107_func_021F46C8.c); global mbi_life_mp declared two ways (src/matched/ov_sdk/ov107_func_021F46C8.c)
-- ov107_func_021F4684.c..ov107_func_021F4E9C.c: global d_021F6F90 declared two ways (src/matched/ov_sdk/ov107_func_021F46C8.c)
-- ov107_func_021F4EFC.c..ov107_func_021F5CAC.c: prototype of MI_CpuCopy8 differs between members (src/matched/ov_sdk/ov107_func_021F5904.c)
-- ov107_func_021F4EFC.c..ov107_func_021F5904.c: prototype of MI_CpuCopy8 differs between members (src/matched/ov_sdk/ov107_func_021F5904.c)
-- ov107_func_021F589C.c..ov107_func_021F5904.c: c99=DIFF nolang=DIFF
-- ov107_func_021F5E7C.c..ov107_func_021F6334.c: global d_021F6F90 declared two ways (src/matched/ov_sdk/ov107_func_021F6334.c)
-- ov107_func_021F5E7C.c..ov107_func_021F6148.c: c99=DIFF nolang=DIFF
-- ov107_func_021F5E7C.c..ov107_func_021F5EE4.c: c99=DIFF nolang=DIFF
-- ov107_func_021F5EA0.c..ov107_func_021F5EE4.c: c99=DIFF nolang=DIFF
-- ov107_func_021F6158.c..ov107_func_021F6334.c: global d_021F6F90 declared two ways (src/matched/ov_sdk/ov107_func_021F6334.c)
-- ov107_func_021F62A0.c..ov107_func_021F6334.c: global d_021F6F90 declared two ways (src/matched/ov_sdk/ov107_func_021F6334.c)
-- ov107_func_021F6314.c..ov107_func_021F6334.c: global d_021F6F90 declared two ways (src/matched/ov_sdk/ov107_func_021F6334.c)
-- no verified entry for 021F5ED8
+MATCH (not EXACT) in p01 to p03 is the `.data` section-relative literal: the compiler
+addresses the static words at 0x021F6E58 as `.data` + offset, and a section-relative
+relocation in an overlay cannot be given an independent witness.
 
-Members, in address order:
+Blockers:
 
-- `ov107_func_021F4684.c`
-- `ov107_func_021F4EFC.c`
-- `ov107_func_021F589C.c`
-- `ov107_func_021F5904.c`
-- `ov107_func_021F5E7C.c`
-- `ov107_func_021F5EA0.c`
-- `ov107_func_021F5EE4.c`
-- `ov107_func_021F6314.c`
-- `ov107_func_021F6334.c`
+- p01|p02: the original MBi_ChildCallback reaches mbi_reject_ggid (+0x10) and
+  mbi_reject_ggid_mask (+0x14) through the `.data` anchor, so both words must be
+  defined (with initialisers) before ChildCallback. The image layout is mp, cam,
+  table_no, frame, power, game, ggid, mask. `game` is a function static of MB_Init
+  and only compiles like the original (value kept in a register across the copy loop)
+  as a function static, which puts it last in the layout. A file-scope `game` gives
+  the right layout but a different MB_Init. The whole TU therefore differs only in
+  ChildCallback. p02 defines its own block (MB_WM_OWN_STATICS in mb_wm.h) with a
+  stand-in `mbi_game` so the offsets are right.
+- p03|p04: linker veneer `ldr ip, [pc]; bx ip; .word 0x021F5EA0` at 0x021F5ED8
+  (12 bytes, no function covers it).
 
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021F4560.c` again.
+Shared rule: the part files must stay separate where a data label only has witnesses in the other part.

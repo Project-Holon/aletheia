@@ -1,14 +1,14 @@
 /*
  * file:     unit_021F3D04_p01.c
  * unit:     yes
- * function: func_021F3D04, func_021F3DF4, func_021F3E9C, func_021F3F0C, func_021F3F34, func_021F3F78, func_021F3FA4
+ * function: func_021F3D04, func_021F3DF4, func_021F3E9C, func_021F3F0C, func_021F3F34, func_021F3F78, func_021F3FA4, func_021F3FC8, func_021F4054, func_021F40F4, func_021F4140, func_021F42A4
  * address:  0x021F3D04
  * region:   ov107
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   MATCH
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
@@ -24,8 +24,22 @@
  *   func_02078B70  0x02078B70  arm
  *   g_021F6EF4     0x021F6EF4  data
  *   d_021F6EF4   0x021F6EF4  data
+ *   func_021F4140  0x021F4140  arm  ov107
+ *   func_021F42A4  0x021F42A4  arm  ov107
+ *   func_021F42D4  0x021F42D4  arm  ov107
+ *   g_021F6F20  0x021F6F20  data
+ *   func_021F628C  0x021F628C  arm  ov107
+ *   func_021F62A0  0x021F62A0  arm  ov107
+ *   func_02090CD4  0x02090CD4  arm
+ *   func_021F3FA4  0x021F3FA4  arm  ov107
+ *   sUnlockFunc    0x021F6EF4  data
+ *   mbss           0x021F6F0C  data
+ *   bsendBuff      0x021F6F20  data
+ *   MBi_calc_cksum  0x021F3CB8  arm  ov107
+ *   WM_SetGameInfo  0x02090CD4  arm
  */
 #include "../../matched/include/G_SUnlock.h"
+#include "../../matched/include/G_MbBeacon.h"
 
 struct FSFile;
 typedef unsigned char u8;
@@ -49,6 +63,40 @@ typedef struct MBGameInfo {
 
 typedef unsigned long u32_021F3F78;
 
+typedef struct {
+    unsigned short sum;
+    unsigned char fragmentNo;
+    unsigned char fragmentMaxNum;
+    unsigned char size;
+    unsigned char rsv;
+    unsigned short data[0x31];
+} MbBeaconFixed;
+
+typedef struct {
+    unsigned long ggid;
+    unsigned char dataAttr : 2;
+    unsigned char fileNo : 6;
+    unsigned char seqNoFixed;
+    unsigned char seqNoVolat;
+    unsigned char beaconNo;
+    union {
+        MbBeaconFixed fixed;
+        unsigned short raw[0x34];
+    } data;
+} MbBeacon;
+
+typedef struct {
+    void *top;
+    unsigned char *nowGInfop;
+    unsigned char *nowFixedp;
+    unsigned char state;
+    unsigned char pad1;
+    unsigned char seqNoVolat;
+    unsigned char fragmentNo;
+    unsigned char fragmentMaxNum;
+    unsigned char beaconNo;
+} MbSendStatus;
+
 extern void MIi_CpuClear16(u16 data, void *destp, u32_021F3D04 size);
 extern void MIi_CpuClearFast(u32_021F3D04 data, void *destp, u32_021F3D04 size);
 extern void MIi_CpuCopy16(const void *srcp, void *destp, u32_021F3D04 size);
@@ -58,6 +106,16 @@ extern int func_020789FC(struct FSFile *file, const char *path, u32_021F3DF4 mod
 extern u32_021F3DF4 func_02078A94(struct FSFile *file);
 extern int func_02078A80(FSFile *file);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
+extern void func_021F4140(unsigned long ggid, unsigned short tgid, unsigned char attribute);
+extern void func_021F42A4(void);
+extern void func_021F42D4(unsigned long ggid, unsigned short tgid, unsigned char attribute);
+extern unsigned long func_021F628C(void);
+extern unsigned short func_021F62A0(void);
+extern int func_02090CD4(void *callback, void *userGameInfo, unsigned short size, unsigned long ggid, unsigned short tgid, unsigned char attr);
+extern void func_021F3FA4(void);
+extern unsigned short MBi_calc_cksum(unsigned short *buf, int length);
+extern int WM_SetGameInfo(void *callback, unsigned short *userGameInfo, unsigned short size,
+                          unsigned long ggid, unsigned short tgid, unsigned char attr);
 void func_021F3D04(u8 *gameInfop, const u8 *mbGameRegp, const u8 *parent);
 int func_021F3DF4(char *filePathp, unsigned char *iconp, int char_flag);
 void func_021F3E9C(unsigned char *gameInfop, void *member, unsigned short nowPlayerFlag, unsigned short changePlayerFlag);
@@ -65,8 +123,15 @@ int mystrlen(const u16 *str);
 void func_021F3F34(MBGameInfo *newGameInfop);
 void MB_InitSendGameInfoStatus(void);
 void MBi_ClearSendStatus(void);
+void func_021F3FC8(unsigned long ggid, unsigned short tgid, unsigned char attribute);
+int func_021F4054(void);
+void func_021F40F4(void);
+void MBi_InitSendVolatBeacon(void);
 extern struct SUnlock g_021F6EF4;
 extern struct SUnlock d_021F6EF4;
+extern struct MbBeacon g_021F6F20;
+
+
 
 
 void func_021F3D04(u8 *gameInfop, const u8 *mbGameRegp, const u8 *parent)
@@ -101,6 +166,8 @@ void func_021F3D04(u8 *gameInfop, const u8 *mbGameRegp, const u8 *parent)
 }
 
 
+
+
 /*
  * sdk:      MBi_ReadIconInfo (libmb.TWL.HYB.a(mb_gameinfo.o))
  */
@@ -130,6 +197,8 @@ int func_021F3DF4(char *filePathp, unsigned char *iconp, int char_flag)
 }
 
 
+
+
 /*
  * sdk:      MB_UpdateGameInfoMember (libmb.TWL.HYB.a(mb_gameinfo.o))
  */
@@ -150,6 +219,8 @@ void func_021F3E9C(unsigned char *gameInfop, void *member, unsigned short nowPla
 }
 
 
+
+
 int mystrlen(const u16 *str)
 {
     int len = 0;
@@ -159,6 +230,8 @@ int mystrlen(const u16 *str)
 
     return len;
 }
+
+
 
 
 /*
@@ -180,6 +253,8 @@ void func_021F3F34(MBGameInfo *newGameInfop)
 }
 
 
+
+
 void MB_InitSendGameInfoStatus(void)
 {
     *(u32_021F3F78 *)(((char *)&d_021F6EF4) + 0x18) = 0;
@@ -190,6 +265,8 @@ void MB_InitSendGameInfoStatus(void)
 }
 
 
+
+
 void MBi_ClearSendStatus(void)
 {
     ((char *)&d_021F6EF4)[0x25] = 0;
@@ -197,4 +274,153 @@ void MBi_ClearSendStatus(void)
     ((char *)&d_021F6EF4)[0x27] = 0;
     ((char *)&d_021F6EF4)[0x28] = 0;
     ((char *)&d_021F6EF4)[0x29] = 0;
+}
+
+
+
+
+/*
+ * sdk:      MB_SendGameInfoBeacon (libmb.TWL.HYB.a(mb_gameinfo.o))
+ */
+void func_021F3FC8(unsigned long ggid, unsigned short tgid, unsigned char attribute)
+{
+    while (1) {
+        switch (((unsigned char *)&g_021F6EF4)[0x24]) {
+        case 0:
+        case 1:
+            if (!func_021F4054())
+                return;
+            break;
+        case 2:
+            func_021F40F4();
+            break;
+        case 3:
+            func_021F4140(ggid, tgid, attribute);
+            return;
+        case 4:
+            func_021F42A4();
+            break;
+        case 5:
+            func_021F42D4(ggid, tgid, attribute);
+            return;
+        case 6:
+            break;
+        }
+    }
+}
+
+
+
+
+/*
+ * sdk:      MBi_ReadyBeaconSendStatus (libmb.TWL.HYB.a(mb_gameinfo.o))
+ */
+int func_021F4054(void)
+{
+    unsigned char *nextGameInfop;
+
+    if (*(int *)(((unsigned char *)&g_021F6EF4) + 0x18) == 0) {
+        unsigned long ggid = func_021F628C();
+        func_02090CD4(0, ((unsigned char *)&g_021F6F20), 0x70, ggid, func_021F62A0(), 8);
+        return 0;
+    }
+    if (*(unsigned char **)(((unsigned char *)&g_021F6EF4) + 0x1C) != 0 && (nextGameInfop = *(unsigned char **)(*(unsigned char **)(((unsigned char *)&g_021F6EF4) + 0x1C) + 0x4BC)) != 0) {
+    } else {
+        nextGameInfop = *(unsigned char **)(((unsigned char *)&g_021F6EF4) + 0x18);
+    }
+    *(unsigned char **)(((unsigned char *)&g_021F6EF4) + 0x1C) = nextGameInfop;
+    func_021F3FA4();
+    ((unsigned char *)&g_021F6EF4)[0x26] = (*(unsigned char **)(((unsigned char *)&g_021F6EF4) + 0x1C))[0x4B4];
+    ((unsigned char *)&g_021F6EF4)[0x24] = 2;
+    return 1;
+}
+
+
+
+
+void func_021F40F4(void)
+{
+    if (((unsigned char *)&g_021F6EF4)[0x24] != 2)
+        return;
+    if (*(unsigned char *)(*(char **)(((unsigned char *)&g_021F6EF4) + 0x1C) + 0x4B2) == 0) {
+        ((unsigned char *)&g_021F6EF4)[0x28] = 9;
+        *(void **)(((unsigned char *)&g_021F6EF4) + 0x20) = *(char **)(((unsigned char *)&g_021F6EF4) + 0x1C);
+    } else {
+        ((unsigned char *)&g_021F6EF4)[0x28] = 4;
+        *(void **)(((unsigned char *)&g_021F6EF4) + 0x20) = *(char **)(((unsigned char *)&g_021F6EF4) + 0x1C) + 0x220;
+    }
+    ((unsigned char *)&g_021F6EF4)[0x24] = 3;
+}
+
+
+
+static void *sSendVolatCallback = 0;
+
+
+static void *sSendVolatCallbackTiming = 0;
+
+
+static void *mbrsp = 0;
+
+
+static void *brecvBuffp = 0;
+
+
+static void (*sLockFunc)(void) = 0;
+
+
+static void (*sUnlockFunc)(void) = 0;
+
+
+static MbSendStatus mbss = {0};
+
+
+extern MbBeacon bsendBuff __attribute__((aligned(32)));
+
+
+
+static inline void MI_CpuClear16(void *dest, unsigned long size) { MIi_CpuClear16(0, dest, size); }
+
+
+static inline void MI_CpuCopy16(const void *src, void *dest, unsigned long size) { MIi_CpuCopy16(src, dest, size); }
+
+
+
+static void MBi_SendFixedBeacon(unsigned long ggid, unsigned short tgid, unsigned char attribute)
+{
+    unsigned long lastAddr = (unsigned long)mbss.nowGInfop + 0x358;
+
+    if ((unsigned long)mbss.nowFixedp + 0x62 <= lastAddr) {
+        bsendBuff.data.fixed.size = 0x62;
+    } else {
+        bsendBuff.data.fixed.size = (unsigned char)(lastAddr - (unsigned long)mbss.nowFixedp);
+        MI_CpuClear16((void *)((unsigned char *)bsendBuff.data.fixed.data + bsendBuff.data.fixed.size),
+                      (unsigned long)(0x62 - bsendBuff.data.fixed.size));
+    }
+    MI_CpuCopy16(mbss.nowFixedp, bsendBuff.data.fixed.data, bsendBuff.data.fixed.size);
+    bsendBuff.data.fixed.fragmentNo = mbss.fragmentNo;
+    bsendBuff.data.fixed.fragmentMaxNum = mbss.fragmentMaxNum;
+    bsendBuff.dataAttr = mbss.nowGInfop[0x4B2];
+    bsendBuff.seqNoFixed = mbss.nowGInfop[0x4B3];
+    bsendBuff.seqNoVolat = mbss.seqNoVolat;
+    bsendBuff.ggid = *(unsigned long *)(mbss.nowGInfop + 0x4B8);
+    bsendBuff.fileNo = mbss.nowGInfop[0x4B5];
+    bsendBuff.beaconNo = mbss.beaconNo++;
+    bsendBuff.data.fixed.sum = 0;
+    bsendBuff.data.fixed.sum = MBi_calc_cksum((unsigned short *)&bsendBuff.data, sizeof(bsendBuff.data));
+    mbss.fragmentNo++;
+    if (mbss.fragmentNo < mbss.fragmentMaxNum)
+        mbss.nowFixedp += 0x62;
+    else
+        mbss.state = 4;
+    WM_SetGameInfo(0, (unsigned short *)&bsendBuff, 0x70, ggid, tgid, (unsigned char)(attribute | 3));
+}
+
+
+
+void MBi_InitSendVolatBeacon(void)
+{
+    *(u16 *)(*(char **)(((char *)&d_021F6EF4) + 0x1C) + 0x4B0) = 1;
+    *(u8 *)(((char *)&d_021F6EF4) + 0x26) = *(u8 *)(*(char **)(((char *)&d_021F6EF4) + 0x1C) + 0x4B4);
+    *(u8 *)(((char *)&d_021F6EF4) + 0x24) = 5;
 }

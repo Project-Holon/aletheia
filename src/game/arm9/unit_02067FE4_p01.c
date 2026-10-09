@@ -1,7 +1,7 @@
 /*
  * file:     unit_02067FE4_p01.c
  * unit:     yes
- * function: func_02067FE4, func_02068030, func_020680DC, func_02068150, func_020681E4
+ * function: func_02067FE4, func_02068030, func_020680DC, func_02068150, func_020681E4, func_020682DC
  * address:  0x02067FE4
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -15,6 +15,7 @@
  * symbols:
  *   func_02067F9C    0x02067F9C  arm
  *   g_020A18F4     0x020A18F4  data
+ *   g_020A1914     0x020A1914  data
  */
 typedef unsigned char  u8;
 
@@ -39,13 +40,23 @@ typedef struct NNSG2dFontWidth {
     NNSG2dCharWidths widthTable[1];     /* +8, 3-byte entries */
 } NNSG2dFontWidth;
 
+typedef struct NNSG2dFontGlyph {
+    u8 cellWidth;
+    u8 cellHeight;
+    u16 cellSize;
+    s8 baselinePos;
+    u8 maxCharWidth;
+    u8 bpp;
+    u8 flags;
+} NNSG2dFontGlyph;
+
 typedef struct NNSG2dFontInformation {
     u8  fontType;                   /* +0x00 */
     s8  linefeed;                   /* +0x01  ldrsb */
     u16 alterCharIndex;             /* +0x02 */
     NNSG2dCharWidths defaultWidth;  /* +0x04 */
     u8  encoding;                   /* +0x07 */
-    void *pGlyph;                   /* +0x08 */
+    NNSG2dFontGlyph *pGlyph;        /* +0x08 */
     NNSG2dFontWidth *pWidth;        /* +0x0C */
     void *pMap;                     /* +0x10 */
 } NNSG2dFontInformation;
@@ -68,7 +79,11 @@ const NNSG2dCharWidths *func_02067FE4(const NNSG2dFont *pFont, u32 idx);
 int func_02068030(const NNSG2dFont *pFont, int hSpace, const void *txt, const void **pPos);
 int func_020680DC(const NNSG2dFont *pFont, int vSpace, const void *txt);
 NNSG2dTextRect func_02068150(const NNSG2dFont *pFont, int hSpace, int vSpace, const void *txt);
+int func_020681E4(int x, int y, int w, int h, struct Shift s);
+u32 func_020682DC(u8 *p);
 extern const u8 g_020A18F4[4][4][2];
+extern u32 g_020A1914[][4];
+
 
 
 
@@ -99,6 +114,7 @@ const NNSG2dCharWidths *func_02067FE4(const NNSG2dFont *pFont, u32 idx)
 
 
 
+
 static inline int GetCharWidth(const NNSG2dFont *pFont, u16 c)
 {
     u16 index = func_02067F9C(pFont, c);
@@ -106,6 +122,7 @@ static inline int GetCharWidth(const NNSG2dFont *pFont, u16 c)
         index = pFont->pRes->alterCharIndex;
     return func_02067FE4(pFont, index)->charWidth;
 }
+
 
 
 
@@ -152,6 +169,7 @@ int func_02068030(const NNSG2dFont *pFont, int hSpace, const void *txt, const vo
 
 
 
+
 /*
  * NNS_G2dFontGetTextHeight (NitroSystem g2d_Font.c): count lines (1 plus one
  * per '\n') and return lines * (vSpace + linefeed) - vSpace.  FINF +0x01
@@ -187,6 +205,7 @@ int func_020680DC(const NNSG2dFont *pFont, int vSpace, const void *txt)
 
 
 
+
 /*
  * NNS_G2dFontGetTextRect (NitroSystem g2d_Font.c), struct return through the
  * hidden r0 pointer: widest line via func_02068030 (threading its pPos back
@@ -214,6 +233,7 @@ NNSG2dTextRect func_02068150(const NNSG2dFont *pFont, int hSpace, int vSpace, co
     rect.height = (numLine - 1) * (vSpace + pFont->pRes->linefeed) - vSpace;
     return rect;
 }
+
 
 
 /*
@@ -296,4 +316,24 @@ int func_020681E4(int x, int y, int w, int h, struct Shift s)
       sh = (s.h = p[1]);
     }
   }
+}
+
+
+/*
+ *           in the image is this function's own literal at 0x020682F4, so the
+ *           `literal`/`data_table` classes both refuse; written as an integer
+ *           constant the pool word needs no witness but the front end then
+ *           synthesises the address with two `add`s and loses the whole body.
+ *
+ * A 2-D table of four-word rows indexed by the byte at +1 then the byte at +0,
+ * which is what makes the first index a `lsl #4` on the base and the second a
+ * `lsl #2` inside the load's addressing mode.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_020682DC.c \
+ *       --func func_020682DC --addr 0x020682DC --cc 1.1p1 --arm
+ */
+u32 func_020682DC(u8 *p)
+{
+    return g_020A1914[p[1]][p[0]];
 }

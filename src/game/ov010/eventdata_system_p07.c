@@ -1,8 +1,9 @@
 /*
  * file:     eventdata_system_p07.c
  * unit:     yes
- * function: func_0216208C, func_0216209C, func_021620A0
- * address:  0x0216208C
+ * function: func_02162BCC
+ * address:  0x02162BCC
+ * packet:   pkt_ov010_02162BCC
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,54 +11,68 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
  * symbols:
- *   func_02162358  0x02162358  thumb  ov010
- *   func_021622F4  0x021622F4  thumb  ov010
+ *   func_02162C54  0x02162C54  thumb  ov010
  */
-#include "../../matched/include/Obj18951.h"
-#include "../../matched/include/Obj18952.h"
 
 typedef unsigned short u16;
+typedef short s16;
 
-typedef unsigned char u8;
+struct Sub {
+    u16 f0;
+    u16 f2;
+    s16 f4;
+    u16 f6;
+    u16 f8;
+    u16 fa;
+};
 
-typedef unsigned int u32;
+struct Box {
+    u16 pad0[4];
+    struct Sub s;
+};
 
-extern int func_02162358();
-extern int func_021622F4();
-int func_0216208C(char *p, int unused);
-u16 func_0216209C(char *p);
-int func_021620A0(int a0);
+struct Q {
+    u16 pad0[2];
+    s16 f4;
+    u16 f6;
+};
 
+typedef unsigned char  u8;
+extern int func_02162C54(u8 *p);
 
-/*
- * Unlabelled Thumb leaf (no lr save, prints as .word data in the listing),
- * called from ov020 func_021871F8.
- */
-int func_0216208C(char *p, int unused)
+u16 func_02162BCC(struct Box *b, struct Q *q)
 {
-    if (((struct Obj18951 *)p)->f2 & 8)
-        return 1;
-    return 0;
+    struct Sub *s = &b->s;
+    int a = 0;
+    int c = 0;
+    int m = func_02162C54((u8 *)b);
+    int d;
+    switch (s->fa) {
+    case 0:
+        a = 1;
+        break;
+    case 1:
+        c = 1;
+        break;
+    case 2:
+        a = 1;
+        c = 1;
+        break;
+    case 3:
+        break;
+    }
+    if (s->f8 > 1) {
+        d = q->f4 - s->f4;
+        if (c != 0)
+            d = s->f8 - 1 - d;
+        return (s->f8 << 4) | d | (m << 8);
+    }
+    if (s->f6 > 1) {
+        d = q->f6 - s->f2;
+        if (a != 0)
+            d = s->f6 - 1 - d;
+        return (s->f6 << 4) | d | (m << 8);
+    }
+    return 0x10 | (m << 8);
 }
-
-
-u16 func_0216209C(char *p)
-{
-    return ((struct Obj18952 *)p)->f26;
-}
-
-
-int func_021620A0(int a0)
-{
-    int t4;
-
-t4 = a0 + 0;
-    a0 = func_02162358(a0);
-loc_021620A8:
-a0 = t4 + 0;
-    a0 = func_021622F4(a0);
-loc_021620AE:
-    return a0;}

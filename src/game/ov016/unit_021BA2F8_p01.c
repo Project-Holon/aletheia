@@ -1,8 +1,8 @@
 /*
  * file:     unit_021BA2F8_p01.c
  * unit:     yes
- * function: func_021BAF90, func_021BAFD8, func_021BB290, func_021BB420
- * address:  0x021BAF90
+ * function: func_021BA2F8, func_021BA3F4, AsciiToHex, func_021BA67C
+ * address:  0x021BA2F8
  * region:   ov016
  * compiler: dsi/../2.0/sp1p2
  * flags:    -O4,p
@@ -13,268 +13,294 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   rcon  0x021D77D0  data
- *   Te4   0x021D93F8  data
- *   Td0   0x021D97F8  data
- *   Td1   0x021D9BF8  data
- *   Td2   0x021D77F8  data
- *   Td3   0x021D7BF8  data
- *   Te0   0x021D83F8  data
- *   Te1   0x021D87F8  data
- *   Te2   0x021D8BF8  data
- *   Te3   0x021D8FF8  data
+ *   func_021BA2EC  0x021ba2ec  thumb  ov016
+ *   func_020923F0  0x020923f0  arm
+ *   func_021BC608  0x021bc608  thumb  ov016
+ *   g_021DAC18  0x021dac18  data
+ *   g_021DD480  0x021dd480  data
+ *   g_021DD478  0x021dd478  data
+ *   g_021DAB58  0x021dab58  data
+ *   memcmp  0x020923F0  arm
+ *   memcpy  0x02092344  arm
+ *   memset  0x020923B0  arm
+ *   func_021B9F5C  0x021B9F5C  thumb  ov016
+ *   func_021BC5D4  0x021BC5D4  thumb  ov016
+ *   g_021DD224  0x021DD224  data
+ *   g_021DD324  0x021DD324  data
+ *   g_021DD350  0x021DD350  data
+ *   g_021DD388  0x021DD388  data
+ *   g_021DD420  0x021DD420  data
+ *   strcpy  0x02094798  arm
+ *   strlen  0x0209477C  arm
+ *   func_021BA5C8  0x021BA5C8  thumb  ov016
+ *   g_021DD13C  0x021DD13C  data
+ *   g_021DD150  0x021DD150  data
+ *   g_021DD164  0x021DD164  data
+ *   g_021DD1E4  0x021DD1E4  data
  */
-#define GETU32(pt) (((u32)(pt)[0] << 24) ^ ((u32)(pt)[1] << 16) ^ ((u32)(pt)[2] <<  8) ^ ((u32)(pt)[3]))
-#define PUTU32(ct, st) { (ct)[0] = (u8)((st) >> 24); (ct)[1] = (u8)((st) >> 16); (ct)[2] = (u8)((st) >>  8); (ct)[3] = (u8)(st); }
-typedef unsigned long u32;
+#include "../../matched/arm9_sdk/libc/string.h"
+#include "../../matched/include/G__ATERMApConfigParam.h"
 
+#define SWAP16(x) ((u16)((((x) >> 8) & 0xff) | (((x) << 8) & 0xff00)))
 typedef unsigned char u8;
 
-void aeskw_xor64(unsigned char *srcA, unsigned char *srcB, unsigned char *dst);
-int rijndaelKeySetupEnc(u32 *rk, u8 *cipherKey, int keyBits);
-int rijndaelKeySetupDec(u32 *rk, u8 *cipherKey, int keyBits);
-void rijndaelEncrypt(u32 *rk, int Nr, u8 *pt, u8 *ct);
-extern u32 rcon[10];
-extern u32 Te4[256];
-extern u32 Td0[256];
-extern u32 Td1[256];
-extern u32 Td2[256];
-extern u32 Td3[256];
-extern u32 Te0[256];
-extern u32 Te1[256];
-extern u32 Te2[256];
-extern u32 Te3[256];
+typedef unsigned short u16;
 
-void aeskw_xor64(unsigned char *srcA, unsigned char *srcB, unsigned char *dst)
+typedef struct {
+    int keyType;
+    int keyLen;
+    char key[32];
+} WepEntry;
+
+typedef struct {
+    int type;
+    int defkey;
+    char pad[0x28];
+    int f30;
+} EncCommon;
+
+typedef struct { int w[18]; } Key72;
+
+typedef struct { int w[16]; } Key64;
+
+extern int func_021BA2EC(unsigned char *lpmac);
+extern int memcmp(const void *a, const void *b, unsigned long n);
+extern int func_021BC608(char *lpwrite, char *lps);
+extern u8 *func_021B9F5C(u8 **lplpb, u8 *lplimit, int *pid, int *psize);
+extern int func_021BC5D4(char *lpwrite, char ch);
+extern int func_021BA5C8(unsigned char *byDest, char *szStr, int nLen);
+int func_021BA2F8(unsigned char *lpkey);
+int func_021BA3F4(u8 *lpelement);
+int AsciiToHex(unsigned char *byDest, char *szStr, int nLen);
+int func_021BA67C(void);
+extern const unsigned char g_021DAC18[];
+extern unsigned char g_021DD480[6];
+extern unsigned char g_021DD478[6];
+extern unsigned char *g_021DAB58[];
+extern struct {
+    char pad[0x15c];
+    WepEntry wep[4];
+} g_021DD224;
+extern struct { int w[8]; } g_021DD324;
+extern EncCommon g_021DD350;
+extern char g_021DD388[4][0x28];
+extern Key72 g_021DD420;
+extern struct _ATERMApConfigParam g_021DD13C;
+extern struct {
+    int pad[3];
+    int auth_mode;
+    int wepkeyid;
+} g_021DD150;
+extern char g_021DD164[4][32];
+extern Key64 g_021DD1E4;
+
+
+
+
+/*
+ * sdk:      GetMacEncKey (libdwcutil.TWL.HYB.a(atermset.o))
+ */
+int func_021BA2F8(unsigned char *lpkey)
 {
-    dst[0] = srcA[0] ^ srcB[0];
-    dst[1] = srcA[1] ^ srcB[1];
-    dst[2] = srcA[2] ^ srcB[2];
-    dst[3] = srcA[3] ^ srcB[3];
-    dst[4] = srcA[4] ^ srcB[4];
-    dst[5] = srcA[5] ^ srcB[5];
-    dst[6] = srcA[6] ^ srcB[6];
-    dst[7] = srcA[7] ^ srcB[7];
+    char strmac[32];
+    char strap[32];
+    unsigned char ap_mac[6];
+    unsigned char sta_mac[6];
+    int ret;
+
+    memcpy(lpkey + 12, g_021DAC18, 4);
+    memcpy(ap_mac, g_021DD480, 6);
+    ap_mac[0] &= 0xfd;
+    func_021BA2EC(sta_mac);
+    memcpy(g_021DD478, sta_mac, 6);
+    ret = memcmp(ap_mac, sta_mac, 6);
+    if (ret <= 0) {
+        memcpy(lpkey, sta_mac, 6);
+        memcpy(lpkey + 6, ap_mac, 6);
+    } else {
+        memcpy(lpkey, ap_mac, 6);
+        memcpy(lpkey + 6, sta_mac, 6);
+    }
+    if (g_021DAB58[1]) {
+        func_021BC608(strmac, (char *)sta_mac);
+        func_021BC608(strap, (char *)ap_mac);
+    }
+    return 1;
 }
 
 
-int rijndaelKeySetupEnc(u32 *rk, u8 *cipherKey, int keyBits)
+
+
+int func_021BA3F4(u8 *lpelement)
 {
-	int i = 0;
-	u32 temp;
+    int retv;
+    u8 *lpb;
+    u8 *lpw;
+    int eid;
+    int esize;
+    int i;
+    u16 len;
+    u8 *lpe;
+    char *wp;
 
-	rk[0] = GETU32(cipherKey     );
-	rk[1] = GETU32(cipherKey +  4);
-	rk[2] = GETU32(cipherKey +  8);
-	rk[3] = GETU32(cipherKey + 12);
-	if (keyBits == 128) {
-		for (;;) {
-			temp  = rk[3];
-			rk[4] = rk[0] ^
-				(Te4[(temp >> 16) & 0xff] & 0xff000000) ^
-				(Te4[(temp >>  8) & 0xff] & 0x00ff0000) ^
-				(Te4[(temp      ) & 0xff] & 0x0000ff00) ^
-				(Te4[(temp >> 24)       ] & 0x000000ff) ^
-				rcon[i];
-			rk[5] = rk[1] ^ rk[4];
-			rk[6] = rk[2] ^ rk[5];
-			rk[7] = rk[3] ^ rk[6];
-			if (++i == 10) {
-				return 10;
-			}
-			rk += 4;
-		}
-	}
-	rk[4] = GETU32(cipherKey + 16);
-	rk[5] = GETU32(cipherKey + 20);
-	if (keyBits == 192) {
-		for (;;) {
-			temp = rk[ 5];
-			rk[ 6] = rk[ 0] ^
-				(Te4[(temp >> 16) & 0xff] & 0xff000000) ^
-				(Te4[(temp >>  8) & 0xff] & 0x00ff0000) ^
-				(Te4[(temp      ) & 0xff] & 0x0000ff00) ^
-				(Te4[(temp >> 24)       ] & 0x000000ff) ^
-				rcon[i];
-			rk[ 7] = rk[ 1] ^ rk[ 6];
-			rk[ 8] = rk[ 2] ^ rk[ 7];
-			rk[ 9] = rk[ 3] ^ rk[ 8];
-			if (++i == 8) {
-				return 12;
-			}
-			rk[10] = rk[ 4] ^ rk[ 9];
-			rk[11] = rk[ 5] ^ rk[10];
-			rk += 6;
-		}
-	}
-	rk[6] = GETU32(cipherKey + 24);
-	rk[7] = GETU32(cipherKey + 28);
-	if (keyBits == 256) {
-		for (;;) {
-			temp = rk[ 7];
-			rk[ 8] = rk[ 0] ^
-				(Te4[(temp >> 16) & 0xff] & 0xff000000) ^
-				(Te4[(temp >>  8) & 0xff] & 0x00ff0000) ^
-				(Te4[(temp      ) & 0xff] & 0x0000ff00) ^
-				(Te4[(temp >> 24)       ] & 0x000000ff) ^
-				rcon[i];
-			rk[ 9] = rk[ 1] ^ rk[ 8];
-			rk[10] = rk[ 2] ^ rk[ 9];
-			rk[11] = rk[ 3] ^ rk[10];
-			if (++i == 7) {
-				return 14;
-			}
-			temp = rk[11];
-			rk[12] = rk[ 4] ^
-				(Te4[(temp >> 24)       ] & 0xff000000) ^
-				(Te4[(temp >> 16) & 0xff] & 0x00ff0000) ^
-				(Te4[(temp >>  8) & 0xff] & 0x0000ff00) ^
-				(Te4[(temp      ) & 0xff] & 0x000000ff);
-			rk[13] = rk[ 5] ^ rk[12];
-			rk[14] = rk[ 6] ^ rk[13];
-			rk[15] = rk[ 7] ^ rk[14];
-
-			rk += 8;
-		}
-	}
-	return 0;
+    lpe = lpelement;
+    lpe += 8;
+    lpb = lpe;
+    retv = 0;
+    len = SWAP16(*(u16 *)lpelement);
+    while ((lpw = func_021B9F5C(&lpb, lpe + len, &eid, &esize)) != 0) {
+        switch (eid) {
+        case 0x201:
+            __builtin__clear(&g_021DD324, 32);
+            memcpy(&g_021DD324, lpw, esize);
+            retv = 1;
+            break;
+        case 0x202:
+            g_021DD350.type = SWAP16(*(u16 *)lpw);
+            break;
+        case 0x203:
+            {
+                u16 v = SWAP16(*(u16 *)lpw);
+                for (i = 0; i < 4; i++)
+                    g_021DD224.wep[i].keyType = v;
+            }
+            break;
+        case 0x204:
+            {
+                u16 v = SWAP16(*(u16 *)lpw);
+                for (i = 0; i < 4; i++)
+                    g_021DD224.wep[i].keyLen = v;
+            }
+            break;
+        case 0x205:
+            g_021DD350.defkey = SWAP16(*(u16 *)lpw);
+            break;
+        case 0x206:
+        case 0x207:
+        case 0x208:
+        case 0x209:
+            memset(g_021DD388[eid - 0x206], 0, 32);
+            if (g_021DD350.f30 == 1) {
+                wp = g_021DD388[eid - 0x206];
+                for (i = 0; i < esize; i++)
+                    wp += func_021BC5D4(wp, *(char *)lpw++);
+            } else {
+                memcpy(g_021DD388[eid - 0x206], lpw, esize);
+            }
+            break;
+        case 0x20a:
+            __builtin__clear(&g_021DD420, 72);
+            memcpy(&g_021DD420, lpw, esize);
+            break;
+        }
+    }
+    return retv;
 }
 
 
-int rijndaelKeySetupDec(u32 *rk, u8 *cipherKey, int keyBits)
+int AsciiToHex(unsigned char *byDest, char *szStr, int nLen)
 {
-	int Nr, i, j;
-	u32 temp;
+    int ch;
+    int b;
+    int i;
 
-	/* expand the cipher key: */
-	Nr = rijndaelKeySetupEnc(rk, cipherKey, keyBits);
-	/* invert the order of the round keys: */
-	for (i = 0, j = 4*Nr; i < j; i += 4, j -= 4) {
-		temp = rk[i    ]; rk[i    ] = rk[j    ]; rk[j    ] = temp;
-		temp = rk[i + 1]; rk[i + 1] = rk[j + 1]; rk[j + 1] = temp;
-		temp = rk[i + 2]; rk[i + 2] = rk[j + 2]; rk[j + 2] = temp;
-		temp = rk[i + 3]; rk[i + 3] = rk[j + 3]; rk[j + 3] = temp;
-	}
-	/* apply the inverse MixColumn transform to all round keys but the first and the last: */
-	for (i = 1; i < Nr; i++) {
-		rk += 4;
-		rk[0] =
-			Td0[Te4[(rk[0] >> 24)       ] & 0xff] ^
-			Td1[Te4[(rk[0] >> 16) & 0xff] & 0xff] ^
-			Td2[Te4[(rk[0] >>  8) & 0xff] & 0xff] ^
-			Td3[Te4[(rk[0]      ) & 0xff] & 0xff];
-		rk[1] =
-			Td0[Te4[(rk[1] >> 24)       ] & 0xff] ^
-			Td1[Te4[(rk[1] >> 16) & 0xff] & 0xff] ^
-			Td2[Te4[(rk[1] >>  8) & 0xff] & 0xff] ^
-			Td3[Te4[(rk[1]      ) & 0xff] & 0xff];
-		rk[2] =
-			Td0[Te4[(rk[2] >> 24)       ] & 0xff] ^
-			Td1[Te4[(rk[2] >> 16) & 0xff] & 0xff] ^
-			Td2[Te4[(rk[2] >>  8) & 0xff] & 0xff] ^
-			Td3[Te4[(rk[2]      ) & 0xff] & 0xff];
-		rk[3] =
-			Td0[Te4[(rk[3] >> 24)       ] & 0xff] ^
-			Td1[Te4[(rk[3] >> 16) & 0xff] & 0xff] ^
-			Td2[Te4[(rk[3] >>  8) & 0xff] & 0xff] ^
-			Td3[Te4[(rk[3]      ) & 0xff] & 0xff];
-	}
-	return Nr;
+    b = 0;
+    for (i = 0; i < nLen; i++) {
+        ch = szStr[i];
+        switch (ch) {
+        case '0': case '1': case '2': case '3': case '4':
+        case '5': case '6': case '7': case '8': case '9':
+            b += ch - '0';
+            break;
+        case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
+            b += ch - 'a' + 10;
+            break;
+        case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
+            b += ch - 'A' + 10;
+            break;
+        default:
+            return 0;
+        }
+        if (i % 2 == 0) {
+            b <<= 4;
+        } else {
+            byDest[i / 2] = b;
+            b = 0;
+        }
+    }
+    return 1;
 }
 
 
-void rijndaelEncrypt(u32 *rk, int Nr, u8 *pt, u8 *ct)
+int func_021BA67C(void)
 {
-	u32 s0, s1, s2, s3, t0, t1, t2, t3;
-	int r;
+    char szwep[36];
+    int i;
+    int defkey;
+    char *lpwep;
+    int ret;
 
-	s0 = GETU32(pt     ) ^ rk[0];
-	s1 = GETU32(pt +  4) ^ rk[1];
-	s2 = GETU32(pt +  8) ^ rk[2];
-	s3 = GETU32(pt + 12) ^ rk[3];
-	r = Nr >> 1;
-	for (;;) {
-		t0 =
-			Te0[(s0 >> 24)       ] ^
-			Te1[(s1 >> 16) & 0xff] ^
-			Te2[(s2 >>  8) & 0xff] ^
-			Te3[(s3      ) & 0xff] ^
-			rk[4];
-		t1 =
-			Te0[(s1 >> 24)       ] ^
-			Te1[(s2 >> 16) & 0xff] ^
-			Te2[(s3 >>  8) & 0xff] ^
-			Te3[(s0      ) & 0xff] ^
-			rk[5];
-		t2 =
-			Te0[(s2 >> 24)       ] ^
-			Te1[(s3 >> 16) & 0xff] ^
-			Te2[(s0 >>  8) & 0xff] ^
-			Te3[(s1      ) & 0xff] ^
-			rk[6];
-		t3 =
-			Te0[(s3 >> 24)       ] ^
-			Te1[(s0 >> 16) & 0xff] ^
-			Te2[(s1 >>  8) & 0xff] ^
-			Te3[(s2      ) & 0xff] ^
-			rk[7];
-
-		rk += 8;
-		if (--r == 0) {
-			break;
-		}
-
-		s0 =
-			Te0[(t0 >> 24)       ] ^
-			Te1[(t1 >> 16) & 0xff] ^
-			Te2[(t2 >>  8) & 0xff] ^
-			Te3[(t3      ) & 0xff] ^
-			rk[0];
-		s1 =
-			Te0[(t1 >> 24)       ] ^
-			Te1[(t2 >> 16) & 0xff] ^
-			Te2[(t3 >>  8) & 0xff] ^
-			Te3[(t0      ) & 0xff] ^
-			rk[1];
-		s2 =
-			Te0[(t2 >> 24)       ] ^
-			Te1[(t3 >> 16) & 0xff] ^
-			Te2[(t0 >>  8) & 0xff] ^
-			Te3[(t1      ) & 0xff] ^
-			rk[2];
-		s3 =
-			Te0[(t3 >> 24)       ] ^
-			Te1[(t0 >> 16) & 0xff] ^
-			Te2[(t1 >>  8) & 0xff] ^
-			Te3[(t2      ) & 0xff] ^
-			rk[3];
-	}
-	s0 =
-		(Te4[(t0 >> 24)       ] & 0xff000000) ^
-		(Te4[(t1 >> 16) & 0xff] & 0x00ff0000) ^
-		(Te4[(t2 >>  8) & 0xff] & 0x0000ff00) ^
-		(Te4[(t3      ) & 0xff] & 0x000000ff) ^
-		rk[0];
-	PUTU32(ct     , s0);
-	s1 =
-		(Te4[(t1 >> 24)       ] & 0xff000000) ^
-		(Te4[(t2 >> 16) & 0xff] & 0x00ff0000) ^
-		(Te4[(t3 >>  8) & 0xff] & 0x0000ff00) ^
-		(Te4[(t0      ) & 0xff] & 0x000000ff) ^
-		rk[1];
-	PUTU32(ct +  4, s1);
-	s2 =
-		(Te4[(t2 >> 24)       ] & 0xff000000) ^
-		(Te4[(t3 >> 16) & 0xff] & 0x00ff0000) ^
-		(Te4[(t0 >>  8) & 0xff] & 0x0000ff00) ^
-		(Te4[(t1      ) & 0xff] & 0x000000ff) ^
-		rk[2];
-	PUTU32(ct +  8, s2);
-	s3 =
-		(Te4[(t3 >> 24)       ] & 0xff000000) ^
-		(Te4[(t0 >> 16) & 0xff] & 0x00ff0000) ^
-		(Te4[(t1 >>  8) & 0xff] & 0x0000ff00) ^
-		(Te4[(t2      ) & 0xff] & 0x000000ff) ^
-		rk[3];
-	PUTU32(ct + 12, s3);
+    ret = 1;
+    strcpy(((char *)&g_021DD13C), (char *)&g_021DD324);
+    switch (g_021DD350.type) {
+    case 0:
+        g_021DD150.auth_mode = 0;
+        break;
+    case 1:
+        defkey = g_021DD350.defkey;
+        if (defkey == 0) {
+            ret = -7;
+            break;
+        }
+        g_021DD150.wepkeyid = defkey;
+        for (i = 0; i < 4; i++) {
+            lpwep = szwep;
+            memcpy(szwep, g_021DD388[i], 32);
+            szwep[32] = 0;
+            switch (strlen(szwep)) {
+            case 0:
+                break;
+            case 5:
+                g_021DD150.auth_mode = 1;
+                memcpy(g_021DD164[i], lpwep, 5);
+                break;
+            case 10:
+                g_021DD150.auth_mode = 1;
+                func_021BA5C8((unsigned char *)g_021DD164[i], lpwep, 10);
+                break;
+            case 13:
+                g_021DD150.auth_mode = 2;
+                memcpy(g_021DD164[i], lpwep, 13);
+                break;
+            case 26:
+                g_021DD150.auth_mode = 2;
+                func_021BA5C8((unsigned char *)g_021DD164[i], lpwep, 26);
+                break;
+            case 16:
+                g_021DD150.auth_mode = 3;
+                memcpy(g_021DD164[i], lpwep, 16);
+                break;
+            case 32:
+                g_021DD150.auth_mode = 3;
+                func_021BA5C8((unsigned char *)g_021DD164[i], lpwep, 32);
+                break;
+            default:
+                ret = -7;
+                break;
+            }
+        }
+        break;
+    case 2:
+        g_021DD150.auth_mode = 4;
+        memcpy(&g_021DD1E4, &g_021DD420, 64);
+        break;
+    case 3:
+        g_021DD150.auth_mode = 5;
+        memcpy(&g_021DD1E4, &g_021DD420, 64);
+        break;
+    default:
+        ret = -7;
+        break;
+    }
+    return ret;
 }

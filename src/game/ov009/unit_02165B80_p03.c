@@ -1,18 +1,20 @@
 /*
  * file:     unit_02165B80_p03.c
  * unit:     yes
- * function: func_02165F88, func_02166040, func_021661F0
- * address:  0x02165F88
+ * function: WcmGetOldestApList, WcmSearchApList, WcmSearchIndexedApList, func_02165F88, func_02166040, func_021661F0
+ * address:  0x02165E98
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   MATCH
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   WCMi_GetSystemWork     0x021657C8  arm
+ *   WCM_CompareBssID       0x021666B8  arm
  *   func_021657C8  0x021657C8  arm  ov009
  *   func_02082AC0  0x02082AC0  arm
  *   func_02082B0C  0x02082B0C  arm
@@ -24,20 +26,49 @@
  *   func_02703250  0x02703250  arm  twl
  *   @12437         0x021A19B0  data
  */
-struct WCMApList {
+struct WCMApList_02165E98;
+struct WCMApListHeader_02165E98 {
+    unsigned long      count;
+    struct WCMApList_02165E98  *head;
+    unsigned long      field8;
+};
+
+struct WCMWork {
+    unsigned char pad0[0x12C4];
+    struct WCMApListHeader_02165E98 *pHeader;
+    unsigned long           apListSize;
+    unsigned char           pad1[0x10];
+    unsigned char           lockFlag;
+};
+
+struct WCMBssDesc {
+    unsigned short length;
+    unsigned short rssi;
+    unsigned char  bssid[6];
+};
+
+struct WCMApList_02165E98 {
+    unsigned long       field0;
+    unsigned long       index;
+    unsigned long       field8;
+    struct WCMApList_02165E98   *next;
+    struct WCMBssDesc   bssDesc;
+};
+
+struct WCMApList_02165B80 {
     unsigned char state;
     unsigned char reserved;
     unsigned short linkLevel;
     unsigned long index;
-    struct WCMApList *previous;
-    struct WCMApList *next;
+    struct WCMApList_02165B80 *previous;
+    struct WCMApList_02165B80 *next;
     unsigned long data[48];
 };
 
-struct WCMApListHeader {
+struct WCMApListHeader_02165B80 {
     unsigned long count;
-    struct WCMApList *head;
-    struct WCMApList *tail;
+    struct WCMApList_02165B80 *head;
+    struct WCMApList_02165B80 *tail;
 };
 
 struct WCMWork_02165F88 {
@@ -111,6 +142,8 @@ typedef struct WCMWork_021661F0 {
     unsigned char deviceId;
 } WCMWork_021661F0;
 
+extern struct WCMWork *WCMi_GetSystemWork(void);
+extern int WCM_CompareBssID(unsigned char *a, unsigned char *b);
 extern int func_021657C8(void);
 extern void func_02082AC0(u32 data, void *destp, u32 size);
 extern void func_02082B0C(const void *srcp, void *destp, u32 size);
@@ -118,23 +151,86 @@ extern int func_02082E74(const void *mem1, const void *mem2, u32 size);
 extern void func_02082EA4(const void *srcp, void *destp, u32 size);
 extern int OS_IsRunOnTwl(void);
 extern NWMInfoElements *func_02703250();
-void func_02165F88(struct WCMApList *aplist);
+void func_02165F88(struct WCMApList_02165B80 *aplist);
 void func_02166040(WCMBssDesc_02166040 *srcBssDesc, WCMBssDesc_02166040 *destBssDesc);
 WMGameInfo *func_021661F0(WCMBssDesc_021661F0 *bssDesc);
+
+
+
+
+static struct WCMApList_02165E98 *WcmGetOldestApList(void)
+{
+    struct WCMWork *w;
+    struct WCMApListHeader_02165E98 *pHeader;
+
+    w = WCMi_GetSystemWork();
+    pHeader = w->pHeader;
+    if (pHeader != 0 && w->apListSize > 12)
+        return pHeader->head;
+    return 0;
+}
+
+
+
+
+static struct WCMApList_02165E98 *WcmSearchApList(unsigned char *bssid)
+{
+    struct WCMWork *w;
+    struct WCMApListHeader_02165E98 *pHeader;
+    struct WCMApList_02165E98 *p;
+
+    w = WCMi_GetSystemWork();
+    p = 0;
+    pHeader = w->pHeader;
+    if (bssid == 0)
+        return p;
+    if (pHeader != 0 && w->apListSize > 12) {
+        p = pHeader->head;
+        while (p != 0) {
+            if (WCM_CompareBssID(p->bssDesc.bssid, bssid))
+                break;
+            p = p->next;
+        }
+    }
+    return p;
+}
+
+
+
+static struct WCMApList_02165E98 *WcmSearchIndexedApList(unsigned long index)
+{
+    struct WCMWork *w;
+    struct WCMApListHeader_02165E98 *pHeader;
+    struct WCMApList_02165E98 *p;
+
+    w = WCMi_GetSystemWork();
+    p = 0;
+    pHeader = w->pHeader;
+    if (pHeader != 0 && w->apListSize > 12) {
+        p = pHeader->head;
+        while (p != 0) {
+            if (p->index == index)
+                break;
+            p = p->next;
+        }
+    }
+    return p;
+}
+
 
 
 /*
  * sdk:      WcmAppendApList (aplist.o)
  */
-void func_02165F88(struct WCMApList *aplist)
+void func_02165F88(struct WCMApList_02165B80 *aplist)
 {
     struct WCMWork_02165F88 *w = (struct WCMWork_02165F88 *)func_021657C8();
-    struct WCMApListHeader *pHeader = (struct WCMApListHeader *)w->config.pbdbuffer;
-    struct WCMApList *p;
+    struct WCMApListHeader_02165B80 *pHeader = (struct WCMApListHeader_02165B80 *)w->config.pbdbuffer;
+    struct WCMApList_02165B80 *p;
 
     if (aplist == 0 || pHeader == 0)
         return;
-    if (w->config.nbdbuffer <= sizeof(struct WCMApListHeader))
+    if (w->config.nbdbuffer <= sizeof(struct WCMApListHeader_02165B80))
         return;
 
     for (p = pHeader->head; p != 0; p = p->next) {

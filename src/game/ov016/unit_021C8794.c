@@ -1,0 +1,31 @@
+/*
+ * file:     unit_021C8794.c
+ * function: func_021C8794
+ * address:  0x021C8794
+ * packet:   pkt_021C8154
+ * region:   ov016
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021C8794   0x021C8794  arm
+ *
+ * Call func_021C87A4, func_021C8C88.
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_021C8794.c \
+ *       --func func_021C8794 --addr 0x021C8794 --region ov016 --cc dsi/1.1p1 --arm
+ */
+
+extern void func_021C87A4(void);
+extern void func_021C8C88(void);
+
+void func_021C8794(void)
+{
+    func_021C87A4();
+    func_021C8C88();
+}

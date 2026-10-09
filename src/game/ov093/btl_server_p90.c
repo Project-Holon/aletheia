@@ -1,74 +1,53 @@
 /*
- * file:     btl_server_p90.c
- * unit:     yes
- * function: func_021C8234, func_021C824C, func_021C8288, func_021C8290
- * address:  0x021C8234
- * region:   ov093
+ * function: func_021C9178
+ * address: 0x021C9178
+ * packet: pkt_ov093_021C9178
+ * region: ov093
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
  * symbols:
- *   func_021C6F0C   0x021C6F0C  thumb  ov093
- *   func_021B9934   0x021B9934  thumb  ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
- *   func_021D62C4 0x021D62C4 thumb ov093
- *   func_021EF948 0x021EF948 thumb ov093
- *   func_021C2AB0   0x021C2AB0  thumb ov093
- *   func_021BFA00 0x021BFA00 thumb ov093
+ *   func_021B9934 0x021B9934 thumb ov093
+ *   func_021C8828 0x021C8828 thumb ov093
+ *   func_021C9240 0x021C9240 thumb ov093
+ *   func_021D5B68 0x021D5B68 thumb ov093
+ *   func_021C27A0 0x021C27A0 thumb ov093
+ *   func_021C2910 0x021C2910 thumb ov093
+ *   func_021C5A1C 0x021C5A1C thumb ov093
+ *   func_021C5A34 0x021C5A34 thumb ov093
  */
 #include "../../matched/include/Obj00003.h"
-#include "../../matched/include/Obj21115.h"
-
-struct Unk021D62A8;
 typedef unsigned char u8;
-
-typedef unsigned short u16;
-
 typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-typedef struct { u32 f0; u8 pad[60]; } E64;
-
+typedef struct { u32 value; } S;
+typedef struct { u32 low:8, index:5, pad:10, flag:1, high:8; u32 kind; S value; u8 a,b,c,id,d; u8 pad11[3]; u8 msg[36]; } Ent;
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021C6F0C(u8 *p, u8 *a, int k);
-extern int func_021D59B4(u8 *p, int k);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern int func_021EF948(int);
-extern int func_021C2AB0(u8 *p);
-extern int func_021BFA00(u8 *, u8 *, u8 *, void *);
-int func_021C8234(u8 *p, int i);
-int func_021C824C(u8 *p, int v);
-int func_021C8288(u8 *p);
-int func_021C8290(u8 *p, int a, int b, void *item);
-
-
-/*
- * Wrapper family member; the body is the hand-checked shape of the family's first instance with only the member's constants substituted, per the family uniformity assertion in o36/report.md.
- */
-int func_021C8234(u8 *p, int i) { return func_021C6F0C(p, func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, i), 1); }
-
-/*
- * extent: two bytes alignment padding follow.
- */
-int func_021C824C(u8 *p, int v) { void *m; m=func_021B9934(*(char * *)&((struct Obj21115 *)p)->f8,v); if(func_021D59B4(m,17)==103) return 0; if(func_021D62C4(m,19)) return 0; if(func_021EF948(7)==0) return 1; return 0; }
-
-
-/*
- * tail-call thunk to func_021C2AB0
- */
-int func_021C8288(u8 *p)
+extern u32 func_021C8828(u8 *p);
+extern int func_021C9240(void *, u8);
+extern int func_021D5B68(void *);
+extern int func_021C27A0(u8 *, u8 *, u8 *, u32, S, u8, u32);
+extern void func_021C2910(u8 *, u8 *, u8 *, int, S, int, int, const void *);
+extern void func_021C5A1C(u8 *p, u8 *a);
+extern void func_021C5A34(u8 *p, u8 *a);
+int func_021C9178(u8 *p, const Ent *e)
 {
-    return func_021C2AB0(p);
+    u8 *a;
+    u8 f;
+    u8 *b;
+    if (e->index != 31) a = func_021B9934(((struct Obj00003 *)p)->f8, (u8)e->index);
+    else a = 0;
+    f = (int)func_021C8828((u8 *)e->msg) == 0 && e->b == 0;
+    if (func_021C9240(p + 0x1ab8, e->id)) {
+        b = func_021B9934(((struct Obj00003 *)p)->f8, (u8)e->id);
+        if (!func_021D5B68(b)) {
+            if (!func_021C27A0(p, b, a, e->kind, e->value, e->d, e->a)) {
+                if (e->flag) func_021C5A1C(p, a);
+                func_021C2910(p, b, a, e->kind, e->value, f, e->c, e->msg);
+                if (e->flag) func_021C5A34(p, a);
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
-
-int func_021C8290(u8 *p, int a, int b, void *item) { u8 *x; x=func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8,a); return func_021BFA00(p,x,func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8,b),item); }

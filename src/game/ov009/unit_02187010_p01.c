@@ -1,8 +1,8 @@
 /*
  * file:     unit_02187010_p01.c
  * unit:     yes
- * function: func_02188638, func_021888C0, func_021889A0
- * address:  0x02188638
+ * function: gpiSendAuthBuddyRequest, gpiProcessRecvBuddyMessage
+ * address:  0x02187010
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,253 +13,540 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0219329C  0x0219329C  arm   ov009
- *   func_02193378  0x02193378  arm   ov009
- *   func_02193710  0x02193710  arm   ov009
- *   func_02189D78  0x02189D78  arm   ov009
- *   func_020964E0  0x020964E0  arm
- *   func_02094B20  0x02094B20  arm
- *   func_0218FCD8  0x0218FCD8  arm   ov009
- *   func_02193734  0x02193734  arm   ov009
- *   func_0217EAB0  0x0217EAB0  arm   ov009
- *   func_02189300  0x02189300  arm   ov009
- *   g_021A4450     0x021A4450  data
- *   g_021A4280     0x021A4280  data
- *   g_021A4458     0x021A4458  data
- *   g_021A4460     0x021A4460  data
- *   g_021A42BC     0x021A42BC  data
- *   func_0219327C  0x0219327C  arm   ov009
- *   func_0218946C  0x0218946C  arm   ov009
- *   func_0218949C  0x0218949C  arm   ov009
- *   g_021A4278     0x021A4278  data  ov009
- *   g_021A424C     0x021A424C  data  ov009
- *   g_021A4464     0x021A4464  data  ov009
- *   g_021A42CC     0x021A42CC  data  ov009
- *   g_021A4270     0x021A4270  data  ov009
- *   func_0218F0B8  0x0218F0B8  arm   ov009
- *   func_0218FD9C  0x0218FD9C  arm   ov009
- *   func_0218F150  0x0218F150  arm   ov009
- *   func_0218F1E0  0x0218F1E0  arm   ov009
- *   func_0218F248  0x0218F248  arm   ov009
- *   func_0218F884  0x0218F884  arm   ov009
- *   func_0218F350  0x0218F350  arm   ov009
+ *   gpiAppendStringToBuffer  0x0218946C  arm
+ *   gpiAppendIntToBuffer     0x0218949C  arm
+ *   g_021A4240               0x021A4240  data
+ *   g_021A424C               0x021A424C  data
+ *   g_021A4258               0x021A4258  data
+ *   g_021A4268               0x021A4268  data
+ *   g_021A4270               0x021A4270  data
+ *   gpiValueForKey                0x02193418 arm ov009
+ *   gpiSetError                   0x02193710 arm ov009
+ *   gpiCallErrorCallback          0x02189D78 arm ov009
+ *   atoi                          0x020964E0 arm
+ *   gsiTimeNitro                  0x02184098 arm ov009
+ *   gsimalloc                     0x0217EAB0 arm ov009
+ *   gpiSetErrorString             0x02193734 arm ov009
+ *   strlen                        0x0209477C arm
+ *   strcpy                        0x02094798 arm
+ *   gpiAddCallback                0x02189DFC arm ov009
+ *   gpiProfileListAdd             0x0218FCD8 arm ov009
+ *   strstr                        0x02094B20 arm
+ *   gsifree                       0x0217EAE0 arm ov009
+ *   goastrdup                     0x0217F1E0 arm ov009
+ *   strzcpy                       0x0219327C arm ov009
+ *   gsDebugFormat                 0x0217D254 arm ov009
+ *   gpiRemoveBuddyStatusInfo      0x021900EC arm ov009
+ *   gsiSafeStrcpyA                0x021803BC arm ov009
+ *   gpiSendBuddyMessage           0x021889A0 arm ov009
+ *   memset                        0x020923B0 arm
+ *   g_021A4278                    0x021A4278 data
+ *   g_021A4280                    0x021A4280 data
+ *   g_021A42B0                    0x021A42B0 data
+ *   g_021A42B4                    0x021A42B4 data
+ *   g_021A42BC                    0x021A42BC data
+ *   g_021A42CC                    0x021A42CC data
+ *   g_021A42D4                    0x021A42D4 data
+ *   g_021A42E0                    0x021A42E0 data
+ *   g_021A437C                    0x021A437C data
+ *   g_021A4380                    0x021A4380 data
+ *   g_021A4388                    0x021A4388 data
+ *   g_021A4390                    0x021A4390 data
+ *   g_021A4398                    0x021A4398 data
+ *   g_021A439C                    0x021A439C data
+ *   g_021A43A4                    0x021A43A4 data
+ *   g_021A43A8                    0x021A43A8 data
  */
+#include "../../matched/arm9_sdk/libc/string.h"
+
+typedef struct GPIConnection_02187010 GPIConnection_02187010;
+
+typedef struct GPIProfile_02187010 GPIProfile_02187010;
+
+typedef struct GPIBuffer_02187010 GPIBuffer_02187010;
+
+struct GPIBuffer_02187010 {
+    char pad[4];
+};
+
+struct GPIConnection_02187010 {
+    char pad[0x210];
+    GPIBuffer_02187010 outputBuffer;
+};
+
+typedef struct GPIBuffer_021870B8 {
+    char *buffer;
+    int size;
+    int len;
+    int pos;
+} GPIBuffer_021870B8;
+
+typedef struct GPICallback {
+    void (*fn)(void *, void *);
+    void *arg;
+} GPICallback;
+
+typedef struct GPIProfileList {
+    void *first;                      /* 0x00 */
+    void *last;                       /* 0x04 */
+    int numBuddies;                   /* 0x08 */
+    void *cache;                      /* 0x0C */
+} GPIProfileList;
+
+typedef struct GPIConnection_021870B8 {
+    char errorString[256];            /* 0x000 */
+    int infoCaching;                  /* 0x100 */
+    int infoCachingBuddyAndBlockOnly; /* 0x104 */
+    int simulation;                   /* 0x108 */
+    int firewall;                     /* 0x10C */
+    char nick[31];                    /* 0x110 */
+    char uniquenick[21];              /* 0x12F */
+    char email[51];                   /* 0x144 */
+    char password[31];                /* 0x177 */
+    int sessKey;                      /* 0x198 */
+    int userid;                       /* 0x19C */
+    int profileid;                    /* 0x1A0 */
+    int partnerID;                    /* 0x1A4 */
+    GPICallback callbacks[9];         /* 0x1A8 */
+    int cmSocket;                     /* 0x1F0 */
+    int connectState;                 /* 0x1F4 */
+    GPIBuffer_021870B8 socketBuffer;           /* 0x1F8 */
+    char *inputBuffer;                /* 0x208 */
+    int inputBufferSize;              /* 0x20C */
+    GPIBuffer_021870B8 outputBuffer;           /* 0x210 */
+    char mHeader[16];                 /* 0x220 */
+    unsigned short peerPort;          /* 0x230 */
+    int nextOperationID;              /* 0x234 */
+    int numSearches;                  /* 0x238 */
+    int lastStatusState;              /* 0x23C */
+    unsigned int hostIp;              /* 0x240 */
+    unsigned int hostPrivateIp;       /* 0x244 */
+    unsigned short queryPort;         /* 0x248 */
+    unsigned short hostPort;          /* 0x24A */
+    unsigned int sessionFlags;        /* 0x24C */
+    char richStatus[256];             /* 0x250 */
+    char gameType[33];                /* 0x350 */
+    char gameVariant[33];             /* 0x371 */
+    char gameMapName[33];             /* 0x392 */
+    void *extendedInfoKeys;           /* 0x3B4 */
+    char lastStatusString[256];       /* 0x3B8 */
+    char lastLocationString[256];     /* 0x4B8 */
+    int errorCode;                    /* 0x5B8 */
+    int fatalError;                   /* 0x5BC */
+    void *diskCache;                  /* 0x5C0 */
+    void *operationList;              /* 0x5C4 */
+    GPIProfileList profileList;       /* 0x5C8 */
+    void *peerList;                   /* 0x5D8 */
+    void *callbackList;               /* 0x5DC */
+    void *lastCallback;               /* 0x5E0 */
+    GPIBuffer_021870B8 updateproBuffer;        /* 0x5E4 */
+    GPIBuffer_021870B8 updateuiBuffer;         /* 0x5F4 */
+    void *transfers;                  /* 0x604 */
+    unsigned int nextTransferID;      /* 0x608 */
+    int productID;                    /* 0x60C */
+    int namespaceID;                  /* 0x610 */
+    char loginTicket[25];             /* 0x614 */
+    int quietModeFlags;               /* 0x630 */
+    unsigned int kaTransmit;          /* 0x634 */
+} GPIConnection_021870B8;
+
+typedef struct GPIProfile_021870B8 {
+    int profileId;                    /* 0x00 */
+    int userId;                       /* 0x04 */
+    struct GPIBuddyStatus *buddyStatus; /* 0x08 */
+    void *buddyStatusInfo;            /* 0x0C */
+    void *cache;                      /* 0x10 */
+    char *authSig;                    /* 0x14 */
+    int requestCount;                 /* 0x18 */
+    char *peerSig;                    /* 0x1C */
+    int blocked;                      /* 0x20 */
+    int blockIndex;                   /* 0x24 */
+    int buddyOrBlockCache;            /* 0x28 */
+    int deletedLocally;               /* 0x2C */
+} GPIProfile_021870B8;
+
 typedef struct GPIBuddyStatus {
-    int buddyIndex;
-    int status;
-    char *statusString;
-    char *locationString;
-    unsigned int ip;
-    int port;
-    int quietModeFlags;
+    int buddyIndex;                   /* 0x00 */
+    int status;                       /* 0x04 */
+    char *statusString;               /* 0x08 */
+    char *locationString;             /* 0x0C */
+    unsigned int ip;                  /* 0x10 */
+    unsigned short port;              /* 0x14 */
+    int quietModeFlags;               /* 0x18 */
 } GPIBuddyStatus;
 
-typedef struct GPIProfile_02188638 {
-    int profileId;
-    int userId;
-    GPIBuddyStatus *buddyStatus;
-} GPIProfile_02188638;
+typedef struct GPRecvBuddyMessageArg {
+    int profileid;
+    unsigned int date;
+    char *message;
+} GPRecvBuddyMessageArg;
 
-typedef struct GPIConnection_02188638 {
-    char pad0[0x5d0];
-    int numBuddies;
-} GPIConnection_02188638;
+typedef struct GPRecvBuddyUTMArg {
+    int profileid;
+    unsigned int date;
+    char *message;
+} GPRecvBuddyUTMArg;
 
-typedef struct GPIConnection_021888C0 {
-    unsigned char pad0[0x198];
-    int f198;
-    unsigned char pad1[0x210 - 0x19C];
-    unsigned char outputBuffer[0x10];
-} GPIConnection_021888C0;
+typedef struct GPRecvBuddyRequestArg {
+    int profileid;
+    unsigned int date;
+    char reason[1025];
+} GPRecvBuddyRequestArg;
 
-typedef enum { GP_NO_ERROR, GP_MEMORY_ERROR, GP_PARAMETER_ERROR, GP_NETWORK_ERROR } GPResult;
+typedef struct GPRecvBuddyAuthArg {
+    int profileid;
+    unsigned int date;
+} GPRecvBuddyAuthArg;
 
-typedef struct GPIPeer {
-    int state;
-} GPIPeer;
+typedef struct GPRecvBuddyRevokeArg {
+    int profileid;
+    unsigned int date;
+} GPRecvBuddyRevokeArg;
 
-typedef struct GPIPeerOp GPIPeerOp;
+typedef struct GPRecvBuddyStatusArg {
+    int profileid;
+    unsigned int date;
+    int buddyIndex;
+} GPRecvBuddyStatusArg;
 
-typedef struct GPIBuddyStatusInfo {
-    char pad0[0x20];
-    unsigned short f20;
-} GPIBuddyStatusInfo;
+typedef struct GPRecvGameInviteArg {
+    int profileid;
+    int productID;
+    char location[256];
+} GPRecvGameInviteArg;
 
-typedef struct GPIProfile_021889A0 {
-    char pad0[0xc];
-    GPIBuddyStatusInfo *buddyStatus;
-    char pad1[0x1c - 0x10];
-    int f1C;
-} GPIProfile_021889A0;
-
-extern int func_0219329C(void **connection, char *input, int callErrorCallback);
-extern int func_02193378(char *command, char *key, int *index, char *value, int len);
-extern void func_02193710(void **connection, int errorCode, char *errorString);
-extern void func_02189D78(void **connection, int result, int fatal);
-extern int func_020964E0(const char *s);
-extern char *func_02094B20(const char *s, const char *sub);
-extern GPIProfile_02188638 *func_0218FCD8(void **connection, int id);
-extern void func_02193734(void **connection, char *errorString);
-extern void *func_0217EAB0(unsigned long size);
-extern int func_02189300(void **connection, int id, int isDeleted);
-extern void func_0219327C(char *p, int b, int n);
-extern int func_0218946C(int *connection, int *buffer, const char *string);
-extern int func_0218949C(int *connection, int *buffer, int value);
-extern char *func_0218F0B8(void **p, int v);
-extern int func_0218FD9C(void **connection, int profileid, GPIProfile_021889A0 **pProfile);
-extern GPIPeer *func_0218F150(void **connection, int profileid, int initiate);
-extern GPResult func_0218F1E0(void **connection, GPIPeer *peer);
-extern GPResult func_0218F248(void **connection, GPIPeer *peer);
-extern void func_0218F884(GPIPeer *peer, GPIPeerOp *operation);
-extern GPResult func_0218F350(void **connection, GPIPeer *peer, int type, char *message);
-int func_02188638(void **connection, char *input);
-int func_021888C0(void **connection, int profileid, int type, char *message);
-GPResult func_021889A0(void **connection, int profileid, int type, char *message, int sendOption, GPIPeerOp *peerOp);
-extern char g_021A4450[];
-extern char g_021A4280[];
-extern char g_021A4458[];
-extern char g_021A4460[];
-extern char g_021A42BC[];
-extern char g_021A4278[];
+extern int gpiAppendStringToBuffer(void **connection, GPIBuffer_02187010 *outputBuffer, char *buffer);
+extern int gpiAppendIntToBuffer(void **connection, GPIBuffer_02187010 *outputBuffer, int num);
+extern int gpiValueForKey(char *command, char *key, char *value, int len);
+extern void gpiSetError(void **connection, int errorCode, char *errorString);
+extern void gpiCallErrorCallback(void **connection, int result, int fatal);
+extern int atoi(const char *s);
+extern long gsiTimeNitro(long *timer);
+extern void *gsimalloc(unsigned long size);
+extern void gpiSetErrorString(void **connection, char *errorString);
+extern unsigned long strlen(const char *s);
+extern char *strcpy(char *dst, const char *src);
+extern int gpiAddCallback(void **connection, GPICallback callback, void *arg,
+                          void *operation, int type);
+extern GPIProfile_021870B8 *gpiProfileListAdd(void **connection, int id);
+extern char *strstr(const char *s, const char *t);
+extern void gsifree(void *ptr);
+extern char *goastrdup(char *src);
+extern void strzcpy(char *dest, char *src, unsigned long len);
+extern void gsDebugFormat(int theCat, int theType, int theLevel, char *theTokenStr,
+                          int profileid);
+extern void gpiRemoveBuddyStatusInfo(void *buddyStatusInfo);
+extern unsigned long gsiSafeStrcpyA(char *dst, char *src, unsigned long size);
+extern int gpiSendBuddyMessage(void **connection, int profileid, int type,
+                               char *message, int sendOption, void *peerOp);
+int gpiSendAuthBuddyRequest(void **connection, GPIProfile_02187010 *profile);
+extern char g_021A4240[];
 extern char g_021A424C[];
-extern char g_021A4464[];
-extern char g_021A42CC[];
+extern char g_021A4258[];
+extern char g_021A4268[];
 extern char g_021A4270[];
 
 
-/*
- * sdk:      gpiProcessRecvBuddyList (gpibuddy.o)
- *
- * The 28-byte byte-store zero loop after gsimalloc is __builtin__clear on
- * the new GPIBuddyStatus (no memset call in the object).
- */
-int func_02188638(void **connection, char *input)
+int gpiSendAuthBuddyRequest(void **connection, GPIProfile_02187010 *profile)
 {
-    int i;
-    int num;
-    unsigned int j;
-    int index = 0;
-    char c;
-    char *str;
-    char buffer[512];
-    GPIProfile_02188638 *profile;
+    GPIConnection_02187010 *iconnection = (GPIConnection_02187010 *)*connection;
+
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4240);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A424C);
+    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, *(int *)((char *)iconnection + 0x198));
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4258);
+    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, *(int *)profile);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4268);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, *(char **)((char *)profile + 0x14));
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4270);
+    return 0;
+}
+
+
+extern char g_021A4278[];             /* "\bm\"  */
+extern char g_021A4280[];             /* "Unexpected data was received ..." */
+extern char g_021A42B0[];             /* "\f\"  */
+extern char g_021A42B4[];             /* "\date\" */
+extern char g_021A42BC[];             /* "Out of memory." */
+extern char g_021A42CC[];             /* "\msg\" */
+extern char g_021A42D4[];             /* "|signed|" */
+extern char g_021A42E0[];             /* "Deliberately ignoring ..." */
+extern char g_021A437C[];             /* "|s|"  */
+extern char g_021A4380[];             /* "|ss|" */
+extern char g_021A4388[];             /* "|ls|" */
+extern char g_021A4390[];             /* "|ip|" */
+extern char g_021A4398[];             /* "|p|"  */
+extern char g_021A439C[];             /* "|qm|" */
+extern char g_021A43A4[];             /* "|l|"  */
+extern char g_021A43A8[];             /* "1"    */
+
+typedef enum _GPResult {
+    GP_NO_ERROR,
+    GP_MEMORY_ERROR,
+    GP_PARAMETER_ERROR,
+    GP_NETWORK_ERROR,
+    GP_SERVER_ERROR,
+    GP_MISC_ERROR,
+    GP_COUNT
+} GPResult;
+
+#define Error(connection, result, errorString) \
+{ \
+    gpiSetErrorString(connection, errorString); \
+    return (result); \
+}
+
+#define CallbackFatalError(connection, result, errorCode, errorString) \
+{ \
+    gpiSetError(connection, errorCode, errorString); \
+    gpiCallErrorCallback(connection, result, 1); \
+    return (result); \
+}
+
+#define freeclear(mem) { gsifree(mem); (mem) = 0; }
+
+#define CHECK_RESULT(result) \
+{ \
+    GPResult __result__ = (result); \
+    if (__result__ != GP_NO_ERROR) \
+        return __result__; \
+}
+
+static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
+{
+    char buffer[4096];
+    int type;
     int profileid;
-    GPIConnection_02188638 *iconnection = (GPIConnection_02188638 *)*connection;
+    long date;
+    GPICallback callback;
+    GPIProfile_021870B8 *profile;
+    GPIBuddyStatus *buddyStatus;
+    char intValue[16];
+    char *str;
+    unsigned short port;
+    int productID;
+    GPIConnection_021870B8 *iconnection = (GPIConnection_021870B8 *)*connection;
+    char strTemp[256];
 
-    if (func_0219329C(connection, input, 1))
-        return 4;
+    if (!gpiValueForKey(input, g_021A4278, buffer, sizeof(buffer)))
+        CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+    type = atoi(buffer);
 
-    if (!func_02193378(input, g_021A4450, &index, buffer, sizeof(buffer))) {
-        func_02193710(connection, 1, g_021A4280);
-        func_02189D78(connection, 3, 1);
-        return 3;
+    if (!gpiValueForKey(input, g_021A42B0, buffer, sizeof(buffer)))
+        CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+    profileid = atoi(buffer);
+
+    if (!gpiValueForKey(input, g_021A42B4, buffer, sizeof(buffer)))
+        date = gsiTimeNitro(0);
+    else
+        date = atoi(buffer);
+
+    switch (type) {
+    case 1:
+        callback = iconnection->callbacks[3];
+        if (callback.fn != 0) {
+            GPRecvBuddyMessageArg *arg;
+            arg = (GPRecvBuddyMessageArg *)gsimalloc(sizeof(GPRecvBuddyMessageArg));
+            if (arg == 0)
+                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            if (!gpiValueForKey(input, g_021A42CC, buffer, sizeof(buffer)))
+                CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+            arg->message = (char *)gsimalloc(strlen(buffer) + 1);
+            if (arg->message == 0)
+                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            strcpy(arg->message, buffer);
+            arg->profileid = profileid;
+            arg->date = (unsigned int)date;
+            CHECK_RESULT(gpiAddCallback(connection, callback, arg, 0, 2));
+        }
+        break;
+
+    case 5:
+        callback = iconnection->callbacks[4];
+        if (callback.fn != 0) {
+            GPRecvBuddyUTMArg *arg;
+            arg = (GPRecvBuddyUTMArg *)gsimalloc(sizeof(GPRecvBuddyUTMArg));
+            if (arg == 0)
+                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            if (!gpiValueForKey(input, g_021A42CC, buffer, sizeof(buffer)))
+                CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+            arg->message = (char *)gsimalloc(strlen(buffer) + 1);
+            if (arg->message == 0)
+                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            strcpy(arg->message, buffer);
+            arg->profileid = profileid;
+            arg->date = (unsigned int)date;
+            CHECK_RESULT(gpiAddCallback(connection, callback, arg, 0, 11));
+        }
+        break;
+
+    case 2:
+        profile = gpiProfileListAdd(connection, profileid);
+        if (!profile)
+            Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+        if (!gpiValueForKey(input, g_021A42CC, buffer, sizeof(buffer)))
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+        str = strstr(buffer, g_021A42D4);
+        if (!str)
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+        *str = 0;
+        str += 8;
+        if (strlen(str) != 32)
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+        freeclear(profile->authSig);
+        profile->authSig = goastrdup(str);
+        profile->requestCount++;
+        callback = iconnection->callbacks[1];
+        if (callback.fn != 0) {
+            GPRecvBuddyRequestArg *arg;
+            arg = (GPRecvBuddyRequestArg *)gsimalloc(sizeof(GPRecvBuddyRequestArg));
+            if (arg == 0)
+                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            strzcpy(arg->reason, buffer, 1025);
+            arg->profileid = profileid;
+            arg->date = (unsigned int)date;
+            CHECK_RESULT(gpiAddCallback(connection, callback, arg, 0, 6));
+        }
+        break;
+
+    case 4:
+        callback = iconnection->callbacks[7];
+        if (callback.fn != 0) {
+            GPRecvBuddyAuthArg *arg;
+            arg = (GPRecvBuddyAuthArg *)gsimalloc(sizeof(GPRecvBuddyAuthArg));
+            if (arg == 0)
+                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            arg->profileid = profileid;
+            arg->date = (unsigned int)date;
+            CHECK_RESULT(gpiAddCallback(connection, callback, arg, 0, 10));
+        }
+        break;
+
+    case 6:
+        callback = iconnection->callbacks[8];
+        if (callback.fn != 0) {
+            GPRecvBuddyRevokeArg *arg;
+            arg = (GPRecvBuddyRevokeArg *)gsimalloc(sizeof(GPRecvBuddyRevokeArg));
+            if (arg == 0)
+                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            arg->profileid = profileid;
+            arg->date = (unsigned int)date;
+            CHECK_RESULT(gpiAddCallback(connection, callback, arg, 0, 12));
+        }
+        break;
+
+    case 100:
+        profile = gpiProfileListAdd(connection, profileid);
+        if (!profile)
+            Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+        if (iconnection->connectState == 3 && profile->deletedLocally) {
+            gsDebugFormat(1, 4, 2, g_021A42E0, profileid);
+            break;
+        }
+        if (profile->blocked)
+            break;
+        if (!profile->buddyStatus) {
+            profile->buddyStatus = (GPIBuddyStatus *)gsimalloc(sizeof(GPIBuddyStatus));
+            if (!profile->buddyStatus)
+                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            memset(profile->buddyStatus, 0, sizeof(GPIBuddyStatus));
+            if (profile->buddyStatusInfo) {
+                profile->buddyStatus->buddyIndex = *(int *)profile->buddyStatusInfo;
+                gpiRemoveBuddyStatusInfo(profile->buddyStatusInfo);
+                profile->buddyStatusInfo = 0;
+            } else
+                profile->buddyStatus->buddyIndex = iconnection->profileList.numBuddies++;
+        }
+        buddyStatus = profile->buddyStatus;
+
+        if (!gpiValueForKey(input, g_021A42CC, buffer, sizeof(buffer)))
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+
+        if (!gpiValueForKey(buffer, g_021A437C, intValue, sizeof(intValue)))
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+        buddyStatus->status = atoi(intValue);
+
+        freeclear(buddyStatus->statusString);
+        if (!gpiValueForKey(buffer, g_021A4380, strTemp, 256))
+            strTemp[0] = 0;
+        buddyStatus->statusString = goastrdup(strTemp);
+        if (!buddyStatus->statusString)
+            Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+
+        freeclear(buddyStatus->locationString);
+        if (!gpiValueForKey(buffer, g_021A4388, strTemp, 256))
+            strTemp[0] = 0;
+        buddyStatus->locationString = goastrdup(strTemp);
+        if (!buddyStatus->locationString)
+            Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+
+        if (!gpiValueForKey(buffer, g_021A4390, intValue, sizeof(intValue)))
+            buddyStatus->ip = 0;
+        else
+            buddyStatus->ip = (((unsigned int)atoi(intValue) >> 24) & 0xff) |
+                              (((unsigned int)atoi(intValue) >> 8) & 0xff00) |
+                              (((unsigned int)atoi(intValue) << 8) & 0xff0000) |
+                              (((unsigned int)atoi(intValue) << 24) & 0xff000000);
+
+        if (!gpiValueForKey(buffer, g_021A4398, intValue, sizeof(intValue)))
+            buddyStatus->port = 0;
+        else {
+            port = (unsigned short)atoi(intValue);
+            buddyStatus->port = (unsigned short)(((port >> 8) & 0xff) | ((port << 8) & 0xff00));
+        }
+
+        if (!gpiValueForKey(buffer, g_021A439C, intValue, sizeof(intValue)))
+            buddyStatus->quietModeFlags = 0;
+        else
+            buddyStatus->quietModeFlags = atoi(intValue);
+
+        callback = iconnection->callbacks[2];
+        if (callback.fn != 0) {
+            GPRecvBuddyStatusArg *arg;
+            arg = (GPRecvBuddyStatusArg *)gsimalloc(sizeof(GPRecvBuddyStatusArg));
+            if (arg == 0)
+                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            arg->profileid = profileid;
+            arg->buddyIndex = buddyStatus->buddyIndex;
+            arg->date = (unsigned int)date;
+            CHECK_RESULT(gpiAddCallback(connection, callback, arg, 0, 5));
+        }
+        break;
+
+    case 101:
+        if (!gpiValueForKey(input, g_021A42CC, buffer, sizeof(buffer)))
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+        str = strstr(buffer, g_021A4398);
+        if (!str)
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+        str += 3;
+        if (!*str)
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+        productID = atoi(str);
+        str = strstr(buffer, g_021A43A4);
+        if (str)
+            strzcpy(strTemp, str + 3, 256);
+        else
+            strTemp[0] = 0;
+        callback = iconnection->callbacks[5];
+        if (callback.fn != 0) {
+            GPRecvGameInviteArg *arg;
+            arg = (GPRecvGameInviteArg *)gsimalloc(sizeof(GPRecvGameInviteArg));
+            if (arg == 0)
+                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            arg->profileid = profileid;
+            arg->productID = productID;
+            gsiSafeStrcpyA(arg->location, strTemp, 256);
+            CHECK_RESULT(gpiAddCallback(connection, callback, arg, 0, 0));
+        }
+        break;
+
+    case 102:
+        if (!gpiValueForKey(input, g_021A42CC, buffer, sizeof(buffer)))
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+        gpiSendBuddyMessage(connection, profileid, 103, g_021A43A8, 0, 0);
+        break;
     }
-    num = func_020964E0(buffer);
 
-    str = func_02094B20(input, g_021A4458);
-    if (str == 0) {
-        func_02193710(connection, 1, g_021A4280);
-        func_02189D78(connection, 3, 1);
-        return 3;
-    }
-    index += 6;
-
-    for (i = 0; i < num; i++) {
-        if (i == 0) {
-            for (j = 0; (j < sizeof(buffer)) && ((c = str[j + 6]) != '\0') && (c != ','); j++)
-                buffer[j] = c;
-            buffer[j] = '\0';
-            index += j;
-        } else {
-            if (!func_02193378(input, g_021A4460, &index, buffer, sizeof(buffer))) {
-                func_02193710(connection, 1, g_021A4280);
-                func_02189D78(connection, 3, 1);
-                return 3;
-            }
-        }
-
-        profileid = func_020964E0(buffer);
-        profile = func_0218FCD8(connection, profileid);
-        if (profile == 0) {
-            func_02193734(connection, g_021A42BC);
-            return 1;
-        }
-        profile->buddyStatus = (GPIBuddyStatus *)func_0217EAB0(sizeof(GPIBuddyStatus));
-        if (profile->buddyStatus == 0) {
-            func_02193734(connection, g_021A42BC);
-            return 1;
-        }
-        __builtin__clear(profile->buddyStatus, sizeof(GPIBuddyStatus));
-        profile->buddyStatus->buddyIndex = iconnection->numBuddies++;
-        profile->buddyStatus->status = 0;
-        func_02189300(connection, profileid, 0);
-    }
-    return 0;
-}
-
-
-/*
- * sdk:      gpiSendServerBuddyMessage (gpibuddy.o)
- */
-int func_021888C0(void **connection, int profileid, int type, char *message)
-{
-    GPIConnection_021888C0 *iconnection;
-    char buffer[3501];
-
-    iconnection = (GPIConnection_021888C0 *)*connection;
-    func_0219327C(buffer, (int)message, 3501);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4278);
-    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), type);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A424C);
-    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->f198);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4464);
-    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), profileid);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A42CC);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), buffer);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4270);
-    return 0;
-}
-
-
-GPResult func_021889A0(void **connection, int profileid, int type, char *message, int sendOption, GPIPeerOp *peerOp)
-{
-    GPResult result;
-    GPIProfile_021889A0 *profile;
-    GPIPeer *peer;
-
-    peer = (GPIPeer *)func_0218F0B8(connection, profileid);
-    if (peer == 0) {
-        if (!func_0218FD9C(connection, profileid, &profile) || profile->buddyStatus == 0 || profile->buddyStatus->f20 == 0) {
-            if (sendOption == 0xb00)
-                return GP_NETWORK_ERROR;
-            return func_021888C0(connection, profileid, type, message);
-        }
-        peer = func_0218F150(connection, profileid, 1);
-        if (peer == 0)
-            return GP_MEMORY_ERROR;
-        if (profile->f1C == 0) {
-            result = func_0218F1E0(connection, peer);
-            if (result != GP_NO_ERROR)
-                return result;
-        } else {
-            result = func_0218F248(connection, peer);
-            if (result != GP_NO_ERROR)
-                return result;
-        }
-    } else if (peer->state == 0x6a) {
-        if (func_0218FD9C(connection, profileid, &profile)) {
-            if (profile->buddyStatus != 0)
-                profile->buddyStatus->f20 = 0;
-            if (sendOption == 0xb00)
-                return GP_NETWORK_ERROR;
-            if (type < 100)
-                return func_021888C0(connection, profileid, type, message);
-        }
-    }
-    if (peerOp != 0)
-        func_0218F884(peer, peerOp);
-    result = func_0218F350(connection, peer, type, message);
-    if (result != GP_NO_ERROR)
-        return result;
     return GP_NO_ERROR;
 }

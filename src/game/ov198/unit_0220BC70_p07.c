@@ -1,136 +1,61 @@
 /*
- * file:     unit_0220BC70_p07.c
- * unit:     yes
- * function: func_0220E7CC, func_0220E7E4, func_0220E82C, func_0220E8B4, func_0220E974
- * address:  0x0220E7CC
- * region:   ov198
+ * function: func_0220ECCC
+ * address: 0x0220ECCC
+ * packet: pkt_ov198_0220ECCC
+ * region: ov198
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * lever: the start pair is a struct field of a const table extern
+ *   (`d_02211D34.item`, +0x3C), as the twin 0220EC2C reads `.third`; the
+ *   element form `d_02211D34[15]` schedules the lsls/ldr-pool pair before the
+ *   halfword copy (12 bytes). 0x02211D6C is d_02211D68's second pair (EC2C's
+ *   pool names 0x02211D68); a separate d_02211D6C extern has no witness.
+ *   The (char *) and (const u8 *) casts on p keep p + i*4 from being CSE'd
+ *   into one register, as in EC2C.
  * symbols:
- *   func_0201BB5C 0x0201BB5C thumb
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_020490F4 0x020490F4 arm
- *   func_020275F8 0x020275F8 thumb
- *   func_02049E74 0x02049E74 arm
- *   func_0204A9D0 0x0204A9D0 arm
- *   func_020307B0 0x020307B0 arm
- *   func_02049238 0x02049238 arm
- *   func_020275EC 0x020275EC thumb
- *   func_02027610 0x02027610 thumb
- *   func_02027604 0x02027604 thumb
- *   func_0204B404 0x0204B404 arm
- *   func_0204B878 0x0204B878 arm
+ *   func_022110D4 0x022110D4 thumb ov198
+ *   func_0220E7CC 0x0220E7CC thumb ov198
+ *   func_0220E974 0x0220E974 thumb ov198
+ *   func_0220E9A0 0x0220E9A0 thumb ov198
+ *   func_0220EA30 0x0220EA30 thumb ov198
+ *   func_0220F060 0x0220F060 thumb ov198
+ *   d_02211D34 0x02211D34 data a2
+ *   d_02211D68 0x02211D68 data a2
+ *   d_02211D78 0x02211D78 data a2
  */
-struct Obj;
-struct Vec2;
-struct Sub0204A9D0;
-typedef unsigned char  u8;
-
+typedef unsigned char u8;
 typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed short   s16;
-
-typedef signed char    s8;
-
-typedef struct {u8 half:3; u8 middle:4; u8 egg:1;} Flags_0220E7E4;
-
-typedef struct {char pad0[8];u16 species;char padA[34];unsigned form;char rest[28];} Record;
-
-typedef struct {u8 low:7;u8 flip:1;} Flags_0220E8B4;
-
-extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern unsigned func_0201BB5C(unsigned,unsigned,unsigned,unsigned);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32 func_020275F8(u32 a);
-extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_0204A9D0(int,struct Sub0204A9D0 *);
-extern u32 func_020307B0(void *p);
-extern void func_02049238(void *);
-extern u8 func_020275EC(int i);
-extern u32 func_02027610(u32 a);
-extern u8 func_02027604(u8 i);
-extern void func_0204B404(struct Obj *,const struct Vec2 *,u32),func_0204B878(struct Obj *,u32);
-void func_0220E7CC(u8 *p, u32 b);
-void func_0220E7E4(Record *records);
-void func_0220E82C(char *p,void *obj,int index,int which);
-void func_0220E8B4(char *p,int first,int index,int which);
-void func_0220E974(int mode,u8 *p,const struct Vec2 *q);
-
-
-/*
- * Addresses are Black-image addresses.
- */
-void func_0220E7CC(u8 *p, u32 b)
+typedef unsigned int u32;
+typedef struct {short x,y;} Pair;
+typedef struct {u8 low:3;u8 kind:4;u8 high:1;} Bits;
+struct Vec2;
+typedef struct {u8 pad[0x3C];Pair item;} Table1;
+extern const Table1 d_02211D34;
+typedef struct {Pair first,second,third,last;} Table2;
+extern const Table2 d_02211D68;
+extern const Pair d_02211D78;
+extern int func_022110D4(u8 *p, int i);
+extern void func_0220E7CC(u8 *p, u32 b);
+extern void func_0220E974(int mode, u8 *p, const struct Vec2 *q);
+extern void func_0220E9A0(char *p, u8 *q, Pair *pos);
+extern void func_0220EA30(u32 mode, u8 *p, const struct Vec2 *q);
+extern void func_0220F060(u8 *p);
+void func_0220ECCC(u8 *p)
 {
-    func_0204B3DC((struct Obj *)p, 1);
-    func_0204B404((struct Obj *)p, (const struct Vec2 *)b, 1);
+    int i;
+    u8 *rec;
+    Pair pair;
+    i = func_022110D4(p, (*(u8 **)p)[0x20]);
+    rec = p + 4 + i * 0x4c;
+    pair = d_02211D34.item;
+    func_0220E7CC(*(u8 **)(p + i * 4 + 0x1ed8), (u32)&pair);
+    func_0220E974(((Bits *)(rec + 0x17))->kind, *(u8 **)((char *)p + i * 4 + 0x1ef0), (const struct Vec2 *)&d_02211D68.second);
+    func_0220E9A0((char *)p, rec, (Pair *)&d_02211D78);
+    pair.x += 8;
+    pair.y += 8;
+    func_0220EA30(*(u16 *)(rec + 0x1a), *(u8 **)((const u8 *)p + i * 4 + 0x1ebc), (const struct Vec2 *)&pair);
+    func_0220F060(p);
 }
-
-void func_0220E7E4(Record *records)
-{
-    char *p=(char *)records;
-    char *flags;
-    short i;
-    unsigned value;
-    i=0;
-    flags=p+0x1b;
-    for(;i<6;i++) {
-        if(records[i].species!=0) {
-            value=func_0201BB5C(records[i].species,records[i].form,((Flags_0220E7E4 *)(flags+i*0x4c))->half,((Flags_0220E7E4 *)(flags+i*0x4c))->egg);
-            func_0204B6F4(*(void **)(p+i*4+0x1ed8),value,1);
-        }
-    }
-}
-
-/*
- * Verified scratch one: EXACT 12 bytes, Thumb, dsi/1.1p1 -O4,p.
- * typedef unsigned char u8;
- * extern const u8 d_0209FCF8[];
- * unsigned func_020275EC(u8 index){return d_0209FCF8[index];}
- */
-void func_0220E82C(char *p,void *obj,int index,int which)
-{
-    void *owner,*data;
-    struct Sub0204A9D0 *out;
-    owner=func_020490F4(83,(u16)((*(u16 *)(*(char **)p+16)&0x7fff)|0x8000));
-    data=func_02049E74((void *)((unsigned)owner),func_020275F8((u8)which),0,(unsigned)&out,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
-    func_0204A9D0(*(unsigned *)(p+index*4+0x24a4),out);
-    func_020307B0(data);
-    func_02049238(owner);
-    func_0204B6F4(obj,(unsigned)func_020275EC((u8)which),1);
-}
-
-/*
- * Verified scratch one: EXACT 12 bytes, Thumb, dsi/1.1p1 -O4,p.
- * typedef unsigned char u8;
- * extern const u8 d_0209FCEC[];
- * unsigned func_02027604(u8 index){return d_0209FCEC[index];}
- */
-void func_0220E8B4(char *p,int first,int index,int which)
-{
-    void *owner,*data;
-    struct Sub0204A9D0 *out;
-    int toggle;
-    toggle=((Flags_0220E8B4 *)(p+0x2175))->flip;
-    first+=toggle;
-    index+=toggle;
-    owner=func_020490F4(83,(u16)((*(u16 *)(*(char **)p+16)&0x7fff)|0x8000));
-    data=func_02049E74((void *)((unsigned)owner),func_02027610((u8)which),0,(unsigned)&out,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
-    func_0204A9D0(*(int *)(p+index*4+0x24a4),out);
-    func_020307B0(data);
-    func_02049238(owner);
-    func_0204B6F4(*(void **)(p+first*4+0x1ebc),(unsigned)func_02027604(which),1);
-    ((Flags_0220E8B4 *)(p+0x2175))->flip^=1;
-}
-
-void func_0220E974(int mode,u8 *p,const struct Vec2 *q) { if(mode==8)func_0204B404((struct Obj *)p,q,1);else {func_0204B878((struct Obj *)p,mode);func_0220E7CC(p,(u32)q);} }

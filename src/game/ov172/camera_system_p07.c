@@ -1,51 +1,36 @@
 /*
- * file:     camera_system_p07.c
- * unit:     yes
- * function: func_021B6564, func_021B656C, func_021B6574
- * address:  0x021B6564
- * region:   ov172
+ * function: func_021B644C
+ * address: 0x021B644C
+ * packet: pkt_ov172_021B644C
+ * region: ov172
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021B6938 0x021B6938 thumb ov172
+ *   func_021B6944 0x021B6944 thumb ov172
+ *   func_02085D3C 0x02085D3C arm
+ *   func_021B649C 0x021B649C arm ov172
+ *   func_021B64A4 0x021B64A4 arm ov172
+ *   func_021B66B0 0x021B66B0 thumb ov172
  */
-asm void func_021B6564(void);
-asm void func_021B656C(void);
-asm void func_021B6574(void);
-
-/*
- * A four-byte ARM long-branch veneer, `ldr pc, [pc, #-4]` over the pointer
- * word 0x02706324, the arm half of the overlay's import table into the
- * TWL region.  No C spelling produces it, so it is written as an asm
- * function like the other veneers under src/matched/ov.
- *
- * Addresses are Black-image addresses.
- */
-asm void func_021B6564(void)
+#include "../../matched/include/Obj01264.h"
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u16 func_021B6938(void *);
+extern u16 func_021B6944(void *);
+extern int func_02085D3C(void);
+extern u32 func_021B649C(u32);
+extern void func_021B64A4(int, u32, u32, u32, int, void (*)(void), int);
+extern void func_021B66B0(void);
+void func_021B644C(char *p)
 {
-    ldr pc, [pc, #-4]
-    dcd 0x02706324
-}
-
-/*
- * A four-byte ARM long-branch veneer, `ldr pc, [pc, #-4]` over the pointer
- * word 0x02706174, the arm half of the overlay's import table into the
- * TWL region.  No C spelling produces it, so it is written as an asm
- * function like the other veneers under src/matched/ov.
- *
- * Addresses are Black-image addresses.
- */
-asm void func_021B656C(void)
-{
-    ldr pc, [pc, #-4]
-    dcd 0x02706174
-}
-
-asm void func_021B6574(void)
-{
-    ldr pc, [pc, #-4]
-    dcd 0x02706324
+    u32 width = func_021B6938(p);
+    u32 height = func_021B6944(p);
+    u32 offset = func_02085D3C() == 1 ? func_021B649C(width) : 0;
+    width *= 2;
+    func_021B64A4(1, (*(u32 **)(p + 4))[((struct Obj01264 *)p)->f18], offset >> 2,
+                 width * height, 0, func_021B66B0, 0);
 }

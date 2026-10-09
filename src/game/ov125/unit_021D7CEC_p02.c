@@ -1,8 +1,8 @@
 /*
  * file:     unit_021D7CEC_p02.c
  * unit:     yes
- * function: func_021D7D88, func_021D7E20
- * address:  0x021D7D88
+ * function: func_021D7D30, func_021D7D88, func_021D7E20, func_021D7E80, func_021D7F60, func_021D7FA0, func_021D80E0, func_021D824C, func_021D8438, func_021D8444, func_021D8588, func_021D858C, func_021D8598, func_021D85B4, func_021D85C0
+ * address:  0x021D7D30
  * region:   ov125
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,16 +13,134 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   d_021DA0B4 0x021DA0B4 data a4
+ *   d_021D9E40 0x021D9E40 data a4
+ *   d_021D9640 0x021D9640 data a4
+ *   func_021D7D24 0x021D7D24 arm ov125
  *   func_0215F650 0x0215F650 arm ov009
  *   func_0215FA9C 0x0215FA9C arm ov009
+ *   d_021D9F80 0x021D9F80 data a4
+ *   d_021DA258 0x021DA258 data a4
+ *   func_0215F428 0x0215F428 arm ov009
+ *   func_0215C910 0x0215C910 arm ov009
+ *   func_021D8C14 0x021D8C14 arm ov125
+ *   func_0215FC80 0x0215FC80 arm ov009
+ *   func_021D8C5C 0x021D8C5C arm ov125
+ *   func_0215F638 0x0215F638 arm ov009
+ *   func_0215F644 0x0215F644 arm ov009
+ *   d_021DA040 0x021DA040 data a4
+ *   OS_GetTick 0x020870D0 arm
+ *   _ll_udiv 0x0209C00C arm
+ *   func_0215F480 0x0215F480 arm ov009
+ *   func_021D7CAC 0x021D7CAC arm ov125
+ *   func_021D7CC0 0x021D7CC0 arm ov125
+ *   func_0215F590 0x0215F590 arm ov009
+ *   func_0215F4DC 0x0215F4DC arm ov009
+ *   d_021D9E40b 0x021D9E40 data a4
+ *   d_021DA18C 0x021DA18C data a4 ov125
+ *   func_020853C0 0x020853C0 arm
+ *   func_02085868 0x02085868 arm
+ *   func_020855BC 0x020855BC arm
+ *   func_02085A38  0x02085A38  arm
+ *   func_02167FA8 0x02167FA8 arm ov009
+ *   func_02168040 0x02168040 arm ov009
+ *   func_02059E38 0x02059E38 arm
+ *   d_021D8D30 0x021D8D30 data a4
+ *   func_021D8B44  0x021D8B44  arm ov125
+ *   func_021D7770  0x021D7770  arm
+ *   func_021D770C  0x021D770C  arm ov125
+ *   func_021D7BCC 0x021D7BCC arm ov125
  */
+#include "../../matched/include/G_Clear.h"
 #include "../../matched/include/Obj23010.h"
 
+#define D(o) (*(int *)(d_021D9E40 + (o)))
+typedef unsigned int u32;
+
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+typedef unsigned long long u64;
+
+typedef struct { u8 size, family; u16 port; u32 address; } Address;
+
+typedef unsigned long u32_021D8438;
+
+typedef unsigned int u32_021D8444;
+
+typedef struct { u8 b[301]; } Sav;
+
+typedef struct { int w[0x138 / 4]; } Blob;
+
+extern void func_021D7D24(void *);
+extern void func_020853C0(void *, void (*)(void *), int, void *, int, unsigned);
+extern void func_02085868(void *);
 extern void *func_0215F650(const char *);
 extern char *func_0215FA9C(unsigned);
 extern char *func_02094798(char *dst, const char *src);
+extern int func_0215F428(int, int, int);
+extern unsigned long func_0215C910(char *name);
+extern void func_021D8C14(const char *, u8 *);
+extern int func_0215FC80(int s, void *con);
+extern int func_0215F638(int s, int how);
+extern int func_0215F644(int s);
+extern void func_021D8C5C(void *);
+extern u64 OS_GetTick(void);
+extern int func_0215F480(int, const Address *);
+extern void func_021D7CAC(void);
+extern void func_021D7CC0(void);
+extern int func_0215F590(int, void *, int, int);
+extern int func_0215F4DC(int, void *, int, int);
+extern void func_020855BC(void *);
+extern void func_02085A38(u32_021D8438 msec);
+extern int func_02167FA8(char *svl, void *result);
+extern int func_02168040(void);
+extern int func_02059E38(int *, int *);
+extern void func_021D8B44(void);
+extern void func_021D7770(int, int, int);
+extern void func_021D770C(void);
+extern unsigned func_021D7BCC(void);
+int func_021D7D30(void);
 int func_021D7D88(const char *s);
 int func_021D7E20(const char *s, char *out);
+int func_021D7E80(void);
+void func_021D7F60(void);
+int func_021D7FA0(void);
+int func_021D80E0(void);
+void func_021D81EC(void *a0);
+int func_021D824C(void);
+void func_021D8438(int msec);
+int func_021D8444(void);
+void func_021D8588(void);
+void func_021D858C(void);
+void func_021D8598(int a, int b, int c);
+void func_021D85B4(void);
+unsigned func_021D85C0(void);
+extern char d_021DA0B4[];
+extern char d_021D9640[];
+extern char d_021D9E40[];
+extern char d_021D9F80[];
+extern u8 d_021DA258[];
+extern u8 d_021DA040[];
+extern struct Clear d_021D9E40b;
+extern char d_021DA18C[];
+extern const char d_021D8D30[];
+
+
+
+
+
+int func_021D7D30(void) {
+ func_020853C0(d_021DA0B4, func_021D7D24, 0, d_021D9640, 0x800, ((u32 *)d_021D9E40)[0x270/4]);
+ func_02085868(d_021DA0B4);
+ return 1;
+}
+
+
+
+
+
 
 int func_021D7D88(const char *s) {
  int digits=0, dots=0;
@@ -41,6 +159,11 @@ int func_021D7D88(const char *s) {
  return 0;
 }
 
+
+
+
+
+
 int func_021D7E20(const char *s, char *out) {
  void *p;
  if (!func_021D7D88(s)) {
@@ -53,3 +176,314 @@ int func_021D7E20(const char *s, char *out) {
  }
  return 1;
 }
+
+
+
+
+/*
+ * lever: final halfword swap ORs the right-shifted half before the left-shifted half; reversing them left two byte mismatches.
+ */
+int func_021D7E80(void)
+{
+    char out[16];
+    u32 value;
+    ((u32 *)d_021D9E40)[0x26c/4] = func_0215F428(2, 1, 0);
+    if (((u32 *)d_021D9E40)[0x26c/4] == -1u) {
+        ((u32 *)d_021D9E40)[0x250/4] = 3;
+        return 0;
+    }
+    if (!func_021D7E20(d_021D9F80, out)) {
+        ((u32 *)d_021D9E40)[0x250/4] = 5;
+        return 0;
+    }
+    value = func_0215C910(out);
+    value = ((value >> 8) & 0x00ff00ff) | ((value << 8) & 0xff00ff00);
+    ((u32 *)d_021D9E40)[0x264/4] = (value >> 16) | (value << 16);
+    func_021D8C14(d_021D9F80, d_021DA258);
+    if (func_0215FC80(((u32 *)d_021D9E40)[0x26c/4], d_021DA258) < 0) {
+        ((u32 *)d_021D9E40)[0x250/4] = 15;
+        return 0;
+    }
+    return 1;
+}
+
+
+
+void func_021D7F60(void) {
+ if (((u32 *)d_021D9E40)[0x26c/4] == -1u) return;
+ func_0215F638(((u32 *)d_021D9E40)[0x26c/4], 2);
+ func_0215F644(((u32 *)d_021D9E40)[0x26c/4]);
+ ((u32 *)d_021D9E40)[0x26c/4] = -1u;
+ func_021D8C5C(d_021DA258);
+}
+
+
+
+/*
+ * lever: port byte swap keeps both explicit masks; timeout casts after unsigned 64-bit subtraction, preserving the original subs before the signed comparison.
+ */
+int func_021D7FA0(void)
+{
+    Address address;
+    int start, result;
+    address.size = 8;
+    address.family = 2;
+    address.port = ((*(u16 *)(d_021DA040 + 0x40) >> 8) & 0xff) | ((*(u16 *)(d_021DA040 + 0x40) << 8) & 0xff00);
+    address.address = ((u32 *)d_021D9E40)[0x264/4];
+    start = OS_GetTick() / 0x7fd88;
+    for (;;) {
+        result = func_0215F480(((u32 *)d_021D9E40)[0x26c/4], &address);
+        if (result >= 0) break;
+        if (result == -26) {
+            if (((u32 *)d_021D9E40)[0x244/4] != 0 && (int)((OS_GetTick() / 0x7fd88) - start) >= (int)((u32 *)d_021D9E40)[0x244/4]) {
+                ((u32 *)d_021D9E40)[0x250/4] = 10;
+                return 0;
+            }
+        } else {
+            if (result == -30) break;
+            ((u32 *)d_021D9E40)[0x250/4] = 7;
+            return 0;
+        }
+        func_021D7CAC();
+        if (((u32 *)d_021D9E40)[0x268/4] == 1) {
+            ((u32 *)d_021D9E40)[0x250/4] = 13;
+            func_021D7CC0();
+            return 0;
+        }
+        func_021D7CC0();
+        func_021D8438(1);
+    }
+    return 1;
+}
+
+
+
+
+int func_021D80E0(void)
+{
+    int start, count = 0, length, result;
+    start = OS_GetTick() / 0x7fd88;
+    for (;;) {
+        length = ((u32 *)&d_021D9E40)[0x254/4] - count;
+        if (length > (int)((u32 *)&d_021D9E40)[0x254/4]) length = ((u32 *)&d_021D9E40)[0x254/4];
+        result = func_0215F590(((u32 *)&d_021D9E40)[0x26c/4], (char *)((u32 *)&d_021D9E40)[0x258/4] + count, length, 0);
+        if (result != -6) {
+            if (result < 0) {
+                ((u32 *)&d_021D9E40)[0x250/4] = 11;
+                return 0;
+            }
+            count += result;
+            if (count == ((u32 *)&d_021D9E40)[0x254/4]) break;
+        }
+        if (((u32 *)&d_021D9E40)[0x248/4] != 0 && (int)((OS_GetTick() / 0x7fd88) - start) >= (int)((u32 *)&d_021D9E40)[0x248/4]) {
+            ((u32 *)&d_021D9E40)[0x250/4] = 11;
+            return 0;
+        }
+        func_021D7CAC();
+        if (((u32 *)&d_021D9E40)[0x268/4] == 1) {
+            ((u32 *)&d_021D9E40)[0x250/4] = 13;
+            func_021D7CC0();
+            return 0;
+        }
+        func_021D7CC0();
+        func_021D8438(1);
+    }
+    return 1;
+}
+
+
+
+
+void func_021D81EC(void *a0)
+{
+    int count;
+    for (;;) {
+        count = ((u32 *)&d_021D9E40)[0x410/4];
+        func_021D7CAC();
+        if (!((u32 *)&d_021D9E40)[0x414/4]) {
+            ((u32 *)&d_021D9E40)[0x40c/4] = func_0215F4DC(((u32 *)&d_021D9E40)[0x26c/4], (char *)((u32 *)&d_021D9E40)[0x260/4] + count, ((u32 *)&d_021D9E40)[0x25c/4] - count, 0);
+            ((u32 *)&d_021D9E40)[0x414/4] = 1;
+        }
+        func_021D7CC0();
+        func_021D8438(1);
+    }
+}
+
+
+
+
+int func_021D824C(void)
+{
+    u32 count = 0;
+    int zero = 0;
+    u32 word = -1;
+    int start;
+    int r;
+    u64 t0;
+    int ret = 0;
+
+    t0 = OS_GetTick();
+    func_020853C0(d_021DA18C, func_021D81EC, 0, ((u8 *)&d_021D9E40b), 0x800, ((u32 *)&d_021D9E40)[0x270 / 4]);
+    ((u32 *)&d_021D9E40)[0x40C / 4] = -6;
+    ((u32 *)&d_021D9E40)[0x410 / 4] = 0;
+    ((u32 *)&d_021D9E40)[0x414 / 4] = 0;
+    func_02085868(d_021DA18C);
+    start = t0 / 0x7fd88;
+    for (;;) {
+        if (((u32 *)&d_021D9E40)[0x24C / 4] != 0 && (int)((OS_GetTick() / 0x7fd88) - start) >= (int)((u32 *)&d_021D9E40)[0x24C / 4]) {
+            ((u32 *)&d_021D9E40)[0x250 / 4] = 12;
+            func_020855BC(d_021DA18C);
+            return ret;
+        }
+        if (((u32 *)&d_021D9E40)[0x414 / 4] == 0) {
+            continue;
+        }
+        r = ((u32 *)&d_021D9E40)[0x40C / 4];
+        if (r != -6) {
+            if (r <= 0) {
+                ((u32 *)&d_021D9E40)[0x250 / 4] = 9;
+                func_020855BC(d_021DA18C);
+                return 0;
+            }
+            count += r;
+            if (count >= 4 && word == -1) {
+                u8 *h = (u8 *)&word;
+                u8 *q = (u8 *)((u32 *)&d_021D9E40)[0x260 / 4];
+                h[0] = q[0]; h[1] = q[1]; h[2] = q[2]; h[3] = q[3];
+            }
+            if (count == word) {
+                if (word != -1) {
+                    ((u32 *)&d_021D9E40)[0x25C / 4] = word - 4;
+                    break;
+                }
+            }
+            ((u32 *)&d_021D9E40)[0x410 / 4] = count;
+        }
+        func_021D7CAC();
+        if (((u32 *)&d_021D9E40)[0x268 / 4] == 1) {
+            ((u32 *)&d_021D9E40)[0x250 / 4] = 13;
+            func_021D7CC0();
+            func_020855BC(d_021DA18C);
+            return 0;
+        }
+        func_021D7CC0();
+        ((u32 *)&d_021D9E40)[0x414 / 4] = zero;
+        func_021D8438(1);
+    }
+    func_020855BC(d_021DA18C);
+    return 1;
+}
+
+
+
+
+
+
+/*
+ * ARM tail call: ldr ip, =target; bx ip (the form mwcc emits, as in ov009 func_0216F008.c).
+ */
+void func_021D8438(int msec)
+{
+    func_02085A38(msec);
+}
+
+
+
+
+
+
+#pragma opt_propagation off
+
+
+
+
+
+int func_021D8444(void)
+{
+    u8 buf[0x174];
+    int b, a;
+    int r;
+
+    if (D(0x138) == 1)
+        return 1;
+    if (func_02167FA8((char *)d_021D8D30, buf) == 0) {
+        D(0x250) = 0xE;
+        return 0;
+    }
+    for (;;) {
+        r = func_02168040();
+        if (r == 3) {
+            Sav *t = (Sav *)(d_021D9E40 + 6);
+            *t = *(Sav *)(buf + 0x45);
+            *(Blob *)(*(char **)&D(0x258) + 8) = *(Blob *)d_021D9E40;
+            D(0x138) = 1;
+            return 1;
+        }
+        if (r == 4) {
+            func_02059E38(&a, &b);
+            D(0x250) = 0xE;
+            return 0;
+        }
+        if (r == 5) {
+            D(0x250) = 0xE;
+            return 0;
+        }
+        func_021D7CAC();
+        if (D(0x268) == 1) {
+            D(0x250) = 0xD;
+            func_021D7CC0();
+            return 0;
+        }
+        func_021D7CC0();
+        func_021D8438(1);
+    }
+}
+
+
+
+
+
+#pragma opt_propagation reset
+
+
+
+
+
+void func_021D8588(void){}
+
+
+
+
+
+
+/*
+ * ARM tail call: ldr ip, =target; bx ip.
+ */
+void func_021D858C(void)
+{
+    func_021D8B44();
+}
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ */
+void func_021D8598(int a, int b, int c)
+{
+    func_021D7770(b, c, a);
+}
+
+
+
+
+void func_021D85B4(void)
+{
+    func_021D770C();
+}
+
+
+unsigned func_021D85C0(void) {unsigned v;func_021D7CAC();v=func_021D7BCC();func_021D7CC0();return v;}

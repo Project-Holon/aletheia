@@ -1,8 +1,8 @@
 /*
  * file:     ui_scene_p04.c
  * unit:     yes
- * function: func_021B67F8, func_021B691C, func_021B6934
- * address:  0x021B67F8
+ * function: func_021B91D0, func_021B9228, func_021B9280, func_021B92F0, func_021B9344
+ * address:  0x021B91D0
  * region:   ov067
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,185 +13,193 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
- *   func_021B6730  0x021B6730  thumb  ov067
- *   d_021B942C     0x021B942C  data  ov067  a4
- *   func_0204B294  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_021B6A28  0x021B6A28  thumb  ov067
- *   func_021B6A68  0x021B6A68  thumb  ov067
- *   func_021B6A44  0x021B6A44  thumb  ov067
- *   func_021B6A98  0x021B6A98  thumb  ov067
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204B3F4  0x0204B3F4  arm
- *   func_02035D20  0x02035D20  arm
- *   func_020355D8  0x020355D8  arm
- *   func_020362DC  0x020362DC  arm
+ *   func_021B8FE4  0x021B8FE4  thumb
+ *   func_021B90B8  0x021B90B8  thumb
+ *   func_021B9138  0x021B9138  thumb
+ *   func_020413B0 0x020413B0 arm
+ *   func_02041B6C 0x02041B6C arm
+ *   func_020355C4  0x020355C4  arm
+ *   func_0202EB04  0x0202EB04  thumb
+ *   func_0201C4E4  0x0201C4E4  thumb
+ *   func_0201C6C4  0x0201C6C4  thumb
+ *   func_02045770  0x02045770  arm
+ *   func_02045334  0x02045334  arm
  */
-struct Obj;
-struct S;
+struct CodeIn;
+struct PrintSys;
+struct Descriptor;
 typedef unsigned char u8;
+
+typedef signed char s8;
 
 typedef unsigned short u16;
 
+typedef signed short s16;
+
 typedef unsigned int u32;
 
-typedef short s16;
+struct Ops {
+    void (*fn)(void *a, int b, u8 *c, s16 d, int e);
+};
 
-typedef struct {
-    int kind;
-    s16 x;
-    s16 y;
-    u16 h8;
-    u16 hA;
-    u16 hC;
-    u16 hE;
-    u16 h10;
-    u16 h12;
-    u16 h14;
-    u16 pad16;
-    u32 w18;
-    u32 w1C;
-} Src;
+struct S_021B91D0 {
+    u8 f0;
+    u8 _1[0x20 - 1];
+    struct Ops *f20;
+    void *f24;
+    u8 _28[0x38 - 0x28];
+    u8 *f38;
+    u8 _3c[0x46 - 0x3c];
+    s8 f46;
+    u8 _47[0x4c - 0x47];
+    u16 f4c;
+    u8 _4e[0x66 - 0x4e];
+    s8 f66;
+};
 
-typedef struct {
-    u16 a;
-    u16 b;
-    u16 c;
-    u16 d;
-    u16 e;
-    u16 padA;
-    u32 f;
-    u32 g;
-} Ent;
+struct S_021B9228 {
+    u8 f0;
+    u8 f1;
+    u8 _2[0x20 - 2];
+    struct Ops *f20;
+    void *f24;
+    u8 _28[0x38 - 0x28];
+    u8 *f38;
+    u8 _3c[0x45 - 0x3c];
+    u8 f45;
+    s8 f46;
+    s8 f47;
+    u8 _48[0x66 - 0x48];
+    s8 f66;
+};
 
-typedef struct {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    void *fC;
-    void *f10;
-    u32 f14;
-    Src src;
-} Obj;
+struct H {
+    u16 v;
+};
 
-typedef struct {
-    s16 x;
-    s16 y;
-    u16 z;
-    u16 pad;
-} Pos;
+struct Pair {
+    u32 a;
+    u32 b;
+};
 
-typedef struct S {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    void (*f0c)(struct S *);
-    u8 pad10[0x1c - 0x10];
-    s16 f1c;
-    s16 f1e;
-    u8 pad20[0x30 - 0x20];
-    u32 f30;
-} S;
+struct S_021B92F0 {
+    u8 _0[0x11];
+    u8 f11;
+    u8 _12[0x28 - 0x12];
+    struct Pair *f28;
+    u8 _2c[0x30 - 0x2c];
+    void *f30;
+    u8 _34[0x40 - 0x34];
+    struct H **f40;
+    u8 _44[0x5e - 0x44];
+    u16 f5e;
+    u8 _60[0x62 - 0x60];
+    s16 f62;
+};
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
-extern int func_021B6730(void *p, int i);
-extern struct Obj *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *pos, u16 f, u16 g);
-extern void func_0204B92C(struct Obj *obj, u32 v);
-extern void func_021B6A28(u8 *p);
-extern void func_021B6A68(struct S *p, u32 flag);
-extern void func_021B6A44(u8 *p);
-extern void func_021B6A98(struct S *p, u32 flag);
-extern void func_0204B3B4(struct Obj *p);
-extern u32 func_0204B3F4(struct Obj *p);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern void func_020355D8(u8 v);
-extern u32 func_020362DC(void);
-void func_021B67F8(Obj *p, u32 a1, void *a2, Src *src, u32 a4, u16 a5);
-void func_021B691C(void **p);
-int func_021B6934(S *p);
-extern Ent d_021B942C[];
+struct Elem {
+    void *p;
+    u8 flag;
+    u8 pad[3];
+};
+
+struct S_021B9344 {
+    u8 _0[0x34];
+    int f34;
+    struct Elem *arr;
+    u8 _3c[0x44 - 0x3c];
+    u8 count;
+};
+
+extern void func_021B8FE4(struct S_021B91D0 *s, u32 a1, u32 a2);
+extern void func_021B90B8(struct S_021B91D0 *p, int a1, int a2);
+extern void func_021B9138(struct S_021B91D0 *p, int a1, int a2);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_02041B6C(u32);
+extern u8 func_020355C4(void);
+extern void func_0202EB04(struct CodeIn *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02045334(struct Descriptor *d);
+void func_021B91D0(struct S_021B91D0 *p, int i, int a2);
+void func_021B9228(struct S_021B9228 *p, int i, int a2);
+void func_021B9280(u8 *p, int a, u32 b);
+void func_021B92F0(struct S_021B92F0 *p, u32 a1, u32 a2);
+void func_021B9344(struct S_021B9344 *s);
 
 
-void func_021B67F8(Obj *p, u32 a1, void *a2, Src *src, u32 a4, u16 a5)
+
+void func_021B91D0(struct S_021B91D0 *p, int i, int a2)
 {
-    Pos pos;
-    u32 v0;
-    u32 v1;
-    u32 v2;
-    int i;
-
-    func_02082BCC(p, 0, 0x38);
-    p->src = *src;
-    p->f4 = 1;
-    func_02082BCC(&pos, 0, 8);
-    pos.x = src->x;
-    pos.y = src->y;
-    if (src->kind >= 7) {
-        v0 = src->h8;
-        v1 = src->hA;
-        v2 = src->hC;
-        p->f14 = 0;
+    if (i >= 0 && i < p->f4c) {
+        func_021B8FE4((struct S_021B91D0 *)p, i, p->f46);
+        func_021B90B8((struct S_021B91D0 *)p, p->f46, a2);
+        p->f20->fn(p->f24, i, p->f38 + p->f46 * 8, a2 * 8 - p->f66, 1);
     } else {
-        v0 = func_021B6730(a2, 1);
-        v1 = func_021B6730(a2, 0);
-        v2 = func_021B6730(a2, 2);
-        i = src->kind;
-        p->src.hE = d_021B942C[i].a;
-        p->src.h10 = d_021B942C[i].b;
-        p->src.h12 = d_021B942C[i].c;
-        p->src.h14 = d_021B942C[i].d;
-        p->src.w18 = d_021B942C[i].f;
-        p->src.w1C = d_021B942C[i].e;
-        p->f14 = d_021B942C[i].g;
-    }
-    p->f8 = p->src.hE;
-    pos.z = p->f8;
-    p->f0 = (u32)func_0204B294((void *)a1, v0, v1, v2, &pos, a4, a5);
-    func_0204B92C((struct Obj *)p->f0, 1);
-    switch (p->f14) {
-    case 0:
-        p->fC = func_021B6A28;
-        p->f10 = func_021B6A68;
-        break;
-    case 1:
-        p->fC = func_021B6A44;
-        p->f10 = func_021B6A98;
-        break;
+        func_021B9138((struct S_021B91D0 *)p, p->f0, a2);
     }
 }
 
-/*
- * extent: trailing two-byte alignment padding at 0x021B6932.
- */
-void func_021B691C(void **p)
+
+
+void func_021B9228(struct S_021B9228 *p, int i, int a2)
 {
-    func_0204B3B4(*p);
-    func_02082BCC(p, 0, 0x38);
+    int k;
+
+    if (p->f1 != 0xff) {
+        if (i >= 0) {
+            k = p->f47 + p->f45;
+            func_021B8FE4((struct S_021B91D0 *)p, i, k);
+            func_021B90B8((struct S_021B91D0 *)p, k, (int)a2);
+            p->f20->fn(p->f24, i, p->f38 + k * 8, a2 * 8 - p->f66, 0);
+        } else {
+            func_021B9138((struct S_021B91D0 *)p, p->f1, a2);
+        }
+    }
 }
 
 
-int func_021B6934(S *p)
-{
-    u32 x;
-    u32 y;
-    int hit = 0;
+void func_021B9280(u8 *p, int a, u32 b) {
+    s16 pos = (s8)p[102]/8 + ((s8)p[3] + a*p[5]);
+    u16 i = 0;
+    for (; i < p[5]; i++) {
+        if (pos < 0) pos += 32;
+        else if (pos >= 32) pos -= 32;
+        func_020413B0(p[0],p[2],(u8)pos,p[4],1,(u8)b);
+        pos++;
+    }
+    func_02041B6C(p[0]);
+}
 
-    if (func_0204B3F4((struct Obj *)p->f00) & p->f04) {
-        if (func_02035D20(&x, &y)) {
-            if (x - p->f1c <= 0x18 && y - p->f1e <= 0x18) {
-                hit = 1;
-                func_020355D8(1);
+
+
+void func_021B92F0(struct S_021B92F0 *p, u32 a1, u32 a2)
+{
+    if (a2 < p->f5e)
+        func_021B9280((u8 *)p, a2, (u16)(p->f40[p->f28[p->f62 + a2].a]->v >> 12));
+    if (a1 < p->f5e && func_020355C4() == 0) {
+        func_0202EB04(p->f30);
+        func_021B9280((u8 *)p, a1, p->f11);
+    }
+}
+
+
+
+void func_021B9344(struct S_021B9344 *s)
+{
+    u32 i;
+
+    func_0201C4E4((struct PrintSys *)s->f34);
+    for (i = 0; i < s->count; i++) {
+        struct Elem *e = &s->arr[i];
+        int a = s->f34;
+
+        if (e->flag != 0) {
+            if (func_0201C6C4((struct PrintSys *)a, (void *)((int)func_02045770((struct Descriptor *)e->p))) == 0) {
+                func_02045334((struct Descriptor *)e->p);
+                e->flag = 0;
             }
         }
-        if (p->f30 != 0 && (func_020362DC() & p->f30)) {
-            func_020355D8(0);
-            hit = 1;
-        }
-        if (hit) {
-            p->f0c(p);
-            return 1;
-        }
     }
-    return 0;
 }

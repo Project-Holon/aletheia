@@ -1,8 +1,8 @@
 /*
  * file:     unit_021573C4_p26.c
  * unit:     yes
- * function: func_0215C7E0, func_0215C814, func_0215C8B4, func_0215C910
- * address:  0x0215C7E0
+ * function: func_0215AB10, func_0215AB5C, func_0215AB7C, func_0215AB94, func_0215ABB0, func_0215AC60, func_0215ACA0
+ * address:  0x0215AB10
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,287 +13,183 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0215C7E0  0x0215C7E0  arm  ov009
- *   func_0215AB10  0x0215AB10  arm  ov009
- *   func_0215AA88  0x0215AA88  arm  ov009
- *   func_0215AAB0  0x0215AAB0  arm  ov009
- *   func_0215C538  0x0215C538  arm  ov009
- *   func_0215AB5C  0x0215AB5C  arm  ov009
- *   func_021578C8            0x021578C8  arm  ov009
- *   func_02157D8C            0x02157D8C  arm  ov009
- *   func_02157F60            0x02157F60  arm  ov009
- *   wfailed                  0x021A826C  data
- *   CPSDnsIp                 0x021A82DC  data
+ *   g_02150FEC  0x02150FEC  data
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_0215AA18  0x0215AA18  arm  ov009
+ *   func_020870D0  0x020870D0  arm
+ *   func_021593A8  0x021593A8  arm  ov009
+ *   func_02087988  0x02087988  arm
+ *   func_020857B0  0x020857B0  arm
+ *   func_0208799C  0x0208799C  arm
+ *   g_021A826C  0x021A826C  data
+ *   func_02162968  0x02162968  arm  ov009
+ *   OS_YieldThread                   0x020858d8 arm
+ *   OS_DisableInterrupts             0x02087988 arm
+ *   OS_RestoreInterrupts             0x0208799c arm
+ *   _tcp_send_finack                 0x02159494 arm
+ *   _tcp_send_ack                    0x02159404 arm
  */
-typedef struct {
-	unsigned long long x;
-	unsigned long long mul;
-	unsigned long long add;
-} RandCtx;
+struct CPSSoc;
+struct Soc;
+struct NetVars {
+	unsigned char pad0[0x50];
+	unsigned long myip;
+};
 
-extern unsigned long func_0215C7E0(unsigned char *s, unsigned char **end);
-extern void func_0215AB10(void);
-extern void func_0215AA88(void);
-extern void func_0215AAB0(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
-extern unsigned long func_0215C538(unsigned char *name, unsigned long type, unsigned short id, unsigned char *rname, unsigned long rname_max);
-extern void func_0215AB5C(void);
-extern unsigned long func_021578C8(unsigned long ip);
-unsigned long func_0215C814(unsigned char *name, unsigned long *pip);
-unsigned long func_0215C8B4(unsigned char *name, unsigned long dnsip, unsigned short id);
-unsigned long func_0215C910(char *name);
-extern unsigned long CPSDnsIp[2];
+struct Soc {
+	unsigned char pad0[4];
+	unsigned long block_type;
+	unsigned char state;
+	unsigned char pad1[7];
+	unsigned long when;
+	unsigned char pad2[0x20];
+	unsigned long seqno;
+};
 
-static unsigned long strtol10(unsigned char *s, unsigned char **endptr)
+struct _CPSSoc {
+	unsigned char pad[8];
+	unsigned char state;
+};
+
+extern void func_02082BCC(void *dst, unsigned char data, unsigned long size);
+extern unsigned long func_0215AA18(void);
+extern unsigned long long func_020870D0(void);
+extern void func_021593A8(char *soc, unsigned char flag);
+extern unsigned long func_02087988(void);
+extern void func_020857B0(void *queue);
+extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long func_02162968(struct CPSSoc *soc);
+extern void OS_YieldThread(void);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
+extern void _tcp_send_finack(struct _CPSSoc *soc);
+extern void _tcp_send_ack(struct _CPSSoc *soc, int flush);
+void func_0215AB10(void);
+void func_0215AB5C(void);
+asm void CPS_SocDup(void);
+asm void CPS_SetUdpCallback(void);
+unsigned long func_0215ABB0(struct Soc *soc);
+unsigned long func_0215AC60(void);
+void CPSi_TcpShutdownRaw(struct _CPSSoc *soc);
+extern char g_02150FEC[];
+extern struct NetVars g_021A826C;
+
+
+/*
+ * sdk:      CPS_SocUse (libcps.TWL.HYB.a(network.o))
+ */
+void func_0215AB10(void)
 {
-	unsigned long acc = 0;
-	unsigned char c;
+    char *cur = *(char **)(g_02150FEC + 4);
+    char *soc = *(char **)(cur + 0xa4);
 
-	*endptr = s;
-	for (;;) {
-		c = *s;
-		if ((unsigned char)(c - '0') > 9)
-			break;
-		acc = acc * 10 + (unsigned char)(c - '0');
-		s++;
-		*endptr = s;
-	}
-	return acc;
+    if (soc == 0)
+        return;
+    *(char **)soc = cur;
+    *(unsigned char *)(soc + 8) = 0;
+    *(unsigned long *)(soc + 0x50) = 0;
+    func_02082BCC(soc + 0x70, 0, 0x30);
+    *(unsigned long *)(soc + 0x6c) = 0;
+    *(unsigned long *)(soc + 0x44) = 0;
+    *(unsigned char *)(soc + 0x33) = 0;
 }
 
 
 /*
- * sdk:      rawip (libcps.TWL.HYB.a(network.o))
+ * Clears the word the object at +0xa4 points to, when it is there.
  */
-unsigned long func_0215C814(unsigned char *name, unsigned long *pip)
+void func_0215AB5C(void)
 {
-    unsigned long ip = 0;
-    int i = 0;
-    unsigned long field;
-    unsigned char *next;
+    char *p = *(char **)(g_02150FEC + 4);
+    int *q = *(int **)(p + 0xa4);
 
-    do {
-        field = func_0215C7E0(name, &next);
-        if (name == next)
-            return 0;
-        name = next;
-        if (field > 0xff)
-            goto fail;
-        if (i != 3) {
-            unsigned char c = *name++;
+    if (q) {
+        *q = 0;
+    }
+}
 
-            if (c != '.')
-                goto fail;
-        }
-        if (i == 3) {
-            if (*name != 0) {
-fail:
-                return 0;
-            }
-        }
-        ip = field | (ip << 8);
-        i++;
-    } while (i < 4);
-    *pip = ip;
+asm void CPS_SocDup(void)
+{
+	ldr r1, =0x02150FEC
+	ldr r1, [r1, #4]
+	ldr r1, [r1, #0xa4]
+	str r1, [r0, #0xa4]
+	bx lr
+}
+
+asm void CPS_SetUdpCallback(void)
+{
+	ldr r1, =0x02150FEC
+	ldr r1, [r1, #4]
+	ldr r1, [r1, #0xa4]
+	cmp r1, #0
+	strne r0, [r1, #0x44]
+	bx lr
+}
+
+
+/*
+ * sdk:      CPSi_TcpConnectRaw (libcps.TWL.HYB.a(network.o))
+ */
+unsigned long func_0215ABB0(struct Soc *soc)
+{
+	unsigned long retry;
+	unsigned long seqno;
+	unsigned long enabled;
+
+	seqno = func_0215AA18();
+	for (retry = 0; retry < 3; retry++) {
+		soc->seqno = seqno;
+		soc->state = 2;
+		soc->when = (unsigned long)(func_020870D0() >> 16);
+		func_021593A8((char *)soc, 2);
+		enabled = func_02087988();
+		if (soc->state == 2 && g_021A826C.myip != 0) {
+			soc->block_type = 1;
+			func_020857B0(0);
+		}
+		func_0208799C(enabled);
+		if (soc->state == 4)
+			return 0;
+		if (g_021A826C.myip == 0)
+			break;
+	}
+	return 1;
+}
+
+
+/*
+ * sdk:      CPS_TcpConnect (libcps.TWL.HYB.a(network.o))
+ */
+unsigned long func_0215AC60(void)
+{
+    char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
+
+    if (soc != 0) {
+        if (*(unsigned char *)(soc + 9) != 0)
+            return func_02162968((struct CPSSoc *)soc);
+        return func_0215ABB0((struct Soc *)soc);
+    }
     return 1;
 }
 
 
-/*
- * sdk:      resolve_sub (libcps.TWL.HYB.a(network.o))
- */
-unsigned long func_0215C8B4(unsigned char *name, unsigned long dnsip, unsigned short id)
+void CPSi_TcpShutdownRaw(struct _CPSSoc *soc)
 {
-    unsigned long ip;
+	unsigned long enable;
+	unsigned char state;
 
-    if (dnsip == 0)
-        return 0xffffffff;
-    func_0215AB10();
-    func_0215AA88();
-    func_0215AAB0(0, 0x35, dnsip);
-    ip = func_0215C538(name, 1, id, 0, 0);
-    func_0215AB5C();
-    return ip;
-}
-
-extern unsigned char (*func_02157D8C(unsigned long ip))[6];
-
-extern unsigned char (*func_02157F60(unsigned long ip))[6];
-
-static unsigned char ip_conflict = 0;
-
-static unsigned char wfailed = 0;
-
-static unsigned short eport = 0;
-
-static unsigned short mymss = 0;
-
-static unsigned short pingseq = 0;
-
-static unsigned short ipid = 0;
-
-static unsigned long CPSMyIp = 0;
-
-static int CPSNoIpReason = 0;
-
-static void *checkNConfig_callback = 0;
-
-static void (*CPSiFree)(void *) = 0;
-
-static unsigned long sleep_save = 0;
-
-static unsigned long lease_time = 0;
-
-static void *scavenger_callback = 0;
-
-static unsigned long offered_myip = 0;
-
-static int scavenger_force_exit = 0;
-
-static unsigned long wlan_buflen = 0;
-
-static void *dhcp_callback = 0;
-
-static int yield_wait = 0;
-
-static void *wlan_buf = 0;
-
-static unsigned long CPSDhcpServerIp = 0;
-
-static int link_is_on = 0;
-
-static unsigned long CPSGatewayIp = 0;
-
-static void *receiver_thread = 0;
-
-static unsigned long wlan_putpnt = 0;
-
-static unsigned long CPSDhcpMode = 0;
-
-static unsigned long CPSNetMask = 0;
-
-static unsigned long xid = 0;
-
-static unsigned long wlan_getpnt = 0;
-
-static void *(*CPSiAlloc)(unsigned long) = 0;
-
-static unsigned char CPSMyMac[6] = {0};
-
-
-unsigned long CPSDnsIp[2] = {0};
-
-RandCtx CPSiRand32ctx = {0};
-
-
-static inline unsigned long rand32(RandCtx *context, unsigned long max)
-{
-	context->x = context->mul * context->x + context->add;
-	return (unsigned long)(max ? (((context->x >> 32) * max) >> 32) : (context->x >> 32));
-}
-
-
-/*
- * closed (2026-10-01, ov SDK wave 3 lane30): the rand context is network.o's
- *   global CPSiRand32ctx (.bss+0x78, reached through the wfailed anchor), not a
- *   field of an extern struct. Modelled as the network.o .bss statics (list from
- *   02157290; ip_conflict before wfailed so the 1-byte group keeps wfailed at
- *   +0); as a distinct object the compiler proves the x stores do not alias and
- *   schedules them as the image. CPSDnsIp is a global (vendor STB_GLOBAL) with
- *   a prior extern declaration (public header), so 1.1p1 addresses it by name
- *   (own pool word, as in the vendor reloc list) instead of via the anchor.
- *   The 4-byte group order is not the vendor's (unreferenced here).
- *
- * old blocker (resolved): three one-slot schedule swaps around the inlined
- *           rand32 (see lane notes below).
- *
- * sdk:      CPS_Resolve (libcps.TWL.HYB.a network.o)
- *
- * lane T5 (2026-09-30).  Pin sweep (all 9 dsi compilers x 4 flag sets): 1.1p1
- * -O4,p at 380 bytes / 24 concrete bytes is the unique best (1.6sp1/sp2 give 30).
- * Residue already named in the blocker above (the two schedule swaps in the id
- * set-up); no new spelling was spent on it this wave.
- *
- * lane U41 (2026-09-30).  Re-measured: still 380 compiled / 380 extent with 24
- * concrete bytes, three one-slot schedule swaps:
- *   +0008  image `ldr r2, [pc, #0x164]` | ours `mov r1, #0`
- *   +006c  image `orr r7, r7, fp, lsr #16` | ours `str r6, [r2, #0x78]`
- *   +007c  image `mov sl, r0` | ours `str r4, [r2, #0x7c]`
- * Eleven more spellings measured, all 24 diffs: `retries = 0;` before `ip = 0;`,
- * the two id stores first, a split id[i] pair, `ask_this` before the ids,
- * `ip = 0, retries = 0;` comma, the initialisers moved into the declarations,
- * `retries` declared `long`, `0u`, and the loop counter fixed in the `for`
- * header.  The 5/5 pool words and all 7 relocations resolve; this is the list
- * scheduler's slot tie-break, not a body shape.
- *
- * lane W8 (2026-09-30).  Two more spellings against the same three one-slot
- * swaps, both no better: computing rand32's return into a temp BEFORE the
- * context->x store (the compute-a-stores-operands-before-the-store lever) is
- * still 24 (the front end canonicalises it back); an aggregate initialiser
- * `unsigned short id[2] = { rand32(...), rand32(...) };` disables the
- * cross-call interleaving and blows up to 97.  Residue unchanged; all 7
- * relocations resolve.
- *
- * lane W8.2 (2026-10-01).  Three more spellings, all still exactly these three
- * one-slot schedule swaps at 380/24: `rand32` rewritten to compute both the
- * LCG x and the return into named temps before the `context->x` store (the
- * store-operands-first lever) stays 24; `const char *name` on the read-only
- * source parameter (the const-source-pointer tie lever) stays 24; `const` on
- * the read-only extern `g_021A82DC[2]` blows up to 384/159.  Reverted to the
- * 24-byte state.  This is the list scheduler's slot tie-break, not a body
- * shape: all 7 relocations resolve and every instruction opcode is right.
- *
- * lane W8.3 (2026-10-01).  Confirmed this is the same list-scheduler tie the
- * sibling rand32 consumer in this very overlay already documents:
- * docs/idioms/a-pool-word-order-residue-is-a-list-scheduler-tie.md
- * (ov009_func_021685CC.c, DWCi_GetMathRand32, identical 64-bit LCG rand32
- * body).  The three residue slots (+0008 context ldr above mov r1,#0; +006c
- * orr above str r6; +007c mov sl above str r4) are all independent-issue
- * hoists around the inlined rand32 epilogue, i.e. the same scheduler
- * slot tie-break the idiom says no C shape reaches.  No new spelling spent;
- * 380/24 unchanged, all 7 relocations resolve.
- * lane 05 (2026-10-01): still 380/24.  New and inert: rand32 spelled as the
- * SDK's MATH_Rand32 if/else (max == 0 ? x>>32 : ...), moving ip/retries
- * around the id draws (97 when ip follows them), a `for (server...)` id
- * loop (not unrolled, 368/large).
- */
-unsigned long func_0215C910(char *name)
-{
-	unsigned long ip;
-	int retries;
-	int server;
-	unsigned short id[2];
-	unsigned char ask_this[2];
-	unsigned long t;
-
-	ip = 0;
-	retries = 0;
-	id[0] = (unsigned short)rand32(&CPSiRand32ctx, 0x10000);
-	id[1] = (unsigned short)rand32(&CPSiRand32ctx, 0x10000);
-	if (func_0215C814((unsigned char *)name, &ip))
-		return ip;
-	ask_this[0] = 1;
-	ask_this[1] = 1;
-	for (; retries < 3; retries++) {
-		for (server = 0; server < 2; server++) {
-			if (!ask_this[server])
-				continue;
-			if (CPSDnsIp[server] == 0 || (t = func_021578C8(CPSDnsIp[server])) == 0) {
-				ask_this[server] = 0;
-				continue;
-			}
-			if (func_02157D8C(t) == 0 && func_02157F60(t) == 0) {
-				ask_this[server] = 0;
-				continue;
-			}
-			ip = func_0215C8B4((unsigned char *)name, CPSDnsIp[server], id[server]);
-			if (ip != 0 && ip != 0xffffffff)
-				goto done;
-			if (ip == 0xffffffff)
-				ask_this[server] = 0;
-		}
+	OS_YieldThread();
+	enable = OS_DisableInterrupts();
+	state = soc->state;
+	if ((unsigned char)(state + 0xfd) <= 1) {
+		soc->state = 7;
+		OS_RestoreInterrupts(enable);
+		_tcp_send_finack(soc);
+	} else if (state != 0) {
+		OS_RestoreInterrupts(enable);
+		_tcp_send_ack(soc, 2);
+	} else {
+		OS_RestoreInterrupts(enable);
 	}
-done:
-	if (ip == 0xffffffff)
-		ip = 0;
-	return ip;
 }

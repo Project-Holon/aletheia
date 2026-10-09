@@ -1,33 +1,9 @@
 # unit_021E65B0.c (ov093)
 
-Translation unit 021E65B0..021E6994, 13 functions, confidence weak (tools/tuboundary.py).
+Split into 3 parts. Each boundary is a linker veneer (`bx pc` ARM veneer, 16 bytes): 0x021E67E4 and 0x021E6908 (1 veneer per boundary). Veneers are not matchable code, so each part is a file boundary. All hidden setters and thunks between parts were written as functions and merged.
 
-The member files below each match on their own. Merging them into one
-`unit_021E65B0.c` is blocked by:
+Parts, in address order:
 
-- ov093_func_021E65B0.c..ov093_func_021E695C.c: c99=CCERR: line 167: illegal implicit conversion from 'int' to | line 167: 'struct Node *' nolang=CCERR: line 167: illegal implicit conversion from 'int' to | line 167: 'struct Node *'
-- ov093_func_021E65B0.c..ov093_func_021E66CC.c: c99=DIFF nolang=DIFF
-- ov093_func_021E666C.c..ov093_func_021E66CC.c: c99=DIFF nolang=DIFF
-- func_021E66A8.c..ov093_func_021E66CC.c: c99=DIFF nolang=DIFF
-- func_021E6710.c..ov093_func_021E695C.c: c99=CCERR: line 75: illegal implicit conversion from 'int' to | line 75: 'struct Node *' nolang=CCERR: line 75: illegal implicit conversion from 'int' to | line 75: 'struct Node *'
-- func_021E6710.c..ov093_func_021E6800.c: c99=CCERR: line 62: illegal implicit conversion from 'int' to | line 62: 'struct Node *' nolang=CCERR: line 62: illegal implicit conversion from 'int' to | line 62: 'struct Node *'
-- ov093_func_021E6728.c..ov093_func_021E6800.c: c99=DIFF nolang=DIFF
-- ov093_func_021E6840.c..ov093_func_021E695C.c: c99=DIFF nolang=DIFF
-- ov093_func_021E6924.c..ov093_func_021E695C.c: c99=DIFF nolang=DIFF
-- no verified entry for 021E67E4, 021E6908
-
-Members, in address order:
-
-- `ov093_func_021E666C.c`
-- `func_021E66A8.c`
-- `ov093_func_021E66CC.c`
-- `func_021E6710.c`
-- `ov093_func_021E6728.c`
-- `ov093_func_021E6800.c`
-- `ov093_func_021E6840.c`
-- `ov093_func_021E6924.c`
-- `ov093_func_021E695C.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021E65B0.c` again.
+- `unit_021E65B0_p01.c` 0x021E65B0: func_021E65B0, func_021E6654, func_021E666C, func_021E66A8, func_021E66C0, func_021E66CC, func_021E6710, func_021E6728
+- `unit_021E65B0_p02.c` 0x021E67F4: func_021E67F4, func_021E6800, func_021E6840
+- `unit_021E65B0_p03.c` 0x021E6918: func_021E6918, func_021E6924, func_021E6950, func_021E695C, func_021E6988

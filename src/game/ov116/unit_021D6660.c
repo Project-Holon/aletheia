@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   MATCH
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *

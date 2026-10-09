@@ -1,8 +1,8 @@
 /*
  * file:     unit_021F36C0_p01.c
  * unit:     yes
- * function: func_021F3D1C, func_021F3D74
- * address:  0x021F3D1C
+ * function: func_021F36C0, func_021F36F0
+ * address:  0x021F36C0
  * region:   ov039
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,59 +13,22 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02188D2C 0x02188D2C thumb ov021
- *   func_021897BC 0x021897BC thumb
- *   func_02188C80 0x02188C80 thumb
- *   func_020120F4 0x020120F4 thumb
- *   func_02012EC4 0x02012EC4 thumb
- *   func_0200B3A4 0x0200B3A4 thumb
- *   func_021BE580 0x021BE580 thumb ov021
- *   func_021F3DE4 0x021F3DE4 thumb ov039
- *   func_02012A30 0x02012A30 thumb
- *   func_02028A7C 0x02028A7C thumb
- *   func_02028B18 0x02028B18 thumb
+ *   d_021F4C58 0x021F4C58 data a2
  */
-struct Big;
-struct Ctx;
-struct Rec94;
-struct SoundSys2;
-struct BigObj;
-typedef unsigned char  u8;
-
-typedef signed int     s32;
-
-typedef unsigned int   u32;
+typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-extern int func_02188D2C(int *p);
-extern unsigned char *func_021897BC(int, int);
-extern int func_02188C80(int);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern void func_021BE580(int);
-extern int func_021F3DE4(void *p, u16 delta, u16 i);
-extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02028A7C(struct SoundSys2 *p, u32 id);
-extern void func_02028B18(struct SoundSys2 *p, u32 id, u32 who);
-void func_021F3D1C(int a);
-void func_021F3D74(u32 a);
+typedef unsigned int u32;
+
+u8 func_021F36C0(int a, int b);
+u8 func_021F36F0(u8 *p, int i);
+extern const u16 d_021F4C58[][2];
+
+u8 func_021F36C0(int a, int b) { u8 i; for (i = 0; i < 9; i++) { if (d_021F4C58[i][0] == a && d_021F4C58[i][1] == b) return i; } return 0xff; }
 
 
-void func_021F3D1C(int a)
+u8 func_021F36F0(u8 *p, int i)
 {
-    int *r7;
-    int r6;
-    int i;
-    unsigned char *r5;
-
-    r6 = func_02188D2C((int *)a);
-    r5 = func_021897BC(a, 1);
-    r7 = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(a))), 2);
-    func_021BE580(r6);
-    for (i = 0; i < 4; i++)
-        r7[i] = func_021F3DE4((void *)r6, (unsigned char)i, (unsigned char)(r5[i + 0x21EC] + 1));
+    return *((u8 *)p + i + 0x21EC);
 }
-
-void func_021F3D74(u32 a) { struct SoundSys2 *p; p = (struct SoundSys2 *)func_02012A30((const struct BigObj *)func_020120F4((const struct Ctx *)a)); func_02028A7C(p, 0x68a); func_02028B18(p, 0x68a, 0); }

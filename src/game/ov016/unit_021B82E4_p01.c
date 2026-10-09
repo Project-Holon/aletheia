@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B82E4_p01.c
  * unit:     yes
- * function: func_021B82E4, func_021B830C, func_021B8324
+ * function: func_021B82E4, func_021B830C, func_021B8324, AOSS_Ntohs
  * address:  0x021B82E4
  * region:   ov016
  * compiler: dsi/../2.0/sp1p2
@@ -15,6 +15,8 @@
 unsigned long AOSS_Htonl(unsigned long hostlong);
 unsigned short AOSS_Htons(unsigned short hostshort);
 unsigned long AOSS_Ntohl(unsigned long netlong);
+unsigned short AOSS_Ntohs(unsigned short netshort);
+
 
 unsigned long AOSS_Htonl(unsigned long hostlong)
 {
@@ -22,13 +24,20 @@ unsigned long AOSS_Htonl(unsigned long hostlong)
            ((hostlong << 8) & 0xff0000) | ((hostlong << 24) & 0xff000000);
 }
 
+
 unsigned short AOSS_Htons(unsigned short hostshort)
 {
     return ((hostshort >> 8) & 0xff) | ((hostshort << 8) & 0xff00);
 }
 
+
 unsigned long AOSS_Ntohl(unsigned long netlong)
 {
     return ((netlong >> 24) & 0xff) | ((netlong >> 8) & 0xff00) |
            ((netlong << 8) & 0xff0000) | ((netlong << 24) & 0xff000000);
+}
+
+unsigned short AOSS_Ntohs(unsigned short netshort)
+{
+    return ((netshort >> 8) & 0xff) | ((netshort << 8) & 0xff00);
 }

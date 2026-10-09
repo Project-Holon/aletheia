@@ -1,7 +1,7 @@
 /*
  * file:     ctvt_comm_p01.c
  * unit:     yes
- * function: func_021B77E8, func_021B7818, func_021B7830, func_021B785C, func_021B7888, func_021B78A0, func_021B78B8, func_021B792C, func_021B796C, func_021B7B20
+ * function: func_021B77E8, func_021B7818, func_021B7830, func_021B785C, func_021B7888, func_021B78A0, func_021B78B8, func_021B792C, func_021B796C, func_021B7B20, func_021B7B30, func_021B7B3C
  * address:  0x021B77E8
  * region:   ov172
  * compiler: dsi/1.1p1
@@ -19,6 +19,9 @@
  *   func_021BE0A4  0x021BE0A4  thumb  ov172
  *   g_021C6EB4    0x021C6EB4  data  ov172
  *   func_020061E4 0x020061E4 thumb
+ *   func_021BE100  0x021BE100  thumb  ov172
+ *   func_02085D3C  0x02085D3C  arm
+ *   func_021B7B5C  0x021B7B5C  arm    ov172
  */
 #include "../../matched/include/Obj06553.h"
 #include "../../matched/include/Obj06554.h"
@@ -53,6 +56,9 @@ extern int func_021BE05C(void *p);
 extern u32 func_021BE078(void *p);
 extern u32 func_021BE0A4(void *p);
 extern void func_020061E4(unsigned int);
+extern int func_021BE100(void);
+extern int func_02085D3C(int a);
+extern void func_021B7B5C(int a, int b, int c);
 u32 func_021B77E8(void *p);
 u32 func_021B7818(void *p, void *q);
 int func_021B7830(void *a0, char *a1, int a2);
@@ -63,8 +69,11 @@ int func_021B78B8(void *p, char *q);
 int func_021B792C(void *p, u16 *value, u16 *limit);
 void func_021B796C(void *p, char *q, int i);
 void func_021B7B20(int unused, char *base, int i);
+u32 func_021B7B30(int unused, char *base, int i);
+void func_021B7B3C(int x, int y, int z);
 extern u32 g_021C6EA8[];
 extern u32 g_021C6EB4[];
+
 
 
 /*
@@ -82,6 +91,7 @@ u32 func_021B77E8(void *p)
 }
 
 
+
 /*
  * Forward three arguments, the third from func_021BE0A4.
  *
@@ -91,6 +101,7 @@ u32 func_021B7818(void *p, void *q)
 {
     return func_021B7830(p, q, func_021BE0A4(p));
 }
+
 
 
 /*
@@ -108,6 +119,7 @@ int func_021B7830(void *a0, char *a1, int a2)
 }
 
 
+
 u32 func_021B785C(void *p)
 {
     u32 i = func_021BE05C(p);
@@ -116,6 +128,7 @@ u32 func_021B785C(void *p)
     }
     return g_021C6EB4[i] >> 2;
 }
+
 
 
 /*
@@ -133,6 +146,7 @@ void func_021B7888(void *p, u16 a, u16 b, u16 c, u16 d)
 }
 
 
+
 void func_021B78A0(void *p, u16 a, u16 b, u16 c, u16 d)
 {
     ((struct Obj06555 *)p)->f0 = 1;
@@ -141,6 +155,7 @@ void func_021B78A0(void *p, u16 a, u16 b, u16 c, u16 d)
     ((struct Obj06555 *)p)->f18 = c;
     ((struct Obj06555 *)p)->f1A = d;
 }
+
 
 int func_021B78B8(void *p, char *q)
 {
@@ -162,6 +177,7 @@ int func_021B78B8(void *p, char *q)
     }
     return 0;
 }
+
 
 
 /*
@@ -193,6 +209,7 @@ int func_021B792C(void *p, u16 *value, u16 *limit)
     }
     return 0;
 }
+
 
 void func_021B796C(void *p, char *q, int i)
 {
@@ -253,6 +270,7 @@ void func_021B796C(void *p, char *q, int i)
 }
 
 
+
 /*
  * Set the two words at +0x38 and +0x3c of record i (stride 0x1c).
  *
@@ -262,4 +280,31 @@ void func_021B7B20(int unused, char *base, int i)
 {
     *(u32 *)(base + i * 0x1c + 0x38) = 1;
     *(u32 *)((char *)base + i * 0x1c + 0x3c) = 1;
+}
+
+
+
+/*
+ * Field getter, u32 at +0x34 of record i (stride 0x1c).
+ *
+ * Addresses are Black-image addresses.
+ */
+u32 func_021B7B30(int unused, char *base, int i)
+{
+    return *(u32 *)(base + i * 0x1c + 0x34);
+}
+
+
+
+void func_021B7B3C(int x, int y, int z)
+{
+    int r = func_021BE100();
+    if (r != 1) {
+        return;
+    }
+    r = func_02085D3C(r);
+    if (r != 1) {
+        return;
+    }
+    func_021B7B5C(3, 3, z);
 }

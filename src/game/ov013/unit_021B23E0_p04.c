@@ -1,8 +1,8 @@
 /*
  * file:     unit_021B23E0_p04.c
  * unit:     yes
- * function: func_021B2958, func_021B29A4
- * address:  0x021B2958
+ * function: func_021B279C, func_021B2848
+ * address:  0x021B279C
  * region:   ov013
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,63 +13,70 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   d_021B4BE0  0x021B4BE0  data  a4
+ *   d_021B3AF0  0x021B3AF0  data  ov013  a1
+ *   d_021B3AF5  0x021B3AF5  data  ov013  a1
  *   d_021B60D8 0x021B60D8 data ov013 a4
- *   d_021B3B40 0x021B3B40 data ov013 a1
- *   d_021B3B84 0x021B3B84 data ov013 a1
  */
-typedef struct N {
-    int a;
-    int b;
-    int c;
-    int kind;
-    int e;
-    struct N *next;
-} N;
-
-typedef struct {
-    int x;
-    N *head;
-} G;
-
 typedef unsigned char u8;
 
-typedef signed char s8;
+typedef struct Q {
+    int f0;
+    u8 b4;
+    u8 b5;
+    u8 pad[2];
+    int f8;
+    int fC;
+} Q;
 
-typedef unsigned int u32;
+typedef struct Msg {
+    unsigned int magic;
+    u8 b4, b5, b6, b7, b8, b9, b10, b11;
+    int fC;
+} Msg;
 
-int func_021B2958(N *p);
-int func_021B29A4(int *obj,const u8 *q);
-extern G d_021B4BE0;
-extern int d_021B60D8[];
-extern s8 d_021B3B40[],d_021B3B84[];
+int func_021B279C(u8 *o, Q *q);
+int func_021B2848(u8 *o, Msg *p, int n);
+extern u8 d_021B3AF0[];
+extern u8 d_021B3AF5[];
+extern u8 d_021B60D8;
 
 
-int func_021B2958(N *p)
+int func_021B279C(u8 *o, Q *q)
 {
-    N *n;
-
-    n = d_021B4BE0.head;
-    while (n) {
-        if (n->a != 0 && n->kind == 2) {
-            if (p != n)
-                return 0;
+    q->b5 = o[0xb];
+    if (o[4] == 0xff) {
+        if (o[6] == 0) {
+            q->f8 = (q->b4 != 0) ? (1 << q->b4) : 1;
         }
-        n = n->next;
+        return d_021B3AF0[o[6]];
     }
-    return 1;
+    if (o[4] == 0) {
+        if (o[6] == 0) {
+            if (q->fC == 1) {
+                q->f8 = (q->b4 != 0) ? (1 << q->b4) : 1;
+                return 7;
+            }
+            if (q->fC == 5)
+                return 9;
+            return 12;
+        }
+        return d_021B3AF5[o[6]];
+    }
+    return 12;
 }
 
-static inline s8 lookup(u32 t,int row,u32 col) { return *(s8 *)(row*11+t+col); }
-
 /*
- * lever: Calling the indexed inline in each table-selection arm restores the MLA register and independent -1/-2 constants.
- * checks: Per-arm inline lookup is EXACT; one data table in each arm preserves the original dispatch.
+ * lever: Returning zero keeps the clearing value in r0 and frees r2 for byte loads.
  */
-int func_021B29A4(int *obj,const u8 *q) {
- u32 i; int v; u32 t;
- i=q[6]; if(q[4]==0)i+=5; if(i>=11)i=-1; if((int)i<0)return -1;
- if(d_021B60D8[4]==1) v=lookup((u32)d_021B3B40,obj[3],i);
- else v=lookup((u32)d_021B3B84,obj[3],i);
- if(v==-1)return 1; if(v==-2)return 0; obj[3]=v; return 1;
+int func_021B2848(u8 *o, Msg *p, int n)
+{
+    p->magic = 0x5f564354;
+    p->b5 = 0x10;
+    p->b6 = n;
+    p->b8 = d_021B60D8;
+    p->b9 = o[4];
+    p->b10 = 0;
+    p->b11 = d_021B60D8;
+    p->fC = 0;
+    return 0;
 }

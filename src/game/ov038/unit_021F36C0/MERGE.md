@@ -1,24 +1,14 @@
-# unit_021F36C0.c (ov038)
+# unit_021F36C0 (ov038): remaining blockers
 
-Translation unit 021F36C0..021F44C0, 14 functions, confidence weak (tools/tuboundary.py).
+All parts verify EXACT on their own. Both boundaries are likely real file boundaries
+(checked 2026-10-08, lane r2_16). The cause is the same on both: the callee func_021BE674
+(and friends) is called with and without argument narrowing in the original.
 
-The member files below each match on their own. Merging them into one
-`unit_021F36C0.c` is blocked by:
-
-- ov038_func_021F36C0.c..ov038_func_021F42BC.c: prototype of func_021897BC differs between members (src/matched/ov/ov038_func_021F3A88.c); prototype of func_02188C80 differs between members (src/matched/ov/ov038_func_021F3A88.c); prototype of func_
-- ov038_func_021F36C0.c..ov038_func_021F3DFC.c: prototype of func_021897BC differs between members (src/matched/ov/ov038_func_021F3A88.c); prototype of func_02188C80 differs between members (src/matched/ov/ov038_func_021F3A88.c); prototype of func_
-- ov038_func_021F3A08.c..ov038_func_021F3DFC.c: prototype of func_021897BC differs between members (src/matched/ov/ov038_func_021F3B3C.c); prototype of func_02188CB4 differs between members (src/matched/ov/ov038_func_021F3B3C.c); prototype of func_
-- ov038_func_021F3F40.c..ov038_func_021F42BC.c: prototype of func_021897BC differs between members (src/matched/ov/ov038_func_021F407C.c); prototype of func_021BE480 differs between members (src/matched/ov/ov038_func_021F407C.c); prototype of func_
-- ov038_func_021F3F40.c..ov038_func_021F4184.c: prototype of func_021897BC differs between members (src/matched/ov/ov038_func_021F407C.c); prototype of func_021BE480 differs between members (src/matched/ov/ov038_func_021F407C.c)
-- ov038_func_021F41B0.c..ov038_func_021F42BC.c: prototype of func_021897BC differs between members (src/matched/ov/ov038_func_021F42BC.c)
-- ov038_func_021F4200.c..ov038_func_021F42BC.c: prototype of func_021897BC differs between members (src/matched/ov/ov038_func_021F42BC.c)
-
-Members, in address order:
-
-- `ov038_func_021F3F40.c`
-- `ov038_func_021F4200.c`
-- `ov038_func_021F42BC.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021F36C0.c` again.
+- p01|p02: p01 calls func_021BE480/4B4/674/700/6CC through u16 parameters (narrowing at the
+  call, lsls/lsrs #16 in the loop). p02 passes the same arguments with no narrowing
+  (`adds r3, r7, #0`); a u16 parameter adds the narrowing and breaks p02. Explicit (u16)
+  casts at the p01 call sites change register allocation (tested).
+- p02|p03: func_021BE674 takes (unsigned j, int k) in p02 and (int j, u16 k) in p03. With p03's
+  prototype p02 is DIFF (581 bytes differ from func_021F3B3C: narrowing added at every call);
+  with p02's prototype and (u16)i casts p03 is DIFF too (the narrowing is hoisted out of the
+  loop). One prototype cannot serve both files.

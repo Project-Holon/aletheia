@@ -1,8 +1,8 @@
 /*
  * file:     btl_server_p45.c
  * unit:     yes
- * function: func_021C0C38, func_021C0CB4, func_021C0CE8, func_021C0D70
- * address:  0x021C0C38
+ * function: func_021C25A4, func_021C264C, func_021C26A8, func_021C26FC, func_021C2758, func_021C27A0, func_021C282C, func_021C2910
+ * address:  0x021C25A4
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,137 +13,281 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   func_021C8810  0x021C8810  thumb  ov093
+ *   func_021C8828  0x021C8828  thumb  ov093
+ *   func_021C99A0  0x021C99A0  thumb  ov093
+ *   func_021D74F8  0x021D74F8  thumb  ov093
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021D75EC  0x021D75EC  thumb  ov093
+ *   func_021D75A8  0x021D75A8  thumb  ov093
+ *   func_021D70F0  0x021D70F0  thumb  ov093
+ *   func_021D775C  0x021D775C  thumb  ov093
+ *   func_021D7540  0x021D7540  thumb  ov093
+ *   func_021C5C74  0x021C5C74  thumb  ov093
+ *   func_021CC8D8  0x021CC8D8  thumb  ov093
+ *   func_021CC95C  0x021CC95C  thumb  ov093
+ *   func_021C2B3C  0x021C2B3C  thumb  ov093
+ *   func_021C2BA4  0x021C2BA4  thumb  ov093
+ *   func_021D62C4 0x021D62C4 thumb ov093
+ *   func_021D62A8 0x021D62A8 thumb ov093
+ *   func_021C2AB0 0x021C2AB0 thumb ov093
+ *   func_021D57FC 0x021D57FC thumb ov093
+ *   func_021E8D24 0x021E8D24 thumb ov093
+ *   func_021D59B4 0x021D59B4 thumb ov093
+ *   func_021C5C1C 0x021C5C1C thumb ov093
+ *   func_021C5480 0x021C5480 thumb ov093
+ *   func_021C2AA0 0x021C2AA0 thumb ov093
+ *   func_021D5444 0x021D5444 thumb ov093
+ *   func_021D8510 0x021D8510 thumb ov093
+ *   func_021D66D8 0x021D66D8 thumb ov093
+ *   func_021CD4B0 0x021CD4B0 thumb ov093
+ *   func_021D8484 0x021D8484 thumb ov093
+ *   func_021C5D88 0x021C5D88 thumb ov093
+ *   func_021D7D6C 0x021D7D6C thumb ov093
+ *   func_021C2BF0 0x021C2BF0 thumb ov093
+ *   func_021C2CA8 0x021C2CA8 thumb ov093
+ *   func_021C3FDC 0x021C3FDC thumb ov093
+ *   func_021C2C50 0x021C2C50 thumb ov093
+ *   func_021C195C 0x021C195C thumb ov093
  */
-#include "../../matched/include/Obj21064.h"
-#include "../../matched/include/Obj21066.h"
+#include "../../matched/include/Obj00003.h"
 
+struct Msg;
+struct QF;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct { u16 v; u16 idx:5, b:4, pad:4, c:1, pad2:1, flag:1; } Rec;
+typedef struct { u32 v; } Word;
 
-typedef struct { u8 pad0[2]; u8 n; u8 pad3[1]; Rec r[1]; } List;
+struct Slot { u32 a : 3; u32 rest : 29; };
 
-struct Ent_021C0CB4 {
-    u16 v;
-    u16 lo:5;
-    u16 b:4;
-    u16 c:4;
-    u16 d:1;
-    u16 e:1;
-    u16 f:1;
-};
+struct Unk021D62A8 { u8 pad[0x1c]; struct Slot e[6]; };
 
-struct Q_021C0CB4 { u8 pad0[2]; u8 n; u8 pad3; struct Ent_021C0CB4 e[]; };
 
-typedef signed char s8;
+struct Msg { u16 a; u16 kind:8; u16 n:7; u16 flag:1; u8 data[0x1c]; u32 w20; };
 
-typedef signed short s16;
+extern void func_021C8810(u8 *lock);
+extern u32 func_021C8828(u8 *p);
+extern int func_021C99A0(void *w, const struct Msg *m);
+extern void func_021D74F8(int line);
+extern u8 func_021D5440(u8 *p);
+extern void func_021D75EC(int key, u32 val);
+extern void func_021D75A8(int key, u32 val);
+extern void func_021D70F0(void *a, int id);
+extern int func_021D775C(int key);
+extern void func_021D7540(int line);
+extern void func_021C5C74(u8 *p, u8 *a, int kind, u32 v);
+extern u32 func_021CC8D8(void *, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
+extern int func_021C2B3C(u8 *p, u8 *a, u8 *b, u32 c);
+extern void func_021C2BA4(u8 *p, u8 *a, u8 *b, u32 c);
+extern int func_021D62C4(struct Unk021D62A8 *, int);
+extern int func_021D62A8(struct Unk021D62A8 *);
+extern int func_021C2AB0(u8 *);
+extern u16 func_021D57FC(void *);
+extern int func_021E8D24(int x, int k);
+extern int func_021D59B4(u8 *p, int k);
+extern void func_021C5C1C(u8 *, u8 *, int, Word);
+extern void func_021C5480(u8 *, u8 *, int);
+extern void func_021C2AA0(int, Word, u8 *, struct Msg *);
+extern u16 func_021D5444(struct QF *p);
+extern void func_021D8510(void *p);
+extern void func_021D66D8(void *, u8);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern void *func_021D8484(void *a);
+extern void func_021C5D88(u8 *, u8 *, int);
+extern int func_021D7D6C(int);
+extern void func_021C2BF0(u8 *, u8 *, u8 *, u32, u32);
+extern void func_021C2CA8(u8 *p, u8 *a);
+extern void func_021C3FDC(u8 *, u8 *);
+extern void func_021C2C50(u8 *, u8 *, u8 *, u32);
+extern void func_021C195C(u8 *p, u8 *q, u32 n);
+int func_021C25A4(u8 *p, u8 *a, u8 *b, u32 unused, u32 s0, Word s1, u32 s2);
+int func_021C264C(u8 *p, u8 *a, u8 *b, u32 c);
+void func_021C26A8(u8 *p, u32 a, u8 *b, u8 *c, u32 d);
+void func_021C26FC(u8 *p, u8 *a, u8 *b, u32 c, Word *d);
+int func_021C2758(u8 *p, u8 *x, u8 *y, int z, Word a, u32 b, u32 c);
+int func_021C27A0(u8 *p, u8 *x, u8 *y, int z, Word a, u8 b, u32 c);
+int func_021C282C(u8 *a, struct Unk021D62A8 *b, int c, Word d, u8 e);
+void func_021C2910(u8 *p, u8 *a, u8 *b, int kind, Word value, int f, int g, const struct Msg *m);
 
-typedef signed int s32;
 
-struct Ent_021C0CE8 {
-    u16 v;
-    u16 lo : 5;
-    u16 b : 4;
-    u16 c : 4;
-    u16 d : 1;
-    u16 e : 1;
-    u16 f : 1;
-};
 
-struct Q_021C0CE8 { u8 pad0[2]; u8 n; u8 pad3; struct Ent_021C0CE8 e[1]; };
 
-extern u8 *func_021B9934(char *p, int i);
-int func_021C0C38(u8 *p, const List *l, u32 *o0, u16 *o1, u32 *o2, u8 *o3);
-int func_021C0CB4(u8 *p, const struct Q_021C0CB4 *q, u32 *out);
-int func_021C0CE8(u8 *p, const struct Q_021C0CE8 *q, u32 *o1, u16 *o2, u32 *o3, u8 *o4, u8 *o5);
-u32 func_021C0D70(const u8 *q);
 
-int func_021C0C38(u8 *p, const List *l, u32 *o0, u16 *o1, u32 *o2, u8 *o3)
+int func_021C25A4(u8 *p, u8 *a, u8 *b, u32 unused, u32 s0, Word s1, u32 s2)
 {
-    u32 i = 0;
-    int k = 0;
-    for (; i < l->n; i++) {
-        if (l->r[i].flag) {
-            o0[k] = (u32)func_021B9934(*(void **)(p + 8), (u8)l->r[i].idx);
-            o1[k] = l->r[i].v;
-            o2[k] = l->r[i].b;
-            o3[k] = l->r[i].c;
-            k++;
-        }
+    int t;
+    func_021C8810(p + 0x1AE4);
+    if (s0 == 0xFFFF) {
+        s0 = func_021C264C(p, a, b, (u32)(p + 0x1AE4));
+        if (s0 == 0 || s0 == 0xFFFF)
+            return 0;
+    } else {
+        func_021C26A8(p, s0, a, b, (u32)(p + 0x1AE4));
     }
-    return k;
-}
-
-/*
- * Record shape follows the matched unpacker func_021C0CE8.
- * The byte count admits multiple four-byte trailing records (q+4+i*4);
- * a flexible array models that extent without imposing a one-record bound.
- * The original narrows the five-bit field to u8 before the call.
- */
-int func_021C0CB4(u8 *p, const struct Q_021C0CB4 *q, u32 *out)
-{
-    u32 i = 0;
-    for (; i < q->n; i++)
-        out[i] = (u32)func_021B9934(*(char * *)&((struct Obj21064 *)p)->f8, (u8)q->e[i].lo);
-    return q->n;
-}
-
-
-/*
- * Structure recovered (7 parameters; the three stack pointers are re-stored to
- * their own slots in the prologue, `ldr r0,[sp,#0x28]; str r0,[sp,#0x28]`,
- * which the compiled code reproduces). Entries at q+4, stride 4: {u16 v; u16
- * bitfield}, bitfield lo:5 b:4 c:4 d:1 e:1 f:1 (LSB first: lsls #0x1b, #0x17,
- * #0x13, #0x12, #0x10 pairs). Loop keeps entries with f == 0 and packs
- * o1[n]=func_021B9934(p[8], lo) (u8 argument: a `lsls/lsrs #0x18` follows the
- * 5-bit extract), o2[n]=v, o3[n]=b, o4[n]=d, o5[n]=c.
- *
- * Residue: register/spill allocation of the loop. Original: q in r6, i in r7,
- * n in r4, i*4 in r5, the hoisted q+6 spilled to [sp+0x10], flag test through
- * (q+r5)+6 and the lo/b/c/d fields through ONE shared halfword load from the
- * hoisted base (`ldrh r0,[r0,r5]` after `ldr r0,[sp,#0x10]`) with the flag and v read
- * separately through q+r5. Compiled: q in r7, i spilled to [sp+0x10], the hoisted
- * q+6 in r6, and each bitfield reloaded from memory (138 B against 136 B, no
- * cast; 142 B with the u8 parameter). Struct Bits copy (`t = e[i].bits`) gives
- * the single shared load but adds a stack temp and swaps i/n.
- *
- * checks: 1 func_021B9934 is (char *p, int i) in its matched file; the original casts the lo field to u8 before the bl, so the extern parameter is u8 (tried: +4 bytes of cast, spills unchanged); 2 no twin in ov093 with a 7-parameter bitfield unpack; 3 u32/int for i and n, u8-cast loop bound, n declared before i, struct Bits copy for b/c/d, manual (h>>5)&0xf form (gives asrs/ands, wrong), pointer form q+4 cast to struct Ent: none moved q into r6 and i into r7; 4 none fits (declaration-order idiom tried as n-before-i, no change); 5 no new idiom. Sweep I would run: the permuter over declaration order and over which of the flag/lo/b/c/d reads go through a shared u16 local.
- */
-int func_021C0CE8(u8 *p, const struct Q_021C0CE8 *q, u32 *o1, u16 *o2, u32 *o3, u8 *o4, u8 *o5)
-{
-    u32 i = 0;
-    u32 n = 0;
-    for (; i < q->n; i++) {
-        if (q->e[i].f == 0) {
-            o1[n] = (u32)func_021B9934(*(char * *)&((struct Obj21066 *)p)->f8, (u8)q->e[i].lo);
-            o2[n] = q->e[i].v;
-            o3[n] = q->e[i].b;
-            o4[n] = q->e[i].d;
-            o5[n] = q->e[i].c;
-            n++;
+    func_021C26FC(p, a, b, s0, &s1);
+    t = func_021C8828(p + 0x1AE4) ? 0 : 1;
+    if (func_021C2758(p, b, a, s0, s1, s2, t) != 0) {
+        if (t == 0) {
+            func_021C99A0(p, (const struct Msg *)(p + 0x1AE4));
+            func_021C8810(p + 0x1AE4);
         }
+        return 1;
     }
-    return n;
+    return 0;
 }
 
-/*
- * Extent ends with two zero alignment bytes at 0x021C0D8E.
- * Declare i before sum, but initialize sum before i, to reproduce both
- * register allocation and the order of the initial movs instructions.
- * Each record supplies the halfword at offset 4, stride 4.
- */
-u32 func_021C0D70(const u8 *q)
+
+
+
+
+
+int func_021C264C(u8 *p, u8 *a, u8 *b, u32 c)
 {
-    u32 i;
-    u32 sum = 0;
-    i = 0;
-    for (; i < q[2]; i++)
-        sum += *(const u16 *)(q + 4 + i * 4);
-    return sum;
+    int r;
+    func_021D74F8(7681);
+    func_021D75EC(3, func_021D5440(a));
+    func_021D75EC(4, func_021D5440(b));
+    func_021D75EC(0x3f, c);
+    func_021D75A8(0x1d, 0);
+    func_021D70F0(p, 0x60);
+    r = func_021D775C(0x1d);
+    func_021D7540(7688);
+    return r;
+}
+
+
+
+
+
+
+void func_021C26A8(u8 *p, u32 a, u8 *b, u8 *c, u32 d)
+{
+    func_021D74F8(7704);
+    func_021D75EC(3, func_021D5440(b));
+    func_021D75EC(4, func_021D5440(c));
+    func_021D75EC(0x3f, d);
+    func_021D75EC(0x1d, a);
+    func_021D70F0(p, 0x61);
+    func_021D7540(7710);
+}
+
+
+
+
+
+
+void func_021C26FC(u8 *p, u8 *a, u8 *b, u32 c, Word *d)
+{
+    func_021D74F8(7726);
+    func_021D75EC(3, func_021D5440(a));
+    func_021D75EC(4, func_021D5440(b));
+    func_021D75EC(0x1d, c);
+    func_021D75A8(0x1e, d->v);
+    func_021D70F0(p, 0x62);
+    d->v = func_021D775C(0x1e);
+    func_021D7540(7726 + 7);
+}
+
+
+
+
+int func_021C2758(u8 *p, u8 *x, u8 *y, int z, Word a, u32 b, u32 c)
+{
+    if (func_021C27A0(p, x, y, z, a, 0, b) == 0) {
+        func_021C2910(p, x, y, z, a, c, 0, 0);
+        return 1;
+    }
+    return 0;
+}
+
+
+
+/*
+ * The fifth parameter is a one-word struct passed by value and handed on
+ * to func_021C282C by value (`add r3, sp, #0x20; ldr r3, [r3]`, the
+ * push-r0-r3 struct idiom); a plain u32 folds to `ldr r3, [sp, #0x20]`.
+ * The caller func_021C2758 passes it as a plain u32 word. Declaring s
+ * before t puts s in [sp, #8].
+ */
+int func_021C27A0(u8 *p, u8 *x, u8 *y, int z, Word a, u8 b, u32 c)
+{
+    int r;
+    u32 s;
+    int t;
+    r = func_021C282C(p, (struct Unk021D62A8 *)x, z, a, b);
+    if (r != 0) {
+        if (c != 0)
+            func_021C5C74(p, x, r, z);
+        return 1;
+    }
+    s = func_021CC8D8(p + 0x1D74, 7779);
+    t = func_021C2B3C(p, y, x, z);
+    if (t != 0 && c != 0) {
+        func_021C2BA4(p, x, y, z);
+        p[0x78A] |= 0x10;
+    }
+    func_021CC95C((u32 *)(p + 0x1D74), s, 7792);
+    return t;
+}
+
+
+int func_021C282C(u8 *a, struct Unk021D62A8 *b, int c, Word d, u8 e)
+{
+    u16 t;
+    if (func_021D62C4(b, c) && e != 2) return 1;
+    if (c < 6 && func_021D62A8(b) && e == 0) return 3;
+    if (func_021C2AB0(a) == 1 && c == 3) return 3;
+    if (c == 5) {
+        t = func_021D57FC(b);
+        if (func_021E8D24(t, 8) || func_021E8D24(t, 3)) return 2;
+    }
+    if (c == 4 && func_021E8D24(func_021D57FC(b), 9)) return 2;
+    if (c == 3 && func_021E8D24(func_021D57FC(b), 14)) return 2;
+    if (c == 18 && func_021E8D24(func_021D57FC(b), 11)) return 2;
+    if (c == 14 && func_021D62A8(b)) return 3;
+    if (c == 16 && func_021D59B4((u8 *)b, 16) == 121) return 3;
+    return 0;
+}
+
+
+void func_021C2910(u8 *p, u8 *a, u8 *b, int kind, Word value, int f, int g, const struct Msg *m)
+{
+    u32 lock;
+    func_021C5C1C(p, a, kind, value);
+    switch (kind) {
+    case 5: func_021C5480(p, a, 599); break;
+    case 4: func_021C5480(p, a, 600); break;
+    case 1: func_021C5480(p, a, 602); break;
+    case 3: func_021C5480(p, a, 601); break;
+    case 2: func_021C5480(p, a, 598); break;
+    case 6: func_021C5480(p, a, 603); break;
+    case 7: func_021C5480(p, a, 604); break;
+    case 0: break;
+    }
+    if (f) {
+        func_021C2AA0(kind, value, a, (struct Msg *)(p + 0x1ae4));
+        func_021C99A0(p, (struct Msg *)(p + 0x1ae4));
+        func_021C8810((u8 *)(p + 0x1ae4));
+    } else if (m) func_021C99A0(p, m);
+    if (kind == 3 && func_021D5444((struct QF *)a) == 492 && func_021D59B4(a, 19) == 1) {
+        func_021D8510(a);
+        func_021D66D8(a, 0);
+        func_021CD4B0(((struct Obj00003 *)p)->fC, 79, func_021D5440(a), 0);
+        func_021D8484(a);
+        func_021C5D88(p, a, 222);
+    }
+    lock = func_021CC8D8(p + 0x1d74, 7936);
+    if (func_021D7D6C(kind)) {
+        func_021C2BF0(p, a, b, kind, value.v);
+    } else if (kind == 16) {
+        func_021C2CA8(p, (u8 *)((int)a));
+        if (func_021D59B4(a, 17) == 127) func_021C3FDC(p, a);
+    } else func_021C2C50(p, a, b, kind);
+    func_021CC95C((u32 *)(p + 0x1d74), lock, 7951);
+    if (!g) func_021C195C(p, a, 3);
 }

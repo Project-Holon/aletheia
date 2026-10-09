@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p47.c
  * unit:     yes
- * function: func_0203C600, func_0203C628, func_0203C65C
- * address:  0x0203C600
+ * function: func_0203C5C8, func_0203C5EC
+ * address:  0x0203C5C8
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,88 +13,48 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
- *   func_0203C0F4  0x0203C0F4  arm
- *   func_0203C464  0x0203C464  arm
- *   func_0203D788   0x0203D788  arm
- *   func_0203D798   0x0203D798  arm
- *   func_0203AEEC   0x0203AEEC  arm
+ *   func_0203C554  0x0203C554  arm
+ *   unk_021469DC   0x021469DC  data
+ *   g_021469DC  0x021469DC  data
  */
-struct Card0203C600 {
-    unsigned char pad[8];
-    void *cb;
-};
-
-struct Card0203C628 {
-    unsigned char pad[8];
-    void *cb;
-};
-
 typedef unsigned char u8;
 
 typedef unsigned int  u32;
 
-extern void func_0203C0F4(void *p);
-extern int func_0203C464(int a0, int a1, int a2, int a3);
-extern void *func_0203D798(void);
-extern void *func_0203D788(void);
-extern void func_0203AEEC(u8 *p);
-int func_0203C600(void);
-int func_0203C628(void);
-void func_0203C65C(u8 *p);
-extern struct Card0203C600 *g_021469DC;
+struct Card0203C5EC {
+    unsigned char pad[0x4a];
+    unsigned char f4a;
+};
+
+extern void func_0203C554(u32 a);
+void func_0203C5C8(void);
+int func_0203C5EC(void);
+extern u32  unk_021469DC;
+extern struct Card0203C5EC *g_021469DC;
 
 
 /*
- * Unlabelled ARM predicate: the callback at +8 of the card task object is func_0203C0F4.
- */
-int func_0203C600(void)
-{
-    return g_021469DC->cb == (void *)func_0203C0F4;
-}
-
-
-/*
- * Unlabelled ARM predicate: the callback at +8 of the card task object is func_0203C0F4 or func_0203C464.
- */
-int func_0203C628(void)
-{
-    void *cb = g_021469DC->cb;
-    return cb == (void *)func_0203C0F4 || cb == (void *)func_0203C464;
-}
-
-
-/*
+ * Arms the sequence: the slot call with a literal 1, then the same 1 into the
+ * object's byte at +0x4A.  The 1 lives in r4 across the call, which is why the
+ * function pushes r4 at all.
+ *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C65C.c \
- *       --func func_0203C65C --addr 0x0203C65C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203C5C8.c \
+ *       --func func_0203C5C8 --addr 0x0203C5C8 --cc 1.1p1 --arm
  */
-void func_0203C65C(u8 *p)
+void func_0203C5C8(void)
 {
-    u8 *s;
+    func_0203C554(1);
+    ((u8 *)unk_021469DC)[0x4A] = 1;
+}
 
-    func_0203D798();
-    s = func_0203D788();
 
-    (*(void (**)(u32))(*(u32 *)(s + 0x340) + 0x0C))(1);
-
-    if ((*(u32 (**)(void))(*(u32 *)(s + 0x340) + 0x78))() != 0) {
-        (*(u32 (**)(u32))(*(u32 *)(s + 0x340) + 0x14))(0);
-        func_0203AEEC(p);
-        return;
-    }
-
-    if ((*(u32 (**)(void))(*(u32 *)(s + 0x340) + 0x6C))() == 0) {
-        (*(u32 (**)(u32))(*(u32 *)(s + 0x340) + 0x14))(0);
-        func_0203AEEC(p);
-        return;
-    }
-
-    if ((*(u32 (**)(void))(*(u32 *)(s + 0x340) + 0x74))() == 0)
-        return;
-
-    (*(u32 (**)(u32))(*(u32 *)(s + 0x340) + 0x14))(0);
-    func_0203AEEC(p);
+/*
+ * Unlabelled ARM leaf: byte at +0x4a of the card task object.
+ */
+int func_0203C5EC(void)
+{
+    return g_021469DC->f4a;
 }

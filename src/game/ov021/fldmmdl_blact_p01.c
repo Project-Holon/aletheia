@@ -1,7 +1,7 @@
 /*
  * file:     fldmmdl_blact_p01.c
  * unit:     yes
- * function: func_0219C4AC, func_0219C52C, func_0219C554, func_0219C5D0, func_0219C5FC, func_0219C624, func_0219C630, func_0219C648, func_0219C658, func_0219C680, func_0219C6B8, func_0219C74C
+ * function: func_0219C4AC, func_0219C52C, func_0219C554, func_0219C5D0, func_0219C5FC, func_0219C624, func_0219C630, func_0219C648, func_0219C658, func_0219C680, func_0219C6B8, func_0219C74C, func_0219C780, func_0219C7B4, func_0219C7EC
  * address:  0x0219C4AC
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -59,6 +59,8 @@
  *   d_021D75D0     0x021D75D0  data  a4
  *   func_0216E3C4  0x0216E3C4  thumb  ov010
  *   func_02197CCC  0x02197CCC  thumb  ov021
+ *   func_02050894  0x02050894  arm
+ *   func_0219CBD4  0x0219CBD4  thumb  ov021
  */
 #include "../../matched/include/Obj03116.h"
 #include "../../matched/include/Obj03579.h"
@@ -142,6 +144,8 @@ extern void func_020507F0(void *p, int idx, u32 v);
 extern void func_0219C9D0(u32 a, u32 b, u8 *p);
 extern void *func_0216E3C4(void *p);
 extern void func_02197CCC(u8 *p, s32 *out);
+extern int func_02050894(void *p, int idx, int j);
+extern int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
 int func_0219C4AC(u32 a, u32 b, u32 c, u32 d);
 void func_0219C52C(u32 a, u32 b);
 void func_0219C554(u32 a, u32 b, u32 c);
@@ -154,11 +158,15 @@ void func_0219C658(u32 a, u32 b);
 void func_0219C680(u32 a);
 u32 func_0219C6B8(u32 a, V3 *b, int c, u32 d, u16 e);
 void func_0219C74C(u32 a, u16 e);
+u32 func_0219C780(u32 a, V3 *b, int c, u32 d, u16 e, u16 g);
+void func_0219C7B4(u32 a, u16 e, u16 g);
+void func_0219C7EC(u32 a, u32 b);
 extern u16 d_021D75C4[][2];
 extern u16 d_021D8064[];
 extern int d_021DDD70;
 extern T12 d_021D8058;
 extern u16 d_021D75D0[][2];
+
 
 
 /*
@@ -180,6 +188,7 @@ int func_0219C4AC(u32 a, u32 b, u32 c, u32 d)
 }
 
 
+
 void func_0219C52C(u32 a, u32 b)
 {
     u32 x = func_02050330((u8 *)a, b);
@@ -187,6 +196,7 @@ void func_0219C52C(u32 a, u32 b)
     func_02050304(a, b);
     func_0204F214((u8 *)y, x);
 }
+
 
 
 void func_0219C554(u32 a, u32 b, u32 c)
@@ -210,6 +220,7 @@ void func_0219C554(u32 a, u32 b, u32 c)
 }
 
 
+
 void func_0219C5D0(u32 a)
 {
     u32 s = func_0216D520((void *)a);
@@ -219,6 +230,7 @@ void func_0219C5D0(u32 a)
     func_020307B0((void *)s);
     func_0216D51C((u8 *)a, 0);
 }
+
 
 
 void func_0219C5FC(u32 a)
@@ -235,6 +247,7 @@ void func_0219C5FC(u32 a)
 }
 
 
+
 /*
  * Emitted from the ov021 instruction shape.
  *
@@ -246,6 +259,7 @@ return func_0219CEAC(func_0216D520(p));
 }
 
 
+
 int func_0219C630(void *p)
 {
 if (func_0219CCF0((u8 *)func_0216D520(p)) == 1) {
@@ -255,10 +269,12 @@ return 0;
 }
 
 
+
 int func_0219C648(u32 a)
 {
 return ((struct Obj17967 *)((u8 *)(func_0216D520(func_0216D67C((void *)a)))))->f0;
 }
+
 
 
 void func_0219C658(u32 a, u32 b)
@@ -268,6 +284,7 @@ void func_0219C658(u32 a, u32 b)
     func_0216E2E8((const char *)a, b, (struct Record *)buf);
     func_0219CB64(s, buf, 0);
 }
+
 
 
 /*
@@ -284,6 +301,7 @@ void func_0219C680(u32 a)
         func_0219CB64(s, buf, 0);
     }
 }
+
 
 
 /*
@@ -325,6 +343,7 @@ u32 func_0219C6B8(u32 a, V3 *b, int c, u32 d, u16 e)
 }
 
 
+
 void func_0219C74C(u32 a, u16 e)
 {
     u32 o = (u32)func_0216D67C((void *)a);
@@ -332,4 +351,35 @@ void func_0219C74C(u32 a, u16 e)
     V3 v;
     func_02197CCC((u8 *)a, (s32 *)(&v));
     func_0219C6B8(o, &v, d[7], d[9], e);
+}
+
+
+
+u32 func_0219C780(u32 a, V3 *b, int c, u32 d, u16 e, u16 g)
+{
+    u32 r = func_0219C6B8(a, b, c, d, e);
+    if (g != 0xFFFF) {
+        func_02050894((void *)(*(u32 *)(func_0216D520((void *)a) + 4)), r, g);
+    }
+    return r;
+}
+
+
+
+void func_0219C7B4(u32 a, u16 e, u16 g)
+{
+    u32 o = (u32)func_0216D67C((void *)a);
+    u8 *d = func_0216E3C4((void *)a);
+    V3 v;
+    func_02197CCC((u8 *)a, (s32 *)(&v));
+    func_0219C780(o, &v, d[7], d[9], e, g);
+}
+
+
+
+void func_0219C7EC(u32 a, u32 b)
+{
+    u16 t[2];
+    func_0219CBD4(func_0216D520(func_0216D67C((void *)a)), b, (u32)(&t[1]), (u32)(&t[0]));
+    func_0219C74C(a, t[1]);
 }

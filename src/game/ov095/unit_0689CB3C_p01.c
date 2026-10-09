@@ -1,7 +1,7 @@
 /*
  * file:     unit_0689CB3C_p01.c
  * unit:     yes
- * function: func_0689CB3C, func_0689CB48, func_0689CBB8, func_0689CC14, func_0689CC70
+ * function: func_0689CB3C, func_0689CB48, func_0689CBB8, func_0689CC14, func_0689CC70, func_0689CC84, func_0689CC8C
  * address:  0x0689CB3C
  * region:   ov095
  * compiler: dsi/1.1p1
@@ -33,18 +33,32 @@ typedef struct {
     u8 f45;
 } S;
 
+struct S {
+    u32 arr[16];
+    u8 _40[0x42 - 0x40];
+    u8 f42;
+    u8 _43;
+    u8 f44;
+};
+
 void func_02082BCC(void *p, int v, int n);
 void func_0689CB3C(void *p);
 void func_0689CB48(S *p, u32 id);
 void func_0689CBB8(S *p, u32 id, u16 amt, int flag);
 void func_0689CC14(S *p, u32 id);
 u32 func_0689CC70(S *p, u32 i);
+void func_0689CC84(char *p);
+int func_0689CC8C(struct S *s);
+
+
 
 
 void func_0689CB3C(void *p)
 {
     func_02082BCC(p, 0, 0x48);
 }
+
+
 
 
 void func_0689CB48(S *p, u32 id)
@@ -69,6 +83,8 @@ void func_0689CB48(S *p, u32 id)
 }
 
 
+
+
 void func_0689CBB8(S *p, u32 id, u16 amt, int flag)
 {
     u32 i;
@@ -88,6 +104,8 @@ void func_0689CBB8(S *p, u32 id, u16 amt, int flag)
         }
     }
 }
+
+
 
 
 void func_0689CC14(S *p, u32 id)
@@ -110,9 +128,29 @@ void func_0689CC14(S *p, u32 id)
 }
 
 
+
+
 u32 func_0689CC70(S *p, u32 i)
 {
     if (i < p->n)
         return p->id[i];
+    return 0;
+}
+
+
+void func_0689CC84(char *p)
+{
+    p[0x44] = 0;
+}
+
+
+int func_0689CC8C(struct S *s)
+{
+    u8 a = s->f44;
+
+    if (a < s->f42) {
+        s->f44++;
+        return s->arr[a];
+    }
     return 0;
 }

@@ -1,21 +1,11 @@
-# unit_021E4340.c (ov093)
+# unit_021E4340 (ov093)
 
-Translation unit 021E4340..021E4754, 7 functions, confidence weak (tools/tuboundary.py).
+Translation unit 021E4340..021E4754, split into 2 parts.
 
-The member files below each match on their own. Merging them into one
-`unit_021E4340.c` is blocked by:
+- `unit_021E4340_p01.c`: 021E4340..021E4738 (all matched functions and hidden setters).
+- `unit_021E4340_p02.c`: the hidden setter at 0x021E4748.
 
-- ov093_func_021E4340.c..ov093_func_021E4688.c: c99=DIFF nolang=DIFF
-- ov093_func_021E4564.c..ov093_func_021E4688.c: c99=DIFF nolang=DIFF
-- ov093_func_021E45CC.c..ov093_func_021E4688.c: c99=DIFF nolang=DIFF
-- no verified entry for 021E4738
-
-Members, in address order:
-
-- `ov093_func_021E4564.c`
-- `ov093_func_021E45CC.c`
-- `ov093_func_021E4688.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021E4340.c` again.
+Unmatched code: an ARM interworking veneer at 0x021E4738 (12 bytes: thumb
+`bx pc`, `mov r8, r8`, then ARM `ldr ip, [pc]`, `bx ip`, literal word) sits
+between the parts. No function covers it, so it is a file boundary. If the
+veneer is ever matched, merge the two parts.

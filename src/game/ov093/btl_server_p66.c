@@ -1,8 +1,8 @@
 /*
  * file:     btl_server_p66.c
  * unit:     yes
- * function: func_021C4EA4, func_021C4F64
- * address:  0x021C4EA4
+ * function: func_021C4E38, func_021C4EA4, func_021C4F64
+ * address:  0x021C4E38
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,7 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021D74F8  0x021D74F8  thumb  ov093
  *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021D75EC  0x021D75EC  thumb  ov093
+ *   func_021D7630  0x021D7630  thumb  ov093
+ *   func_021D75A8  0x021D75A8  thumb  ov093
+ *   func_021D70F0  0x021D70F0  thumb  ov093
+ *   func_021D775C  0x021D775C  thumb  ov093
+ *   func_021D7540  0x021D7540  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C8810  0x021C8810  thumb  ov093
@@ -52,7 +59,14 @@ typedef signed short s16;
 
 typedef signed int s32;
 
+extern void func_021D74F8(int line);
 extern u8 func_021D5440(u8 *p);
+extern void func_021D75EC(int key, u32 val);
+extern void func_021D7630(int key, u32 val);
+extern void func_021D75A8(int key, u32 val);
+extern void func_021D70F0(void *a, int id);
+extern int func_021D775C(int key);
+extern void func_021D7540(int line);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(struct S *p, u32 val);
 extern void func_021C8810(u8 *p);
@@ -76,8 +90,32 @@ extern void func_021B92B0(char *p, void *m, int k);
 extern void func_021C5088(u8 *, u8);
 extern int func_021B902C(int, int);
 extern void func_021BA1B4(char **p, int i);
+int func_021C4E38(u8 *p, u8 *a, u32 b, u32 c);
 void func_021C4EA4(u8 *p, u8 *a, int k, int n);
 int func_021C4F64(u8 *p, u8 *a);
+
+
+int func_021C4E38(u8 *p, u8 *a, u32 b, u32 c)
+{
+    u8 f;
+    int r;
+    int s;
+    func_021D74F8(9960);
+    func_021D75EC(2, func_021D5440(a));
+    func_021D75EC(0x39, b);
+    r = 0;
+    func_021D7630(0x41, 0);
+    func_021D75A8(0x32, c);
+    func_021D70F0(p, 0x7f);
+    s = func_021D775C(0x32);
+    f = func_021D775C(0x41);
+    func_021D7540(9969);
+    if (f == 0) {
+        r = s;
+    }
+    return r;
+}
+
 
 
 void func_021C4EA4(u8 *p, u8 *a, int k, int n)
@@ -106,6 +144,7 @@ void func_021C4EA4(u8 *p, u8 *a, int k, int n)
         func_021C20D0(p, a, n, 0);
     }
 }
+
 
 /*
  * note: 2026-10-05 recoup: `ok = 0;` written after the call to func_021C5108 (it is

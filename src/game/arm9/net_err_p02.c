@@ -1,8 +1,8 @@
 /*
  * file:     net_err_p02.c
  * unit:     yes
- * function: func_0200F824, func_0200F83C, func_0200FA84, func_0200FA94
- * address:  0x0200F824
+ * function: func_0200FAAC, func_0200FB24, func_0200FB38, func_0200FB4C
+ * address:  0x0200FAAC
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,312 +13,128 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02010054        0x02010054  thumb
- *   func_02006210        0x02006210  thumb
- *   sub_0200FD38         0x0200FD38  thumb
- *   GX_VBlankIntr        0x0207D3E4  arm
- *   func_02037174        0x02037174  arm
- *   func_02037200        0x02037200  arm
- *   func_0201034C        0x0201034C  thumb
- *   sub_0200FEBC         0x0200FEBC  thumb
- *   func_02037190        0x02037190  arm
- *   GXS_SetGraphicsMode  0x0207D518  arm
- *   g_0214617C           0x0214617C  data
- *   func_0200FD38  0x0200FD38  thumb
- *   func_020351A0  0x020351A0  arm
- *   func_020053EC  0x020053EC  thumb
+ *   func_0203CDBC  0x0203CDBC  arm
+ *   func_0203C990  0x0203C990  arm
+ *   func_0203CA98  0x0203CA98  arm
+ *   func_0203D798  0x0203D798  arm
+ *   sub_02010054   0x02010054  thumb
+ *   g0214617C      0x0214617C  data
+ *   g_0214617C     0x0214617C  data  a4
+ *   g_021461BC     0x021461BC  data  a4
  */
-typedef unsigned int u32;
+#include "../../matched/include/Obj03039.h"
 
-typedef unsigned char  u8;
+typedef unsigned char u8;
 
-typedef unsigned short u16;
+typedef unsigned int  u32;
 
-typedef int            BOOL;
+struct Blk16_0200FAAC {
+    u32 w[4];
+};
 
-typedef union {
-    u32 raw;
-    struct {
-        u32 bgMode:3;
-        u32 bg0_2d3d:1;
-        u32 objMapChar:1;
-        u32 objMapBmp:2;
-        u32 blankScr:1;
-        u32 visiblePlane:5;
-        u32 visibleWnd:3;
-        u32 dispMode:4;
-        u32 extObjMapChar:2;
-        u32 extObjMapBmp:1;
-        u32 hBlankObjProc:1;
-        u32 bgCharOffset:3;
-        u32 bgScrOffset:3;
-        u32 bgExtPltt:1;
-        u32 objExtPltt:1;
-    };
-} GXDispCnt;
-
-typedef struct {
-    u8 planeMask:5;
-    u8 effect:1;
-    u8 _reserve:2;
-} GXWndPlane;
-
-extern int func_0203CD98(void);
-extern u32 func_0203CF5C(void);
-extern void func_0208459C(int clear, u32 irqFlags);
-extern u32  func_02010054(void);
-extern void func_02006210(void);
-extern void sub_0200FD38(u32 a, u32 b);
-extern BOOL GX_VBlankIntr(BOOL on);
-extern void func_02037174(void);
-extern u32 func_02037200(void);
-extern int func_0201034C(void);
-extern void sub_0200FEBC(BOOL a);
-extern void func_02037190(void);
-extern void GXS_SetGraphicsMode(u32 bgMode);
-extern void func_0200FD38(u32 a, u32 b);
-extern int func_020351A0(u32 v);
-extern void func_020053EC(void);
-void sub_0200F824(void);
-void func_0200F83C(void);
-void sub_0200FA84(void);
-void sub_0200FA94(void);
-extern u8   g_0214617C[];
+extern int   sub_02010054(void);
+extern int   func_0203CDBC(void);
+extern u32 func_0203C990(void);
+extern u32 func_0203CA98(void);
+extern void *func_0203D798(void);
+void sub_0200FAAC(void);
+u32 sub_0200FB24(void);
+void func_0200FB38(void);
+void func_0200FB4C(unsigned int x);
+extern u8    g0214617C[];
+extern unsigned int g_0214617C[];
+extern unsigned char g_021461BC[];
 
 
 /*
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F824.c \
- *       --func sub_0200F824 --addr 0x0200F824 --cc 1.1p1
+ * Wave 13: the parked MATCH named its global as 0x0202617C, a transcription
+ * slip; the pool word at 0x0200FB20 reads 0x0214617C, the net_err.c module
+ * object every sibling uses (literal x42), and the site resolves with it.
  */
-void sub_0200F824(void)
+void sub_0200FAAC(void)
 {
-    if (func_0203CD98() == 1) {
-        func_0203CF5C();
-        func_0208459C(1, 1);
-    }
-}
+    u8 *g = g0214617C;
+    u8 t;
 
-
-#define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
-
-#define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
-
-#define reg_G2_WINOUT       (*(volatile u16 *)0x0400004A)
-
-#define reg_G2S_DB_WINOUT   (*(volatile u16 *)0x0400104A)
-
-#define reg_PAD_KEYINPUT    (*(volatile u16 *)0x04000130)
-
-#define HW_BUTTON_XY_BUF    (*(volatile u16 *)0x02FFFFA8)
-
-
-static inline GXDispCnt GXS_GetDispCnt(void)
-{
-    return *(volatile GXDispCnt *)&reg_GXS_DB_DISPCNT;
-}
-
-
-static inline GXWndPlane G2_GetWndOutsidePlane(void)
-{
-    return *(volatile GXWndPlane *)&reg_G2_WINOUT;
-}
-
-
-static inline GXWndPlane G2_GetWndOBJInsidePlane(void)
-{
-    return *(volatile GXWndPlane *)((u8 *)&reg_G2_WINOUT + 1);
-}
-
-
-static inline GXWndPlane G2S_GetWndOutsidePlane(void)
-{
-    return *(volatile GXWndPlane *)&reg_G2S_DB_WINOUT;
-}
-
-
-static inline GXWndPlane G2S_GetWndOBJInsidePlane(void)
-{
-    return *(volatile GXWndPlane *)((u8 *)&reg_G2S_DB_WINOUT + 1);
-}
-
-
-static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect)
-{
-    u32 tmp = (reg_G2_WINOUT & ~0x3F) | wnd;
-    if (effect) {
-        tmp |= 0x20;
-    }
-    reg_G2_WINOUT = (u16)tmp;
-}
-
-
-static inline void G2_SetWndOBJInsidePlane(int wnd, BOOL effect)
-{
-    u32 tmp = (reg_G2_WINOUT & ~0x3F00) | (wnd << 8);
-    if (effect) {
-        tmp |= 0x2000;
-    }
-    reg_G2_WINOUT = (u16)tmp;
-}
-
-
-static inline void G2S_SetWndOutsidePlane(int wnd, BOOL effect)
-{
-    u32 tmp = (reg_G2S_DB_WINOUT & ~0x3F) | wnd;
-    if (effect) {
-        tmp |= 0x20;
-    }
-    reg_G2S_DB_WINOUT = (u16)tmp;
-}
-
-
-static inline void G2S_SetWndOBJInsidePlane(int wnd, BOOL effect)
-{
-    u32 tmp = (reg_G2S_DB_WINOUT & ~0x3F00) | (wnd << 8);
-    if (effect) {
-        tmp |= 0x2000;
-    }
-    reg_G2S_DB_WINOUT = (u16)tmp;
-}
-
-
-static inline void GX_SetVisiblePlane(int plane)
-{
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1F00) | (plane << 8);
-}
-
-
-static inline void GX_SetVisibleWnd(int window)
-{
-    reg_GX_DISPCNT = reg_GX_DISPCNT & ~0xE000 | (window << 13);
-}
-
-
-static inline void GXS_SetVisiblePlane(int plane)
-{
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1F00) | (plane << 8);
-}
-
-
-static inline void GXS_SetVisibleWnd(int window)
-{
-    reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~0xE000 | (window << 13);
-}
-
-
-static inline BOOL PAD_DetachedCover(void)
-{
-    return (BOOL)((HW_BUTTON_XY_BUF & 0x8000) >> 15);
-}
-
-
-static inline u16 PAD_Read(void)
-{
-    return (u16)(((reg_PAD_KEYINPUT | HW_BUTTON_XY_BUF) ^ 0x2FFF) & 0x2FFF);
-}
-
-
-static inline u16 KeyFilter(u16 k)
-{
-    return (u16)(k & ~((k & 0x40) << 1) & ~((k & 0x20) >> 1));
-}
-
-
-/*
- * net_err.c's fatal-error screen: snapshots the sub-engine DISPCNT and the
- * WINOUT outside / OBJ-window planes of both engines, blanks and redraws
- * through sub_0200FD38, narrows the chosen engine's windowing to BG1+OBJ,
- * waits for A/B to be released and pressed (PAD_DetachedCover / PAD_Read
- * inlines, polling func_0201034C and sub_0200F824 per frame), restores via
- * sub_0200FEBC and puts the snapshotted window state back on whichever
- * engine func_02037200 now names.  Written directly from NitroSDK's
- * gx.h / g2.h inline shapes (GXDispCnt, GXWndPlane, G2[S]_SetWnd*Plane,
- * GX[S]_SetVisible*); exact on the first compile.
- */
-void func_0200F83C(void)
-{
-    GXDispCnt dispCnt = GXS_GetDispCnt();
-    GXWndPlane outMain = G2_GetWndOutsidePlane();
-    GXWndPlane outSub = G2S_GetWndOutsidePlane();
-    GXWndPlane objMain = G2_GetWndOBJInsidePlane();
-    GXWndPlane objSub = G2S_GetWndOBJInsidePlane();
-
-    if (func_02010054() == 0) {
+    if (sub_02010054() == 0) {
         return;
     }
-    func_02006210();
-    sub_0200FD38(0, 0);
-    GX_VBlankIntr(1);
-    func_02037174();
-    if (func_02037200() == 1) {
-        G2_SetWndOutsidePlane(2, 0);
-        G2_SetWndOBJInsidePlane(0x10, 0);
-        GX_SetVisibleWnd(4);
-        GX_SetVisiblePlane(0x12);
-    } else {
-        G2S_SetWndOutsidePlane(2, 0);
-        G2S_SetWndOBJInsidePlane(0x10, 0);
-        GXS_SetVisibleWnd(4);
-        GXS_SetVisiblePlane(0x12);
+    if (((struct Obj03039 *)g)->f2C != 0) {
+        return;
     }
-    while (PAD_DetachedCover() == 1 || (KeyFilter(PAD_Read()) & 3) != 0) {
-        func_0201034C();
-        sub_0200F824();
+    ((struct Obj03039 *)g)->f2C = 1;
+    if (func_0203CDBC() != 0) {
+        return;
     }
-    while (PAD_DetachedCover() == 1 || (KeyFilter(PAD_Read()) & 3) == 0) {
-        func_0201034C();
-        sub_0200F824();
+    ((struct Obj03039 *)g)->f59 = ((u8 *)func_0203D798())[0x65];
+    *(struct Blk16_0200FAAC *)(g + 0x48) = *(struct Blk16_0200FAAC *)func_0203CA98();
+    ((struct Obj03039 *)g)->f58 = (u8)func_0203C990();
+    t = ((struct Obj03039 *)g)->f59;
+    if (t == 1 || t == 2 || t == 6) {
+        if ((u32)(((struct Obj03039 *)g)->f4C - 1) <= 1) {
+            ((struct Obj03039 *)g)->f5C = 2;
+        } else {
+            ((struct Obj03039 *)g)->f5C = 1;
+        }
+        return;
     }
-    sub_0200FEBC(*(u32 *)(g_0214617C + 0x44) == 1);
-    func_02037190();
-    if (func_02037200() == 2) {
-        GXS_SetGraphicsMode(dispCnt.bgMode);
-        GXS_SetVisiblePlane(dispCnt.visiblePlane);
-        GXS_SetVisibleWnd(dispCnt.visibleWnd);
-        G2S_SetWndOutsidePlane(outSub.planeMask, outSub.effect);
-        G2S_SetWndOBJInsidePlane(objSub.planeMask, objSub.effect);
-    } else {
-        G2_SetWndOutsidePlane(outMain.planeMask, outMain.effect);
-        G2_SetWndOBJInsidePlane(objMain.planeMask, objMain.effect);
+    ((struct Obj03039 *)g)->f5C = 2;
+}
+
+
+/*
+ * A getter on the module-wide object at 0x0214617C (the same object
+ * unit_0200F7C0.c names sub_0200F7C0_Obj): returns field +0x5c when field
+ * +0x2c is set, 0 otherwise.
+ *
+ * EXACT* because the 20 compiled bytes fall 52 short of the disasm.py
+ * extent: an unlabelled follower, sub_0200FB38, hides in the run of
+ * literal-pool .word data right after this function (see
+ * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * sub_0200FB38 itself (a conditional store: bump the object's +0x2c field
+ * from 1 to 2) is a documented near miss: every write attempt reproduces
+ * all twenty bytes but with r0 and r1 swapped throughout, a pure
+ * register-numbering difference no source restructuring here changed, in
+ * the same class as the codegen near misses in docs/MATCHING.md.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_0200FB24.c \
+ *       --func sub_0200FB24 --addr 0x0200FB24 --cc 1.1p1
+ */
+u32 sub_0200FB24(void)
+{
+    u32 *obj = (u32 *)0x0214617C;
+
+    if (obj[0x2c / 4] != 0) {
+        return obj[0x5c / 4];
+    }
+    return 0;
+}
+
+
+/*
+ * Unlabelled Thumb leaf accessor: if the u32 at +0x2c of the object at
+ * g_0214617C is 1, set it to 2.
+ */
+void func_0200FB38(void)
+{
+    if (g_0214617C[11] == 1) {
+        g_0214617C[11] = 2;
     }
 }
 
 
 /*
- * Guard: if func_02010054() reports nonzero, calls the abort path
- * sub_0200FA94.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200FA84.c \
- *       --func sub_0200FA84 --addr 0x0200FA84 --cc 1.1p1
+ * Unlabelled Thumb leaf: if the u32 at +0x2c of the object at g_0214617C is
+ * not 2, store the argument at +0x60, set two flag bytes of the object at
+ * g_021461BC, and set +0x2c to 2.
  */
-void sub_0200FA84(void)
+void func_0200FB4C(unsigned int x)
 {
-    if (func_02010054() != 0) {
-        sub_0200FA94();
-    }
-}
-
-
-/*
- * An abort path: reports a fixed status, tears down with func_020351A0(2),
- * then spins forever calling func_020053EC(). The infinite loop is why
- * nothing after this in the same block is ever reached.
- *
- * EXACT* because the 22 compiled bytes fall two short of the disasm.py
- * extent: a "movs r0, r0" alignment filler before the next label, the
- * ordinary inter-function padding, not a byte difference.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200FA94.c \
- *       --func sub_0200FA94 --addr 0x0200FA94 --cc 1.1p1
- */
-void sub_0200FA94(void)
-{
-    func_0200FD38(1, 0);
-    func_020351A0(2);
-    for (;;) {
-        func_020053EC();
+    if (g_0214617C[11] != 2) {
+        g_0214617C[24] = x;
+        g_021461BC[0x1a] = 1;
+        g_021461BC[0x19] = 1;
+        g_0214617C[11] = 2;
     }
 }

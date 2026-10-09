@@ -1,8 +1,8 @@
 /*
  * file:     dwc_rap_p21.c
  * unit:     yes
- * function: func_02156C84, func_02156C98, func_02156CAC
- * address:  0x02156C84
+ * function: func_021563D0, func_021563EC, func_02156400
+ * address:  0x021563D0
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -14,39 +14,53 @@
  *
  * symbols:
  *   g_021A8264  0x021A8264  data
+ *   func_021AF13C  0x021AF13C  thumb  ov013
  *   d_021A8264 0x021A8264 data ov009 a4
+ *   func_021AF1A0 0x021AF1A0 thumb ov013
  */
+#include "../../matched/include/Obj18651.h"
 #include "../../matched/include/G__anon_Work.h"
 
-typedef unsigned char u8;
+typedef unsigned char  u8;
 
-unsigned char func_02156C84(void);
-void func_02156C98(int unused);
-int func_02156CAC(void);
-extern struct _anon_Work *g_021A8264;
-extern u8 *d_021A8264;
+typedef unsigned short u16;
+
+typedef unsigned int   u32;
+
+typedef signed short   s16;
+
+typedef signed char    s8;
+
+extern void func_021AF1A0(void);
+void func_021563D0(void);
+int func_021563EC(void);
+void func_02156400(void);
+extern char *d_021A8264;
 
 
 /*
- * Byte at +0x7a2 of the block the module pointer holds.
+ * Calls the ov013 routine when the word at +0x76c of the module pointer is set.
  */
-unsigned char func_02156C84(void)
+void func_021563D0(void)
 {
-    return *(unsigned char *)(((char *)g_021A8264) + 0x7a2);
+    extern struct _anon_Work *g_021A8264;
+    void func_021AF13C(void);
+    if (((struct Obj18651 *)((char *)g_021A8264))->f76C) func_021AF13C();
 }
 
 /*
- * leaf: sole unresolved overlay blocker of concrete-correct ov115/021D43CC;
- * no ARM9 blocker. Parent confirmed no active assignment owns this leaf.
- * Caller leaves its previous integer result in r0; parameter retained.
+ * Unlabelled accessor blocking owned ov099 caller 021BFDA8.
  */
-void func_02156C98(int unused) { ((unsigned char *)g_021A8264)[0x7A2]=0; }
+int func_021563EC(void) {
+ return *(int *)(d_021A8264+0x76c);
+}
 
-int func_02156CAC(void)
+void func_02156400(void)
 {
+    func_021AF1A0();
     if (d_021A8264) {
-        if (*(int *)(d_021A8264 + 0x754) == 6) return 1;
-        return 0;
+        *(int *)(d_021A8264 + 0x76C) = 0;
+        *(int *)(d_021A8264 + 0x768) = 0;
+        *(u16 *)(d_021A8264 + 0x794) = 0;
     }
-    return 0;
 }

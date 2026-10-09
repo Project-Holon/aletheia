@@ -34,7 +34,9 @@
  *   MATH_CalcCRC32                   0x02081bb8 arm
  */
 struct DWCstAccLoginId;
-typedef struct DWCstAccFlag DWCstAccFlag;
+typedef struct {
+    unsigned int raw;
+} DWCstAccFlag;
 
 typedef union DWCstAccFriendData DWCstAccFriendData;
 
@@ -66,10 +68,8 @@ struct DWCstAccUserData {
 };
 
 extern int DWCi_Acc_SetMaskBits(unsigned long *ptr, unsigned long data, unsigned long shift, unsigned long mask);
-extern unsigned long DWCi_Acc_GetFlags(void *userdata);
-extern unsigned long func_0205911C(DWCstAccFlag *userdata);
-extern unsigned long func_02059108(DWCstAccFlag *userdata);
-extern void func_020591D8(DWCstAccFlag *userdata, unsigned long flags);
+extern unsigned long DWCi_Acc_GetFlags(DWCstAccFlag *userdata);
+extern unsigned long func_0205911C(void *userdata);
 extern void MATHi_CRC8InitTable(struct MATHCRC8Table *table, unsigned char poly);
 extern unsigned char MATH_CalcCRC8(struct MATHCRC8Table *table, void *data, unsigned long dataLength);
 extern void MATH_MD5Init(struct MATHMD5Context *context);
@@ -128,9 +128,9 @@ void func_02059214(DWCstAccFriendData *frienddata)
 {
     unsigned long flags;
 
-    if (func_0205911C((DWCstAccFlag *)frienddata) == 3) {
-        flags = func_02059108((DWCstAccFlag *)frienddata) | 4;
-        func_020591D8((DWCstAccFlag *)frienddata, flags);
+    if (func_0205911C(frienddata) == 3) {
+        flags = DWCi_Acc_GetFlags((DWCstAccFlag *)frienddata) | 4;
+        DWCi_Acc_SetFlags(frienddata, flags);
     }
 }
 

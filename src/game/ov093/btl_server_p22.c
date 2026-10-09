@@ -1,67 +1,43 @@
 /*
- * file:     btl_server_p22.c
- * unit:     yes
- * function: func_021BD170, func_021BD1B0
- * address:  0x021BD170
+ * function: func_021BF0E4
+ * address:  0x021BF0E4
+ * packet:   pkt_ov093_021BF0E4
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * status:   EXACT*
  *
  * symbols:
- *   func_021BCAAC  0x021BCAAC  thumb  ov093
- *   func_021BCB98  0x021BCB98  thumb  ov093
- *   func_021BCA08 0x021BCA08 thumb ov093
- *   func_021BCC50 0x021BCC50 thumb ov093
+ *   func_021BF138  0x021BF138  thumb  ov093
+ *   func_021BF148  0x021BF148  thumb  ov093
+ *   func_021BF158  0x021BF158  thumb  ov093
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021D5BB0  0x021D5BB0  thumb  ov093
  */
-typedef unsigned char u8;
+#include "../../matched/include/Obj21056.h"
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-typedef unsigned short u16;
+extern int func_021BF138(int c);
+extern u8 *func_021BF148(int c, int k);
+extern void func_021BF158(int c, u8 *x);
+extern u8 func_021D5440(u8 *p);
+struct UtilWork;
+extern int func_021D5BB0(struct UtilWork *p, u32 n);
 
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-typedef struct { u32 a, b, c; u8 d0, flag; u16 pad; } E;
-
-extern u8 *func_021BCAAC(u8 *p, u8 *q, u8 i);
-extern int func_021BCB98(u8 *p, u8 *x, int i);
-extern E *func_021BCA08(void *, u8);
-extern void func_021BCC50(void *, E *);
-int func_021BD170(u8 *p, u8 *q);
-int func_021BD1B0(void *p, u8 x);
-
-
-int func_021BD170(u8 *p, u8 *q)
+void func_021BF0E4(int u, u8 *b, int c, u8 *d, int e)
 {
-    int i = 0;
-    int r;
-    u8 *x = func_021BCAAC(p, q, 0);
-    r = 0;
-    while (x) {
-        i = func_021BCB98(p, x, i);
-        if (i < 0) break;
-        i++;
-        x = func_021BCAAC(p, q, i);
-        r = 1;
+    u8 *x;
+    if (func_021BF138(c) == 1) {
+        x = func_021BF148(c, 0);
+        if (x != 0) {
+            if (func_021D5440(x) == func_021D5440(b)) {
+                if (((struct Obj21056 *)d)->fC != 7) {
+                    if (func_021D5BB0((struct UtilWork *)b, 12) != 0 || e != 0)
+                        func_021BF158(c, x);
+                }
+            }
+        }
     }
-    return r;
-}
-
-int func_021BD1B0(void *p, u8 x)
-{
-    E *e = func_021BCA08(p, x);
-    if (e && e->flag == 0) {
-        func_021BCC50(p, e);
-        return 1;
-    }
-    return 0;
 }

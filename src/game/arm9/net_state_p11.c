@@ -1,68 +1,108 @@
 /*
- * file:     net_state_p11.c
- * unit:     yes
- * function: func_020370C8, func_020370F4
- * address:  0x020370C8
+ * function: func_02038380
+ * address:  0x02038380
+ * packet:   pkt_02038380
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
  * symbols:
- *   g_021469C8      0x021469C8  data
- *   func_02036E74  0x02036E74  arm
- */
-typedef unsigned int u32;
-
-extern int func_02036FD8(void);
-extern void func_02036E80(unsigned char *p);
-extern int *func_02036E74(int *p, int v);
-void func_020370C8(void);
-u32 func_020370F4(u32 a);
-extern int g_021469C8[];
-
-
-/*
- * Two-stage shutdown guarded on a global word: always run func_02036FD8,
- * then, only when g_021469C8[1] is set, run func_02036E80 and clear the flag.
- * func_02036E80 was the sole blocker for this file; it was matched in the
- * same wave, so its PC24 site now attests on the `matched` class.
+ *   func_0203D788  0x0203D788  arm
+ *   func_0203D798  0x0203D798  arm
+ *   func_0203D680  0x0203D680  arm
+ *   func_0203D6BC  0x0203D6BC  arm
+ *   func_020392B8  0x020392B8  arm
+ *   func_02037224  0x02037224  arm
+ *   func_02037258  0x02037258  arm
+ *   func_02038570  0x02038570  arm
+ *   func_02038924  0x02038924  arm
+ *   func_02038A90  0x02038A90  arm
+ *   g_020A7A20     0x020A7A20  data
+ *   g_021469D0     0x021469D0  data
  *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020370C8.c \
- *       --func func_020370C8 --addr 0x020370C8 --arm --cc 1.1p1
+ * net_system.c.  The per-frame step of the session state machine, driven by
+ * the state byte at 0x020A7A20.  func_02037224 sets that byte and takes the
+ * caller's __LINE__ as its second argument; the four line numbers here are
+ * 0x46a, 0x46e, 0x475 and 0x48d, and the front end materialises 0x46a once
+ * and derives 0x46e from it with `add r1, r4, #4`
+ * (docs/idioms/consecutive-line-numbers-are-one-pool-word-and-adds.md).
+ * 0x48d is spelled as `0x490 - 3` because the `3` is already live in r0 as
+ * the state argument of the same call.
  */
-void func_020370C8(void)
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Ctx {
+    u8   pad00[0x340];
+    u32 *f340;
+};
+
+struct Oth {
+    u8 pad00[0x65];
+    u8 f65;
+};
+
+extern void *func_0203D788(void);
+extern struct Oth *func_0203D798(void);
+extern u32  func_0203D680(void);
+extern u32  func_0203D6BC(void);
+extern int  func_020392B8(void);
+extern void func_02037224(u8 v, int b);
+extern u32  func_02037258(void);
+extern void func_02038570(void);
+extern void func_02038924(u32 a, u32 b, u16 c);
+extern int func_02038A90(u32 a);
+extern u8   g_020A7A20[];
+extern u32 *g_021469D0;
+
+void func_02038380(void)
 {
-    func_02036FD8();
-    if (g_021469C8[1] == 0)
+    struct Ctx *c = func_0203D788();
+
+    func_0203D680();
+    if (g_020A7A20[0] == 1) {
+        if (func_020392B8() > 1) {
+            func_02037224(2, 0x46a);
+            if (((int (*)(void))c->f340[0x70 / 4])() != 0) {
+                u32 t = func_02037258();
+                if (((int (*)(u32, u32, u32, u32))c->f340[0x64 / 4])(
+                        g_021469D0[2], t, 0, (u32)func_02038A90) != 0)
+                    goto tail;
+                func_02037224(1, 0x46a + 4);
+                goto tail;
+            }
+            if (func_0203D798()->f65 != 3 && func_0203D798()->f65 != 4)
+                goto tail;
+            if (((int (*)(void))c->f340[0xa0 / 4])() == 0) {
+                func_02037224(1, 0x475);
+                goto tail;
+            }
+            if (*(u8 *)(g_021469D0[2] + 2) == 0)
+                return;
+            {
+                u32 t = func_0203D6BC();
+                ((void (*)(u32, u32, u32, u32))c->f340[0x64 / 4])(
+                    g_021469D0[2], t, 0x64, 0);
+            }
+        }
+    }
+tail:
+    if (g_020A7A20[0] == 2) {
+        func_02038570();
+        func_02038924(0, (u32)g_021469D0[2], (u16)func_02037258());
+        func_02037224(3, 0x490 - 3);
+    }
+    if (((int (*)(void))c->f340[0x70 / 4])() == 0)
+        goto last;
+    if (func_0203D798()->f65 == 3)
+        goto last;
+    if (func_0203D798()->f65 != 4)
         return;
-    func_02036E80((unsigned char *)g_021469C8[1]);
-    g_021469C8[1] = 0;
-}
-
-
-/*
- * Forwards the argument to the handler held in the second word of the global
- * at 0x021469C8, but only when that handler is armed; an unarmed handler is
- * the `popeq` that returns 0 without touching r0.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020370F4.c \
- *       --func func_020370F4 --addr 0x020370F4 --cc 1.1p1 --arm
- */
-u32 func_020370F4(u32 a)
-{
-    u32 v;
-
-    v = g_021469C8[1];
-    if (v == 0)
-        return v;
-    return (u32)func_02036E74((int *)v, a);
+last:
+    func_02037224(4, 0x492);
 }

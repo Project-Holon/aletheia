@@ -1,8 +1,7 @@
 /*
- * file:     btl_server_p25.c
- * unit:     yes
- * function: func_021BD4E4, func_021BD518
- * address:  0x021BD4E4
+ * function: func_021BF3D8
+ * address:  0x021BF3D8
+ * packet:   pkt_ov093_021BF3D8
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,57 +9,54 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
  * symbols:
- *   func_021B9AEC 0x021B9AEC thumb ov093
- *   func_021B9C00 0x021B9C00 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021CC8D8 0x021CC8D8 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
- *   func_021BD554 0x021BD554 thumb ov093
+ *   func_021CC8A0  0x021CC8A0  thumb  ov093
+ *   func_021CC8B0  0x021CC8B0  thumb  ov093
+ *   func_021BF46C  0x021BF46C  thumb  ov093
+ *   func_021BF47C  0x021BF47C  thumb  ov093
+ *   func_021BF48C  0x021BF48C  thumb  ov093
+ *   func_021BF49C  0x021BF49C  thumb  ov093
+ *   func_021C6E3C  0x021C6E3C  thumb  ov093
+ *   func_021C7C24  0x021C7C24  thumb  ov093
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021B8DDC  0x021B8DDC  thumb  ov093
+ *   func_021B8FF4  0x021B8FF4  thumb  ov093
+ *   func_021BA1B4  0x021BA1B4  thumb  ov093
  */
-#include "../../matched/include/Obj00003.h"
+#include "../../matched/include/Obj13315.h"
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-struct S2;
-typedef unsigned char u8;
+extern void func_021CC8A0(u32 *p);
+extern void func_021CC8B0(u32 *p, u32 i, u32 b);
+extern void func_021BF46C(int d);
+extern u8 *func_021BF47C(int d);
+extern void func_021BF48C(int d, u8 *x);
+extern u8 *func_021BF49C(int d);
+extern int func_021C6E3C(u8 *p, u8 *a, u8 *b, u8 *q, int flag);
+extern void func_021C7C24(u16 *p, int unused, u8 *b, u8 *c, int e);
+extern u8 func_021D5440(u8 *p);
+extern u8 func_021B8DDC(u32 x);
+extern u8 func_021B8FF4(u8 *p);
+extern void func_021BA1B4(char **p, int i);
 
-typedef unsigned int u32;
-
-extern char *func_021B9AEC(char *, int);
-extern u8 *func_021B9C00(struct S2 *p, u32 i);
-extern int func_021D5B68(void *);
-extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(u32 *p, u32 v, int line);
-extern void func_021BD554(u8 *, u8 *);
-void func_021BD4E4(u8 *p, int i, u8 a, u8 b);
-void func_021BD518(u8 *p, u8 *m);
-
-void func_021BD4E4(u8 *p, int i, u8 a, u8 b)
+void func_021BF3D8(u8 *p, int b, u8 *a, int d, void *arr)
 {
-    u8 *arr;
-    u8 *first;
-    u8 *second;
-    arr = (u8 *)func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, i);
-    first = func_021B9C00((struct S2 *)arr, a);
-    second = func_021B9C00((struct S2 *)arr, b);
-    func_021BD518(p, first);
-    func_021BD518(p, second);
-}
-
-/*
- * return evidence: func_021CC8D8's matched Lock is one full 32-bit word;
- *   021CC8DA loads it, 021CC900 returns that unchanged word in r0.
- *   This caller saves r0 in r4 and passes it unchanged in r1 to restore.
- *   Scalar u32 return follows matched neighbours 021BD708/021BDA00;
- *   union aggregate spelling gave a spurious 8-byte stack frame (run 1).
- */
-void func_021BD518(u8 *p, u8 *m)
-{
-    u32 old;
-    if (func_021D5B68(m) == 0) {
-        old = func_021CC8D8(p + 0x1d74, 2697);
-        func_021BD554(p, m);
-        func_021CC95C((u32 *)(p + 0x1d74), old, 2699);
+    u8 *x;
+    int r;
+    int e;
+    func_021CC8A0(arr);
+    func_021BF46C(d);
+    x = func_021BF47C(d);
+    while (x != 0) {
+        r = func_021C6E3C(p, a, x, (u8 *)b, 1);
+        func_021CC8B0(arr, func_021D5440(x), r);
+        if (r == 0) {
+            func_021BF48C(d, x);
+            func_021C7C24((u16 *)(p + 0x1f7c), (int)p, a, x, 0);
+            e = func_021B8DDC(func_021D5440(a));
+            if (e == func_021B8FF4(*(u8 * *)&((struct Obj13315 *)p)->f4))
+                func_021BA1B4((char **)(*(u8 * *)&((struct Obj13315 *)p)->f4), 0x4b);
+        }
+        x = func_021BF49C(d);
     }
 }

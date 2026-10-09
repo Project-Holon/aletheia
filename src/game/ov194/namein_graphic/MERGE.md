@@ -1,44 +1,15 @@
-# namein_graphic.c (ov194)
+# namein_graphic: blockers (lane 051)
 
-Translation unit 021F1440..021F5304, 142 functions, confidence weak (tools/tuboundary.py).
+23 files reduced to 4 parts (p01 021F1440, p02 021F1D58, p03 021F2F8C, p04 021F3B18). Three
+boundaries stay. All three have the same shape: a callee has narrow parameters (or a narrow
+return type) in its definition, and the caller passes wide values with no narrowing code. A
+prototype-style declaration makes the caller narrow (lsls/lsrs), a K&R definition makes the
+callee narrow on entry; the image has neither. Possibly these are separate original TUs.
 
-The member files below each match on their own. Merging them into one
-`namein_graphic.c` is blocked by:
-
-- ov194_func_021F1440.c..ov194_func_021F51E4.c: prototype of func_020490F4 differs between members (src/matched/ov/ov194_func_021F1888.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F1888.c); prototype of func_
-- ov194_func_021F1440.c..ov194_func_021F3D54.c: prototype of func_020490F4 differs between members (src/matched/ov/ov194_func_021F1888.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F1888.c); prototype of func_
-- ov194_func_021F1440.c..ov194_func_021F2608.c: prototype of func_020490F4 differs between members (src/matched/ov/ov194_func_021F1888.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F1888.c); prototype of func_
-- ov194_func_021F1440.c..ov194_func_021F2150.c: prototype of func_020490F4 differs between members (src/matched/ov/ov194_func_021F1888.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F1888.c); prototype of func_
-- ov194_func_021F19A0.c..ov194_func_021F2150.c: prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F1A1C.c); prototype of func_021F1998 differs between members (src/matched/ov/ov194_func_021F1E28.c); prototype of func_
-- ov194_func_021F19A0.c..ov194_func_021F1BFC.c: prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F1A1C.c)
-- ov194_func_021F1A1C.c..ov194_func_021F1BFC.c: c99=CCERR: line 148: illegal implicit conversion from 'const struct Rect_021F1BFC *' to | line 148: 'const struct Rect_021F1A1C *' | line 150: illegal implicit conversion from 'const struct Rect_021F1
-- ov194_func_021F2190.c..ov194_func_021F2608.c: prototype of func_021F4E18 differs between members (src/matched/ov/ov194_func_021F23FC.c); prototype of func_021F2150 differs between members (src/matched/ov/ov194_func_021F23FC.c); prototype of func_
-- ov194_func_021F2614.c..ov194_func_021F3D54.c: prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F31B8.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F31F4.c); prototype of func_
-- ov194_func_021F2614.c..ov194_func_021F32D8.c: prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F31B8.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F31F4.c)
-- ov194_func_021F2614.c..ov194_func_021F299C.c: prototype of func_021F2F8C differs between members (src/matched/ov/ov194_func_021F299C.c)
-- ov194_func_021F2614.c..ov194_func_021F26F0.c: prototype of func_021F2818 differs between members (src/matched/ov/ov194_func_021F26F0.c)
-- ov194_func_021F2A88.c..ov194_func_021F32D8.c: prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F31B8.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F31F4.c); prototype of func_
-- ov194_func_021F2F8C.c..ov194_func_021F32D8.c: prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F31B8.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F31F4.c); prototype of func_
-- ov194_func_021F32FC.c..ov194_func_021F3D54.c: prototype of func_02040588 differs between members (src/matched/ov/ov194_func_021F35A8.c); prototype of func_020362DC differs between members (src/matched/ov/ov194_func_021F37EC.c); prototype of func_
-- ov194_func_021F37EC.c..ov194_func_021F3D54.c: prototype of func_021F2818 differs between members (src/matched/ov/ov194_func_021F391C.c); prototype of func_021F2614 differs between members (src/matched/ov/ov194_func_021F3A0C.c); prototype of func_
-- ov194_func_021F3D70.c..ov194_func_021F51E4.c: prototype of func_0201CE48 differs between members (src/matched/ov/ov194_func_021F3EF0.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F3FBC.c); prototype of func_
-- ov194_func_021F3D70.c..ov194_func_021F4BD8.c: prototype of func_0201CE48 differs between members (src/matched/ov/ov194_func_021F3EF0.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F3FBC.c); prototype of func_
-- ov194_func_021F3D70.c..ov194_func_021F4480.c: prototype of func_0201CE48 differs between members (src/matched/ov/ov194_func_021F3EF0.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F3FBC.c); prototype of func_
-- ov194_func_021F3D70.c..ov194_func_021F3FBC.c: prototype of func_0201CE48 differs between members (src/matched/ov/ov194_func_021F3EF0.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F3FBC.c)
-- ov194_func_021F3EB0.c..ov194_func_021F3FBC.c: prototype of func_0201CE48 differs between members (src/matched/ov/ov194_func_021F3EF0.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F3FBC.c)
-- ov194_func_021F4BEC.c..ov194_func_021F51E4.c: global d_021F5600 declared two ways (src/matched/ov/ov194_func_021F4C6C.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F4CB0.c); prototype of func_02082BCC differ
-- ov194_func_021F4BEC.c..ov194_func_021F4DA4.c: global d_021F5600 declared two ways (src/matched/ov/ov194_func_021F4C6C.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F4CB0.c); prototype of func_02082BCC differ
-- ov194_func_021F4BEC.c..ov194_func_021F4D0C.c: global d_021F5600 declared two ways (src/matched/ov/ov194_func_021F4C6C.c); prototype of func_02082BCC differs between members (src/matched/ov/ov194_func_021F4CB0.c); prototype of func_02082BCC differ
-- ov194_func_021F4BEC.c..ov194_func_021F4C6C.c: global d_021F5600 declared two ways (src/matched/ov/ov194_func_021F4C6C.c)
-- ov194_func_021F4C0C.c..ov194_func_021F4C6C.c: global d_021F5600 declared two ways (src/matched/ov/ov194_func_021F4C6C.c)
-
-Members, in address order:
-
-- `ov194_func_021F1A1C.c`
-- `ov194_func_021F1BFC.c`
-- `ov194_func_021F4C0C.c`
-- `ov194_func_021F4C6C.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names namein_graphic.c` again.
+- p01 | p02: func_021F1E28(u8 *, int, u16 b, u16 c, int, u8 *, int) is called from func_021F1440
+  with word values for b and c. Caller-side narrowing adds 4 bytes to func_021F1440.
+- p02 | p03: func_021F26F0(char *, char *, void *, void *, u16 heap) is called from func_021F3008
+  with a full-word heap argument (the same value is forwarded to word parameters elsewhere).
+- p03 | p04: func_021F32FC is defined as returning void * (word load) and read in p04 as
+  `u16 value = func_021F32FC(p + 0xfc)`; a u16 return type in the definition changes the
+  callee, a cast at the call changes the caller.

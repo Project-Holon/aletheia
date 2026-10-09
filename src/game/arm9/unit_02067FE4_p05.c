@@ -1,104 +1,142 @@
 /*
  * file:     unit_02067FE4_p05.c
- * unit:     yes
- * function: func_02068A18, func_02068A68
- * address:  0x02068A18
+ * function: func_02069818
+ * address:  0x02069818
+ * packet:   pkt_020694D8
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: dsi/../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
  * symbols:
- *   func_02082AC0    0x02082AC0  arm
+ *   func_020680DC    0x020680DC  arm
+ *   func_0206958C    0x0206958C  arm
+ *
+ * The two trailing `signed char` parameters are ONE 2-byte struct passed by
+ * value, not two separate char arguments. Spelled as two arguments the ABI
+ * gives each its own word slot and the image's `ldrsb r2, [sp, #0x39]` /
+ * `strb ip, [sp, #0xd]` become +0x3C and +0x10; the struct form packs them
+ * adjacently and is what makes the file byte-correct. The same pair is
+ * forwarded verbatim to func_0206958C, which therefore takes it the same
+ * way.
+ *
+ * VERDICT: MATCH. Byte-correct -- 224 bytes, ZERO concrete mismatches, the
+ * full extent -- and capped only for lack of an outside witness.
+ *
+ * BLOCKING EVIDENCE CLASS: none available for the two calls to 0x020680DC
+ * at +0x0030 and +0x0068. `label` refuses it: 0x020680DC has exactly two
+ * branch witnesses anywhere in the image (arm9 and every overlay), at
+ * 0x02069848 and 0x02069880, and BOTH are the two `bl`s in this function,
+ * so every witness is inside the compared range. There is no `matched`
+ * manifest entry for 0x020680DC either (it is in another packet), and it
+ * is ordinary compiled C, so neither `runtime` nor `veneer` applies.
+ * `--suggest-split` was run and reports "the whole range as one file is
+ * NOT viable / best partition: 0 piece(s), 1 function(s) left out": both
+ * sites are calls from a single function section, so there is no cut that
+ * leaves either one a witness outside a smaller range.
+ *
+ * The third site, the tail call to 0x0206958C at +0x00D4, IS resolved
+ * (`label x3, e.g. 0206980C`). Unblocking this file therefore needs one
+ * thing only: an EXACT manifest entry covering 0x020680DC, which would
+ * give both sites the `matched` class. That address is outside
+ * pkt_020694D8 and cannot be filed from here.
+ *
+ * The horizontal/vertical alignment pre-pass for the text renderer.
+ * Depending on two bits of the flags word (the third stack argument) it
+ * measures the string with func_020680DC and shifts the pen:
+ *   bit 8  (0x100): right/bottom align -- back the pen off by the full
+ *                   measured extent, `(limit - measured)`;
+ *   bit 7  (0x080): centre align -- back it off by half, with the
+ *                   +1/asr-1 rounding pair on BOTH operands, which is what
+ *                   produces the four `add rN, rM, rM, lsr #31` / `asr #1`
+ *                   instructions at 0x02069888..0x020698A4.
+ * The pen delta is applied as `pen += extent * (-dy)` and
+ * `pen += extent * dx` through the two `mla`s, then everything is
+ * forwarded verbatim to func_0206958C.
  */
+
+typedef signed int s32;
+typedef unsigned int u32;
 typedef unsigned char u8;
 
-typedef unsigned int  u32;
+typedef struct {
+    u32 unk00;
+    void *f04;
+    u32 unk08;
+    void *f0C;
+} Ctx;
 
-struct Surface {
-    char *base;   /* +0x00 */
-    int   w;      /* +0x04 */
-    int   h;      /* +0x08 */
-    u8    bpp;    /* +0x0C  4 or 8 */
-    int   stride; /* +0x10 */
-};
+typedef struct {
+    signed char dx;
+    signed char dy;
+} Step;
 
-extern void func_02082AC0(u32 data, void *dst, int size);
-
-
-/*
- * Clear a linear surface to one pixel value: expand the value to a full word
- * (4bpp doubles the nibble, then the byte; 8bpp doubles the byte; both then
- * double the halfword) and hand w * h * bytes-per-pixel-row-unit to
- * func_02082AC0 (MIi_CpuClearFast(data, dest, size) in the SDK map).
- *
- * THE LEVER that closed this row after five DIFF passes
- * (docs/notes/pkt_02068808.c.txt): the final `| (t << 16)` step is written
- * INSIDE BOTH ARMS, not after the if/else.  Written once after the join, the
- * two arms' shared `| (x << 8)` step is tail-merged (68 bytes) or the arms
- * write the parameter in place and the orrne is sunk (76 bytes).  With the
- * <<16 duplicated, the compiler tail-merges exactly that one step back out
- * and the arms stay predicated into a temporary (orreq/orreq/orrne r0) with
- * the result landing in the parameter's own register (orr r1, r0, r0, lsl
- * #16), which is the image.  The `n = w * h` partial product must be its own
- * statement.
- */
-void func_02068A18(struct Surface *s, u32 arg)
-{
-    int bpp = s->bpp;
-    u32 t;
-    int n;
-
-    if (bpp == 4) {
-        t = arg | (arg << 4);
-        t = t | (t << 8);
-        arg = t | (t << 16);
-    } else {
-        t = arg | (arg << 8);
-        arg = t | (t << 16);
-    }
-    n = s->w * s->h;
-    func_02082AC0(arg, s->base, n * ((bpp << 6) / 8));
-}
-
+struct NNSG2dFont;
+extern int func_020680DC(const struct NNSG2dFont *pFont, int vSpace, const void *txt);
+extern void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w,
+                          u32 a4, u32 a5, u32 a6, Step st);
 
 /*
- * Row-by-row twin of func_02068A18: the same pixel expansion, then one
- * func_02082AC0 (MIi_CpuClearFast) per row of w * tile-size bytes, stepping
- * the destination by stride * tile-size.  The row count is re-read from +0x08
- * each iteration (the call may alias it) and compared signed.
+ * The two trailing `signed char` parameters are ONE 2-byte struct passed by
+ * value, not two separate char arguments. Spelled as two arguments the ABI
+ * gives each its own word slot and the image's `ldrsb r2, [sp, #0x39]` /
+ * `strb ip, [sp, #0xd]` become +0x3C and +0x10; the struct form packs them
+ * adjacently and is what makes the file byte-correct. The same pair is
+ * forwarded verbatim to func_0206958C, which therefore takes it the same
+ * way.
  *
- * Two levers: the `| (t << 16)` step is written in BOTH arms (see
- * func_02068A18), and `dst = s->base` is assigned AFTER the two products,
- * immediately before the loop.  Initialising dst in its declaration gives the
- * same bytes with dst in r5 instead of sb (24 bytes out); the late assignment
- * is what makes it the last value the allocator colours.
+ * VERDICT: MATCH. Byte-correct -- 224 bytes, ZERO concrete mismatches, the
+ * full extent -- and capped only for lack of an outside witness.
+ *
+ * BLOCKING EVIDENCE CLASS: none available for the two calls to 0x020680DC
+ * at +0x0030 and +0x0068. `label` refuses it: 0x020680DC has exactly two
+ * branch witnesses anywhere in the image (arm9 and every overlay), at
+ * 0x02069848 and 0x02069880, and BOTH are the two `bl`s in this function,
+ * so every witness is inside the compared range. There is no `matched`
+ * manifest entry for 0x020680DC either (it is in another packet), and it
+ * is ordinary compiled C, so neither `runtime` nor `veneer` applies.
+ * `--suggest-split` was run and reports "the whole range as one file is
+ * NOT viable / best partition: 0 piece(s), 1 function(s) left out": both
+ * sites are calls from a single function section, so there is no cut that
+ * leaves either one a witness outside a smaller range.
+ *
+ * The third site, the tail call to 0x0206958C at +0x00D4, IS resolved
+ * (`label x3, e.g. 0206980C`). Unblocking this file therefore needs one
+ * thing only: an EXACT manifest entry covering 0x020680DC, which would
+ * give both sites the `matched` class. That address is outside
+ * pkt_020694D8 and cannot be filed from here.
+ *
+ * The horizontal/vertical alignment pre-pass for the text renderer.
+ * Depending on two bits of the flags word (the third stack argument) it
+ * measures the string with func_020680DC and shifts the pen:
+ *   bit 8  (0x100): right/bottom align -- back the pen off by the full
+ *                   measured extent, `(limit - measured)`;
+ *   bit 7  (0x080): centre align -- back it off by half, with the
+ *                   +1/asr-1 rounding pair on BOTH operands, which is what
+ *                   produces the four `add rN, rM, rM, lsr #31` / `asr #1`
+ *                   instructions at 0x02069888..0x020698A4.
+ * The pen delta is applied as `pen += extent * (-dy)` and
+ * `pen += extent * dx` through the two `mla`s, then everything is
+ * forwarded verbatim to func_0206958C.
  */
-void func_02068A68(struct Surface *s, u32 arg)
+void func_02069818(Ctx *ctx, s32 x, s32 y, s32 w,
+                   u32 a4, u32 a5, u32 flags, u32 s, Step st)
 {
-    int i, n, adv, tsz;
-    int bpp = s->bpp;
-    char *dst;
-    u32 t;
+    s32 n;
+    s32 d;
 
-    if (bpp == 4) {
-        t = arg | (arg << 4);
-        t = t | (t << 8);
-        arg = t | (t << 16);
-    } else {
-        t = arg | (arg << 8);
-        arg = t | (t << 16);
+    if (flags & 0x100) {
+        n = func_020680DC(ctx->f04, (int)ctx->f0C, (const void *)s);
+        d = (s32)a4 - n;
+        x = x + d * -st.dy;
+        y = y + d * st.dx;
+    } else if (flags & 0x80) {
+        n = func_020680DC(ctx->f04, (int)ctx->f0C, (const void *)s);
+        d = ((s32)a4 + 1) / 2 - (n + 1) / 2;
+        x = x + d * -st.dy;
+        y = y + d * st.dx;
     }
-    tsz = (bpp << 6) / 8;
-    adv = tsz * s->stride;
-    n = tsz * s->w;
-    dst = s->base;
-    for (i = 0; i < s->h; i++) {
-        func_02082AC0(arg, dst, n);
-        dst += adv;
-    }
+    func_0206958C(ctx, x, y, w, a5, flags, s, st);
 }

@@ -1,87 +1,53 @@
 /*
- * file:     unit_0220BC70_p02.c
- * unit:     yes
- * function: func_0220BE04, func_0220BE2C
- * address:  0x0220BE04
- * region:   ov198
+ * function: func_0220C0D0
+ * address: 0x0220C0D0
+ * packet: pkt_ov198_0220C0D0
+ * region: ov198
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * lever: u16 value and a seven-bit unsigned field preserve spill and load widths.
  * symbols:
- *   func_0220BDD4 0x0220BDD4 thumb ov198
- *   func_020452E8 0x020452E8 arm
- *   func_0220BD84 0x0220BD84 thumb ov198
- *   func_0220C60C  0x0220C60C  thumb  ov198
- *   func_0220D884  0x0220D884  thumb  ov198
- *   func_0220D9B4  0x0220D9B4  thumb  ov198
- *   func_0220DCA8  0x0220DCA8  thumb  ov198
- *   func_0220DC04  0x0220DC04  thumb  ov198
- *   func_0220DD78  0x0220DD78  thumb  ov198
- *   func_0220DE4C  0x0220DE4C  thumb  ov198
- *   func_0220DF20  0x0220DF20  thumb  ov198
- *   func_0220E088  0x0220E088  thumb  ov198
+ *   func_022110D4 0x022110D4 thumb ov198
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_0201C724 0x0201C724 thumb
+ *   func_02045808 0x02045808 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_0201EF8C 0x0201EF8C thumb
  */
-#include "../../matched/include/Obj00507.h"
-
-struct Descriptor;
+#include "../../matched/include/Obj04598.h"
 typedef unsigned char u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int u32;
-
-extern void func_020452E8(struct Descriptor *);
-extern void func_0220BDD4(char *);
-extern void func_0220BD84(u8 *);
-extern int func_0220C60C(char *, int);
-extern void func_0220D884(u8 *p);
-extern int func_0220D9B4(char *);
-extern int func_0220DCA8(char *);
-extern int func_0220DC04(char *);
-extern int func_0220DD78(char *);
-extern int func_0220DE4C(char *);
-extern int func_0220DF20(char *);
-extern int func_0220E088(char *);
-void func_0220BE04(u8 *p);
-int func_0220BE2C(char *a, int idx);
-
-void func_0220BE04(u8 *p){u32 i;func_0220BDD4((char *)p);for(i=0;i<2;i++)func_020452E8(*(struct Descriptor **)(p+i*8+0x1f60));func_0220BD84(p);}
-
-
-int func_0220BE2C(char *a, int idx)
+typedef struct Bits { unsigned char low:7; unsigned char high:1; } Bits;
+extern int func_022110D4(u8 *,int);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
+void func_0220C0D0(u8 *p,int slot,int index,u16 value,u8 extra)
 {
-    switch (idx) {
-    case 0: {
-        unsigned char c;
-        func_0220D884((u8 *)a);
-        c = *(unsigned char *)(*(int *)&((struct Obj00507 *)a)->f0 + 0x1f);
-        if (c == 3)
-            return func_0220C60C(a, 7);
-        if (c == 2)
-            return func_0220C60C(a, 9);
-        return func_0220C60C(a, 6);
-    }
-    case 8:
-        func_0220D884((u8 *)a);
-        return func_0220C60C(a, 0xa);
-    case 1:
-        return func_0220D9B4(a);
-    case 2:
-        return func_0220DCA8(a);
-    case 3:
-        return func_0220DC04(a);
-    case 4:
-        return func_0220DD78(a);
-    case 5:
-        return func_0220E088(a);
-    case 6:
-        return func_0220DE4C(a);
-    case 7:
-        return func_0220DF20(a);
-    }
+    char *elem=(char *)(p+4)+func_022110D4(p,index)*0x4C;
+    void *text=func_02045EC0(((struct Obj04598 *)p)->f1EA0,11);
+    u32 context;
+    u32 surface;
+    func_0201EFA4(((struct Obj04598 *)p)->f1EA4,0,((Bits *)(elem+0x16))->low,3,0,1);
+    func_0201F250(((struct Obj04598 *)p)->f1EA4,(void *)(((struct Obj04598 *)p)->f1EA8),text);
+    context=((struct Obj04598 *)p)->f1EAC;
+    surface=(u32)func_02045770(*(void **)(p+slot*8+0x1F70));
+    func_0201C724((void *)context,surface,value,extra,((struct Obj04598 *)p)->f1EA8,((struct Obj04598 *)p)->f1E9C,0x3DC0);
+    (p+slot*8)[0x1F74]=1;
+    func_02045808(text);
 }

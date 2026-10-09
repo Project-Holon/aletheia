@@ -1,8 +1,8 @@
 /*
  * file:     weather_task_p32.c
  * unit:     yes
- * function: func_021A3680, func_021A368C, func_021A3698, func_021A36A4, func_021A36B0, func_021A36BC, func_021A36C8
- * address:  0x021A3680
+ * function: func_021A71E4, func_021A7258
+ * address:  0x021A71E4
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,101 +13,168 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021A5928  0x021A5928  thumb
- *   func_021A5964  0x021A5964  thumb  ov021
- *   func_021A59EC  0x021A59EC  thumb
- *   func_021A5A30  0x021A5A30  thumb  ov021
- *   func_021A5A00  0x021A5A00  thumb  ov021
- *   func_021A5A0C  0x021A5A0C  thumb  ov021
- *   func_021A5A18  0x021A5A18  thumb  ov021
+ *   func_02188C5C  0x02188C5C  thumb  ov021
+ *   func_021BB480  0x021BB480  thumb  ov021
+ *   func_021A3038  0x021A3038  thumb  ov021
+ *   func_021B7A84  0x021B7A84  thumb  ov021
+ *   func_0201441C  0x0201441C  thumb
+ *   func_021B7CD8  0x021B7CD8  thumb  ov021
+ *   func_02188C58  0x02188C58  thumb  ov021
+ *   func_021A3074  0x021A3074  thumb  ov021
+ *   func_0216DC4C  0x0216DC4C  thumb  ov010
+ *   func_0216D4B4  0x0216D4B4  thumb  ov010
+ *   func_0216D598  0x0216D598  thumb  ov010
+ *   func_021A368C  0x021A368C  thumb  ov021
+ *   func_0216E0AC  0x0216E0AC  thumb  ov010
+ *   func_0216E084  0x0216E084  thumb  ov010
+ *   func_0216D88C  0x0216D88C  thumb  ov010
+ *   func_021A3044  0x021A3044  thumb  ov021
+ *   func_021BB3B8  0x021BB3B8  thumb  ov021
+ *   func_0218E13C  0x0218E13C  thumb  ov021
+ *   func_0218EC60  0x0218EC60  thumb  ov021
+ *   func_0218E160  0x0218E160  thumb  ov021
+ *   func_021A3680  0x021A3680  thumb  ov021
+ *   func_021A36A4  0x021A36A4  thumb  ov021
+ *   func_021BB3AC  0x021BB3AC  thumb  ov021
+ *   func_0218F05C  0x0218F05C  thumb  ov021
+ *   func_0216D5E0  0x0216D5E0  thumb  ov010
+ *   func_0216D600  0x0216D600  thumb  ov010
+ *   func_0219F0B0  0x0219F0B0  thumb  ov021
+ *   d_021DDF38     0x021DDF38  data  a4
  */
-#include "../../matched/include/Obj18024.h"
-#include "../../matched/include/Obj18025.h"
-#include "../../matched/include/Obj18026.h"
-#include "../../matched/include/Obj18027.h"
-#include "../../matched/include/Obj00614.h"
-#include "../../matched/include/Obj18028.h"
-#include "../../matched/include/Obj18029.h"
-
+struct VecFx32;
+struct Actor;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-extern void func_021A5928(u8 *p, int v);
-extern void func_021A5964(u32 *p);
-extern u32 func_021A59EC(u32 p);
-extern u32 func_021A5A30(u32 *p);
-extern void func_021A5A00(u8 *p, void *r);
-extern void func_021A5A0C(u8 *p, void *a1);
-extern int func_021A5A18(u8 *p, u32 k, void *buf);
-void func_021A3680(u8 *p, int a1);
-void func_021A368C(u8 *p);
-u32 func_021A3698(u8 *p);
-u32 func_021A36A4(u8 *p);
-void func_021A36B0(u8 *p, void *r);
-void func_021A36BC(struct Obj18028 *p, void *a1);
-int func_021A36C8(u8 *p, u32 k, void *buf);
+typedef struct V { u32 x, y, z; } V;
+
+typedef signed short   s16;
+
+typedef signed int     s32;
+
+typedef struct VecFx32 { s32 x; s32 y; s32 z; } VecFx32;
+
+typedef struct ModelParam {
+    u8 f0;
+    u8 f1;
+    u16 f2;
+} ModelParam;
+
+typedef struct Record {
+    void *cb[2];
+    ModelParam param;
+} Record;
+
+typedef struct Holder {
+    int mode;
+    void *f04;
+} Holder;
+
+extern u32 func_02188C5C(u8 *p);
+extern void *func_021BB480(void *p);
+extern void func_021A3038(unsigned char *a, struct VecFx32 *b);
+extern u32 func_021B7A84(u32 a, V *b, V *c, u16 *d, V *e);
+extern u8 func_0201441C(int i);
+extern void func_021B7CD8(u32 a, u16 *b, u32 c, u16 *d);
+extern void *func_02188C58(void *o);
+extern void *func_021A3074(u8 *p);
+extern int func_0216DC4C(void *m);
+extern void *func_0216D4B4(char *p);
+extern u16 func_0216D598(void *m);
+extern void func_021A368C(u8 *p);
+extern void func_0216E0AC(void *a0, void *a1);
+extern void func_0216E084(void *a, unsigned int x, unsigned int y, unsigned int z, u16 k);
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
+extern void func_021A3044(u8 *p, void *v);
+extern void func_021BB3B8(u8 *p);
+extern void func_0218E13C(u8 *a, u32 s);
+extern int func_0218EC60(u32 a);
+extern int func_0218E160(u32 a);
+extern void func_021A3680(u8 *p, int a1);
+extern u32 func_021A36A4(u8 *p);
+extern void func_021BB3AC(u8 *p, u32 b);
+extern void func_0218F05C(unsigned char *a);
+extern void func_0216D5E0(int a0, int a1);
+extern int func_0216D600(int a0, u16 a1);
+extern void func_0219F0B0(u32 a, u32 b, u32 c);
+int func_021A71E4(u32 a, u32 *b, u16 *c, u32 d);
+void func_021A7258(void *o, Holder *h, int mode, VecFx32 *pos, u16 e, u16 f, u16 g);
+extern Record d_021DDF38;
 
 
 /*
- * Tail-call thunk: the object's word at +0xc.
- *
  * Addresses are Black-image addresses.
  */
-void func_021A3680(u8 *p, int a1)
+int func_021A71E4(u32 a, u32 *b, u16 *c, u32 d)
 {
-    func_021A5928((u8 *)(((struct Obj18024 *)p)->fC), a1);
-}
-
-
-void func_021A368C(u8 *p)
-{
-    func_021A5964((u32 *)(((struct Obj18025 *)p)->fC));
-}
-
-
-u32 func_021A3698(u8 *p)
-{
-    return func_021A59EC(((struct Obj18026 *)p)->fC);
-}
-
-
-u32 func_021A36A4(u8 *p)
-{
-    return func_021A5A30((u32 *)(((struct Obj18027 *)p)->fC));
+    V w;
+    V in;
+    V q;
+    u16 r[8];
+    u32 h;
+    h = (u32)func_021BB480((void *)func_02188C5C((u8 *)a));
+    func_021A3038((unsigned char *)b[1], (struct VecFx32 *)&in);
+    q.x = in.x;
+    q.y = in.y + 0x4000;
+    q.z = in.z;
+    in.y = in.y - 0x4000;
+    if (func_021B7A84(h, &in, &q, &r[4], &w) != 0)
+        func_021B7CD8(h, &r[4], func_0201441C(d), r);
+    c[0] = r[4];
+    c[1] = r[5];
+    c[2] = r[6];
+    c[3] = r[7];
 }
 
 
 /*
- * Tail-call thunk: forwards the field at +0xc of the object to func_021A5A00.
- *
- * Addresses are Black-image addresses.
+ * Switches an object's model between the placed mode (0: position copied
+ * in and rotation set from whole-unit sixteenths) and the attached mode,
+ * then applies the shared animation settings and records the new mode.
+ * d_021DDF38 is one static record: two callbacks, then at +8 the
+ * parameter block func_0216E0AC takes, whose u16 at +0xA is refreshed
+ * here (docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-
+ * by-the-load-reach.md).
  */
-void func_021A36B0(u8 *p, void *r)
+void func_021A7258(void *o, Holder *h, int mode, VecFx32 *pos, u16 e, u16 f, u16 g)
 {
-    func_021A5A00(*(u8 * *)&((struct Obj00614 *)p)->fC, r);
-}
+    void *x;
+    void *y;
+    void *m;
+    VecFx32 v;
 
-
-/*
- * Tail-call thunk: forwards the field at +0xc of the object to func_021A5A0C.
- *
- * Addresses are Black-image addresses.
- */
-void func_021A36BC(struct Obj18028 *p, void *a1)
-{
-    func_021A5A0C((u8 *)(p->fC), a1);
-}
-
-
-/*
- * Tail-call thunk: forwards the field at +0xc of the object to func_021A5A18.
- *
- * Addresses are Black-image addresses.
- */
-int func_021A36C8(u8 *p, u32 k, void *buf)
-{
-    return func_021A5A18(*(u8 * *)&((struct Obj18029 *)p)->fC, k, buf);
+    x = (void *)func_02188C5C(o);
+    y = func_02188C58(o);
+    if (h->mode == mode) {
+        return;
+    }
+    m = func_021A3074(h->f04);
+    if (func_0216DC4C(m) != 0) {
+        func_0216D4B4(m);
+    }
+    if (mode == 0) {
+        v = *pos;
+        d_021DDF38.param.f2 = func_0216D598(m);
+        func_021A368C(h->f04);
+        func_0216E0AC(m, &d_021DDF38.param);
+        func_0216E084(m, (s16)((v.x >> 12) / 16), (s16)((v.y >> 12) / 16), (s16)((v.z >> 12) / 16), e);
+        func_0216D88C(m, &v);
+        func_021A3044(h->f04, &v);
+        func_021BB3B8(x);
+        func_0218E13C(y, 0);
+        func_0218EC60((u32)y);
+        func_0218E160((u32)y);
+    } else {
+        func_021A3680(h->f04, (int)pos);
+        func_021BB3AC(x, func_021A36A4(h->f04));
+        func_0218F05C(y);
+    }
+    func_0216D5E0((int)m, e);
+    func_0216D600((int)m, e);
+    func_0219F0B0((u32)m, f, g);
+    h->mode = mode;
 }

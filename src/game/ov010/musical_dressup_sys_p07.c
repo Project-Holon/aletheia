@@ -1,8 +1,8 @@
 /*
  * file:     musical_dressup_sys_p07.c
  * unit:     yes
- * function: func_02156908, func_02156914, func_02156934, func_02156954
- * address:  0x02156908
+ * function: func_02156F24, func_02156F68, func_02156F98, func_02156FC4, func_02156FD0
+ * address:  0x02156F24
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,126 +13,132 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021572C0  0x021572C0  thumb  ov010
- *   func_02045C44  0x02045C44  arm
- *   func_02045EC0  0x02045EC0  arm
- *   func_02045C04  0x02045C04  arm
+ *   func_021F8480  0x021F8480  thumb ov132
+ *   func_021F879C  0x021F879C  thumb
+ *   func_021F8640  0x021F8640  thumb
+ *   func_02030734  0x02030734  arm
+ *   d_02172754  0x02172754  data
+ *   func_020307B0  0x020307B0  arm
+ *   func_021F67E0  0x021F67E0  thumb  ov112
  */
-#include "../../matched/include/Obj12026.h"
+#include "../../matched/include/Obj17620.h"
 
-struct Deal;
-struct MsgBank;
-struct Rec;
-typedef unsigned char u8;
+typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef signed char s8;
+typedef struct Stage_02156F24 {
+    void *f00;          /* 0x00 */
+    void *f04[4];       /* 0x04 */
+    u8 pad14[0x20 - 0x14];
+} Stage_02156F24;
 
 typedef short s16;
 
-typedef struct Work_02156908 {
-    u8 pad00[0x38];
-    void *f38;          /* 0x38 */
-} Work_02156908;
+typedef struct Obj_02156F24 {
+    u32 kind;
+} Obj_02156F24;
 
-typedef struct Rec6 {
-    u16 id;
-    u8 pad[4];
-} Rec6;
+typedef struct Stage_02156F98 {
+    void *f00;          /* 0x00 */
+    Obj_02156F24 *f04[4];        /* 0x04 */
+} Stage_02156F98;
 
-typedef struct Member_02156934 {
-    u8 pad00[0x14];
-    Rec6 recs[9];       /* 0x14 */
-    u16 total;          /* 0x4A */
-} Member_02156934;
+typedef struct Obj_02156FD0 {
+    u32 kind;           /* 0x00 */
+    u8 pad04[0x78 - 0x04];
+    u16 f78;            /* 0x78 */
+} Obj_02156FD0;
 
-typedef struct Party {
-    u32 f00;
-    Member_02156934 *members[4]; /* 0x04 */
-} Party;
+typedef struct Stage {
+    void *f00;          /* 0x00 */
+    Obj_02156FD0 *f04[4];        /* 0x04 */
+} Stage;
 
-typedef struct Work_02156934 {
-    u8 pad00[0x04];
-    void *f04;          /* 0x04 */
-    u8 pad08[0x14 - 0x08];
-    u32 f14;            /* 0x14 */
-    void *f18;          /* 0x18 */
-    u8 pad1C[0x30 - 0x1C];
-    Party *party;       /* 0x30 */
-    u8 pad34[0x40 - 0x34];
-    void *f40;          /* 0x40 */
-    u8 pad44[0x48 - 0x44];
-    u8 f48;             /* 0x48 */
-    u8 pad49[3];
-    u8 f4C;             /* 0x4C */
-} Work_02156934;
-
-typedef struct Member_02156954 {
-    u8 pad00[0x4A];
-    u16 total;          /* 0x4A */
-    u16 score[4];       /* 0x4C */
-} Member_02156954;
-
-typedef struct Work_02156954 {
-    u8 pad00[0x30];
-    Party *party;       /* 0x30 */
-} Work_02156954;
-
-extern u8 func_021572C0(struct Deal *d);
-extern struct MsgBank *func_02045C44(const void *file, u32 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045C04(struct Rec *rec);
-u8 func_02156908(Work_02156908 *w);
-void *func_02156914(int a0, int a1);
-u8 func_02156934(Work_02156934 *w, u8 idx);
-u16 func_02156954(Work_02156954 *w);
+extern u8 *func_021F8480(u8 *input, int heap);
+extern int func_021F879C(int);
+extern void func_021F8640(int);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
+extern u32 func_020307B0(void *);
+extern char *func_021F67E0(u16 a, u8 b, u8 c, u8 d, u32 e, u16 heap);
+int func_02156F24(int a, int *state, int c, int *d);
+Stage_02156F24 *func_02156F68(u32 heap, void *p);
+int func_02156F98(struct Stage *);
+int func_02156FC4(int a0, int a1, int a2);
+void func_02156FD0(Stage *, u8, u16, u8, u32, u16, u16);
+extern const char d_02172754[];
 
 
-u8 func_02156908(Work_02156908 *w)
+
+
+int func_02156F24(int a, int *state, int c, int *d)
 {
-    return func_021572C0(w->f38);
+    switch (*state) {
+    case 0:
+        d[1] = (int)func_021F8480((u8 *)d[0], 0x2e);
+        *state = 1;
+        break;
+    case 1:
+        if (func_021F879C(d[1]) == 1)
+            *state = 2;
+        break;
+    case 2:
+        func_021F8640(d[1]);
+        return 1;
+    }
+    return 0;
 }
 
 
-void *func_02156914(int a0, int a1)
+
+
+Stage_02156F24 *func_02156F68(u32 heap, void *p)
 {
-    void *t4;
-    struct MsgBank *t5;
+    Stage_02156F24 *s;
+    u8 i;
 
-a0 = ((struct Obj12026 *)a0)->f24;
-a0 = ((struct Obj12026 *)a0)->f8;
-    t5 = func_02045C44((const void *)a0, a1);
-loc_0215691E:
-a1 = 0;
-    t4 = func_02045EC0(t5, a1);
-loc_02156926:
-    a0 = func_02045C04((struct Rec *)t5);
-loc_0215692E:
-    return t4;}
-
-
-u8 func_02156934(Work_02156934 *w, u8 idx)
-{
-    u16 v;
-
-    v = w->party->members[idx]->total;
-    if (v < 0x100)
-        return v;
-    return 0xFF;
+    s = func_02030734(heap, 0x20, 0, d_02172754, 0xBE);
+    s->f00 = p;
+    for (i = 0; i < 4; i++)
+        s->f04[i] = 0;
+    return s;
 }
 
 
-u16 func_02156954(Work_02156954 *w)
-{
-    u16 max = 0;
+
+
+int func_02156F98(struct Stage *s){
     u8 i;
 
     for (i = 0; i < 4; i++) {
-        if (max < w->party->members[i]->total)
-            max = w->party->members[i]->total;
+        if (s->f04[i] != 0 && s->f04[i]->kind == 2)
+            func_020307B0(s->f04[i]);
     }
-    return max;
+    func_020307B0(s);
+}
+
+
+
+
+
+
+int func_02156FC4(int a0, int a1, int a2)
+{
+    int a3;
+
+a3 = a0 + 4;
+a0 = a1 << 2;
+*(int *)((char *)a3 + a0) = a2;
+a0 = 0;
+((struct Obj17620 *)((char *)a2))->f0 = a0;
+    return a0;}
+
+
+void func_02156FD0(Stage *s, u8 idx, u16 id, u8 v, u32 w, u16 x, u16 y)
+{
+    s->f04[idx] = (Obj_02156FD0 *)func_021F67E0(id, v, 0, 0, w, y);
+    s->f04[idx]->kind = 2;
+    s->f04[idx]->f78 = x;
 }

@@ -1,67 +1,46 @@
 /*
- * file:     camera_system_p03.c
- * unit:     yes
- * function: func_021B62F0, func_021B62F8, func_021B6300, func_021B6308, func_021B6310
- * address:  0x021B62F0
- * region:   ov172
+ * function: func_021B6338
+ * address: 0x021B6338
+ * packet: pkt_ov172_021B6338
+ * region: ov172
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * Trailing extent: 0x021B638E is a two-byte alignment nop, before the existing ARM veneer.
+ * Loop lever: goto into the do-while test keeps a named result across the probe.
+ * symbols:
+ *   func_02085A38 0x02085A38 arm
+ *   func_02085D3C 0x02085D3C arm
+ *   func_021B6390 0x021B6390 arm ov172
+ *   func_021B6398 0x021B6398 arm ov172
+ *   func_021B63A0 0x021B63A0 arm ov172
+ *   func_021B63A8 0x021B63A8 arm ov172
+ *   func_021B63B0 0x021B63B0 arm ov172
+ *   func_021B6868 0x021B6868 thumb ov172
  */
-asm void func_021B62F0(void);
-asm void func_021B62F8(void);
-asm void func_021B6300(void);
-asm void func_021B6308(void);
-asm void func_021B6310(void);
-
-/*
- * A four-byte ARM long-branch veneer, `ldr pc, [pc, #-4]` over the pointer
- * word 0x0270218C, the arm half of the overlay's import table into the
- * TWL region.  No C spelling produces it, so it is written as an asm
- * function, the same way the other hand-written bodies under src/matched
- * are; the pointer word is a plain constant, not a relocation.
- *
- * Addresses are Black-image addresses.
- */
-asm void func_021B62F0(void)
+typedef unsigned int   u32;
+extern void func_02085A38(u32 msec);
+extern int func_02085D3C(void);
+extern int func_021B6390(void);
+extern void func_021B6398(void);
+extern void func_021B63A0(void);
+extern void func_021B63A8(int);
+extern void func_021B63B0(void);
+extern void func_021B6868(char *);
+void func_021B6338(char *p)
 {
-    ldr pc, [pc, #-4]
-    dcd 0x0270218C
-}
-
-/*
- * A four-byte ARM long-branch veneer, `ldr pc, [pc, #-4]` over the pointer
- * word 0x02730B04, the arm half of the overlay's import table into the
- * TWL region.  No C spelling produces it, so it is written as an asm
- * function, the same way the other hand-written bodies under src/matched
- * are; the pointer word is a plain constant, not a relocation.
- *
- * Addresses are Black-image addresses.
- */
-asm void func_021B62F8(void)
-{
-    ldr pc, [pc, #-4]
-    dcd 0x02730B04
-}
-
-asm void func_021B6300(void)
-{
-    ldr pc, [pc, #-4]
-    dcd 0x02730FBC
-}
-
-asm void func_021B6308(void)
-{
-    ldr pc, [pc, #-4]
-    dcd 0x02730FBC
-}
-
-asm void func_021B6310(void)
-{
-    ldr pc, [pc, #-4]
-    dcd 0x02730B04
+    int result;
+    goto test;
+    do {
+        func_02085A38(10);
+test:
+        result = 0;
+        if (func_02085D3C() != 0) result = func_021B6390();
+    } while (result == 1);
+    if (func_02085D3C() != 0) func_021B6398();
+    func_021B6868(p);
+    if (func_02085D3C() == 1) func_021B63A0();
+    func_021B63A8(1);
+    if (func_02085D3C() == 1) func_021B63B0();
 }

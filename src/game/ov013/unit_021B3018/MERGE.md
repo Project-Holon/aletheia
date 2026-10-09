@@ -1,27 +1,7 @@
-# unit_021B3018.c (ov013)
+# unit_021B3018 (ov013)
 
-Translation unit 021B3018..021B3924, 14 functions, confidence weak (tools/tuboundary.py).
+5 parts (from 3 plus 6 folder members). Left: d_021B3C50, d_021B4C48, d_021B60CC declared two ways; G.h include path cannot be opened in merged output (header name demangling in the merge tool); p02+p03 give code DIFF.
 
-The member files below each match on their own. Merging them into one
-`unit_021B3018.c` is blocked by:
+Round 3 (r3_ov04): p02|p03 is a 460-byte uncovered block 0x021B3084..0x021B3250 (unmatched functions).
 
-- ov013_func_021B3018.c..ov013_func_021B38B0.c: global d_021B3C50 declared two ways (src/matched/ov/ov013_func_021B3064.c); global d_021B3C50 declared two ways (src/matched/ov/ov013_func_021B3250.c); global d_021B4C48 declared two ways (src/matched
-- ov013_func_021B3018.c..ov013_func_021B33E0.c: global d_021B3C50 declared two ways (src/matched/ov/ov013_func_021B3064.c); global d_021B3C50 declared two ways (src/matched/ov/ov013_func_021B3250.c); global d_021B4C48 declared two ways (src/matched
-- ov013_func_021B3018.c..ov013_func_021B3250.c: global d_021B3C50 declared two ways (src/matched/ov/ov013_func_021B3064.c); global d_021B3C50 declared two ways (src/matched/ov/ov013_func_021B3250.c)
-- ov013_func_021B3064.c..ov013_func_021B3250.c: global d_021B3C50 declared two ways (src/matched/ov/ov013_func_021B3250.c)
-- ov013_func_021B33F8.c..ov013_func_021B38B0.c: global d_021B60CC declared two ways (src/matched/ov/ov013_func_021B38B0.c)
-- ov013_func_021B370C.c..ov013_func_021B38B0.c: global d_021B60CC declared two ways (src/matched/ov/ov013_func_021B38B0.c)
-- ov013_func_021B386C.c..ov013_func_021B38B0.c: global d_021B60CC declared two ways (src/matched/ov/ov013_func_021B38B0.c)
-- no verified entry for 021B3084
-
-Members, in address order:
-
-- `ov013_func_021B3018.c`
-- `ov013_func_021B3064.c`
-- `ov013_func_021B3250.c`
-- `ov013_func_021B386C.c`
-- `ov013_func_021B38B0.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021B3018.c` again.
+Round 4 (r4_ov05): p02|p03 stays: 0x021B3084..0x021B3250 is 460 bytes of unmatched functions (the merge also stops on a VadCfg struct passed as void *). Other boundaries: p01|p02 not a struct/union errors (lines 53, 54); p03|p04 struct G_021B4C48 indexed like an array; p04|p05 struct G_021B60CC indexed like an array.

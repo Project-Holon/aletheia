@@ -1,7 +1,7 @@
 /*
  * file:     namein_graphic_p01.c
  * unit:     yes
- * function: func_021F1440, func_021F168C, func_021F1744, func_021F1780, func_021F1878, func_021F1888, func_021F1968, func_021F1998
+ * function: func_021F1440, func_021F168C, func_021F1744, func_021F1780, func_021F1878, func_021F1888, func_021F1968, func_021F1998, func_021F19A0, func_021F1A10, func_021F1A1C, func_021F1BFC
  * address:  0x021F1440
  * region:   ov194
  * compiler: dsi/1.1p1
@@ -87,11 +87,24 @@
  *   func_0204ADA4 0x0204ADA4 arm
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204AFD8 0x0204AFD8 arm
+ *   func_02049F34 0x02049F34 arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_020413B0 0x020413B0 arm
+ *   func_020355C4 0x020355C4 arm
+ *   func_0204B9A0 0x0204B9A0 arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_021F1D58 0x021F1D58 thumb ov194
+ *   func_02040804 0x02040804 arm
+ *   func_0204B404 0x0204B404 arm
+ *   d_021F5780 0x021F5780 data a4 ov194
  */
 #include "../../matched/include/Obj02908.h"
 #include "../../matched/include/Obj14494.h"
 #include "../../matched/include/Obj01772.h"
 #include "../../matched/include/Obj10805.h"
+#include "../../matched/include/Obj24898.h"
+#include "../../matched/include/Obj24899.h"
+#include "../../matched/include/Obj01427.h"
 
 struct U16Vec;
 struct Blk34;
@@ -103,16 +116,25 @@ struct PrintSys;
 struct Rec;
 struct S020315D4;
 struct Obj;
+struct Actor;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
+typedef struct Rect_021F1440 {int left,top,right,bottom;} Rect_021F1440;
+
+typedef signed short s16;
+
+typedef struct Rect_021F1BFC {int left,top,right,bottom;} Rect_021F1BFC;
+
+struct Vec2 { s16 x, y; };
+
 extern u8 func_0200C104(struct Blk34 *p, u32 i);
 extern void func_0203064C(u32, u32, u32);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *, u32, u32);
+extern void func_02082BCC(void *,unsigned,unsigned);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C450(u16 n, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -183,6 +205,14 @@ extern void func_0204B3B4(struct Obj *p);
 extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern u32 func_020307B0(void *p);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern u8 func_020355C4(void);
+extern void func_0204B9A0(struct Actor *a);
+extern int func_021F1D58(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b);
+extern u32 func_02040804(u32 layer);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 u32 func_021F1440(struct Obj0203159C *a, u32 b, u8 *args);
 int func_021F168C(void *a,u32 b,u32 c,u8 *d);
 int func_021F1744(int a,int b,int c,u8 *p);
@@ -191,6 +221,14 @@ int func_021F1878(void *a0);
 void func_021F1888(char *p,unsigned owner,u16 heap);
 void func_021F1968(u8 *p);
 void *func_021F1998(u8 *p,u32 i);
+void func_021F19A0(u8 *a,void *b,void *c,u32 d);
+void func_021F1A10(void *p);
+void func_021F1A1C(char *p,int mode,const Rect_021F1440 *rect,int flag,int selected);
+void func_021F1BFC(char *p, int sel, const void *rect);
+extern u32 d_021F5780[];
+
+
+
 
 
 u32 func_021F1440(struct Obj0203159C *a, u32 b, u8 *args)
@@ -256,6 +294,9 @@ u32 func_021F1440(struct Obj0203159C *a, u32 b, u8 *args)
     return 1;
 }
 
+
+
+
 int func_021F168C(void *a,u32 b,u32 c,u8 *d)
 {
     func_021F5354(*(u8 * *)&((struct Obj02908 *)d)->f2CC);
@@ -281,7 +322,13 @@ int func_021F168C(void *a,u32 b,u32 c,u8 *d)
     return 1;
 }
 
+
+
+
 int func_021F1744(int a,int b,int c,u8 *p) { func_021F4614(p+0x2a0);func_021F4BD8(*(u8 * *)&((struct Obj14494 *)p)->f0);func_0201C4E4((struct PrintSys *)(((struct Obj14494 *)p)->f2B4));func_021F436C(p+0x264);if(func_021F4628(p+0x2a0))return 1;return 0; }
+
+
+
 
 /*
  * extent: Two trailing zero alignment bytes at 021F1876; existing func_021F1878 begins immediately afterward.
@@ -308,10 +355,16 @@ void func_021F1780(int unused,u16 heap)
 }
 
 
+
+
+
 int func_021F1878(void *a0)
 {
     return func_02040DA8(4, 1, 0);
 }
+
+
+
 
 void func_021F1888(char *p,unsigned owner,u16 heap)
 {
@@ -342,6 +395,145 @@ void func_021F1888(char *p,unsigned owner,u16 heap)
     }
 }
 
+
+
+
 void func_021F1968(u8 *p) { int i; for(i=0;i<21;i++) { void *q=*(void **)((u32)p+(u32)i*4+12); if(q)func_0204B3B4(q); } func_0204ADA4(((struct Obj10805 *)p)->f0);func_0204A8D4((u32)(((struct Obj10805 *)p)->f4));func_0204AFD8(((struct Obj10805 *)p)->f8); }
 
+
+
+
 void *func_021F1998(u8 *p,u32 i) { return *(void **)((u32)p+i*4+12); }
+
+
+
+
+void func_021F19A0(u8 *a,void *b,void *c,u32 d)
+{
+    int i;
+    void *x;
+    void *p;
+    u8 *q;
+    int j;
+    func_02082BCC(a,0,180);
+    ((struct Obj24898 *)a)->fA0=b;
+    for(i=0;i<2;i++) *(u32 *)(a+164+i*4)=(u32)func_021F1998(c,i+18);
+    p=func_02049F34(118,2,(u32)(&x),d);
+    q=*(u8 * *)&((struct Obj24899 *)x)->fC;
+    for(i=0;i<16;i++) *(u16 *)(a+i*2)=*(u16 *)(q+32+i*2);
+    for(j=0;j<16;j++) *(u16 *)(a+32+j*2)=*(u16 *)(q+64+j*2);
+    func_020307B0(p);
+}
+
+
+
+
+void func_021F1A10(void *p) { func_02082BCC(p,0,180); }
+
+
+/*
+ * extent: 478 instruction bytes; 021F1BFA is two-byte zero alignment before021F1BFC.
+ * lever: const Rect source schedules the loads ahead of argument stores; signed y destinations avoid an extra unsigned truncation pair (484/224 to482/157 toEXACT*478).
+ */
+void func_021F1A1C(char *p,int mode,const Rect_021F1440 *rect,int flag,int selected)
+{
+    int x;
+    short y;
+    ((struct Obj01427 *)p)->f98=0;
+    ((struct Obj01427 *)p)->f94=mode;
+    ((struct Obj01427 *)p)->f9C=flag;
+    ((struct Obj01427 *)p)->fA0=selected;
+    func_020413B0(2,0,0,32,24,1);
+    func_020413B0(1,0,0,32,24,1);
+    if(flag!=0 && selected==3) {
+        func_020413B0(1,3,16,4,3,4);
+        func_020413B0(1,23,16,4,3,4);
+    }
+    x=(selected+1)*3;
+    func_020413B0(1,x,20,3,3,4);
+    func_020413B0(2,x,20,3,3,4);
+    if(rect && mode!=0) {
+        *(Rect_021F1440 *)(p+0x84)=*rect;
+        if(mode==2) {
+            func_020413B0(2,rect->left,rect->top,rect->right-rect->left,rect->bottom-rect->top,mode+1);
+            func_020413B0(1,rect->left,rect->top,rect->right-rect->left,rect->bottom-rect->top,mode+1);
+        }
+        if(func_020355C4()==0) {
+            ((struct Obj01427 *)p)->fAC=rect->left*8+7;
+            y=rect->top*8+(rect->bottom-rect->top)*4-3;
+            ((struct Obj01427 *)p)->fAE=y;
+            ((struct Obj01427 *)p)->fB0=rect->right*8-7;
+            ((struct Obj01427 *)p)->fB2=y;
+            func_0204B9A0(((struct Obj01427 *)p)->fA4);
+            func_0204B9A0(((struct Obj01427 *)p)->fA8);
+            func_0204B3DC(((struct Obj01427 *)p)->fA4,1);
+            func_0204B3DC(((struct Obj01427 *)p)->fA8,1);
+        }
+    }
+    if(mode==0 || func_020355C4()==1) {
+        func_0204B3DC(((struct Obj01427 *)p)->fA4,0);
+        func_0204B3DC(((struct Obj01427 *)p)->fA8,0);
+    }
+    func_020409B4(2);
+    func_020409B4(1);
+    if(mode!=0) {
+        func_02082BCC(p+0x60,0,32);
+        ((struct Obj01427 *)p)->f80=0;
+        ((struct Obj01427 *)p)->f98=1;
+    }
+}
+
+/*
+ * note 2026-10-05 (wD7 lane05): the third parameter is dead after the switch; the source reuses it
+ *   for the address of the Vec2 scratch (`rect = &v;`), which keeps that address in r7 across both
+ *   func_0204B404 calls (idiom a-dead-stack-parameter-reassigned-to-a-locals-address-keeps-a-callee-saved-register).
+ *   Parameter declared `const void *` so no casts are needed.
+ */
+void func_021F1BFC(char *p, int sel, const void *rect)
+{
+    struct Vec2 v;
+    u32 d, c;
+    int i;
+    if (*(u32 *)(p + 0x98) != 0) {
+        u16 *a, *b;
+        switch (*(u32 *)(p + 0x94)) {
+        case 0:
+            break;
+        case 1:
+            d = 2;
+            c = (u16)d_021F5780[0];
+            break;
+        case 2:
+            d = 3;
+            c = 0x1999;
+            if ((*(u16 *)(p + 0x80))++ > 10) {
+                if (func_020355C4() == 0)
+                    func_021F1A1C(p, 1, (const Rect_021F1440 *)rect, *(int *)(p + 0x9C), sel);
+                else
+                    func_021F1A1C(p, 0, (const Rect_021F1440 *)rect, *(int *)(p + 0x9C), sel);
+            }
+            break;
+        }
+        a = (u16 *)p;
+        a += 0x20;
+        b = (u16 *)p;
+        b += 0x30;
+        for (i = 0; i < 16; i++)
+            func_021F1D58(a + i, b + i, c, d, i, ((u16 *)p)[i], ((u16 *)p)[i + 0x10]);
+    }
+    rect = &v;
+    v.x = *(u16 *)(p + 0xAC);
+    v.y = *(u16 *)(p + 0xAE);
+    v.y = v.y - (s16)(func_02040804(2) << 3);
+    func_0204B404(*(struct Obj **)(p + 0xA4), rect, 0);
+    v.x = *(u16 *)(p + 0xB0);
+    v.y = *(u16 *)(p + 0xB2);
+    v.y = v.y - (s16)(func_02040804(2) << 3);
+    func_0204B404(*(struct Obj **)(p + 0xA8), rect, 0);
+    if (*(int *)(p + 0xA0) != sel) {
+        if (func_020355C4() == 0)
+            func_021F1A1C(p, 1, (const Rect_021F1440 *)((const Rect_021F1BFC *)(p + 0x84)), *(int *)(p + 0x9C), sel);
+        else
+            func_021F1A1C(p, 0, (const Rect_021F1440 *)((const Rect_021F1BFC *)(p + 0x84)), *(int *)(p + 0x9C), sel);
+    }
+}

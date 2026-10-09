@@ -1,8 +1,8 @@
 /*
  * file:     pdw_postman_p10.c
  * unit:     yes
- * function: func_021B810C, func_021B821C, func_021B8220, func_021B8224, func_021B8230
- * address:  0x021B810C
+ * function: func_021B7DE0, func_021B7E60, func_021B7ED4
+ * address:  0x021B7DE0
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,161 +13,135 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021B91AC  0x021B91AC  thumb  ov021
- *   func_021B88DC  0x021B88DC  thumb  ov021
- *   func_021B977C  0x021B977C  thumb  ov021
- *   func_021B91F8  0x021B91F8  thumb  ov021
- *   func_021B9238  0x021B9238  thumb  ov021
- *   d_021DE298     0x021DE298  data
- *   func_021B87D8  0x021B87D8  thumb
- *   func_021B87FC  0x021B87FC  thumb
+ *   func_021B9278  0x021B9278  thumb ov021
+ *   func_021B9280  0x021B9280  thumb ov021
+ *   func_021B7CD8  0x021B7CD8  thumb
+ *   func_021B7D38  0x021B7D38  thumb
+ *   MI_CpuCopy8  0x02082D44  arm
  */
-#include "../../matched/include/Obj18106.h"
-#include "../../matched/include/Obj18107.h"
-
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
+typedef short          s16_021B7DE0;
+
+typedef struct {
+    u16 h0;
+    u8 b2;
+    u8 pad3;
+    s16_021B7DE0 h4;
+    u16 h6;
+} Arg;
+
+typedef struct {
+    u16 h0;
+    u16 h2;
+    u8 pad4[0x10];
+    u8 *x14;
+} Tbl;
+
+typedef struct {
+    u8 pad[0x1C];
+    void *x1c;
+    u8 pad20[4];
+    Tbl *x24;
+} Obj;
+
 typedef signed char    s8;
 
-typedef signed short   s16;
+typedef signed short   s16_021B7E60;
 
 typedef signed int     s32;
 
-typedef struct { s32 x, y, z; } V3;
+typedef struct { s32 x, y, z; } VecFx32;
 
-typedef struct { u16 a; u8 t; u8 c; s16 e; u16 d; } Out;
+typedef struct { u16 a, b, c, d; } Rect4;
 
-typedef struct { u16 f0; u16 f2; } Owner;
-
-typedef struct Sub {
-    u16 f0;
-    u16 pad2;
-    void *f4;
-    u16 f8;
-    u16 padA;
-    s32 fC;
-    u8 pad10[0x1C];
-    u8 f2C;
-    s8 f2D;
-    u16 f2E;
-    u16 f30;
-    u8 f32;
-    u8 f33;
-    u8 f34;
-    u8 pad35[3];
-    V3 f38;
-    V3 f44;
-    u8 pad50[0xc];
-    Out f5C;
-    Out f64;
-    u8 pad6C[8];
+struct Cam {
+    u8 pad00[0x50];
+    VecFx32 f50;
+    Rect4 f5C;
+    u8 pad64[8];
+    Rect4 f6C;
     u8 f74;
-    u8 pad75[3];
-    Owner *f78;
-} Sub;
+    u8 f75;
+    u8 f76;
+    u8 pad77;
+    void *f78;
+};
 
-extern int func_021B91AC(u32 a);
-extern int func_021B88DC(Sub *p, int dir, int d);
-extern void func_021B977C(u8 *p);
-extern void func_021B91F8(Sub *p, V3 *out);
-extern void func_021B9238(Sub *p, Out *out);
-extern u8 *func_021B87D8(u8 *p, u32 idx);
-extern u8 *func_021B87FC(u8 *p, u32 idx);
-void func_021B810C(Sub *o);
-u32 func_021B821C(u8 *p);
-u32 func_021B8220(u8 *p);
-void func_021B8224(u8 *p, u32 a1);
-void func_021B8230(u8 *p, u32 a1);
-extern const u8 d_021DE298[];
+typedef struct {
+    u32 w[3];
+} Triple;
+
+extern int func_021B9278(u8 *, void *, Tbl *);
+extern int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
+extern u8 func_021B7CD8(void *m, Rect4 *r, u8 key, Rect4 *out);
+extern void func_021B7D38(void *m, Rect4 *r, VecFx32 *out);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+int func_021B7DE0(Obj *o, Arg *a);
+u8 func_021B7E60(struct Cam *c, u8 key, Rect4 *out, VecFx32 *pos);
+void func_021B7ED4(u8 *o, Triple *out);
 
 
-/*
- * The table byte is also func_021B88DC's third argument: the callee's
- * matched prototype is (p, dir, d), and the image leaves the ldrb value in
- * r2 untouched up to the call. That extra use keeps the byte live across
- * the f2D update, so its sign extension lands in a fresh register (r3).
- * See docs/idioms/a-byte-kept-live-into-a-call-argument-register-pushes-its-sign-extension-to-a-fresh-register.md.
- */
-void func_021B810C(Sub *o)
+int func_021B7DE0(Obj *o, Arg *a)
 {
-    int res;
-    u16 prev;
-    u16 k;
-    u8 d;
-    s32 rem;
+    Tbl *t;
+    u8 *base;
+    int off;
+    int x;
+    int y;
+    int v;
+    int w;
+    int pad;
 
-    if (o->f78->f2 == 0)
-        return;
-    if (o->f8 == 0)
-        return;
-    if (func_021B91AC((u32)o) == 0)
-        return;
-    res = 0;
-    o->f34 = 0;
-    if (o->f2C == 0)
-        return;
-    prev = o->f0;
-    k = o->f2E;
-    d = d_021DE298[o->f30];
-    o->f2D += (s8)d;
-    if (prev == 1)
-        res = func_021B88DC(o, k, d);
-    if (res != 0) {
-        o->f32 = res;
-        o->f33 = o->f30;
-        o->f34 = 1;
-        func_021B91F8(o, &o->f38);
+    if (a->b2 == 0) {
+        if (a->h0 >= o->x24->h0) {
+            return 0;
+        }
+    } else {
+        t = o->x24;
+        if (a->h0 >= t->h2) {
+            return 0;
+        }
+        base = t->x14;
+        off = a->h0 * 0x48;
+        pad = 0;
+        x = a->h6 << 4;
+        y = a->h4 << 4;
+
+        v = func_021B9278(base + (off + pad), o->x1c, t);
+        w = func_021B9280(base + off, x, v, (u8 *)o->x24);
+        if (-w > y || y > w) {
+            return 0;
+        }
+        if (x > v || x < 0) {
+            return 0;
+        }
     }
-    if (prev != o->f0)
-        func_021B977C((u8 *)o);
-    if (o->f2D < 0x10 && res != 0)
-        return;
-    o->f2C = 0;
-    o->f74 = 0;
-    o->f64 = o->f5C;
-    func_021B9238(o, &o->f5C);
-    o->f44 = o->f38;
-    rem = o->fC % 16;
-    if (rem == 0)
-        return;
-    if (rem > 8)
-        o->fC = o->fC + (16 - rem);
-    else
-        o->fC = o->fC - rem;
+    return 1;
 }
 
 
-/*
- * Loads the 32-bit word at byte +0x10 of the object.
- */
-u32 func_021B821C(u8 *p)
+u8 func_021B7E60(struct Cam *c, u8 key, Rect4 *out, VecFx32 *pos)
 {
-    return ((struct Obj18106 *)p)->f10;
+    if (c->f74 == 0 || key != c->f76) {
+        c->f75 = func_021B7CD8(c->f78, &c->f5C, key, &c->f6C);
+        func_021B7D38(c->f78, &c->f6C, &c->f50);
+        c->f74 = 1;
+        c->f76 = key;
+    }
+    if (out != 0)
+        MI_CpuCopy8(&c->f6C, out, 8);
+    if (pos != 0)
+        *pos = c->f50;
+    return c->f75;
 }
 
 
-u32 func_021B8220(u8 *p)
+void func_021B7ED4(u8 *o, Triple *out)
 {
-    return ((struct Obj18107 *)p)->f14;
-}
-
-
-/*
- * Tail-call thunk on the object 0x20 bytes in.
- *
- * Addresses are Black-image addresses.
- */
-void func_021B8224(u8 *p, u32 a1)
-{
-    func_021B87D8(p + 0x20, a1);
-}
-
-
-void func_021B8230(u8 *p, u32 a1)
-{
-    func_021B87FC(p + 0x20, a1);
+    *out = *(Triple *)(o + 0x44);
 }

@@ -1,8 +1,8 @@
 /*
  * file:     field_wfbc_p11.c
  * unit:     yes
- * function: func_02194354, func_02194384, func_021943EC
- * address:  0x02194354
+ * function: func_02196B24, func_02196B28, func_02196B7C, func_02196B90
+ * address:  0x02196B24
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,114 +13,90 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02194418  0x02194418  thumb  ov021
- *   func_0216D854  0x0216D854  thumb  ov010
- *   func_02163C04  0x02163C04  thumb  ov010
+ *   func_02196ACC  0x02196ACC  thumb  ov021
+ *   func_0204B92C  0x0204B92C  arm
+ *   func_0204BA00  0x0204BA00  arm
+ *   func_0204B9A0  0x0204B9A0  arm
+ *   func_02196034  0x02196034  thumb  ov021
+ *   func_021966F0  0x021966F0  thumb  ov021
  */
-#include "../../matched/include/Obj07448.h"
-#include "../../matched/include/Obj12622.h"
-
+struct Actor;
+struct Cmd;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-typedef signed short   s16_02194354;
+typedef signed int     s32;
+
+typedef signed short   s16;
 
 typedef signed char    s8;
 
-typedef struct { u32 key; u32 x4; u32 x8; } Item;
+typedef struct Obj { u32 x0; u32 x4; u32 x8; u8 pad[0x288]; void *objs[27]; u32 mode; } Obj;
 
-typedef struct { u16 n; u16 pad; u32 x4; Item *items; } List;
+typedef struct { u16 x0; Obj *a; void (*cb)(); } Req;
 
-typedef short s16_02194384;
+extern void func_02196ACC(u8 *p);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
+extern void func_0204B9A0(struct Actor *a);
+extern void func_02196034(Obj *, void (*)(), u32);
+extern void func_021966F0(u8 *p);
+void func_02196B24(void);
+void func_02196B28(Obj *a);
+void func_02196B7C(u8 *p);
+void func_02196B90(void);
 
-typedef struct Rec {
-    u32 key;
-    u32 f4;
-    u32 val;
-} Rec;
 
-typedef struct Tbl {
-    u16 n;
-    u16 pad;
-    u32 f4;
-    Rec *recs;
-} Tbl;
 
-extern int func_02194418(u32 a, int a1);
-extern int func_0216D854(void *p);
-extern int func_02163C04(int a, int x, int y, int flag);
-void func_02194354(List *p, u32 key);
-int func_02194384(u16 *a, s16_02194384 b, int c, s16_02194384 d, int *e, unsigned *f);
-u32 func_021943EC(Tbl *t, u32 key);
+/*
+ * Untraced blob: empty body (bx lr only).
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_02196B24(void)
+{
+}
+
 
 
 /*
  * Addresses are Black-image addresses.
  */
-void func_02194354(List *p, u32 key)
+void func_02196B28(Obj *a)
 {
-    Item *it;
-    u16 i;
+    Req r;
+    int i;
 
-    it = p->items;
-    for (i = 0; i < p->n; i++) {
-        if (it->x8 != 0 && it->key == key) {
-            func_02194418((u32)it, key);
-            return;
-        }
-        it++;
+    i = 0;
+    if (a->x8 == 5) {
+        i = 1;
     }
+    r.x0 = 0;
+    r.a = a;
+    r.cb = func_02196ACC;
+    func_0204B92C(a->objs[i], 1);
+    func_0204BA00(a->objs[i], (const struct Cmd *)(&r));
+    func_0204B9A0(a->objs[i]);
+    func_02196034(a, func_02196B24, 0x471);
 }
 
-
-int func_02194384(u16 *a, s16_02194384 b, int c, s16_02194384 d, int *e, unsigned *f)
-{
-    unsigned n = *a;
-    unsigned char *q;
-    short dlt;
-
-    if (*f < n) {
-        q = *(unsigned char * *)&((struct Obj12622 *)a)->f8 + *f * 0xc;
-        do {
-            (*f)++;
-            if (((struct Obj07448 *)q)->f8 != 0) {
-                dlt = func_0216D854(((struct Obj07448 *)q)->f8) - c;
-                if (dlt < 0)
-                    dlt = -dlt;
-                if (dlt < 1) {
-                    if (func_02163C04((int)(((struct Obj07448 *)q)->f8), b, d, 1)) {
-                        *e = ((struct Obj07448 *)q)->f0;
-                        return 1;
-                    }
-                }
-                q += 0xc;
-            }
-        } while (*f < n);
-    }
-    return 0;
-}
 
 
 /*
- * Unlabelled Thumb leaf (push {r4, r5} saves no lr): finds the record whose
- * key equals the argument among n 12-byte records and returns its +8 field,
- * or 0. Sole blocker of ov010 func_021679C4's callee relocation.
+ * Untraced thunk: registers the record at 0x021966F0.
+ *
+ * Addresses are Black-image addresses.
  */
-u32 func_021943EC(Tbl *t, u32 key)
+void func_02196B7C(u8 *p)
 {
-    u16 i;
-    Rec *r;
-    u16 n;
+    func_02196034((Obj *)p, func_021966F0, 0x47A);
+}
 
-    n = t->n;
-    i = 0;
-    r = t->recs;
-    for (; i < n; i++, r++) {
-        if (r->val != 0 && r->key == key)
-            return r->val;
-    }
-    return 0;
+
+
+void func_02196B90(void)
+{
 }

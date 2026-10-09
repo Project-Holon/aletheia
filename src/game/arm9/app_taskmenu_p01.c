@@ -1,7 +1,7 @@
 /*
  * file:     app_taskmenu_p01.c
  * unit:     yes
- * function: func_020263B0, func_020263D8, func_02026400, func_0202640C, func_02026454, func_02026460, func_02026474, func_02026478, func_0202647C, func_02026484, func_0202648C, func_02026490, func_02026498, func_020264AC, func_020264B4, func_020264F4, func_02026504, func_02026608, func_02026680, func_020266AC, func_020266C0, func_020266D4, func_020266E0, func_02026728, func_020267BC, func_020267E4, func_020267FC, func_02026824, func_0202685C, func_02026A60, func_02026BFC, func_02026C1C, func_02026C30, func_02026C78, func_02026C8C, func_02026CA0, func_02026CE0, sub_02026D04, func_02026D48, func_02026D88, func_02026FB8, func_02027060, func_0202708C, func_020270AC, func_020270E0, func_02027100, func_02027120, func_02027138, func_0202715C, func_02027174, func_02027198, func_020271DC, func_020271F8, func_02027220, func_02027230, func_02027258, func_02027268, func_02027290, func_020272A4, func_020272D0, func_020272EC, func_02027314, func_02027324, func_0202734C, func_0202735C, func_0202737C, func_020273C4, func_020273DC, func_020273F8, func_02027414, func_02027430, func_0202744C, func_02027460, func_020274B4, func_020274C8, func_020274F8, func_0202751C, func_02027584, func_020275A8, func_020275AC, func_020275B8, func_020275C4, func_020275D0
+ * function: func_020263B0, func_020263D8, func_02026400, func_0202640C, func_02026454, func_02026460, func_02026474, func_02026478, func_0202647C, func_02026484, func_0202648C, func_02026490, func_02026498, func_020264AC, func_020264B4, func_020264F4, func_02026504, func_02026608, func_02026680, func_020266AC, func_020266C0, func_020266D4, func_020266E0, func_02026728, func_020267BC, func_020267E4, func_020267FC, func_02026824, func_0202685C, func_02026A60, func_02026BFC, func_02026C1C, func_02026C30, func_02026C78, func_02026C8C, func_02026CA0, func_02026CE0, sub_02026D04, func_02026D48, func_02026D88, func_02026FB8, func_02027060, func_0202708C, func_020270AC, func_020270E0, func_02027100, func_02027120, func_02027138, func_0202715C, func_02027174, func_02027198, func_020271DC, func_020271F8, func_02027220, func_02027230, func_02027258, func_02027268, func_02027290, func_020272A4, func_020272D0, func_020272EC, func_02027314, func_02027324, func_0202734C, func_0202735C, func_0202737C, func_020273C4, func_020273DC, func_020273F8, func_02027414, func_02027430, func_0202744C, func_02027460, func_020274B4, func_020274C8, func_020274F8, func_0202751C, func_02027584, func_020275A8, func_020275AC, func_020275B8, func_020275C4, func_020275D0, func_020275DC, func_020275E0, func_020275E4, func_020275E8, func_020275EC, func_020275F8, func_020275FC, func_02027600, func_02027604, func_02027610, func_02027614, func_02027618, func_0202761C, func_02027620, func_02027624, func_02027628, func_0202762C, func_02027630, func_02027634, func_02027694, func_02027698, func_0202769C, func_020276A0, func_020276A4, func_020276A8, func_020276AC, func_020276B0, func_020276B4, func_020276B8, func_020276BC, func_020276C0, func_020276C4, func_02027710, func_02027714, func_02027718, func_0202771C, func_02027720, func_0202772C, func_02027738, func_02027740, func_02027748, func_0202774C, func_02027750, func_02027754, func_02027758, func_0202775C, func_02027760, func_02027764, func_02027768, func_0202776C, func_02027770, func_02027774, func_02027778, func_0202784C, func_02027858, func_020278F4, func_02027974, func_020279E8, func_02027A04, func_02027A08, func_02027A20, func_02027A24, func_02027B30, func_02027B60, func_02027BF4, func_02027CD8, func_02027CFC, func_02027D44, func_02027E3C, func_02027F60, func_02027FD8, func_02027FEC, func_0202800C, func_0202804C, func_02028084, func_02028148, func_0202815C, func_02028164, func_02028178, func_02028218, func_0202822C, func_02028230, func_0202824C, func_020282A4, func_020282AC, func_020282D8, func_0202843C, func_02028454, func_0202846C, func_02028470, func_02028484, func_020284F4, func_02028528, func_0202855C, func_02028590
  * address:  0x020263B0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -94,6 +94,54 @@
  *   func_02045808       0x02045808  arm
  *   func_02045C04       0x02045C04  arm
  *   sBeaconStatus42     0x020A74D0  data
+ *   d_0209FCF8  0x0209FCF8  data
+ *   d_0209FCEC  0x0209FCEC  data
+ *   func_0204162C  0x0204162C  arm
+ *   func_02049EF4  0x02049EF4  arm
+ *   func_02082D44  0x02082D44  arm
+ *   func_020307B0  0x020307B0  arm
+ *   MIi_CpuCopy16     0x02082A60  arm
+ *   func_02027a24     0x02027A24  thumb
+ *   func_020355c4     0x020355C4  arm
+ *   func_02027b30     0x02027B30  thumb
+ *   sFile_020A74E0    0x020A74E0  data
+ *   func_0201C4E4  0x0201C4E4  thumb
+ *   func_0201C6C4  0x0201C6C4  thumb
+ *   func_02041B6C  0x02041B6C  arm
+ *   func_020452E8  0x020452E8  arm
+ *   func_020456F8  0x020456F8  arm
+ *   func_02045730  0x02045730  arm
+ *   func_02045770  0x02045770  arm
+ *   func_02045334  0x02045334  arm
+ *   func_02045374  0x02045374  arm
+ *   sub_020450F0   0x020450F0  arm
+ *   sub_0201C724   0x0201C724  thumb
+ *   tbl_020A1B38   0x020A1B38  data
+ *   sub_02061CA4   0x02061CA4  arm
+ *   func_020355C4 0x020355C4  arm
+ *   func_020362DC  0x020362DC  arm
+ *   func_0203633C  0x0203633C  arm
+ *   func_020355D8  0x020355D8  arm
+ *   func_020061E4  0x020061E4  thumb
+ *   func_02035C08  0x02035C08  arm
+ *   func_02049DB4   0x02049DB4  arm
+ *   func_02049B40   0x02049B40  arm
+ *   sub_020307B0  0x020307B0  arm
+ *   sub_0201D304   0x0201D304  thumb
+ *   g_020A74E0     0x020A74E0  data
+ *   _s32_div_f     0x0209C0A4  arm
+ *   func_02035D20  0x02035D20  arm
+ *   func_02045738  0x02045738  arm
+ *   func_02045758  0x02045758  arm
+ *   func_02045760  0x02045760  arm
+ *   func_02045798  0x02045798  arm
+ *   func_02045740  0x02045740  arm
+ *   func_020437D4  0x020437D4  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
+ *   func_0201CE30  0x0201CE30  thumb
+ *   func_0201CE38  0x0201CE38  thumb
+ *   func_0201CE5C  0x0201CE5C  thumb
+ *   g_0209FD10  0x0209FD10  data
  */
 #include "../../matched/include/Obj17245.h"
 #include "../../matched/include/Obj17246.h"
@@ -117,6 +165,19 @@
 #include "../../matched/include/Obj05720.h"
 #include "../../matched/include/Obj15764.h"
 #include "../../matched/include/Obj15765.h"
+#include "../../matched/include/Obj00059.h"
+#include "../../matched/include/Obj00104.h"
+#include "../../matched/include/Obj15770.h"
+#include "../../matched/include/Obj11289.h"
+#include "../../matched/include/Obj06917.h"
+#include "../../matched/include/Obj15778.h"
+#include "../../matched/include/Obj15779.h"
+#include "../../matched/include/Obj00864.h"
+#include "../../matched/include/Obj15780.h"
+#include "../../matched/include/Obj11291.h"
+#include "../../matched/include/Obj11292.h"
+#include "../../matched/include/Obj15793.h"
+#include "../../matched/include/Obj15794.h"
 
 struct BigObj;
 struct Rec44;
@@ -132,9 +193,19 @@ struct Rec1C;
 struct SaveBlock;
 struct Rec0200E6FC;
 struct U16Vec;
-struct Src;
+struct Src_020263B0;
 struct MsgBank;
 struct Strbuf;
+struct Cfg;
+struct Obj_020263B0;
+struct S;
+struct Descriptor;
+struct PrintSys;
+struct Menu;
+struct CfgObj;
+struct Src;
+struct StrObj;
+struct Bmp;
 typedef signed char    s8;
 
 typedef unsigned char  u8;
@@ -308,7 +379,7 @@ typedef struct {
     u16 commentLength;
 } OSOwnerInfo;
 
-struct Src { u16 a; u16 b; u16 c; u16 d; };
+struct Src_020263B0 { u16 a; u16 b; u16 c; u16 d; };
 
 struct Rec_02026D88 {
     u8  b00;
@@ -364,9 +435,197 @@ typedef struct {
     void *fb08;
 } Obj_1;
 
+struct BeaconGfx {
+    u8  pad[0x540];
+    u16 pal[0x60];
+};
+
+struct TaskMenuTmpl
+{
+  u32 heapId;
+  u8 count;
+  u8 pad05[3];
+  const void *unk08;
+  u32 unk0c;
+  u8 pad10[2];
+  u8 unk12;
+  u8 unk13;
+};
+
+struct TaskMenuOwner {
+  u8 pad_00[0x14];
+  void *unk_14;
+};
+
+struct TaskMenu
+{
+  u8 unk00;
+  u8 unk01;
+  u16 unk02;
+  u16 unk04;
+  u16 unk06;
+  u32 unk08;
+  u32 unk0c;
+  u32 unk10;
+  u32 unk14;
+  void **buf1;
+  void *buf2;
+  struct TaskMenuTmpl tmpl;
+  void *arg1;
+};
+
+struct CfgTmpl {
+    u8  pad00[0x14];
+    u32 f14;
+};
+
+struct Cfg {
+    u16 f00;
+    u16 f02;
+    struct CfgTmpl *f04;
+    u8  pad08[0x10 - 0x08];
+    u32 f10;
+    u32 f14;
+};
+
+struct Src {
+    u32 f00;
+    u16 f04;
+    u8  pad06[8 - 6];
+    u32 f08;
+};
+
+struct Row_0 {
+    u32 f00;
+    u16 f04;
+    u8  pad06[8 - 6];
+    u32 f08;
+};
+
+struct Glyph {
+    u16 f00;
+    u16 f02;
+};
+
+struct Obj_020263B0 {
+    u8  pad00[0x18];
+    u32 *layers;
+    struct Row_0 *rows;
+    u8  pad20[0x24 - 0x20];
+    u8  count;
+    u8  pad25[0x2c - 0x25];
+    u32 inset;
+    u8  x0;
+    u8  y0;
+    u8  dx;
+    u8  dy;
+    struct Glyph *glyph;
+};
+
+typedef signed short   s16;
+
+struct Row_1 {
+    u8  pad00[8];
+    u32 f08;
+};
+
+struct Menu {
+    u8  cursor;     /* +0x00 */
+    u8  pad01;      /* +0x01 */
+    u16 h2;         /* +0x02 */
+    u32 pad04[2];   /* +0x04 */
+    u32 f0C;        /* +0x0C */
+    u32 f10;        /* +0x10 */
+    u32 pad14;      /* +0x14 */
+    u32 *f18;       /* +0x18 */
+    struct Row_1 *f1C;/* +0x1C */
+    u32 pad20;      /* +0x20 */
+    u8  count;      /* +0x24 */
+    u8  pad25[0x34 - 0x25];
+    u32 f34;        /* +0x34 */
+};
+
+struct R {
+    u16 a;
+    u16 b;
+    u32 f04;
+    u32 obj;
+    u32 pad0c;
+    u32 c;
+    u32 d;
+};
+
+struct TaskMenuState {
+    u8 pad[8];
+    void *child;
+};
+
+struct CfgObj {
+    u32 f00;
+    u8  pad04[0x0c - 0x04];
+    u32 f0c;
+    u8  pad10[0x12 - 0x10];
+    u16 f12;
+    u8  pad14[0x18 - 0x14];
+    struct Cfg *f18;
+    u16 f1c;
+    u16 f1e;
+};
+
+struct Anim {
+    u32 obj;
+    u32 unk04;
+    u32 unk08;
+    u32 unk0c;
+    u32 unk10_pos;
+    u16 frame;
+    u16 div;
+    u8  unk14[4];
+    u8  unk18_a[2];
+    u32 ctx;
+    u16 unk1c;
+    u16 unk1e;
+};
+
+struct Obj_02028084 {
+    u32 field_00;
+    u32 pad_04[4];
+    u16 field_14;
+    u16 pad_16;
+    u32 field_18;
+};
+
+struct Obj {
+    u32 pad_00[2];
+    u32 field_08;
+    u32 pad_0c;
+    u16 field_10;
+    u16 pad_12;
+    u32 flags;
+};
+
+struct T {
+    u32 f00;
+    u8  pad04[0x18];
+    u16 f1c;
+    u16 f1e;
+};
+
+typedef signed int     s32_0202846C;
+
+typedef signed int     s32_02028470;
+
+typedef int s32_02028484;
+
+typedef struct Blk {
+    u8  first;
+    u8  pad[3];
+    u32 flags;
+} Blk;
+
 extern void func_02082BCC(void *dst, int val, u32 n);
 extern void func_02026490(void *obj, u32 value);
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
+extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern u8 func_02012B58(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
@@ -433,6 +692,51 @@ extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_02045C04(struct Rec *rec);
 extern u32 func_020307B0(void *p);
+extern u32 func_0204162C(int channel);
+extern void *func_02049EF4(void *arc, u32 id, u32 comp, void **out, u32 heap);
+extern void  func_02082D44(void *dst, const void *src, u32 size);
+extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
+extern void func_02027a24(struct Obj_020263B0 *o, struct Cfg *cfg);
+extern u8 func_020355c4(void);
+extern void func_02027b30(u32 a0, struct S *s, int mode);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02041B6C(u32 bit);
+extern u32 func_020452E8(struct Descriptor *d);
+extern void func_020456F8(struct Descriptor *d);
+extern u8 func_02045730(struct Descriptor *p);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02045334(struct Descriptor *p);
+extern void func_02045374(struct Cfg *cfg);
+extern u32  _u32_div_f(u32 a, u32 b);
+extern u32   sub_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d,
+                          u8 slot);
+extern void sub_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void func_02045798(struct Descriptor *p, u8 v);
+extern s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern u8 func_020355C4(void);
+extern u32  func_020362DC(void);
+extern unsigned int func_0203633C(void);
+extern void func_020355D8(u8 v);
+extern void func_020061E4(u32 id);
+extern int  func_02035C08(const void *key);
+extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void  func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
+extern u32 sub_020307B0(void *p);
+extern u32 sub_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 func_02035D20(u32 *x, u32 *y);
+extern u8 func_02045738(struct Descriptor *p);
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern u8 func_02045740(struct Descriptor *p);
+extern void *func_020437D4(const struct Bmp *bmp);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 n);
+extern u32 func_0201CE30(void *h);
+extern void func_0201CE38(void *h);
+extern void func_0201CE5C(struct Rec *p, s32_02028484 v);
+extern int func_02035C60(void);
+extern unsigned int func_0203630C(void);
+extern int func_02035C38(void);
 void func_020263B0(struct Obj_0 *p, u32 a);
 void func_020263D8(struct Comm *p, u32 a1, u32 a2);
 void func_02026400(struct Comm *p);
@@ -500,7 +804,7 @@ void func_020273F8(char *p, unsigned short v);
 void func_02027414(char *p, unsigned short v);
 void func_02027430(char *p, unsigned short v);
 void func_0202744C(void *dst);
-void func_02027460(void *p, const struct Src *s);
+void func_02027460(void *p, const struct Src_020263B0 *s);
 void func_020274B4(u32 a0);
 void func_020274C8(void);
 void func_020274F8(void);
@@ -511,6 +815,101 @@ u8 func_020275AC(u8 *p);
 void func_020275B8(char *p, int v);
 int func_020275C4(void *p);
 void *func_020275D0(char *p);
+int func_020275DC(void);
+void func_020275E0(void);
+u32 func_020275E4(void);
+u32 func_020275E8(void);
+u8 func_020275EC(int i);
+u32 func_020275F8(u32 a);
+u32 func_020275FC(u32 a);
+u32 func_02027600(u32 a);
+u8 func_02027604(u8 i);
+u32 func_02027610(u32 a);
+u32 func_02027614(void);
+u32 func_02027618(void);
+u32 func_0202761C(u32 a);
+u32 func_02027620(u32 a);
+u32 func_02027624(void);
+u32 func_02027628(void);
+u32 func_0202762C(void);
+u32 func_02027630(void);
+void func_02027634(void *arc, int id, u32 heap, int base, u32 pal);
+u32 func_02027694(void);
+u32 func_02027698(void);
+u32 func_0202769C(u32 i);
+u32 func_020276A0(u32 i);
+u32 func_020276A4(void);
+u32 func_020276A8(void);
+u32 func_020276AC(u32 i);
+u32 func_020276B0(u32 i);
+u32 func_020276B4(void);
+u32 func_020276B8(void);
+u32 func_020276BC(u32 i);
+u32 func_020276C0(u32 i);
+int func_020276C4(int a0);
+int func_02027710(int a);
+int func_02027714(int a);
+int func_02027718(int a);
+int func_0202771C(int a);
+int func_02027720(int a);
+int func_0202772C(int a);
+int func_02027738(int dummy, int b);
+int func_02027740(int dummy, int b);
+int func_02027748(void);
+int func_0202774C(int a);
+int func_02027750(int a);
+int func_02027754(int a);
+int func_02027758(void);
+int func_0202775C(int a);
+int func_02027760(int a);
+int func_02027764(int a);
+int func_02027768(void);
+int func_0202776C(int a);
+int func_02027770(int a);
+int func_02027774(int a);
+struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+struct TaskMenu *func_0202784C(struct TaskMenuTmpl *a0, void *a1);
+void func_02027858(struct TaskMenu *m);
+void func_020278F4(u8 *p);
+void func_02027974(struct TaskMenu *p);
+u32 func_020279E8(struct TaskMenu *m);
+u8 func_02027A04(const u8 *p);
+u32 func_02027A08(struct TaskMenu *tm, u32 arg);
+unsigned func_02027A20(char *p);
+void func_02027A24(struct Obj_020263B0 *o, struct Cfg *cfg);
+u32 func_02027B30(u32 a0, struct S *s, int mode);
+void func_02027B60(u16 *phase, u16 *out, u32 mode, u32 slot);
+void func_02027BF4(u16 *phase, u16 *out, u16 mode, u32 slot, u16 c0, u16 c1);
+int func_02027CD8(int a0, int a1);
+void func_02027CFC(u8 *p, int sel);
+void func_02027D44(struct Menu *m);
+void func_02027E3C(u8 *m);
+struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+u32 func_02027FD8(struct TaskMenuState *s);
+u32 func_02027FEC(struct Cfg *a0, struct Src *a1, u16 a2, u16 a3, u8 a4, u16 a5);
+u32 *func_0202800C(struct Cfg *a0, struct Src *a1, u16 a2, u16 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
+u32 *func_0202804C(struct Cfg *a0, struct Src *a1, u16 a2, u16 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
+struct CfgObj *func_02028084(struct Cfg *cfg, struct Src *src, u16 a2, u16 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 heap);
+void func_02028148(u8 *p);
+void func_0202815C(u8 *a0);
+void func_02028164(u8 *p);
+void func_02028178(u8 *p);
+void func_02028218(struct Obj_02028084 *obj, u32 a);
+void func_0202822C(char *p, int v);
+u32 func_02028230(u8 *p);
+u32 func_0202824C(void **p);
+void func_020282A4(struct Obj *obj);
+void func_020282AC(struct T *p, u16 *a1, u32 a2, u32 a3, u16 a4);
+void func_020282D8(u32 bg, struct Cfg *cfg, u32 style);
+void func_0202843C(u8 *p);
+void func_02028454(u8 *p);
+u32 func_0202846C(u8 *p);
+void func_02028470(u8 *p, u32 v);
+s32_02028484 func_02028484(Blk *blk, void *h);
+u32 func_020284F4(u32 a);
+u32 func_02028528(u32 a);
+u32 func_0202855C(u32 a);
+void func_02028590(u32 a0, u32 a1, u32 a2, u16 a3);
 extern u8 g_0209FB74[];
 extern struct BeaconSys *g_02146940;
 extern char   g_020A74BC[];
@@ -523,6 +922,19 @@ extern u16 g_0209FC04[];
 extern void * const volatile g_System;
 extern char  ov231_id[];
 extern const char sBeaconStatus42[];
+extern const u8 d_0209FCF8[];
+extern const u8 d_0209FCEC[];
+extern char sFile_020A74E0[];
+extern s16 tbl_020A1B38[];
+extern char  g_020A74E0[];
+extern char g_0209FD10[];
+
+
+
+
+
+
+
 
 
 
@@ -544,6 +956,13 @@ void func_020263B0(struct Obj_0 *p, u32 a)
         }
     }
 }
+
+
+
+
+
+
+
 
 
 
@@ -580,10 +999,24 @@ void func_020263D8(struct Comm *p, u32 a1, u32 a2)
 
 
 
+
+
+
+
+
+
+
 void func_02026400(struct Comm *p)
 {
     func_0202640C(p, 0, 0);
 }
+
+
+
+
+
+
+
 
 
 
@@ -608,6 +1041,13 @@ void func_0202640C(struct Comm *p, u32 a, u32 b)
         }
     }
 }
+
+
+
+
+
+
+
 
 
 
@@ -661,6 +1101,13 @@ u32 sub_02026454(void *obj)
 
 
 
+
+
+
+
+
+
+
 u32 sub_02026460(void *obj)
 {
     if (*((u8 *)obj + 5) != 0 && *((u8 *)obj + 0x10) != 2) {
@@ -668,6 +1115,13 @@ u32 sub_02026460(void *obj)
     }
     return 0;
 }
+
+
+
+
+
+
+
 
 
 
@@ -690,10 +1144,24 @@ u32 sub_02026474(void *obj)
 
 
 
+
+
+
+
+
+
+
 u32 sub_02026478(void *obj)
 {
     return ((struct Obj17246 *)obj)->f0;
 }
+
+
+
+
+
+
+
 
 
 
@@ -716,10 +1184,24 @@ u32 sub_0202647C(void *obj)
 
 
 
+
+
+
+
+
+
+
 void sub_02026480(void *obj, u32 value)
 {
     ((struct Obj17248 *)obj)->f8 = value;
 }
+
+
+
+
+
+
+
 
 
 
@@ -742,10 +1224,24 @@ void sub_02026484(void *obj)
 
 
 
+
+
+
+
+
+
+
 u32 sub_0202648C(void *obj)
 {
     return ((struct Obj17250 *)obj)->f8;
 }
+
+
+
+
+
+
+
 
 
 
@@ -791,6 +1287,13 @@ void sub_02026490(void *obj, u32 value)
 
 
 
+
+
+
+
+
+
+
 void sub_02026498(void *obj, u32 flag)
 {
     u8 f = (u8)flag;
@@ -808,10 +1311,24 @@ void sub_02026498(void *obj, u32 flag)
 
 
 
+
+
+
+
+
+
+
 u32 sub_020264AC(void *obj)
 {
     return ((struct Field4 *)((u8 *)obj + 4))->bit2;
 }
+
+
+
+
+
+
+
 
 
 
@@ -856,10 +1373,24 @@ void func_020264B4(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag)
 
 
 
+
+
+
+
+
+
+
 void func_020264F4(u8 *p)
 {
     MI_CpuFill8(p + 0x24, 0, 0x18);
 }
+
+
+
+
+
+
+
 
 
 
@@ -927,6 +1458,13 @@ void func_02026504(struct Obj_1 *o, u32 id0, u32 id1, u32 v)
 
 
 
+
+
+
+
+
+
+
 /*
  * EXACT*: the listing extent runs 164 bytes because the follower at
  * 0x0202667E is an unlabelled leaf (`movs r0, r0` / `bx lr`) that saves
@@ -972,6 +1510,13 @@ int func_02026608(u8 *p, u8 *out)
 
 
 
+
+
+
+
+
+
+
 /*
  * Clears bit 0 of six 12-byte entries at +0x3F and the bytes at +0x85 and +0x84.
  * Caller: ov011 0x021731C8.
@@ -985,6 +1530,13 @@ void func_02026680(u8 *p)
     p[0x85] = 0;
     p[0x84] = 0;
 }
+
+
+
+
+
+
+
 
 
 
@@ -1025,6 +1577,13 @@ void sub_020266AC(u32 a, u32 b, u32 c)
 
 
 
+
+
+
+
+
+
+
 /*
  * The same wrapper shape as src/matched/sub_020266AC.c, with the constant
  * pair 0x1e/0x1d in place of 0x27/0x26. See that file's header for why it
@@ -1039,6 +1598,13 @@ void sub_020266C0(u32 a, u32 b, u32 c)
 {
     sub_02026504((struct Obj_1 *)a, b, c, (u16)((b == c) ? 0x1e : 0x1d));
 }
+
+
+
+
+
+
+
 
 
 
@@ -1061,6 +1627,13 @@ void sub_020266D4(u32 a, u32 b)
 {
     sub_02026504((struct Obj_1 *)a, b, b, 0x1f);
 }
+
+
+
+
+
+
+
 
 
 
@@ -1095,6 +1668,13 @@ void func_020266E0(u32 a0)
     g_02146940 = func_02030734(a0, 0xbb4, one, g_020A74C0, 0x5a);
     ((char *)g_02146940)[0xbb4 - 7] = (u8)(one - 2);
 }
+
+
+
+
+
+
+
 
 
 
@@ -1143,6 +1723,13 @@ void func_02026728(void)
 
 
 
+
+
+
+
+
+
+
 void func_020267BC(u32 a0)
 {
     u32 *p = (u32 *)g_02146940;
@@ -1157,10 +1744,24 @@ void func_020267BC(u32 a0)
 
 
 
+
+
+
+
+
+
+
 void func_020267E4(void *p)
 {
     MI_CpuCopy8(d_02146940 + 4, p, 0x5C);
 }
+
+
+
+
+
+
+
 
 
 
@@ -1175,6 +1776,13 @@ void func_020267FC(void)
         }
     }
 }
+
+
+
+
+
+
+
 
 
 
@@ -1197,6 +1805,13 @@ void func_02026824(struct Obj_1 *o)
 
 
 
+
+
+
+
+
+
+
 static inline u32 calc(struct Req *r, int id)
 {
     u32 v;
@@ -1209,6 +1824,13 @@ static inline u32 calc(struct Req *r, int id)
     }
     return v;
 }
+
+
+
+
+
+
+
 
 
 
@@ -1288,6 +1910,13 @@ void func_0202685C(u8 *base, struct Req *r)
     if (((struct Obj00747 *)base)->fBAE < 30)
         (((struct Obj00747 *)base)->fBAE)++;
 }
+
+
+
+
+
+
+
 
 
 
@@ -1396,6 +2025,13 @@ int func_02026A60(struct Req *r)
 
 
 
+
+
+
+
+
+
+
 /*
  * Five unlabelled leaves between func_02026A60 and func_02026CA0
  * (0x02026BFC..0x02026CA0), tu-verified: two ring-slot accessors, their
@@ -1425,10 +2061,24 @@ void *sub_02026BFC(u8 *base, int n)
 
 
 
+
+
+
+
+
+
+
 void *sub_02026C1C(int n)
 {
     return sub_02026BFC((u8 *)g_GameBeacon, n);
 }
+
+
+
+
+
+
+
 
 
 
@@ -1460,6 +2110,13 @@ void *sub_02026C30(u8 *base, int n)
 
 
 
+
+
+
+
+
+
+
 void *sub_02026C78(int n)
 {
     return sub_02026C30((u8 *)g_GameBeacon, n);
@@ -1473,10 +2130,24 @@ void *sub_02026C78(int n)
 
 
 
+
+
+
+
+
+
+
 u32 sub_02026C8C(void)
 {
     return g_GameBeacon->field_BA8;
 }
+
+
+
+
+
+
+
 
 
 
@@ -1507,6 +2178,13 @@ int func_02026CA0(int *p)
 
 
 
+
+
+
+
+
+
+
 /*
  * Clears bit `n` of the ring live mask at +0xba4 of the game beacon block.
  * The earlier MATCH park read the pool word as 0x02021440; the word at
@@ -1517,6 +2195,13 @@ void func_02026CE0(u32 n)
 {
     g_GameBeacon->mask = ((1 << n) ^ 0xffffffff) & g_GameBeacon->mask;
 }
+
+
+
+
+
+
+
 
 
 
@@ -1547,6 +2232,13 @@ int sub_02026D04(const struct BeaconSlot *r)
 
 
 
+
+
+
+
+
+
+
 /*
  * Answers the +0x5c halfword of the first live ring slot whose +0x10 id
  * equals v, or 0xffff.
@@ -1563,6 +2255,13 @@ u16 sub_02026D48(u16 v)
     }
     return 0xffff;
 }
+
+
+
+
+
+
+
 
 
 
@@ -1589,7 +2288,7 @@ void func_02026D88(struct Rec_02026D88 *o, void *sys)
     void *bag;
     void *prof;
     void *st;
-    struct Src src;
+    struct Src_020263B0 src;
     OSOwnerInfo info;
     u16 *q;
     u16 v;
@@ -1656,6 +2355,13 @@ void func_02026D88(struct Rec_02026D88 *o, void *sys)
 
 
 
+
+
+
+
+
+
+
 void func_02026FB8(Obj_0 *o)
 {
     void *a;
@@ -1672,6 +2378,13 @@ void func_02026FB8(Obj_0 *o)
     o->f5c = 0;
     o->f5e = 1;
 }
+
+
+
+
+
+
+
 
 
 
@@ -1709,6 +2422,13 @@ u32 func_02027060(u32 a)
 
 
 
+
+
+
+
+
+
+
 int func_0202708C(u16 v)
 {
     u32 i = 0;
@@ -1721,6 +2441,13 @@ int func_0202708C(u16 v)
     }
     return 0;
 }
+
+
+
+
+
+
+
 
 
 
@@ -1759,6 +2486,13 @@ void func_020270AC(void *vec, u16 *dest)
 
 
 
+
+
+
+
+
+
+
 u8 func_020270E0(void)
 {
     struct BeaconSys *ptr = g_02146940;
@@ -1783,6 +2517,13 @@ u8 func_020270E0(void)
 
 
 
+
+
+
+
+
+
+
 void func_02027100(const void *src)
 {
     struct Inner *in = &g_02146940->in;
@@ -1790,6 +2531,13 @@ void func_02027100(const void *src)
     MI_CpuCopy8(src, in->field_50, 10);
     in->f5e = 1;
 }
+
+
+
+
+
+
+
 
 
 
@@ -1822,6 +2570,13 @@ void func_02027120(u8 a, u8 b)
 
 
 
+
+
+
+
+
+
+
 /*
  * Unlabelled Thumb leaf in the ARM9 module: inserts three bits (9..11) into
  * the word at +0x10 of the nested object at +4, then sets the byte at +0x62.
@@ -1837,6 +2592,13 @@ void func_02027138(u32 x)
     in->f0c = (in->f0c & 0xFFFFF1FFu) | ((x << 29) >> 20);
     in->f5e = 1;
 }
+
+
+
+
+
+
+
 
 
 
@@ -1869,6 +2631,13 @@ void func_0202715C(u32 a0)
 
 
 
+
+
+
+
+
+
+
 /*
  * Unlabelled Thumb leaf in the ARM9 module: inserts three bits (6..8) into the
  * word at +0x10 of the nested object at +4, then sets the byte at +0x62.
@@ -1884,6 +2653,13 @@ void func_02027174(u32 x)
     in->f0c = (in->f0c & 0xFFFFFE3Fu) | ((x << 29) >> 23);
     in->f5e = 1;
 }
+
+
+
+
+
+
+
 
 
 
@@ -1916,6 +2692,13 @@ void func_02027198(void)
 
 
 
+
+
+
+
+
+
+
 asm void OS_SetPrintBlockingMode(void)
 {
     push {r4, lr}
@@ -1938,7 +2721,21 @@ loc_020271F0:
 
 
 
+
+
+
+
+
+
+
 static void sub_02027220(void *dst, u16 value);
+
+
+
+
+
+
+
 
 
 
@@ -2007,6 +2804,13 @@ void sub_020271F8(u16 value)
 
 
 
+
+
+
+
+
+
+
 static void sub_02027220(void *dst, u16 value)
 {
     ((struct Obj00121 *)dst)->f30 = 0xe;
@@ -2020,7 +2824,21 @@ static void sub_02027220(void *dst, u16 value)
 
 
 
+
+
+
+
+
+
+
 static void sub_02027258(void *dst, u16 value);
+
+
+
+
+
+
+
 
 
 
@@ -2044,6 +2862,13 @@ void sub_02027230(u16 value)
 
 
 
+
+
+
+
+
+
+
 static void sub_02027258(void *dst, u16 value)
 {
     ((struct Obj00121 *)dst)->f30 = 0xf;
@@ -2057,7 +2882,21 @@ static void sub_02027258(void *dst, u16 value)
 
 
 
+
+
+
+
+
+
+
 static void sub_02027290(void *dst, u16 value);
+
+
+
+
+
+
+
 
 
 
@@ -2081,6 +2920,13 @@ void sub_02027268(u16 value)
 
 
 
+
+
+
+
+
+
+
 static void sub_02027290(void *dst, u16 value)
 {
     ((struct Obj17252 *)dst)->f30 = 0x10;
@@ -2093,7 +2939,21 @@ static void sub_02027290(void *dst, u16 value)
 
 
 
+
+
+
+
+
+
+
 static void sub_020272D0(void *dst, u16 a, u16 b);
+
+
+
+
+
+
+
 
 
 
@@ -2117,6 +2977,13 @@ void sub_020272A4(u16 a, u16 b)
 
 
 
+
+
+
+
+
+
+
 static void sub_020272D0(void *dst, u16 a, u16 b)
 {
     ((struct Obj00121 *)dst)->f30 = 0x11;
@@ -2131,7 +2998,21 @@ static void sub_020272D0(void *dst, u16 a, u16 b)
 
 
 
+
+
+
+
+
+
+
 static void sub_02027314(void *dst, u16 value);
+
+
+
+
+
+
+
 
 
 
@@ -2155,6 +3036,13 @@ void sub_020272EC(u16 value)
 
 
 
+
+
+
+
+
+
+
 static void sub_02027314(void *dst, u16 value)
 {
     ((struct Obj00121 *)dst)->f30 = 0x14;
@@ -2168,7 +3056,21 @@ static void sub_02027314(void *dst, u16 value)
 
 
 
+
+
+
+
+
+
+
 static void sub_0202734C(void *dst, u16 value);
+
+
+
+
+
+
+
 
 
 
@@ -2192,12 +3094,26 @@ void sub_02027324(u16 value)
 
 
 
+
+
+
+
+
+
+
 static void sub_0202734C(void *dst, u16 value)
 {
     ((struct Obj00121 *)dst)->f30 = 0x23;
     ((struct Obj00121 *)dst)->f34 = value;
     func_0202744C(dst);
 }
+
+
+
+
+
+
+
 
 
 
@@ -2217,6 +3133,13 @@ void func_0202735C(u32 a0, u32 a1)
 
 
 
+
+
+
+
+
+
+
 void func_0202737C(u32 *p, u32 a1, u32 a2)
 {
     p[1] = (p[1] & 0xf801ffff) | ((a1 & 0x3ff) << 17);
@@ -2224,6 +3147,13 @@ void func_0202737C(u32 *p, u32 a1, u32 a2)
     ((struct Obj00121 *)p)->f48 = (((struct Obj00121 *)p)->f48 & ~0xff) | 5;
     func_0202744C(p);
 }
+
+
+
+
+
+
+
 
 
 
@@ -2247,11 +3177,25 @@ void func_020273C4(char *p, unsigned short v)
 
 
 
+
+
+
+
+
+
+
 void func_020273DC(char *p, unsigned short v)
 {
     ((struct Obj05717 *)p)->f48 = (((struct Obj05717 *)p)->f48 & ~0xff) | 1;
     ((struct Obj05717 *)p)->f4E = v;
 }
+
+
+
+
+
+
+
 
 
 
@@ -2271,6 +3215,13 @@ void func_020273F8(char *p, unsigned short v)
 
 
 
+
+
+
+
+
+
+
 void func_02027414(char *p, unsigned short v)
 {
     ((struct Obj05719 *)p)->f48 = (((struct Obj05719 *)p)->f48 & ~0xff) | 3;
@@ -2283,11 +3234,25 @@ void func_02027414(char *p, unsigned short v)
 
 
 
+
+
+
+
+
+
+
 void func_02027430(char *p, unsigned short v)
 {
     ((struct Obj05720 *)p)->f48 = (((struct Obj05720 *)p)->f48 & ~0xff) | 4;
     ((struct Obj05720 *)p)->f4E = v;
 }
+
+
+
+
+
+
+
 
 
 
@@ -2333,6 +3298,13 @@ void func_0202744C(void *dst)
 
 
 
+
+
+
+
+
+
+
 /*
  * Copies four halfwords into the console's own beacon record (+4 of the
  * block): two BITFIELDS of the u16 at rec+0x48 (bits 8..10 and 11..15,
@@ -2343,7 +3315,7 @@ void func_0202744C(void *dst)
  * held `g` (which folds to one `adds #0x4c`).
  * Unlabelled leaf (no lr save): the integrator should seed 0x02027460.
  */
-void func_02027460(void *p, const struct Src *s)
+void func_02027460(void *p, const struct Src_020263B0 *s)
 {
     struct Inner *o = &g_GameBeacon->in;
 
@@ -2358,10 +3330,24 @@ void func_02027460(void *p, const struct Src *s)
 
 
 
+
+
+
+
+
+
+
 void func_020274B4(u32 a0)
 {
-    func_02027460((char *)g_02146940 + 4, (const struct Src *)a0);
+    func_02027460((char *)g_02146940 + 4, (const struct Src_020263B0 *)a0);
 }
+
+
+
+
+
+
+
 
 
 
@@ -2398,6 +3384,13 @@ void func_020274C8(void)
 
 
 
+
+
+
+
+
+
+
 void func_020274F8(void)
 {
     if (g_02146940 != 0) {
@@ -2406,6 +3399,13 @@ void func_020274F8(void)
         g_02146940->mask = 0;
     }
 }
+
+
+
+
+
+
+
 
 
 
@@ -2437,6 +3437,13 @@ Obj_1 *func_0202751C(u32 heap, u32 a1)
 
 
 
+
+
+
+
+
+
+
 /*
  * Releases the +0xB08 handle, zeroes 0xB10 bytes and frees the object.
  *
@@ -2457,10 +3464,24 @@ void func_02027584(u8 *p)
 
 
 
+
+
+
+
+
+
+
 /*
  * Unlabelled arm9 leaf. Filed as the relocation witness for ov032 (wave D2).
  */
 u32 func_020275A8(u32 a) { return a; }
+
+
+
+
+
+
+
 
 
 
@@ -2476,7 +3497,21 @@ u8 func_020275AC(u8 *p) { return p[0xb0e]; }
 
 
 
+
+
+
+
+
+
+
 void func_020275B8(char *p, int v) { p[0xb0e] = v; }
+
+
+
+
+
+
+
 
 
 
@@ -2497,4 +3532,2215 @@ int func_020275C4(void *p)
 
 
 
+
+
+
+
+
+
+
 void *func_020275D0(char *p) { return p + 0xb0c; }
+
+
+
+
+
+
+
+/*
+ * Witness leaf for ov119 callers (func_021DCD38, func_021DCF24).
+ */
+int func_020275DC(void)
+{
+    return 0;
+}
+
+
+
+
+
+
+void func_020275E0(void)
+{
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Returns the constant 0x53.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020275E4.c \
+ *       --func func_020275E4 --addr 0x020275E4 --thumb --cc 1.1p1
+ */
+u32 func_020275E4(void)
+{
+    return 0x53;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020275E8.c \\
+ *       --func func_020275E8 --addr 0x020275E8 --thumb --cc 1.1p1
+ */
+u32 func_020275E8(void)
+{
+    return 0x21;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * note: byte lookup in a u8 table; called from ov094 func_02204CC0 (bl at
+ *   +0x1EE, 0x02204EAE) with a u8 index.
+ */
+u8 func_020275EC(int i)
+{
+    return d_0209FCF8[i];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020275F8.c \\
+ *       --func func_020275F8 --addr 0x020275F8 --thumb --cc 1.1p1
+ */
+u32 func_020275F8(u32 a)
+{
+    return a + 0x22;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020275FC.c \\
+ *       --func func_020275FC --addr 0x020275FC --thumb --cc 1.1p1
+ */
+u32 func_020275FC(u32 a)
+{
+    return a + 0x3b;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02027600.c \\
+ *       --func func_02027600 --addr 0x02027600 --thumb --cc 1.1p1
+ */
+u32 func_02027600(u32 a)
+{
+    return a + 0x3e;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * note: byte lookup in a u8 table; called from ov070, ov131 and ov198.
+ */
+u8 func_02027604(u8 i)
+{
+    return d_0209FCEC[i];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02027610.c \\
+ *       --func func_02027610 --addr 0x02027610 --thumb --cc 1.1p1
+ */
+u32 func_02027610(u32 a)
+{
+    return a + 0x38;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02027614.c \\
+ *       --func func_02027614 --addr 0x02027614 --thumb --cc 1.1p1
+ */
+u32 func_02027614(void)
+{
+    return 0x13;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02027618.c \\
+ *       --func func_02027618 --addr 0x02027618 --thumb --cc 1.1p1
+ */
+u32 func_02027618(void)
+{
+    return 0x14;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202761C.c \\
+ *       --func func_0202761C --addr 0x0202761C --thumb --cc 1.1p1
+ */
+u32 func_0202761C(u32 a)
+{
+    return a + 0x15;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02027620.c \\
+ *       --func func_02027620 --addr 0x02027620 --thumb --cc 1.1p1
+ */
+u32 func_02027620(u32 a)
+{
+    return a + 0x18;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02027624.c \\
+ *       --func func_02027624 --addr 0x02027624 --thumb --cc 1.1p1
+ */
+u32 func_02027624(void)
+{
+    return 0x1b;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02027628.c \\
+ *       --func func_02027628 --addr 0x02027628 --thumb --cc 1.1p1
+ */
+u32 func_02027628(void)
+{
+    return 0x1c;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202762C.c \\
+ *       --func func_0202762C --addr 0x0202762C --thumb --cc 1.1p1
+ */
+u32 func_0202762C(void)
+{
+    return 0x1d;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02027630.c \\
+ *       --func func_02027630 --addr 0x02027630 --thumb --cc 1.1p1
+ */
+u32 func_02027630(void)
+{
+    return 0x1e;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
+ *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
+ *           func_020276C0
+ * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
+ * copy its 0x60 colours into the archive's copy and re-base each entry
+ * (colour index + base, palette number in the top nibble), then twelve
+ * unlabelled 4-byte resource-id getters in groups of four (two constants,
+ * two offsets of their argument).
+ *
+ * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
+ * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
+ * type, and the archive data is that same struct 0xC bytes into the file;
+ * with both written as `->pal` the offset 0x540 is one constant kept in r7
+ * and the +0xC is added on its own, which is the image.  The re-base is
+ * `(pal << 12) + (base + (c & 0xfff))`.
+ *
+ * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
+ */
+void func_02027634(void *arc, int id, u32 heap, int base, u32 pal)
+{
+    struct BeaconGfx *g;
+    void *data;
+    void *h;
+    int i;
+
+    g = (struct BeaconGfx *)func_0204162C(id);
+    h = func_02049EF4(arc, 0x1d, 0, &data, heap);
+    func_02082D44(((struct BeaconGfx *)((u8 *)data + 0xc))->pal, g->pal, 0xc0);
+    func_020307B0(h);
+    for (i = 0; i < 0x60; i++)
+        g->pal[i] = (pal << 12) + (base + (g->pal[i] & 0xfff));
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_02027694(void)
+{
+    return 0x42;
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_02027698(void)
+{
+    return 0x41;
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_0202769C(u32 i)
+{
+    return i + 0x43;
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_020276A0(u32 i)
+{
+    return i + 0x46;
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_020276A4(void)
+{
+    return 0x49;
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_020276A8(void)
+{
+    return 0x4a;
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_020276AC(u32 i)
+{
+    return i + 0x4b;
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_020276B0(u32 i)
+{
+    return i + 0x4e;
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_020276B4(void)
+{
+    return 0xb;
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_020276B8(void)
+{
+    return 0xc;
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_020276BC(u32 i)
+{
+    return i + 0xd;
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_020276C0(u32 i)
+{
+    return i + 0x10;
+}
+
+
+
+
+
+
+
+
+
+
+int func_020276C4(int a0){ int t0, t1; t0 = func_02017E1C((int)a0, (int)0xa0, (int)0); if ((unsigned int)(t0) == (unsigned int)(0)) { return 6; } else { t1 = func_02017E1C((int)((a0 + 0) + 0), (int)0x9d, (int)(0 + 0)); if ((unsigned int)(t1) == (unsigned int)(1)) { return 1; } else { if ((unsigned int)(t1) == (unsigned int)(2)) { return 3; } else { if ((unsigned int)(t1) == (unsigned int)(3)) { return 2; } else { if ((unsigned int)(t1) == (unsigned int)(4)) { return 5; } else { if ((unsigned int)(t1) == (unsigned int)(5)) { return 4; } else { return 8; } } } } } } }
+
+
+
+
+
+
+
+
+
+/*
+ *           func_02027720, func_0202772C, func_02027738, func_02027740,
+ *           func_02027748, func_0202774C, func_02027750, func_02027754,
+ *           func_02027758, func_0202775C, func_02027760, func_02027764,
+ *           func_02027768, func_0202776C, func_02027770, func_02027774
+ *
+ * Offset accessors and constants in beacon_status.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_02027710.c \
+ *       --addr 0x02027710 --thumb --cc 1.1p1
+ */
+int func_02027710(int a)
+{
+    return a + 0x51;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027714(int a)
+{
+    return a + 0x54;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027718(int a)
+{
+    return a + 0xa6;
+}
+
+
+
+
+
+
+
+
+
+
+int func_0202771C(int a)
+{
+    return a + 0xa9;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027720(int a)
+{
+    if (a == 0) {
+        a = 4;
+    }
+    return a + 0x56;
+}
+
+
+
+
+
+
+
+
+
+
+int func_0202772C(int a)
+{
+    if (a == 0) {
+        a = 4;
+    }
+    return a + 0x6f;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027738(int dummy, int b)
+{
+    return b + 0x89;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027740(int dummy, int b)
+{
+    return b + 0x8c;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027748(void)
+{
+    return 0x8f;
+}
+
+
+
+
+
+
+
+
+
+
+int func_0202774C(int a)
+{
+    return a + 0x90;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027750(int a)
+{
+    return a + 0x93;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027754(int a)
+{
+    return a + 0x96;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027758(void)
+{
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+int func_0202775C(int a)
+{
+    return a + 2;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027760(int a)
+{
+    return a + 5;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027764(int a)
+{
+    return a + 8;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027768(void)
+{
+    return 0x99;
+}
+
+
+
+
+
+
+
+
+
+
+int func_0202776C(int a)
+{
+    return a + 0x9a;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027770(int a)
+{
+    return a + 0x9d;
+}
+
+
+
+
+
+
+
+
+
+
+int func_02027774(int a)
+{
+    return a + 0xa0;
+}
+
+
+
+
+
+
+
+
+
+/*
+ * The TaskMenu constructor: allocate the 0x38-byte menu ("app_taskmenu.c",
+ * lines 162/168/169), copy the 0x14-byte template in, allocate count*4 and
+ * count*12 buffers and copy the template's item table into the second,
+ * zero the cursor state, default the two template bytes at +0x12/+0x13 to
+ * 13 and 3 when zero, then run func_02027A24 and, unless func_020355C4()
+ * says otherwise, func_02027B30 on the current item.
+ *
+ * Promoted from src/pending (DIFF, 6 bytes out) in wave 12.  The last
+ * residue was the scheduling of the +0x12 template load after the three
+ * zero stores: the template parameter is NOT const.  With a const pointer
+ * mwcc proves the stores into the menu cannot reach the template and
+ * hoists the ldrb above them; without it the load stays in source order.
+ * The two defaults are unconditional stores of a conditioned value
+ * (v = tmpl->unk12; if (v == 0) v = 13; m->tmpl.unk12 = v), not guarded
+ * member stores.
+ */
+struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1)
+{
+  struct TaskMenu *m;
+  m = func_02030734((u16) tmpl->heapId, 0x38, 0, sFile_020A74E0, 162);
+  m->tmpl = *tmpl;
+  m->arg1 = arg1;
+  m->buf1 = func_02030734((u16) m->tmpl.heapId, m->tmpl.count * 4, 0, sFile_020A74E0, 168);
+  m->buf2 = func_02030734((u16) m->tmpl.heapId, m->tmpl.count * 12, 0, sFile_020A74E0, 169);
+  MIi_CpuCopy16(m->tmpl.unk08, m->buf2, m->tmpl.count * 12);
+  m->unk0c = 0;
+  m->unk10 = 0;
+  m->unk00 = 0;
+  m->unk01 = 0;
+  m->unk02 = 0;
+  m->unk14 = 1U;
+  {
+    u8 v12 = tmpl->unk12;
+    u8 v13;
+    if (v12 == 0)
+    {
+      v12 = 13;
+    }
+    m->tmpl.unk12 = v12;
+    v13 = tmpl->unk13;
+    if (v13 == 0)
+    {
+      v13 = 3;
+    }
+    m->tmpl.unk13 = v13;
+  }
+  func_02027a24((struct Obj_020263B0 *)m, arg1);
+  if (func_020355c4() == 0)
+  {
+    func_02027b30((u32)(((void **) m->buf1)[m->unk00]), m->arg1, 1);
+  }
+  m->unk08 = 1;
+  return m;
+}
+
+
+
+
+
+
+
+
+
+
+struct TaskMenu *func_0202784C(struct TaskMenuTmpl *a0, void *a1){ struct TaskMenu *t0; t0 = func_02027778(a0, a1); *(int *)&((struct Obj00059 *)((char *)(t0)))->f14 = (int)2; return t0; }
+
+
+
+
+
+
+
+
+
+
+/*
+ * Tear down a task menu: drain every queued item of every cell, destroy the
+ * cells, drop the shared owner and release the three blocks.
+ *
+ * The item count at +0x24 is a `u8` and the two loop counters are `u8` too,
+ * which is what the `lsls #24 / lsrs #24` pair after each increment says.
+ * +0x24 is past the `ldrb` immediate reach of 31, so every read of it costs
+ * an `adds r0, #0x24` first
+ * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).
+ *
+ * The second loop's entry test does not reload the count: it reuses the
+ * register the first loop's last bottom-of-loop read left behind, which is
+ * why `movs r4, #0 / cmp r0, #0` appears with no load between them.
+ *
+ * The inner drain is a `while` whose condition is a call, so the condition
+ * is emitted twice, once as the entry guard and once as the back edge.
+ *
+ * EXACT*: the extent runs to 156 bytes because the next function has no
+ * label.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02027858.c \
+ *       --func func_02027858 --addr 0x02027858 --cc 1.1p1 --thumb
+ */
+void func_02027858(struct TaskMenu *m)
+{
+    void *owner;
+    u8 i;
+    u8 j;
+
+    owner = (void *)func_02045730(m->buf1[0]);
+
+    for (i = 0; i < m->tmpl.count; i++) {
+        while (func_0201C6C4(((struct TaskMenuOwner *)m->arg1)->unk_14,
+                             func_02045770(m->buf1[i])) != 0) {
+            func_0201C4E4(((struct TaskMenuOwner *)m->arg1)->unk_14);
+        }
+    }
+
+    for (j = 0; j < m->tmpl.count; j++) {
+        func_020456F8(m->buf1[j]);
+        func_020452E8(m->buf1[j]);
+    }
+
+    func_02041B6C((u32)owner);
+    func_020307B0(m->buf1);
+    func_020307B0(m->buf2);
+    func_020307B0(m);
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * app_taskmenu.c: the deselect sweep.  If the menu is in state 1, scan every
+ * entry's cell for a hit; a hit clears the sentinel, and only when no hit was
+ * found (sentinel still 1) does the second loop tear every cell down and
+ * leave state 0.
+ *
+ * NOTE: the earlier DIFF note read the `adds r7, r4, #0` at +0x18 as a live
+ * copy of the loop index, and every spelling chasing that came out 126 bytes.
+ * It is not a copy of the index: +0x18 sits BEFORE the loop's back-edge target
+ * (0x0202790E), so r7 is set once and never updated.  The assignment in the
+ * loop is the constant `sel = 0`, rematerialised off the already-zero r4 per
+ * docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md.
+ */
+void func_020278F4(u8 *p)
+{
+    u8 i;
+    u8 sel;
+
+    if (((struct Obj00104 *)p)->f8 != 1) {
+        return;
+    }
+    sel = 1;
+    for (i = 0; i < ((struct Obj00104 *)p)->f24; i++) {
+        if (func_0201C6C4((struct PrintSys *)(*(u32 *)(*(u32 *)&((struct Obj00104 *)p)->f34 + 0x14)),
+                          (void *)((u32)func_02045770((struct Descriptor *)(*(u32 **)(p + 0x18))[i]))) == 1) {
+            sel = 0;
+        }
+    }
+    if (sel != 1) {
+        return;
+    }
+    for (i = 0; i < ((struct Obj00104 *)p)->f24; i++) {
+        u32 v = (*(u32 **)(p + 0x18))[i];
+        func_02045334((struct Descriptor *)v);
+        func_02045374((struct Cfg *)v);
+        func_02041B6C(func_02045730((struct Descriptor *)v));
+    }
+    ((struct Obj00104 *)p)->f8 = 0;
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * field_sound_system.c.  EXACT: all seven relocations resolve.  The calls to
+ * func_02027D44 and func_02027E3C carry on class sole-ref/code (each is the
+ * only branch anywhere in the image to its target, and each target is exactly
+ * a traced Thumb function start); func_02027E3C was additionally filed EXACT
+ * in src/matched/ on 2026-09-21, which would carry that site on class matched
+ * as well.
+ */
+void func_02027974(struct TaskMenu *p)
+{
+    u32 step;
+    u16 *q;
+
+    func_020278F4((u8 *)p);
+    if (p->unk0c == 0) {
+        func_02027D44((struct Menu *)p);
+        if (p->unk0c == 0) {
+            func_02027E3C((u8 *)p);
+        }
+    } else {
+        step = _u32_div_f(4, p->unk14);
+        if ((u8)(_u32_div_f(p->unk01, step) & 1) == 0) {
+            func_02027B30((u32)p->buf1[p->unk00], (struct S *)p->arg1, 1);
+        } else {
+            func_02027B30((u32)p->buf1[p->unk00], (struct S *)p->arg1, 0);
+        }
+        p->unk01 = (u8)(p->unk01 + 1);
+    }
+    q = (u16 *)p->arg1;
+    func_02027B60(&p->unk02, &p->unk04, (u8)q[0], (u8)q[1]);
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * app_taskmenu.c's "does the menu need more than one page" predicate: the
+ * per-page capacity is 16 divided by the entry height at +0x14, and the
+ * answer is whether the entry count at +1 reaches it.
+ *
+ * The division is the unsigned runtime helper, so both operands are unsigned
+ * and the comparison is `blo`
+ * (docs/idioms/runtime-helper-reloc.md).  The 1-returning arm falls through
+ * and the 0-returning arm is the branch target, which is the source order
+ * (docs/idioms/the-fall-through-arm-is-the-source-order.md): the `if` is
+ * written `>=`, not `<`.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_020279E8.c \
+ *       --func func_020279E8 --addr 0x020279E8 --cc 1.1p1 --thumb
+ */
+u32 func_020279E8(struct TaskMenu *m)
+{
+    if (m->unk01 >= 16 / m->unk14) {
+        return 1;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+u8 func_02027A04(const u8 *p)
+{
+    return *p;
+}
+
+
+
+
+
+
+
+/*
+ * The one relocation site's pool word is 0x02027B31, i.e. 0x02027B30 with the
+ * Thumb bit set - the header used to declare 0x02077B30, an ARM address, which
+ * was a misreading of the word.  Resolved when 0x02027B30 became EXACT.
+ */
+u32 func_02027A08(struct TaskMenu *tm, u32 arg)
+{
+    u32 index = tm->unk00;
+    void *fn = tm->buf1[index];
+    void *ctx = tm->arg1;
+    return func_02027B30((u32)fn, (struct S *)ctx, arg);
+}
+
+
+
+
+
+/*
+ * Getter for the word at offset 0xC of a task menu object; witness for
+ * the call at +0x16 of ov119 func_021DA318.
+ */
+unsigned func_02027A20(char *p)
+{
+    return ((struct Obj15770 *)p)->fC;
+}
+
+
+
+
+
+
+
+/*
+ * Build the o->count BG layers of a multi-row menu, one per iteration: the
+ * layer handle goes into o->layers[i], the per-row descriptor lives in the
+ * 0xc-byte array at o->rows[i], and the same four-call teardown quartet that
+ * func_0202800C runs once per object runs once per layer here.
+ *
+ * The flag at +0x2c picks between a plain origin (+0x30, +0x31) and one
+ * inset by +0x32 / (+0x33 * +0x24); both arms narrow to u8, which is what
+ * keeps the two lsls/lsrs #0x18 pairs alive.
+ */
+void func_02027A24(struct Obj_020263B0 *o, struct Cfg *cfg)
+{
+    u32 ox;
+    u32 oy;
+    u8  i;
+    u32 bg;
+    struct Row_0 *rows;
+    struct Row_0 *row;
+
+    if (o->inset == 0) {
+        ox = o->x0;
+        oy = o->y0;
+    } else {
+        ox = (u8)(o->x0 - o->dx);
+        oy = (u8)(o->y0 - o->dy * o->count);
+    }
+    for (i = 0; i < o->count; i++) {
+        o->layers[i] = sub_020450F0((u8)o->glyph->f00, ox,
+                                    (u8)(oy + i * o->dy), o->dx,
+                                    o->dy, (u8)(o->glyph->f02 + 1), 1);
+        func_020282D8(o->layers[i], cfg, o->rows[i].f08);
+        rows = o->rows;
+        row = &rows[i];
+        sub_0201C724((void *)cfg->f14, (u32)func_02045770((struct Descriptor *)o->layers[i]), 0xa, 6,
+                     rows[i].f00, cfg->f10, row->f04);
+        bg = o->layers[i];
+        func_02045334((struct Descriptor *)bg);
+        func_02045374((struct Cfg *)bg);
+        func_02041B6C(func_02045730((struct Descriptor *)bg));
+    }
+}
+
+
+
+
+
+
+
+
+u32 func_02027B30(u32 a0, struct S *s, int mode)
+{
+    if (mode == 1) {
+        func_02045798((struct Descriptor *)a0, (u8)((struct Obj11289 *)s)->f2);
+    } else if (mode == 0) {
+        func_02045798((struct Descriptor *)a0, (u8)(((struct Obj11289 *)s)->f2 + 1));
+    }
+    func_02045374((struct Cfg *)a0);
+    func_02041B6C(func_02045730((struct Descriptor *)a0));
+}
+
+
+
+
+
+
+
+
+void func_02027B60(u16 *phase, u16 *out, u32 mode, u32 slot)
+{
+    s32 s;
+    u8 b, r, g;
+
+    if (*phase + 0x400 >= 0x10000) {
+        *phase = (u16)(*phase - 0xfc00);
+    } else {
+        *phase = (u16)(*phase + 0x400);
+    }
+
+    s = (s16)((tbl_020A1B38[2 * (*phase >> 4) + 1] + 0x1000) / 2);
+
+    b = (u8)(((s + s * 16) >> 12) + 0xd);
+    r = (u8)(((s * 7) >> 12) + 5);
+    g = (u8)(((s * 15) >> 12) + 0xa);
+
+    *out = (u16)(r | (g << 5) | (b << 10));
+
+    if (mode <= 3) {
+        sub_02061CA4((void *)0xf, slot * 32 + 0xc, (u32)out, 2);
+    } else {
+        sub_02061CA4((void *)0x1f, slot * 32 + 0xc, (u32)out, 2);
+    }
+}
+
+
+
+
+
+
+
+/*
+ * Sibling of func_02027B60: advance the u16 phase by 0x400 (wrapping at
+ * 0x10000), take the sine-table value tbl_020A1B38[2*(phase>>4)+1], and
+ * lerp channel by channel between two BGR555 colours c0 and c1 (the fifth
+ * and sixth, stack, arguments); write the packed colour to *out and hand
+ * it to sub_02061CA4 with 0xf (mode <= 3) or 0x1f.
+ *
+ * Closed in wave 12.  The 59-byte residue the earlier note read as
+ * scheduling of the six-way colour unpack was the third parameter's type:
+ * `mode` is a u16.  Nothing in the instruction stream shows the width
+ * (the parameter is homed with a plain str either way), but the narrower
+ * type changes the order the scheduler emits the unpack prologue in,
+ * which is exactly where all 59 bytes sat.  The
+ * permuter found it inside an 11-mutation anneal result; `type:p(mode)` is
+ * the only one of the eleven that matters.
+ */
+void func_02027BF4(u16 *phase, u16 *out, u16 mode, u32 slot,
+                   u16 c0, u16 c1)
+{
+    s32 s;
+    u8 r0c, g0c, b0c;
+    u8 r1c, g1c, b1c;
+    u8 r, g, b;
+
+    r0c = (u8)(c0 & 0x1f);
+    g0c = (u8)((c0 & (0x1f << 5)) >> 5);
+    b0c = (u8)((c0 & (0x1f << 10)) >> 10);
+    r1c = (u8)(c1 & 0x1f);
+    g1c = (u8)((c1 & (0x1f << 5)) >> 5);
+    b1c = (u8)((c1 & (0x1f << 10)) >> 10);
+
+    if (*phase + 0x400 >= 0x10000) {
+        *phase = (u16)(*phase - 0xfc00);
+    } else {
+        *phase = (u16)(*phase + 0x400);
+    }
+
+    s = (s16)((tbl_020A1B38[2 * (*phase >> 4) + 1] + 0x1000) / 2);
+
+    b = (u8)(b0c + ((s * (b1c - b0c)) >> 12));
+    r = (u8)(r0c + ((s * (r1c - r0c)) >> 12));
+    g = (u8)(g0c + ((s * (g1c - g0c)) >> 12));
+
+    *out = (u16)(r | (g << 5) | (b << 10));
+
+    if (mode <= 3) {
+        sub_02061CA4((void *)0xf, slot * 32 + 0xc, (u32)out, 2);
+    } else {
+        sub_02061CA4((void *)0x1f, slot * 32 + 0xc, (u32)out, 2);
+    }
+}
+
+
+
+
+
+
+
+int func_02027CD8(int a0, int a1){ int t0, t1; *(int *)&((struct Obj00059 *)((char *)((a0 + 0))))->f10 = (int)a1; if ((unsigned int)(a1) == (unsigned int)(1)) { func_020355D8((int)1); t1 = func_02027B30((int)*(int *)(((char *)(*(int *)&((struct Obj00059 *)((char *)((a0 + 0))))->f18) + ((int)((*(unsigned char *)&((struct Obj00059 *)((char *)((a0 + 0))))->f0 << 2)) << 0))), (struct S *)*(int *)&((struct Obj00059 *)((char *)((a0 + 0))))->f34, (int)0); } else {  return a0; } }
+
+
+
+
+
+
+
+
+void func_02027CFC(u8 *p, int sel)
+{
+    int i;
+
+    *p = sel;
+    if (func_020355C4() != 0) {
+        return;
+    }
+    i = 0;
+    while (i < ((struct Obj06917 *)p)->f24) {
+        if (i == sel) {
+            func_02027B30((*(u32 **)(p + 0x18))[i], (struct S *)(((struct Obj06917 *)p)->f34), 1);
+        } else {
+            func_02027B30((*(u32 **)(p + 0x18))[i], (struct S *)(((struct Obj06917 *)p)->f34), 0);
+        }
+        i++;
+    }
+}
+
+
+
+
+
+
+
+
+/*
+ * The TaskMenu per-frame input step: up (0x40) / down (0x80) move the
+ * cursor with wrap-around and play 0x548; A (held & 1) confirms (m->f0C = 1,
+ * sound 0x551 or 0x54c by the row's +8 word); B (held & 2) jumps to the
+ * last row, sound 0x551.  In the func_020355C4() == 1 mode a press that is
+ * not B only re-highlights the current row.  When the cursor moved, the old
+ * row is un-highlighted and the new one highlighted via func_02027B30.
+ *
+ * Closed in wave 12 from the 84-byte wave-4 source by two facts:
+ *  - the up/down arms play 0x548, not 0x54C: the pool is 0x548, 0x551,
+ *    0x54C in first-use order and the 0x40 arm's ldr reaches the first
+ *    word (68 of the 84 bytes were this constant and the pool order it
+ *    forced);
+ *  - in the B arm the cursor store is written BEFORE the m->f0C = 1 store.
+ *    The scheduler emits them the other way round, but the source order
+ *    decides which of the constant 1 and the count temporary gets r0; the
+ *    permuter never moves one store past another, so it could not find it.
+ * No `one` local is needed; the constant is CSE'd by the compiler.
+ */
+void func_02027D44(struct Menu *m)
+{
+    u32 held;
+    u32 hit;
+    int prev;
+
+    held = func_020362DC();
+    hit  = func_0203633C();
+    if (m->f10 == 1) {
+        return;
+    }
+    if (func_020355C4() == 1) {
+        if ((held & 2) == 0) {
+            if ((held & 0xC3) == 0) {
+                return;
+            }
+            func_02027B30(m->f18[m->cursor], (struct S *)m->f34, 1);
+            func_020355D8(0);
+            func_020061E4(0x548);
+            return;
+        }
+    }
+    prev = m->cursor;
+    if (hit & 0x40) {
+        if (prev == 0) {
+            m->cursor = (u8)(m->count - 1);
+        } else {
+            m->cursor = (u8)(prev - 1);
+        }
+        m->h2 = 0;
+        func_020061E4(0x548);
+    } else if (hit & 0x80) {
+        if (prev >= m->count - 1) {
+            m->cursor = 0;
+        } else {
+            m->cursor = (u8)(prev + 1);
+        }
+        m->h2 = 0;
+        func_020061E4(0x548);
+    } else {
+        if (held & 1) {
+            m->f0C = 1;
+            if (m->f1C[prev].f08 == 1) {
+                func_020061E4(0x551);
+            } else {
+                func_020061E4(0x54C);
+            }
+        } else if (held & 2) {
+            m->cursor = (u8)(m->count - 1);
+            m->f0C = 1;
+            func_020061E4(0x551);
+            func_020355D8(0);
+        }
+    }
+    if (prev == m->cursor) {
+        return;
+    }
+    func_02027B30(m->f18[prev], (struct S *)m->f34, 0);
+    func_02027B30(m->f18[m->cursor], (struct S *)m->f34, 1);
+}
+
+
+
+
+
+
+
+/*
+ * app_taskmenu.c: the touch handler.  Builds a stack table of one
+ * eight-pixel-tall hit rectangle per menu entry (0xff-terminated), hands it
+ * to func_02035C08, and on a hit moves the cursor, repaints the old and the
+ * new entry, and raises the confirm notification.
+ */
+void func_02027E3C(u8 *m)
+{
+    u8  rect[0x24];
+    u32 top;
+    u8  left;
+    u8  i;
+    int hit;
+    int one;
+
+    if (((struct Obj00104 *)m)->f2C == 0) {
+        top  = m[0x30];
+        left = m[0x31];
+    } else {
+        top = (u8)(m[0x30] - m[0x32]);
+        left = (u8)(m[0x31] - m[0x33] * m[0x24]);
+    }
+
+    for (i = 0; i < m[0x24]; i++) {
+        rect[i * 4 + 0] = (u8)((left << 3) + m[0x33] * 8 * i);
+        rect[i * 4 + 1] = (u8)((left << 3) + m[0x33] * 8 * (i + 1));
+        rect[i * 4 + 2] = (u8)(top << 3);
+        rect[i * 4 + 3] = (u8)(((top + m[0x32]) << 3) - 1);
+    }
+    rect[i * 4] = 0xff;
+
+    hit = func_02035C08(rect);
+    if (hit == ~0) {
+        return;
+    }
+    one = 1;
+    func_020355D8(one);
+    func_02027B30(((u32 *)*(u32 * *)&((struct Obj00104 *)m)->f18)[m[0]], (struct S *)(*(u32 *)&((struct Obj00104 *)m)->f34), 0);
+    m[0] = (u8)hit;
+    *(int *)&((struct Obj00104 *)m)->fC = one;
+    func_02027B30(((u32 *)*(u32 * *)&((struct Obj00104 *)m)->f18)[m[0]], (struct S *)(*(u32 *)&((struct Obj00104 *)m)->f34), one);
+    if (m[0] == 0) {
+        func_020061E4(0x54C);
+        return;
+    }
+    if (*(int *)(*(u8 * *)&((struct Obj00104 *)m)->f1C + m[0] * 0xC + 8) == 1) {
+        func_020061E4(0x551);
+        return;
+    }
+    func_020061E4(0x54C);
+}
+
+
+
+
+
+
+
+/*
+ * Allocate and zero a 0x18-byte record ("app_taskmenu.c", line 0x2c6) and
+ * fill it: two u16 ids at +0/+2, two words at +0x10/+0x14, then two
+ * resources from the 0x02049xxx loader keyed by func_020275E4()'s handle.
+ *
+ * The 30-byte residue the earlier notes read as an allocation tie was the
+ * callees' argument lists: func_020275E4()'s result is the FIRST argument
+ * of func_02049DB4 and func_02049B40 (r0 is never reloaded between the bl
+ * and the blx), so the constants 0x20 / 0x1f are the second argument, and
+ * func_02049B40 takes (h, 0x1f, sel, a1 << 5, 0x40, heap) -- six arguments
+ * with the heap id last.  Written that way the heap parameter needs no
+ * address-taken pointer; it is an ordinary fifth (stack) parameter.
+ */
+struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap)
+{
+    struct R *r;
+    u32 sel;
+
+    sel = 0;
+    r = (struct R *)func_02030734(heap, 0x18, 0, sFile_020A74E0, 0x2c6);
+    MI_CpuFill8(r, 0, 0x18);
+    r->a = a0;
+    r->b = a1;
+    r->c = a2;
+    r->d = a3;
+    if (a0 > 3) {
+        sel = 4;
+    }
+    r->obj = (u32)func_02049DB4(func_020275E4(), 0x20, 0, (u32)(&r->f04), heap);
+    func_02049B40(func_020275E4(), 0x1f, sel, a1 << 5, 0x40, heap);
+    return r;
+}
+
+
+
+
+
+
+
+u32 func_02027FD8(struct TaskMenuState *s)
+{
+    sub_020307B0(s->child);
+    return sub_020307B0(s);
+}
+
+
+
+
+
+
+u32 func_02027FEC(struct Cfg *a0, struct Src *a1, u16 a2, u16 a3, u8 a4, u16 a5)
+{
+    return (u32)func_0202800C(a0, a1, a2, a3, a4, 3, 0, 0, a5);
+}
+
+
+
+
+
+
+
+u32 *func_0202800C(struct Cfg *a0, struct Src *a1, u16 a2, u16 a3, u8 a4, u8 a5,
+                   u32 a6, u32 a7, u16 a8)
+{
+    u32 *p = (u32 *)func_02028084(a0, a1, a2, a3, a4, a5, a6, a7, a8);
+    void *q = (void *)p[0];
+
+    func_02045334(q);
+    func_02045374(q);
+    func_02041B6C(func_02045730(q));
+    return p;
+}
+
+
+
+
+
+
+
+u32 *func_0202804C(struct Cfg *a0, struct Src *a1, u16 a2, u16 a3, u8 a4, u8 a5,
+                   u32 a6, u32 a7, u16 a8)
+{
+    u32 *p = (u32 *)func_02028084(a0, a1, a2, a3, a4, a5, a6, a7, a8);
+
+    func_02045374((void *)p[0]);
+    func_02041B6C(func_02045730((void *)p[0]));
+    return p;
+}
+
+
+
+
+
+
+/*
+ * Nine-argument constructor: allocate a 0x20-byte menu object on heap a8
+ * (the __FILE__ pool word 0x020A74E0 is app_taskmenu.c, line 0x337), zero
+ * it, then build the BG layer and the text window.  func_0202800C, the only
+ * in-image caller, forwards all nine arguments unchanged, which is where the
+ * u8/u8/u32/u32/u16 spelling of the five stack arguments comes from.
+ *
+ * a2 and a3 are u16, not u32.  The earlier DIFF note (45 bytes out, all
+ * spill-ordering) held them u32; the permuter's type mutation found that
+ * narrowing BOTH closes the residue, and the reading is sound rather than
+ * lucky: the original spills them with a full-word `str` and reloads with a
+ * full-word `ldr` and never truncates, so writing the narrowing explicitly
+ * (`(u16)a2` at the use site, or a u16 local assigned from a u32 parameter)
+ * inserts an lsls/lsrs pair the original does not have and takes the diff
+ * from 45 bytes to 171.  The only spelling with no truncation anywhere is a
+ * parameter that is already 16 bits at entry.  No in-image caller passes a
+ * value wider than 16 bits: the single caller func_0202800C forwards its own
+ * arguments unchanged, and its caller func_02027FEC does the same; both are
+ * BG coordinate arguments handed straight to sub_020450F0.
+ *
+ * `cellSrc` (src->f08 lifted into a local before the func_020282D8 call) is
+ * the last 6 bytes: it pins the load ahead of the argument setup.
+ */
+struct CfgObj *func_02028084(struct Cfg *cfg, struct Src *src, u16 a2, u16 a3,
+                          u8 a4, u8 a5, u32 a6, u32 a7, u16 heap)
+{
+    struct CfgObj *o;
+    u32 bg;
+    s16 w;
+    u32 cellSrc;
+
+    w = 2;
+    o = (struct CfgObj *)func_02030734(heap, 0x20, 0, g_020A74E0, 0x337);
+    MI_CpuFill8(o, 0, 0x20);
+    o->f18 = cfg;
+    o->f0c = 1;
+    o->f12 = (u16)(a6 + 1);
+    bg = sub_020450F0((u8)cfg->f00, a2, a3, a4, a5, (u8)(cfg->f02 + 1), 1);
+    cellSrc = src->f08;
+    o->f00 = bg;
+    func_020282D8(bg, cfg, cellSrc);
+    if (a7 == 1) {
+        w = (u8)(((a4 << 3) - sub_0201D304((void *)src->f00, cfg->f10, 0)
+                  - 0x10) >> 1);
+    }
+    sub_0201C724((void *)cfg->f14, (u32)func_02045770((void *)o->f00),
+                 (s16)(w + 8), 6, src->f00, cfg->f10, src->f04);
+    o->f1c = 0x3545;
+    o->f1e = 0x7B2C;
+    return o;
+}
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02028148.c \\
+ *       --func func_02028148 --addr 0x02028148 --thumb --cc 1.1p1
+ */
+void func_02028148(u8 *p)
+{
+    func_020456F8((struct Descriptor *)(((struct Obj15778 *)p)->f0));
+    func_02028164(p);
+}
+
+
+
+
+
+/*
+ * An eight-byte tail-call thunk: the pool word at +4 holds 0x02028164, the callee's
+ * address with its Thumb bit set (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
+ * Unlabelled in the listing and absent from the worklist - found by scanning
+ * the image for the `ldr r3, [pc, #0]; bx r3` shape whose following word names
+ * an existing manifest entry - and filed from the bytes.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202815C.c \
+ *       --func func_0202815C --addr 0x0202815C --thumb --cc 1.1p1
+ */
+void func_0202815C(u8 *a0)
+{
+    func_02028164(a0);
+}
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02028164.c \\
+ *       --func func_02028164 --addr 0x02028164 --thumb --cc 1.1p1
+ */
+void func_02028164(u8 *p)
+{
+    func_020452E8((struct Descriptor *)(((struct Obj15779 *)p)->f0));
+    func_020307B0(p);
+}
+
+
+
+
+
+/*
+ * bytes match.
+ *   +0098 func_02027BF4: the `bl` at 0x02028210 inside this function is the
+ *     only branch to 0x02027BF4 anywhere in the image (grep over
+ *     asm/arm9/main.s and asm/overlays/ finds the definition plus this one
+ *     call site), so the `label` class has no witness outside the compared
+ *     range and no manifest entry reproduces 0x02027BF4 yet. A second
+ *     caller, or an EXACT entry covering func_02027BF4, unsticks it.
+ *
+ * The trailing `*`: the inferred extent runs to 0x02028230 because the next
+ * function, at 0x02028218, saves no lr and so carries no label. It is a
+ * six-instruction leaf that zeroes the halfword at +0x14 and tail-calls
+ * through a pool word (`ldr r3, [pc, #0]; bx r3`); a second unlabelled leaf
+ * (`bx lr`) follows it at 0x0202822E. Both are seeds for
+ * layout/function_starts.txt.
+ *
+ * The per-frame step of an animation object.  Two independent phases: tear
+ * down the finished sub-object at +0xc once its sequence has run out, then
+ * advance the frame counter at +0x10 and re-post every other frame.  The
+ * `(4 / h)` divisor is the same `_s32_div_f` helper func_02028230 uses on
+ * the same two halfwords.
+ *
+ * The parity test on the frame index is the signed `% 2` sequence
+ * (lsrs #31 / lsls #31 / subs / rors #31 / adds), not a mask: the counter
+ * is read as a signed value, so a plain `& 1` would be four bytes shorter
+ * and wrong.
+ */
+void func_02028178(u8 *p)
+{
+    u32 obj;
+    u16 *ctx;
+
+    if (((struct Obj00864 *)p)->fC != 0) {
+        if (func_0201C6C4((struct PrintSys *)(*(u32 *)(*(u32 *)&((struct Obj00864 *)p)->f18 + 0x14)),
+                          (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00864 *)p)->f0))) == 0) {
+            obj = ((struct Obj00864 *)p)->f0;
+            func_02045334((struct Descriptor *)obj);
+            func_02045374((struct Cfg *)obj);
+            func_02041B6C(func_02045730((struct Descriptor *)obj));
+            ((struct Obj00864 *)p)->fC = 0;
+        }
+    }
+
+    if (((struct Obj00864 *)p)->f8 != 0) {
+        s32 d = 4 / (s32)((struct Obj00864 *)p)->f12;
+
+        if ((u8)((s32)((struct Obj00864 *)p)->f10 / d % 2) == 0) {
+            func_02027B30(((struct Obj00864 *)p)->f0, (struct S *)(*(u32 *)&((struct Obj00864 *)p)->f18), 1);
+        } else {
+            func_02027B30(((struct Obj00864 *)p)->f0, (struct S *)(*(u32 *)&((struct Obj00864 *)p)->f18), 0);
+        }
+        ((struct Obj00864 *)p)->f10 = ((struct Obj00864 *)p)->f10 + 1;
+    }
+
+    ctx = *(u16 * *)&((struct Obj00864 *)p)->f18;
+    func_02027BF4((u16 *)(p + 0x14), (u16 *)(p + 0x16), (u8)ctx[0], (u8)ctx[1],
+                  ((struct Obj00864 *)p)->f1C, ((struct Obj00864 *)p)->f1E);
+}
+
+
+
+
+
+/*
+ * A tail call that clears the u16 at offset 0x14 and forwards two of the
+ * object's own fields plus the caller's argument.
+ */
+void func_02028218(struct Obj_02028084 *obj, u32 a)
+{
+    obj->field_14 = 0;
+    func_02027B30(obj->field_00, (struct S *)obj->field_18, a);
+}
+
+
+
+
+
+/*
+ * Unlabelled leaf setter: stores v at p + 8.
+ */
+void func_0202822C(char *p, int v)
+{
+    ((struct Obj15780 *)p)->f8 = v;
+}
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02028230.c \
+ *       --func func_02028230 --addr 0x02028230 --thumb --cc 1.1p1
+ */
+u32 func_02028230(u8 *p)
+{
+    s32 r = 0x10 / (s32)((struct Obj00864 *)p)->f12;
+
+    if ((s32)((struct Obj00864 *)p)->f10 < r) {
+        return 0;
+    }
+    return 1;
+}
+
+
+
+
+
+
+
+
+/*
+ * Touch hit test against a window.  func_02035D20 reports whether the
+ * screen is being touched and where; if so the window's origin and
+ * extent are read off its descriptor in tile units and scaled to
+ * pixels by 8, and the touch point must fall inside that rectangle.
+ *
+ * The extent accessor func_02045738 is called twice rather than once
+ * with its result reused: it is an external ARM call, so the compiler
+ * cannot prove it pure, and both calls survive.
+ */
+u32 func_0202824C(void **p)
+{
+    u32 x;
+    u32 y;
+    u32 left;
+    u32 top;
+    u32 right;
+    u32 bottom;
+
+    if (func_02035D20(&x, &y) == 0) {
+        goto fail;
+    }
+
+    left = func_02045758(p[0]) * 8;
+    top = func_02045760(p[0]) * 8;
+    right = left + func_02045738(p[0]) * 8;
+    bottom = top + func_02045738(p[0]) * 8;
+
+    if (x - left > right - left) {
+        goto fail;
+    }
+    if (y - top > bottom - top) {
+        goto fail;
+    }
+    return 1;
+fail:
+    return 0;
+}
+
+
+
+
+
+
+
+
+/*
+ * A leaf that clears the word at offset 8 and the halfword at offset 0x10.
+ */
+void func_020282A4(struct Obj *obj)
+{
+    obj->field_08 = 0;
+    obj->field_10 = 0;
+}
+
+
+
+
+void func_020282AC(struct T *p, u16 *a1, u32 a2, u32 a3, u16 a4)
+{
+    a1[1] = a2;
+    p->f1c = a3;
+    p->f1e = a4;
+    func_02045798((void *)p->f00, (u8)(a2 + 1));
+    func_02045374((void *)p->f00);
+    func_02041B6C(func_02045730((void *)p->f00));
+}
+
+
+
+/*
+ * app_taskmenu.c: paints a window frame into the BG's tilemap.  Walks the
+ * layer's rows (func_02045740) and columns (func_02045738) and, per 0x20-byte
+ * tile, classifies the cell as one of eleven kinds -- four corners, three
+ * edges, two style-dependent inner columns, the plain interior -- and copies
+ * the matching tile out of the template's tile bank (cfg->f04->f14) into the
+ * layer's tile memory.
+ *
+ * Two shape notes, both worth a byte each:
+ *  - Both loops are a top guard plus a bottom back-edge (`for (;;)` with the
+ *    `x >= n` / `y >= n` test written out at both ends), not a plain `for`:
+ *    the original's guards are `bhi`/`bhs` on the freshly-called bound and
+ *    the two back-edges land on 0x02028312 and 0x02028304, which a `for` does
+ *    not reproduce (366 bytes, 291 wrong).  The row loop's `x = 0` sits after
+ *    the row guard, which is what the `goto nextrow` preserves.
+ *  - `rowbase` must be DECLARED BEFORE `dst`: the two are the only spilled
+ *    locals and they take sp+0xc and sp+0x10 in declaration order, the later
+ *    declaration at the lower address (docs/idioms/local-declaration-order-is-stack-order.md).
+ *    The wrong order is otherwise byte-perfect and reads as exactly 4 bytes
+ *    out, two stores and two loads with the slots swapped.
+ *
+ * EXACT*: the compiled body is 354 bytes and the listing's inferred extent is
+ * 356 -- the follower at 0x0202843C has no label, so the extent ran two bytes
+ * long over the alignment padding.  Not a byte difference.
+ */
+void func_020282D8(u32 bg, struct Cfg *cfg, u32 style)
+{
+    u8  y;
+    u8  x;
+    u32 rowbase;
+    u32 dst;
+    u32 tEdgeB;
+    u32 tEdgeA;
+    u32 src;
+    u32 t;
+
+    y = 0;
+    if (y >= func_02045740((struct Descriptor *)bg)) {
+        return;
+    }
+    t = style - 1;
+    tEdgeB = (t + t * 2 + 9) << 5;
+    tEdgeA = (t + t * 2 + 10) << 5;
+    for (;;) {
+        x = 0;
+        if (x >= func_02045738((struct Descriptor *)bg)) {
+            goto nextrow;
+        }
+        for (;;) {
+        dst = (u32)func_020437D4((const struct Bmp *)((u32)func_02045770((struct Descriptor *)bg)));
+        rowbase = (x + y * func_02045738((struct Descriptor *)bg)) << 5;
+        if (y == 0 && x == 0) {
+            src = cfg->f04->f14;
+        } else if (y == 0 && x == func_02045738((struct Descriptor *)bg) - 1) {
+            src = cfg->f04->f14 + 0x40;
+        } else if (y == 0) {
+            src = cfg->f04->f14 + 0x20;
+        } else if (y == func_02045740((struct Descriptor *)bg) - 1 && x == 0) {
+            src = cfg->f04->f14 + 0xc0;
+        } else if (y == func_02045740((struct Descriptor *)bg) - 1 && x == func_02045738((struct Descriptor *)bg) - 1) {
+            src = cfg->f04->f14 + (1 << 8);
+        } else if (y == func_02045740((struct Descriptor *)bg) - 1) {
+            src = cfg->f04->f14 + 0xe0;
+        } else if (style != 0 && x == func_02045738((struct Descriptor *)bg) - 3) {
+            src = cfg->f04->f14 + tEdgeB;
+        } else if (style != 0 && x == func_02045738((struct Descriptor *)bg) - 2) {
+            src = cfg->f04->f14 + tEdgeA;
+        } else if (x == 0) {
+            src = cfg->f04->f14 + 0x60;
+        } else if (x == func_02045738((struct Descriptor *)bg) - 1) {
+            src = cfg->f04->f14 + 0xa0;
+        } else {
+            src = cfg->f04->f14 + 0x80;
+        }
+        MIi_CpuCopy32((const void *)src, (void *)(dst + rowbase), 0x20);
+            x++;
+            if (x >= func_02045738((struct Descriptor *)bg)) {
+                break;
+            }
+        }
+nextrow:
+        y++;
+        if (y >= func_02045740((struct Descriptor *)bg)) {
+            return;
+        }
+    }
+}
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202843C.c \\
+ *       --func func_0202843C --addr 0x0202843C --thumb --cc 1.1p1
+ */
+void func_0202843C(u8 *p)
+{
+    func_020456F8((struct Descriptor *)(((struct Obj11291 *)p)->f0));
+    func_02041B6C((u8)*(u16 *)(((struct Obj11291 *)p)->f18));
+}
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02028454.c \\
+ *       --func func_02028454 --addr 0x02028454 --thumb --cc 1.1p1
+ */
+void func_02028454(u8 *p)
+{
+    func_02045374((struct Cfg *)(((struct Obj11292 *)p)->f0));
+    func_02041B6C((u8)*(u16 *)(((struct Obj11292 *)p)->f18));
+}
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202846C.c \\
+ *       --func func_0202846C --addr 0x0202846C --thumb --cc 1.1p1
+ */
+u32 func_0202846C(u8 *p)
+{
+    return ((struct Obj15793 *)p)->fC;
+}
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02028470.c \\
+ *       --func func_02028470 --addr 0x02028470 --thumb --cc 1.1p1
+ */
+void func_02028470(u8 *p, u32 v)
+{
+    func_02082BCC(p, 0, 8);
+    ((struct Obj15794 *)p)->f4 = v;
+}
+
+
+
+
+/*
+ * Per-frame service step for one handle attached to a state block: reads
+ * the handle's state word with func_0201CE30 and dispatches on it as a
+ * switch. State 1 finishes the handle (func_020284F4 on the block's flags
+ * word, then a fixed-id notify through func_020061E4 and a teardown call);
+ * state 0 runs a two-phase step, gated on bit 10 of the same flags word,
+ * where func_0202855C latches the block's first byte and func_02028528
+ * later releases the handle. Both state-0 callees take the flags word in
+ * r0, which is what pins it there across the whole arm and pushes the mask
+ * and the byte test into r1. State 2, and a null handle, return 1.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02028484.c \
+ *       --func func_02028484 --addr 0x02028484 --cc 1.1p1 --thumb
+ */
+s32_02028484 func_02028484(Blk *blk, void *h)
+{
+    u32 mask;
+
+    if (h != 0) {
+        switch (func_0201CE30(h)) {
+        case 2:
+            return 1;
+        case 1:
+            if (func_020284F4(blk->flags) != 0) {
+                func_020061E4(0x547);
+                func_0201CE38(h);
+            }
+            break;
+        case 0:
+            mask = 1 << 10;
+            if ((mask & blk->flags) == 0) {
+                if (blk->first == 0) {
+                    if (func_0202855C(blk->flags) != 0) {
+                        blk->first = 1;
+                    }
+                } else {
+                    if (func_02028528(blk->flags) != 0) {
+                        func_0201CE5C(h, 0);
+                    }
+                }
+            }
+            break;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+
+
+
+u32 func_020284F4(u32 a)
+{
+    u32 r = 0;
+
+    if (a == 0) {
+        r = 1;
+    }
+
+    if (a & 2) {
+        if (func_020362DC() & 3) {
+            r = 1;
+        }
+    }
+
+    if (a & 4) {
+        if (func_02035C60() != 0) {
+            r = 1;
+        }
+    }
+
+    return r;
+}
+
+
+
+
+u32 func_02028528(u32 a)
+{
+    u32 r = 0;
+
+    if (a == 0) {
+        r = 1;
+    }
+
+    if (a & 2) {
+        if (func_0203630C() & 3) {
+            r = 1;
+        }
+    }
+
+    if (a & 4) {
+        if (func_02035C38() != 0) {
+            r = 1;
+        }
+    }
+
+    return r;
+}
+
+
+
+
+u32 func_0202855C(u32 a)
+{
+    u32 r = 0;
+
+    if (a == 0) {
+        r = 1;
+    }
+
+    if (a & 2) {
+        if (func_0203630C() == 0) {
+            r = 1;
+        }
+    }
+
+    if (a & 4) {
+        if (func_02035C38() == 0) {
+            r = 1;
+        }
+    }
+
+    return r;
+}
+
+
+
+void func_02028590(u32 a0, u32 a1, u32 a2, u16 a3)
+{
+    func_020285A4(a0, a1, a2, a3, g_0209FD10);
+}

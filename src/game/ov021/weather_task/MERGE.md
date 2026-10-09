@@ -1,143 +1,21 @@
-# weather_task.c (ov021)
+# weather_task (ov021)
 
-Translation unit 021A1AAC..021A7360, 452 functions, confidence weak (tools/tuboundary.py).
+Translation unit 021A1AAC..021A7360, 452 functions. After the lane 025 greedy
+pass (scratchpad/ol020/go20.py with the harmonizer) the TU was 34 parts. In round 4 (r4_ov11) the old p21 DIFF was fixed (an unused static helper clr4 was emitted as a 12-byte function) and old p20+p21+p22 merged, so it is now 32 parts, weather_task_p01.c .. p32.c, all EXACT.
 
-The member files below each match on their own. Merging them into one
-`weather_task.c` is blocked by:
+Each boundary between parts still fails to merge. Open kinds:
+- Local struct views of one object differ between neighbours (identifier 'Obj'
+  redeclared, Obj_021A244C in a parameter list, unsigned char * versus struct *
+  for the same global). Needs one canonical struct per object, offsets checked
+  against every view.
+- Prototypes of shared functions differ (func_0216D5F8, func_0216D410,
+  func_0216D83C/854/86C, func_02163E34/58, func_0216D89C, func_021A1BDC,
+  func_021A1C34, func_0218EC2C, func_021A63F0 argument count, func_021A6D9C).
+  Use the definition's prototype and cast the call arguments.
+- void versus value return mismatches (func_0216D5F8 u16 versus u32, others).
+- Boundaries that give c99=DIFF after merging (literal pool or inlining changes), checked in round 4:
+  after the new p20 (func_021A5C3C|func_021A5CA4) and p21|p22 (old p23|p24); the old p21 DIFF was a stale
+  unused static helper and is fixed. The other old DIFF spots (func_021A607C, func_021A666C, the last parts)
+  were not re-tested in round 4.
 
-- ov021_func_021A1AAC.c..ov021_func_021A7258.c: prototype of func_0218EC2C differs between members (src/matched/ov/ov021_func_021A244C.c); prototype of func_02048B30 differs between members (src/matched/ov/ov021_func_021A244C.c); prototype of func_
-- ov021_func_021A1AAC.c..ov021_func_021A3DA0.c: prototype of func_0218EC2C differs between members (src/matched/ov/ov021_func_021A244C.c); prototype of func_02048B30 differs between members (src/matched/ov/ov021_func_021A244C.c); prototype of func_
-- ov021_func_021A1AAC.c..func_021A2E90.c: prototype of func_0218EC2C differs between members (src/matched/ov/ov021_func_021A244C.c); prototype of func_02048B30 differs between members (src/matched/ov/ov021_func_021A244C.c); prototype of func_
-- ov021_func_021A1AAC.c..ov021_func_021A244C.c: prototype of func_021A2724 differs between members (src/matched/ov/ov021_func_021A20C8.c); prototype of func_021A2924 differs between members (src/matched/ov/ov021_func_021A20C8.c); prototype of func_
-- ov021_func_021A1AAC.c..ov021_func_021A2154.c: prototype of func_021A2724 differs between members (src/matched/ov/ov021_func_021A20C8.c); prototype of func_021A2924 differs between members (src/matched/ov/ov021_func_021A20C8.c); prototype of func_
-- ov021_func_021A1AAC.c..ov021_func_021A1D04.c: c99=CCERR: line 138: function call 'func_021A1BDC(unsigned char *, unsigned short)' does not match | line 138: 'func_021A1BDC()' | line 196: function call 'func_021A1C34()' does not match nolang=CCERR
-- ov021_func_021A1AAC.c..func_021A1BE4.c: prototype of func_021A1C34 differs between members (src/matched/ov/func_021A1BE4.c)
-- ov021_func_021A1D78.c..ov021_func_021A2154.c: prototype of func_021A2724 differs between members (src/matched/ov/ov021_func_021A20C8.c); prototype of func_021A2924 differs between members (src/matched/ov/ov021_func_021A20C8.c); prototype of func_
-- ov021_func_021A1D78.c..ov021_func_021A20C8.c: prototype of func_021A2724 differs between members (src/matched/ov/ov021_func_021A20C8.c); prototype of func_021A2924 differs between members (src/matched/ov/ov021_func_021A20C8.c); prototype of func_
-- ov021_func_021A1E08.c..ov021_func_021A20C8.c: prototype of func_021A2724 differs between members (src/matched/ov/ov021_func_021A20C8.c); prototype of func_021A2924 differs between members (src/matched/ov/ov021_func_021A20C8.c); prototype of func_
-- ov021_func_021A2160.c..ov021_func_021A244C.c: prototype of func_0218EC2C differs between members (src/matched/ov/ov021_func_021A244C.c); prototype of func_02048B30 differs between members (src/matched/ov/ov021_func_021A244C.c)
-- ov021_func_021A2254.c..ov021_func_021A244C.c: prototype of func_0218EC2C differs between members (src/matched/ov/ov021_func_021A244C.c); prototype of func_02048B30 differs between members (src/matched/ov/ov021_func_021A244C.c)
-- ov021_func_021A23E8.c..ov021_func_021A244C.c: prototype of func_0218EC2C differs between members (src/matched/ov/ov021_func_021A244C.c); prototype of func_02048B30 differs between members (src/matched/ov/ov021_func_021A244C.c)
-- ov021_func_021A240C.c..ov021_func_021A244C.c: prototype of func_0218EC2C differs between members (src/matched/ov/ov021_func_021A244C.c); prototype of func_02048B30 differs between members (src/matched/ov/ov021_func_021A244C.c)
-- ov021_func_021A2424.c..ov021_func_021A244C.c: prototype of func_0218EC2C differs between members (src/matched/ov/ov021_func_021A244C.c); prototype of func_02048B30 differs between members (src/matched/ov/ov021_func_021A244C.c)
-- ov021_func_021A2564.c..func_021A2E90.c: prototype of func_0204B404 differs between members (src/matched/ov/func_021A26C4.c); prototype of func_02082BCC differs between members (src/matched/ov/func_021A2BB8.c)
-- ov021_func_021A2564.c..ov021_func_021A29A8.c: prototype of func_0204B404 differs between members (src/matched/ov/func_021A26C4.c)
-- ov021_func_021A2564.c..ov021_func_021A274C.c: prototype of func_0204B404 differs between members (src/matched/ov/func_021A26C4.c)
-- func_021A2640.c..ov021_func_021A274C.c: prototype of func_0204B404 differs between members (src/matched/ov/func_021A26C4.c)
-- func_021A2640.c..func_021A26C4.c: prototype of func_0204B404 differs between members (src/matched/ov/func_021A26C4.c)
-- ov021_func_021A2654.c..func_021A26C4.c: prototype of func_0204B404 differs between members (src/matched/ov/func_021A26C4.c)
-- ov021_func_021A277C.c..ov021_func_021A29A8.c: c99=CCERR: line 262: illegal implicit conversion from 'unsigned int' to | line 262: 'struct  *' | line 269: illegal implicit conversion from 'unsigned int' to nolang=CCERR: line 262: illegal implicit 
-- ov021_func_021A29F4.c..func_021A2E90.c: c99=CCERR: line 418: illegal implicit conversion from 'struct  *' to | line 418: 'struct  *' nolang=CCERR: line 418: illegal implicit conversion from 'struct  *' to | line 418: 'struct  *'
-- ov021_func_021A29F4.c..func_021A2C2C.c: c99=CCERR: line 79: identifier 'Obj' redeclared | line 79: was declared as: 'struct ' | line 79: now declared as: 'struct ' nolang=CCERR: line 79: identifier 'Obj' redeclared | line 79: was declared a
-- ov021_func_021A29F4.c..ov021_func_021A2B8C.c: c99=CCERR: line 67: identifier 'Obj' redeclared | line 67: was declared as: 'struct ' | line 67: now declared as: 'struct ' nolang=CCERR: line 67: identifier 'Obj' redeclared | line 67: was declared a
-- ov021_func_021A2C30.c..func_021A2E90.c: c99=CCERR: line 158: illegal implicit conversion from 'struct  *' to | line 158: 'struct  *' nolang=CCERR: line 158: illegal implicit conversion from 'struct  *' to | line 158: 'struct  *'
-- ov021_func_021A2C30.c..ov021_func_021A2D04.c: c99=CCERR: line 90: illegal implicit conversion from 'struct  *' to | line 90: 'struct  *' nolang=CCERR: line 90: illegal implicit conversion from 'struct  *' to | line 90: 'struct  *'
-- ov021_func_021A2C30.c..ov021_func_021A2C98.c: c99=CCERR: line 64: illegal implicit conversion from 'struct  *' to | line 64: 'struct  *' nolang=CCERR: line 64: illegal implicit conversion from 'struct  *' to | line 64: 'struct  *'
-- ov021_func_021A2EB8.c..ov021_func_021A3DA0.c: prototype of func_02188C98 differs between members (src/matched/ov/ov021_func_021A3128.c); type typedef Row differs between members (src/matched/ov/ov021_func_021A31A4.c); global data_021D890C declare
-- ov021_func_021A2EB8.c..func_021A3674.c: prototype of func_021A3CE8 differs between members (src/matched/ov/func_021A2FD0.c); prototype of func_02188C98 differs between members (src/matched/ov/ov021_func_021A3128.c); type typedef Row differs
-- ov021_func_021A2EB8.c..ov021_func_021A31A4.c: prototype of func_021A3CE8 differs between members (src/matched/ov/func_021A2FD0.c); prototype of func_02188C98 differs between members (src/matched/ov/ov021_func_021A3128.c); type typedef Row differs
-- ov021_func_021A2EB8.c..func_021A3044.c: prototype of func_021A3CE8 differs between members (src/matched/ov/func_021A2FD0.c)
-- func_021A3050.c..ov021_func_021A31A4.c: prototype of func_02188C98 differs between members (src/matched/ov/ov021_func_021A3128.c); type typedef Row differs between members (src/matched/ov/ov021_func_021A31A4.c)
-- ov021_func_021A30A4.c..ov021_func_021A31A4.c: prototype of func_02188C98 differs between members (src/matched/ov/ov021_func_021A3128.c); type typedef Row differs between members (src/matched/ov/ov021_func_021A31A4.c)
-- ov021_func_021A30C8.c..ov021_func_021A31A4.c: prototype of func_02188C98 differs between members (src/matched/ov/ov021_func_021A3128.c); type typedef Row differs between members (src/matched/ov/ov021_func_021A31A4.c)
-- ov021_func_021A31D0.c..func_021A3674.c: c99=CCERR: line 303: illegal implicit conversion from 'unsigned int' to | line 303: 'unsigned char **' nolang=CCERR: line 303: illegal implicit conversion from 'unsigned int' to | line 303: 'unsigned 
-- ov021_func_021A31D0.c..ov021_func_021A34F8.c: c99=CCERR: line 247: illegal implicit conversion from 'unsigned int' to | line 247: 'unsigned char **' nolang=CCERR: line 247: illegal implicit conversion from 'unsigned int' to | line 247: 'unsigned 
-- ov021_func_021A32A8.c..ov021_func_021A34F8.c: c99=CCERR: line 149: illegal implicit conversion from 'unsigned int' to | line 149: 'unsigned char **' nolang=CCERR: line 149: illegal implicit conversion from 'unsigned int' to | line 149: 'unsigned 
-- func_021A3680.c..ov021_func_021A3DA0.c: prototype of func_0216D844 differs between members (src/matched/ov/ov021_func_021A38A4.c); prototype of func_0216D89C differs between members (src/matched/ov/ov021_func_021A38A4.c); prototype of func_
-- func_021A3680.c..func_021A3990.c: prototype of func_0216D844 differs between members (src/matched/ov/ov021_func_021A38A4.c); prototype of func_0216D89C differs between members (src/matched/ov/ov021_func_021A38A4.c); prototype of func_
-- func_021A3680.c..ov021_func_021A38A4.c: prototype of func_0216D89C differs between members (src/matched/ov/ov021_func_021A38A4.c)
-- func_021A36D4.c..ov021_func_021A38A4.c: prototype of func_0216D89C differs between members (src/matched/ov/ov021_func_021A38A4.c)
-- func_021A3920.c..func_021A3990.c: prototype of func_02012B30 differs between members (src/matched/ov/ov021_func_021A394C.c)
-- func_021A3920.c..func_021A3964.c: prototype of func_02012B30 differs between members (src/matched/ov/ov021_func_021A394C.c)
-- func_021A3994.c..ov021_func_021A3DA0.c: c99=CCERR: line 166: illegal implicit conversion from 'unsigned int' to | line 166: 'unsigned char *' | line 420: illegal implicit conversion from 'struct  *' to nolang=CCERR: line 166: illegal implic
-- func_021A3994.c..ov021_func_021A3B3C.c: c99=CCERR: line 102: illegal implicit conversion from 'unsigned int' to | line 102: 'unsigned char *' nolang=CCERR: line 102: illegal implicit conversion from 'unsigned int' to | line 102: 'unsigned c
-- ov021_func_021A3B78.c..ov021_func_021A3DA0.c: c99=CCERR: line 249: illegal implicit conversion from 'struct  *' to | line 249: 'struct  *' | line 260: illegal implicit conversion from 'struct  *' to nolang=CCERR: line 249: illegal implicit conver
-- ov021_func_021A3C94.c..ov021_func_021A3DA0.c: prototype of func_021A3C6C differs between members (src/matched/ov/ov021_func_021A3CE8.c)
-- ov021_func_021A3C94.c..ov021_func_021A3CE8.c: prototype of func_021A3C6C differs between members (src/matched/ov/ov021_func_021A3CE8.c)
-- ov021_func_021A3CC0.c..ov021_func_021A3CE8.c: prototype of func_021A3C6C differs between members (src/matched/ov/ov021_func_021A3CE8.c)
-- ov021_func_021A3E14.c..ov021_func_021A7258.c: prototype of func_021A3D6C differs between members (src/matched/ov/ov021_func_021A40A8.c); prototype of func_021A47B4 differs between members (src/matched/ov/ov021_func_021A4768.c); prototype of func_
-- ov021_func_021A3E14.c..func_021A5778.c: prototype of func_021A3D6C differs between members (src/matched/ov/ov021_func_021A40A8.c); prototype of func_021A47B4 differs between members (src/matched/ov/ov021_func_021A4768.c); prototype of func_
-- ov021_func_021A3E14.c..ov021_func_021A4E9C.c: prototype of func_021A3D6C differs between members (src/matched/ov/ov021_func_021A40A8.c); prototype of func_021A47B4 differs between members (src/matched/ov/ov021_func_021A4768.c); prototype of func_
-- ov021_func_021A3E14.c..ov021_func_021A44C8.c: prototype of func_021A3D6C differs between members (src/matched/ov/ov021_func_021A40A8.c)
-- ov021_func_021A408C.c..ov021_func_021A44C8.c: c99=CCERR: line 278: illegal implicit conversion from 'unsigned char *' to | line 278: 'struct  *' nolang=CCERR: line 278: illegal implicit conversion from 'unsigned char *' to | line 278: 'struct  *'
-- ov021_func_021A408C.c..ov021_func_021A4224.c: c99=CCERR: line 221: illegal implicit conversion from 'unsigned char *' to | line 221: 'struct  *' nolang=CCERR: line 221: illegal implicit conversion from 'unsigned char *' to | line 221: 'struct  *'
-- ov021_func_021A4140.c..ov021_func_021A4224.c: c99=CCERR: line 139: illegal implicit conversion from 'unsigned char *' to | line 139: 'struct  *' nolang=CCERR: line 139: illegal implicit conversion from 'unsigned char *' to | line 139: 'struct  *'
-- ov021_func_021A41B0.c..ov021_func_021A4224.c: c99=CCERR: line 89: illegal implicit conversion from 'unsigned char *' to | line 89: 'struct  *' nolang=CCERR: line 89: illegal implicit conversion from 'unsigned char *' to | line 89: 'struct  *'
-- ov021_func_021A4544.c..ov021_func_021A4E9C.c: prototype of func_021A47B4 differs between members (src/matched/ov/ov021_func_021A4768.c); prototype of func_021A482C differs between members (src/matched/ov/ov021_func_021A4768.c); prototype of func_
-- ov021_func_021A4544.c..ov021_func_021A4994.c: prototype of func_021A47B4 differs between members (src/matched/ov/ov021_func_021A4768.c); prototype of func_021A482C differs between members (src/matched/ov/ov021_func_021A4768.c); prototype of func_
-- ov021_func_021A4544.c..ov021_func_021A47B4.c: prototype of func_021A47B4 differs between members (src/matched/ov/ov021_func_021A4768.c); prototype of func_021A482C differs between members (src/matched/ov/ov021_func_021A4768.c); prototype of func_
-- ov021_func_021A4698.c..ov021_func_021A47B4.c: prototype of func_021A47B4 differs between members (src/matched/ov/ov021_func_021A4768.c); prototype of func_021A482C differs between members (src/matched/ov/ov021_func_021A4768.c); prototype of func_
-- ov021_func_021A482C.c..ov021_func_021A4994.c: prototype of func_021A491C differs between members (src/matched/ov/ov021_func_021A4994.c)
-- ov021_func_021A48C8.c..ov021_func_021A4994.c: prototype of func_021A491C differs between members (src/matched/ov/ov021_func_021A4994.c)
-- ov021_func_021A4A74.c..ov021_func_021A4E9C.c: prototype of func_021A491C differs between members (src/matched/ov/ov021_func_021A4AA8.c); prototype of func_021A4B98 differs between members (src/matched/ov/ov021_func_021A4B54.c); prototype of func_
-- ov021_func_021A4A74.c..ov021_func_021A4C50.c: prototype of func_021A491C differs between members (src/matched/ov/ov021_func_021A4AA8.c); prototype of func_021A4B98 differs between members (src/matched/ov/ov021_func_021A4B54.c); prototype of func_
-- ov021_func_021A4A74.c..ov021_func_021A4B00.c: prototype of func_021A491C differs between members (src/matched/ov/ov021_func_021A4AA8.c)
-- ov021_func_021A4B54.c..ov021_func_021A4C50.c: prototype of func_021A4B54 differs between members (src/matched/ov/ov021_func_021A4C1C.c); prototype of func_021A4B98 differs between members (src/matched/ov/ov021_func_021A4C1C.c); prototype of func_
-- ov021_func_021A4C1C.c..ov021_func_021A4C50.c: prototype of func_021A4B98 differs between members (src/matched/ov/ov021_func_021A4C50.c); prototype of func_021A4B54 differs between members (src/matched/ov/ov021_func_021A4C50.c)
-- ov021_func_021A4ED8.c..func_021A5778.c: prototype of func_0216D410 differs between members (src/matched/ov/ov021_func_021A4F0C.c); prototype of func_0216D410 differs between members (src/matched/ov/ov021_func_021A5044.c); prototype of func_
-- ov021_func_021A5378.c..func_021A5778.c: prototype of func_0216D5F8 differs between members (src/matched/ov/ov021_func_021A5408.c); prototype of func_021A5788 differs between members (src/matched/ov/ov021_func_021A5630.c)
-- ov021_func_021A5378.c..ov021_func_021A55A8.c: prototype of func_0216D5F8 differs between members (src/matched/ov/ov021_func_021A5408.c)
-- ov021_func_021A5378.c..ov021_func_021A5458.c: prototype of func_0216D5F8 differs between members (src/matched/ov/ov021_func_021A5408.c)
-- func_021A53BC.c..ov021_func_021A5458.c: prototype of func_0216D5F8 differs between members (src/matched/ov/ov021_func_021A5408.c)
-- func_021A548C.c..ov021_func_021A55A8.c: prototype of func_021A5458 differs between members (src/matched/ov/ov021_func_021A55A8.c)
-- ov021_func_021A55DC.c..func_021A5778.c: prototype of func_021A5788 differs between members (src/matched/ov/ov021_func_021A5630.c)
-- ov021_func_021A55DC.c..func_021A56F4.c: prototype of func_021A5788 differs between members (src/matched/ov/ov021_func_021A5630.c)
-- ov021_func_021A5788.c..ov021_func_021A7258.c: prototype of func_0216D410 differs between members (src/matched/ov/ov021_func_021A6908.c); prototype of func_0216D410 differs between members (src/matched/ov/ov021_func_021A6974.c); prototype of func_
-- ov021_func_021A5788.c..ov021_func_021A666C.c: prototype of func_021A66F8 differs between members (src/matched/ov/ov021_func_021A5B7C.c)
-- ov021_func_021A5788.c..ov021_func_021A5EA0.c: prototype of func_021A66F8 differs between members (src/matched/ov/ov021_func_021A5B7C.c)
-- ov021_func_021A5788.c..func_021A5A24.c: c99=DIFF nolang=DIFF
-- ov021_func_021A5788.c..func_021A5964.c: c99=DIFF nolang=DIFF
-- ov021_func_021A5880.c..func_021A5964.c: c99=DIFF nolang=DIFF
-- ov021_func_021A5880.c..func_021A5920.c: c99=DIFF nolang=DIFF
-- func_021A5A30.c..ov021_func_021A5EA0.c: c99=DIFF nolang=DIFF
-- ov021_func_021A5BC0.c..ov021_func_021A5EA0.c: c99=DIFF nolang=DIFF
-- ov021_func_021A5BC0.c..ov021_func_021A5CA4.c: c99=DIFF nolang=DIFF
-- ov021_func_021A5C3C.c..ov021_func_021A5CA4.c: c99=DIFF nolang=DIFF
-- ov021_func_021A5EA4.c..ov021_func_021A666C.c: c99=CCERR: line 156: illegal implicit conversion from 'int *' to | line 156: 'struct  *' | line 157: illegal implicit conversion from 'int *' to nolang=CCERR: line 156: illegal implicit conversion fro
-- ov021_func_021A5EA4.c..ov021_func_021A62B4.c: c99=CCERR: line 144: illegal implicit conversion from 'int *' to | line 144: 'struct  *' | line 145: illegal implicit conversion from 'int *' to nolang=CCERR: line 144: illegal implicit conversion fro
-- ov021_func_021A607C.c..ov021_func_021A62B4.c: c99=DIFF nolang=DIFF
-- ov021_func_021A607C.c..ov021_func_021A61B0.c: c99=DIFF nolang=DIFF
-- ov021_func_021A62D8.c..ov021_func_021A666C.c: c99=CCERR: line 103: function call 'func_021A63F0(struct  *, void *, int, int, unsigned short, int)' does not match | line 103: 'func_021A63F0(struct  *, void *, int, int, unsigned short)' | line 105:
-- ov021_func_021A62D8.c..ov021_func_021A6428.c: c99=CCERR: line 88: function call 'func_021A63F0(struct  *, void *, int, int, unsigned short, int)' does not match | line 88: 'func_021A63F0(struct  *, void *, int, int, unsigned short)' nolang=CCERR:
-- ov021_func_021A635C.c..ov021_func_021A6428.c: c99=CCERR: line 54: function call 'func_021A63F0(struct  *, void *, int, int, unsigned short, int)' does not match | line 54: 'func_021A63F0(struct  *, void *, int, int, unsigned short)' nolang=CCERR:
-- ov021_func_021A6454.c..ov021_func_021A666C.c: c99=DIFF nolang=DIFF
-- ov021_func_021A652C.c..ov021_func_021A666C.c: c99=DIFF nolang=DIFF
-- ov021_func_021A661C.c..ov021_func_021A666C.c: prototype of func_021A652C differs between members (src/matched/ov/ov021_func_021A666C.c); prototype of func_021A658C differs between members (src/matched/ov/ov021_func_021A666C.c)
-- func_021A66E4.c..ov021_func_021A7258.c: prototype of func_0216D608 differs between members (src/matched/ov/ov021_func_021A6A3C.c); prototype of func_0216D608 differs between members (src/matched/ov/ov021_func_021A6A64.c); prototype of func_
-- func_021A66E4.c..ov021_func_021A6B30.c: prototype of func_0216D608 differs between members (src/matched/ov/ov021_func_021A6A3C.c); prototype of func_0216D608 differs between members (src/matched/ov/ov021_func_021A6A64.c)
-- func_021A678C.c..ov021_func_021A6B30.c: prototype of func_0216D608 differs between members (src/matched/ov/ov021_func_021A6A3C.c); prototype of func_0216D608 differs between members (src/matched/ov/ov021_func_021A6A64.c)
-- ov021_func_021A69D8.c..ov021_func_021A6B30.c: prototype of func_0216D608 differs between members (src/matched/ov/ov021_func_021A6A3C.c); prototype of func_0216D608 differs between members (src/matched/ov/ov021_func_021A6A64.c); prototype of func_
-- ov021_func_021A69D8.c..ov021_func_021A6A64.c: prototype of func_0216D608 differs between members (src/matched/ov/ov021_func_021A6A3C.c); prototype of func_0216D608 differs between members (src/matched/ov/ov021_func_021A6A64.c)
-- ov021_func_021A6B50.c..ov021_func_021A7258.c: prototype of func_0216D5F8 differs between members (src/matched/ov/ov021_func_021A70D0.c); prototype of func_0216D5F8 differs between members (src/matched/ov/ov021_func_021A712C.c)
-- func_021A6D9C.c..ov021_func_021A7258.c: prototype of func_0216D5F8 differs between members (src/matched/ov/ov021_func_021A70D0.c); prototype of func_0216D5F8 differs between members (src/matched/ov/ov021_func_021A712C.c)
-- func_021A6F4C.c..ov021_func_021A7258.c: c99=CCERR: line 253: illegal implicit conversion from 'unsigned int' to | line 253: 'void *' | line 269: illegal implicit conversion from 'unsigned int' to nolang=CCERR: line 253: illegal implicit con
-- ov021_func_021A712C.c..ov021_func_021A7258.c: c99=CCERR: line 140: illegal implicit conversion from 'unsigned int' to | line 140: 'void *' nolang=CCERR: line 140: illegal implicit conversion from 'unsigned int' to | line 140: 'void *'
-
-Members, in address order:
-
-- `ov021_func_021A2424.c`
-- `ov021_func_021A244C.c`
-- `func_021A2640.c`
-- `ov021_func_021A2654.c`
-- `func_021A26C4.c`
-- `ov021_func_021A2C30.c`
-- `ov021_func_021A3CC0.c`
-- `ov021_func_021A3CE8.c`
-- `ov021_func_021A41B0.c`
-- `ov021_func_021A4224.c`
-- `ov021_func_021A4A74.c`
-- `ov021_func_021A4C1C.c`
-- `ov021_func_021A4C50.c`
-- `ov021_func_021A5880.c`
-- `func_021A5920.c`
-- `ov021_func_021A5BC0.c`
-- `ov021_func_021A5C3C.c`
-- `ov021_func_021A5CA4.c`
-- `ov021_func_021A607C.c`
-- `ov021_func_021A661C.c`
-- `ov021_func_021A666C.c`
-- `ov021_func_021A69D8.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names weather_task.c` again.
+Round 3 check (r3_ov06): no boundary of this TU has uncovered code before it (no bx lr or tail-call stub words), so every remaining boundary is a struct or prototype conflict, not a hidden function.

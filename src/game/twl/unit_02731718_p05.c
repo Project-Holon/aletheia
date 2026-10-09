@@ -1,7 +1,7 @@
 /*
  * file:     unit_02731718_p05.c
  * unit:     yes
- * function: func_02732648, func_02732874
+ * function: func_02732648, func_02732874, func_02732944, func_02732A64, func_02732A70
  * address:  0x02732648
  * region:   twl
  * compiler: dsi/1.1p1
@@ -28,6 +28,11 @@ extern void func_02731F14(void);
 extern void func_021659B4(u32 a, void *b, u32 c, u32 d);
 asm void func_02732648(void *arg);
 asm void func_02732874(void *arg);
+asm void func_02732944(void);
+asm void func_02732A64(void);
+asm void func_02732A70(void);
+
+
 
 
 asm void func_02732648(void *arg)
@@ -207,6 +212,8 @@ asm void func_02732648(void *arg)
 }
 
 
+
+
 asm void func_02732874(void *arg)
 {
     stmdb   sp!, {r4, r5, r6, lr}
@@ -271,4 +278,20 @@ asm void func_02732874(void *arg)
     mov     r2, #0
     bl      func_021659B4
     ldmfd   sp!, {r4, r5, r6, pc}
+}
+
+
+
+asm void func_02732944(void)
+{
+}
+
+
+
+asm void func_02732A64(void)
+{
+}
+
+asm void func_02732A70(void)
+{
 }

@@ -1,8 +1,8 @@
 /*
  * file:     unit_02177ED8_p01.c
  * unit:     yes
- * function: func_021780A8, func_02178144, func_02178194, func_021781DC
- * address:  0x021780A8
+ * function: DWC_Auth_GetCustomNas, func_02177EE8
+ * address:  0x02177ED8
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,105 +13,79 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02086028  0x02086028  arm
- *   func_02086078  0x02086078  arm
- *   func_021797D4  0x021797D4  arm  ov009
- *   func_0208574C  0x0208574C  arm
- *   func_02085710  0x02085710  arm
- *   g_021AB184     0x021AB184  data
- *   func_02179CF4  0x02179CF4  arm
+ *   DWCauthhttpparam                 0x021a2358 data ov009
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_021782B4  0x021782B4  arm  ov009
+ *   func_02177FFC  0x02177FFC  arm  ov009
+ *   g_021AB184  0x021AB184  data  ov009
  */
-#include "../../matched/include/G_DWCAuthGlobal.h"
+#include "../../matched/include/G_DWCWFCUtil.h"
 
-struct DWCAuthCtx {
-	unsigned char pad0[0x1004];
-	int error;
-	unsigned char result[0x1c4];
-	unsigned char pad1[0x44];
-	void (*free_fn)(unsigned long, void *, long);
-	unsigned char pad2[0x100];
-	void *http;
-	unsigned char thread[0x6c];
-	int started;
-	unsigned char pad3[0x50];
-	unsigned char mutex[0x18];
-	int abort_flag;
-};
+typedef struct DWCHttpParam {
+	char *customnas;
+} DWCHttpParam;
 
-extern void func_02086028(void *mutex);
-extern void func_02086078(void *mutex);
-extern void func_021797D4(void *http);
-extern int func_0208574C(void *thread);
-extern void func_02085710(void *thread);
-extern void func_02179CF4(char *http);
-void func_021780A8(void);
-void func_02178144(void);
-void func_02178194(void);
-int func_021781DC(void);
-extern struct DWCAuthGlobal g_021AB184;
-
-
-/*
- * sdk:      DWC_Auth_Abort (libdwcauth.TWL.HYB.a(dwc_auth.o))
- */
-void func_021780A8(void)
+typedef struct DWCAuthParam
 {
-	if (g_021AB184.ctx == 0)
-		return;
-	func_02086028(&g_021AB184.ctx->mutex);
-	g_021AB184.ctx->abort_flag = 1;
-	func_02086078(&g_021AB184.ctx->mutex);
-	if (g_021AB184.ctx->http != 0)
-		func_021797D4(g_021AB184.ctx->http);
-	if (g_021AB184.ctx->started == 0)
-		return;
-	if (func_0208574C(g_021AB184.ctx->thread) != 0)
-		return;
-	func_02085710(g_021AB184.ctx->thread);
+    unsigned short ingamesn[26];
+    char gsbrcd[12];
+    void *(*alloc)(unsigned long name, long size);
+    void (*free)(unsigned long name, void *ptr, long size);
+} DWCAuthParam;
+
+typedef struct DWCAuth
+{
+    char pad0[0x1004];
+    int result;
+    int error;
+    char pad100c[0x11cc - 0x100c];
+    DWCAuthParam param;
+    char pad1214[0x1314 - 0x1214];
+    void *http;
+    char pad1318[0x13f4 - 0x1318];
+} DWCAuth;
+
+typedef struct DWCWFCUtil DWCWFCUtil;
+
+extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern int func_021782B4(int getwifiinfofromflash);
+extern void func_02177FFC(void);
+char *DWC_Auth_GetCustomNas(void);
+int func_02177EE8(DWCAuthParam *param, void *http);
+extern DWCHttpParam DWCauthhttpparam;
+extern struct DWCWFCUtil g_021AB184;
+
+
+char *DWC_Auth_GetCustomNas(void)
+{
+	return DWCauthhttpparam.customnas;
 }
 
 
 /*
- * sdk:      DWC_Auth_Destroy (libdwcauth.TWL.HYB.a(dwc_auth.o))
+ * sdk:      DWC_Auth_Create (libdwcauth.TWL.HYB.a dwc_auth.o)
  */
-void func_02178144(void)
+int func_02177EE8(DWCAuthParam *param, void *http)
 {
-	void (*free)(unsigned long, void *, long);
+    void *(*alloc)(unsigned long, long) = param->alloc;
 
-	if (g_021AB184.ctx == 0)
-		return;
-	free = g_021AB184.ctx->free_fn;
-	if (g_021AB184.ctx->http != 0)
-		func_02179CF4(g_021AB184.ctx->http);
-	free(0, g_021AB184.ctx, 0);
-	g_021AB184.ctx = 0;
-}
-
-
-/*
- * sdk:      DWC_Auth_Join (libdwcauth.TWL.HYB.a(dwc_auth.o))
- */
-void func_02178194(void)
-{
-	if (g_021AB184.ctx->started == 0)
-		return;
-	if (func_0208574C(g_021AB184.ctx->thread) != 0)
-		return;
-	func_02085710(g_021AB184.ctx->thread);
-}
-
-
-/*
- * sdk:      DWC_Auth_GetError (libdwcauth.TWL.HYB.a(dwc_auth.o))
- */
-int func_021781DC(void)
-{
-	int error;
-
-	if (g_021AB184.ctx == 0)
-		return 0x16;
-	func_02086028(&g_021AB184.ctx->mutex);
-	error = g_021AB184.ctx->error;
-	func_02086078(&g_021AB184.ctx->mutex);
-	return error;
+    if (g_021AB184.auth != 0)
+        return 2;
+    g_021AB184.auth = (DWCAuth *)alloc(0, sizeof(DWCAuth));
+    if (g_021AB184.auth == 0)
+        return 2;
+    func_02082BCC(g_021AB184.auth, 0, sizeof(DWCAuth));
+    ((DWCAuth *)g_021AB184.auth)->http = http;
+    g_021AB184.state = 0;
+    func_02082BCC((char *)((DWCAuth *)g_021AB184.auth) + 0x1008, 0, 0x1c4);
+    ((DWCAuth *)g_021AB184.auth)->error = 20100;
+    ((DWCAuth *)g_021AB184.auth)->param = *param;
+    ((DWCAuth *)g_021AB184.auth)->param.ingamesn[25] = 0;
+    ((DWCAuth *)g_021AB184.auth)->param.gsbrcd[11] = 0;
+    ((DWCAuth *)g_021AB184.auth)->result = func_021782B4(1);
+    if (((DWCAuth *)g_021AB184.auth)->result != 0)
+        return ((DWCAuth *)g_021AB184.auth)->result;
+    g_021AB184.f0 = 0;
+    func_02177FFC();
+    return 0;
 }

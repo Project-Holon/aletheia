@@ -1,8 +1,8 @@
 /*
  * file:     comm_player_p05.c
  * unit:     yes
- * function: func_02167A14, func_02167A54, func_02167A74, func_02167AB0, func_02167AC4, func_02167B00, func_02167B18, func_02167B24, func_02167B34, func_02167B44, func_02167B9C, func_02167BB4
- * address:  0x02167A14
+ * function: func_0216932C, func_02169354, func_0216937C, func_021693A0, func_021693B4, func_021693BC, func_021693C4, func_021693CC, func_021693D4, func_0216940C, func_02169444, func_02169470, func_021694D4, func_021694F8, func_021694FC, func_02169500, func_02169510, func_02169520, func_02169528, func_02169530, func_02169538, func_02169540, func_02169550, func_02169560, func_02169568, func_02169578, func_02169580, func_02169598
+ * address:  0x0216932C
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,314 +13,564 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034714  0x02034714  arm
- *   func_021943EC  0x021943EC  thumb  ov021
- *   d_02172A28     0x02172A28  data
- *   func_0201210C  0x0201210C  thumb
- *   func_02188BE8  0x02188BE8  thumb
- *   func_02188C7C  0x02188C7C  thumb
- *   func_02194284  0x02194284  thumb
- *   func_0203CBAC  0x0203CBAC  arm
- *   d_02172014  0x02172014  data  ov010
- *   func_02012944 0x02012944 thumb
- *   func_02008494 0x02008494 thumb
- *   func_02087C6C 0x02087C6C arm
- *   func_0203A574 0x0203A574 arm
- *   d_02171FD4 0x02171FD4 data ov010 a4
- *   func_0203A5E4  0x0203A5E4  arm
- *   func_020399A8  0x020399A8  arm
- *   func_0203D594  0x0203D594  arm
- *   func_0203D5A0  0x0203D5A0  arm
- *   func_021CA210  0x021CA210  thumb  ov021
- *   func_02008550  0x02008550  thumb
- *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_021CA234  0x021CA234  thumb  ov021
- *   func_021CA2CC  0x021CA2CC  thumb  ov021
- *   func_02082D44  0x02082D44  arm
+ *   func_02169308  0x02169308  thumb  ov010
+ *   func_0216968C  0x0216968C  thumb  ov010
+ *   func_02169710  0x02169710  thumb  ov010
+ *   func_0216990C 0x0216990C thumb ov010
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049238  0x02049238  arm
+ *   func_02169998  0x02169998  thumb  ov010
+ *   func_02169880  0x02169880  thumb  ov010
+ *   func_0204944C  0x0204944C  arm
+ *   func_0216959C  0x0216959C  thumb  ov010
+ *   sub_02046C9C  0x02046C9C  arm
+ *   func_02046C9C 0x02046C9C arm
+ *   func_02169A68  0x02169A68  thumb  ov010
+ *   func_02169928  0x02169928  thumb  ov010
  */
-#include "../../matched/include/Obj00020.h"
-#include "../../matched/include/Obj19012.h"
-#include "../../matched/include/Obj19013.h"
+#include "../../matched/include/Obj04162.h"
+#include "../../matched/include/Obj03541.h"
+#include "../../matched/include/Obj00306.h"
+#include "../../matched/include/Obj19036.h"
+#include "../../matched/include/Obj12053.h"
+#include "../../matched/include/Obj19037.h"
+#include "../../matched/include/Obj19038.h"
+#include "../../matched/include/Obj19039.h"
+#include "../../matched/include/Obj19040.h"
+#include "../../matched/include/Obj05901.h"
+#include "../../matched/include/Obj12385.h"
+#include "../../matched/include/Obj17742.h"
+#include "../../matched/include/Obj17743.h"
+#include "../../matched/include/Obj17744.h"
+#include "../../matched/include/Obj19043.h"
+#include "../../matched/include/Obj19045.h"
+#include "../../matched/include/Obj19047.h"
+#include "../../matched/include/Obj00281.h"
+#include "../../matched/include/Obj19049.h"
+#include "../../matched/include/Obj17745.h"
 
-struct Tbl;
-struct Ctx;
-struct Req;
-struct Entry;
-struct Sub0200852CObj;
+struct ArcFile;
+struct Rec;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef unsigned long long u64;
+typedef struct V3 {
+    u32 a, b, c;
+} V3;
 
-typedef struct Blk12 {
-    u64 lo;
-    u32 hi;
-} Blk12;
+typedef signed short   s16;
 
-typedef struct Ent {
-    Blk12 pos;
-    u32 f0c;
-    u16 f10;
-    u16 f12;
-    u8 used : 1;
-    u8 pend : 1;
-    u8 dir : 4;
-    u8 f15[3];
-    u32 f18;
-} Ent;
-
-typedef struct Work {
-    void *sys;
-    void *obj;
-    Ent e[4];
-} Work;
+typedef signed char    s8;
 
 typedef struct {
-    unsigned char b0 : 1;
-} Flag;
+u32 f0;
+u32 f4;
+u32 f8;
+u32 fc;
+u16 f10;
+u16 pad;
+} Entry;
 
-typedef struct Obj_02167B44 {
-    u8 pad00[0x1E];
-    u8 b1e[2];
-    u8 pad20[0x668 - 0x20];
-    u16 h668;
-    u16 h66a[2];
-    u16 h66e;
-} Obj_02167B44;
+typedef struct {
+u8 pad0[0x9c];
+Entry *table;
+u32 f_a0;
+u16 count;
+} Obj;
 
-typedef struct Obj_02167B9C {
-    u8 pad00[0x32];
-    u8 b32[0x668 - 0x32];
-    u8 b668[0x1C];
-} Obj_02167B9C;
-
-typedef struct Obj_02167BB4 {
-    u8 pad00[0x0C];
-    u16 h0c_b0 : 3;
-    u16 b3 : 1;
-    u16 h0c_rest : 12;
-    u8 pad0e[0x668 - 0x0E];
-    u16 h668;
-} Obj_02167BB4;
-
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u32 func_021943EC(struct Tbl *t, u32 key);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188BE8(void *a);
-extern void *func_02188C7C(unsigned char *p);
-extern void *func_02194284(int a, void *b, int heap, int c);
-extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern u8 *func_02012944(void *p);
-extern void func_02008494(void *, void *);
-extern void func_02087C6C(void *);
-extern void func_0203A574(u32, u32, u32, u32);
-void func_0203A5E4(u32 key);
-extern struct Entry *func_020399A8(void);
-extern int func_0203D594();
-extern int func_0203D5A0();
-extern void *func_021CA210(u8 *p);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u16 func_021CA234(u8 *p);
-extern u16 func_021CA2CC(u16 v);
-extern void func_02082D44(void *dst, void *src, int n);
-u32 func_02167A14(Work *w, int i);
-int func_02167A54(int *p, int i);
-void func_02167A74(int a0, int a1);
-void func_02167AB0(void *p);
-void *func_02167AC4(u8 *p);
-int func_02167AF0(void);
-int func_02167AF4(int a, int b);
-void func_02167B00(u32 a);
-void func_02167B18(void *p);
-int func_02167B24(int a0);
-int func_02167B34(int a0);
-void func_02167B44(Obj_02167B44 *o, void *a1);
-void func_02167B9C(Obj_02167B9C *o);
-void func_02167BB4(Obj_02167BB4 *o, u16 v);
-extern u8 d_02172A28[];
-extern u8 d_02172014[];
-extern const u32 d_02171FD4[];
-
-
-u32 func_02167A14(Work *w, int i)
+typedef struct E
 {
-    if (w->obj == 0)
-        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
-    if (w->e[i].used != 1)
-        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
-    return func_021943EC(w->obj, i);
-}
+  int key;
+  int a;
+  int b;
+  int c;
+} E;
+
+typedef struct S12 { u32 a, b, c; } S12;
+
+extern int func_02169308();
+extern int func_0216968C(u8 *p);
+extern int func_02169710();
+extern void func_0216990C(u8 *);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void func_02049238(void *arc);
+extern int func_02169998(int a0, int a1);
+extern void func_02169880(u8 *p);
+extern void func_0204944C(struct ArcFile *h, u32 b, u32 c, u32 d, void *out);
+extern void func_0216959C(u8 *p);
+extern void sub_02046C9C(struct Rec *rec, u32 mode, u32 value);
+extern void func_02046C9C(struct Rec *rec, u32 mode, u32 value);
+extern void *func_02169A68(int a0);
+extern int func_02169928();
+int func_0216932C(int a0);
+int func_02169354(int a0, int a1);
+void func_0216937C(u8 *p,int a,int b);
+void func_021693A0(int a0);
+void func_021693B4(char *p, int v);
+void func_021693BC(char *p);
+void func_021693C4(char *p, int v);
+void func_021693CC(char *p);
+void func_021693D4(u8 *base, u8 *src, u32 idx);
+void func_0216940C(Obj *o, u32 i);
+u32 *func_02169444(u8 *base, u32 idx);
+void func_02169470(u8 *p, u32 b);
+void func_021694D4(u8 *p, int a1);
+void func_021694F8(u8 *p, u16 v);
+u16 func_021694FC(u8 *p);
+void func_02169500(u8 *p, u8 *q);
+void func_02169510(u8 *src, V3 *dst);
+int func_02169520(int a0, int a1);
+void func_02169528(unsigned char *a, int *out);
+void func_02169530(unsigned char *a, int *out);
+void func_02169538(unsigned char *a, int *out);
+void func_02169540(unsigned char *a, unsigned int v);
+void func_02169550(char *p);
+int func_02169560(unsigned char *a);
+void func_02169568(char *p);
+int func_02169578(unsigned char *a);
+int func_02169580(int a0);
+u32 func_02169598(u8 *p);
 
 
-/*
- * Unlabelled leaf (sole blocker of ov018 func_0217FCAC).
- */
-int func_02167A54(int *p, int i)
+
+
+
+
+
+int func_0216932C(int a0)
 {
-    if (p == 0 || p[1] == 0 || !((Flag *)((char *)p + i * 0x1c + 0x1c))->b0) {
-        return 0;
-    }
-    return 1;
-}
-
-
-void func_02167A74(int a0, int a1)
-{
-    int a2;
-    int a3;
+    int a1;
+    int v0;
     int t4;
-    void *res;
-    void *v0;
-    void *v1;
+    int t5;
+t5 = a0 + 0;
+a0 = 1;
+((struct Obj04162 *)t5)->f2 = a0;
+t4 = (int)&v0;
+loc_02169336:
+a0 = t5 + 0;
+    a0 = func_02169308(a0);
+loc_0216933C:
+a0 = t5 + 0;
+a1 = t4 + 0;
+    a0 = func_02169520(a0, a1);
+loc_02169344:
+    a0 = v0;
+a0 = ((struct Obj04162 *)((char *)a0))->f0;
+    if (a0 != 0) goto loc_02169336;
+loc_0216934C:
+a0 = 0;
+((struct Obj04162 *)t5)->f2 = a0;
+    return a0;
+}
 
-t4 = a1 + 0;
-a1 = *(int *)&((struct Obj00020 *)t4)->f4;
-    if (a1 != 0) goto loc_02167AAE;
-loc_02167A7E:
-    v0 = func_0201210C((void *)a0);
-loc_02167A82:
-    if (v0 == 0) goto loc_02167AAE;
-loc_02167A86:
-    a0 = func_02188BE8(v0);
-loc_02167A8A:
-    if (a0 == 0) goto loc_02167AAE;
-loc_02167A8E:
-    v1 = func_02188C7C(v0);
-loc_02167A94:
+
+
+
+
+
+
+int func_02169354(int a0, int a1)
+{
+    int t4;
+    int t5;
+    int t6;
+
+t5 = a0 + 0;
+t6 = a1 + 0;
+t4 = 0;
+    a0 = func_0216968C((u8 *)a0);
+loc_02169360:
+    if (a0 != 1) goto loc_02169378;
+loc_02169364:
+a0 = t5 + 0;
+a0 = a0 + 0x98;
+a0 = ((struct Obj03541 *)((char *)a0))->f0;
+    if (a0 == 0) goto loc_02169376;
+loc_0216936E:
+a0 = t5 + 0;
+a1 = t6 + 0;
+    a0 = func_02169710(a0, a1);
+loc_02169376:
+t4 = 1;
+loc_02169378:
 a0 = t4 + 0;
-a2 = t4 + 0;
-a3 = t4 + 0;
-a0 = a0 + 0x8e;
-a2 = a2 + 0x8c;
-a3 = a3 + 0x90;
-a0 = *(u8 *)&((struct Obj00020 *)((char *)a0))->f0;
-a2 = *(u16 *)&((struct Obj00020 *)((char *)a2))->f0;
-a3 = *(u8 *)&((struct Obj00020 *)((char *)a3))->f0;
-    res = func_02194284(a0, v1, a2, a3);
-loc_02167AAC:
-((struct Obj00020 *)t4)->f4 = res;
-loc_02167AAE:
+    return a0;}
+
+
+
+
+
+
+void func_0216937C(u8 *p,int a,int b) { func_0216990C(p); func_021693A0((int)p); ((struct Obj19036 *)(*(u8 * *)&((struct Obj00306 *)p)->f2C))->f4=0; ((struct Obj00306 *)p)->f10=func_020490F4(a,b); }
+
+
+
+
+
+
+
+void func_021693A0(int a0)
+{
+    int t4;
+
+t4 = a0 + 0;
+a0 = ((struct Obj12053 *)t4)->f10;
+    if (a0 == 0) goto loc_021693B2;
+loc_021693AA:
+    func_02049238((void *)a0);
+loc_021693AE:
+a0 = 0;
+((struct Obj12053 *)t4)->f10 = a0;
+loc_021693B2:
     return;}
 
 
+
+
+
+
+
 /*
- * Tail call to ARM func_0203CBAC with (&d_02172014, 0, arg). No lr-saving
- * prologue; bl from ov021 func_021CA5C4 at 0x021CB4F4.
+ * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
+ * called from ov021 func_0218CEE4.
  */
-void func_02167AB0(void *p)
+void func_021693B4(char *p, int v)
 {
-    func_0203CBAC((struct Req *)d_02172014, 0, (u32)p);
+    ((struct Obj19037 *)p)->f94 = v;
 }
 
+
+
+
+
+
+
 /*
- * Trailing unlabelled constant getter and equality predicate are included.
+ * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
+ * called from ov021 func_0218D05C.
  */
-void *func_02167AC4(u8 *p)
+void func_021693BC(char *p)
 {
-    u8 *q;
-    q = p + 0x6f4;
-    func_02008494(func_02012944(((struct Obj19012 *)p)->f6C), q);
-    func_02087C6C(q + 0x20);
-    ((struct Obj19013 *)q)->f26 = 0x3a0b;
-    return q;
+    ((struct Obj19038 *)p)->f94 = 0;
 }
 
-int func_02167AF0(void)
+
+
+
+
+
+
+void func_021693C4(char *p, int v)
 {
-    return 0x28;
+    ((struct Obj19039 *)p)->f98 = v;
 }
 
-int func_02167AF4(int a, int b)
+
+
+
+
+
+
+void func_021693CC(char *p)
 {
-    if (a == b) return 1;
-    return 0;
+    ((struct Obj19040 *)p)->f98 = 0;
 }
+
+
+
+
+
+
 
 /*
- * Trailing extent is already matched func_02167B18.
+ * Unlabelled leaf (blocker of ov021 func_0218C4A0).  Stores a 0x14-byte
+ * record (word, 12 bytes, halfword) into entry idx of the table at +0x9C.
  */
-void func_02167B00(u32 a)
+void func_021693D4(u8 *base, u8 *src, u32 idx)
 {
-    func_0203A574(0x2c00, (u32)d_02171FD4, 0x2c08, a);
+    *(u32 *)(*(u8 * *)&((struct Obj05901 *)base)->f9C + idx * 0x14) = ((struct Obj12385 *)src)->f0;
+    *(V3 *)(*(u8 * *)&((struct Obj05901 *)base)->f9C + idx * 0x14 + 4) = *(V3 *)(src + 4);
+    *(u16 *)(*(u8 * *)&((struct Obj05901 *)base)->f9C + idx * 0x14 + 0x10) = ((struct Obj12385 *)src)->f10;
 }
 
 
+
+
+
+
+
 /*
- * Unlabelled leaf, blocker of ov021 func_021CB8AC: tail call of func_0203A5E4(0x2C00); the argument is ignored.
- * Overlay choice, ov009 and ov010 share this window; ov009 holds ARM code here,
- * ov010 holds this Thumb routine, and the ov021 callers already name ov010
- * (ov010 is the overlay resident with ov021).
+ * Reset the 0x14-byte entry `i` of the table at +0x9c.
  *
  * Addresses are Black-image addresses.
  */
-void func_02167B18(void *p)
+void func_0216940C(Obj *o, u32 i)
 {
-    func_0203A5E4(0x2c00);
+Entry *e;
+if (i == 0xffffffff)
+return;
+if (i >= o->count)
+return;
+o->table[i].f0 = 0xffffffff;
+e = &o->table[i];
+e->f4 = 0;
+e->f8 = 0;
+e->fc = 0;
+*(u16 *)((u8 *)&o->table[i] + 0x10) = 0;
 }
 
 
-int func_02167B24(int a0)
-{
-    int a1;
-    int t4;
-    struct Entry *e;
 
-t4 = a0 + 0;
-    e = func_020399A8();
-loc_02167B2C:
-a1 = t4 + 0;
-    a0 = func_0203D594(e, a1);
-loc_02167B32:
-    return a0;}
-
-
-int func_02167B34(int a0)
-{
-    int a1;
-    int t4;
-    struct Entry *e;
-
-t4 = a0 + 0;
-    e = func_020399A8();
-loc_02167B3C:
-a1 = t4 + 0;
-    a0 = func_0203D5A0(e, a1);
-loc_02167B42:
-    return a0;}
-
-
-void func_02167B44(Obj_02167B44 *o, void *a1)
-{
-    void *t;
-    void *list;
-    int i;
-
-    t = func_02012944(a1);
-    list = func_021CA210((u8 *)o);
-    o->h668 = func_02008550(t);
-    for (i = 0; i < 2; i++)
-        o->h66a[i] = func_02017E1C(func_0201AB28(list, o->b1e[i]), 5, 0);
-    o->h66e = func_021CA2CC(func_021CA234((u8 *)o));
-}
 
 
 /*
- * Unlabelled Thumb leaf hidden in a word run (no lr saved); callee of ov010 func_02167BFC.
+ * Unlabelled leaf (blocker of ov021 func_0218C4A0).  Returns the 0x14-byte
+ * entry idx of the table at +0x9C, or 0 if idx is out of range or the
+ * entry is unused (first word -1).
  */
-void func_02167B9C(Obj_02167B9C *o)
+u32 *func_02169444(u8 *base, u32 idx)
 {
-    func_02082D44(o->b32, o->b668, 0x1C);
+    u32 *e;
+
+    if (idx >= ((struct Obj05901 *)base)->fA4)
+        return 0;
+    e = (u32 *)(*(u8 * *)&((struct Obj05901 *)base)->f9C + idx * 0x14);
+    if (e[0] == -1)
+        return 0;
+    return e;
 }
 
 
-void func_02167BB4(Obj_02167BB4 *o, u16 v)
+
+inline static int Find(const u16 *pv, const E *tbl)
 {
-    o->b3 = v;
-    o->h668 = v;
+  unsigned i;
+  i = 0;
+  while (tbl[i].key != (-1))
+  {
+    if ((*pv) == tbl[i].key)
+      break;
+    i++;
+  }
+
+  return i;
+}
+
+
+
+/*
+ * lever: initialized table-read temporary in the once-only budget-300 permuter
+ * gives table r1 and sentinel r0; validation agrees with all five relocations.
+ */
+void func_02169470(u8 *p, u32 b)
+{
+  u16 v;
+  const E *tbl;
+  int i;
+  E *tmp;
+  func_02169998((int)(*((void **) (p + 0x2c))), b);
+  func_02169550((char *)p);
+  func_02169568((char *)p);
+  func_02169880(p);
+  *((u32 *) (p + 0x14)) = b;
+  func_0204944C((struct ArcFile *)*((u32 *) (p + 0x10)), b, 0, 2, &v);
+  tmp = *((E **) (p + 0x28));
+  tbl = *((E **) (p + 0x28));
+  i = Find(&v, tmp);
+  tbl = tbl;
+  *((int *) (p + 0x18)) = i;
+  *((u16 *) (p + 0xb0)) = 1;
+}
+
+
+
+
+void func_021694D4(u8 *p, int a1)
+{
+    func_02169998((int)(*((void **)(p + 0x2c))), a1);
+    func_02169550((char *)p);
+    func_02169568((char *)p);
+    func_0216959C(p);
+    func_0216990C(p);
+}
+
+
+
+
+
+
+/*
+ * Stores the halfword at p.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_021694F8(u8 *p, u16 v)
+{
+    ((struct Obj17742 *)p)->f0 = v;
+}
+
+
+
+
+
+
+/*
+ * Reads the halfword at p.
+ *
+ * Addresses are Black-image addresses.
+ */
+u16 func_021694FC(u8 *p)
+{
+    return ((struct Obj17743 *)p)->f0;
+}
+
+
+
+
+
+
+/*
+ * Copies a 12-byte record from q into p + 0x4.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_02169500(u8 *p, u8 *q)
+{
+    *(S12 *)(p + 0x4) = *(S12 *)q;
+}
+
+
+
+/*
+ * Unlabelled leaf (blocker of ov021 func_0218C724).  Copies the 12 bytes
+ * at src+4 to dst.
+ */
+void func_02169510(u8 *src, V3 *dst)
+{
+    *dst = *(V3 *)(src + 4);
+}
+
+
+
+
+
+int func_02169520(int a0, int a1)
+{
+
+a0 = a0 + 0xb0;
+((struct Obj17744 *)((char *)a1))->f0 = a0;
+    return a0;}
+
+
+
+/*
+ * Unlabelled leaf accessor: copies the word at +0xD4 to *out.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_02169528(unsigned char *a, int *out)
+{
+    *out = ((struct Obj19043 *)a)->fD4;
+}
+
+
+
+/*
+ * Unlabelled leaf accessor: copies the word at +0x14 to *out.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_02169530(unsigned char *a, int *out)
+{
+    *out = ((struct Obj19045 *)a)->f14;
+}
+
+
+
+/*
+ * Unlabelled leaf accessor: copies the word at +0xBC to *out.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_02169538(unsigned char *a, int *out)
+{
+    *out = ((struct Obj19047 *)a)->fBC;
+}
+
+
+
+/*
+ * Unlabelled leaf: tail call initialising the record at +0x84 in mode 1.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_02169540(unsigned char *a, unsigned int v)
+{
+    sub_02046C9C(((struct Obj00281 *)a)->f84, 1, v);
+}
+
+
+void func_02169550(char *p) { func_02046C9C(((struct Obj00306 *)p)->f84, 1, 0); }
+
+
+
+/*
+ * Unlabelled leaf accessor: returns the word at +0x84.
+ *
+ * Addresses are Black-image addresses.
+ */
+int func_02169560(unsigned char *a)
+{
+    return ((struct Obj19049 *)a)->f84;
+}
+
+
+void func_02169568(char *p) { func_02046C9C(((struct Obj00306 *)p)->f88, 2, 0); }
+
+
+
+/*
+ * Unlabelled leaf: forwarding tail call to func_02169A68.
+ *
+ * Addresses are Black-image addresses.
+ */
+int func_02169578(unsigned char *a)
+{
+    return (int)func_02169A68((int)a);
+}
+
+
+
+int func_02169580(int a0)
+{
+    int a1;
+    int a2;
+    int t4;
+    void *p;
+
+t4 = a0 + 0;
+    p = func_02169A68(a0);
+loc_02169588:
+a0 = ((struct Obj00281 *)t4)->f2C;
+t4 = t4 + 0x84;
+a1 = ((struct Obj00281 *)((char *)t4))->f0;
+    a0 = func_02169928(a0, a1, p);
+loc_02169594:
+    return a0;}
+
+
+
+
+/*
+ * Reads the word field at +0x2c.
+ *
+ * Addresses are Black-image addresses.
+ */
+u32 func_02169598(u8 *p)
+{
+    return ((struct Obj17745 *)p)->f2C;
 }

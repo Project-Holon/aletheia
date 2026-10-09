@@ -1,24 +1,21 @@
-# unit_020911D4.c (arm9)
+# unit_020911D4 (arm9)
 
-Translation unit 020911D4..0209D850, 162 functions, confidence weak (tools/tuboundary.py).
-
-This range mixes compilers (dsi/1.1p1 and dsi/1.2), ISAs (thumb stubs and ARM code)
-and hand-written runtime routines, so it cannot be one file. The parts
-`unit_020911D4_p01..p11.c` are the merged same-setting runs, in address order.
-Left as separate files in this folder:
-
-- func_020911D4.c (arm), func_020911D8.c (thumb): a different ISA from their neighbours.
-- p01..p03 (thumb stubs): merging them with func_020911D8.c changes the padding bytes
-  between the asm stubs (10 bytes differ), so they stay apart. The unprototyped extern
-  needed for the asm stubs was tried and is not the blocker.
-- p04 and p05: merging p04+p05 with p06 (func_02091D38) changes the register allocation
-  of func_02091D38 (539 bytes differ); the cause was not found in the time available.
-- func_020921F4 is in p05 but cannot join func_020922B0 (p06): c99=DIFF.
-- func_02099224.c (1.1p1) sits between compiler 1.2 members (unit_020979BC part p07 and
-  func_0209953C.c, 1.2); func_0209953C.c is 1.2 and cannot join its 1.1p1 neighbours.
-- compares.c, converters.c, dadd_dsub.c, fgeq.c, ll_divmod.c: manifest kind `runtime`
-  (compared at their layout/runtime_arm9.txt rows), so they cannot be merged with
-  other code.
-- func_0209D820.c: merging with the previous part gives c99=DIFF.
-- p09 and p10 (0209B2E8, 0209C054): the runtime members between them block a merge;
-  p10 + p11 gives c99=DIFF.
+16 parts remain (round 4: p02..p05 of round 3 merged into one Thumb part, the rest renumbered).
+Boundaries:
+- p01|p02, p02|p03: ARM and Thumb alternate (p02 is Thumb, p01 and p03 are ARM), settings differ.
+  p02 now holds the four Thumb wrappers and their three veneers in one file; each veneer is an
+  `asm void f(u32 ...)` with the wrapper's argument list, so one prototype serves both.
+- p03|p04: the merge compiles to CCERR: g_02153BD4 is declared two ways (p03 and p04 view the same
+  global through different types, illegal implicit conversion u32 to u8 * at merged lines 1095 and 1202).
+  Needs one canonical type for g_02153BD4 and the stand-in u8 * parameters of both parts.
+- p04|p05: p05 is MATCH, not EXACT (see below); not tried again in round 4.
+- p05 is MATCH because __ctype_map, s_020A8A40 and similar symbols have no symbols rows.
+- p06 (compiler 1.2), p07 (1.1p1), p08 (1.2), p09 (1.1p1): the compiler alternates, so these stay apart.
+  p06 and p08 verify with --cc 1.2.
+- p10..p15 (compiler runtime: double arithmetic, comparators, converters, ll_divmod): manifest kind
+  runtime, checked per function with match.py one; do not merge.
+  p11 (comparators) and p13 (converters) are EXACT per function (10 of 10 and 9 of 9, re-run in
+  round 4) but match.py tu reports DIFF for them: their members are not contiguous (_fgeq in p12 sits
+  between the double and the float comparators; the converters are spread over 0x0209B750..0x0209C554).
+  Their header status stays EXACT with a verdict note.
+- p14|p15, p15|p16: c99=DIFF.

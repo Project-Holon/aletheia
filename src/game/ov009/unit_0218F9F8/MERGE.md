@@ -1,22 +1,13 @@
-# unit_0218F9F8.c (ov009)
+# unit_0218F9F8 (ov009)
 
-Translation unit 0218F9F8..021903B0, 20 functions, confidence proven (tools/tuboundary.py).
+All parts verify byte-exact on their own. Greedy merging of adjacent parts (type policies rename/first/last, both function orders) stops at:
 
-The member files below each match on their own. Merging them into one
-`unit_0218F9F8.c` is blocked by:
+- unit_0218F9F8_p02.c with the part before it: CCERR: line 42: undefined identifier 'GPIBuddyStatus' | line 43: undefined identifier 'GPIBuddyStatusInfo' | line 61: identifier 'GPIBuddyStatus' redec
+- unit_0218F9F8_p03.c with the part before it: CCERR: line 68: struct/union/enum/class tag 'GPIProfile' redefined | line 80: struct/union/enum/class tag 'GPIConnection' redefined | line 150: 'profil
+- unit_0218F9F8_p04.c with the part before it: CCERR: line 57: struct/union/enum/class tag 'GPIProfile' redefined | line 188: 'profileid' is not a member of class 'struct GPIConnection' | line 206: 
+- unit_0218F9F8_p05.c with the part before it: CCERR: line 105: 'b8' is not a member of class 'struct GPIProfile' | line 109: expression syntax error | line 110: expression syntax error
+- unit_0218F9F8_p06.c with the part before it: CCERR: line 95: struct/union/enum/class tag 'GPIProfile' redefined | line 247: 'numBlocked' is not a member of class 'struct GPIConnection' | line 284:
 
-- ov009_func_0218F9F8.c..ov009_func_02190188.c: type struct GPIFindProfileByUserData differs between members (src/matched/ov_sdk/ov009_func_0218FF98.c); type struct GPIFindProfileData differs between members (src/matched/ov_sdk/ov009_func_0219008C.
-- ov009_func_0218F9F8.c..ov009_func_0218FF24.c: c99=CCERR: line 372: illegal implicit conversion from 'struct GPIProfile **' to | line 372: 'struct GPIProfile_0218FD9C **' nolang=CCERR: line 372: illegal implicit conversion from 'struct GPIProfile 
-- ov009_func_0218FCD8.c..ov009_func_0218FF24.c: c99=CCERR: line 54: struct/union/enum/class tag 'GPIProfile' redefined | line 199: illegal implicit conversion from 'struct GPIProfile **' to | line 199: 'struct  **' nolang=CCERR: line 54: struct/uni
-- ov009_func_0218FCD8.c..ov009_func_0218FD9C.c: c99=CCERR: line 39: struct/union/enum/class tag 'GPIProfile' redefined | line 45: struct/union/enum/class tag 'GPIConnection' redefined nolang=CCERR: line 39: struct/union/enum/class tag 'GPIProfile' 
-- ov009_func_0218FF38.c..ov009_func_02190188.c: type struct GPIFindProfileByUserData differs between members (src/matched/ov_sdk/ov009_func_0218FF98.c); type struct GPIFindProfileData differs between members (src/matched/ov_sdk/ov009_func_0219008C.
-- ov009_func_0218FF38.c..ov009_func_0219003C.c: type struct GPIFindProfileByUserData differs between members (src/matched/ov_sdk/ov009_func_0218FF98.c)
+Parts: unit_0218F9F8_p01.c, unit_0218F9F8_p02.c, unit_0218F9F8_p03.c, unit_0218F9F8_p04.c, unit_0218F9F8_p05.c, unit_0218F9F8_p06.c
 
-Members, in address order:
-
-- `ov009_func_0218FCD8.c`
-- `ov009_func_0218FD9C.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_0218F9F8.c` again.
+Causes are conflicting local struct views of one object (different field names or offsets per member), prototypes that differ between members, or c99=DIFF. A later struct pass has to unify them.

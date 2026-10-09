@@ -1,8 +1,8 @@
 /*
  * file:     unit_02701940_p02.c
  * unit:     yes
- * function: func_02701FE8, func_02702028
- * address:  0x02701FE8
+ * function: func_02701FD8, func_02701FE8, func_02702028, func_02702070
+ * address:  0x02701FD8
  * region:   twl
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -17,6 +17,7 @@
  *   data_04000208  0x04000208  data twl a2
  *   func_020879E0  0x020879E0  code twl a2
  *   func_02088688  0x02088688  code twl a2
+ *   func_02700DB8  0x02700DB8  arm twl
  */
 typedef unsigned int u32;
 
@@ -24,10 +25,23 @@ typedef unsigned short u16;
 
 extern u32 func_020879E0(void);
 extern void func_02088688(void);
+extern u32 func_02700DB8(u32 a0);
+asm void func_02701FD8(void);
 asm void func_02701FE8(void);
 void func_02702028(void);
-extern u32 data_02732FC8[];
+asm void func_02702070(void);
+extern unsigned int data_02732FC8[];
 extern u16 data_04000208;
+
+
+
+asm void func_02701FD8(void) {
+    ldr r1, =data_02732FC8
+    str r0, [r1, #8]
+    bx lr
+}
+
+
 
 
 asm void func_02701FE8(void) {
@@ -49,6 +63,8 @@ asm void func_02701FE8(void) {
 }
 
 
+
+
 void func_02702028(void) {
     if (data_02732FC8[0] == 0) {
         return;
@@ -59,4 +75,11 @@ void func_02702028(void) {
             func_02088688();
         }
     } while (data_02732FC8[0] != 0);
+}
+
+
+asm void func_02702070(void) {
+    ldr ip, =func_02700DB8
+    mov r0, #0
+    bx ip
 }

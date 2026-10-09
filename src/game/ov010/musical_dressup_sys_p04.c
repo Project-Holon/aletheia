@@ -1,8 +1,8 @@
 /*
  * file:     musical_dressup_sys_p04.c
  * unit:     yes
- * function: func_02155F4C, func_02155F9C
- * address:  0x02155F4C
+ * function: func_02156908, func_02156914, func_02156934, func_02156954, func_02156978, func_0215699C, func_021569A4
+ * address:  0x02156908
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,94 +13,228 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02156CD8  0x02156CD8  thumb  ov010
- *   func_02156F98  0x02156F98  thumb  ov010
- *   func_020307B0  0x020307B0  arm
- *   func_021F6888  0x021F6888  thumb
- *   func_0215716C  0x0215716C  thumb  ov010
- *   func_02156CAC  0x02156CAC  thumb  ov010
+ *   func_021572C0  0x021572C0  thumb  ov010
+ *   func_02045C44  0x02045C44  arm
+ *   func_02045EC0  0x02045EC0  arm
+ *   func_02045C04  0x02045C04  arm
  */
-#include "../../matched/include/Obj02657.h"
-#include "../../matched/include/Obj07201.h"
+#include "../../matched/include/Obj12026.h"
 
+struct Deal;
+struct MsgBank;
+struct Rec;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct Obj { int f00; int f04; int f08; } Obj;
+typedef signed char s8;
 
-extern int func_02156CD8();
-extern int func_02156F98();
-extern int func_020307B0();
-extern int func_021F6888();
-extern int func_0215716C();
-extern Obj *func_02156CAC(int a, int b, int c);
-int func_02155F4C(int a0);
-Obj *func_02155F9C(int a0);
+typedef short s16;
+
+typedef struct Work_02156908 {
+    u8 pad00[0x38];
+    void *f38;          /* 0x38 */
+} Work_02156908;
+
+typedef struct Rec6 {
+	unsigned short id;
+	short f2;
+	unsigned char idx;
+	unsigned char pad5[0x1];
+} Rec6;
+
+typedef struct Member_02156934 {
+    u8 pad00[0x14];
+    Rec6 recs[9];       /* 0x14 */
+    u16 total;          /* 0x4A */
+} Member_02156934;
+
+typedef struct Party_02156908 {
+    u32 f00;
+    Member_02156934 *members[4]; /* 0x04 */
+} Party_02156908;
+
+typedef struct Work_02156934 {
+    u8 pad00[0x04];
+    void *f04;          /* 0x04 */
+    u8 pad08[0x14 - 0x08];
+    u32 f14;            /* 0x14 */
+    void *f18;          /* 0x18 */
+    u8 pad1C[0x30 - 0x1C];
+    Party_02156908 *party;       /* 0x30 */
+    u8 pad34[0x40 - 0x34];
+    void *f40;          /* 0x40 */
+    u8 pad44[0x48 - 0x44];
+    u8 f48;             /* 0x48 */
+    u8 pad49[3];
+    u8 f4C;             /* 0x4C */
+} Work_02156934;
+
+typedef struct Member_02156954 {
+    u8 pad00[0x4A];
+    u16 total;          /* 0x4A */
+    u16 score[4];       /* 0x4C */
+} Member_02156954;
+
+typedef struct Work_02156954 {
+    u8 pad00[0x30];
+    Party_02156908 *party;       /* 0x30 */
+} Work_02156954;
+
+typedef struct Member {
+    u8 pad00[0x4A];
+    u16 total;          /* 0x4A */
+    u16 score[4];       /* 0x4C */
+} Member;
+
+typedef struct Party_02156978 {
+    u32 f00;
+    Member *members[4]; /* 0x04 */
+} Party_02156978;
+
+typedef struct Work_02156978 {
+    u8 pad00[0x30];
+    Party_02156978 *party;       /* 0x30 */
+} Work_02156978;
+
+typedef struct Work_0215699C {
+    u8 pad00[0x48];
+    u8 order[4];        /* 0x48 */
+} Work_0215699C;
+
+typedef struct Party {
+    u32 f00;
+    Member *members[4]; /* 0x04 */
+} Party;
+
+typedef struct Work {
+    u8 pad00[0x30];
+    Party *party;       /* 0x30 */
+} Work;
+
+extern u8 func_021572C0(struct Deal *d);
+extern struct MsgBank *func_02045C44(const void *file, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u32 func_02045C04(struct Rec *rec);
+u8 func_02156908(Work_02156908 *w);
+void *func_02156914(int a0, int a1);
+u8 func_02156934(Work_02156934 *w, u8 idx);
+u16 func_02156954(Work_02156954 *w);
+u16 func_02156978(Work_02156978 *w);
+u8 func_0215699C(Work_0215699C *w, u8 i);
+u8 func_021569A4(Work *w, u8 idx);
 
 
-int func_02155F4C(int a0)
+
+
+u8 func_02156908(Work_02156908 *w)
 {
-    int a1;
-    int t4;
+    return func_021572C0(w->f38);
+}
 
-t4 = a0 + 0;
-a0 = ((struct Obj02657 *)t4)->f2C;
-    if (a0 == 0) goto loc_02155F5A;
-loc_02155F56:
-    a0 = func_02156CD8(a0);
-loc_02155F5A:
-a0 = ((struct Obj02657 *)t4)->f30;
-    if (a0 == 0) goto loc_02155F64;
-loc_02155F60:
-    a0 = func_02156F98(a0);
-loc_02155F64:
-a0 = ((struct Obj02657 *)t4)->f34;
-    if (a0 == 0) goto loc_02155F76;
-loc_02155F6A:
-a0 = ((struct Obj02657 *)a0)->f8;
-    a0 = func_020307B0(a0);
-loc_02155F70:
-a0 = ((struct Obj02657 *)t4)->f34;
-    a0 = func_020307B0(a0);
-loc_02155F76:
-a0 = ((struct Obj02657 *)t4)->f24;
-    if (a0 == 0) goto loc_02155F80;
-loc_02155F7C:
-    a0 = func_021F6888(a0);
-loc_02155F80:
-a0 = ((struct Obj02657 *)t4)->f3C;
-    if (a0 == 0) goto loc_02155F8A;
-loc_02155F86:
-    a0 = func_020307B0(a0);
-loc_02155F8A:
-a0 = ((struct Obj02657 *)t4)->f38;
-    if (a0 == 0) goto loc_02155F94;
-loc_02155F90:
-    a0 = func_0215716C(a0);
-loc_02155F94:
-a0 = ((struct Obj02657 *)t4)->f8;
+
+
+
+void *func_02156914(int a0, int a1)
+{
+    void *t4;
+    struct MsgBank *t5;
+
+a0 = ((struct Obj12026 *)a0)->f24;
+a0 = ((struct Obj12026 *)a0)->f8;
+    t5 = func_02045C44((const void *)a0, a1);
+loc_0215691E:
 a1 = 0;
-((struct Obj02657 *)((char *)a0))->f0 = a1;
-    return a0;}
+    t4 = func_02045EC0(t5, a1);
+loc_02156926:
+    a0 = func_02045C04((struct Rec *)t5);
+loc_0215692E:
+    return t4;}
 
 
-Obj *func_02155F9C(int a0)
+
+
+u8 func_02156934(Work_02156934 *w, u8 idx)
 {
-    int a1;
-    int a2;
-    int t4;
-    Obj *p;
+    u16 v;
 
-t4 = a0 + 0;
-a1 = ((struct Obj07201 *)t4)->f3C;
-a2 = ((struct Obj07201 *)t4)->f1C;
-a0 = 4;
-    p = func_02156CAC(a0, a1, a2);
-loc_02155FAA:
-a1 = ((struct Obj07201 *)t4)->f28;
-*(Obj * *)&((struct Obj07201 *)t4)->f2C = p;
-p->f00 = a1;
-    return p;}
+    v = w->party->members[idx]->total;
+    if (v < 0x100)
+        return v;
+    return 0xFF;
+}
+
+
+
+
+u16 func_02156954(Work_02156954 *w)
+{
+    u16 max = 0;
+    u8 i;
+
+    for (i = 0; i < 4; i++) {
+        if (max < w->party->members[i]->total)
+            max = w->party->members[i]->total;
+    }
+    return max;
+}
+
+
+
+
+u16 func_02156978(Work_02156978 *w)
+{
+    u16 min = 0xFF;
+    u8 i;
+
+    for (i = 0; i < 4; i++) {
+        if (min > w->party->members[i]->total)
+            min = w->party->members[i]->total;
+    }
+    return min;
+}
+
+
+
+
+u8 func_0215699C(Work_0215699C *w, u8 i)
+{
+    return w->order[i];
+}
+
+
+/*
+ * Index of the member's best score slot, or 4 on a tie for the best.
+ * 2026-10-05 (wave P20): the loop counter is set before the member load
+ * (i = 0; then for (; ...)). That gives the w->party temporary the
+ * register the image uses (r6, shared with m). Earlier drafts set i in the
+ * for-init and stayed 2 bytes out.
+ */
+u8 func_021569A4(Work *w, u8 idx)
+{
+    u8 best;
+    u8 i;
+    u8 max;
+    u8 tie;
+    Member *m;
+
+    max = 0;
+    best = 0;
+    tie = 0;
+    i = 0;
+    m = w->party->members[idx];
+    for (; i < 4; i++) {
+        if (max < m->score[i]) {
+            tie = 0;
+            best = i;
+            max = m->score[i];
+        } else if (max == m->score[i]) {
+            tie = 1;
+        }
+    }
+    if (tie == 1)
+        best = 4;
+    return best;
+}

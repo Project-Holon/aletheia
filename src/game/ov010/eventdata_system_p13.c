@@ -1,8 +1,8 @@
 /*
  * file:     eventdata_system_p13.c
  * unit:     yes
- * function: func_02162744, func_02162748, func_02162774, func_02162788, func_0216279C, func_021627C8, func_0216282C, func_02162890, func_021628E4, func_02162928, func_02162940
- * address:  0x02162744
+ * function: func_021639C0, func_02163A08, func_02163A40
+ * address:  0x021639C0
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,215 +13,101 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02162F0C  0x02162F0C  thumb  ov010
- *   func_020143CC  0x020143CC  thumb
- *   func_02162F74  0x02162F74  thumb  ov010
- *   func_02162FC8  0x02162FC8  thumb  ov010
+ *   func_0216D83C  0x0216D83C  thumb  ov010
+ *   func_021641E8  0x021641E8  thumb  ov010
+ *   func_0216D854  0x0216D854  thumb  ov010
+ *   func_0216D86C  0x0216D86C  thumb  ov010
+ *   func_021641F8  0x021641F8  thumb  ov010
+ *   func_02163994  0x02163994  thumb  ov010
+ *   func_0216D91C 0x0216D91C thumb ov010
+ *   func_0216D924 0x0216D924 thumb ov010
  */
-#include "../../matched/include/Obj17717.h"
-#include "../../matched/include/Obj07296.h"
+typedef short s16;
 
-struct Ctx;
-struct Rec;
 typedef unsigned char  u8;
 
-typedef unsigned short u16;
+typedef struct { s16 x0, y0, x1, y1; } Rect;
 
-typedef unsigned int   u32;
-
-typedef signed short   s16;
-
-typedef struct {
-    u16 x;
-    u16 h;
-    u32 w;
-} Sub;
-
-typedef struct {
-    u8 pad0[0xC];
-    u16 a;
-    u8 pad1[0xA];
-    u32 busy;
-    Sub s;
-} Rec;
-
-typedef struct {
-    u8 pad0[0x14];
-    u16 n;
-    u8 pad1[0xA];
-    Rec *tbl;
-} Own;
-
-struct Rec {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 pad[7];
-};
-
-struct Ctx {
-    u16 pad0[12];
-    u16 f18;
-    u16 pad1a[7];
-    struct Rec *f28;
-};
-
-extern int func_02162F0C(char *p, int *v);
-extern u32 func_020143CC(u32 a, u32 b);
-extern int func_02162F74(char *p, int *v);
-extern int func_02162FC8(char *p, u16 *v);
-u16 func_02162744(u8 *p);
-void func_02162748(Own *o, u32 idx, u16 a, u16 b, u32 w, u16 h);
-void func_02162774(char *p, unsigned i, u16 v);
-void func_02162788(char *p, unsigned i, u16 v);
-u16 func_0216279C(int mode);
-struct Rec *func_021627C8(struct Ctx *c, void *a, int key, int mode);
-struct Rec *func_0216282C(struct Ctx *c, void *a, int *key, int mode);
-struct Rec *func_02162890(struct Ctx *c, void *a, int key);
-struct Rec *func_021628E4(struct Ctx *c, void *a, int key);
-u16 func_02162928(void *p, void *q, int key, int mode);
-u16 func_02162940(void *p, void *q, int key);
+extern int func_0216D83C(void *p);
+extern int func_021641E8(int a);
+extern int func_0216D854(void *p);
+extern int func_0216D86C(void *p);
+extern int func_021641F8(int a);
+extern void func_02163994();
+extern u8 func_0216D91C(int a0);
+extern u8 func_0216D924(int a0);
+void func_021639C0(int a, int b);
+void func_02163A08(int p, int x, int y, Rect *out);
+int func_02163A40(s16 *a, s16 *b);
 
 
+void func_021639C0(int a, int b)
+{
+    s16 x, z;
+    int y;
+
+    x = func_0216D83C((void *)a) + func_021641E8(b);
+    y = func_0216D854((void *)a);
+    z = func_0216D86C((void *)a) + func_021641F8(b);
+    func_02163994(a, x, y, z, b);
+}
 
 /*
- * Reads the halfword field at +0x14.
+ * Builds a rectangle (s16 x0, y0, x1, y1) from a map object's width and
+ * height getters: x spans x .. x + (w - 1), y spans y - (h - 1) .. y, each
+ * size clamped at 0. EXACT* only for the 2-byte pad after the function
+ * (54 of 56).
  *
- * Addresses are Black-image addresses.
+ * pass 3 2026-10-06 P3L05: closed. Key: out->x0 = x is written before
+ * out->x1 = x + w. Then x is dead at the add and does not interfere with
+ * the sum temp, so x and y simplify in one pass and take r6 / r5 in
+ * parameter order. With x1 stored first, x and y swapped registers (6 B).
  */
-u16 func_02162744(u8 *p)
+void func_02163A08(int p, int x, int y, Rect *out)
 {
-    return ((struct Obj17717 *)p)->f14;
+    s16 w;
+    s16 h;
+    w = func_0216D91C(p) - 1;
+    if (w < 0) w = 0;
+    out->x0 = x;
+    out->x1 = x + w;
+    h = func_0216D924(p) - 1;
+    if (h < 0) h = 0;
+    out->y0 = y - h;
+    out->y1 = y;
 }
-
 
 /*
- * Unlabelled leaf: when idx is below the halfword count at +0x14 and the
- * 0x24-byte record idx in the table at +0x20 has a zero word at +0x18, fills
- * the record: halfword at +0xC, then a sub-record at +0x1C (halfword, halfword,
- * word). The last two arguments are stack arguments (word, halfword).
+ * Tests whether two rectangles (s16 x0, y0, x1, y1) overlap: per axis the
+ * longer interval comes first, then either end of the shorter one must lie
+ * inside it. Leaf, no calls. EXACT* only for the 2-byte pad after the
+ * function (174 of 176).
  *
- * 2026-10-05 note: the guard reads o->tbl[idx].busy and the body takes
- * &o->tbl[idx] again. Taking the pointer once before the guard gives the
- * table load before the 0x24 constant (7 bytes off).
- *
- * Addresses are Black-image addresses.
+ * Key: each axis is a block with its own locals, and the second block
+ * declares them in a different order (big0, big1, sm0, sm1, lo1, hi1, lo2,
+ * hi2, d1, d2). Declaration order sets the colouring order of the second
+ * axis (d1 after lo2); the first block keeps d1, d2, lo1, ... order.
+ * Earlier 15 B residue (shared locals) was only the d1/lo2 register swap.
  */
-void func_02162748(Own *o, u32 idx, u16 a, u16 b, u32 w, u16 h)
+int func_02163A40(s16 *a, s16 *b)
 {
-    if (idx < o->n) {
-        if (o->tbl[idx].busy == 0) {
-            Rec *r = &o->tbl[idx];
-            Sub *s = &r->s;
-            r->a = a;
-            s->x = b;
-            s->w = w;
-            s->h = h;
-        }
+    {
+        s16 d1, d2, lo1, hi1, lo2, hi2, big0, big1, sm0, sm1;
+        lo1 = a[0]; hi1 = a[2]; d1 = hi1 - lo1; if (d1 < 0) { d1 = -d1; }
+        lo2 = b[0]; hi2 = b[2]; d2 = hi2 - lo2; if (d2 < 0) { d2 = -d2; }
+        if (d1 > d2) { big0 = lo1; big1 = hi1; sm0 = lo2; sm1 = hi2; }
+        else { big0 = lo2; big1 = hi2; sm0 = lo1; sm1 = hi1; }
+        if (!((big0 <= sm0 && big1 >= sm0) || (big0 <= sm1 && big1 >= sm1))) goto fail;
     }
-}
-
-void func_02162774(char *p, unsigned i, u16 v) { if(i < ((struct Obj07296 *)p)->f14) *(u16 *)(*(char * *)&((struct Obj07296 *)p)->f20+i*0x24+2)=v; }
-
-void func_02162788(char *p, unsigned i, u16 v) { if(i < ((struct Obj07296 *)p)->f14) *(u16 *)(*(char * *)&((struct Obj07296 *)p)->f20+i*0x24+10)=v; }
-
-u16 func_0216279C(int mode) {
-    switch(mode) { case 0: return 1; case 1: return 2; case 2: return 3; case 3: return 4; default: return 0; }
-}
-
-
-struct Rec *func_021627C8(struct Ctx *c, void *a, int key, int mode)
-{
-    struct Rec *r = c->f28;
-    u16 v;
-    u16 t;
-    u16 i;
-    u16 n;
-    if (r != 0) {
-        t = func_0216279C(mode);
-        i = 0;
-        n = c->f18;
-        for (; i < n; i++, r++) {
-            if (func_02162F0C((char *)r, (int *)key) != 0 && r->f6 == t) {
-                if (r->f4 == 0)
-                    return r;
-                v = *((u16 *)func_020143CC((u32)a, r->f4));
-                if (v == r->f2)
-                    return r;
-            }
-        }
+    {
+        s16 big0, big1, sm0, sm1, lo1, hi1, lo2, hi2, d1, d2;
+        lo1 = a[1]; hi1 = a[3]; d1 = hi1 - lo1; if (d1 < 0) { d1 = -d1; }
+        lo2 = b[1]; hi2 = b[3]; d2 = hi2 - lo2; if (d2 < 0) { d2 = -d2; }
+        if (d1 > d2) { big0 = lo1; big1 = hi1; sm0 = lo2; sm1 = hi2; }
+        else { big0 = lo2; big1 = hi2; sm0 = lo1; sm1 = hi1; }
+        if (!((big0 <= sm0 && big1 >= sm0) || (big0 <= sm1 && big1 >= sm1))) goto fail;
     }
+    return 1;
+fail:
     return 0;
 }
-
-
-struct Rec *func_0216282C(struct Ctx *c, void *a, int *key, int mode)
-{
-    struct Rec *r = c->f28;
-    u16 v;
-    u16 t;
-    u16 i;
-    u16 n;
-    if (r != 0) {
-        t = func_0216279C(mode);
-        i = 0;
-        n = c->f18;
-        for (; i < n; i++, r++) {
-            if (func_02162F74((char *)r, key) != 0 && r->f6 == t) {
-                if (r->f4 == 0)
-                    return r;
-                v = *((u16 *)func_020143CC((u32)a, r->f4));
-                if (v == r->f2)
-                    return r;
-            }
-        }
-    }
-    return 0;
-}
-
-
-struct Rec *func_02162890(struct Ctx *c, void *a, int key)
-{
-    struct Rec *r = c->f28;
-    u16 i;
-    u16 n;
-    u16 v;
-    if (r != 0) {
-        n = c->f18;
-        for (i = 0; i < n; i++, r++) {
-            if (func_02162F0C((char *)r, (int *)key) != 0 && r->f6 == 6) {
-                if (r->f4 == 0)
-                    return r;
-                v = *((u16 *)func_020143CC((u32)a, r->f4));
-                if (v == r->f2)
-                    return r;
-            }
-        }
-    }
-    return 0;
-}
-
-
-struct Rec *func_021628E4(struct Ctx *c, void *a, int key)
-{
-    struct Rec *r = c->f28;
-    u16 i;
-    u16 n;
-    u16 v;
-    if (r != 0) {
-        n = c->f18;
-        for (i = 0; i < n; i++, r++) {
-            if (func_02162FC8((char *)r, (u16 *)key) != 0) {
-                v = *((u16 *)func_020143CC((u32)a, r->f4));
-                if (v == r->f2)
-                    return r;
-            }
-        }
-    }
-    return 0;
-}
-
-u16 func_02162928(void *p, void *q, int key, int mode) { u16 *r=(u16 *)func_021627C8(p,q,key,mode); if(r) return *r; return 0xffff; }
-
-u16 func_02162940(void *p, void *q, int key) { u16 *r=(u16 *)func_02162890(p,q,key); if(r) return *r; return 0xffff; }

@@ -1,8 +1,8 @@
 /*
  * file:     fldmmdl_p04.c
  * unit:     yes
- * function: func_0216C538, func_0216C640, func_0216C680, func_0216C6E8, func_0216C7FC, func_0216C860, func_0216C888, func_0216C8B0
- * address:  0x0216C538
+ * function: func_0216CEE4, func_0216CF2C, func_0216CF6C, func_0216CFC4, func_0216D02C, func_0216D040, func_0216D0E8, func_0216D0F8, func_0216D1C8, func_0216D208, func_0216D230, func_0216D244, func_0216D268, func_0216D28C, func_0216D2AC, func_0216D2F8, func_0216D38C, func_0216D3A8, func_0216D3B4, func_0216D3CC, func_0216D410
+ * address:  0x0216CEE4
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,131 +13,101 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_020122C0  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
- *   func_0216C484  0x0216C484  thumb  ov010
- *   func_02012934  0x02012934  thumb
- *   MI_CpuFill8    0x02082BCC  arm
- *   func_0201A354  0x0201A354  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0200CA38  0x0200CA38  thumb
- *   func_0200B400  0x0200B400  thumb
- *   func_021CBD08  0x021CBD08  thumb  ov021
- *   func_0216CAD4  0x0216CAD4  thumb  ov010
- *   func_0216E8CC  0x0216E8CC  thumb  ov010
- *   func_02191388  0x02191388  thumb  ov021
- *   func_021914CC  0x021914CC  thumb  ov021
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4  0x020061E4  thumb
- *   func_021912D8  0x021912D8  thumb  ov021
- *   func_021912F8  0x021912F8  thumb  ov021
- *   func_02045808  0x02045808  arm
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_020457B0  0x020457B0  arm
- *   sub_02045B38   0x02045B38  arm
- *   func_02045CAC  0x02045CAC  arm
- *   func_02045C04  0x02045C04  arm
- *   func_0202435C  0x0202435C  thumb
- *   func_02012964  0x02012964  thumb
- *   func_0216DE94  0x0216DE94  thumb  ov010
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218EC2C  0x0218EC2C  thumb  ov021
- *   func_021B09D8  0x021B09D8  thumb
- *   func_021B09EC  0x021B09EC  thumb
- *   func_0219129C  0x0219129C  thumb  ov021
- *   func_02012EFC  0x02012EFC  thumb
- *   func_0200DF40  0x0200DF40  thumb
- *   func_0200DF4C  0x0200DF4C  thumb
- *   func_020146F8  0x020146F8  thumb
- *   func_02012374  0x02012374  thumb
- *   id_00000045    0x00000045  data  a1
- *   d_021BA650     0x021BA650  data  a4 ov069
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
- *   func_02031324  0x02031324  arm
- *   func_0203133C 0x0203133C arm
- *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
+ *   func_0216E418  0x0216E418  thumb  ov010
+ *   func_0216E42C  0x0216E42C  thumb  ov010
+ *   func_0216CDC4  0x0216CDC4  thumb  ov010
+ *   func_0216D67C  0x0216D67C  thumb  ov010
+ *   func_0216D948  0x0216D948  thumb  ov010
+ *   func_0216D76C  0x0216D76C  thumb  ov010
+ *   func_0216D55C  0x0216D55C  thumb  ov010
+ *   func_0216D71C  0x0216D71C  thumb  ov010
+ *   func_0216DFAC  0x0216DFAC  thumb  ov010
+ *   func_0216D508  0x0216D508  thumb  ov010
+ *   func_0216E180  0x0216E180  thumb  ov010
+ *   func_0216DD1C  0x0216DD1C  thumb  ov010
+ *   func_0216D584  0x0216D584  thumb  ov010
+ *   func_0216D59C  0x0216D59C  thumb  ov010
+ *   func_0216D5A4  0x0216D5A4  thumb  ov010
+ *   func_0216D5AC  0x0216D5AC  thumb  ov010
+ *   func_0216D5B4  0x0216D5B4  thumb  ov010
+ *   func_0216D620  0x0216D620  thumb  ov010
+ *   func_0216D65C  0x0216D65C  thumb  ov010
+ *   func_0216D668  0x0216D668  thumb  ov010
+ *   func_021642F8 0x021642F8 thumb ov010
+ *   func_0216E3D8  0x0216E3D8  thumb  ov010
+ *   func_0216D594  0x0216D594  thumb  ov010
+ *   func_0216E39C  0x0216E39C  thumb  ov010
+ *   func_02164304 0x02164304 thumb ov010
+ *   func_0216E51C  0x0216E51C  thumb  ov010
+ *   func_0216E544  0x0216E544  thumb  ov010
+ *   func_0216D7F0  0x0216D7F0  thumb  ov010
+ *   func_0216D7F4  0x0216D7F4  thumb  ov010
+ *   func_0216D800  0x0216D800  thumb  ov010
+ *   func_0216D80C  0x0216D80C  thumb  ov010
+ *   func_0216D818  0x0216D818  thumb  ov010
+ *   func_0216D824  0x0216D824  thumb  ov010
+ *   func_0216D844  0x0216D844  thumb  ov010
+ *   func_0216D85C  0x0216D85C  thumb  ov010
+ *   func_0216D874  0x0216D874  thumb  ov010
+ *   func_0216D89C  0x0216D89C  thumb  ov010
+ *   func_0216D58C  0x0216D58C  thumb  ov010
+ *   func_0216D548  0x0216D548  thumb  ov010
+ *   func_0216D568  0x0216D568  thumb  ov010
+ *   func_0216D5BC  0x0216D5BC  thumb  ov010
+ *   func_0216DB98  0x0216DB98  thumb  ov010
+ *   func_0216D4B4  0x0216D4B4  thumb  ov010
+ *   func_0216D5D4 0x0216D5D4 thumb ov010
+ *   func_0216D5D8 0x0216D5D8 thumb ov010
+ *   func_0216D600 0x0216D600 thumb ov010
+ *   func_0216D5A0  0x0216D5A0  thumb  ov010
+ *   func_0216E400  0x0216E400  thumb  ov010
+ *   func_0216DF64 0x0216DF64 thumb ov010
+ *   func_02163010  0x02163010  thumb  ov010
+ *   func_0219D6B8  0x0219D6B8  thumb
+ *   func_02163028   0x02163028  thumb  ov010
+ *   func_0219D6CC   0x0219D6CC  thumb
+ *   func_0216D780  0x0216D780  thumb  ov010
+ *   func_0216D57C  0x0216D57C  thumb  ov010
+ *   func_0216D730  0x0216D730  thumb  ov010
+ *   func_0216D570  0x0216D570  thumb  ov010
+ *   func_0216DAA0  0x0216DAA0  thumb  ov010
+ *   func_0216E114  0x0216E114  thumb  ov010
+ *   func_0216D794  0x0216D794  thumb  ov010
+ *   func_0216E174  0x0216E174  thumb  ov010
+ *   func_0216DA30  0x0216DA30  thumb  ov010
+ *   func_02197C78  0x02197C78  thumb
+ *   func_0216D7C0  0x0216D7C0  thumb  ov010
+ *   func_0216D7C8  0x0216D7C8  thumb  ov010
  */
-#include "../../matched/include/Obj12397.h"
-#include "../../matched/include/Obj12055.h"
+#include "../../matched/include/Obj00113.h"
+#include "../../matched/include/Obj02051.h"
+#include "../../matched/include/Obj19118.h"
+#include "../../matched/include/Obj09310.h"
+#include "../../matched/include/Obj19119.h"
+#include "../../matched/include/Obj17772.h"
 
-struct BigObj;
 struct Ctx;
-struct Desc;
-struct Obj;
-struct Blk37;
-struct S;
-struct U16Vec;
-struct Actor;
-struct MsgBank;
 struct Rec;
-struct Ent;
-struct Evt;
-struct RecSlot;
-struct S020314B8;
-struct S020315D4;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct SummaryArgs {
-    void *party;        /* 0x08 */
-    u32 f04;
-    void *p;            /* 0x10 */
-    u8 f0c;             /* 0x14 */
-    u8 f0d;             /* 0x15 */
-    u8 count;           /* 0x16 */
-    u8 pad0f;
-    u8 f10;             /* 0x18 */
-    u8 pad11[7];
-    void *f18;          /* 0x20 */
-    u8 pad1c[0xC];
-} SummaryArgs;
+typedef struct {
+    u16 id;
+    u16 pad0[3];
+    u16 key;
+    u16 pad1[13];
+} Ent;
 
-typedef struct PartyArgs {
-    void *party;        /* 0x30 */
-    u8 pad04[0x10];
-    void *f14;          /* 0x44 */
-    u8 pad18[0x1C];
-    u32 f34;            /* 0x64 */
-    u32 f38;            /* 0x68 */
-    u8 pad3c[0x5C];
-} PartyArgs;
+typedef signed char s8;
 
-typedef struct PartyTaskWork {
-    void *sys;          /* 0x00 */
-    void *q;            /* 0x04 */
-    SummaryArgs sum;    /* 0x08 */
-    PartyArgs pa;       /* 0x30 */
-    void *outC8;        /* 0xC8 */
-    void *outCC;        /* 0xCC */
-    void *outD0;        /* 0xD0 */
-    u8 padD4[4];
-} PartyTaskWork;
+typedef signed short   s16;
 
-typedef struct PartyCaller {
-    u8 pad00[9];
-    u8 kind;            /* 0x009 */
-    u8 pad0A[0x72];
-    u8 f7c[6];          /* 0x07C */
-    u16 f82;            /* 0x082 */
-    u16 f84;            /* 0x084 */
-    u8 pad86[0x7C8 - 0x86];
-    void *party;        /* 0x7C8 */
-} PartyCaller;
+typedef int            s32;
 
-typedef struct S { char p0[9]; unsigned char k; char p1[0x7CC - 10]; int f; } S;
-
-typedef int s32;
-
-typedef s32 fx32;
+typedef s32            fx32;
 
 typedef struct VecFx32 {
     fx32 x;
@@ -145,366 +115,608 @@ typedef struct VecFx32 {
     fx32 z;
 } VecFx32;
 
-typedef struct Spawn {
-    void *sys;          /* 0x00 */
-    u8 pad04[4];
-    VecFx32 pos;        /* 0x08 */
-    void *obj;          /* 0x14 */
-    void *name;         /* 0x18 */
-    u16 id;             /* 0x1C */
-} Spawn;
+typedef struct Src {
+    u16  x;
+    u16  y;
+    fx32 z;
+} Src;
 
-typedef u32 (*TaskFn)(void *task, u32 *state, Spawn *work);
+extern int func_0216E418(void *a);
+extern unsigned int func_0216E42C(void *bitmap, int id);
+extern int func_0216CDC4(u32 a, Ent *e, u32 b, u32 c);
+extern void *func_0216D67C(void *a0);
+extern int func_0216D948(int a0);
+extern int func_0216D76C(void *);
+extern int func_0216D55C(int a0, int a1);
+extern int func_0216D71C(void *);
+extern int func_0216DFAC(int a0);
+extern int func_0216D508(int a0);
+extern int func_0216E180(void *);
+extern int func_0216DD1C(struct Ctx *, struct Rec **, u32 *);
+extern int func_0216D584(void *, u16);
+extern int func_0216D59C();
+extern int func_0216D5A4(void *, u16);
+extern int func_0216D5AC(void *, u16);
+extern int func_0216D5B4(void *, u16);
+extern int func_0216D620(int a0, int a1, int a2);
+extern int func_0216D65C();
+extern int func_0216D668();
+extern void func_021642F8(void *a0);
+extern unsigned int func_0216E3D8(unsigned int, unsigned int);
+extern void func_0216D594(void *p, u32 v);
+extern void func_0216E39C(int a0, int a1, int a2);
+extern void func_02164304(int, u8 *);
+extern int func_0216E51C(void *a, int a1);
+extern void func_0216E544(void *obj, VecFx32 *out);
+extern void func_0216D7F0(void *, short);
+extern void func_0216D7F4(void *, short);
+extern void func_0216D800(void *, short);
+extern void func_0216D80C(void *, s16);
+extern void func_0216D818(void *, s16);
+extern void func_0216D824(void *, s16);
+extern void func_0216D844(void *, short);
+extern void func_0216D85C(void *p, int v);
+extern void func_0216D874(int a0, int a1);
+extern void func_0216D89C(void *obj, const VecFx32 *v);
+extern void func_0216D58C(void *p, u16 v);
+extern unsigned int *func_0216D548(unsigned int *, unsigned int);
+extern void *func_0216D568(void *p, u32 v);
+extern int func_0216D5BC(void *p);
+extern int func_0216DB98(void *a0, int a1);
+extern void *func_0216D4B4(char *p);
+extern int func_0216D5D4(void *p);
+extern int func_0216D5D8(int a0, int a1);
+extern int func_0216D600(int, int);
+extern u16 func_0216D5A0(void *p);
+extern u32 func_0216E400(int i);
+extern void func_0216DF64(u8 *p, u32 v);
+extern int func_02163010();
+extern int func_0219D6B8();
+extern void func_02163028(void *a);
+extern void func_0219D6CC(void *);
+extern void func_0216D780(void *a0);
+extern u32 func_0216D57C(void *p, u32 v);
+extern void func_0216D730(void *a0);
+extern char *func_0216D570(char *p, u32 v);
+extern int func_0216DAA0(void *a0);
+extern int func_0216E114(int a0);
+extern void func_0216D794(void *a0);
+extern void func_0216E174(void *a0);
+extern int func_0216DA30();
+extern int func_02197C78();
+extern void func_0216D7C0(void *p, u16 v);
+extern void *func_0216D7C8(void *p, u16 v);
+int func_0216CEE4(u32 a, Ent *e, u32 b, int n, u32 c, u32 id);
+int func_0216CF2C(int a0, int a1);
+void func_0216CF6C(u32 x);
+int func_0216CFC4(int a0, int a1);
+void func_0216D02C(int a, u8 *p);
+void func_0216D040(u8 *o, u16 *r, u32 b, u32 c);
+void func_0216D0E8(int a, u8 *p);
+void func_0216D0F8(void *obj, const u8 *a1);
+void func_0216D1C8(u8 *p, u32 a, u32 b);
+void func_0216D208(void *p);
+int func_0216D230(int a0);
+void func_0216D244(u32 v, u8 *p);
+int func_0216D268(int a0, int a1);
+int func_0216D28C(void *a0);
+void func_0216D2AC(u32 x);
+void func_0216D2F8(u32 x);
+void func_0216D38C(int a0);
+void func_0216D3A8(u32 a, u32 b);
+int func_0216D3B4(int a0);
+int func_0216D3CC(int a0);
+void func_0216D410(void *a0, u16 a1);
 
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
-extern int func_0216C484(int a, int *st, int *o);
-extern void *func_02012934(const struct BigObj *p);
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void *func_0201A354(int a, int b);
-extern void *func_0200CA1C(void *p);
-extern u32 func_0201AA18(void *p);
-extern u32 func_0200CA38(struct Blk37 *p);
-extern void func_0200B400(u32 heap);
-extern u32 func_021CBD08(u8 *p, int a);
-extern void func_0216CAD4(void *a0, void *a1, void *a2);
-extern int func_0216E8CC(int, int, int);
-extern u32 func_02191388(u32 *a);
-extern void func_021914CC(struct S *s);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32 a);
-extern int func_021912D8(u32 a);
-extern int func_021912F8(u32 a, u32 b, u32 c, u32 d);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02188C54(u8 *p);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_02045C04(struct Rec *rec);
-extern void *func_0202435C(void *slots, unsigned int heap);
-extern u32 func_02012964(const struct BigObj *p);
-extern void *func_0216DE94(void *p, u32 id);
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern void *func_02188C58(void *proc);
-extern u32 func_0218EC2C(u8 *p);
-extern void func_021B09D8(VecFx32 *pos, VecFx32 *ofs, u32 a, void *m, u8 dir);
-extern void func_021B09EC(u8 dir, u32 *a, u32 *b);
-extern struct Ent *func_0219129C(u8 *base, int idx, u32 c, u32 d, u32 f, u32 g);
-extern void *func_02012EFC(void **p);
-extern int func_0200DF40(struct RecSlot *p);
-extern u8 func_0200DF4C(struct RecSlot *p);
-extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
-extern int func_0203159C();
-extern void *func_02031324(int a0);
-extern void func_0203133C(struct S020314B8 *p);
-extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int);
-void *func_0216C538(PartyCaller *c, void *sys, u8 useOwn);
-void func_0216C640(S *a, int b, int c);
-int func_0216C680(int a, int *st, int *o, u32 a3);
-void *func_0216C6E8(u8 *d, void *sys, u32 idx, u16 id, u8 dir);
-int func_0216C7FC(int a, int *st, int *o);
-void *func_0216C860(void *a);
-int func_0216C888(int a0, int a1, int a2);
-int func_0216C8B0(void *a, int b, int c, void **d);
-extern char d_021BA650[];
-extern char id_00000045[];
 
 
-/*
- * Starts the func_0216C484 task over a 0xD8-byte work: points it at the
- * caller's result fields, picks the party (the player's, or the one at
- * +0x7C8 when `useOwn` is set), and fills the party-screen and summary
- * argument blocks; the screen mode (0x14, 0x15 or 0x16) follows the
- * caller's kind at +9.
- *
- * MATCH (2026-09-28 tree_ov010_4; levers: declaration order q, task, p
- * for the frame slots, the summary block pointer formed before the
- * func_0200CA1C call). The one wildcard is arm9 0x0201A354, an unlabelled
- * Thumb thunk (`movs r0, #0x69; bx` to 0x02048F60) inside the listing's
- * ARM data run: a seed for the ARM9 session.
- */
-void *func_0216C538(PartyCaller *c, void *sys, u8 useOwn)
-{
-    void *q;
-    void *task;
-    void *p;
-    PartyTaskWork *w;
-    void *party;
-    PartyArgs *pa;
-    SummaryArgs *sum;
-    void *h;
-    u32 mode;
-    u32 sel;
-
-    p = func_020120F4(sys);
-    q = func_0201210C(sys);
-    task = func_020122C0(sys, 0, func_0216C484, sizeof(PartyTaskWork));
-    w = func_020124E8(task);
-    w->sys = sys;
-    w->q = q;
-    w->outD0 = c->f7c;
-    w->outCC = &c->f82;
-    w->outC8 = &c->f84;
-    if (useOwn == 0)
-        party = func_02012934(p);
-    else
-        party = c->party;
-    mode = 0x14;
-    sel = 0;
-    pa = &w->pa;
-    MI_CpuFill8(pa, 0, sizeof(PartyArgs));
-    pa->party = party;
-    switch (c->kind) {
-    case 1:
-    case 6:
-        mode = 0x15;
-        sel = 1;
-        break;
-    case 2:
-    case 3:
-    case 7:
-    case 8:
-        mode = 0x16;
-        sel = 2;
-        break;
-    }
-    pa->f14 = func_0201A354(mode, 4);
-    pa->f34 = 0x16;
-    pa->f38 = sel;
-    sum = &w->sum;
-    h = func_0200CA1C(p);
-    MI_CpuFill8(sum, 0, sizeof(SummaryArgs));
-    sum->party = party;
-    sum->f0c = 1;
-    sum->count = func_0201AA18(party);
-    sum->f0d = 0;
-    sum->f10 = 0;
-    sum->p = p;
-    sum->f18 = (void *)func_0200CA38(h);
-    return task;
-}
 
 
 /*
- * lever: The result of func_021CBD08 remains live in r2 and is the third argument of func_0216E8CC.
- *
- * DIFF: original keeps the call result in r2 (adds r2,r0) and loads the 0x7CC offset into r0;
- * ours loads the offset into r1 and stores r0. Tried a local, a struct field, unsigned char.
+ * The result local is never initialised on the not-found path (the
+ * original returns whatever stack slot it had).
  */
-void func_0216C640(S *a, int b, int c)
+int func_0216CEE4(u32 a, Ent *e, u32 b, int n, u32 c, u32 id)
 {
-    int t;
-    func_0200B400(4);
-    t = func_021CBD08((u8 *)a, b);
-    a->f = t;
-    if (a->k == 3 || a->k == 8) {
-        func_0216CAD4(a, (void *)b, (void *)c);
-        return;
-    }
-    func_0216E8CC(b, c, t);
-}
+    int r;
 
-
-int func_0216C680(int a, int *st, int *o, u32 a3)
-{
-    switch (*st) {
-    case 0:
-        if (!func_02191388((u32 *)o[5]))
+    do {
+        if (func_0216E418(e) == 0 && e->id == id && func_0216E42C((void *)c, e->key) == 0) {
+            r = func_0216CDC4(a, e, b, c);
             break;
-        (*st)++;
-    case 1:
-        func_021914CC((struct S *)o[5]);
-        if ((func_020362DC() & 3) == 0)
-            break;
-        func_020061E4(0x547);
-        func_021912D8(o[5]);
-        (*st)++;
-        break;
-    case 2:
-        if (func_021912F8(o[5], (u32)st, (u32)o, a3) == 1) {
-            func_02045808((struct U16Vec *)o[6]);
-            return 1;
         }
-        break;
-    }
-    return 0;
+        e++;
+    } while (--n);
+    return r;
 }
 
 
-/*
- * unit_02045C44.c omits func_02045CAC from function:. Singleton TU split
- * leaves this caller OUT. No overlay leaves filed.
- * EXACT 344 bytes through the ov070 blocker evidence; not recompiled here.
- * typedef unsigned char u8;
- * typedef unsigned short u16;
- * typedef unsigned int u32;
- * struct MsgEntry { u32 off; u16 len; u16 pad_06; };
- * struct MsgFile {
- *     u16 langCount; u16 count; u32 unk_04; u32 unk_08; u32 langOff[1];
- * };
- * struct MsgBank {
- *     const struct MsgFile *file;
- *     void *base;
- *     struct MsgEntry cache;
- *     u32 origin;
- *     void *stream;
- *     u16 heapId;
- *     u8 langIndex;
- *     u8 resident;
- * };
- * extern char g_020A7E8C[];
- * extern void *sub_02030734(u32,u32,int,const char *,u16);
- * extern void func_020307B0(void *);
- * extern void func_020495F4(void *,u32,void *);
- * extern void func_0204960C(void *,u32);
- * extern void func_0204581C(void *);
- * extern void func_02045A00(void *,const void *,u16);
- * extern void func_02045E04(void *,u32);
- * extern void func_02046180(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
- * {
- *     u32 size;
- *     struct MsgEntry *e;
- *     if (index >= bank->file->count) {
- *         func_0204581C(dest);
- *         return;
- *     }
- *     func_02046180(bank);
- *     if (bank->resident == 0) {
- *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
- *         func_0204960C(bank->stream,pos + (index * 8 + 4));
- *         func_020495F4(bank->stream,8,&bank->cache);
- *         e = &bank->cache;
- *     } else {
- *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
- *     }
- *     if (bank->resident == 0) {
- *         void *buf;
- *         size = e->len * 2;
- *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
- *                            0,g_020A7E8C,0xd6);
- *         if (buf != 0) {
- *             func_0204960C(bank->stream,
- *                           e->off + (bank->origin
- *                               + bank->file->langOff[bank->langIndex]));
- *             func_020495F4(bank->stream,size,buf);
- *             func_02045A00(dest,buf,e->len);
- *             func_020307B0(buf);
- *         }
- *     } else {
- *         func_02045A00(dest,(u8 *)bank->base + e->off,e->len);
- *     }
- *     func_02045E04(dest,index);
- * }
- * lever: task, ctx, x, proc declaration order restores pointer spill slots.
- */
-void *func_0216C6E8(u8 *d, void *sys, u32 idx, u16 id, u8 dir)
-{
-    VecFx32 ofs;
-    u32 a;
-    u32 b;
-    void *task;
-    void *ctx;
-    void *x;
-    void *proc;
-    Spawn *t;
-    void *bank;
-    void *m;
-    u16 n;
-
-    ctx = func_020120F4(sys);
-    proc = func_0201210C(sys);
-    x = (void *)func_02188C54(proc);
-    task = func_020122C0(sys, 0, func_0216C680, 0xD8);
-    t = func_020124E8(task);
-    t->sys = sys;
-    t->id = id;
-    if (*(u16 *)((u32)d + 0xA0 + idx * 0x120) == 0xFFFF) {
-        t->name = func_020457B0(0x300, 4);
-        bank = sub_02045B38(0, 2, 0xB8, 4);
-        n = *(u16 *)((u32)d + 0xA2 + idx * 0x120);
-        if (n >= 0x3AE)
-            n = 0;
-        func_02045CAC(bank, n, t->name);
-        func_02045C04(bank);
-    } else {
-        t->name = func_0202435C((u16 *)((u32)d + 0xA0 + idx * 0x120), 4);
-    }
-    func_0216D88C(func_0216DE94((void *)func_02012964(ctx), t->id), &t->pos);
-    m = func_02188C58(proc);
-    func_021B09D8(&t->pos, &ofs, func_0218EC2C(m), m, dir);
-    t->pos.x += ofs.x;
-    t->pos.y += ofs.y;
-    t->pos.z += ofs.z;
-    func_021B09EC(dir, &a, &b);
-    t->obj = func_0219129C(x, a, (u32)(&t->pos), (u32)t->name, 0, b);
-    return task;
-}
 
 
-/*
- * blockers: func_02012EFC (unlabelled arm9 leaf, no witness), id_00000045 (pooled small
- * constant, a symbol; no witness), d_021BA650 (pointer into another overlay, no witness)
- *
- * 2026-10-05: data hints now carry an overlay token that has a witness; EXACT.
- */
-int func_0216C7FC(int a, int *st, int *o)
-{
-    int t;
-    switch (*st) {
-    case 0:
-        o[2] = (int)func_020120F4((const struct Ctx *)o[1]);
-        t = (int)func_02012EFC((void **)o[2]);
-        o[3] = func_0200DF40((struct RecSlot *)t);
-        o[4] = func_0200DF4C((struct RecSlot *)t);
-        func_02012374((struct Evt *)a, func_020146F8((char *)o[1], o[0], (int)id_00000045, (int)d_021BA650, (int)(&o[2])));
-        (*st)++;
-        break;
-    case 1:
-        return 1;
-    }
-    return 0;
-}
 
-void *func_0216C860(void *a) {
-    void *v; void *t; void **p;
-    v=func_0201210C(a); t=func_020122C0(a,0,(void *)func_0216C7FC,0x14); p=func_020124E8(t);
-    p[1]=a; ((struct Obj12397 *)p)->f0=v; return t;
-}
-
-
-int func_0216C888(int a0, int a1, int a2)
+int func_0216CF2C(int a0, int a1)
 {
     int t4;
 
-a2 = 1;
 t4 = a0 + 0;
-a0 = 1;
-a1 = 0x76;
-a2 = a2 << 0xe;
-    func_0203064C(a0, a1, a2);
-loc_0216C898:
+    a0 = (int)func_0216D67C((void *)a0);
+loc_0216CF34:
+    a0 = func_0216D948(a0);
+loc_0216CF38:
+    if (a0 != 1) goto loc_0216CF42;
+loc_0216CF3C:
 a0 = t4 + 0;
-a1 = 4;
-a2 = 0x76;
-    a0 = func_0203159C(a0, a1, a2);
-loc_0216C8A2:
+    a0 = func_0216D76C((void *)a0);
+loc_0216CF42:
+a0 = t4 + 0;
+a1 = 2;
+    a0 = func_0216D55C(a0, a1);
+loc_0216CF4A:
+    if (a0 == 0) goto loc_0216CF5A;
+loc_0216CF4E:
+a0 = t4 + 0;
+    a0 = func_0216D71C((void *)a0);
+loc_0216CF54:
+a0 = t4 + 0;
+    a0 = func_0216DFAC(a0);
+loc_0216CF5A:
+a0 = t4 + 0;
+a0 = a0 + 0x88;
+a0 = *(int *)&((struct Obj00113 *)((char *)a0))->f0;
+    a0 = func_0216D508(a0);
+loc_0216CF64:
+a0 = t4 + 0;
+    a0 = func_0216E180((void *)a0);
+loc_0216CF6A:
+    return a0;}
+
+
+
+
+
+void func_0216CF6C(u32 x)
+{
+    int n;
+    u8 *o;
+    u32 k = 2;
+
+    n = 0;
+    while (func_0216DD1C((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n))) {
+        if (func_0216D948(x) == 1)
+            func_0216D76C(o);
+        func_0216D55C((int)o, k);
+        func_0216D508(*(u32 *)&((struct Obj00113 *)o)->f88);
+        func_0216E180(o);
+    }
+}
+
+
+
+
+
+int func_0216CFC4(int a0, int a1)
+{
+    int a2;
+    int t4;
+    int t5;
+
+t4 = a1 + 0;
+a1 = ((struct Obj02051 *)((char *)t4))->f0;
+t5 = a0 + 0;
+    a0 = func_0216D584((void *)a0, a1);
+loc_0216CFD0:
+a1 = ((struct Obj02051 *)t4)->f4;
+a0 = t5 + 0;
+    a0 = func_0216D59C(a0, a1);
+loc_0216CFD8:
+a1 = ((struct Obj02051 *)t4)->f6;
+a0 = t5 + 0;
+    a0 = func_0216D5A4((void *)a0, a1);
+loc_0216CFE0:
+a1 = ((struct Obj02051 *)t4)->f8;
+a0 = t5 + 0;
+    a0 = func_0216D5AC((void *)a0, a1);
+loc_0216CFE8:
+a1 = ((struct Obj02051 *)t4)->fA;
+a0 = t5 + 0;
+    a0 = func_0216D5B4((void *)a0, a1);
+loc_0216CFF0:
+a0 = ((struct Obj02051 *)t4)->fC;
+a1 = ((struct Obj02051 *)t4)->fE;
+a2 = 0;
+*(u16 *)((char *)t5 + 0x16) = a0;
+((struct Obj00113 *)t5)->f1A = a0;
+a0 = t5 + 0;
+    a0 = func_0216D620(a0, a1, a2);
+loc_0216D000:
+a1 = ((struct Obj02051 *)t4)->f10;
+a0 = t5 + 0;
+a2 = 1;
+    a0 = func_0216D620(a0, a1, a2);
+loc_0216D00A:
+a1 = ((struct Obj02051 *)t4)->f12;
+a0 = t5 + 0;
+a2 = 2;
+    a0 = func_0216D620(a0, a1, a2);
+loc_0216D014:
+a1 = 0x14;
+a1 = *(short *)((char *)t4 + a1);
+a0 = t5 + 0;
+    a0 = func_0216D65C(a0, a1);
+loc_0216D01E:
+a1 = 0x16;
+a1 = *(short *)((char *)t4 + a1);
+a0 = t5 + 0;
+    a0 = func_0216D668(a0, a1);
+loc_0216D028:
+    return a0;}
+
+
+
+
+void func_0216D02C(int a, u8 *p) {
+    if (((struct Obj19118 *)p)->f18 == 0) func_0216D0F8((void *)a, p);
+    else func_021642F8((void *)a);
+}
+
+
+
+
+
+void func_0216D040(u8 *o, u16 *r, u32 b, u32 c)
+{
+    u32 id;
+    s8 *p;
+
+    func_0216CFC4((int)o, (int)r);
+    id = func_0216E3D8(b, r[1]);
+    func_0216D594(o, id);
+    func_0216E39C(c, id, (int)o);
+    p = (s8 *)(o + 0xe4);
+    if (id == 0xb9) {
+        o[0x7c] = r[7];
+        o[0x7d] = r[8];
+        if (o[0x7c] == 0)
+            o[0x7c] += 1;
+        if (o[0x7d] == 0)
+            o[0x7d] += 1;
+    } else {
+        o[0x7c] = ((u8 *)p)[0xb];
+        o[0x7d] = ((u8 *)p)[0xc];
+    }
+    o[0x7e] = p[0xd];
+    o[0x7f] = p[0xe];
+    o[0x80] = p[0xf];
+    func_0216D02C((int)o, (u8 *)r);
+}
+
+
+
+
+/*
+ * extent: zero alignment halfword at 0x0216D0F6, then labelled 0x0216D0F8.
+ */
+void func_0216D0E8(int a, u8 *p) {
+    if (((struct Obj09310 *)p)->f18 == 1) func_02164304(a, p);
+}
+
+
+
+
+
+#pragma opt_propagation off
+
+
+
+
+/*
+ * final push 2026-10-05 G4L4: EXACT in c99 and c. The last argument of func_0216D7F4 is
+ * a named int local (t) set from the field just before the call, with
+ * #pragma opt_propagation off around the function. With propagation on the local is folded
+ * into the call and the object copy is born before the argument chain (chain in r1, 13 B);
+ * with it off the chain is born first and takes r0, as in the image. s16 local with the
+ * pragma gave 9 B; int local without the pragma gave 13 B.
+ */
+void func_0216D0F8(void *obj, const u8 *a1)
+{
+    const Src *p = (const Src *)(a1 + 0x1c);
+    VecFx32 v;
+    s32 x;
+    s32 y;
+    fx32 z;
+
+    if (func_0216E51C(obj, (int)a1) == 0) {
+        x = p->x;
+        y = p->y;
+        z = p->z;
+    } else {
+        func_0216E544(obj, &v);
+        x = (v.x >> 4) / 4096;
+        y = (v.z >> 4) / 4096;
+        z = v.y;
+    }
+    v.x = (x << 16) + 0x8000;
+    func_0216D7F0(obj, p->x);
+    func_0216D80C(obj, x);
+    func_0216D844(obj, x);
+    {
+        int t = (p->z >> 4) / 4096;
+        func_0216D7F4(obj, t);
+    }
+    v.y = z;
+    x = (z >> 4) / 4096;
+    func_0216D818(obj, x);
+    func_0216D85C(obj, (s16)x);
+    v.z = (y << 16) + 0x8000;
+    func_0216D800(obj, p->y);
+    func_0216D824(obj, y);
+    func_0216D874((int)obj, (s16)y);
+    func_0216D89C(obj, &v);
+}
+
+
+
+
+#pragma opt_propagation reset
+
+
+
+
+
+void func_0216D1C8(u8 *p, u32 a, u32 b)
+{
+    ((struct Obj19119 *)p)->f88 = a;
+    func_0216D58C(p, (u16)b);
+    func_0216D548((u32 *)p, 1);
+    func_0216D568(p, 0x1800);
+    if (func_0216D5BC(p) == 1)
+        func_0216DB98(p, 1);
+    func_0216D4B4((char *)p);
+}
+
+
+
+
+void func_0216D208(void *p)
+{
+    func_0216D5D8((int)p, (u16)func_0216D5D4(p));
+    func_0216D600((int)p, (u16)func_0216D5D4(p));
+}
+
+
+
+
+/*
+ * blocked:  listing 20 compiled 18
+ */
+int func_0216D230(int a0)
+{
+    int t4;
+
 t4 = a0 + 0;
-a0 = 0x76;
-    a0 = (int)func_02031324(a0);
-loc_0216C8AA:
-((struct Obj12055 *)((char *)t4))->f0 = a0;
+    a0 = func_0216D5A0((void *)a0);
+loc_0216D238:
+    a0 = func_0216E400(a0);
+loc_0216D23C:
+t4 = t4 + 0x8c;
+((struct Obj17772 *)((char *)t4))->f0 = a0;
+    return a0;}
+
+
+
+void func_0216D244(u32 v, u8 *p)
+{
+    func_0216D230((int)p);
+    func_0216DF64(p, v);
+    func_0216D568(p, 0x1820);
+}
+
+
+
+
+int func_0216D268(int a0, int a1)
+{
+    int t4;
+
+t4 = a1 + 0;
+a1 = 2;
+a0 = t4 + 0;
+a1 = a1 << 0xc;
+    a0 = func_0216D55C(a0, a1);
+loc_0216D276:
+    if (a0 != 0) goto loc_0216D282;
+loc_0216D27A:
+a0 = t4 + 0;
+    a0 = func_02163010(a0);
+loc_0216D280:
+    return a0;
+loc_0216D282:
+a0 = t4 + 0;
+    a0 = func_0219D6B8(a0);
+loc_0216D288:
+    return a0;}
+
+
+
+
+/*
+ * The mask test picks between the overlay's own handler and the arm9
+ * field setter.
+ */
+int func_0216D28C(void *a0){
+    if (func_0216D55C((int)a0, 0x2000) == 0) {
+        func_02163028((void *)a0);
+    } else {
+        func_0219D6CC(a0);
+    }
+}
+
+
+
+
+void func_0216D2AC(u32 x)
+{
+    int n;
+    u8 *o;
+    u32 k = 5;
+
+    n = 0;
+    if (func_0216D948(x)) {
+        while (func_0216DD1C((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n)) == 1) {
+            func_0216DFAC((int)o);
+            func_0216D780(o);
+            func_0216D568(o, k);
+        }
+    }
+}
+
+
+
+
+void func_0216D2F8(u32 x)
+{
+    int n;
+    u8 *o;
+    u32 a = 1;
+    u32 b = 4;
+    u32 c = 2;
+
+    n = 0;
+    if (func_0216DD1C((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n)) == 1) {
+        do {
+            func_0216D244(x, o);
+            if (func_0216D55C((int)o, c) == 0)
+                func_0216D268(x, (int)o);
+            if (func_0216D57C(o, a)) {
+                func_0216D730(o);
+                func_0216D570((char *)o, a);
+            }
+            if (func_0216DAA0(o) == 0)
+                func_0216E114((int)o);
+            if (func_0216D57C(o, b)) {
+                func_0216D794(o);
+                func_0216D570((char *)o, b);
+            }
+            func_0216E174(o);
+        } while (func_0216DD1C((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n)) == 1);
+    }
+}
+
+
+
+
+/*
+ * blocked:  listing 28 compiled 26
+ */
+void func_0216D38C(int a0)
+{
+    int t4;
+
+t4 = a0 + 0;
+    a0 = func_0216D28C((void *)a0);
+loc_0216D394:
+a0 = t4 + 0;
+    a0 = func_0216DA30(a0);
+loc_0216D39A:
+    if (a0 != 1) goto loc_0216D3A4;
+loc_0216D39E:
+a0 = t4 + 0;
+    a0 = func_0216D3B4(a0);
+loc_0216D3A4:
+    return;}
+
+
+
+
+/*
+ * Unlabelled leaf (in a .word run): callback thunk that forwards its
+ * second argument to func_0216D38C. Filed as the witness that
+ * func_0216DF64's pointer to it needs.
+ */
+void func_0216D3A8(u32 a, u32 b)
+{
+    func_0216D38C(b);
+}
+
+
+
+
+int func_0216D3B4(int a0)
+{
+    int t4;
+
+t4 = a0 + 0;
+    a0 = (int)func_0216D67C((void *)a0);
+loc_0216D3BC:
+    a0 = func_0216D948(a0);
+loc_0216D3C0:
+    if (a0 != 1) goto loc_0216D3CA;
+loc_0216D3C4:
+a0 = t4 + 0;
+    a0 = func_02197C78(a0);
+loc_0216D3CA:
+    return a0;}
+
+
+
+
+int func_0216D3CC(int a0)
+{
+    int a1;
+    int t4;
+    int t5;
+
+a1 = 1;
+t5 = a0 + 0;
+    a0 = func_0216D55C(a0, a1);
+loc_0216D3D6:
+    if (a0 != 0) goto loc_0216D3DE;
+loc_0216D3DA:
+a0 = 0;
+    return a0;
+loc_0216D3DE:
+a0 = t5 + 0;
+a1 = 0x10;
+t4 = 0x10;
+    a0 = func_0216D57C((void *)a0, a1);
+loc_0216D3E8:
+    if (a0 == 0) goto loc_0216D3F0;
+loc_0216D3EC:
+a0 = 0;
+    return a0;
+loc_0216D3F0:
+a0 = t5 + 0;
+a1 = t4 << 5;
+    a0 = func_0216D57C((void *)a0, a1);
+loc_0216D3F8:
+    if (a0 == 0) goto loc_0216D40C;
+loc_0216D3FC:
+a0 = t5 + 0;
+a1 = t4 << 6;
+    a0 = func_0216D57C((void *)a0, a1);
+loc_0216D404:
+    if (a0 != 0) goto loc_0216D40C;
+loc_0216D408:
+a0 = 0;
+    return a0;
+loc_0216D40C:
 a0 = 1;
     return a0;}
 
+
+
+
 /*
- * extent: zero alignment halfword at 0x0216C8CA, then labelled 0x0216C8CC.
+ * blocked:  listing 40 compiled 38
  */
-int func_0216C8B0(void *a, int b, int c, void **d) {
-    func_0203133C(*d); func_020315D4(a); func_020306F0(0x76); return 1;
+void func_0216D410(void *a0, u16 a1)
+{
+    u32 t4;
+
+    func_0216D7C0(a0, a1);
+    func_0216D7C8(a0, 0);
+    t4 = 2;
+    t4 = t4 << 8;
+    func_0216D568(a0, t4);
+    func_0216D570(a0, t4 << 1);
 }

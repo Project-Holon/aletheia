@@ -1,8 +1,8 @@
 /*
  * file:     iss_3ds_sys_p02.c
  * unit:     yes
- * function: func_0202B7B8, func_0202B7BC, func_0202B7C8, func_0202B7D4, func_0202B7E0, func_0202B7EC, func_0202B7F8, func_0202B804, func_0202B810, func_0202B818, func_0202B834, func_0202B84C, func_0202B894, func_0202B8E4, func_0202B8F4
- * address:  0x0202B7B8
+ * function: func_0202B90C, func_0202B914, func_0202B920, func_0202B928, func_0202B934, func_0202B93C, func_0202B944, func_0202B958, func_0202B9C8, func_0202B9E0, func_0202B9F0, func_0202BA24, func_0202BA60, func_0202BA7C, func_0202BA9C, func_0202BABC
+ * address:  0x0202B90C
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,288 +13,174 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0202AB5C  0x0202AB5C  thumb
- *   sub_0202B420  0x0202B420  thumb
- *   func_0202BECC  0x0202BECC  thumb
- *   sub_0202C0C8  0x0202C0C8  thumb
- *   sub_0202B90C  0x0202B90C  thumb
- *   Data_0209FF88  0x0209FF88  data
+ *   func_0202BB40  0x0202BB40  thumb
+ *   func_0202BB48  0x0202BB48  thumb
  */
-#include "../../matched/include/Obj15841.h"
-#include "../../matched/include/Obj08804.h"
-#include "../../matched/include/Obj15842.h"
-#include "../../matched/include/Obj17267.h"
-#include "../../matched/include/Obj15843.h"
-#include "../../matched/include/Obj15844.h"
+#include "../../matched/include/Obj15845.h"
 #include "../../matched/include/Obj01019.h"
+#include "../../matched/include/Obj02601.h"
 
 struct Obj;
-struct SaveBlock;
-struct Rec44;
-struct BigObj;
-struct Sub02006E40Obj;
-typedef unsigned int u32;
-
+struct ArcFile;
 typedef unsigned char  u8;
+
+typedef unsigned int  u32;
+
+typedef struct { int x, y, z; } V3;
 
 typedef unsigned short u16;
 
-typedef struct {
-    u8   id;
-    u8   pad[3];
-    void (*enter)(void *);
-    void (*leave)(void *);
-} Entry;
+struct Item {
+    u32 id;
+    u32 unk;
+};
 
-extern void func_0202AB5C(u8 *p, u32 a1);
-extern void sub_0202B420(u8 *p, u16 v);
-extern void func_0202BECC(u8 *p, u32 key);
-extern void sub_0202C0C8(void *p);
-extern void sub_0202B90C(u8 *a0);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
-extern u16 func_02005C44(void);
-extern u32 func_0201295C(const struct BigObj *p);
-extern u8 func_02006E7C(const struct Sub02006E40Obj *obj, u16 key);
+struct Obj {
+    u8 pad[0x264];
+    const struct Item *items;
+    u8 count;
+};
+
+typedef enum { SLOT_0, SLOT_MAX = 16 } Slot;
+
+typedef struct { int f0; V3 pos; int f10; int f14; int f18; } E;
+
+typedef struct { char pad[0x24]; E e[1]; } M;
+
+extern void func_0202BB40(u8 *p);
+extern void *func_020490F4(u32 id, u32 heap);
+extern u16    func_0204961C(void *obj);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_0202BA24(u8 *p);
-extern void func_0202B944(void *obj);
-extern void  func_0202B958(u8 *p);
-extern void func_0202B9C8(struct Obj *o);
+extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
+extern void   func_02049238(void *h);
 extern u32 func_020307B0(void *p);
-extern void func_0202BAF4(u8 *o);
-void sub_0202B7B8(void);
-void func_0202B7BC(struct Obj *o, u32 a1);
-void func_0202B7C8(u8 *p, u16 v);
-void func_0202B7D4(u8 *p, u32 key);
-void func_0202B7E0(u8 *p, u32 b);
-void func_0202B7EC(u8 *p, u32 b);
-void *func_0202B7F8(struct Obj *o);
-u16 func_0202B804(struct Obj *o);
-u32 func_0202B810(void);
-u8 func_0202B818(struct Obj *o);
-u32 func_0202B834(struct Obj *o);
-void func_0202B84C(void *a);
-u8 *func_0202B894(u32 id);
-void func_0202B8E4(struct Obj *o);
-void func_0202B8F4(u8 *a0);
-extern const Entry Data_0209FF88[];
+extern void func_0202B944(void *obj);
+extern u16 func_02005C44(void);
+extern int func_0202BB48(int a0);
+void func_0202B90C(u8 *a0);
+void func_0202B914(struct Obj *o, u32 v);
+void func_0202B920(void *m, int i, int a, int b);
+int func_0202B928(int a, int b);
+void func_0202B934(void *m, int i, const V3 *v);
+void func_0202B93C(int a, void *b, void *c);
+void sub_0202B944(void *obj);
+void func_0202B958(u8 *p);
+void func_0202B9C8(struct Obj *o);
+int func_0202B9E0(int a0, int a1);
+u8 func_0202B9F0(const struct Obj *p, u32 key);
+void func_0202BA24(u8 *p);
+void func_0202BA60(M *m, int i, int a, int b);
+void func_0202BA7C(M *m, int i, const V3 *v);
+void func_0202BA9C(char *p, const int *a, const int *b);
+void func_0202BABC(u8 *o);
+
 
 
 
 
 /*
- * An empty function: `bx lr` and nothing else. Matched as a one-function
- * unit rather than with `one`, because disasm.py's 4-byte extent for this
- * address includes the linker's inter-section padding after the 2-byte
- * body, and `tu` lays the compiled object out on its own footprint instead
- * of against that extent (see src/matched/sub_0202AB64.c for the same
- * situation with a longer body).
+ * A bare tail-call thunk, same shape as func_0202B8F4 (ldr r3, [pc, #0];
+ * bx r3; .word 0x0202BB41).  0x0202BB40 is itself another thunk (to
+ * func_0202BA24), filed as src/matched/func_0202BB40.c in the same shard;
+ * that entry is the matched witness for this pool word.
+ */
+void func_0202B90C(u8 *a0)
+{
+    func_0202BB40(a0);
+}
+
+
+
+
+
+
+/*
+ * Clamps the second argument to 0x7f and stores it in the +8 byte.  No
+ * relocations; pure.
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/sub_0202B7B8.c \
- *       --addr 0x0202B7B8 --thumb
+ *   python tools/match.py one --src src/matched/func_0202B914.c \
+ *       --func func_0202B914 --addr 0x0202B914 --thumb --cc 1.1p1
  */
-void sub_0202B7B8(void)
+void func_0202B914(struct Obj *o, u32 v)
 {
-}
-
-
-
-
-
-/*
- * Parked: the only site, the ABS32 at +0008, names 0x0202AB5C, which is a
- * four-byte Thumb linker veneer (`ldr r3, [pc, #0]; bx r3` followed by the word
- * 0x0202AC61 - measured at 0x0202AB5C..0x0202AB60) sitting in the word run
- * before 0x0202AB64.  veneer_at() admits only the two ARM encodings, so the
- * `veneer` class refuses a Thumb stub; `label` has no label (disasm.py prints
- * it as data), `literal` has no pool word outside this range, and no C spelling
- * produces the stub, so it can never be a manifest entry.  Permanent.
- */
-void func_0202B7BC(struct Obj *o, u32 a1)
-{
-    func_0202AB5C((u8 *)(((struct Obj15841 *)o)->f10), a1);
-}
-
-
-
-
-
-/*
- * Parked: every concrete byte is right; the only unresolved relocation site(s)
- * target 0202B420, which has no witness outside this range (no outside branch names it,
- * not a manifest entry, not in layout/runtime_arm9.txt).
- *
- * The callee is an unlabelled Thumb leaf, so its ISA has to be declared here;
- * without the `symbols:` line the name convention defaults it to ARM and the
- * `matched` class refuses the EXACT entry at 0x0202B420 on the ISA mismatch.
- *
- * Closed by the `matched` class: 0x0202B420 was filed as an EXACT entry this wave (pkt_0202B1F4), and the callee had to be declared thumb here.
- */
-void func_0202B7C8(u8 *p, u16 v)
-{
-    sub_0202B420(((struct Obj08804 *)p)->f18, v);
-}
-
-
-
-
-
-/*
- * Tail-call thunk: the node's 0x1c word goes straight to func_0202BECC.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B7D4.c \
- *       --func func_0202B7D4 --addr 0x0202B7D4 --thumb --cc 1.1p1
- *
- * Closed by the `matched` class: 0x0202BECC -> 0x0202BF90, both filed this wave.
- */
-void func_0202B7D4(u8 *p, u32 key)
-{
-    func_0202BECC((u8 *)(((struct Obj15842 *)p)->f1C), key);
-}
-
-
-
-
-
-/*
- * Parked: every concrete byte is right; the only unresolved relocation site(s)
- * target 0202C0C8, which has no witness outside this range (no outside branch names it,
- * not a manifest entry, not in layout/runtime_arm9.txt).
- *
- * The callee is an unlabelled Thumb thunk, so its ISA has to be declared here;
- * without the `symbols:` line the name convention defaults it to ARM and the
- * `matched` class refuses the EXACT entry at 0x0202C0C8 on the ISA mismatch.
- *
- * Closed by the `matched` class: 0x0202C0C8 was filed as an EXACT entry this wave (pkt_0202C148).
- */
-void func_0202B7E0(u8 *p, u32 b)
-{
-    sub_0202C0C8(((struct Obj08804 *)p)->f20);
-}
-
-
-
-
-
-/*
- * Parked: the only site, the ABS32 at +0008, names 0x0202B90C - the fourth
- * four-byte Thumb linker veneer of the run at 0x0202B8F4/8FC/904/90C
- * (`00 4b 18 47` + word 0x0202BB41).  Artifact class, hence permanent: no C
- * spelling produces it, and with the ARM-only `veneer` class it has no witness
- * of any other class either.  Every concrete byte reproduces.
- */
-void func_0202B7EC(u8 *p, u32 b)
-{
-    sub_0202B90C(((struct Obj08804 *)p)->f24);
-}
-
-
-
-
-
-/*
- * The three iss_3ds_sys.c tail-call units that resolve without any further
- * work: func_0202B7F8 forwards the +4 field to func_020127A4,
- * func_0202B804 chains it into func_02012AC8, and func_0202B810 is a bare
- * thunk to func_02005C44.  All three are named in the `function:` field
- * above so that the `matched` class attests all three addresses: the 32
- * bytes laid out by `tu` cover all three entry points, and
- * src/pending/func_0202B744.c needs 0x0202B804 as a witness.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202B7F8.c \
- *       --addr 0x0202B7F8 --thumb --cc 1.1p1
- */
-void *func_0202B7F8(struct Obj *o)
-{
-    return func_020127A4((struct SaveBlock *)((struct Obj17267 *)o)->f4);
-}
-
-
-
-
-u16 func_0202B804(struct Obj *o)
-{
-    return func_02012AC8(func_0202B7F8(o));
-}
-
-
-
-
-u32 func_0202B810(void)
-{
-    return func_02005C44();
-}
-
-
-
-
-
-/*
- * Reads the +4 field, and passes it and the low half of func_0202B810()'s
- * result to func_02006E7C.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B818.c \
- *       --func func_0202B818 --addr 0x0202B818 --thumb --cc 1.1p1
- */
-u8 func_0202B818(struct Obj *o)
-{
-    u32 r = func_0201295C((const struct BigObj *)(((struct Obj15843 *)o)->f4));
-
-    return func_02006E7C((const struct Sub02006E40Obj *)r, (u16)func_0202B810());
-}
-
-
-
-
-
-/*
- * Compares the +8 field against func_0202B810() (the +4 field by way of
- * func_020127A4) and returns 1 when they differ, 0 when they match.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B834.c \
- *       --func func_0202B834 --addr 0x0202B834 --thumb --cc 1.1p1
- */
-u32 func_0202B834(struct Obj *o)
-{
-    if (((struct Obj15844 *)o)->f8 == func_0202B810()) {
-        return 0;
+    if (v > 0x7f) {
+        v = 0x7f;
     }
-    return 1;
+    ((struct Obj15845 *)o)->f8 = (u8)v;
 }
+
 
 
 
 
 
 /*
- * note:     wave 16: promoted.  0x0209FF8C was never a second table: it is
- *           Data_0209FF88 + 4, the `enter` field of entry v, which the
- *           compiler reaches through its own pool word because a register
- *           offset load has no immediate (docs/idioms/
- *           pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md).
- *           One symbol, one struct with both callbacks; the +4 site then
- *           resolves against the attested 0x0209FF88.
+ * Unlabelled arm9 leaf, filed as a relocation witness for ov021
+ * func_021C4D14 (wave A1, lane 13).
  */
-void func_0202B84C(void *a)
+void func_0202B920(void *m, int i, int a, int b)
 {
-    int v = func_0202B818(a);
-    int i;
-
-    for (i = 0; i < 9; i++) {
-        if (v != Data_0209FF88[i].id && Data_0209FF88[i].leave != 0) {
-            Data_0209FF88[i].leave(a);
-        }
-    }
-    if (Data_0209FF88[v].enter != 0) {
-        Data_0209FF88[v].enter(a);
-    }
+    func_0202BA60(m, i, a, b);
 }
+
+
+
+
+
+int func_0202B928(int a, int b)
+{
+    return *(int *)(a + b * 0x1c + 0x24);
+}
+
+
+
+
+
+
+/*
+ * Unlabelled arm9 leaf, filed as the relocation witness for ov021 func_021C4E34
+ * (wave A1, lane 13).
+ */
+void func_0202B934(void *m, int i, const V3 *v)
+{
+    func_0202BA7C(m, i, v);
+}
+
+
+
+
+
+
+void func_0202B93C(int a, void *b, void *c)
+{
+    func_0202BA9C((char *)a, b, c);
+}
+
+
+
+
+
+
+/*
+ * A three-field initialiser on a far offset (0x264): a word cleared, a byte
+ * cleared right after it, and a byte set to 0xff two past that. The offset
+ * is past the Thumb ldr/str immediate reach, so the compiler computes the
+ * base with a shift instead of an immediate, which is ordinary codegen for
+ * a field this far out rather than anything hand written. No relocation.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_0202B944.c \
+ *       --func sub_0202B944 --addr 0x0202B944 --cc 1.1p1 --thumb
+ */
+void sub_0202B944(void *obj)
+{
+    ((struct Obj01019 *)obj)->f264 = 0;
+    ((struct Obj01019 *)obj)->f268 = 0;
+    ((struct Obj01019 *)obj)->f269 = 0xff;
+}
+
+
 
 
 
@@ -302,67 +188,177 @@ void func_0202B84C(void *a)
 /*
  * closed:   blocker  is now a manifest entry (matched class)
  *
- * Allocates and clears a 0x26c-byte node, seeds its three scalar members and
- * runs its three initialisers.
+ * Same list dance as func_0202BEEC, on a node whose record table sits at
+ * 0x264 and whose record count at 0x268; the node's own u16 id supplies the
+ * selector.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B894.c \
- *       --func func_0202B894 --addr 0x0202B894 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/pending/func_0202B958.c \
+ *       --func func_0202B958 --addr 0x0202B958 --thumb --cc 1.1p1
  */
-u8 *func_0202B894(u32 id)
+void func_0202B958(u8 *p)
 {
-    u8 *p = (u8 *)func_02030734(id, 0x26c, 0, (const void *)0x020A7738, 0xa3);
+    u32  id = ((struct Obj01019 *)p)->f0;
+    void *h = func_020490F4(0xb9, (u16)((id & 0x7fff) | 0x8000));
+    u8   n = (u8)func_0204961C(h);
+    u32  i;
 
-    ((struct Obj01019 *)p)->f0 = (u16)id;
-    ((struct Obj01019 *)p)->f4 = 0;
-    p[8] = 0x7f;
-    p[9] = 0x7f;
-    p[0xa] = 4;
-    ((struct Obj01019 *)p)->fC = 0;
-    ((struct Obj01019 *)p)->f10 = 0;
-    ((struct Obj01019 *)p)->f14 = 0;
-    ((struct Obj01019 *)p)->f18 = 0;
-    ((struct Obj01019 *)p)->f1C = 0;
-    ((struct Obj01019 *)p)->f20 = 0;
+    p[0x268] = n;
+    ((struct Obj01019 *)p)->f264 = (u32)func_02030734(id, (u32)(n << 3), 0,
+                                             (const void *)0x020A7738, 0x178);
 
-    func_0202BA24(p);
-    func_0202B944(p);
-    func_0202B958(p);
-    return p;
+    for (i = 0; i < (u32)n; i++) {
+        func_0204932C(h, i, (void *)(((struct Obj01019 *)p)->f264 + (i << 3)));
+    }
+    func_02049238(h);
+}
+
+
+
+
+
+/*
+ * Releases the +0x264 field through the matched heap release func_020307B0,
+ * then tears the object down through func_0202B944.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202B9C8.c \
+ *       --func func_0202B9C8 --addr 0x0202B9C8 --thumb --cc 1.1p1
+ */
+void func_0202B9C8(struct Obj *o)
+{
+    func_020307B0((void *)(((struct Obj01019 *)o)->f264));
+    func_0202B944(o);
+}
+
+
+
+
+int func_0202B9E0(int a0, int a1){ if ((unsigned int)(*(unsigned char *)(((char *)(a0) + ((int)(0x269) << 0)))) != (unsigned int)(a1)) { *(unsigned char *)(((char *)(a0) + ((int)(0x269) << 0))) = (unsigned char)a1; } else {  return a0; } }
+
+
+
+
+
+u8 func_0202B9F0(const struct Obj *p, u32 key)
+{
+    const struct Item *items = p->items;
+    u8 count;
+    u8 i;
+
+    if (items == 0) {
+        return 0xff;
+    }
+
+    count = p->count;
+    for (i = 0; i < count; i++) {
+        if (items[i].id == key) {
+            return i;
+        }
+    }
+
+    return 0xff;
+}
+
+
+
+
+
+/*
+ * iss_3ds_sys.c: resets the 0x10 entries (record +0x24 stride 0x1c) and the
+ * two parallel word arrays at +0x1e4 and +0x224.  EXACT* (the listing extent
+ * runs on into the unlabelled 28-byte follower at 0x0202BA60).
+ *
+ * Two facts closed it after thirteen loop spellings had failed
+ * (docs/notes/pkt_0202B9F0.c.txt): the counter is an enum, which keeps the
+ * unfolded `cmp r4, #0x10; bge` entry guard with a plain increment
+ * (docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md), and the
+ * three word stores write 0, not i: r3 is a copy of the counter taken once in
+ * the preheader, when both are zero, and never incremented.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202BA24.c \
+ *       --func func_0202BA24 --addr 0x0202BA24 --thumb --cc 1.1p1
+ */
+void func_0202BA24(u8 *p)
+{
+    Slot i;
+    for (i = 0; i < 0x10; i++) {
+        *(u32 *)(p + i * 0x1c + 0x24) = 0;
+        *(u32 *)(p + i * 0x1c + 0x38) = 0x7f;
+        *(u16 *)(p + i * 0x1c + 0x3c) = 1 << i;
+        *(u32 *)(p + i * 4 + 0x1e4) = 0;
+        *(u32 *)(p + i * 4 + 0x224) = 0;
+    }
+}
+
+
+
+void func_0202BA60(M *m, int i, int a, int b)
+{
+    E *e = &m->e[i];
+    if (e->f0 != 1) {
+        e->f0 = 1;
+        e->f10 = a;
+        e->f14 = b;
+    }
+}
+
+
+
+static inline void V3_Set(V3 *d, int x, int y, int z)
+{
+    d->x = x;
+    d->y = y;
+    d->z = z;
+}
+
+
+
+/*
+ * Unlabelled arm9 leaf, filed as the relocation witness for arm9 func_0202B934 (ov021 func_021C4E34)
+ * (wave A1, lane 13).
+ */
+void func_0202BA7C(M *m, int i, const V3 *v)
+{
+    E *e = &m->e[i];
+
+    if (e->f0 != 0)
+        V3_Set(&e->pos, v->x, v->y, v->z);
+}
+
+
+
+static inline void set3(int *d, int x, int y, int z)
+{
+    d[0] = x;
+    d[1] = y;
+    d[2] = z;
+}
+
+
+
+
+void func_0202BA9C(char *p, const int *a, const int *b)
+{
+    set3((int *)(p + 0xC), a[0], a[1], a[2]);
+    set3((int *)(p + 0x18), b[0], b[1], b[2]);
 }
 
 
 
 
 /*
- * Tears the object down: func_0202B9C8 first, then the matched heap release
- * func_020307B0.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B8E4.c \
- *       --func func_0202B8E4 --addr 0x0202B8E4 --thumb --cc 1.1p1
+ * Closed by the `matched` class: 0x0202B9F0 became an EXACT shard entry
+ * (pkt_0202B9F0) in this wave.  The listing extent runs to 0x0202BAF4
+ * because the follower at 0x0202BAE6 is unlabelled, so the verdict is EXACT*.
  */
-void func_0202B8E4(struct Obj *o)
+void func_0202BABC(u8 *o)
 {
-    func_0202B9C8(o);
-    func_020307B0(o);
-}
-
-
-/*
- * Artifact, not C: 0x0202B8F4 is a four-byte linker veneer
- * (`00 4b 18 47` = ldr r3, [pc, #0]; bx r3; .word 0x0202BAF5) sitting in a
- * run of identical veneers at 0x0202B8F4/0x0202B8FC/0x0202B904/0x0202B90C.
- * No C spelling produces this shape; reported in
- * docs/notes/pkt_0202B7BC.func_0202B8F4.c.txt and left parked.
- *
- * A bare tail-call thunk to func_0202BAF4.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B8F4.c \
- *       --func func_0202B8F4 --addr 0x0202B8F4 --thumb --cc 1.1p1
- */
-void func_0202B8F4(u8 *a0)
-{
-    func_0202BAF4(a0);
+    if (((struct Obj02601 *)o)->f4 != 0) {
+        return;
+    }
+    ((struct Obj02601 *)o)->f4 = 1;
+    func_0202B9E0((int)o, func_0202B9F0((const struct Obj *)o, func_02005C44()));
+    func_0202BB48((int)o);
 }

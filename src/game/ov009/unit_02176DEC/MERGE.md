@@ -1,27 +1,15 @@
-# unit_02176DEC.c (ov009)
+# unit_02176DEC (ov009)
 
-Translation unit 02176DEC..02177EC8, 35 functions, confidence proven (tools/tuboundary.py).
+Merged as far as the greedy pass allows: 5 part files remain (unit_02176DEC_pNN.c, address order),
+each byte-exact. Adjacent parts do not merge because of:
 
-The member files below each match on their own. Merging them into one
-`unit_02176DEC.c` is blocked by:
+- the same global or struct seen through different local views (DWC structs such as
+  LoginCnt, DWCstMatchControl, DWCstNodeInfo, DWCstGameMatchKeyData, DWCstDwcCnt, DwcState):
+  offsets conflict (scalar vs pointer, void ** vs void *, nested struct vs u32) or a field
+  type the unifier cannot size;
+- globals declared two ways (for example g_021AA874, g_021AA8A0) whose uses need casts that
+  change the bytes;
+- prototypes that differ between members (void * vs typed parameters).
 
-- ov009_func_02176DEC.c..ov009_func_02177E88.c: global g_021AB180 declared two ways (src/matched/ov_sdk/ov009_func_02177138.c); global g_021AB180 declared two ways (src/matched/ov_sdk/ov009_func_02177160.c); global g_021AB180 declared two ways (src
-- ov009_func_02176DEC.c..ov009_func_021772F8.c: global g_021AB180 declared two ways (src/matched/ov_sdk/ov009_func_02177138.c); global g_021AB180 declared two ways (src/matched/ov_sdk/ov009_func_02177160.c); global g_021AB180 declared two ways (src
-- ov009_func_02176DEC.c..ov009_func_02177138.c: global g_021AB180 declared two ways (src/matched/ov_sdk/ov009_func_02177138.c)
-- ov009_func_02176DEC.c..ov009_func_02176EB0.c: c99=CCERR: line 112: illegal implicit conversion from 'int' to | line 112: 'void *' nolang=CCERR: line 112: illegal implicit conversion from 'int' to | line 112: 'void *'
-- ov009_func_02176E90.c..ov009_func_02176EB0.c: c99=CCERR: line 75: illegal implicit conversion from 'int' to | line 75: 'void *' nolang=CCERR: line 75: illegal implicit conversion from 'int' to | line 75: 'void *'
-- ov009_func_02176FD4.c..ov009_func_02177138.c: global g_021AB180 declared two ways (src/matched/ov_sdk/ov009_func_02177138.c)
-- ov009_func_02177340.c..ov009_func_02177E88.c: prototype of OS_GetTick differs between members (src/matched/ov_sdk/ov009_func_02177748.c); prototype of gt2Send differs between members (src/matched/ov_sdk/ov009_func_02177848.c); prototype of DWCi_S
-- ov009_func_021777C0.c..ov009_func_02177E88.c: prototype of gt2Send differs between members (src/matched/ov_sdk/ov009_func_02177848.c); prototype of DWCi_SetError differs between members (src/matched/ov_sdk/ov009_func_0217793C.c); prototype of DWC
-- ov009_func_02177C1C.c..ov009_func_02177E88.c: prototype of DWCs_GetTransConnection differs between members (src/matched/ov_sdk/ov009_func_02177E88.c)
-- ov009_func_02177DCC.c..ov009_func_02177E88.c: prototype of DWCs_GetTransConnection differs between members (src/matched/ov_sdk/ov009_func_02177E88.c)
-
-Members, in address order:
-
-- `ov009_func_02176E90.c`
-- `ov009_func_02176EB0.c`
-- `ov009_func_02177DCC.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_02176DEC.c` again.
+Offset-compatible views were already unified by scratchpad tool un3.py. A later struct
+pass has to settle the conflicting offsets.

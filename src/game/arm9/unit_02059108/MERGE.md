@@ -1,11 +1,8 @@
-# unit_02059108.c (arm9)
+# unit_02059108 (arm9)
 
-Remaining after the merge lane: 4 part file(s) and 1 member file(s) in this folder.
-
-Why it is not one file:
-
-func_02059588 uses compiler 1.2, a different compiler from its neighbours: file boundary.
-
-Members left in this folder, in address order:
-
-- `func_02059588.c`
+Parts p01..p05, all ARM.
+- p01|p02: a 12-byte linker veneer (ldr ip,[pc]; bx ip; .word) at 0x0205919C is not covered by any
+  function. Real boundary. (Round 3 removed the type and arity conflicts between p01 and p02: asm
+  func_0205911C now takes the user data pointer, the func_02059108 alias is DWCi_Acc_GetFlags.)
+- p02|p03, p03|p04: p03 (func_02059588) is compiled with the 1.2 compiler: real boundary.
+- p04|p05: another 12-byte veneer (ldr ip,[pc]; bx ip; .word) at 0x020596F0, before DWC_CreateUserData.

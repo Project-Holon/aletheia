@@ -1,53 +1,18 @@
-# unit_02061B2C.c (arm9)
+# unit_02061B2C (arm9)
 
-Translation unit 02061B2C..02062634, 28 functions, confidence weak (tools/tuboundary.py).
+Round 4 state: 6 files remain, all byte-exact (tools/match.py).
 
-The member files below each match on their own. Merging them into one
-`unit_02061B2C.c` is blocked by:
+- `unit_02061B2C_p01.c`: func_02061B2C, func_02061B5C, func_02061B74, func_02061BB0, func_02061BC0, func_02061BD0, sub_02061C0C, func_02061C30 (compiler ../2.0/sp2, flags -O4,p, lang c99, isa arm)
+- `unit_02061B2C_p02.c`: func_02061C44, sub_02061CA4, func_02061D0C, func_02061DF0, func_02061DFC, func_02061E48, DWCi_TSKlForm (compiler 1.1p1, flags -O4,p, lang c99, isa arm)
+- `unit_02061B2C_p03.c`: func_02061EB8, func_02061FF8, func_0206207C, func_0206210C, func_02062114 (compiler ../2.0/sp2, flags -O4,p, lang c99, isa arm)
+- `unit_02061B2C_p04.c`: func_0206216C, func_020621FC, func_02062270, func_0206246C, func_02062474, func_020624C8 (compiler ../2.0/sp2, flags -O4,p, lang c99, isa arm)
+- `unit_02061B2C_p05.c`: func_02062594 (compiler ../2.0/sp2, flags -O4,p, lang c99, isa arm)
+- `unit_02061B2C_p06.c`: func_020625D8 (compiler ../2.0/sp2, flags -O4,p, lang c99, isa arm)
 
-- func_02061B2C.c..func_020625D8.c: settings differ: src/matched/arm9/func_02061B5C.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lan
-- func_02061B2C.c..func_02061E48.c: settings differ: src/matched/arm9/func_02061B5C.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lan
-- func_02061B2C.c..sub_02061C0C.c: settings differ: src/matched/arm9/func_02061B5C.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lan
-- func_02061B2C.c..func_02061B74.c: settings differ: src/matched/arm9/func_02061B5C.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lan
-- func_02061BB0.c..sub_02061C0C.c: settings differ: src/matched/arm9/func_02061BD0.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lan
-- func_02061BD0.c..sub_02061C0C.c: settings differ: src/matched/arm9/sub_02061C0C.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lang
-- func_02061C30.c..func_02061E48.c: settings differ: src/matched/arm9/func_02061C44.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lan
-- func_02061C30.c..sub_02061CA4.c: settings differ: src/matched/arm9/func_02061C44.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lan
-- func_02061C44.c..sub_02061CA4.c: global g_02146B80 declared two ways (src/matched/arm9/sub_02061CA4.c)
-- DWCi_TSKlForm.c..func_020625D8.c: settings differ: src/matched/arm9/func_02061EB8.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p', 'lang': '', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa':
-- DWCi_TSKlForm.c..func_0206216C.c: settings differ: src/matched/arm9/func_02061EB8.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p', 'lang': '', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa':
-- DWCi_TSKlForm.c..func_02061FF8.c: settings differ: src/matched/arm9/func_02061EB8.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p', 'lang': '', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa':
-- func_02061EB8.c..func_02061FF8.c: settings differ: src/matched/arm9/func_02061FF8.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p', 'lang': '', 'isa':
-- func_0206207C.c..func_0206216C.c: settings differ: src/matched/arm9/func_0206216C.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lan
-- func_02062114.c..func_0206216C.c: settings differ: src/matched/arm9/func_0206216C.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lan
-- func_020621FC.c..func_020625D8.c: settings differ: src/matched/arm9/func_02062270.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e',
-- func_020621FC.c..func_0206246C.c: settings differ: src/matched/arm9/func_02062270.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e',
-- func_02062270.c..func_0206246C.c: settings differ: src/matched/arm9/func_0206246C.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p', 'lang': 'c99', 'is
-- func_02062474.c..func_020625D8.c: settings differ: src/matched/arm9/func_020624C8.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lan
-- func_02062474.c..func_020624C8.c: settings differ: src/matched/arm9/func_020624C8.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lan
-- func_02062594.c..func_020625D8.c: settings differ: src/matched/arm9/func_020625D8.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'is
+Boundaries between adjacent files:
+- `unit_02061B2C_p01.c` | `unit_02061B2C_p02.c`: settings differ (../2.0/sp2 vs 1.1p1). Proven real: the pieces on one side build DIFF under the other compiler (tested in round 4).
+- `unit_02061B2C_p02.c` | `unit_02061B2C_p03.c`: settings differ (1.1p1 vs ../2.0/sp2). Proven real: the pieces on one side build DIFF under the other compiler (tested in round 4).
+- `unit_02061B2C_p03.c` | `unit_02061B2C_p04.c`: same compiler (2.0), blocked by g_02146B94: p03 views it as struct Save (pad to 0xc, f0c..f18) and p04 as u32 head words (g_02146B94, g_02146B98, g_02146B9C) plus struct Cfg g_02146B94_blk at the same address; func_02061FF8 also has two prototypes (void *pp, int arg) versus (u32 *head, u32 *pool). One canonical struct Cfg { head_a, head_b, pool, f0c, f10, f14, f18 } for g_02146B94 and one prototype for func_02061FF8 are needed.
+- `unit_02061B2C_p04.c` | `unit_02061B2C_p05.c`: same compiler (2.0), merge fails with "not a struct/union/class": the two pieces view one global through different struct layouts. Needs a struct pass.
+- `unit_02061B2C_p05.c` | `unit_02061B2C_p06.c`: same compiler (2.0), merge fails with an unsigned int to void * conversion: func_020625D8 passes a u32 where the merged prototype takes a pointer. Needs one prototype by definition.
 
-Members, in address order:
-
-- `func_02061B2C.c`
-- `func_02061BD0.c`
-- `sub_02061C0C.c`
-- `func_02061C30.c`
-- `func_02061C44.c`
-- `sub_02061CA4.c`
-- `DWCi_TSKlForm.c`
-- `func_02061EB8.c`
-- `func_02061FF8.c`
-- `func_02062114.c`
-- `func_0206216C.c`
-- `func_020621FC.c`
-- `func_02062270.c`
-- `func_0206246C.c`
-- `func_02062474.c`
-- `func_020624C8.c`
-- `func_02062594.c`
-- `func_020625D8.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_02061B2C.c` again.

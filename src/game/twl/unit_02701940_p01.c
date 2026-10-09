@@ -1,7 +1,7 @@
 /*
  * file:     unit_02701940_p01.c
  * unit:     yes
- * function: func_02701940, func_027019B4, func_02701A60
+ * function: func_02701940, func_027019B4, func_02701A60, func_02701AA0
  * address:  0x02701940
  * region:   twl
  * compiler: dsi/1.1p1
@@ -30,11 +30,17 @@ extern void func_02087988(void);
 extern void func_0208799C(void);
 extern void func_02087A04(u32);
 extern int func_02088610(u32, u32, u32);
+extern unsigned int OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(unsigned int enable);
+extern void func_02701FE8(unsigned int);
+extern void func_027001F0(void);
 asm void func_02701940(void);
 asm void func_027019B4(u32 a0, u32 a1, u32 a2);
 asm void func_02701A60(const u8 *ptr);
+asm void func_02701AA0(int a0);
 extern u32 data_02732FC8[];
 extern u32 data_02733FC8[];
+
 
 
 asm void func_02701940(void) {
@@ -67,6 +73,7 @@ asm void func_02701940(void) {
     moveq r0, #4
     ldmfd sp!, {r4, r5, r6, r7, r8, pc}
 }
+
 
 
 asm void func_027019B4(u32 a0, u32 a1, u32 a2) {
@@ -118,6 +125,7 @@ asm void func_027019B4(u32 a0, u32 a1, u32 a2) {
 }
 
 
+
 asm void func_02701A60(const u8 *ptr)
 {
     stmdb   sp!, {r4, r5, r6, lr}
@@ -137,4 +145,9 @@ loop:
     cmp     r0, #0
     blt     loop
     ldmfd   sp!, {r4, r5, r6, pc}
+}
+
+
+asm void func_02701AA0(int a0)
+{
 }

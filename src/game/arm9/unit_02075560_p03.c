@@ -1,7 +1,7 @@
 /*
  * file:     unit_02075560_p03.c
  * unit:     yes
- * function: func_02075994, func_02075A2C, func_02075A94, func_02075AB8
+ * function: func_02075994, func_02075A2C, func_02075A94, func_02075AB8, func_02075B28, func_02075B54, func_02075B94
  * address:  0x02075994
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -21,7 +21,7 @@
  *   func_0208799C 0x0208799C  arm
  *   func_02060614 0x02060614  arm
  *   func_020605B4 0x020605B4  arm
- *   func_02075B28 0x02075B28  arm
+ *   func_020604AC 0x020604AC  arm
  */
 #include "../../matched/include/Obj16688.h"
 
@@ -57,22 +57,40 @@ struct SndObj2 {
     int ref_count;
 };
 
+typedef unsigned short u16;
+
+struct LerpObj {
+    int start;
+    int target;
+    int step;
+    int duration;
+};
+
+struct Entry { u32 f0; u32 f4; u32 f8; };   /* 0xC bytes each */
+
+struct Table { u8 pad00[0x1c]; u32 count; struct Entry arr[]; };
+
 extern void func_02086028(void *p);
 extern void func_02086078(void *p);
 extern void func_02073AB4(struct Obj75994 *o);
-extern void func_02075A2C(struct Obj *o);
-extern void func_02075A94(struct SndObj2 *obj);
 extern void func_02075968(u8 *o);
 extern void func_02073898(struct X *x);
+extern void func_020604AC(void *list, void *object);
 extern u32  func_02087988(void);
 extern void func_0208799C(u32);
 extern void *func_02060614(struct DList *list, void *elem);
 extern void func_020605B4(volatile struct DList *list, void *elem);
-extern int func_02075B28(void *a0);
+void func_02075994(struct Obj75994 *o);
+void func_02075A2C(struct Obj *o);
+void func_02075A94(struct SndObj2 *obj);
 void func_02075AB8(void *a, u32 v);
+void func_02075B28(void *p);
+struct Entry *func_02075B54(struct Table *t, int idx);
+void func_02075B94(struct LerpObj *obj);
 extern u8  g_02150178[];
 extern u8  g_0214EA90[];
 extern u8  g_02150190[];
+
 
 
 
@@ -120,6 +138,7 @@ void func_02075994(struct Obj75994 *o)
 }
 
 
+
 /*
  *           branch anywhere in the image outside 02075A2C..02075A94, so
  *           `label` refuses it - and 0x02075968 is itself only 8 bytes from
@@ -144,6 +163,7 @@ void func_02075A2C(struct Obj *o)
 }
 
 
+
 void func_02075A94(struct SndObj2 *obj)
 {
     if (obj->ref_count != 0) {
@@ -152,6 +172,7 @@ void func_02075A94(struct SndObj2 *obj)
         }
     }
 }
+
 
 
 /*
@@ -175,4 +196,40 @@ void func_02075AB8(void *a, u32 v)
         p = n;
     }
     func_0208799C(state);
+}
+
+
+void func_02075B28(void *p)
+{
+    u32 state = func_02087988();
+    func_020604AC(g_0214EA90 + 0xc, p);
+    func_0208799C(state);
+}
+
+
+/*
+ * Signed compare against zero for the negative index (`movlt`/`bxlt`) but an
+ *  * unsigned `>=` for the bound (`movhs`/`bxhs`), which is what an `int` index
+ *  * compared against a `u32` count gives; the -1 element test is the
+ *  * R_ARM_ABS32-free third guard the tail ends on. No relocations at all.
+ */
+struct Entry *func_02075B54(struct Table *t, int idx)
+{
+    struct Entry *e;
+
+    if (idx < 0) return 0;
+    if (idx >= t->count) return 0;
+    e = &t->arr[idx];
+    if (e->f0 == -1) return 0;
+    return e;
+}
+
+
+
+void func_02075B94(struct LerpObj *obj)
+{
+    obj->target = 0;
+    obj->start = 0;
+    obj->duration = 0;
+    obj->step = 0;
 }

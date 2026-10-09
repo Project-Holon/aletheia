@@ -1,20 +1,5 @@
-# unit_021B0D18.c (ov013)
+# unit_021B0D18 (ov013)
 
-Translation unit 021B0D18..021B1488, 8 functions, confidence likely (tools/tuboundary.py).
+4 parts (from 3 plus 3 folder members). Left: d_021B3C84 and g_021B4B98 declared two ways, func_021B2FE4 and func_021B14A8 have two prototypes, p02+p03 give code DIFF.
 
-The member files below each match on their own. Merging them into one
-`unit_021B0D18.c` is blocked by:
-
-- ov013_func_021B0D18.c..ov013_func_021B1404.c: global d_021B3C84 declared two ways (src/matched/ov/ov013_func_021B0F38.c); prototype of func_021B2FE4 differs between members (src/matched/ov/ov013_func_021B111C.c); global d_021B3C84 declared two wa
-- ov013_func_021B0D18.c..ov013_func_021B11E8.c: global d_021B3C84 declared two ways (src/matched/ov/ov013_func_021B0F38.c); prototype of func_021B2FE4 differs between members (src/matched/ov/ov013_func_021B111C.c); global d_021B3C84 declared two wa
-- ov013_func_021B12FC.c..ov013_func_021B1404.c: prototype of func_021B2FE4 differs between members (src/matched/ov/ov013_func_021B1398.c); global g_021B4B98 declared two ways (src/matched/ov/ov013_func_021B1398.c); global g_021B4B98 declared two wa
-- ov013_func_021B1398.c..ov013_func_021B1404.c: global g_021B4B98 declared two ways (src/matched/ov/ov013_func_021B1404.c)
-
-Members, in address order:
-
-- `ov013_func_021B1398.c`
-- `ov013_func_021B1404.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021B0D18.c` again.
+Round 4 (r4_ov05): greedy pass, per boundary: p01|p02 undefined Voice and incomplete Ctx42C0_021B111C; p02|p03 DIFF; p03|p04 Node_021B1404 against Node_021B12FC (two structs for one node).

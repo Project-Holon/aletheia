@@ -1,8 +1,8 @@
 /*
  * file:     event_field_proclink_p11.c
  * unit:     yes
- * function: func_0215FCE0, func_0215FD0C
- * address:  0x0215FCE0
+ * function: func_02161724, func_02161824, func_02161850, func_021618A0, func_021618E0
+ * address:  0x02161724
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,193 +13,221 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0215FC40 0x0215FC40 thumb ov010
- *   func_020124E8 0x020124E8 thumb
- *   func_02188C9C 0x02188C9C thumb ov021
- *   func_02013CE0 0x02013CE0 thumb
- *   func_02188CCC  0x02188CCC  thumb  ov021
  *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_021A0ED4  0x021A0ED4  thumb  ov021
- *   func_021A0F30  0x021A0F30  thumb  ov021
- *   func_021A0F94  0x021A0F94  thumb  ov021
- *   func_021A0FA8  0x021A0FA8  thumb  ov021
- *   func_021A12A4  0x021A12A4  thumb  ov021
- *   func_021945A4  0x021945A4  thumb  ov021
+ *   func_0216DEE0  0x0216DEE0  thumb  ov010
+ *   func_0216DE54  0x0216DE54  thumb  ov010
  *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
- *   func_0215FEC8  0x0215FEC8  thumb  ov010
- *   func_0215E840  0x0215E840  thumb  ov010
- *   func_0215EA30  0x0215EA30  thumb  ov010
- *   func_0215EA38  0x0215EA38  thumb  ov010
- *   func_0216075C  0x0216075C  thumb  ov010
- *   func_021644F4  0x021644F4  thumb  ov010
- *   func_020124E4  0x020124E4  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_020129D0  0x020129D0  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_0201235C  0x0201235C  thumb
- *   func_02012374  0x02012374  thumb
+ *   func_0216D454  0x0216D454  thumb  ov010
+ *   func_0216DB04  0x0216DB04  thumb  ov010
+ *   func_0216DA5C  0x0216DA5C  thumb  ov010
+ *   func_0216DAF8  0x0216DAF8  thumb  ov010
+ *   func_020122C0 0x020122C0 thumb
+ *   func_020124E8 0x020124E8 thumb
+ *   func_020120F4 0x020120F4 thumb
+ *   func_02161938  0x02161938  thumb  ov010
+ *   func_02197D3C  0x02197D3C  thumb  ov021
+ *   func_02161964  0x02161964  thumb  ov010
+ *   func_02161984  0x02161984  thumb  ov010
+ *   func_02161950  0x02161950  thumb  ov010
+ *   func_02188CB4  0x02188CB4  thumb  ov021
+ *   func_021A3074  0x021A3074  thumb  ov021
+ *   func_0216D5F8  0x0216D5F8  thumb  ov010
+ *   d_02171404     0x02171404  data  a1
+ *   d_021713FC     0x021713FC  data  a1
+ *   d_021713F4     0x021713F4  data  a1
+ *   d_021713EC     0x021713EC  data  a1
  */
+#include "../../matched/include/Obj05855.h"
+
+struct AnimWork;
+struct Ctx;
 struct Desc;
 struct Obj;
-struct BigObj;
-struct Evt;
-struct S0201235C;
-struct Owner;
-typedef unsigned int u32;
+struct Obj00020;
+typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-typedef unsigned char  u8;
+typedef unsigned int u32;
 
-typedef struct Info {
-    u16 id;
-    u16 flags;
-    u32 f04;
+typedef struct AnimWork {
+    u32 f00;
+    void *field;        /* 0x04 */
     u32 f08;
-    void *obj;
-    void *field;
-} Info;
+    u8 busy;            /* 0x0C */
+} AnimWork;
 
-typedef struct Query {
-    u16 a;
-    u16 b;
-    u32 c;
-} Query;
-
-typedef struct Ctx {
-    u16 f00;            /* 0x00 */
+typedef struct Obj {
+    u8 pad00[4];
     void *f04;          /* 0x04 */
-    void *f08;          /* 0x08 */
-    void *field;        /* 0x0C */
-    u32 f10;            /* 0x10 */
-    u32 state;          /* 0x14 */
-    u32 f18;            /* 0x18 */
-    u8 req[0x28 - 0x1C];/* 0x1C */
-    u32 f28;            /* 0x28 */
-    u8 pad2C[0x40 - 0x2C];
-    u32 f40;            /* 0x40 */
-    u32 f44;            /* 0x44 */
-    u32 f48;            /* 0x48 */
-    u32 f4c;            /* 0x4C */
-} Ctx;
+    u8 pad08[4];
+    u16 f0c;            /* 0x0C */
+    u8 pad0e[2];
+    void *f10;          /* 0x10 */
+} Obj;
 
-extern struct Desc *func_0215FC40(int a0, int a1, unsigned short a2);
-extern void *func_020124E8(struct Obj *p);
-extern u16 func_02188C9C(u8 *p);
-extern u32 func_02013CE0(u32);
-extern u32 func_02188CCC(u8 *p);
 extern void *func_02188C7C(u8 *p);
-extern int func_021A0ED4(u32 a);
-extern int func_021A0F30(u32 a, u32 b);
-extern int func_021A0F94(u32 a);
-extern void func_021A0FA8(int *p);
-extern u32 func_021A12A4(void *link);
-extern void *func_021945A4(void *a, u32 b, u32 c);
+extern void *func_0216DEE0(void *map);
+extern void *func_0216DE54(void *map, u32 kind);
 extern void func_0216D9A0(void *map);
-extern u32 *func_0216D9E4(void *c);
-extern u32 func_0215FEC8(u32 n);
-extern void func_0215E840(void *field, Info *out);
-extern void func_0215EA30(Query *q, u16 a, u16 b, u32 c);
-extern int func_0215EA38(int a0, int a1, int a2);
-extern void *func_0216075C(struct Owner *o, u16 id);
-extern int func_021644F4(int i, void *a, void *p);
-extern void *func_020124E4(struct Obj *p);
+extern int func_0216D454(void *obj);
+extern char *func_0216DB04(void *a0);
+extern int func_0216DA5C(void *obj);
+extern void func_0216DAF8(void *obj);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_020129D0(struct BigObj *p, u8 v);
-extern void *func_0201210C(const struct Ctx *p);
-extern void func_0201235C(struct S0201235C *o, u32 *out);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-int func_0215FCE0(int a, int b, unsigned short c);
-int func_0215FD0C(void *task, void *unused, Ctx *c);
-
-int func_0215FCE0(int a, int b, unsigned short c) { int task; u32 *p; task=(int)func_0215FC40(a,b,c); p=func_020124E8((struct Obj *)task); p[6]=func_02013CE0(func_02188C9C((void *)b)) == 1 ? 5 : 2; return task; }
+extern void *func_02161938(void *a, u32 b);
+extern void *func_02197D3C(void *a, void *b);
+extern int func_02161964(int a0, int a1);
+extern int func_02161984(int a0);
+void func_02161950(char *p);
+extern void *func_02188CB4(struct Obj00020 *p);
+extern void *func_021A3074(u8 *p);
+extern u16 func_0216D5F8(void *p);
+int func_02161724(void *task, u32 *seq, AnimWork *w);
+void *func_02161824(void *a, void *b);
+int func_02161850(void *a0, int *state, Obj *o);
+/* * Allocator with callback, then a sub-init call and link fields. */ void *func_021618A0(void *p, int a1, int a2, int a3);
+void *func_021618E0(void *a, void *b);
+extern const char d_02171404[];
+extern const char d_021713FC[];
+extern const char d_021713F4[];
+extern const char d_021713EC[];
 
 
 /*
- * Nine-state link setup task of the ov010 field (the extent ends at
- * 0x0215FEC6; 0x0215FEC8 is its unlabelled table-lookup leaf). State 3
- * keeps the call arm inside the negated test so the `return 1` block
- * follows it.
+ * Three-step sequence over the field map's objects: step 0 starts the
+ * animations that are not yet running and records them in w->busy, step
+ * 1 waits until every recorded one has finished, step 2 answers done.
+ *
+ * The image keeps a second object that is always NULL (`movs r6, #0;
+ * beq` reuses the movs flags, and the NULL is still passed to
+ * func_0216DA5C in step 1): written as a pointer local set to 0 and
+ * tested. w->field is read into a local before the switch.
  */
-int func_0215FD0C(void *task, void *unused, Ctx *c)
+int func_02161724(void *task, u32 *seq, AnimWork *w)
 {
-    Query q;
-    Info info;
     void *map;
-    void *sys;
-    void *next;
-    u32 n;
-    int r;
+    void *a;
+    void *b;
+    void *c;
+    void *field;
 
-    switch (c->state) {
+    field = w->field;
+    switch (*seq) {
     case 0:
-        if (func_021A0ED4(func_02188CCC(c->field)) == 1) {
-            map = func_02188C7C(c->field);
-            sys = func_020120F4(func_020124E4(task));
-            func_0216D9A0(map);
-            func_020129D0(sys, 1);
-            func_021A0F30(func_02188CCC(c->field), 1);
-            c->state = 1;
+        map = func_02188C7C(field);
+        a = func_0216DEE0(map);
+        func_0216DE54(map, 0x30);
+        w->busy = 0;
+        func_0216D9A0(map);
+        if (func_0216D454(a) == 0) {
+            w->busy |= 1;
+            func_0216DB04(a);
         }
+        b = 0;
+        if (b != 0 && func_0216DA5C(b) == 1) {
+            w->busy |= 4;
+            func_0216DB04(b);
+        }
+        (*seq)++;
         break;
     case 1:
-        r = func_021A0F94(func_02188CCC(c->field));
-        if (r == 3) {
-            c->state = 2;
-            func_021A0FA8((int *)func_02188CCC(c->field));
-        } else if (r == 4) {
-            c->state = 3;
-            func_021A0FA8((int *)func_02188CCC(c->field));
+        map = func_02188C7C(field);
+        a = func_0216DEE0(map);
+        func_0216DE54(map, 0x30);
+        if ((w->busy & 1) && func_0216D454(a) == 1) {
+            func_0216DAF8(a);
+            w->busy &= ~1;
         }
+        if (w->busy & 4) {
+            b = 0;
+            if (func_0216DA5C(b) == 0) {
+                func_0216DAF8(b);
+                w->busy &= ~4;
+            }
+        }
+        if (w->busy & 2) {
+            c = func_0216DE54(map, 0x30);
+            if (func_0216DA5C(c) == 0) {
+                func_0216DAF8(c);
+                w->busy &= ~2;
+            }
+        }
+        if (w->busy == 0)
+            (*seq)++;
         break;
     case 2:
-        sys = func_020120F4(func_020124E4(task));
-        n = func_021A12A4((void *)func_02188CCC(c->field));
-        func_020129D0(sys, n);
-        c->f10 = func_021A12A4((void *)func_02188CCC(c->field));
-        c->f28 = func_0215FEC8(n);
-        c->state = 5;
-        break;
-    case 3:
-        func_0216D9E4(func_02188C7C(c->field));
-        if (c->f40 != 1 && c->f40 != 4) {
-            func_0201235C(task, func_021945A4(func_020124E4(task), (u32)c->field, c->f18));
-            return 0;
-        }
-        return 1;
-    case 4:
-        func_0216D9E4(func_02188C7C(c->field));
-        func_0215E840(func_0201210C(c->f08), &info);
-        func_0215EA30(&q, c->f48, c->f44, c->f4c);
-        next = (void *)func_0215EA38(c->f44, (int)(&q), (int)(&info));
-        if (next == 0)
-            return 1;
-        func_0201235C(c->f04, next);
-        break;
-    case 5:
-        func_02012374(task, func_0216075C((struct Owner *)c->req, c->f00));
-        c->state = 6;
-        break;
-    case 6:
-        if (c->f40 == 0)
-            c->state = 1;
-        else if (c->f40 == 1)
-            c->state = 3;
-        else if (c->f40 == 3)
-            c->state = 7;
-        else if (c->f40 == 2)
-            c->state = 4;
-        else if (c->f40 == 4)
-            c->state = 3;
-        break;
-    case 7:
-        func_0216D9E4(func_02188C7C(c->field));
-        func_02012374(task, (struct Evt **)func_021644F4(c->f44, c->f08, c->field));
-        c->state = 8;
-        break;
-    case 8:
         return 1;
     }
     return 0;
+}
+
+
+void *func_02161824(void *a, void *b) { void *t; u32 *p; t=func_020122C0(a,0,func_02161724,0x10); p=func_020124E8(t); p[0]=(u32)a; p[1]=(u32)b; p[2]=(u32)func_020120F4(a); return t; }
+
+
+
+int func_02161850(void *a0, int *state, Obj *o)
+{
+    void *t;
+
+    t = func_02188C7C(o->f04);
+    switch (*state) {
+    case 0:
+        t = func_02161938(t, o->f0c);
+        if (t == 0)
+            return 1;
+        func_02161964((int)o, (int)func_02197D3C(t, o->f10));
+        *state = *state + 1;
+        break;
+    case 1:
+        if (func_02161984((int)o) == 0)
+            return 1;
+        break;
+    }
+    return 0;
+}
+
+
+
+/*
+ * Allocator with callback, then a sub-init call and link fields.
+ */
+void *func_021618A0(void *p, int a1, int a2, int a3)
+{
+    void *r0v = func_020122C0(p, 0, func_02161850, 0x34);
+    char *r4 = func_020124E8(r0v);
+
+    func_02161950(r4);
+    ((struct Obj05855 *)r4)->f0 = p;
+    ((struct Obj05855 *)r4)->f4 = a1;
+    ((struct Obj05855 *)r4)->f8 = (int)func_020120F4(p);
+    ((struct Obj05855 *)r4)->fC = a2;
+    ((struct Obj05855 *)r4)->f10 = a3;
+    return r0v;
+}
+
+
+
+void *func_021618E0(void *a, void *b)
+{
+    const char *s;
+
+    switch (func_0216D5F8(func_021A3074(func_02188CB4(b)))) {
+    case 0:
+        s = d_02171404;
+        break;
+    case 1:
+        s = d_021713FC;
+        break;
+    case 2:
+        s = d_021713F4;
+        break;
+    case 3:
+        s = d_021713EC;
+        break;
+    }
+    return func_021618A0(a, (int)b, 0xFF, (int)s);
 }

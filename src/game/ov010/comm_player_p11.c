@@ -1,8 +1,8 @@
 /*
  * file:     comm_player_p11.c
  * unit:     yes
- * function: func_021684E8, func_0216869C, func_02168800
- * address:  0x021684E8
+ * function: func_0216AE10, func_0216AED0, func_0216AEE8, func_0216AF1C, func_0216AF3C, func_0216AF74, func_0216B004
+ * address:  0x0216AE10
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,265 +13,401 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   MI_CpuFill8    0x02082BCC  arm
- *   func_020186C8  0x020186C8  thumb
- *   _s32_div_f     0x0209C0A4  arm
- *   func_02019C90  0x02019C90  thumb
- *   sub_02045B38   0x02045B38  arm
- *   func_02045F5C  0x02045F5C  arm
- *   func_02045C04  0x02045C04  arm
- *   d_02172084     0x02172084  data
- *   func_02017528  0x02017528  thumb
- *   func_02017588  0x02017588  thumb
- *   func_02017E40  0x02017E40  thumb
+ *   func_0215A5F4  0x0215A5F4  thumb  ov010
+ *   func_0215A5DC  0x0215A5DC  thumb  ov010
+ *   func_0215A5E4  0x0215A5E4  thumb  ov010
+ *   func_02159B10  0x02159B10  thumb  ov010
+ *   func_02012FB0  0x02012FB0  thumb
+ *   func_0216662C  0x0216662C  thumb  ov010
+ *   func_0201210C  0x0201210C  thumb
+ *   func_02188CB4  0x02188CB4  thumb  ov021
+ *   func_02012138  0x02012138  thumb
+ *   func_021A3038  0x021A3038  thumb  ov021
+ *   func_021767F0  0x021767F0  thumb  ov011
+ *   func_02184D38  0x02184D38  thumb  ov020
+ *   func_021665F0  0x021665F0  thumb  ov010
+ *   func_0216B3A8  0x0216B3A8  thumb  ov010
+ *   func_0215897C  0x0215897C  thumb  ov010
+ *   func_02188C7C 0x02188C7C thumb ov021
+ *   func_0216DE94 0x0216DE94 thumb ov010
+ *   func_0215901C 0x0215901C thumb ov010
+ *   func_0217C274 0x0217C274 thumb ov018
+ *   func_0217C2A0   0x0217C2A0  thumb
+ *   func_02012EBC  0x02012EBC  thumb
+ *   func_0200E0B0  0x0200E0B0  thumb
+ *   func_02158344  0x02158344  thumb  ov010
+ *   func_0217688C  0x0217688C  thumb  ov011
+ *   func_020120F4  0x020120F4  thumb
+ *   func_020122C0  0x020122C0  thumb
+ *   func_020124E8  0x020124E8  thumb
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_020173EC  0x020173EC  thumb
+ *   func_0203F1FC  0x0203F1FC  arm
+ *   func_0200E2BC  0x0200E2BC  thumb
+ *   func_021AA304  0x021AA304  thumb
+ *   func_020124E4  0x020124E4  thumb
+ *   func_02029BCC  0x02029BCC  thumb
+ *   func_02012374  0x02012374  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_020185B0  0x020185B0  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_02045A98  0x02045A98  arm
- *   func_02045924  0x02045924  arm
- *   func_02045808  0x02045808  arm
- *   func_02018430  0x02018430  thumb
- *   func_02048F4C  0x02048F4C  arm
+ *   func_020144DC  0x020144DC  thumb
+ *   func_0201292C  0x0201292C  thumb
+ *   func_02007E50  0x02007E50  thumb
+ *   func_02034AC4  0x02034AC4  arm
+ *   func_02034A5C  0x02034A5C  arm
+ *   func_02012944  0x02012944  thumb
+ *   func_0200873C  0x0200873C  thumb
+ *   func_0200CA10  0x0200CA10  thumb
+ *   func_02012444  0x02012444  thumb
+ *   func_02007F1C  0x02007F1C  thumb
+ *   func_02029C00  0x02029C00  thumb
+ *   func_020145CC  0x020145CC  thumb
+ *   func_02029CC0  0x02029CC0  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   func_02189A08  0x02189A08  thumb  ov021
+ *   func_021CF498  0x021CF498  thumb  ov021
+ *   func_021B6100  0x021B6100  thumb  ov098
+ *   func_021B6158  0x021B6158  thumb  ov098
+ *   func_021B95A0  0x021B95A0  thumb  ov227
+ *   func_021B95C8  0x021B95C8  thumb  ov227
+ *   ov098_id       0x00000062  data
+ *   ov227_id       0x000000E3  data
+ *   d_021B6D74     0x021B6D74  data ov098
+ *   d_021B98A4     0x021B98A4  data ov227
  */
-struct MsgBank;
-struct MsgData;
-struct Rec;
-struct Mon;
-struct Sav;
-struct Strbuf;
-struct U16Vec;
+#include "../../matched/include/Obj03543.h"
+
+struct Ctx;
+struct Obj00020;
+struct VecFx32;
+struct Desc;
+struct Big;
+struct Obj;
+struct Work;
+struct BigObj;
+struct Evt;
+struct P;
+struct Sub02008700Obj;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct FacRec {
-    u16 species;        /* 0x00 */
-    u16 moves[4];       /* 0x02 */
-    u8 evMask;          /* 0x0A */
-    u8 nature;          /* 0x0B */
-    u16 item;           /* 0x0C */
-    u16 form;           /* 0x0E */
-} FacRec;
+typedef struct Key {
+    u32 species : 11;
+    u32 pad0 : 12;
+    u32 form : 6;
+    u32 pad1 : 3;
+} Key;
 
-typedef struct BattleMon_021684E8 {
-    u16 species : 11;   /* 0x00 */
-    u16 form : 5;
-    u16 item;           /* 0x02 */
-    u16 moves[4];       /* 0x04 */
-    u32 otId;           /* 0x0C */
-    u32 pid;            /* 0x10 */
-    u32 hpIv : 5;       /* 0x14 */
-    u32 atkIv : 5;
-    u32 defIv : 5;
-    u32 speIv : 5;
-    u32 spaIv : 5;
-    u32 spdIv : 5;
-    u32 ivRest : 2;
-    u8 ev[6];           /* 0x18 */
-    u8 ppUps;           /* 0x1E */
-    u8 lang;            /* 0x1F */
-    u8 ability;         /* 0x20 */
-    u8 friendship;      /* 0x21 */
-    u16 nick[11];       /* 0x22 */
-    u8 nature;          /* 0x38 */
-} BattleMon_021684E8;
+typedef struct Work {
+    void *f00;          /* 0x00 */
+    void *f04;          /* 0x04 */
+    void *f08;          /* 0x08 */
+    void *f0c;          /* 0x0C */
+    u8 f10[0x10];       /* 0x10 */
+    Key f20;            /* 0x20 */
+    u16 f24;            /* 0x24 */
+    u8 pad26[2];
+    u16 *f28;           /* 0x28 */
+} Work;
 
-typedef unsigned long long u64;
+typedef signed int     s32;
 
-typedef struct BattleMon_0216869C {
-    u16 species : 11;   /* 0x00 */
-    u16 form : 5;
-    u16 item;           /* 0x02 */
-    u16 moves[4];       /* 0x04 */
-    u32 otId;           /* 0x0C */
-    u32 pid;            /* 0x10 */
-    u32 ivs;            /* 0x14 */
-    u8 ev[6];           /* 0x18 */
-    u8 ppUps;           /* 0x1E */
-    u8 lang;            /* 0x1F */
-    u8 f20;             /* 0x20 */
-    u8 f21;             /* 0x21 */
-    u16 nick[11];       /* 0x22 */
-    u8 f38;             /* 0x38 */
-} BattleMon_0216869C;
-
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
-extern u32 func_02019C90(u16 a, u16 b, u32 k);
-extern struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32 func_02045C04(struct Rec *rec);
-extern void func_02017528(struct Sav *p);
-extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5E4(void *a0);
+extern unsigned int func_02159B10(void *a0, void *a1);
+extern int func_02012FB0(unsigned char *base);
+extern int func_0216662C(int a0);
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02188CB4(struct Obj00020 *p);
+extern u32 func_02012138(const struct Ctx *p);
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
+extern void func_021767F0();
+extern void *func_02184D38(void *p, int unused, int a, const int *q, u16 s, int t);
+extern int func_021665F0(int a0, int a1, int a2);
+extern struct Desc *func_0216B3A8(int a0, int a1, int a2);
+extern void func_0215897C(void *vm, void *task);
+extern void *func_02188C7C(u8 *p);
+extern void *func_0216DE94(void *, u32);
+extern u32 func_0215901C(void *, void *, u32);
+extern void func_0217C274(unsigned int *out, char *p);
+extern void func_0217C2A0(int, void *, void *);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200E0B0(void *p);
+extern int func_02158344(int a0);
+extern int func_0217688C();
+extern void *func_020120F4(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void func_02082BCC();
+extern u32 func_020173EC(void);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern u32 func_0200E2BC(void *a0, u32 *a1, void *heap, u32 mode);
+extern void func_021AA304();
+extern void *func_020124E4(struct Obj *p);
+extern void *func_02029BCC(void *a, u32 b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_020185B0(void *p, u32 v);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern u16 func_02045A98(void);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02018430(void *p);
-extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
-u32 func_021684E8(BattleMon_021684E8 *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
-void func_0216869C(const BattleMon_0216869C *src, void *mon);
-void func_02168800(void *dst, u32 member);
-extern const u16 d_02172084[];
+extern int func_020144DC(int a0, int a1);
+extern void *func_0201292C(const struct BigObj *p);
+extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
+extern int func_02034AC4(s32 handle);
+extern void func_02034A5C(s32 handle);
+extern u8 *func_02012944(void *p);
+extern struct Sub02008700Obj *func_0200873C(void *sys);
+extern void *func_0200CA10(void *sv);
+extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
+extern void *func_02029C00(void *h);
+extern void *func_020145CC(void *h);
+extern void *func_02029CC0(void *h);
+extern u32 func_020307B0(void *p);
+extern int func_02189A08(unsigned char *p);
+extern void func_021CF498(struct Ctx *c, u32 x, int idx);
+extern struct P *func_021B6100(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 heap);
+extern int func_021B6158(void *p);
+extern void *func_021B95A0(u32 a, int b, u32 c, u32 heap);
+extern void func_021B95C8(void *p);
+int func_0216AE10(int a0, int a1);
+void *func_0216AED0(void *p, u32 id);
+void func_0216AEE8(int vm, int *out);
+void func_0216AF1C(void *a0, void *a1, void *a2, void *a3);
+void func_0216AF3C(int a0);
+struct Desc *func_0216AF74(int a0, int a1, int a2, int a3, u16 *a4, u16 a5);
+int func_0216B004(void *evt, u32 *state, Work *w);
+extern u8 ov098_id[];
+extern u8 ov227_id[];
+extern u8 d_021B6D74[];
+extern u8 d_021B98A4[];
+
+
+int func_0216AE10(int a0, int a1)
+{
+    int buf[3];
+    int q[3];
+    void *hd;
+    void *b;
+    void *c;
+    int kind;
+    int v;
+    void *x;
+    void *y;
+    void *r;
+    int s;
+
+    hd = func_0215A5F4((void *)a1);
+    b = func_0215A5DC((void *)a1);
+    c = func_0215A5E4((void *)a1);
+    kind = func_02159B10((void *)a0, (void *)a1);
+    v = func_02012FB0(c);
+    if (kind == 1 && func_0216662C(v) != 0) {
+        x = func_0201210C((void *)b);
+        y = func_02188CB4((void *)x);
+        s = func_02012138(b);
+        func_021A3038(y, (struct VecFx32 *)q);
+        func_021767F0(s, c, buf);
+        buf[0] = buf[0] + (q[0] - (0x3E << 14));
+        r = func_02184D38(b, (int)x, 0x117, buf, 1, 0);
+    } else {
+        if (kind != 9)
+            v = func_021665F0((int)b, func_02012FB0(c), kind);
+        r = (void *)func_0216B3A8((int)b, kind, v);
+    }
+    func_0215897C(hd, r);
+    return 1;
+}
+
+void *func_0216AED0(void *p, u32 id) { return func_0216DE94(func_02188C7C(func_0201210C(func_0215A5DC(p))), id); }
+
+void func_0216AEE8(int vm, int *out)
+{
+    void *ws;
+    ws = func_0215A5F4((void *)vm);
+    func_0217C274((unsigned int *)out, (char *)((int)func_0216AED0((void *)vm, func_0215901C(ws, func_0215A5E4((void *)vm), 0x8011))));
+}
 
 
 /*
- * Build a battle-facility Pokemon from its a/2/1/4 record (the reader is
- * func_02168800). Levers: the pid store in both arms of an if/else, the
- * ability as a nested if storing in all three arms, and (2026-09-28
- * tree_ov010_4) the EV share as an int local computed straight from the
- * division with the count n reused as the second loop's counter.
+ * Overlay index on the first argument, then the pair call is staged with
+ * the fourth argument.
  */
-u32 func_021684E8(BattleMon_021684E8 *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap)
+void func_0216AF1C(void *a0, void *a1, void *a2, void *a3)
 {
-    FacRec rec;
-    int i;
-    int n;
-    u8 friendship;
-    int ev;
-    u32 ability;
-    void *bank;
+    void *v = func_0215A5E4(a0);
 
-    MI_CpuFill8(out, 0, sizeof(BattleMon_021684E8));
-    func_02168800(&rec, member);
-    out->species = rec.species;
-    out->form = rec.form;
-    if (useItem)
-        out->item = d_02172084[itemIdx];
-    else
-        out->item = rec.item;
-    friendship = 0xFF;
-    for (i = 0; i < 4; i++) {
-        out->moves[i] = rec.moves[i];
-        if (rec.moves[i] == 0xDA)
-            friendship = 0;
+    func_0217C274(a3, a1);
+    func_0217C2A0(4, v, a3);
+}
+
+
+/*
+ * Unblocked by matching func_0217688C (ov011, EXACT): the +0032 call site now
+ * attests as `matched`.
+ */
+void func_0216AF3C(int a0)
+{
+    int a1;
+    int t4;
+    int t5;
+    void *c;
+    void *e;
+    void *w;
+
+t5 = a0 + 0;
+    c = func_0215A5DC((void *)a0);
+loc_0216AF44:
+a0 = t5 + 0;
+    e = func_0215A5E4((void *)a0);
+loc_0216AF4C:
+    w = func_02012EBC(e);
+loc_0216AF52:
+    func_0200E0B0(w);
+loc_0216AF56:
+    a0 = func_02012138(c);
+loc_0216AF5C:
+    a0 = func_02158344(a0);
+loc_0216AF60:
+t4 = a0 + 0;
+    if (t4 == 0) goto loc_0216AF72;
+loc_0216AF64:
+    a0 = func_02012FB0(e);
+loc_0216AF6A:
+a1 = a0 + 0;
+a0 = t4 + 0;
+    a0 = func_0217688C(a0, a1);
+loc_0216AF72:
+    return;}
+
+
+struct Desc *func_0216AF74(int a0, int a1, int a2, int a3, u16 *a4, u16 a5)
+{
+    void *h;
+    struct Desc *r;
+    u8 *p;
+
+    h = func_020120F4((const struct Ctx *)a0);
+    r = func_020122C0((void *)a0, 0, (void *)func_0216B004, 0x3C);
+    p = func_020124E8((struct Obj *)r);
+    func_02082BCC(p, 0, 0x3C);
+    ((struct Obj03543 *)p)->f0 = a1;
+    *(u16 * *)&((struct Obj03543 *)p)->f28 = a4;
+    ((struct Obj03543 *)p)->f24 = a5;
+    ((struct Obj03543 *)p)->fC = a2;
+    *(int *)&((struct Obj03543 *)p)->f20 = a3;
+    ((struct Obj03543 *)p)->f2C = func_0203F1FC((const u8 *)a2, func_020173EC());
+    if (func_0200E2BC(func_02012EBC(h), (u32 *)(&a3), (void *)a5, 0) == 0)
+        ((struct Obj03543 *)p)->f20 = (((struct Obj03543 *)p)->f20 & 0xFFFFF800) | 0x28B;
+    func_021AA304(p + 0x10, h, a1);
+    return r;
+}
+
+
+/*
+ * Proc main of an ov010 sub-sequence: a 9-state machine that registers the
+ * party member's species/form key with the save (clearing the form to 12
+ * when it is not yet seen), runs the ov098 screen and then the ov227 one,
+ * and frees both work buffers when it runs past the last state.
+ *
+ * Byte-correct. Evidence gaps, not C: 0x02189A08 (ov021), 0x021B6158
+ * (ov098) and 0x021B95C8 (ov227) carry no func_ label in their overlay
+ * and have no second caller; d_021B6D74 and d_021B98A4 are the ov098 and
+ * ov227 proc tables. Levers: `ok` at function scope (its slot sits above
+ * the case-1 locals), heap declared before mon in both key blocks, and
+ * the u16 flag stored in both arms of an if/else.
+ *
+ * 2026-10-05: data hints now carry an overlay token that has a witness; EXACT.
+ */
+int func_0216B004(void *evt, u32 *state, Work *w)
+{
+    void *h = func_020124E4(evt);
+    void *sys = func_020120F4(h);
+    int ok;
+
+    switch (*state) {
+    case 0:
+        func_02012374(evt, func_02029BCC(h, 0x468));
+        (*state)++;
+        break;
+    case 1: {
+        u32 heap;
+        void *mon;
+        Key key;
+
+        mon = w->f0c;
+        heap = w->f24;
+
+        key.species = func_02017E1C(mon, 5, 0);
+        key.form = func_02017E1C(mon, 0x6F, 0);
+        if (func_0200E2BC(func_02012EBC(sys), (u32 *)(&key), (void *)heap, 1) == 0)
+            w->f20.form = 12;
+        func_021CF498((struct Ctx *)func_02189A08(w->f00), (u32)evt, 0);
+        (*state)++;
+        break;
     }
-    out->otId = otId;
-    if (pid == 0) {
-        pid = func_020186C8(otId, rec.species, rec.form, 2, 2, 0);
-        out->pid = pid;
-    } else {
-        out->pid = pid;
+    case 2:
+        (*state)++;
+        break;
+    case 3:
+        func_02012374(evt, (struct Evt **)func_020144DC((int)h, (int)w->f00));
+        (*state)++;
+        break;
+    case 4: {
+        void *sv = func_02012EBC(sys);
+
+        func_02007E50(func_0201292C(sys), 0x240, 1, w->f24);
+        func_02034AC4((u32)ov098_id);
+        w->f04 = func_021B6100((u32)sys, (u32)w->f0c, (u32)w->f10, (u32)func_02012944(sys), (u32)func_0201292C(sys),
+                               (u32)func_0200873C(sv), (u32)func_0200CA10(sv), w->f24);
+        func_02012444(evt, -1, (u32)d_021B6D74, (u32)w->f04);
+        (*state)++;
+        break;
     }
-    out->nature = rec.nature;
-    out->hpIv = iv;
-    out->atkIv = iv;
-    out->defIv = iv;
-    out->speIv = iv;
-    out->spaIv = iv;
-    out->spdIv = iv;
-    n = 0;
-    for (i = 0; i < 6; i++) {
-        if (rec.evMask & (1 << i))
-            n++;
-    }
-    ev = 510 / n;
-    if (ev > 255)
-        ev = 255;
-    for (n = 0; n < 6; n++) {
-        if (rec.evMask & (1 << n))
-            out->ev[n] = ev;
-    }
-    out->ppUps = 0;
-    out->lang = 0;
-    ability = func_02019C90(out->species, 0, 0x1B);
-    if (ability != 0) {
-        if (out->pid & 1)
-            out->ability = ability;
+    case 5: {
+        u32 heap;
+        void *mon;
+        Key key;
+
+        ok = func_021B6158(w->f04);
+        mon = w->f0c;
+        heap = w->f24;
+
+        key.species = func_02017E1C(mon, 5, 0);
+        key.form = func_02017E1C(mon, 0x6F, 0);
+        if (func_0200E2BC(func_02012EBC(sys), (u32 *)(&key), (void *)heap, 1) == 0
+            || func_0200E2BC(func_02012EBC(sys), (u32 *)(&w->f20), (void *)w->f24, 0) == 0)
+            ok = 0;
+        if (ok == 1)
+            *w->f28 = 1;
         else
-            out->ability = func_02019C90(out->species, 0, 0x1A);
-    } else {
-        out->ability = func_02019C90(out->species, 0, 0x1A);
+            *w->f28 = 0;
+        func_02034A5C((u32)ov098_id);
+        func_02034AC4((u32)ov227_id);
+        w->f08 = func_021B95A0((u32)sys, ok, (u32)w->f0c, w->f24);
+        func_02012444(evt, -1, (u32)d_021B98A4, (u32)w->f08);
+        func_02007F1C(func_0201292C(sys), 0x240, 1, w->f24);
+        (*state)++;
+        break;
     }
-    out->friendship = friendship;
-    bank = sub_02045B38(0, 2, 0x46, heap);
-    func_02045F5C(bank, out->species, out->nick, 11);
-    func_02045C04(bank);
-    return pid;
-}
-
-
-/*
- * Builds a level-50 party mon from a 0x3C-byte record. Two levers: the
- * PP-up count read back through func_02017E1C goes through a u8 local, and
- * the nickname copy reads through a `const u16 *` local (indexing
- * src->nick directly keeps the strbuf in a register and swaps r5/r6).
- */
-void func_0216869C(const BattleMon_0216869C *src, void *mon)
-{
-    u16 name[11];
-    void *buf;
-    u16 eos;
-    int i;
-    u8 pp;
-    const u16 *n;
-
-    func_02017528(mon);
-    func_02017588(mon, src->species, 50, (u64)-1, src->ivs & 0x3FFFFFFF, src->pid);
-    func_02017E40(mon, 0x6F, (u8)src->form);
-    func_02017E40(mon, 6, src->item);
-    for (i = 0; i < 4; i++) {
-        func_02017E40(mon, 0x36 + i, src->moves[i]);
-        func_02017E40(mon, 0x3E + i, (u8)((src->ppUps >> (i * 2)) & 3));
-        pp = func_02017E1C(mon, 0x42 + i, 0);
-        func_02017E40(mon, 0x3A + i, pp);
+    case 6:
+        func_021B95C8(w->f08);
+        func_02034A5C((u32)ov227_id);
+        func_02012374(evt, func_02029C00(h));
+        (*state)++;
+        break;
+    case 7:
+        func_02012374(evt, func_020145CC(h));
+        (*state)++;
+        break;
+    case 8:
+        func_02012374(evt, func_02029CC0(h));
+        (*state)++;
+        break;
+    default:
+        func_020307B0(w->f0c);
+        func_020307B0(w->f04);
+        return 1;
     }
-    func_02017E40(mon, 7, src->otId);
-    func_02017E40(mon, 0xD, src->ev[0]);
-    func_02017E40(mon, 0xE, src->ev[1]);
-    func_02017E40(mon, 0xF, src->ev[2]);
-    func_02017E40(mon, 0x10, src->ev[3]);
-    func_02017E40(mon, 0x11, src->ev[4]);
-    func_02017E40(mon, 0x12, src->ev[5]);
-    func_02017E40(mon, 0xA, src->f20);
-    func_02017E40(mon, 9, src->f21);
-    func_020185B0(mon, src->f38);
-    buf = func_020457B0(11, 4);
-    eos = func_02045A98();
-    n = src->nick;
-    for (i = 0; i < 11; i++)
-        name[i] = n[i];
-    name[i - 1] = eos;
-    func_02045924(buf, name);
-    func_02017E40(mon, 0x73, (u32)buf);
-    func_02045808(buf);
-    func_02017E40(mon, 0xC, src->lang);
-    func_02017E40(mon, 0x9E, func_02018430(mon));
-}
-
-
-/*
- * The reader for a/2/1/4: copy one 16-byte record into the caller's buffer.
- * 214 is the archive id and it never appears as an immediate at any call to
- * the arc_tool.c entry points, because this accessor reaches func_02048F4C
- * by pool word and `bx` rather than by `bl`
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md): a plain scan of `bl`
- * sites misses it entirely.
- *
- * The record is a battle-facility Pokemon: func_021684E8, three functions
- * up in the same file (fld_btl_inst_tool.c, by the __FILE__ anchors either
- * side of this address), reads the buffer field by field into a party
- * slot: +0 species (masked to 11 bits), +2/+4/+6/+8 the four move ids,
- * +10 a six-bit "which stats are EV-invested" mask (the caller divides 510
- * EVs between the set bits), +11 the nature (0..24 over the whole archive),
- * +12 the held item and +14 the form (five bits, always zero here).  The
- * member ids come from a/2/1/5, whose own reader is func_0216880C
- * immediately below this one.
- *
- * Addresses are Black-image addresses.  --region ov010 is required: this
- * address is only ov010 in the overlay that defines it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02168800.c \
- *       --func func_02168800 --addr 0x02168800 --region ov010 \
- *       --cc 1.1p1 --thumb
- */
-void func_02168800(void *dst, u32 member)
-{
-    func_02048F4C(dst, 214, member);
+    return 0;
 }

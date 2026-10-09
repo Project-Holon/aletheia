@@ -1,8 +1,8 @@
 /*
  * file:     unit_0218F9F8_p04.c
  * unit:     yes
- * function: func_0218FFE0, func_0218FFFC, func_0219003C
- * address:  0x0218FFE0
+ * function: func_0218FF38, func_0218FF98
+ * address:  0x0218FF38
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,83 +13,64 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   TableMapSafe2                    0x021848E4 arm
- *   gpiProfileMapCallback            0x0218FFE0 arm
+ *   strcmp                           0x020948E0 arm
+ *   gpiProfileMap                    0x0218FFFC arm
  */
 struct GPIProfile;
-typedef struct GPIConnection
+struct GPIUserInfo
 {
-	char pad[0x5C8];
-	void * profiles;
-} GPIConnection;
-
-struct GPIProfileMapData
-{
-	void ** connection;
-	int (*func)(void *, struct GPIProfile *, void *);
-	void * data;
-};
-
-struct GPIBlock
-{
-	int id;
+	char * field0;
+	int pad;
+	char * field8;
 };
 
 struct GPIProfile
 {
-	char pad[8];
-	struct GPIBlock * b8;
-	struct GPIBlock * bC;
+	char pad[0x10];
+	struct GPIUserInfo * info;
 };
 
-struct GPIFindProfileData
+struct GPIFindProfileByUserData
 {
-	int blockIndex;
-	struct GPIProfile * profile;
+	char * nick;
+	char * email;
+	struct GPIProfile ** profile;
+	int found;
 };
 
-extern void * TableMapSafe2(void * table, int (*cb)(void *, void *), void * udata);
-extern int gpiProfileMapCallback(void * arg, void * udata);
-void func_0218FFE0(int a, int *p);
-int gpiProfileMap(void ** connection, int (*func)(void *, struct GPIProfile *, void *), void * data);
-int gpiCheckForBuddy(void * unused, struct GPIProfile * profile, void * udata);
+extern int strcmp(const char * a, const char * b);
+extern int gpiProfileMap(void ** connection, int (*func)(void *, struct GPIProfile *, void *), void * data);
+int gpiCheckProfileForUser(void * unused, struct GPIProfile * profile, void * udata);
+int gpiFindProfileByUser(void ** connection, char * nick, char * email, struct GPIProfile ** profile);
 
-/*
- * Calls the handler the object carries on its three words.
- */
-void func_0218FFE0(int a, int *p)
+
+int gpiCheckProfileForUser(void * unused, struct GPIProfile * profile, void * udata)
 {
-    ((void (*)(int, int, int))p[1])(p[0], a, p[2]);
-}
+	struct GPIFindProfileByUserData * data = (struct GPIFindProfileByUserData *)udata;
+	struct GPIUserInfo * info = profile->info;
 
-
-int gpiProfileMap(void ** connection, int (*func)(void *, struct GPIProfile *, void *), void * data)
-{
-	struct GPIProfileMapData mapData;
-	GPIConnection * iconnection = (GPIConnection *)*connection;
-
-	mapData.connection = connection;
-	mapData.func = func;
-	mapData.data = data;
-	if (TableMapSafe2(iconnection->profiles, gpiProfileMapCallback, &mapData) == 0)
-		return 1;
-	return 0;
-}
-
-
-int gpiCheckForBuddy(void * unused, struct GPIProfile * profile, void * udata)
-{
-	struct GPIFindProfileData * data = (struct GPIFindProfileData *)udata;
-
-	if (profile->b8 != 0 && data->blockIndex == profile->b8->id)
+	if (info != 0
+	    && strcmp(data->nick, info->field0) == 0
+	    && strcmp(data->email, info->field8) == 0)
 	{
-		data->profile = profile;
-		return 0;
-	}
-	if (profile->bC != 0 && data->blockIndex == profile->bC->id)
-	{
-		data->profile = profile;
+		*(data->profile) = profile;
+		data->found = 1;
 		return 0;
 	}
 	return 1;
+}
+
+
+int gpiFindProfileByUser(void ** connection, char * nick, char * email, struct GPIProfile ** profile)
+{
+	struct GPIFindProfileByUserData data;
+
+	data.nick = nick;
+	data.email = email;
+	data.profile = profile;
+	data.found = 0;
+	gpiProfileMap(connection, gpiCheckProfileForUser, &data);
+	if (!data.found)
+		*profile = 0;
+	return 0;
 }

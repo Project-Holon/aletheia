@@ -1,8 +1,8 @@
 /*
  * file:     unit_02176DEC_p03.c
  * unit:     yes
- * function: func_021770EC, func_02177138
- * address:  0x021770EC
+ * function: func_02176FD4, func_02177044
+ * address:  0x02176FD4
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,43 +13,68 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   DWCs_GetTransConnection  0x02177770 arm
- *   DWCs_GetRecvState        0x021777A4 arm
- *   g_021AB180  0x021AB180  data
+ *   DWC_GetMyAID                   0x0216B838  arm ov009
+ *   DWC_SendReliable               0x02176E90  arm ov009
+ *   func_02059F38   0x02059F38  arm
+ *   DWC_IsValidAID  0x0216B94C  arm  ov009
+ *   func_0216B838   0x0216B838  arm  ov009
+ *   DWCi_SendUnreliable  0x02177848  arm  ov009
+ *   g_021AB180      0x021AB180  data
  */
-extern void *DWCs_GetTransConnection(unsigned char aid);
-extern int DWCs_GetRecvState(unsigned char aid);
-int DWC_SetRecvBuffer(unsigned char aid, void *recvBuffer, int size);
-int func_02177138(int a, int b);
-extern char g_021AB180[];
+#include "../../matched/include/G_TransInfo.h"
+
+typedef struct TransInfo TransInfo;
+
+extern unsigned char DWC_GetMyAID(void);
+extern int DWC_SendReliable(unsigned char aid, void *buffer, int size);
+extern int func_02059F38(void);
+extern int DWC_IsValidAID(int aid);
+extern unsigned char func_0216B838(void);
+extern void DWCi_SendUnreliable(int myaid, int aid, void *buffer, int size, int flag);
+unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size);
+int func_02177044(unsigned char aid, void *buffer, int size);
+extern struct TransInfo *g_021AB180;
 
 
-int DWC_SetRecvBuffer(unsigned char aid, void *recvBuffer, int size)
+/*
+ * sdk:      DWC_SendReliableBitmap (dwc_transport.o)
+ *
+ * Closed (w5_nm): the bit is the conditional expression
+ * `(aid != 0) ? (1 << aid) : 1`, which keeps the two constant 1s in separate
+ * registers (r7 for the zero case, r8 for the shift); the statement form with
+ * a later `if (aid == 0) aidbit = 1;` shared one register.
+ */
+unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size)
 {
-    char *connection = DWCs_GetTransConnection(aid);
+    unsigned long aidbit;
+    unsigned char aid;
 
-    if (DWCs_GetRecvState(aid) == 2)
-        return 0;
-    *(void **)(connection + 4) = recvBuffer;
-    *(int *)(connection + 8) = size;
-    *(char *)(connection + 0x1d) = 1;
-    *(int *)(connection + 0x10) = 0;
-    *(int *)(connection + 0x18) = 0;
-    return 1;
+    for (aid = 0; aid < 32; aid++) {
+        aidbit = (aid != 0) ? (1 << aid) : 1;
+        if ((bitmap & aidbit) == 0)
+            continue;
+        if (aid == DWC_GetMyAID())
+            continue;
+        if (DWC_SendReliable(aid, buffer, size) == 0)
+            bitmap &= ~aidbit;
+    }
+    return bitmap;
 }
 
 
 /*
- * Word at +0x700 of the block the module pointer holds, and the block again at
- * +0x710 of the second copy the pointer holds, or zero when there is no block.
+ * sdk:      DWC_SendUnreliable (libdwcmatch.TWL.HYB.a dwc_transport.o)
  */
-int func_02177138(int a, int b)
+int func_02177044(unsigned char aid, void *buffer, int size)
 {
-    int *p = *(int **)g_021AB180;
-
-    if (p == 0)
+    if (func_02059F38() != 0)
         return 0;
-    *(int *)((char *)p + 0x700) = a;
-    *(int *)((char *)*(int **)g_021AB180 + 0x710) = b;
+    if (DWC_IsValidAID(aid) == 0)
+        return 0;
+    if (size > 0x5B6)
+        return 0;
+    DWCi_SendUnreliable(func_0216B838(), aid, buffer, size, 1);
+    if (g_021AB180->sendCallback != 0)
+        g_021AB180->sendCallback(size, aid, g_021AB180->sendCallbackParam);
     return 1;
 }

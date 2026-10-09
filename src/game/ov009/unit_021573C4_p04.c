@@ -1,122 +1,85 @@
 /*
  * file:     unit_021573C4_p04.c
  * unit:     yes
- * function: func_02157FF8, func_02158134
- * address:  0x02157FF8
+ * function: func_02157A44
+ * address:  0x02157A44
+ * packet:   pkt_ov009_02157A44
  * region:   ov009
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
+ * sdk:      put_in_buffer (libcps.TWL.HYB.a network.o)
  * symbols:
- *   func_02157888            0x02157888  arm  ov009
- *   func_02157928            0x02157928  arm  ov009
- *   OS_GetTick               0x020870D0  arm
- *   MI_CpuCopy               0x02082EA4  arm
- *   g_021A826C               0x021A826C  data
- *   g_021A8384               0x021A8384  data
- *   func_021578C8  0x021578C8  arm  ov009
- *   func_02157D8C  0x02157D8C  arm  ov009
- *   func_02157F60  0x02157F60  arm  ov009
- *   func_02082EA4  0x02082EA4  arm
- *   func_021579E8  0x021579E8  arm  ov009
- *   g_021A82D4  0x021A82D4  data
+ *   MI_CpuCopy                       0x02082ea4 arm
+ *   g_021A826C                       0x021a826c data
+ *   g_021A1CC0                       0x021a1cc0 data
+ * note: volatile in this file is a matching device (it forces the reload the
+ *   original performs); the vendor DWARF declares the object without volatile.
  */
-#include "../../matched/include/G_ArpEntry.h"
 
-#define NV(off, type) (*(type *)((char *)&g_021A826C + (off)))
-extern unsigned long func_02157888(unsigned long ip);
-extern int func_02157928(unsigned v);
-extern unsigned long long OS_GetTick(void);
-extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
-extern unsigned long func_021578C8(unsigned long ip);
-extern void func_02082EA4(void *src, void *dst, unsigned long size);
-extern void func_021579E8(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len);
-void func_02157FF8(unsigned char (*mac)[6], unsigned long ip, int new_entry);
-void func_02158134(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len, unsigned long ip_to, unsigned short type);
-extern unsigned char g_021A826C;
-extern struct ArpEntry g_021A8384[8];
-extern unsigned char g_021A82D4[6];
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned long u32;
 
+struct CPSGlobal {
+    u8 pad0[0x20];
+    u8 *buf;
+    u8 pad1[0x5c - 0x24];
+    volatile u32 bufsize;
+    volatile u32 putpnt;
+    volatile u32 getpnt;
+};
+
+extern struct CPSGlobal g_021A826C;
+extern u8 g_021A1CC0[];
+extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
 
 /*
- * sdk:      reg_arpcache (libcps.TWL.HYB.a network.o)
+ * sdk:      put_in_buffer (libcps.TWL.HYB.a network.o)
+ * note: volatile in this file is a matching device (it forces the reload the
+ *   original performs); the vendor DWARF declares the object without volatile.
  */
-void func_02157FF8(unsigned char (*mac)[6], unsigned long ip, int new_entry)
+void func_02157A44(u8 *srcAddr, u8 *dstAddr, u8 *buf1, u32 size1, u8 *buf2, u32 size2)
 {
-	unsigned long i;
-	unsigned long candidate;
-	unsigned short now;
-	unsigned short oldest_time;
+    u32 size;
+    u32 new_putpnt;
+    u16 blocklen;
 
-	if (ip == 0x7f000001 || ip == NV(0x50, unsigned long))
-		return;
-	if (!func_02157888(ip))
-		return;
-	if (func_02157928(ip))
-		return;
-	now = (unsigned short)(OS_GetTick() >> 16);
-	for (i = 0; i < 8; i++) {
-		if (g_021A8384[i].ip == ip) {
-			g_021A8384[i].when = now;
-			MI_CpuCopy(mac, g_021A8384[i].mac, 6);
-			return;
-		}
-	}
-	if (!new_entry)
-		return;
-	oldest_time = 0;
-	candidate = 0;
-	for (i = 0; i < 8; i++) {
-		if (g_021A8384[i].ip == 0) {
-			candidate = i;
-			break;
-		}
-		if ((short)(now - g_021A8384[i].when) > oldest_time) {
-			candidate = i;
-			oldest_time = now - g_021A8384[i].when;
-		}
-	}
-	g_021A8384[candidate].ip = ip;
-	MI_CpuCopy(mac, g_021A8384[candidate].mac, 6);
-	g_021A8384[candidate].when = now;
-}
-
-extern unsigned char (*func_02157D8C(unsigned long ip))[6];
-
-extern unsigned char (*func_02157F60(unsigned long ip))[6];
-
-
-/*
- * sdk:      send_ether (libcps.TWL.HYB.a(network.o))
- */
-void func_02158134(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len, unsigned long ip_to, unsigned short type)
-{
-	unsigned char (*mac_to)[6];
-
-	*(unsigned short *)(hdr - 2) = (type >> 8) | (type << 8);
-	if (!func_02157928(ip_to)) {
-		ip_to = func_021578C8(ip_to);
-		if (ip_to == 0)
-			return;
-		mac_to = func_02157D8C(ip_to);
-		if (mac_to == 0)
-			mac_to = func_02157F60(ip_to);
-		if (mac_to == 0)
-			return;
-		func_02082EA4(mac_to, hdr - 0xe, 6);
-	} else {
-		hdr[-0xe] = 1;
-		hdr[-0xd] = 0;
-		hdr[-0xc] = 0x5e;
-		hdr[-0xb] = (ip_to >> 16) & 0x7f;
-		hdr[-0xa] = ip_to >> 8;
-		hdr[-9] = ip_to;
-	}
-	func_02082EA4(g_021A82D4, hdr - 8, 6);
-	func_021579E8(hdr - 0xe, hdr_len + 0xe, body, body_len);
+    if (g_021A826C.buf == 0 || g_021A826C.bufsize == 0)
+        return;
+    size = size1 + size2;
+    if (size < 8 || size > 0x5e4)
+        return;
+    if (buf1[0] != g_021A1CC0[0] || buf1[1] != g_021A1CC0[1] || buf1[2] != g_021A1CC0[2] || buf1[6] != 8)
+        return;
+    if (buf1[7] != 0 && buf1[7] != 6)
+        return;
+    blocklen = (u16)((size + 9) & ~1);
+    new_putpnt = g_021A826C.putpnt + blocklen;
+    if (g_021A826C.putpnt < g_021A826C.getpnt && g_021A826C.getpnt <= new_putpnt)
+        return;
+    if (new_putpnt == g_021A826C.bufsize) {
+        new_putpnt = 0;
+        if (g_021A826C.getpnt == 0)
+            return;
+    } else if (new_putpnt > g_021A826C.bufsize) {
+        new_putpnt = blocklen;
+        if (g_021A826C.getpnt <= blocklen)
+            return;
+    }
+    if (g_021A826C.putpnt + blocklen > g_021A826C.bufsize) {
+        if (g_021A826C.bufsize - g_021A826C.putpnt >= 2)
+            *(u16 *)(g_021A826C.buf + g_021A826C.putpnt) = 0;
+        g_021A826C.putpnt = 0;
+    }
+    *(u16 *)(g_021A826C.buf + g_021A826C.putpnt) = blocklen;
+    MI_CpuCopy(dstAddr, g_021A826C.buf + g_021A826C.putpnt + 2, 6);
+    MI_CpuCopy(srcAddr, g_021A826C.buf + g_021A826C.putpnt + 8, 6);
+    MI_CpuCopy(buf1 + 6, g_021A826C.buf + g_021A826C.putpnt + 14, size1 - 6);
+    if (buf2 != 0 && size2 != 0)
+        MI_CpuCopy(buf2, g_021A826C.buf + g_021A826C.putpnt + 8 + size1, size2);
+    g_021A826C.putpnt = new_putpnt;
 }

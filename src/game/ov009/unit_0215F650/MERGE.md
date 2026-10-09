@@ -1,22 +1,15 @@
-# unit_0215F650.c (ov009)
+# unit_0215F650 (ov009)
 
-Translation unit 0215F650..0215FC80, 14 functions, confidence proven (tools/tuboundary.py).
+Two parts, both byte-exact. p01 (0215F650..0215FA90, SOC_GetHostByName .. SOC_Startup) is
+one file: the three views of the soc.o statics block were unified into one SOCStatics struct.
 
-The member files below each match on their own. Merging them into one
-`unit_0215F650.c` is blocked by:
+Remaining boundary p01 | p02: a 12-byte linker veneer (`ldr ip,[pc]; bx ip; .word`) at
+0x0215FA90..0x0215FA9C sits between SOC_Startup and SOC_InetNtoA. No function covers it, so
+it stays a file boundary.
 
-- ov009_func_0215F650.c..ov009_func_0215FBCC.c: type typedef alloc_0215F8FC differs between members (src/matched/ov_sdk/ov009_func_0215F8FC.c); global g_021AA4BC declared two ways (src/matched/ov_sdk/ov009_func_0215F8FC.c)
-- ov009_func_0215F8D0.c..ov009_func_0215FBCC.c: type typedef alloc_0215F8FC differs between members (src/matched/ov_sdk/ov009_func_0215F8FC.c); global g_021AA4BC declared two ways (src/matched/ov_sdk/ov009_func_0215F8FC.c)
-- ov009_func_0215F8D0.c..ov009_func_0215FA9C.c: type typedef alloc_0215F8FC differs between members (src/matched/ov_sdk/ov009_func_0215F8FC.c); global g_021AA4BC declared two ways (src/matched/ov_sdk/ov009_func_0215F8FC.c)
-- ov009_func_0215F8FC.c..ov009_func_0215FA9C.c: type typedef alloc_0215F8FC differs between members (src/matched/ov_sdk/ov009_func_0215F8FC.c)
-- no verified entry for 0215FA90
+Overlapping externs kept in p01 because the original pool words are separate symbols:
+g_021AA4BC_ip (0x021AA4BC), g_021AA4D4 (0x021AA4D4), g_021AA4DC (0x021AA4DC),
+g_021AA50C (0x021AA50C). Folding them into SOCStatics changes the literal pool.
 
-Members, in address order:
-
-- `ov009_func_0215F8D0.c`
-- `ov009_func_0215F8FC.c`
-- `ov009_func_0215FA9C.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_0215F650.c` again.
+- `unit_0215F650_p01.c`
+- `unit_0215F650_p02.c`

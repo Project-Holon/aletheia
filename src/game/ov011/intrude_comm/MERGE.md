@@ -1,21 +1,5 @@
-# intrude_comm.c (ov011)
+# intrude_comm.c
 
-Translation unit 02172BC0..02173658, 12 functions, confidence weak (tools/tuboundary.py).
+Round 3 (r3_ov04): the hidden function func_0217358C (4 bytes, u8 *f(u8 *p) { return p + 12; }) now sits in p02, so the old p02|p03 boundary is gone. 2 parts left.
 
-The member files below each match on their own. Merging them into one
-`intrude_comm.c` is blocked by:
-
-- ov011_func_02172BC0.c..ov011_func_021735FC.c: prototype of func_02012B64 differs between members (src/matched/ov/ov011_func_02172D70.c)
-- ov011_func_02172BC0.c..ov011_func_02173368.c: prototype of func_02012B64 differs between members (src/matched/ov/ov011_func_02172D70.c)
-- ov011_func_02172BC0.c..ov011_func_02172D70.c: prototype of func_02012B64 differs between members (src/matched/ov/ov011_func_02172D70.c)
-- ov011_func_02173464.c..ov011_func_021735FC.c: c99=DIFF nolang=DIFF
-- ov011_func_02173580.c..ov011_func_021735FC.c: c99=DIFF nolang=DIFF
-
-Members, in address order:
-
-- `ov011_func_02172BC0.c`
-- `ov011_func_02173580.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names intrude_comm.c` again.
+- p01|p02: func_02012B64 is declared (struct BigObj *, u8) in p01 and (void *sv, u32 a) in p02. With the real prototype the u16 argument from func_02039338 gets a truncation. Dropping the declaration (implicit call) still gives a DIFF: func_02172D70 grows by 8 bytes (code 28 bytes longer, literal pool 20 shorter), so more than that one prototype is involved. Not solved.

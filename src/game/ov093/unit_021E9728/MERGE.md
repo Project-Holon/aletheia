@@ -1,22 +1,10 @@
 # unit_021E9728.c (ov093)
 
-Translation unit 021E9728..021E98AC, 14 functions, confidence weak (tools/tuboundary.py).
+Split into 4 parts. Each boundary is a linker veneer (`bx pc` ARM veneer, 16 bytes): 0x021E97F8, 0x021E9848, 0x021E9874 (1 veneer per boundary). Veneers are not matchable code, so each part is a file boundary. All hidden setters and thunks between parts were written as functions and merged.
 
-The member files below each match on their own. Merging them into one
-`unit_021E9728.c` is blocked by:
+Parts, in address order:
 
-- func_021E9728.c..func_021E9884.c: c99=DIFF nolang=DIFF
-- ov093_func_021E97A4.c..func_021E9884.c: c99=DIFF nolang=DIFF
-- ov093_func_021E9808.c..func_021E9884.c: c99=DIFF nolang=DIFF
-- ov093_func_021E9858.c..func_021E9884.c: c99=DIFF nolang=DIFF
-- no verified entry for 021E97F8, 021E9848, 021E9874, 021E989C
-
-Members, in address order:
-
-- `ov093_func_021E9808.c`
-- `ov093_func_021E9858.c`
-- `func_021E9884.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021E9728.c` again.
+- `unit_021E9728_p01.c` 0x021E9728: func_021E9728, func_021E9730, func_021E9738, func_021E9760, func_021E979C, func_021E97A4, func_021E97BC
+- `unit_021E9728_p02.c` 0x021E9808: func_021E9808
+- `unit_021E9728_p03.c` 0x021E9858: func_021E9858
+- `unit_021E9728_p04.c` 0x021E9884: func_021E9884

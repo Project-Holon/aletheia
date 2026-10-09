@@ -1,7 +1,7 @@
 /*
  * file:     fld3d_ci_p01.c
  * unit:     yes
- * function: func_021C1988, func_021C19B4, func_021C1A08, func_021C1A48
+ * function: func_021C1988, func_021C19B4, func_021C1A08, func_021C1A48, func_021C1A84, func_021C1A98
  * address:  0x021C1988
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -26,8 +26,10 @@
  *   func_02030734  0x02030734  arm
  *   func_02050B80  0x02050B80  arm
  *   d_021DE3C8     0x021DE3C8  data  ov021  a4
+ *   func_02050DB8  0x02050DB8  arm
  */
 #include "../../matched/include/Obj12917.h"
+#include "../../matched/include/Obj09206.h"
 
 struct Light;
 typedef unsigned char u8;
@@ -67,12 +69,17 @@ extern int func_02050C04(int a, int b, int c, int d);
 extern int func_02051788(char *p);
 extern void func_02048B60(struct Light *l, const u32 *in);
 extern void func_02048B6C(struct Light *l, const u32 *in);
+extern void func_02050DB8(u8 *p);
+extern int func_0205121C(u32 a, u32 b, u32 c);
 void func_021C1988(void *a, u16 *s);
 u32 func_021C19B4(u8 *a, u32 b);
 u32 *func_021C1A08(u32 a);
 u32 func_021C1A48(S *p);
+void func_021C1A84(u8 *p);
+void *func_021C1A98(u16 *p, int a, int b);
 extern Fn d_021DA128[];
 extern u8 d_021DE3C8;
+
 
 
 /*
@@ -87,6 +94,7 @@ void func_021C1988(void *a, u16 *s)
         func_021C16AC((u8 *)s);
     }
 }
+
 
 
 /*
@@ -109,6 +117,7 @@ u32 func_021C19B4(u8 *a, u32 b)
 }
 
 
+
 u32 *func_021C1A08(u32 a)
 {
     u32 *r;
@@ -119,6 +128,7 @@ u32 *func_021C1A08(u32 a)
     r[2] = (u32)func_02030734(a, 0x4800, 1, (const char *)&d_021DE3C8, 0x34);
     return r;
 }
+
 
 
 /*
@@ -137,4 +147,25 @@ u32 func_021C1A48(S *p)
     func_02048B60((struct Light *)o, &a);
     func_02048B6C((struct Light *)o, &b);
     return p->fC;
+}
+
+
+
+void func_021C1A84(u8 *p)
+{
+    u32 v = ((struct Obj09206 *)p)->fC;
+    if (v != 0) {
+        func_02050DB8((u8 *)v);
+        ((struct Obj09206 *)p)->fC = 0;
+    }
+}
+
+
+
+/*
+ * Loads a resource with the owner's heap id (tail call).
+ */
+void *func_021C1A98(u16 *p, int a, int b)
+{
+    return (void *)func_0205121C(a, b, p[2]);
 }

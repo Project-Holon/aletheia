@@ -1,25 +1,22 @@
-# unit_02165B80.c (ov009)
+# unit_02165B80 (ov009)
 
-Translation unit 02165B80..02166304, 13 functions, confidence proven (tools/tuboundary.py).
+The TU is split into 3 parts in address order. Every part is byte-exact (checked).
+The greedy merge (neighbour into running file, both member orders, type policies rename/first/last)
+stops at these boundaries. Each part is the largest run that merges; the next part fails to join it:
 
-The member files below each match on their own. Merging them into one
-`unit_02165B80.c` is blocked by:
+- before unit_02165B80_p02.c: CCERR: line 102: 'bssDesc' is not a member of class 'struct WCMApList' | line 119: 'apListLock' is not a member of class 'struct WCMWork' | line 121: '
+- before unit_02165B80_p03.c: CCERR: line 79: struct/union/enum/class tag 'WCMBssDesc' redefined | line 84: undefined identifier 'WMGameInfo' | line 87: struct/union/enum/class tag 
 
-- ov009_func_02165B80.c..ov009_func_021661F0.c: prototype of WCMi_GetSystemWork differs between members (src/matched/ov_sdk/ov009_func_02165BD0.c); prototype of WCMi_GetSystemWork differs between members (src/matched/ov_sdk/ov009_func_02165C28.c); 
-- ov009_func_02165B80.c..ov009_func_02165DCC.c: prototype of WCMi_GetSystemWork differs between members (src/matched/ov_sdk/ov009_func_02165BD0.c); prototype of WCMi_GetSystemWork differs between members (src/matched/ov_sdk/ov009_func_02165C28.c); 
-- ov009_func_02165CAC.c..ov009_func_02165DCC.c: c99=CCERR: line 173: illegal implicit conversion from 'struct WCMApList_02165DCC *' to | line 173: 'struct WCMApList_02165D04 *' nolang=CCERR: line 173: illegal implicit conversion from 'struct WCMApL
-- ov009_func_02165E98.c..ov009_func_021661F0.c: prototype of WCMi_GetSystemWork differs between members (src/matched/ov_sdk/ov009_func_02165EC8.c); prototype of WCMi_GetSystemWork differs between members (src/matched/ov_sdk/ov009_func_02165F34.c)
-- ov009_func_02165E98.c..ov009_func_02165F34.c: type struct WCMApListHeader differs between members (src/matched/ov_sdk/ov009_func_02165EC8.c); type struct WCMApListHeader differs between members (src/matched/ov_sdk/ov009_func_02165F34.c)
-- ov009_func_02165EC8.c..ov009_func_02165F34.c: type struct WCMApListHeader differs between members (src/matched/ov_sdk/ov009_func_02165F34.c)
-- no verified entry for 02165CA0
+The blockers are struct views of one object that differ between parts (field names and
+offsets are not yet unified), plus prototypes with different argument lists. A later struct pass
+should give each object one definition, then rerun the greedy merge.
 
-Members, in address order:
+Parts:
 
-- `ov009_func_02165CAC.c`
-- `ov009_func_02165E98.c`
-- `ov009_func_02165EC8.c`
-- `ov009_func_02165F34.c`
+- `unit_02165B80_p01.c`
+- `unit_02165B80_p02.c`
+- `unit_02165B80_p03.c`
 
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_02165B80.c` again.
+Round 3 (r3_ov01) notes:
+- p01 | p02 is a 12-byte linker veneer at 0x02165CA0..0x02165CAC (no function covers it): real file boundary.
+- p02 | p03 are contiguous (0x02165E98); the blocker is only the WCMWork / WCMApList / WCMBssDesc struct views (suffix-named copies _02165B80, _02165CAC, _02165D04, _02165DCC). p03 now verifies MATCH (status fixed).

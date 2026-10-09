@@ -1,51 +1,48 @@
-# unit_0215FDA4.c (ov009)
+# unit_0215FDA4 (ov009)
 
-Translation unit 0215FDA4..02162FC0, 60 functions, confidence proven (tools/tuboundary.py).
+The TU is split into 18 parts in address order. Every part is byte-exact (checked).
+The greedy merge (neighbour into running file, both member orders, type policies rename/first/last)
+stops at these boundaries. Each part is the largest run that merges; the next part fails to join it:
 
-The member files below each match on their own. Merging them into one
-`unit_0215FDA4.c` is blocked by:
+- before unit_0215FDA4_p02.c: CCERR: line 71: 'field_5a' is not a member of class 'struct CPSSslSession' | line 72: 'field_58' is not a member of class 'struct CPSSslSession' | line
+- before unit_0215FDA4_p03.c: CCERR: line 42: struct/union/enum/class tag 'CPSSslSession' redefined | line 130: illegal implicit conversion from 'struct CPSSslSession *' to | line 1
+- before unit_0215FDA4_p04.c: CCERR: line 494: 'sig' is not a member of class 'struct CPSSslConnection' | line 504: 'sig' is not a member of class 'struct CPSSslConnection' | line 5
+- before unit_0215FDA4_p05.c: CCERR: line 138: 'f5af' is not a member of class 'struct CPSSslConnection' | line 140: 'f45c' is not a member of class 'struct CPSSslConnection' | line
+- before unit_0215FDA4_p06.c: CCERR: line 72: struct/union/enum/class tag 'CPSSslConnection' redefined | line 85: identifier 'CPSSslConnection' redeclared | line 85: was declared as
+- before unit_0215FDA4_p07.c: CCERR: line 53: struct/union/enum/class tag 'CPSSslConnection' redefined | line 84: identifier 'CPSSslConnection' redeclared | line 84: was declared as
+- before unit_0215FDA4_p08.c: CCERR: line 151: function call 'func_02160E0C(int, unsigned char)' does not match | line 151: 'func_02160E0C(int)' | line 182: function call 'func_0216
+- before unit_0215FDA4_p09.c: CCERR: line 67: struct/union/enum/class tag '_CPSSslConnection' redefined | line 80: undefined identifier 'CPSCipherCtx' | line 87: undefined identifie
+- before unit_0215FDA4_p10.c: CCERR: line 46: undefined identifier 'u8' | line 47: undefined identifier 'u16' | line 58: identifier 'u8' redeclared
+- before unit_0215FDA4_p11.c: CCERR: line 67: undefined identifier 'u8' | line 68: undefined identifier 'u16' | line 79: identifier 'u8' redeclared
+- before unit_0215FDA4_p12.c: CCERR: line 194: 'f455' is not a member of class 'struct _CPSSslConnection' | line 200: 'f455' is not a member of class 'struct _CPSSslConnection' | li
+- before unit_0215FDA4_p13.c: CCERR: line 98: struct/union/enum/class tag '_CPSSoc' redefined | line 194: 'client_random' is not a member of class 'struct CPSSslConnection' | line 1
+- before unit_0215FDA4_p14.c: CCERR: line 127: 'resumed' is not a member of class 'struct CPSSslConnection' | line 130: 'resumed' is not a member of class 'struct CPSSslConnection' 
+- before unit_0215FDA4_p15.c: CCERR: line 87: 'state' is not a member of class 'struct CPSSoc' | line 91: 'f455' is not a member of class 'struct CPSSslConnection' | line 92: 'f1d4'
+- before unit_0215FDA4_p16.c: CCERR: line 34: undefined identifier 'CPSSslConnection' | line 44: identifier 'CPSSslConnection' redeclared | line 44: was declared as: 'int'
+- before unit_0215FDA4_p17.c: CCERR: line 134: 'buf' is not a member of class 'struct CPSSslConnection' | line 136: 'buf' is not a member of class 'struct CPSSslConnection' | line 1
+- before unit_0215FDA4_p18.c: CCERR: line 79: struct/union/enum/class tag 'CPSSslSession' redefined | line 142: 'state' is not a member of class 'struct CPSSoc' | line 255: 'f455' i
 
-- ov009_func_0215FDA4.c..ov009_func_02162FA4.c: global g_021AA664 declared two ways (src/matched/ov_sdk/ov009_func_0215FE3C.c); global g_021AA664 declared two ways (src/matched/ov_sdk/ov009_func_0215FFD0.c); global g_02150FEC declared two ways (src
-- ov009_func_0215FDA4.c..ov009_func_021612C8.c: global g_021AA664 declared two ways (src/matched/ov_sdk/ov009_func_0215FE3C.c); global g_021AA664 declared two ways (src/matched/ov_sdk/ov009_func_0215FFD0.c); global g_02150FEC declared two ways (src
-- ov009_func_0215FDA4.c..ov009_func_021602B8.c: global g_021AA664 declared two ways (src/matched/ov_sdk/ov009_func_0215FE3C.c); global g_021AA664 declared two ways (src/matched/ov_sdk/ov009_func_0215FFD0.c); global g_02150FEC declared two ways (src
-- ov009_func_0215FDA4.c..ov009_func_0216008C.c: global g_021AA664 declared two ways (src/matched/ov_sdk/ov009_func_0215FE3C.c); global g_021AA664 declared two ways (src/matched/ov_sdk/ov009_func_0215FFD0.c)
-- ov009_func_0215FDA4.c..ov009_func_0215FEE0.c: global g_021AA664 declared two ways (src/matched/ov_sdk/ov009_func_0215FE3C.c)
-- ov009_func_0215FE3C.c..ov009_func_0215FEE0.c: c99=CCERR: line 56: illegal use of incomplete struct/union/class 'struct CPSSslSession_0215FE3C' | line 69: illegal implicit conversion from 'signed char *' to | line 69: 'struct CPSSslSession_0215FE3
-- ov009_func_0216009C.c..ov009_func_021602B8.c: global g_02150FEC declared two ways (src/matched/ov_sdk/ov009_func_02160108.c)
-- ov009_func_0216009C.c..ov009_func_02160130.c: global g_02150FEC declared two ways (src/matched/ov_sdk/ov009_func_02160108.c)
-- ov009_func_02160764.c..ov009_func_021612C8.c: prototype of CPSi_sha1_init differs between members (src/matched/ov_sdk/ov009_func_021612C8.c); prototype of CPSi_sha1_calc differs between members (src/matched/ov_sdk/ov009_func_021612C8.c); prototyp
-- ov009_func_02160764.c..ov009_func_02160D68.c: c99=CCERR: line 234: illegal implicit conversion from 'struct CPSSslConnection_0216090C *' to | line 234: 'struct CPSSslConnection_02160764 *' nolang=CCERR: line 234: illegal implicit conversion from 
-- ov009_func_02160764.c..ov009_func_021609E8.c: c99=CCERR: line 166: illegal implicit conversion from 'struct CPSSslConnection_0216090C *' to | line 166: 'struct CPSSslConnection_02160764 *' nolang=CCERR: line 166: illegal implicit conversion from 
-- ov009_func_02160A10.c..ov009_func_02160D68.c: c99=CCERR: line 68: struct/union/enum/class tag 'CPSSslConnection' redefined | line 77: identifier 'CPSSslConnection' redeclared | line 77: was declared as: 'struct CPSSslConnection' nolang=CCERR: lin
-- ov009_func_02160DB4.c..ov009_func_021612C8.c: prototype of CPSi_sha1_init differs between members (src/matched/ov_sdk/ov009_func_021612C8.c); prototype of CPSi_sha1_calc differs between members (src/matched/ov_sdk/ov009_func_021612C8.c); prototyp
-- ov009_func_02160DB4.c..ov009_func_02160EE0.c: c99=CCERR: line 82: function call 'func_02160E0C(int, unsigned char)' does not match | line 82: 'func_02160E0C(int)' | line 108: function call 'func_02160E0C(int, unsigned char)' does not match nolang
-- ov009_func_02161480.c..ov009_func_02162FA4.c: prototype of CPSi_md5_init differs between members (src/matched/ov_sdk/ov009_func_021619CC.c); prototype of CPSi_md5_calc differs between members (src/matched/ov_sdk/ov009_func_021619CC.c); prototype 
-- ov009_func_02161480.c..ov009_func_021622C0.c: prototype of CPSi_md5_init differs between members (src/matched/ov_sdk/ov009_func_021619CC.c); prototype of CPSi_md5_calc differs between members (src/matched/ov_sdk/ov009_func_021619CC.c); prototype 
-- ov009_func_02161480.c..ov009_func_02161784.c: c99=CCERR: line 187: illegal implicit conversion from 'struct _CPSSslConnection *' to | line 187: 'struct _CPSSslConnection_021614BC *' | line 194: illegal implicit conversion from 'struct _CPSSslConn
-- ov009_func_021619CC.c..ov009_func_021622C0.c: prototype of CPSi_sha1_calc differs between members (src/matched/ov_sdk/ov009_func_02161C54.c); prototype of CPSi_sha1_init differs between members (src/matched/ov_sdk/ov009_func_02162248.c); prototyp
-- ov009_func_02162418.c..ov009_func_02162FA4.c: prototype of func_02161F98 differs between members (src/matched/ov_sdk/ov009_func_021629BC.c); prototype of func_02161C80 differs between members (src/matched/ov_sdk/ov009_func_02162AE4.c); global g_0
-- ov009_func_02162418.c..ov009_func_02162A94.c: prototype of func_02161F98 differs between members (src/matched/ov_sdk/ov009_func_021629BC.c)
-- ov009_func_0216289C.c..ov009_func_02162A94.c: prototype of func_02161F98 differs between members (src/matched/ov_sdk/ov009_func_021629BC.c)
-- ov009_func_0216289C.c..ov009_func_02162968.c: c99=CCERR: line 128: illegal implicit conversion from 'struct CPSSoc_02162968 *' to | line 128: 'struct CPSSoc_0216289C *' nolang=CCERR: line 128: illegal implicit conversion from 'struct CPSSoc_02162
-- ov009_func_02162AE4.c..ov009_func_02162FA4.c: global g_021AA664 declared two ways (src/matched/ov_sdk/ov009_func_02162FA4.c)
-- ov009_func_02162AE4.c..ov009_func_02162DD8.c: c99=CCERR: line 134: illegal implicit conversion from 'struct CPSSoc_02162C28 *' to | line 134: 'struct CPSSoc_02162AE4 *' | line 145: identifier 'g_021A8280' redeclared as 'void * (*)(unsigned long)'
-- ov009_func_02162AE4.c..ov009_func_02162C28.c: c99=CCERR: line 118: illegal implicit conversion from 'struct CPSSoc_02162C28 *' to | line 118: 'struct CPSSoc_02162AE4 *' nolang=CCERR: line 118: illegal implicit conversion from 'struct CPSSoc_02162
-- ov009_func_02162E5C.c..ov009_func_02162FA4.c: global g_021AA664 declared two ways (src/matched/ov_sdk/ov009_func_02162FA4.c)
-- ov009_func_02162EC4.c..ov009_func_02162FA4.c: global g_021AA664 declared two ways (src/matched/ov_sdk/ov009_func_02162FA4.c)
+The blockers are struct views of one object that differ between parts (field names and
+offsets are not yet unified), plus prototypes with different argument lists. A later struct pass
+should give each object one definition, then rerun the greedy merge.
 
-Members, in address order:
+Parts:
 
-- `ov009_func_0215FDA4.c`
-- `ov009_func_0215FE3C.c`
-- `ov009_func_0215FEE0.c`
-- `ov009_func_02160764.c`
-- `ov009_func_0216289C.c`
-- `ov009_func_02162968.c`
-- `ov009_func_02162AE4.c`
-- `ov009_func_02162C28.c`
-- `ov009_func_02162EC4.c`
-- `ov009_func_02162FA4.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_0215FDA4.c` again.
+- `unit_0215FDA4_p01.c`
+- `unit_0215FDA4_p02.c`
+- `unit_0215FDA4_p03.c`
+- `unit_0215FDA4_p04.c`
+- `unit_0215FDA4_p05.c`
+- `unit_0215FDA4_p06.c`
+- `unit_0215FDA4_p07.c`
+- `unit_0215FDA4_p08.c`
+- `unit_0215FDA4_p09.c`
+- `unit_0215FDA4_p10.c`
+- `unit_0215FDA4_p11.c`
+- `unit_0215FDA4_p12.c`
+- `unit_0215FDA4_p13.c`
+- `unit_0215FDA4_p14.c`
+- `unit_0215FDA4_p15.c`
+- `unit_0215FDA4_p16.c`
+- `unit_0215FDA4_p17.c`
+- `unit_0215FDA4_p18.c`

@@ -1,127 +1,208 @@
 /*
  * file:     unit_0216F014_p10.c
  * unit:     yes
- * function: func_02171FD4, func_021720D8
- * address:  0x02171FD4
+ * function: DWCi_PostProcessConnection
+ * address:  0x02172254
+ * packet:   pkt_ov009_02172254
  * region:   ov009
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * The pair of trailing stores is written as one 64-bit zero (`*(unsigned
+ * long long *)&p->f5f0 = 0;`): the 32-bit form makes mwcc pick r1 for the
+ * zero, the 64-bit form r2, which is what the object has.
+ *
+ * sdk:      DWCi_PostProcessConnection (libdwcmatch.TWL.HYB.a(dwc_match.o))
  *
  * symbols:
- *   func_02176554                0x02176554 arm   ov009
- *   func_0217653C                0x0217653C arm   ov009
- *   func_02175F3C                0x02175F3C arm   ov009
- *   NNCancel                     0x02199FB4 arm   ov009
- *   func_02175FB8                0x02175FB8 arm   ov009
- *   func_02175F4C                0x02175F4C arm   ov009
- *   func_02172E18                0x02172E18 arm   ov009
- *   func_0217603C                0x0217603C arm   ov009
- *   func_0217637C                0x0217637C arm   ov009
- *   func_02173614                0x02173614 arm   ov009
- *   func_02172BB8                0x02172BB8 arm   ov009
- *   func_02176674                0x02176674 arm   ov009
- *   DWCi_GetMatchCnt                                  0x02175F3C arm
- *   DWCi_CancelPreConnectedServerProcessWithResetLevel 0x02171FD4 arm
+ *   DWCi_IsFullMesh                       0x0217695C  arm
+ *   DWCi_PostProcessSVConnectionFullmesh  0x0217273C  arm
+ *   DWCi_PostProcessSVConnectionHybrid    0x02172604  arm
+ *   DWCi_SetMatchStatus                   0x02175F4C  arm
+ *   DWCi_GetMatchCnt                      0x02175F3C  arm
+ *   DWCi_StopMeshMaking                   0x02176674  arm
+ *   DWCi_ClearMeshMakingTempInfo          0x02176870  arm
+ *   DWCi_SetHostStatus                    0x02175F84  arm
+ *   DWCi_InitClWaitTimeout                0x02173CFC  arm
+ *   DWCi_NodeInfo_IsValid                 0x02176580  arm
+ *   DWCi_NodeInfoList_InsertToTop         0x0217604C  arm
+ *   DWCi_SendMatchCommand                 0x0216FF2C  arm
+ *   DWCi_NodeInfo_Clear                   0x0217656C  arm
+ *   DWCi_HandleMatchCommandError          0x021719A4  arm
+ *   DWCi_PostProcessConnectionSYNFinish   0x02172510  arm
+ *   qr2_send_statechanged                 0x0219B490  arm
+ *   DWCi_GetFriendListIndex               0x02169038  arm
+ *   DWCi_GPSetServerStatus                0x0216F20C  arm
+ *   DWCi_HandleGPError                    0x02173D28  arm
+ *   DWCi_ResetLastSomeDataRecvTimeByAidAll 0x02175FE4  arm
+ *   ServerBrowserClear                    0x0219F00C  arm
  */
+
 typedef unsigned char u8;
-
 typedef unsigned short u16;
+typedef unsigned long u32;
 
-struct DWCstMatchControl_02171FD4 {
-    u8 pad0[0x18];
-    u8 f18;
-    u8 pad1[0x5dc - 0x19];
-    int f5dc;
-    u8 pad2[0x618 - 0x5e0];
-    int f618;
-    u8 pad3[0x632 - 0x61c];
-    u16 f632;
-    u8 pad4[0x654 - 0x634];
-    int f654;
-    u8 pad5[0x67c - 0x658];
-    int f67c;
-    u8 pad6[0x6d8 - 0x680];
-    u8 f6d8;
+struct DWCstNodeInfo
+{
+    int profileID;                  /* +0x00 */
+    u32 ip;                         /* +0x04 */
+    u8 pad0[0xc - 8];
+    u16 port;                       /* +0x0c */
+    u8 pad1[0x28 - 0xe];
 };
 
-struct DWCstNodeInfo { int profileID; };
-
-struct DWCstMatchControl_021720D8
+struct DWCstMatchControl
 {
     u8 pad0[0xd];
-    u8 connectedOnceBefore;  /* +0xd */
-    u8 pad1[0x15 - 0xe];
-    u8 qr2MatchTypeExt;      /* +0x15 */
+    u8 f0d;                         /* +0x0d */
+    u8 pad1[0x10 - 0xe];
+    void *f10;                      /* +0x10 */
+    u8 f14;                         /* +0x14 */
+    u8 f15;                         /* +0x15 */
+    u8 pad2[0x18 - 0x16];
+    u8 f18;                         /* +0x18 */
+    u8 pad3[0x554 - 0x19];
+    struct DWCstNodeInfo tempNewNodeInfo;   /* +0x554 */
+    struct DWCstNodeInfo tempNewClientInfo; /* +0x57c */
+    u8 pad4[0x5dc - 0x5a4];
+    int f5dc;                       /* +0x5dc */
+    void *f5e0;                     /* +0x5e0 */
+    u8 pad5[0x5f0 - 0x5e4];
+    int f5f0;                       /* +0x5f0 */
+    int f5f4;                       /* +0x5f4 */
+    u8 pad6[0x62a - 0x5f8];
+    u8 f62a;                        /* +0x62a */
+    u8 pad7[0x62f - 0x62b];
+    u8 f62f;                        /* +0x62f */
+    u8 pad8[0x678 - 0x630];
+    int f678;                       /* +0x678 */
+    u8 pad9a[4];
+    int f680;                       /* +0x680 */
+    u8 pad9[0x770 - 0x684];
+    void (*f770)(int, int, int, int, int, int);  /* +0x770 */
+    int f774;                       /* +0x774 */
+    u8 pad10[0x798 - 0x778];
+    int f798;                       /* +0x798 */
 };
 
-extern int func_02176554(void);
-extern void func_0217653C(void);
-extern int func_02175F3C(void);
-extern void NNCancel(int cookie);
-extern unsigned char func_02175FB8(void);
-extern void func_02175F4C(int state);
-extern int func_02172E18(int profileID);
-extern int func_0217603C(void);
-extern char *func_0217637C(int index);
-extern int func_02173614(int profileID, unsigned char command);
-extern void func_02172BB8(int level);
-extern int func_02176674(void);
-extern struct DWCstMatchControl_021720D8 * DWCi_GetMatchCnt(void);
-extern int DWCi_CancelPreConnectedServerProcessWithResetLevel(int clientPid, int resetLevel);
-int func_02171FD4(int clientPid, int resetLevel);
-int DWCi_CancelPreConnectedServerProcess(int clientPid);
+extern int DWCi_IsFullMesh(void);
+extern void DWCi_PostProcessSVConnectionFullmesh(void);
+extern void DWCi_PostProcessSVConnectionHybrid(void);
+extern void DWCi_SetMatchStatus(int state);
+extern struct DWCstMatchControl *DWCi_GetMatchCnt(void);
+extern int DWCi_StopMeshMaking(void);
+extern void DWCi_ClearMeshMakingTempInfo(void);
+extern void DWCi_SetHostStatus(int host);
+extern void DWCi_InitClWaitTimeout(void);
+extern int DWCi_NodeInfo_IsValid(struct DWCstNodeInfo *node);
+extern int DWCi_NodeInfoList_InsertToTop(struct DWCstNodeInfo *newNode);
+extern int DWCi_SendMatchCommand(unsigned char command, int profileID,
+        u32 ip, unsigned short port, u32 *data, int len);
+extern void DWCi_NodeInfo_Clear(struct DWCstNodeInfo *node);
+extern int DWCi_HandleMatchCommandError(int error);
+extern void DWCi_PostProcessConnectionSYNFinish(void);
+extern void qr2_send_statechanged(void *qrec);
+extern int DWCi_GetFriendListIndex(int profileID);
+extern int DWCi_GPSetServerStatus(int matchType);
+extern int DWCi_HandleGPError(int result);
+extern void DWCi_ResetLastSomeDataRecvTimeByAidAll(void);
+extern void ServerBrowserClear(void *sb);
 
-
-/*
- * sdk:      DWCi_CancelPreConnectedServerProcessWithResetLevel (libdwcmatch.TWL.HYB.a dwc_match.o)
- */
-int func_02171FD4(int clientPid, int resetLevel)
+void DWCi_PostProcessConnection(int type)
 {
-    struct DWCstNodeInfo *pNodeInfo;
-    int i;
+    u32 senddata[1];
+    int result;
+    struct DWCstMatchControl *p;
 
-    if (func_02176554())
-        func_0217653C();
-    ((struct DWCstMatchControl_02171FD4 *)func_02175F3C())->f6d8 = 0xff;
-    if (((struct DWCstMatchControl_02171FD4 *)func_02175F3C())->f618 != 0) {
-        NNCancel(((struct DWCstMatchControl_02171FD4 *)func_02175F3C())->f618);
-        ((struct DWCstMatchControl_02171FD4 *)func_02175F3C())->f618 = 0;
-    }
-    ((struct DWCstMatchControl_02171FD4 *)func_02175F3C())->f67c = 0;
-    if (func_02175FB8() == 2) {
-        ((struct DWCstMatchControl_02171FD4 *)func_02175F3C())->f18 = 0;
-        ((struct DWCstMatchControl_02171FD4 *)func_02175F3C())->f5dc = 0;
-        func_02175F4C(0x11);
-        ((struct DWCstMatchControl_02171FD4 *)func_02175F3C())->f654 = 0;
-        ((struct DWCstMatchControl_02171FD4 *)func_02175F3C())->f632 = 0;
-        func_02172E18(clientPid);
-        for (i = 1; i < func_0217603C(); i++) {
-            pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);
-            if (!func_02173614(pNodeInfo->profileID, 0xd))
-                return 0;
+    switch (type)
+    {
+    case 0:
+        if (DWCi_IsFullMesh())
+            DWCi_PostProcessSVConnectionFullmesh();
+        else
+            DWCi_PostProcessSVConnectionHybrid();
+        break;
+    case 1:
+        DWCi_SetMatchStatus(1);
+        if (DWCi_GetMatchCnt()->f14 == 3)
+            DWCi_GetMatchCnt()->f680 = DWCi_GetMatchCnt()->tempNewNodeInfo.profileID;
+        break;
+    case 2:
+        DWCi_SetMatchStatus(1);
+        if (DWCi_StopMeshMaking() == 1)
+        {
+            DWCi_ClearMeshMakingTempInfo();
+            break;
         }
-        if (func_0217603C() == 1)
-            func_02172BB8(resetLevel);
-    } else {
-        func_02176674();
+        DWCi_SetHostStatus(1);
+        DWCi_GetMatchCnt()->f14 = 3;
+        if (DWCi_GetMatchCnt()->f15 == 0 || DWCi_GetMatchCnt()->f15 == 1)
+        {
+            DWCi_GetMatchCnt()->f18 = 1;
+            DWCi_GetMatchCnt()->f5dc = DWCi_GetMatchCnt()->f678;
+        }
+        DWCi_InitClWaitTimeout();
+        if (DWCi_IsFullMesh())
+        {
+            if (DWCi_NodeInfo_IsValid(&DWCi_GetMatchCnt()->tempNewClientInfo))
+            {
+                struct DWCstNodeInfo *pNodeInfo;
+                struct DWCstMatchControl *p;
+
+                pNodeInfo = &DWCi_GetMatchCnt()->tempNewNodeInfo;
+                senddata[0] = pNodeInfo->profileID;
+                DWCi_NodeInfoList_InsertToTop(pNodeInfo);
+                DWCi_GetMatchCnt()->tempNewNodeInfo =
+                    DWCi_GetMatchCnt()->tempNewClientInfo;
+                p = DWCi_GetMatchCnt();
+                pNodeInfo = &p->tempNewNodeInfo;
+                result = DWCi_SendMatchCommand(9,
+                    p->tempNewNodeInfo.profileID,
+                    pNodeInfo->ip,
+                    pNodeInfo->port,
+                    senddata, 1);
+                DWCi_NodeInfo_Clear(&DWCi_GetMatchCnt()->tempNewClientInfo);
+                if (DWCi_HandleMatchCommandError(result))
+                    return;
+            }
+            DWCi_GetMatchCnt()->f62f = 1;
+        }
+        break;
+    case 3:
+        DWCi_GetMatchCnt()->f0d = 1;
+        DWCi_PostProcessConnectionSYNFinish();
+        DWCi_GetMatchCnt()->f798 = 0;
+        qr2_send_statechanged(DWCi_GetMatchCnt()->f10);
+        {
+            int flag = (DWCi_GetMatchCnt()->f680 == 0);
+            struct DWCstMatchControl *p = DWCi_GetMatchCnt();
+            result = DWCi_GetFriendListIndex(DWCi_GetMatchCnt()->f680);
+            p->f770(0, 0, flag, 0, result, DWCi_GetMatchCnt()->f774);
+        }
+        if (DWCi_GetMatchCnt()->f14 == 2)
+        {
+            if (DWCi_HandleGPError(DWCi_GPSetServerStatus(-1)))
+                return;
+            DWCi_SetMatchStatus(0xd);
+        }
+        else
+        {
+            DWCi_GPSetServerStatus(2);
+            DWCi_SetMatchStatus(1);
+        }
+        DWCi_GetMatchCnt()->f680 = 0;
+        DWCi_GetMatchCnt()->f62a = 0;
+        DWCi_ResetLastSomeDataRecvTimeByAidAll();
+        break;
     }
-    return 1;
-}
 
-
-int DWCi_CancelPreConnectedServerProcess(int clientPid)
-{
-    int resetLevel = 2;
-
-    if (DWCi_GetMatchCnt()->qr2MatchTypeExt == 0 ||
-        DWCi_GetMatchCnt()->qr2MatchTypeExt == 1) {
-        if (DWCi_GetMatchCnt()->connectedOnceBefore == 0)
-            resetLevel = 1;
+    if (DWCi_GetMatchCnt()->f5e0 != 0)
+    {
+        ServerBrowserClear(DWCi_GetMatchCnt()->f5e0);
+        p = DWCi_GetMatchCnt();
+        *(unsigned long long *)&p->f5f0 = 0;
     }
-    return DWCi_CancelPreConnectedServerProcessWithResetLevel(clientPid, resetLevel);
 }

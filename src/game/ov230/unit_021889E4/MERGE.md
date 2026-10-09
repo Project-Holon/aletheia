@@ -1,20 +1,6 @@
 # unit_021889E4.c (ov230)
 
-Translation unit 021889E4..02188E3C, 4 functions, confidence weak (tools/tuboundary.py).
+Parts: p01 (arm, dsi/1.1p1, 021889E4..02188A48), p02 (arm, compiler ../2.0/sp2, 02188A48).
 
-The member files below each match on their own. Merging them into one
-`unit_021889E4.c` is blocked by:
+- p01|p02: the compiler differs (mwccarm 2.0/sp2 against dsi/1.1p1). Never merge across a compiler change. Real file boundary.
 
-- ov230_func_021889E4.c..ov230_func_02188A48.c: settings differ: src/matched/ov/ov230_func_02188A48.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99',
-- ov230_func_02188A0C.c..ov230_func_02188A48.c: settings differ: src/matched/ov/ov230_func_02188A48.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99',
-- no verified entry for 02188CB0
-
-Members, in address order:
-
-- `ov230_func_021889E4.c`
-- `ov230_func_02188A0C.c`
-- `ov230_func_02188A48.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021889E4.c` again.

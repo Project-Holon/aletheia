@@ -1,8 +1,8 @@
 /*
  * file:     unit_021B23E0_p02.c
  * unit:     yes
- * function: func_021B26DC, func_021B2724, func_021B275C
- * address:  0x021B26DC
+ * function: func_021B2488, func_021B24FC, func_021B2564, func_021B25B0, func_021B25FC
+ * address:  0x021B2488
  * region:   ov013
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,55 +13,131 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   d_021B4C0C  0x021B4C0C  data  ov013  a4
- *   func_021B2848  0x021B2848  arm  ov013
- *   func_021B2620  0x021B2620  arm  ov013
- *   d_021B60D8 0x021B60D8 data a4
- *   func_020923B0 0x020923B0 arm
- *   func_02176E90  0x02176E90  arm  ov009
+ *   d_021B60D8  0x021B60D8  data  ov013  a4
+ *   func_021B2D54  0x021B2D54  arm  ov013
+ *   func_021B2AA0  0x021B2AA0  arm  ov013
+ *   func_021B2BE0  0x021B2BE0  arm  ov013
+ *   d_021B4BE0  0x021B4BE0  data  a4
+ *   func_021B2724  0x021B2724  arm  ov013
+ *   func_021B2010  0x021B2010  arm  ov013
+ *   func_021B275C  0x021B275C  arm  ov013
+ *   func_021B20D4  0x021B20D4  arm  ov013
+ *   d_021B4BD0 0x021B4BD0 data a4
  */
-#include "../../matched/include/Obj09377.h"
-#include "../../matched/include/G_Sess.h"
+#include "../../matched/include/G_Pool.h"
+#include "../../matched/include/Obj00947.h"
+#include "../../matched/include/G_Stats.h"
 
-struct Msg;
+struct Event;
+struct Pkt;
+struct Chan;
 typedef unsigned char u8;
 
-extern int func_021B2848(u8 *o, struct Msg *p, int n);
-extern int func_021B2620(int *o, u8 *p);
-extern void *func_020923B0(void *,int,unsigned int);
-extern int func_02176E90(int i, u8 *p, int n);
-void func_021B26DC(int x);
-void func_021B2724(u8 *p,u8 v);
-int func_021B275C(u8 *o, u8 *p);
-extern char d_021B4C0C;
-extern struct Sess d_021B60D8;
+typedef struct Ctx_021B2488 {
+    u8 b0;
+    u8 pad[11];
+    int fC;
+} Ctx_021B2488;
+
+typedef struct Ctx_021B23E0 {
+    u8 b0;
+} Ctx_021B23E0;
+
+typedef struct Node {
+    char pad[0x14];
+    struct Node *next;
+} Node;
+
+typedef struct Pool Pool;
+
+extern int func_021B2D54(u8 *p, int *out);
+extern int func_021B2AA0(struct Pkt *pkt, struct Event *ev);
+extern int func_021B2BE0(struct Pkt *pkt, struct Event *ev);
+extern void func_021B2724(Node *n, unsigned int idx);
+extern int func_021B2010(void *a, unsigned int b, unsigned char *buf, unsigned int c);
+extern int func_021B275C(u8 *o, u8 *p);
+extern int func_021B20D4(struct Chan *a, unsigned int b, unsigned char *buf, unsigned int c);
+int func_021B2488(int a, u8 *p, int len, int x);
+Node *func_021B24FC(unsigned int idx);
+int func_021B2564(int a, int b);
+int func_021B25B0(int a, int b);
+void func_021B25FC(u8 *a,u8 *b);
+extern Ctx_021B2488 d_021B60D8;
+extern struct Pool d_021B4BE0;
+extern struct Stats d_021B4BD0;
 
 
-void func_021B26DC(int x)
+
+int func_021B2488(int a, u8 *p, int len, int x)
+{
+    if (len != 0x10)
+        return 0;
+    if (p[8] != a || p[9] != d_021B60D8.b0)
+        return 0;
+    if (p[5] != 0x10)
+        return func_021B2D54(p, (int *)x);
+    if (d_021B60D8.fC == 0)
+        return func_021B2AA0((struct Pkt *)p, (struct Event *)x);
+    return func_021B2BE0((struct Pkt *)p, (struct Event *)x);
+}
+
+
+
+
+Node *func_021B24FC(unsigned int idx)
+{
+    Node *n;
+
+    if (idx >= 0x20)
+        return 0;
+    if (idx == d_021B60D8.b0)
+        return 0;
+    n = d_021B4BE0.nodes;
+    if (n == 0)
+        return 0;
+    d_021B4BE0.nodes = n->next;
+    func_021B2724(n, idx);
+    n->next = d_021B4BE0.head;
+    d_021B4BE0.head = n;
+    return n;
+}
+
+
+
+
+int func_021B2564(int a, int b)
 {
     u8 buf[16];
+    int r;
 
-    buf[4] = 0xff;
-    func_021B2848((u8 *)(&d_021B4C0C), (struct Msg *)buf, 4);
-    buf[10] = x;
-    func_021B2620((int *)(&d_021B4C0C), buf);
-}
-
-void func_021B2724(u8 *p,u8 v)
-{
-    func_020923B0(p,0,24);
-    ((struct Obj09377 *)p)->f0=((int *)&d_021B60D8)[4];
-    ((struct Obj09377 *)p)->fC=0;
-    p[4]=v;
-}
-
-
-int func_021B275C(u8 *o, u8 *p)
-{
-    if (p[4] == 0xff && p[6] == 4) {
-        func_021B2620((int *)o, p);
-    } else if (func_02176E90(o[4], p, 0x10) == 0) {
+    r = func_021B2010((void *)a, b, buf, 16);
+    if (r != 0)
+        return r;
+    if (func_021B275C((u8 *)a, buf) != 0)
         return 0;
+    return -4;
+}
+
+
+
+
+int func_021B25B0(int a, int b)
+{
+    u8 buf[16];
+    int r;
+
+    r = func_021B20D4((struct Chan *)a, b, buf, 16);
+    if (r != 0)
+        return r;
+    if (func_021B275C((u8 *)a, buf) != 0)
+        return 0;
+    return -4;
+}
+
+void func_021B25FC(u8 *a,u8 *b)
+{
+    if(b[10] == 1) {
+        b[11]=a[4];
+        ((struct Obj00947 *)b)->fC=((int *)&d_021B4BD0)[1];
     }
-    return 1;
 }

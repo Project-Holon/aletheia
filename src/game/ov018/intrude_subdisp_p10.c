@@ -1,8 +1,8 @@
 /*
  * file:     intrude_subdisp_p10.c
  * unit:     yes
- * function: func_0217E714, func_0217EBD8, func_0217EC08, func_0217EC44, func_0217EC5C
- * address:  0x0217E714
+ * function: func_0218123C, func_0218152C, func_02181584, func_0218186C, func_021818C4
+ * address:  0x0218123C
  * region:   ov018
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,399 +13,484 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_020124E4  0x020124E4  thumb
  *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012B58  0x02012B58  thumb
- *   func_02012B70  0x02012B70  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02013D5C  0x02013D5C  thumb
- *   func_02013D9C  0x02013D9C  thumb
- *   func_0203D1B4  0x0203D1B4  arm
- *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
- *   func_02045CAC  0x02045CAC  arm
- *   func_0201EE0C  0x0201EE0C  thumb
+ *   func_02158344  0x02158344  thumb  ov010
+ *   func_0215839C  0x0215839C  thumb  ov010
  *   func_0201F02C  0x0201F02C  thumb
- *   func_0201F250  0x0201F250  thumb
- *   func_0201C724  0x0201C724  thumb
- *   func_02026608  0x02026608  thumb
- *   func_021585BC  0x021585BC  thumb  ov010
- *   func_021583EC  0x021583EC  thumb  ov010
- *   func_021762C0  0x021762C0  thumb  ov011
- *   func_021762D8  0x021762D8  thumb  ov011
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021D3554  0x021D3554  thumb  ov021
- *   func_0217BEA8  0x0217BEA8  thumb  ov018
- *   func_020127B8 0x020127B8 thumb
- *   func_020127AC 0x020127AC thumb
+ *   func_0201EFA4  0x0201EFA4  thumb
+ *   func_0217F2B4  0x0217F2B4  thumb
+ *   func_0217F318  0x0217F318  thumb
+ *   func_0217F3C4  0x0217F3C4  thumb
+ *   func_0217F40C  0x0217F40C  thumb
+ *   func_0217F420  0x0217F420  thumb
+ *   func_02175514  0x02175514  thumb  ov011
+ *   func_020362DC  0x020362DC  arm
+ *   func_02173B9C  0x02173B9C  thumb
+ *   func_021753B8  0x021753B8  thumb
+ *   func_0217405C  0x0217405C  thumb
+ *   func_02175CF4  0x02175CF4  thumb
+ *   func_021756F0  0x021756F0  thumb
+ *   func_021744D0  0x021744D0  thumb
+ *   func_021766CC  0x021766CC  thumb
+ *   func_02012374  0x02012374  thumb
+ *   func_0217FE38  0x0217FE38  thumb
+ *   func_02026454  0x02026454  thumb
+ *   func_02026474  0x02026474  thumb
+ *   func_021804F8  0x021804F8  thumb
+ *   func_0217CA84  0x0217CA84  thumb
+ *   func_0201235C  0x0201235C  thumb
+ *   d_021838F6     0x021838F6  data  a2
+ *   d_02183900     0x02183900  data  a2
+ *   d_0218390A     0x0218390A  data  a2
+ *   d_02183914     0x02183914  data  a2
+ *   d_0218391E     0x0218391E  data  a2
+ *   func_0201232C  0x0201232C  thumb
+ *   func_020124E8  0x020124E8  thumb
+ *   func_02082D44  0x02082D44  arm
+ *   func_0217F4C4  0x0217F4C4  thumb
+ *   func_0217F4D8  0x0217F4D8  thumb
+ *   func_0217F508  0x0217F508  thumb
+ *   func_02173AE0  0x02173AE0  thumb  ov011
+ *   func_021763D8  0x021763D8  thumb  ov011
+ *   func_020120F4  0x020120F4  thumb
+ *   func_020127B8  0x020127B8  thumb
+ *   func_02026400  0x02026400  thumb
+ *   d_021838C4     0x021838C4  data  a2
+ *   d_021838CE     0x021838CE  data  a2
+ *   d_021838D8     0x021838D8  data  a2
+ *   d_021838E2     0x021838E2  data  a2
+ *   d_021838EC     0x021838EC  data  a2
  */
-#include "../../matched/include/Obj12491.h"
+#include "../../matched/include/Obj04961.h"
+#include "../../matched/include/Obj04963.h"
+#include "../../matched/include/Obj04964.h"
 
-struct Ctx;
-struct Descriptor;
-struct CharBuf;
+struct Evt;
+struct Obj;
+struct S0201235C;
 struct WordSet;
-struct MsgBank;
-struct BigObj;
-struct VecFx32;
-struct Obj00020;
-struct SaveBlock;
+struct Ctx;
+struct Comm;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-typedef short s16;
-
 typedef unsigned int u32;
 
 typedef struct {
-    unsigned int id : 10;
-    unsigned int id2 : 10;
-    unsigned int rest : 12;
-    u8 pad04[0x0A - 0x04];
-    u8 x;
-    u8 y;
-} Mon;
-
-typedef struct {
-    Mon *mon;
-    u16 id;
-    u16 pad06;
-} Slot;
-
-typedef struct {
-    u8 pad00[4];
-    unsigned int a : 4;
-    unsigned int b : 3;
-    unsigned int c : 11;
-    unsigned int d : 14;
-    u8 pad08[0x18 - 0x08];
-    u8 f18[0x28 - 0x18];
-    u8 f28;
-} Sel;
-
-typedef struct {
-    u32 f00;
-    u8 pad04[0x1C - 0x04];
-    int f1C;
-    u8 pad20[0x24 - 0x20];
+    void *f00;
+    void *f04;
+    void *f08;
+    void *f0C;
+    void *f10;
+    void *f14;
+    void *f18;
+    void *f1C;
+    void *f20;
     void *f24;
-    int f28;
+    unsigned char f28;
+    unsigned char pad29[3];
     void *f2C;
-    void *f30;
-    u8 pad34[0x38 - 0x34];
-    void *f38;
-    void *f3C;
-    u8 pad40[0x4C - 0x40];
-    void *f4C;
-    u8 f50;
-    u8 pad51[0xD8 - 0x51];
-    u8 fD8;
-    u8 padD9[0xDC - 0xD9];
-    int fDC;
-    u8 padE0[0xE4 - 0xE0];
-    Sel *fE4;
-    u8 fE8;
-    u8 fE9;
-    u8 fEA;
-    u8 padEB[0xEC - 0xEB];
-    Slot slots[3];
-    u8 pad104[0x108 - 0x104];
-    s16 f108;
-    u8 pad10A[0x10D - 0x10A];
-    u8 f10D;
-    u8 f10E;
-    u8 pad10F[0x169 - 0x10F];
-    u8 f169;
-} W;
-
-typedef struct { unsigned short a : 9; unsigned short b : 6; unsigned short c : 1; } Fld;
-
-typedef struct { int x; int y; int z; } Vec3;
+} Ov018Obj;
 
 typedef struct {
-    u32 ptr[2];
-    u8 slot[2];
-    u8 par[2];
-    u16 msg;
-} Buf;
+    u8 pad00[0x10];
+    Ov018Obj obj;       /* 0x10 */
+    u8 f40;             /* 0x40 */
+    u8 pad41;
+    u8 f42;             /* 0x42 */
+    u8 pad43[0x58 - 0x43];
+    u16 f58;            /* 0x58 */
+    u8 pad5A[0x78 - 0x5A];
+    u8 f78[0x98 - 0x78]; /* 0x78 */
+    int f98;            /* 0x98 */
+    int f9C;            /* 0x9C */
+    u8 fA0;
+    u8 fA1;             /* 0xA1 */
+    u8 padA2[2];
+    int fA4;            /* 0xA4 */
+    int fA8;            /* 0xA8 */
+    int fAC;            /* 0xAC */
+} Ov018Outer;
 
-typedef struct { int l, t, r, b; } Rect;
+typedef struct {
+    u8 pad00[0x40];
+    u8 f40;
+    u8 pad41[0x17];
+    u16 f58;
+} Ov018Src;
 
-u32 func_02012138(const struct Ctx *p);
-void *func_020120F4(const struct Ctx *p);
-u8 func_02012B58(const struct BigObj *p);
-int func_02012B70(const struct BigObj *p);
-void *func_0201210C(const struct Ctx *p);
-u32 func_02013D5C(u32 id);
-u32 func_02013D9C(u32 id);
-int func_0203D1B4(void);
-void *func_02045770(struct Descriptor *a0);
-void func_02043B5C(struct CharBuf *buf, u8 value);
-void func_02045334(struct Descriptor *a0);
-void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+void *func_020124E4(struct Obj *p);
+u32 func_02012138(const struct Ctx *);
+int func_02158344(int a0);
+int func_0215839C(u8 *p, int m, int a2);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
-void func_0201F250(struct WordSet *ws, void *dst, void *src);
-void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-int func_02026608(u8 *p, u8 *out);
-int func_021585BC(int a0);
-int func_021583EC(void *a0, int a1);
-void func_021762C0(void *win, u32 slot, u8 *src, u16 heap);
-void func_021762D8(const void *obj, void *a1, void *a2, void *a3);
-void *func_02188CB4(struct Obj00020 *p);
-void func_021A3038(u8 *p, struct VecFx32 *out);
-int func_021D3554(void *arg0, int arg1);
-Mon *func_0217BEA8(int a0);
-extern void *func_020127B8(void *);
-extern void *func_020127AC(struct SaveBlock *p, u32 idx);
-void func_0217E714(W *w, u8 *p, u16 q);
-void *func_0217EBD8(u8 *p);
-int func_0217EC08(u16 a, u16 b, u16 c);
-void func_0217EC44(int x, int y, int w, int h, Rect *r);
-int func_0217EC5C(int x, int y, const Rect *r);
+void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+void func_0217F2B4(Ov018Obj *p, void *);
+void func_0217F318(Ov018Obj *p);
+void func_0217F3C4(Ov018Obj *p, u16 a);
+int func_0217F40C(Ov018Obj *p);
+int func_0217F420(void);
+int func_02175514(u8 *p);
+u32 func_020362DC(void);
+int func_02173B9C(int, int);
+void func_021753B8(void *);
+int func_0217405C(void *, void *);
+int func_02175CF4(void *, void *);
+void func_021756F0(void *, int);
+int func_021744D0(void *, int, int);
+void *func_021766CC(void *, int *);
+void func_02012374(struct Evt *evt, struct Evt **out);
+void func_0217FE38(void *v, Ov018Outer *c);
+u32 func_02026454(void *obj);
+u32 func_02026474(void *obj);
+void *func_021804F8(void *, int);
+int func_0217CA84(void *a, int b);
+void func_0201235C(struct S0201235C *o, u32 *out);
+void func_0201232C(char *p, int a1, int a2);
+void *func_020124E8(struct Obj *p);
+void func_02082D44(void *, void *, int);
+void func_0217F4C4(Ov018Obj *p);
+void func_0217F4D8(void **p, int a);
+int func_0217F508(void **p);
+int func_02173AE0(int a, int b, int c, int d);
+void func_021763D8(u8 *p, u32 key);
+void *func_020120F4(const struct Ctx *p);
+void *func_020127B8(void *);
+void func_02026400(struct Comm *p);
+int func_0218123C(void *a, int *state, Ov018Outer *c);
+void func_0218152C(void *a, Ov018Src *src);
+int func_02181584(void *a, int *state, Ov018Outer *c);
+void func_0218186C(void *a, Ov018Src *src);
+void func_021818C4(void *a, Ov018Src *src);
+extern const u16 d_021838F6[];
+extern const u16 d_02183900[];
+extern const u16 d_0218390A[];
+extern const u16 d_02183914[];
+extern const u16 d_0218391E[];
+extern const u16 d_021838C4[];
+extern const u16 d_021838CE[];
+extern const u16 d_021838D8[];
+extern const u16 d_021838E2[];
+extern const u16 d_021838EC[];
 
 
-void func_0217E714(W *w, u8 *p, u16 q)
+int func_0218123C(void *a, int *state, Ov018Outer *c)
 {
-    u32 sys;
-    void *h;
-    int done;
-    int cur;
-    int prev;
-    int i;
-    int n;
-    int msg;
-    int off;
+    void *sub;
     void *t;
-    Mon *m1;
-    Mon *m2;
-    Mon *e;
-    Buf b;
-    Vec3 v;
+    u8 *v;
+    void *r;
 
-    sys = func_02012138((const struct Ctx *)w->f00);
-    h = func_020120F4((const struct Ctx *)w->f00);
-    done = 0;
-    if (w->f108 > 0) {
-        w->f108--;
-        if (w->f108 == 0 && p == 0) {
-            func_02043B5C((struct CharBuf *)func_02045770((struct Descriptor *)w->f4C), done);
-            func_02045334((struct Descriptor *)w->f4C);
+    sub = func_020124E4(a);
+    t = (void *)func_02012138(sub);
+    v = (u8 *)func_02158344((int)t);
+    if (v == 0) {
+        if (func_0217F40C(&c->obj) == 0) {
+            return 0;
         }
-        return;
-    }
-    prev = w->f10D;
-    w->f10D = 0;
-    cur = func_02012B58(h);
-    if (p != 0 && func_0203D1B4() <= 1) {
-        off = 0x93A;
-        n = p[off - 0x15];
-        if (n != 0) {
-            if (n == 1) {
-                msg = 0x29;
-            } else {
-                msg = 0x2A;
-            }
-            for (i = 0; i < p[off - 0x15]; i++) {
-                func_0201EE0C((struct WordSet *)w->f24, i, *(void **)(p + i * 4 + off - 0x12),
-                              p[i + off - 2], 1, p[i + off]);
-            }
-            func_02045CAC((struct MsgBank *)w->f2C, msg, w->f38);
-            func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
-        } else {
-            func_02045CAC((struct MsgBank *)w->f2C, 0x33, w->f3C);
-        }
-        done = 1;
-    }
-    if (done == 0 && p != 0 && func_0203D1B4() > 1 && func_021585BC((int)p) != 0) {
-        func_02045CAC((struct MsgBank *)w->f2C, 0x35, w->f3C);
-        done = 1;
-    }
-    if (done == 0 && func_02012B70(h) == 0) {
-        e = w->slots[cur].mon;
-        if (e != 0) {
-            for (i = 0; i < 3; i++) {
-                if (cur != i && w->slots[i].mon != 0
-                    && e->x == w->slots[i].mon->x && e->y == w->slots[i].mon->y) {
-                    func_02045CAC((struct MsgBank *)w->f2C, 0x31, w->f3C);
-                    done = 1;
-                    break;
-                }
-            }
-        }
-        if (done == 0 && w->fE9 == 1) {
-            func_02045CAC((struct MsgBank *)w->f2C, 0x34, w->f3C);
-            done = 1;
-        }
-        if (done == 0 && w->fEA == 1) {
-            func_02045CAC((struct MsgBank *)w->f2C, 0x32, w->f3C);
-            done = 1;
+        if (*state < 13) {
+            func_0217F2B4(&c->obj, sub);
+            func_0217F3C4(&c->obj, 4);
+            *state = 13;
+            c->f98 = 1;
+            return 0;
         }
     }
-    if (done == 0 && p != 0 && w->f169 != 4 && func_021583EC(h, w->f169) != 0) {
-        t = (void *)func_021583EC(h, w->f169);
-        if (((Fld *)(p + w->f169 * 0x1C + 0xA2))->b == 2) {
-            msg = 0x36;
-        } else {
-            msg = 0x28;
-        }
-        func_02045CAC((struct MsgBank *)w->f2C, msg, w->f38);
-        func_0201F02C((struct WordSet *)w->f24, 0, t);
-        func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
-        w->f169 = 4;
-        done = 1;
-    } else if (w->fDC != 0 && w->fE4 != 0 && (w->fDC == 3 || prev != w->fDC)) {
-        if (w->fDC == 3 && p != 0 && w->fE4->a != 4) {
-            u32 *ep;
-            Mon *mm;
-            t = func_0201210C((const struct Ctx *)w->f00);
-            ep = (u32 *)(p + 0x8C + w->fE4->f28 * 0x1C);
-            func_021A3038(func_02188CB4(t), (struct VecFx32 *)(&v));
-            func_021762C0(w->f24, 0, w->fE4->f18, 0x70);
-            mm = func_0217BEA8(((u16 *)ep)[10]);
-            if (w->fD8 == w->fE8 && mm != 0
-                && func_0217EC08(q, mm->id, mm->id2) == 1) {
-                if (ep[0] == 1) {
-                    func_02045CAC((struct MsgBank *)w->f2C, 0x2F, w->f38);
-                    func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
-                    done = 1;
-                } else {
-                    int dx = ep[1] - v.x;
-                    int dy = ep[3] - v.z;
-                    int ady = dy < 0 ? -dy : dy;
-                    int adx = dx < 0 ? -dx : dx;
-                    if (adx > ady) {
-                        msg = 0x2D;
-                        if (dx <= 0) {
-                            msg = 0x2E;
-                        }
-                    } else {
-                        msg = 0x2C;
-                        if (dy <= 0) {
-                            msg = 0x2B;
-                        }
-                    }
-                    func_02045CAC((struct MsgBank *)w->f2C, msg, w->f38);
-                    func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
-                    done = 1;
-                }
-            } else {
-                m1 = func_0217BEA8(((u16 *)ep)[10]);
-                m2 = func_0217BEA8(q);
-                if (m1 != 0 && m2 != 0 && m1->x == m2->x && m1->y == m2->y) {
-                    func_02045CAC((struct MsgBank *)w->f2C, 0x2F, w->f38);
-                    func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
-                    done = 1;
-                }
-            }
-        }
-        if (done == 0 && func_02012B70(h) == 1) {
-            w->f10D = 0;
-            switch (w->fDC) {
-            case 1:
-                func_02045CAC((struct MsgBank *)w->f2C, 0x21, w->f3C);
+    switch (*state) {
+    case 0:
+        func_0201F02C(c->obj.f00, 0, c->f78);
+        func_0201EFA4(c->obj.f00, 1, c->fA1, 3, 0, 1);
+        func_0217F3C4(&c->obj, c->fA4 == 0 ? d_021838F6[c->f42] : d_02183900[c->f42]);
+        (*state)++;
+        break;
+    case 1:
+        if (func_0217F40C(&c->obj) == 1) {
+            switch (func_02175514(v)) {
+            case 4:
+                *state = 2;
                 break;
             case 2:
-                func_02045CAC((struct MsgBank *)w->f2C, 0x22, w->f3C);
-                break;
             case 3:
-                if (w->f10E == 0) {
-                    func_02045CAC((struct MsgBank *)w->f2C, w->fE4->a + 0x37, w->f3C);
-                } else {
-                    func_02045CAC(w->f30, w->fE4->c, w->f38);
-                    func_021762D8(w->fE4, w->fE4->f18, w->f24, (void *)0x70);
-                    func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
-                }
-                w->f10E ^= 1;
+                *state = 11;
                 break;
-            case 0:
-            case 4:
-                return;
             default:
-                return;
-            }
-            if (w->fDC != 3) {
-                w->f10E = 0;
-            }
-            w->f10D = w->fDC;
-            done = 1;
-        }
-    } else {
-        if (func_02026608((u8 *)sys, (u8 *)(&b)) == 1) {
-            w->f10D = 0;
-            func_02045CAC((struct MsgBank *)w->f2C, b.msg, w->f38);
-            done = 1;
-            for (i = 0; i < 2; i++) {
-                if (b.ptr[i] != 0) {
-                    func_0201EE0C((struct WordSet *)w->f24, b.slot[i], (void *)b.ptr[i], b.par[i], 1, 2);
+                if ((func_020362DC() & 2) && func_02173B9C(v[0x154], v[0x158]) == 1) {
+                    func_021753B8(v);
+                    *state = 12;
                 }
+                break;
             }
-            func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
-            done = 1;
+        }
+        break;
+    case 2:
+        func_0217F3C4(&c->obj, d_0218390A[c->f42]);
+        *state = 3;
+        break;
+    case 3:
+        if (func_0217405C(v, v + 0x1AC) == 1) {
+            (*state)++;
+        }
+        break;
+    case 4:
+        if (func_02175CF4(v, v + 0x1AC) != 0) {
+            func_021756F0(v, 1);
+            *state = 5;
+        }
+        break;
+    case 5:
+        if (func_0217F40C(&c->obj) == 1 && func_021744D0(v, c->f40, 1) == 1) {
+            (*state)++;
+        }
+        break;
+    case 6:
+        if (func_0215839C(v, 1, c->f40) == 1) {
+            *state = 7;
+        } else if ((func_020362DC() & 2) && func_02173B9C(v[0x154], v[0x158]) == 1) {
+            func_021753B8(v);
+            *state = 12;
+        }
+        break;
+    case 7:
+        if (func_021744D0(v, c->f40, 2) == 1) {
+            (*state)++;
+        }
+        break;
+    case 8:
+        if (func_0215839C(v, 2, c->f40) == 1) {
+            func_0217F318(&c->obj);
+            *state = 9;
+        } else if (func_02175514(v) == 3) {
+            func_0217F3C4(&c->obj, 4);
+            *state = 13;
+        }
+        break;
+    case 9:
+        c->fA8 = 1;
+        func_02012374(a, func_021766CC(sub, &c->f9C));
+        (*state)++;
+        break;
+    case 10:
+        func_0217F2B4(&c->obj, sub);
+        func_0217F3C4(&c->obj, d_02183914[c->f42]);
+        *state = 13;
+        break;
+    case 11:
+        func_0217F3C4(&c->obj, d_0218391E[c->f42]);
+        *state = 13;
+        break;
+    case 12:
+        c->fAC = 1;
+        *state = 15;
+        break;
+    case 13:
+        if (func_0217F40C(&c->obj) == 1) {
+            *state = 14;
+        }
+        break;
+    case 14:
+        if (func_0217F420() == 1) {
+            *state = 15;
+        }
+        break;
+    case 15:
+        func_0217FE38(v, c);
+        if (func_02026454(t) == 2 && func_02026474(t) != 0) {
+            func_021756F0((void *)func_02026474(t), 0);
+        }
+        if (c->fA8 == 1) {
+            r = func_021804F8(sub, c->fA8);
+        } else if (c->fAC == 0) {
+            r = (void *)func_0217CA84(sub, 1);
+        } else {
+            r = (void *)func_0217CA84(sub, 0);
+        }
+        func_0201235C(a, r);
+        return 0;
+    }
+    return 0;
+}
+
+
+void func_0218152C(void *a, Ov018Src *src)
+{
+    void *r;
+    u8 *t;
+
+    r = func_020124E4(a);
+    func_0201232C(a, (int)func_02181584, 0xB0);
+    t = func_020124E8(a);
+    func_02082D44(src, t, 0x98);
+    ((struct Obj04961 *)t)->fA4 = 0;
+    ((struct Obj04961 *)t)->f9C = r;
+    t[0xA0] = t[0x40];
+    t[0xA1] = src->f58;
+    t[0xA2] = 2;
+}
+
+
+int func_02181584(void *a, int *state, Ov018Outer *c)
+{
+    void *sub;
+    void *t;
+    u8 *v;
+
+    sub = func_020124E4(a);
+    t = (void *)func_02012138(sub);
+    v = (u8 *)func_02158344((int)t);
+    if (v == 0) {
+        if (func_0217F40C(&c->obj) == 0) {
+            return 0;
+        }
+        if (*state < 14 && *state != 1 && *state != 2) {
+            func_0217F2B4(&c->obj, sub);
+            func_0217F3C4(&c->obj, 4);
+            *state = 14;
+            c->f98 = 1;
+            return 0;
         }
     }
-    if (done == 0 && func_02012B70(h) == 1 && func_02013D5C(q) == 0 && func_02013D9C(q) == 0
-        && func_021D3554(h, q) == 0) {
-        func_02045CAC((struct MsgBank *)w->f2C, 0x30, w->f3C);
-        done = 1;
-    }
-    w->f169 = 4;
-    if (done == 1) {
-        func_02043B5C((struct CharBuf *)func_02045770((struct Descriptor *)w->f4C), 0);
-        n = w->f28;
-        func_0201C724((void *)n, (int)func_02045770((struct Descriptor *)w->f4C), 0, 0, (u32)w->f3C, w->f1C, 0x3C40);
-        w->f50 = 1;
-        w->f108 = 0x5A;
-    }
-}
-
-/*
- * extent: two zero padding bytes at 0x0217EC06.
- * interface: func_020127B8 tail-forwards func_020127AC's pointer result.
- */
-void *func_0217EBD8(u8 *p)
-{
-    void *h;
-    int i;
-    h = func_020120F4(((struct Obj12491 *)p)->f0);
-    i = p[0xd8];
-    if (i == func_02012B58(h) || i == 0x80) {
-        return func_020127B8(h);
-    } else {
-        return func_020127AC(h, i);
-    }
-}
-
-/*
- * lever: integer t initialized to 0x126 and incremented conditionally retains
- * the u16 assignment's shift pair; assigning either u16 constant removes it.
- */
-int func_0217EC08(u16 a, u16 b, u16 c)
-{
-    int t;
-    if (a == b || a == c) return 1;
-    if ((u16)(a + 0xfeda) <= 1) {
-        t = 0x126;
-        if (a == t) t++;
-        a = t;
-        if (a == b || a == c) return 1;
+    switch (*state) {
+    case 0:
+        func_0201F02C(c->obj.f00, 0, c->f78);
+        func_0201EFA4(c->obj.f00, 1, c->fA1, 3, 0, 1);
+        func_0217F3C4(&c->obj, c->fA4 == 0 ? d_021838C4[c->f42] : d_021838CE[c->f42]);
+        (*state)++;
+        break;
+    case 1:
+        if (func_0217F40C(&c->obj) == 1) {
+            func_0217F4D8((void **)(&c->obj), (int)sub);
+            (*state)++;
+        }
+        break;
+    case 2:
+        switch (func_0217F508((void **)(&c->obj))) {
+        case 0:
+            func_0217F4C4(&c->obj);
+            *state = 3;
+            break;
+        case 1:
+            func_0217F4C4(&c->obj);
+            *state = 11;
+            break;
+        }
+        break;
+    case 3:
+        if (func_02173AE0((int)v, v[0x154], 4, v[0x158]) == 1) {
+            func_021756F0(v, 1);
+            *state = 4;
+        }
+        break;
+    case 4:
+        func_0217F3C4(&c->obj, d_021838D8[c->f42]);
+        (*state)++;
+        break;
+    case 5:
+        if (func_0217F40C(&c->obj) == 1 && func_021744D0(v, c->f40, 1) == 1) {
+            (*state)++;
+        }
+        break;
+    case 6:
+        if (func_0215839C(v, 1, c->f40) == 1) {
+            *state = 7;
+        } else if (func_020362DC() & 2) {
+            if (func_02173B9C(v[0x154], v[0x158]) == 1) {
+                func_021753B8(v);
+                *state = 13;
+                func_02026400(t);
+            }
+        } else if (func_02175514(v) == 3) {
+            func_0217F3C4(&c->obj, 4);
+            *state = 14;
+        }
+        break;
+    case 7:
+        if (func_021744D0(v, c->f40, 2) == 1) {
+            (*state)++;
+        }
+        break;
+    case 8:
+        if (func_0215839C(v, 2, c->f40) == 1) {
+            func_0217F318(&c->obj);
+            *state = 9;
+        } else if (func_02175514(v) == 3) {
+            func_0217F3C4(&c->obj, 4);
+            *state = 14;
+        }
+        break;
+    case 9:
+        func_02012374(a, func_021766CC(sub, &c->f9C));
+        (*state)++;
+        break;
+    case 10:
+        func_0217F2B4(&c->obj, sub);
+        func_0217F3C4(&c->obj, d_021838E2[c->f42]);
+        *state = 14;
+        break;
+    case 11:
+        if (func_02173AE0((int)v, v[0x154], 2, v[0x158]) == 1) {
+            func_021763D8(func_020127B8(func_020120F4(sub)), 0);
+            *state = 12;
+        }
+        break;
+    case 12:
+        func_0217F3C4(&c->obj, d_021838EC[c->f42]);
+        *state = 14;
+        break;
+    case 13:
+        *state = 16;
+        break;
+    case 14:
+        if (func_0217F40C(&c->obj) == 1) {
+            *state = 15;
+        }
+        break;
+    case 15:
+        if (func_0217F420() == 1) {
+            *state = 16;
+        }
+        break;
+    case 16:
+        func_0217FE38(v, c);
+        if (func_02026454(t) == 2 && func_02026474(t) != 0) {
+            func_021756F0((void *)func_02026474(t), 0);
+        }
+        return 1;
     }
     return 0;
 }
 
-void func_0217EC44(int x, int y, int w, int h, Rect *r)
+
+void func_0218186C(void *a, Ov018Src *src)
 {
-    r->t = y - h;
-    r->b = y + h;
-    r->l = x - w;
-    r->r = x + w;
+    void *r;
+    u8 *t;
+
+    r = func_020124E4(a);
+    func_0201232C(a, (int)func_0218123C, 0xB0);
+    t = func_020124E8(a);
+    func_02082D44(src, t, 0x98);
+    ((struct Obj04963 *)t)->fA4 = 1;
+    ((struct Obj04963 *)t)->f9C = r;
+    t[0xA0] = t[0x40];
+    t[0xA1] = src->f58;
+    t[0xA2] = 2;
 }
 
-int func_0217EC5C(int x, int y, const Rect *r)
+
+void func_021818C4(void *a, Ov018Src *src)
 {
-    if (r->l < x && r->r > x && r->t < y && r->b > y) return 1;
-    return 0;
+    void *r;
+    u8 *t;
+
+    r = func_020124E4(a);
+    func_0201232C(a, (int)func_02181584, 0xB0);
+    t = func_020124E8(a);
+    func_02082D44(src, t, 0x98);
+    ((struct Obj04964 *)t)->fA4 = 1;
+    ((struct Obj04964 *)t)->f9C = r;
+    t[0xA0] = t[0x40];
+    t[0xA1] = src->f58;
+    t[0xA2] = 2;
 }

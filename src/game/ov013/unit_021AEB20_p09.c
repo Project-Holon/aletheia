@@ -1,136 +1,124 @@
 /*
  * file:     unit_021AEB20_p09.c
  * unit:     yes
- * function: func_021B0B48, func_021B0C64, func_021B0CD8
- * address:  0x021B0B48
- * region:   ov013
+ * function: func_021B0614
+ * address: 0x021B0614
+ * packet: pkt_ov013_021B0614
+ * region: ov013
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: EXACT
+ * Register request in a free slot, restarting clock/counters for the first type-2 request.
+ * 2026-10-05: EXACT with opt_lifetimes off (the first loop counter otherwise gets r2 instead of sharing r5 with the second loop). Plain i = 0 in the second loop.
  * symbols:
- *   d_021B3C84  0x021B3C84  data  ov013  a4
- *   d_021B3E78  0x021B3E78  data  ov013  a4
- *   func_021B0904  0x021B0904  arm  ov013
- *   func_021B3624  0x021B3624  arm  ov013
- *   func_021B33E0  0x021B33E0  arm  ov013
- *   func_02082AC0  0x02082AC0  arm
- *   MIi_CpuClearFast  0x02082AC0  arm
- *   g_021B60D8     0x021B60D8  data  a4
- *   g_021B3AD0     0x021B3AD0  data  a1
- *   g_021B3C84     0x021B3C84  data  a4
- *   d_021B3C24 0x021B3C24 data a4
- *   func_021B3018 0x021B3018 arm ov013
+ *   d_021B3C84     0x021B3C84  data  ov013  a4
+ *   d_021B3CB0     0x021B3CB0  data  ov013  a4
+ *   d_021B3CBC     0x021B3CBC  data  ov013  a4
+ *   d_021B42C0     0x021B42C0  data  ov013  a4
+ *   func_02087170  0x02087170  arm
+ *   func_021B16E4  0x021B16E4  arm  ov013
+ *   func_021B19BC  0x021B19BC  arm  ov013
+ *   func_021B3018  0x021B3018  arm  ov013
  */
-#include "../../matched/include/G_021B3C84.h"
-#include "../../matched/include/G_Sess.h"
+
+#include "../../matched/include/G_Ctx42C0.h"
 
 typedef unsigned char u8;
-
+typedef unsigned short u16;
 typedef unsigned int u32;
 
 typedef struct {
-    u8 pad0[0x18];
-    u32 f18;
-    u32 f1C;
-    u32 f20;
-    u32 f24;
+    u16 f0;
+    u8 pad2[2];
+    u32 f4;
+    u8 pad8[8];
+    u16 f10;
+    u8 f12;
+    u8 pad13;
+    int f14;
+    u8 pad18[8];
+    int f20;
 } Ctx3C84;
 
-typedef signed short   s16;
+typedef struct {
+    u8 pad0[0x8c0];
+    int f8C0;
+    u32 f8C4;
+    u32 f8C8;
+    u32 f8CC;
+    int f8D0;
+    int f8D4;
+} Ctx42C0;
 
-typedef unsigned short u16;
+typedef struct {
+    u8 raw[0x94];
+} Slot;
 
-extern int func_021B0904(void *dst, u32 size, u32 idx, u32 *mask);
-extern void func_021B3624(s16 *a, s16 *b, s16 *d, u32 len);
-extern void func_021B33E0(void *a, u32 b);
-extern void func_02082AC0(int x, void *a, u32 b);
-extern void MIi_CpuClearFast(int x, void *a, u32 b);
-extern void func_021B3018(void);
-int func_021B0B48(void *a, u32 b, int *out);
-int func_021B0C64(int x);
-void func_021B0CD8(int a);
+typedef struct {
+    u8 pad0[5];
+    u8 f5;
+    u8 pad6[2];
+    u32 f8;
+    int fC;
+} Req;
+
 extern Ctx3C84 d_021B3C84;
-extern u8 d_021B3E78[];
-extern struct Sess g_021B60D8;
-extern const u8 g_021B3AD0[5][2];
-extern struct G_021B3C84 g_021B3C84;
-extern int d_021B3C24;
+extern Req *d_021B3CB0[3];
+extern Slot d_021B3CBC[3];
+extern struct Ctx42C0 d_021B42C0;
 
+extern u16 func_02087170(void);
+extern void func_021B16E4(u32 i);
+extern void func_021B19BC(char *p, int i, int a2);
+extern void func_021B3018(void);
 
-/*
- * The two MIi_CpuClearFast calls (found==0 arm, failed-guard arm) are
- * kept apart in the original; under one extern name 1.1p1 cross-jumps the
- * two `bl`s into one (4 bytes short, see docs/notes/pkt_ov013_021B0B48.c.txt).
- * Two extern names for 0x02082AC0 give two independent call sites, the
- * call-site form of
- * docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md.
- * `j = i + 1; if (j == 3) ret = 1; else for (...)` is what gives the
- * original's `cmp sb,#3; moveq r4,#1; beq; bhs`.
- */
-int func_021B0B48(void *a, u32 b, int *out)
+#pragma opt_lifetimes off
+int func_021B0614(Req *p)
 {
-    int ret;
     u32 i;
-    u32 j;
 
-    if (out != 0)
-        *out = 0;
-
-    ret = 0;
-    if (b == d_021B3C84.f24 && d_021B3C84.f20 != 0) {
-        for (i = 0; i < 3; i++) {
-            if (func_021B0904(a, b, i, (u32 *)out) == 1) {
-                ret = 1;
-                break;
-            }
-        }
-        if (ret != 0) {
-            j = i + 1;
-            if (j == 3) {
-                ret = 1;
-            } else {
-                for (; j < 3; j++) {
-                    if (func_021B0904(d_021B3E78, b, j, (u32 *)out) == 1)
-                        func_021B3624(a, (s16 *)d_021B3E78, a, b);
-                }
-            }
-        } else {
-            MIi_CpuClearFast(0, a, b);
-        }
-    } else {
-        ret = 0;
-        func_02082AC0(ret, a, b);
-    }
-
-    if (d_021B3C84.f18 != 0)
-        func_021B33E0(a, b);
-    return ret;
-}
-
-
-int func_021B0C64(int x)
-{
-    if (x >= 5) {
+    if (p == 0) {
         return 0;
     }
-    if (g_021B60D8.f10 != 1 && (unsigned)x <= 1) {
+    if (d_021B3C84.f20 == 3) {
         return 0;
     }
-    g_021B3C84.fC = g_021B3AD0[x][0] * 0x44 + g_021B3AD0[x][1] + 0xC;
-    g_021B3C84.f1C = x;
-    g_021B3C84.f10 = 0;
-    g_021B3C84.f12 = 0;
+    if (p->fC != 2 && p->fC != 3) {
+        return 0;
+    }
+    for (i = 0; (i < 3) ? 1 : 0; i++) {
+        if (d_021B3CB0[i] == p) {
+            return 1;
+        }
+    }
+    for (i = 0; (i < 3) ? 1 : 0; i++) {
+        if (d_021B3CB0[i] == 0) {
+            d_021B3CB0[i] = p;
+            break;
+        }
+    }
+    d_021B3C84.f20++;
+    d_021B3C84.f4 |= p->f8;
+    func_021B19BC((char *)&d_021B3CBC[i], i, p->f5);
+    func_021B16E4(i);
+    if (p->fC != 2) {
+        return 1;
+    }
+    if (d_021B3C84.f20 == 1) {
+        func_021B3018();
+        d_021B3C84.f0 = func_02087170();
+        d_021B3C84.f10 = 0;
+        d_021B3C84.f12 = 0;
+        d_021B3C84.f14 = 1;
+        d_021B42C0.f8C0 = 0;
+        d_021B42C0.f8C4 = 0;
+        d_021B42C0.f8CC = 0;
+        d_021B42C0.f8C8 = 0;
+        d_021B42C0.f8D0 = 0;
+        d_021B42C0.f8D4 = 0;
+    }
     return 1;
 }
-
-void func_021B0CD8(int a)
-{
-    d_021B3C24 = a;
-    func_021B3018();
-    if (a == 0) ((int *)&d_021B3C84)[2] = 1;
-}
+#pragma opt_lifetimes reset

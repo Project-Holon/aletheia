@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p41.c
  * unit:     yes
- * function: func_0203BBB0, func_0203BC58, func_0203BCE0, func_0203BD30, func_0203BDEC, func_0203BE5C, func_0203BEAC, func_0203BEC8, func_0203BF4C, func_0203BF9C, func_0203BFF0, func_0203C00C
- * address:  0x0203BBB0
+ * function: func_0203BA98, func_0203BBB0, func_0203BC58, func_0203BCE0, func_0203BD30, func_0203BDEC, func_0203BE5C, func_0203BEAC, func_0203BEC8, func_0203BF4C, func_0203BF9C, func_0203BFF0, func_0203C00C
+ * address:  0x0203BA98
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
+ *   g_021469DC      0x021469DC  data
  *   func_0203D788   0x0203D788  arm
  *   func_0203AD80   0x0203AD80  arm
  *   MI_CpuCopy8     0x02082D44  arm
@@ -29,25 +29,33 @@
 struct Slot;
 struct NetState;
 struct Entry;
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
+typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
+typedef unsigned int   u32;
+
+typedef unsigned long long u64;
+
+extern void *func_0203D798(void);
 extern void *func_0203D788(void);
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern u32  func_020377B8(u8);
+extern void func_0203AD80(u32, u32, u32, u32);
+extern void func_0203B9D4(u8 *);
 extern void func_0203B950(u8 *p);
+extern void func_0203B01C(void);
+extern u32  func_02037928(u32, u16);
+extern u32 func_02037A6C(u32, u32, u16, u32);
 extern void func_0203B90C(void);
 extern void func_0203B5D4(struct Slot *p);
 extern void func_0203B48C(void);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
-extern void *func_0203D798(void);
 extern int func_0203CEAC(int a0);
 extern u16 func_02039338(void);
 extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_0203AEEC(u8 *p);
+void func_0203BA98(u16 a0, u32 a1, u8 a2);
 void func_0203BBB0(u32 a);
 void func_0203BC58(u8 v56, u8 v53, const void *src);
 void func_0203BCE0(u8 *p);
@@ -61,6 +69,40 @@ void func_0203BF9C(u32 v);
 void func_0203BFF0(void);
 void func_0203C00C(void);
 extern u8 *g_021469DC;
+
+
+void func_0203BA98(u16 a0, u32 a1, u8 a2)
+{
+    u8 *s = func_0203D798();
+    u8 *p;
+    u64 x, y, r;
+    u32 delay = 30;
+
+    func_0203D788();
+    func_0203BC58(0, a2, 0);
+
+    if (s[0x65] == 3 || s[0x65] == 4) {
+        func_020377B8(0);
+        *(u32 *)(g_021469DC + 0x2C) = a1;
+        p = g_021469DC;
+        x = *(u64 *)(p + 0x0C);
+        y = *(u64 *)(p + 0x14);
+        r = y * x + *(u64 *)(p + 0x1C);
+        *(u64 *)(p + 0x0C) = r;
+        func_0203AD80((u32)p, (u32)func_0203B9D4, (u32)(((u64)(u32)(r >> 32) * delay) >> 32), delay + 0x3A8);
+    } else {
+        p = g_021469DC;
+        if (p[0x53] != 0 && p[0x56] != 1) {
+            func_02037A6C(1, (u32)(p + 0x57), 0x200, (u32)func_0203B01C);
+        } else {
+            func_02037928(1, 0x200);
+        }
+        *(u32 *)(g_021469DC + 0x2C) = a1;
+        p = g_021469DC;
+        func_0203AD80((u32)p, (u32)func_0203B950, delay, delay + 0x3B4);
+    }
+}
+
 
 
 /*
@@ -87,15 +129,16 @@ void func_0203BBB0(u32 a)
     g = g_021469DC;
     if (g[0x56] == 2 && ((struct Obj06945 *)g)->f8 == (u32)func_0203B950) {
         if ((*(u32 (**)(u32, u32))(*(u32 *)(s + 0x340) + 0x10))(1, 0) != 0) {
-            func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B90C, 0, 0x3E0);
+            func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)func_0203B90C), 0, 0x3E0);
         }
     }
 
     g = g_021469DC;
     if (g[0x56] == 1 && ((struct Obj06945 *)g)->f8 == (u32)func_0203B5D4) {
-        func_0203AD80((struct NetState *)g, (void *)func_0203B48C, 0, 0x3E9);
+        func_0203AD80((u32)((struct NetState *)g), (u32)((void *)func_0203B48C), 0, 0x3E9);
     }
 }
+
 
 
 
@@ -118,9 +161,10 @@ void func_0203BC58(u8 v56, u8 v53, const void *src)
         MI_CpuFill8(g_021469DC + 0x57, 0xFF, 6);
     }
 
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203BBB0, 0, 0x406);
+    func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)0x0203BBB0), 0, 0x406);
     func_0203BBB0((u32)g_021469DC);
 }
+
 
 
 
@@ -138,8 +182,9 @@ void func_0203BCE0(u8 *p)
     if ((*(u32 (**)(u32, u32))(*(u32 *)(s + 0x340) + 0x10))(1, 0) == 0)
         return;
 
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B90C, 0, 0x411);
+    func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)0x0203B90C), 0, 0x411);
 }
+
 
 
 
@@ -163,13 +208,14 @@ void func_0203BD30(u32 a0, u32 a1, u8 *a2)
         MI_CpuFill8(g_021469DC + 0x57, 0xFF, 6);
 
     if (g_021469DC[0x56] == 2)
-        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B48C, 0, 0x430);
+        func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)0x0203B48C), 0, 0x430);
 
     if (g_021469DC[0x56] == 1) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203BCE0, 0, 0x438);
+        func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)0x0203BCE0), 0, 0x438);
         func_0203BCE0(g_021469DC);
     }
 }
+
 
 
 
@@ -200,6 +246,7 @@ void func_0203BDEC(void)
 
 
 
+
 /*
  * Addresses are Black-image addresses.
  *
@@ -214,8 +261,9 @@ void func_0203BE5C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
     if (func_02039338() != 0)
         return;
 
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203BDEC, 0, 0x46C);
+    func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)0x0203BDEC), 0, 0x46C);
 }
+
 
 
 
@@ -244,6 +292,7 @@ u32 func_0203BEAC(void)
         r = func_0203CEAC(0);
     return r;
 }
+
 
 
 
@@ -277,6 +326,7 @@ void func_0203BEC8(u8 *p)
 
 
 
+
 /*
  * Addresses are Black-image addresses.
  *
@@ -291,8 +341,9 @@ void func_0203BF4C(void)
     if ((*(u32 (**)(u32, u32))(*(u32 *)(s + 0x340) + 0x10))(1, 0) == 0)
         return;
 
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203BEC8, 0, 0x4A4);
+    func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)0x0203BEC8), 0, 0x4A4);
 }
+
 
 
 
@@ -321,8 +372,9 @@ void func_0203BF9C(u32 v)
 
     ((struct Obj11878 *)p)->f28 = v;
     g_021469DC[0x51] = 1;
-    func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203BF4C, 5, 0x4B7);
+    func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)func_0203BF4C), 5, 0x4B7);
 }
+
 
 
 
@@ -331,6 +383,7 @@ void func_0203BFF0(void)
     if (g_021469DC != 0)
         g_021469DC[0x51] = 0;
 }
+
 
 
 

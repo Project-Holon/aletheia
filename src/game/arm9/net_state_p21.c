@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p21.c
  * unit:     yes
- * function: func_02038A48, func_02038A90, func_02038AE0, func_02038C18, func_02038D30, func_02038D4C, func_02038D68, func_02038DF0
- * address:  0x02038A48
+ * function: sub_02039594, func_020395E0, func_020395EC, func_02039658, func_0203971C, func_02039764, func_02039834, func_020398B4
+ * address:  0x02039594
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,483 +13,439 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_020A7A20     0x020A7A20  data
- *   g_020A7A24     0x020A7A24  data
- *   g_020A7A50     0x020A7A50  data
- *   func_02034714  0x02034714  arm
- *   str_020A7A24   0x020A7A24  data
- *   str_020A7A50   0x020A7A50  data
- *   func_0203D6BC  0x0203D6BC  arm
- *   func_0203D680  0x0203D680  arm
  *   func_0203D798  0x0203D798  arm
- *   func_02037224  0x02037224  arm
+ *   unk_021469D0   0x021469D0  data
+ *   str_020A7A68   0x020A7A68  data
+ *   str_020A7A78   0x020A7A78  data
+ *   func_02034714  0x02034714  arm
  *   func_0203D788  0x0203D788  arm
- *   MI_CpuFill8    0x02082BCC  arm
- *   func_020366A8  0x020366A8  arm
- *   func_02036A50  0x02036A50  arm
- *   func_0203F1FC  0x0203F1FC  arm
- *   g_021469D0     0x021469D0  data
- *   func_02039414  0x02039414  arm
- *   func_0203C990  0x0203C990  arm
- *   func_02039594  0x02039594  arm
- *   func_020368C0  0x020368C0  arm
- *   func_02039548  0x02039548  arm
- *   func_0203CA98  0x0203CA98  arm
- *   func_0203C9AC  0x0203C9AC  arm
- *   func_02039338   0x02039338  arm
- *   func_0203996C   0x0203996C  arm
- *   func_0203A770   0x0203A770  arm
- *   func_02037234   0x02037234  arm
- *   func_020365E8  0x020365E8  arm
- *   func_02036540  0x02036540  arm
- *   func_02036500  0x02036500  arm
- *   func_020364D4  0x020364D4  arm
- *   func_0203A804  0x0203A804  arm
- *   func_0203A7EC  0x0203A7EC  arm
- *   func_0203A634  0x0203A634  arm
- *   func_0203A81C  0x0203A81C  arm
- *   func_02082D44  0x02082D44  arm
+ *   func_0203996C  0x0203996C  arm
+ *   func_0203A28C  0x0203A28C  arm
+ *   func_020307B0  0x020307B0  arm
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_02037BE8  0x02037BE8  arm
+ *   func_02030734  0x02030734  arm
+ *   file_020A7A68  0x020A7A68  data
+ *   g_021469D4     0x021469D4  data
+ *   msg_020A7A7C   0x020A7A7C  data
+ *   msg_020A7A88   0x020A7A88  data
+ *   sub_0203996C   0x0203996C  arm
  */
+#include "../../matched/include/Obj08833.h"
+#include "../../matched/include/Obj15944.h"
+#include "../../matched/include/Obj15945.h"
+
 struct Entry;
 typedef unsigned char u8;
 
-typedef unsigned int   u32;
+struct LinkState {
+    u8 pad000[0x1eb];
+    u8 unk_1eb;
+};
+
+struct Session {
+    u8 pad00[0x64];
+    u8 unk_64;
+    u8 state;
+};
+
+typedef unsigned int  u32;
+
+typedef signed int     s32;
 
 typedef unsigned short u16;
 
-typedef signed int s32;
-
-struct Hdr
-{
-    u8 f00;
-    u8 f01;
-    u8 f02;
-    u8 f03;
-    u8 f04;
-    u8 f05;
-    u8 f06;
-    u8 body[1];
+struct Entry_02039658 {
+    void *obj;
+    u8    pad_04[4];
+    void *slot[8];
+    u8    pad_28[0x16];
+    u16   key3e;
+    u16   key40;
 };
 
-struct Glob
-{
-    u8 pad_00[0x65];
-    u8 f65;
+struct Entry_02039764 {
+    u8    pad_00[8];
+    void *slot[8];
+    u8    pad_28[0x1c];
+    u16   key44;
+    u16   key46;
+    u8    pad_48;
+    u8    f49;
+    u8    f4a;
 };
 
-struct Conn
-{
-    u8 pad_00[0x24];
-    u32 f24;
+struct Entry {
+    u8   pad_00[8];
+    void *handle[8];
 };
 
-struct Vt
-{
-    u8 pad_00[0x7c];
-    u8 (*f7c)(void);
-    u8 pad_80[0x30];
-    s32 (*fb0)(void);
-};
-
-struct Sys
-{
-    u8 pad_00[0x340];
-    struct Vt *f340;
-};
-
-struct Buf
-{
-    void *ptr;
-    u16 len;
-};
-
-struct Rec {
-    u8  pad_00[0x64];
-    u8  f64;
-};
-
-struct Handle {
-    u8  pad_00[0x1e0];
-    u32 f1e0;
-};
-
-struct Err {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-};
-
-typedef signed short   s16;
-
-struct Src {
-    u8  pad00[0x0c];
-    s16 pos;
-};
-
-struct St {
-    s32 done;
-    u8 *dst;
-    u16 left;
-    u16 total;
-    u16 h;
-    u8  f0E;
-    u8  f0F;
-};
-
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u32 func_0203D6BC(void);
-extern u32 func_0203D680(void);
 extern void *func_0203D798(void);
-extern void func_02037224(u8 v, int b);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_0203D788(void);
-extern void MI_CpuFill8(void *, u8, u32);
-extern s32 func_020366A8(struct Conn *);
-extern int func_02036A50(u32 list, u16 *info);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern u32 func_02039414(void);
-extern u32 func_0203C990(void);
-extern int    func_02039594(void);
-extern int    func_020368C0(void *tbl, u32 a, u32 b, u32 c, u32 d, u32 e,
-                            u32 f);
-extern void   func_02039548(void);
-extern u32 func_0203CA98(void);
-extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
-extern int func_020365E8(char *p);
-extern u16 func_02039338(void);
 extern struct Entry *func_0203996C(s32 idx);
-extern void func_0203A770(u32 a, u32 b, int c, u32 d, u32 e, u32 f);
-extern void func_02037234(u8 *p);
-extern u32 func_02036540(u32 a);
-extern u32 func_02036500(u32 a);
-extern int  func_020364D4(struct Src *s, u8 *buf, u32 n, u32 max);
-extern int  func_0203A804(u32 h);
-extern int  func_0203A7EC(u32 h);
-extern u32 func_0203A634(u32 a0);
-extern u32 func_0203A81C(u32 a0, u32 a1, u32 a2);
-extern void func_02082D44(void *dst, const void *src, int n);
-int func_02038C18(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
-void func_02038D30(int a0, int a1, int a2, int a3);
-void func_02038D4C(int a0, int a1, int a2, int a3);
-void func_02038D68(int a0, u32 a1, u32 a2, u8 *a3);
-int func_02038A48(int a);
-int func_02038A90(u32 a);
-extern u8   g_020A7A20[];
-extern u8   g_020A7A24[];
-extern u8   g_020A7A50[];
-extern const u8 str_020A7A24[];
-extern const u8 str_020A7A50[];
-extern struct Handle *g_021469D0;
+extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
+extern u32 func_020307B0(void *p);
+extern void *func_02082BCC(void *dst, int val, u32 size);
+extern void func_02037BE8(u32 idx);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct Entry *sub_0203996C(s32 idx);
+int sub_02039594(void);
+int sub_020395E0(int slot);
+int func_020395EC(struct Entry *a);
+void func_02039658(struct Entry_02039658 *e, u32 idx);
+void func_0203971C(unsigned char *a, u32 b);
+struct Entry_02039764 *func_02039764(u32 idx);
+void func_02039834(void);
+void func_020398B4(void);
+extern struct LinkState *unk_021469D0;
+extern const u8 str_020A7A68[];
+extern const u8 str_020A7A78[];
+extern const char file_020A7A68[];
+extern void *g_021469D4;
+extern const char msg_020A7A7C[];
+extern const char msg_020A7A88[];
 
 
 
 /*
- * Idempotent bring-up: when the argument is non-zero and the mode byte at
- * 0x020A7A21 still reads 2, it is flipped to 4 and the call is skipped; in
- * every other case the 0x5C0-byte block at 0x020A7A24 is handed to
- * func_02034714 with 0x020A7A50 as the third argument.  Either way the
- * function answers 1 through the single shared epilogue (`mov r0, #1;
- * pop {r3, pc}`), which is why the taken arm ends in `beq` to that epilogue
- * and not in a predicated return.
+ * May the caller proceed?  With no link state, or with the +0x64 byte of the
+ * session record set, the answer is an unconditional yes; in the two session
+ * states 0 and 5 it is whatever the +0x1eb byte of the link state says; any
+ * other state is a yes.
  *
- * The three globals are *arrays*, not pointers: the image loads the pool word
- * straight into r0 and then does `ldrb r1, [r0, #1]`, so `extern u8
- * g_020A7A20[]` with a `[1]` subscript is the spelling that reproduces it - as
- * `extern u8 *g_020A7A20` the compiler adds a second load and the file grows
- * to 88 bytes.  The arm's two instructions are predicated (`moveq`/`strbeq`)
- * rather than branched.
+ * The `state == 0 || state == 5` pair is one `cmp` / `cmpne` chain feeding a
+ * single `eq` block, so it has to be written as one disjunction: as two
+ * `if`s the shared block is duplicated.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_02039594.c \n *       --func sub_02039594 --addr 0x02039594 --cc 1.1p1 --arm
+ */
+int sub_02039594(void)
+{
+    struct Session *s;
+
+    if (unk_021469D0 == 0) {
+        goto yes;
+    }
+
+    s = func_0203D798();
+    if (s->unk_64 != 0) {
+        goto yes;
+    }
+    if (s->state == 0 || s->state == 5) {
+        return unk_021469D0->unk_1eb;
+    }
+yes:
+    return 1;
+}
+
+
+
+/*
+ * Clamp a slot index to the sentinel: anything from 8 up becomes 0xff, and
+ * everything below passes through untouched.  Twelve bytes, no prologue.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_020395E0.c \n *       --func sub_020395E0 --addr 0x020395E0 --cc 1.1p1 --arm
+ */
+int sub_020395E0(int slot)
+{
+    if (slot >= 8) {
+        slot = 0xFF;
+    }
+    return slot;
+}
+
+
+
+
+/*
+ *           0x020A7A68 ends at 0x020A7A75; the 3-byte gap kills the `string`
+ *           class, so 0x020A7A78 has no witness outside 020395EC..02039658.
+ *           Every concrete byte of the body reproduces.
+ */
+int func_020395EC(struct Entry *a)
+{
+    struct Entry *v;
+    int i;
+
+    func_0203D788();
+    v = func_0203996C(0xff);
+    if (v == a) {
+        return 0xff;
+    }
+    for (i = 0; i < 9; i++) {
+        v = func_0203996C(i);
+        if (v == a) {
+            return i;
+        }
+    }
+    func_02034714((const char *)str_020A7A68, 0x6e, (const char *)str_020A7A78);
+    return -1;
+}
+
+
+
+/*
+ * Reset one slot entry while KEEPING its eight resource pointers.  The eight
+ * pointers at +8 are stashed on the stack, each live one's 0x10-byte record
+ * is zeroed in place, the entry's own object at +0 is released, the whole
+ * 0x50-byte entry is wiped, and the eight pointers are written straight back
+ * -- so the resource objects survive the reset and only the entry's state
+ * does not.  A real slot index (anything but the 0xFF own-slot spelling)
+ * first has its bit cleared out of the +0x40 mask through func_0203A28C and
+ * its +0x3E companion zeroed.  func_02039834 and func_020398B4 both drive
+ * this in a loop over the nine slots.
+ *
+ * THE STACK BUFFER HOLDS NINE POINTERS, NOT EIGHT, AND ONLY EIGHT ARE USED.
+ * Declared `void *saved[8]` the function is byte-identical but for its frame:
+ * `sub sp, sp, #0x20` with r3 in the push, against the image's
+ * `sub sp, sp, #0x24` with a seven-register push.  The ninth word is what
+ * takes the frame to 0x24 and lets the prologue drop the r3 home slot; the
+ * unused slot is not padding the compiler inserted but a declared one.  Nine
+ * is also the family's own table size (sub_0203996C resolves nine 0x50-byte
+ * entries, eight peers plus the own slot), so the buffer was almost
+ * certainly spelled with the same manifest constant as the table and the
+ * loop simply stops at the eight peers.  tools/permuter.py exhausted hill
+ * mode (206 single mutations, none better) on the eight-element version:
+ * the array's own size is outside its mutation set.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02038A48.c \
- *       --func func_02038A48 --addr 0x02038A48 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_02039658.c \
+ *       --func func_02039658 --addr 0x02039658 --cc 1.1p1 --arm
  */
-int func_02038A48(int a)
+void func_02039658(struct Entry_02039658 *e, u32 idx)
 {
-    if (a != 0 && g_020A7A20[1] == 2) {
-        g_020A7A20[1] = 4;
-    } else {
-        func_02034714((const char *)g_020A7A24, 0x5C0, (const char *)g_020A7A50);
+    void *saved[9];
+    int i;
+
+    if (idx != 0xff) {
+        u16 h = e->key40;
+        e->key3e = 0;
+        e->key40 = func_0203A28C(h, idx, 0);
     }
-    return 1;
+
+    for (i = 0; i < 8; i++) {
+        if (e->slot[i] != 0)
+            func_02082BCC(e->slot[i], 0, 0x10);
+        saved[i] = e->slot[i];
+    }
+
+    if (e->obj != 0) {
+        func_020307B0(e->obj);
+        e->obj = 0;
+    }
+
+    func_02082BCC(e, 0, 0x50);
+
+    for (i = 0; i < 8; i++)
+        e->slot[i] = saved[i];
+
+    func_02037BE8(idx);
 }
 
 
 
-int func_02038A90(u32 a)
+/*
+ * Clears the slot's `0x3e` field, refreshes its `0x40` field from the
+ * selector, then clears the 0x10-byte record its indexed pointer names.
+ * The early `popeq` is the null test written as an early return.
+ */
+void func_0203971C(unsigned char *a, u32 b)
 {
-    func_0203D6BC();
-    func_0203D680();
-    func_0203D798();
-    if (a != 0) {
-        func_02037224(4, 0x5d4);
-    } else {
-        func_02034714((const char *)str_020A7A24, 0x5d8, (const char *)str_020A7A50);
+    if (b != 0xFF) {
+        u16 h = ((struct Obj08833 *)a)->f40;
+        ((struct Obj08833 *)a)->f3E = 0;
+        ((struct Obj08833 *)a)->f40 = (u16)func_0203A28C(h, b, 0);
     }
-    return 1;
+    {
+        void *p = *(void **)(a + b * 4 + 8);
+        if (p == 0)
+            return;
+        func_02082BCC(p, 0, 0x10);
+    }
 }
 
 
 
-s32 func_02038AE0(struct Hdr *h, struct Conn *c, s32 len, u8 a3)
+/*
+ * (Re)initialise one slot entry and hand it back.  The entry is wiped to
+ * 0x50 zero bytes, its packed key at +0x44/+0x46 is set to the 0xFF
+ * sentinel and its +0x49/+0x4A state bytes cleared.  Only the OWN slot
+ * (index 0xFF) owns the eight 0x10-byte resource records at +8: for it the
+ * old eight are released before the wipe and eight fresh ones allocated
+ * after it out of the heap named by the record's +0x56 halfword (line 0xC7);
+ * a peer slot keeps a null array on both sides of the wipe.
+ *
+ * This is func_02039834's per-slot worker and the constructive twin of
+ * func_02039658 (which keeps the resource pointers rather than
+ * reallocating them).
+ *
+ * TWO LEVERS, and only one of them is an allocation tie.
+ *
+ * IT RETURNS THE ENTRY.  The image's `mov r0, r8` at +0xBC, between the
+ * +0x46 store and the +0x49 store, is the return value: both callers
+ * (func_02039834, func_020398B4) discard it, so nothing downstream forces
+ * it, but written `void` the function is four bytes short and that `mov` is
+ * simply missing.  A dead-looking `mov r0, <callee-saved>` just before the
+ * epilogue of a function whose callers ignore the result is the tell.
+ *
+ * DECLARATION ORDER: `struct Entry *e;` before `u8 *g;`.  The other way
+ * round the two swap colours -- the record goes to r8 and the entry to sb,
+ * against the image's sb and r8 -- for ten `mov`/`ldr` operands and no size
+ * change (docs/idioms/declaration-order-decides-which-register-a-local-gets.md).
+ * tools/permuter.py --explain reports this residue as exactly one swapped
+ * pair (r8 <-> sb), which is what says to reach for declaration order rather
+ * than for the body.
+ *
+ * The allocation loop's counter is a SECOND variable from the release
+ * loop's, zeroed before the wipe call rather than at the loop head: that is
+ * the `mov sl, #0` at +0x50 sitting above `bl func_02082BCC`, where reusing
+ * `i` would re-zero it after the call.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02039764.c \
+ *       --func func_02039764 --addr 0x02039764 --cc 1.1p1 --arm
+ */
+struct Entry_02039764 *func_02039764(u32 idx)
 {
-    struct Glob *g;
-    struct Sys *sys;
-    struct Buf buf;
-    s32 n;
-    u16 v;
+    struct Entry_02039764 *e;
+    u8 *g;
+    int i;
 
     g = func_0203D798();
-    sys = func_0203D788();
+    func_0203D788();
+    e = (struct Entry_02039764 *)func_0203996C(idx);
 
-    MI_CpuFill8(h, 0, (u32)len);
-
-    if (c->f24 == 0)
-        h->f04 = 1;
-    else
-        h->f04 = 2;
-    c->f24 = 0;
-
-    h->f03 = sys->f340->f7c();
-
-    if (func_020366A8(c) == 0)
-    {
-        if ((u8)(g->f65 + 0xfd) > 1)
-            goto body;
-        if (sys->f340->fb0() != 1)
-            goto body;
-    }
-    h->f04 = 0xff;
-    return 0;
-
-body:
-    ;
-
-    buf.len = (u16)(len - 7);
-    buf.ptr = &h->body[0];
-    if (func_02036A50((u32)c, (u16 *)(&buf)) == 0)
-        c->f24 = 1;
-
-    if (buf.len != 0xffff)
-        n = (len - buf.len) - 7;
-    else
-        n = len - 7;
-
-    if (n > 0xff)
-    {
-        n = n + 1;
-        h->f04 = h->f04 | 8;
+    if (idx == 0xff) {
+        for (i = 0; i < 8; i++) {
+            if (e->slot[i] != 0)
+                func_020307B0(e->slot[i]);
+        }
     }
 
-    h->f02 = (u8)n;
-    h->f05 = a3;
+    i = 0;
+    func_02082BCC(e, 0, 0x50);
 
-    v = func_0203F1FC(&h->f02, len - 2);
-    h->f00 = (u8)v;
-    h->f01 = (u8)((v & 0xff00) >> 8);
+    if (idx == 0xff) {
+        for (; i < 8; i++)
+            e->slot[i] = func_02030734(((struct Obj15944 *)g)->f56, 0x10, 1, file_020A7A68, 0xc7);
+    }
 
-    return 1;
+    e->f4a = 0;
+    e->key44 = 0xff;
+    e->key46 = 0xff;
+    e->f49 = 0;
+    return e;
 }
 
 
+
 /*
- * Seven-argument entry to the comms send path.  The seventh argument is a
- * flag whose INVERSE becomes the `broadcast` byte handed to func_020368C0:
- * `flag == 0` gives 1, anything else gives 0, materialised as
- * `mov r5,#1` / `cmp r4,#0` / `movne r5,#0` before the first call.
+ * Module bring-up, the twin of func_020398B4's teardown: reset all eight
+ * peer slots through func_02039764, reset the own slot (0xFF) too, assert
+ * that the module handle g_021469D4 is NOT already live, then allocate the
+ * 0x20-byte handle for it out of the heap named by the record's +0x56
+ * halfword (line 0xE5; the assert is line 0xE3).
  *
- * The module handle behind the global at 0x021469D0 is fetched once and every
- * later read comes off the same pooled base; a null handle, a busy queue
- * (func_02039414 non-zero or func_0203C990 zero) and a failed func_02039594
- * all return 0 early.  func_0203D798's result is only used for its +0x64
- * byte, which selects the +0xf4 table over the +0xcc one when the fifth
- * argument is the 0xff wildcard.
+ * TWO LEVERS, both of which the note in docs/notes/pkt_02039764.c.txt was
+ * one step short of.
  *
- * The broadcast flag is additionally cleared when the third argument is not
- * less than the handle's +0x1e0 word: `cmp r7,r0` / `cmpge r5,#1` /
- * `moveq r5,#0` is the conjunction `if (a3 >= lim && flag != 0) flag = 0;`
- * written as one expression
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md).
+ * DECLARATION ORDER: `int i;` before `u8 *p;`.  With `p` declared first the
+ * allocator colours the object pointer r4 and the reset index r5, which is
+ * the swap of the image's r5/r4 the note recorded; swapping the two
+ * declarations swaps the colours back
+ * (docs/idioms/declaration-order-decides-which-register-a-local-gets.md).
+ * The note tried this "and it does not move it" only because the remaining
+ * residue below masked the result.
  *
- * On a failed send the error path reports through func_0203CA98's three-word
- * record with line 0x3f4 and returns 0; a successful send returns 1.
+ * ASSERT POLARITY: the guard is `g_021469D4 != 0`, not `== 0`.  The image
+ * skips the report with `beq`, so the report runs on the NON-null handle:
+ * bringing a module up twice is the error, where func_020398B4's matching
+ * assert at line 0x100 fires on the null handle because tearing down a dead
+ * module is the error there.  Getting it backwards is a one-byte diff
+ * (the condition field of a single branch) and nothing else.
+ *
+ * The note's second finding is now stale: func_02039764's only branch sites
+ * image-wide are this function's own two calls, so `label` still refuses it,
+ * but `sole-ref/code` carries it (0x02039764 is a traced function start), and
+ * msg_020A7A7C resolves through `sole-ref` the same way.  This file is EXACT,
+ * not the MATCH the note predicted.
  *
  * Addresses are Black-image addresses.
  *
- * BYTE-CORRECT, PARKED: 280 bytes, 0 concrete mismatches.  Capped at MATCH by
- * the sole unresolved site, the PC24 at +0x00D0 naming func_020368C0
- * (0x020368C0).  That address has no branch anywhere in the image outside this
- * function's own `bl` and no manifest entry, so neither `label` nor `matched`
- * can attest it; the call is the last thing before the function's two tail
- * exits, so no cut frees it either.  Filing 0x020368C0 promotes this file
- * unchanged.
- *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02038C18.c \
- *       --func func_02038C18 --addr 0x02038C18 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_02039834.c \
+ *       --func func_02039834 --addr 0x02039834 --cc 1.1p1 --arm
  */
-int func_02038C18(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7)
+void func_02039834(void)
 {
-    struct Rec *rec;
-    struct Handle *h;
-    struct Err *err;
-    void *tbl;
-    u32 flag;
-
-    flag = 1;
-    if (a7 != 0)
-        flag = 0;
-
-    rec = func_0203D798();
-    if (g_021469D0 == 0)
-        return 0;
-    if (func_02039414() != 0 || func_0203C990() != 0)
-        return 0;
-    if (func_02039594() == 0)
-        return 0;
-
-    h = g_021469D0;
-    if ((int)a3 >= (int)h->f1e0 && flag == 1)
-        flag = 0;
-
-    if (rec->f64 != 0 && a5 == 0xff)
-        tbl = (u8 *)h + 0xf4;
-    else
-        tbl = (u8 *)h + 0xcc;
-
-    if (func_020368C0(tbl, a1, a2, a3, a4, flag, a6) != 0)
-        return 1;
-
-    func_02039548();
-    err = (struct Err *)func_0203CA98();
-    if (err->f0c == 0)
-        func_0203C9AC(err->f00, err->f04, err->f08, 0x3f4);
-    return 0;
-}
-
-void func_02038D30(int a0, int a1, int a2, int a3){ func_020365E8((char *)((int)(*(int *)((char *)(0x21469D0)) + 0x1c))); }
-
-void func_02038D4C(int a0, int a1, int a2, int a3){ func_020365E8((char *)((int)(*(int *)((char *)(0x21469D0)) + 0x3c))); }
-
-
-/*
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02038D68.c \
- *       --func func_02038D68 --addr 0x02038D68 --cc 1.1p1 --arm
- */
-void func_02038D68(int a0, u32 a1, u32 a2, u8 *a3)
-{
-    u32 v;
-
-    func_0203D798();
-    v = (u32)func_0203996C(func_02039338());
-    func_0203A770(a3[0x0E], a3[0x0F], a0, a1, a2, v);
-
-    if (func_02039338() == 0) {
-        v = (u32)func_0203996C(0xFF);
-        if (a0 < 0x11)
-            func_0203A770(a3[0x0E], a3[0x0F], a0, a1, a2, v);
-    }
-
-    func_02037234(a3);
-}
-
-
-/*
- * net_system.c packet reassembly: drain a slot's receive ring (src, the
- * 0x10-byte slot header func_0203640C builds; +0x0C is its read cursor)
- * into the reassembly record st, one chunk per turn, asserting at line
- * 0x6E3 on a zero header.  Written fresh from the image: the old note
- * (docs/notes/pkt_02038DF0.c.txt) kept no recoverable source.
- *
- * What closed it:
- *   - func_020364D4 is written in BOTH arms of the func_0203A804 test,
- *       if (!func_0203A804(h)) len = f(src, buf, left, left);
- *       else                   len = f(src, buf, left, n - 7);
- *     The compiler hoists the shared argument setup above the branch and
- *     sinks the call below it, which is the image's `mov r3, r2 / b /
- *     ldr r3, [sp, #4]` diamond.  A ternary argument (any spelling) is
- *     if-converted to moveq/ldrne and is 8 bytes short.
- *   - n is u32 (with it s32 the stack parameter is loaded after the guard
- *     instead of in the prologue); `int lim = n - 7` assigned inside the
- *     loop is an equivalent EXACT spelling.
- *   - h is u32 and declared after len/sv/p (permuter decl-order);
- *     func_02036540's result is narrowed through a u16 local at the 0xFFFF
- *     re-seed (the lsl/lsr pair), so it is declared returning u32 here.
- */
-void func_02038DF0(struct Src *src, u32 a1, u8 *buf, struct St *st, u32 n)
-{
-    int len;
-    s16 sv;
+    int i;
     u8 *p;
-    u32 h;
-    int cnt;
 
-    func_0203D798();
-    while (func_020365E8((char *)src) != 0) {
-        h = st->h;
-        if (h == 0) {
-            h = func_02036540((u32)src);
-            if (h == 0) {
-                func_02034714((const char *)str_020A7A24, 0x6E3, (const char *)str_020A7A50);
-                continue;
-            }
-        }
-        sv = src->pos;
-        st->h = h;
-        if (st->total == 0xFFFF) {
-            if (func_020365E8((char *)src) < 3) {
-                src->pos = sv;
-                return;
-            }
-            {
-                u16 v = func_02036540((u32)src);
-                st->left = v;
-                st->total = v;
-            }
-            st->f0E = a1;
-            st->f0F = func_02036500((u32)src);
-        }
-        sv = src->pos;
-        if (func_0203A804(h) && func_0203A634(st->f0F)) {
-            if (st->dst == 0)
-                st->dst = (u8 *)func_0203A81C(h, st->f0E, st->total);
-            p = st->dst + st->done;
-        } else {
-            p = buf;
-            st->dst = buf;
-        }
-        if (!func_0203A634(st->f0F))
-            p = 0;
-        if (!func_0203A804(h))
-            len = func_020364D4(src, buf, st->left, st->left);
-        else
-            len = func_020364D4(src, buf, st->left, n - 7);
-        st->left = st->left - (u16)len;
-        cnt = len;
-        if (st->total > st->done) {
-            cnt = st->total - st->done;
-            if (cnt > len)
-                cnt = len;
-            if (p != 0)
-                func_02082D44(buf, p, cnt);
-        }
-        st->done += cnt;
-        if (st->left == 0) {
-            func_02038D68(h, st->total, (u32)st->dst, (u8 *)st);
-            continue;
-        }
-        if (!func_0203A7EC(h))
-            return;
-        if (func_0203A804(h))
-            return;
-        if (!func_0203A634(st->f0F))
-            return;
-        st->left += (u16)len;
-        src->pos = sv;
-        return;
+    p = func_0203D798();
+    for (i = 0; i < 8; i++) {
+        func_02039764(i);
     }
+    func_02039764(0xff);
+
+    if (g_021469D4 != 0) {
+        func_02034714(file_020A7A68, 0xe3, msg_020A7A7C);
+    }
+    g_021469D4 = func_02030734(((struct Obj15945 *)p)->f56, 0x20, 1, file_020A7A68, 0xe5);
+}
+
+
+/*
+ * The teardown twin of func_02039834: clear every one of the eight peer slots
+ * (func_02039658 on each slot's entry), release the eight resource handles the
+ * own-slot entry parks at +8..+0x24, clear the own slot too, then assert the
+ * module handle g_021469D4 is live and free it.
+ *
+ * The own-slot entry is taken once, before the release loop, and the address
+ * of each handle word is recomputed per iteration rather than kept in a
+ * cursor: func_020307B0 is an ordinary extern, so the store after it needs a
+ * fresh `add r0, r5, r6, lsl #2`
+ * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
+ * The two `mov` of the slot key 0xff share one register with the clear loop's
+ * counter, which is why the tail spells the key as `mov r4, #0xff`.
+ *
+ * The __FILE__ argument is "net_handle.c" at 0x020A7A68, line 0x100.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020398B4.c \
+ *       --func func_020398B4 --addr 0x020398B4 --cc 1.1p1 --arm
+ */
+void func_020398B4(void)
+{
+    struct Entry *own;
+    int i;
+    u32 key;
+
+    for (i = 0; i < 8; i++) {
+        func_02039658((struct Entry_02039658 *)(sub_0203996C(i)), i);
+    }
+
+    own = sub_0203996C(0xff);
+
+    for (i = 0; i < 8; i++) {
+        if (own->handle[i] != 0) {
+            func_020307B0(own->handle[i]);
+            own->handle[i] = 0;
+        }
+    }
+
+    key = 0xff;
+    func_02039658((struct Entry_02039658 *)(sub_0203996C(key)), key);
+
+    if (g_021469D4 == 0) {
+        func_02034714(file_020A7A68, 0x100, msg_020A7A88);
+    }
+    func_020307B0(g_021469D4);
+    g_021469D4 = 0;
 }

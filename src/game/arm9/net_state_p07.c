@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p07.c
  * unit:     yes
- * function: func_0203675C, func_020367C4, func_020368C0, func_020369C8
- * address:  0x0203675C
+ * function: func_02037BA4, func_02037BE8, func_02037C10
+ * address:  0x02037BA4
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,196 +13,176 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020364D4  0x020364D4  arm
- *   MI_CpuCopy8    0x02082D44  arm
- *   func_02036670   0x02036670  arm
- *   func_0203660C   0x0203660C  arm
- *   func_02036428   0x02036428  arm
- *   func_0203666C   0x0203666C  arm
- *   func_02034714   0x02034714  arm
- *   g_020A79C4      0x020A79C4  data
- *   g_020A79D0      0x020A79D0  data
- *   g_020A79D4      0x020A79D4  data
+ *   g_021469D0      0x021469D0  data
+ *   func_02039338   0x02039338  arm
+ *   func_020393A8   0x020393A8  arm
+ *   func_02037B08   0x02037B08  arm
+ *   func_02037680  0x02037680  arm
+ *   lbl_021469D0   0x021469D0  data
+ *   func_0203D788  0x0203D788  arm
+ *   func_0203D798  0x0203D798  arm
+ *   func_020370F4  0x020370F4  arm
+ *   func_020393D0  0x020393D0  arm
+ *   func_02037F48  0x02037F48  arm
+ *   func_0203802C  0x0203802C  arm
+ *   func_02038298  0x02038298  arm
+ *   func_02038340  0x02038340  arm
+ *   func_02039050  0x02039050  arm
+ *   func_02039160  0x02039160  arm
+ *   func_020385C4  0x020385C4  arm
+ *   func_020390BC  0x020390BC  arm
+ *   func_0203ACAC  0x0203ACAC  arm
  */
-#include "../../matched/include/Obj04748.h"
-
-typedef unsigned char  u8;
+typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-typedef unsigned int   u32;
+typedef unsigned int u32;
 
-typedef int            BOOL;
+struct Ctx {
+    u8   pad00[0x340];
+    u32 *f340;
+};
 
-typedef struct {
-    u8  *src;       /* +0x00 */
-    u32  pad4;
-    u32  pad8;
-    u16  rest;      /* +0x0C */
-    u16  fE;
-    u8   f10;
-    u8   headerDone;/* +0x11 */
-} NetSendItem;
+struct Oth {
+    u8 pad00[0x64];
+    u8 f64;
+    u8 f65;
+};
 
-typedef struct {
-    u8  *ptr;       /* +0x00 */
-    u16  len;       /* +0x04 */
-} NetOutBuf;
+struct Net {
+    u8 pad00[0x1ea];
+    u8 f1EA;
+};
 
-typedef struct Node020368C0 {
-    u32 f0;
-    struct Node020368C0 *f4;
-    struct Node020368C0 *f8;
-    u16 fC;
-    u16 fE;
-    u8 f10;
-    u8 f11;
-} Node020368C0;
-
-typedef struct Queue020368C0 {
-    Node020368C0 *f0;
-    Node020368C0 *f4;
-    u32 f8;
-    u32 fC;
-    u32 f10;
-    u32 f14;
-} Queue020368C0;
-
-extern int func_020364D4(char *p, unsigned char *dst, int len, int max);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern Node020368C0 *func_02036670(Queue020368C0 *q, u32 a1, u32 a2, u32 a3);
-extern u32 func_0203660C(u32 h);
-extern void func_02036428(u32 h, u32 a2, u32 a3);
-extern void func_0203666C(u32 h);
-extern void func_02034714(char *file, u32 line, char *expr);
-int func_0203675C(int a0, int a1);
-int func_020367C4(NetSendItem *item, NetOutBuf *out, void *ring, BOOL needHeader);
-int func_020368C0(Queue020368C0 *q, u16 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-u32 func_020369C8(u32 *p);
-extern char g_020A79C4[];
-extern char g_020A79D0[];
-extern char g_020A79D4[];
-
-
-int func_0203675C(int a0, int a1){ int t0, t1, t2, t3, t4; t0 = func_02036738((int)a1, (int)((((struct Obj04748 *)((char *)(a0)))->fE >> 8) & 0xff), (int)((struct Obj04748 *)((char *)(a0)))->fE); t1 = func_02036738((int)a1, (int)(((struct Obj04748 *)((char *)(a0)))->fE & 0xff)); t2 = func_02036738((int)a1, (int)((((struct Obj04748 *)((char *)(a0)))->fC >> 8) & 0xff)); t3 = func_02036738((int)a1, (int)(((struct Obj04748 *)((char *)(a0)))->fC & 0xff)); t4 = func_02036738((int)a1, (int)((struct Obj04748 *)((char *)(a0)))->f10); return 0; }
-
+extern u16 func_02039338(void);
+extern int   func_020393A8(void);
+extern void  func_02037B08(void);
+extern void func_02037680(int i);
+extern void *func_0203D788(void);
+extern void *func_0203D798(void);
+extern u32  func_020370F4(u32 a);
+extern int  func_020393D0(void);
+extern void func_02037F48(void);
+extern void func_0203802C(void);
+extern void func_02038298(void);
+extern void func_02038340(void);
+extern void func_02039050(void);
+extern int  func_02039160(u32 a);
+extern void func_020385C4(void);
+extern void func_020390BC(void);
+extern void func_0203ACAC(void);
+void func_02037BA4(void);
+void func_02037BE8(u32 a);
+int func_02037C10(void);
+extern char *g_021469D0;
+extern struct Net *lbl_021469D0;
 
 
 /*
- * Moves one queued send item into an output window: on first touch writes
- * the item's five-byte header (func_0203675C, refused with 0 when a header
- * is required and the window cannot hold rest + 5), then copies as much of
- * the payload as fits -- from the item's own source pointer with
- * MI_CpuCopy8, or out of the ring with func_020364D4 when it has none.  A
- * partial copy leaves the window marked full (0xFFFF) and the item's
- * header flag set; a complete one advances the window.  Exact on the first
- * compile from the image's field widths.
- */
-int func_020367C4(NetSendItem *item, NetOutBuf *out, void *ring, BOOL needHeader)
-{
-    if (item->headerDone == 0) {
-        if (needHeader != 0 && out->len < item->rest + 5) {
-            return 0;
-        }
-        func_0203675C((int)item, (int)out);
-    }
-    if (out->len < item->rest) {
-        if (item->src == 0) {
-            func_020364D4(ring, out->ptr, out->len, out->len);
-        } else {
-            MI_CpuCopy8(item->src, out->ptr, out->len);
-            item->src += out->len;
-        }
-        item->rest = item->rest - out->len;
-        out->len = 0xffff;
-        item->headerDone = 1;
-        return 1;
-    }
-    if (item->src == 0) {
-        func_020364D4(ring, out->ptr, item->rest, item->rest);
-    } else {
-        MI_CpuCopy8(item->src, out->ptr, item->rest);
-    }
-    out->ptr += item->rest;
-    out->len = out->len - item->rest;
-    return 1;
-}
-
-
-
-/*
- * blocked:  own-pool - the only pooled words naming g_020A79D0 (0x020A79D0 "0")
- *           and g_020A79D4 (0x020A79D4 "(u16)size < (0xffff/2)") sit inside this
- *           function's own pool at 0x020369BC/0x020369C4; every other witness is
- *           inside 0x020368C0..0x020369C8, so the two ABS32 fields stay wildcarded.
- *           g_020A79C4 ("net_queue.c") does have 10 outside witnesses (literal class).
- *           Verified byte-correct otherwise: 264/264, 0 concrete bytes differ.
- */
-int func_020368C0(Queue020368C0 *q, u16 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
-{
-    Node020368C0 *n = func_02036670(q, a1, a2, a3);
-
-    if (n == 0) {
-        func_02034714(g_020A79C4, 0xdb, g_020A79D0);
-        return 0;
-    }
-    if (!((u16)a3 < 0xffff / 2)) {
-        func_02034714(g_020A79C4, 0xdf, g_020A79D4);
-    }
-    if (a5 != 0) {
-        if (!((int)(a3 + 5) < (int)func_0203660C(q->f14))) {
-            func_02034714(g_020A79C4, 0xe3, g_020A79D0);
-            return 0;
-        }
-        func_02036428(q->f14, a2, a3);
-        func_0203666C(q->f14);
-        n->f0 = 0;
-    } else {
-        n->f0 = a2;
-    }
-    n->fC = a3;
-    n->fE = a1;
-    n->f10 = a6;
-    n->f11 = 0;
-    if (q->f4 == 0) {
-        q->f4 = n;
-        q->f0 = n;
-    } else {
-        q->f4->f8 = n;
-        n->f4 = q->f4;
-        q->f4 = n;
-    }
-    return 1;
-}
-
-
-
-/*
- * First non-null of three words of a queue owner: the word at +0x10, then the
- * word at +0, then the word at +8.  The first two arms load into r1 and only
- * move the answer into r0 on the taken path (`movne r0, r1`); the third arm
- * loads straight into r0, so its null case is the single `moveq r0, #0` that
- * the source's trailing `return 0;` produces.  Both taken arms branch on the
- * compare itself (`bxne lr`) instead of jumping to the shared epilogue.
+ * 64 bytes gated on the byte at +0x1EC of the object the global pointer names:
+ * when it is set, the first getter's non-zero answer runs func_02037B08 and
+ * returns, the second getter's non-zero answer returns without it, and
+ * everything else runs func_02037B08.  The two `bl func_02037B08` are separate
+ * copies in the original, which is what the two arms give.
  *
- * Written with three separate `if (...) return ...;` statements rather than a
- * chain of `?:`: the compiler rejects the GNU `?:` extension outright
- * (CCERR), and the merged `if` chain (`if (a) return a; if (b) return b;
- * return c;`) is 36 bytes and folds the third test away.
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02037BA4.c \
+ *       --func func_02037BA4 --addr 0x02037BA4 --cc 1.1p1 --arm
+ */
+void func_02037BA4(void)
+{
+    if (*(u8 *)(g_021469D0 + 0x1EC) == 0)
+        return;
+    if (func_02039338() == 0) {
+        if (func_020393A8() == 0)
+            func_02037B08();
+        return;
+    }
+    func_02037B08();
+}
+
+
+/*
+ * Guards the eight-slot table behind the global at 0x021469D0: an unarmed
+ * global returns through `popeq`, an index past 7 through `popcs` (the compare
+ * is unsigned, so a negative index is rejected as well), and only a live slot
+ * reaches func_02037680.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020369C8.c \
- *       --func func_020369C8 --addr 0x020369C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_02037BE8.c \
+ *       --func func_02037BE8 --addr 0x02037BE8 --cc 1.1p1 --arm
  */
-u32 func_020369C8(u32 *p)
+void func_02037BE8(u32 a)
 {
-    if (p[4] != 0)
-        return p[4];
-    if (p[0] != 0)
-        return p[0];
-    if (p[2] != 0)
-        return p[2];
-    return 0;
+    if (g_021469D0 == 0)
+        return;
+    if (a >= 8)
+        return;
+    func_02037680(a);
+}
+
+
+/*
+ * The net tick dispatcher.  Two shapes are load-bearing: the f1EA/0x393D0
+ * early exit is an out-of-line `goto bail` block placed AFTER the main body,
+ * and the main path's `return 1` is reached by a `goto done` that lands on
+ * the SAME `mov r0,#1; pop` the bail block falls into.  Writing either as a
+ * plain `return 1` duplicates the epilogue and loses the `b #0x2037d6c`.
+ */
+int func_02037C10(void)
+{
+    struct Ctx *c = func_0203D788();
+    struct Oth *o = func_0203D798();
+
+    if (lbl_021469D0 == 0) {
+        if (c != 0)
+            ((void (*)(u32))c->f340[0xc / 4])(0);
+        return 1;
+    }
+
+    {
+        u32 (*h)(void) = (u32 (*)(void))c->f340[0x84 / 4];
+        if (h != 0) {
+            func_020370F4(h());
+        }
+    }
+
+    if (lbl_021469D0->f1EA != 0)
+        goto bail;
+    if (func_020393D0() != 0)
+        goto bail;
+
+    if (o->f64 == 0 && (o->f65 == 0 || o->f65 == 5)) {
+        func_02037F48();
+    } else if ((u8)(o->f65 + 0xfd) <= 1) {
+        func_0203802C();
+    } else if ((u8)(o->f65 + 0xff) <= 1) {
+        func_02038298();
+    } else {
+        func_02038340();
+        func_02039050();
+        if (func_02039338() == 0) {
+            if (func_02039160(0) != 0 && o->f64 != 0)
+                func_020385C4();
+        }
+        if (func_02039338() != 0)
+            goto skip;
+    }
+    func_020390BC();
+skip:
+    if (o->f65 != 1 && o->f65 != 2) {
+        ((void (*)(u16))c->f340[0xc / 4])(
+            *(u16 *)((u8 *)lbl_021469D0 + 0x1e4));
+    }
+    func_0203ACAC();
+    func_02037BA4();
+    goto done;
+
+bail:
+    ((void (*)(u32))c->f340[0xc / 4])(0);
+done:
+    return 1;
 }

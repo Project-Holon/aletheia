@@ -1,8 +1,8 @@
 /*
  * file:     event_field_proclink_p09.c
  * unit:     yes
- * function: func_0215F920, func_0215F948, func_0215F9C4, func_0215F9DC, func_0215F9EC, func_0215FA00, func_0215FA1C, func_0215FA34
- * address:  0x0215F920
+ * function: func_021613CC, func_02161484, func_02161534, func_02161554, func_02161610, func_0216163C
+ * address:  0x021613CC
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,200 +13,278 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
- *   func_0200873C  0x0200873C  thumb
- *   func_020083E4  0x020083E4  thumb
- *   func_020111E8  0x020111E8  thumb
- *   func_02012F08  0x02012F08  thumb
- *   func_0200C3B8  0x0200C3B8  thumb
- *   func_02034AC4 0x02034AC4 arm
- *   func_02183B6C 0x02183B6C thumb ov020
- *   OS_SleepThread     0x02034ac4  arm
- *   DSP_SyncPipe       0x0218571c  thumb
- *   DSPiBlockingQueue  0x00000014  data
- *   abs_id_14      0x00000014  data
- *   sub_02034AC4   0x02034AC4  arm
+ *   func_020120F4  0x020120F4  thumb
+ *   func_02034AC4  0x02034AC4  arm
+ *   func_02012934  0x02012934  thumb
+ *   func_0202138C  0x0202138C  thumb
+ *   func_0201AB28  0x0201AB28  thumb
+ *   func_021C3CC0  0x021C3CC0  thumb  ov136
+ *   func_021C3D44  0x021C3D44  thumb  ov136
+ *   func_021C3DA4  0x021C3DA4  thumb  ov136
+ *   ov136_id       0x00000088  data
+ *   func_02034A5C 0x02034A5C arm
+ *   func_021C3E00 0x021C3E00 thumb ov136
+ *   func_021C3E04 0x021C3E04 thumb ov136
+ *   func_021C3E24 0x021C3E24 thumb ov136
+ *   func_020127A4  0x020127A4  thumb
+ *   func_02012984  0x02012984  thumb
+ *   func_0201B2B0  0x0201B2B0  thumb
+ *   func_02030734  0x02030734  arm
+ *   d_02172978     0x02172978  data  a1
  */
-#include "../../matched/include/Obj05853.h"
-#include "../../matched/include/Obj17707.h"
+#include "../../matched/include/Obj05854.h"
+#include "../../matched/include/Obj18944.h"
 
-struct Big;
-struct Sub02008700Obj;
-struct DSPPipe;
-struct _OSThreadQueue;
+struct BigObj;
+struct Ctx_02161484;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct Work {
-    u8 pad00[0x34];
-    u32 step;           /* 0x34 */
-    u32 seq[1];         /* 0x38 */
-} Work;
+typedef struct Ctx_021613CC {
+    u8 pad00[0x18];
+    u32 **f18;          /* 0x18 */
+    u8 pad1c[0x60 - 0x1C];
+    u8 f60;             /* 0x60 */
+    u8 pad61;
+    u16 f62;            /* 0x62 */
+    u8 pad64[4];
+    u32 f68;            /* 0x68 */
+} Ctx_021613CC;
+
+typedef struct Src_021613CC {
+    u8 pad00[0x2C];
+    u32 f2c;            /* 0x2C */
+    u8 pad30[8];
+    u32 f38;            /* 0x38 */
+    u32 f3c;            /* 0x3C */
+    u32 f40;            /* 0x40 */
+    u16 f44;            /* 0x44 */
+} Src_021613CC;
 
 typedef signed int     s32;
 
-extern void *func_02012EBC(struct Big *p);
-extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern int func_020083E4(unsigned short *p);
-extern u32 func_020111E8(void);
-extern void *func_02012F08(int *p);
-extern int func_0200C3B8();
+typedef struct Ctx_02161484 {
+    u8 pad00[8];
+    u32 f08;
+    u32 f0c;
+    u8 pad10[8];
+    u32 **f18;
+    u8 pad1c[0x60 - 0x1C];
+    u8 f60;
+    u8 pad61[7];
+    u32 f68;
+} Ctx_02161484;
+
+typedef struct Src_02161484 {
+    u8 pad00[0x3C];
+    u32 f3c;            /* 0x3C */
+    u32 f40;            /* 0x40 */
+    u16 f44;            /* 0x44 */
+} Src_02161484;
+
+typedef struct Rec {
+    void *f00;          /* 0x00 */
+    void *f04;          /* 0x04 */
+    u16 f08;            /* 0x08 */
+    u8 f0a;             /* 0x0A */
+    u8 f0b;             /* 0x0B */
+    u32 f0c;            /* 0x0C */
+    u32 f10;            /* 0x10 */
+} Rec;
+
+extern void *func_020120F4(const struct Ctx_021613CC *p);
 extern int func_02034AC4(s32 handle);
-extern void func_02183B6C(int a, int *p);
-void OS_SleepThread(struct _OSThreadQueue *queue);
-void DSP_SyncPipe(struct DSPPipe *pipe);
-extern int sub_02034AC4(int id);
-int func_0215F920(int a0);
-void func_0215F948(u8 *p);
-int func_0215F9C4(void);
-void func_0215F9DC(Work *w, u32 *i);
-int func_0215F9EC(int a0);
-void func_0215FA00(void *p, void *q);
-void func_0215FA34(void);
-extern unsigned char ov020_id[];
-extern struct _OSThreadQueue DSPiBlockingQueue;
-extern unsigned char abs_id_14[];
+extern void *func_02012934(const struct BigObj *p);
+extern u8 func_0202138C(u16 v);
+extern void *func_0201AB28(void *a, u32 b);
+extern void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
+extern void *func_021C3D44(void *a, void *b, unsigned heap);
+extern void *func_021C3DA4(void *a, void *b, unsigned heap);
+extern void func_02034A5C(s32 handle);
+extern u32 func_021C3E00(u32 *p);
+extern int func_021C3E04(u32 *p, void *q);
+extern void func_021C3E24(unsigned char *);
+extern u16 *func_020127A4(void *sv);
+extern u8 func_02012984(const struct BigObj *p);
+extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+int func_021613CC(Ctx_021613CC *c, int a1, int mode, const Src_021613CC *src);
+int func_02161484(Ctx_02161484 *c, void *p);
+void func_02161534(unsigned char *p);
+Rec *func_02161554(Ctx_02161484 *c, int a1, int mode, const Src_02161484 *src);
+int func_02161610(int a0);
+u32 *func_0216163C(char *c);
+extern u8 ov136_id[];
+extern const char d_02172978[];
+
+
+int func_021613CC(Ctx_021613CC *c, int a1, int mode, const Src_021613CC *src)
+{
+    void *sv;
+    void *t;
+    u32 v;
+    int r;
+    u16 h;
+
+    sv = func_020120F4((const struct Ctx_021613CC *)(*c->f18));
+    func_02034AC4((u32)ov136_id);
+    if (mode == 0) {
+        t = func_02012934(sv);
+        v = src->f3c;
+        c->f60 = v;
+        h = src->f44;
+        c->f62 = h;
+        if (src->f40 == 6)
+            return (int)func_021C3CC0(sv, 2, (u8)src->f3c, func_0202138C(h), 4);
+        c->f68 = 1;
+        return (int)func_021C3D44(sv, func_0201AB28(t, v), 4);
+    }
+    if (src->f2c == 2) {
+        r = (int)func_021C3CC0(sv, 2, (u8)src->f38, func_0202138C((u16)src->f38), 4);
+        c->f62 = src->f38;
+        return r;
+    }
+    c->f68 = 1;
+    return (int)func_021C3DA4(sv, (void *)func_0202138C((u16)src->f38), 4);
+}
+
 
 
 /*
- * blocked:  listing 40 compiled 38
+ * Lever: second state writes f0c separately in each arm; cross-jumping
+ * retains the dead branch after func_021C3E04 rather than after movs #0.
  */
-int func_0215F920(int a0)
+int func_02161484(Ctx_02161484 *c, void *p)
+{
+    void *sv;
+    u32 v;
+    sv = func_020120F4((const struct Ctx_021613CC *)((const struct Ctx_02161484 *)(*c->f18)));
+    if (c->f08 == 0) {
+        if (c->f68 == 0 || c->f68 == 2) {
+            if (func_021C3E00(p) == 1) {
+                func_021C3E04(p, func_0201AB28(func_02012934(sv), c->f60));
+                v = 0;
+            } else if (c->f68 == 0) {
+                v = 2;
+            } else {
+                v = 0;
+            }
+        } else {
+            v = 0;
+        }
+        c->f0c = v;
+        func_02034A5C((u32)ov136_id);
+        return 4;
+    }
+    if (c->f08 == 2) {
+        if (c->f68 == 2) {
+            if (func_021C3E00(p) == 1) {
+                func_021C3E04(p, func_0201AB28(func_02012934(sv), c->f60));
+                c->f0c = 0;
+            } else {
+                c->f0c = 0;
+            }
+        } else {
+            c->f0c = 2;
+        }
+        func_02034A5C((u32)ov136_id);
+        return 4;
+    }
+    c->f0c = 2;
+    func_02034A5C((u32)ov136_id);
+    return 4;
+}
+
+
+
+void func_02161534(unsigned char *p) { func_02034AC4((u32)ov136_id); func_021C3E24(p); func_02034A5C((u32)ov136_id); }
+
+
+
+
+
+Rec *func_02161554(Ctx_02161484 *c, int a1, int mode, const Src_02161484 *src)
+{
+    Rec *r;
+    void *sv;
+    void *t;
+    void *k;
+    u32 out;
+    u32 res;
+    u8 x;
+
+    sv = func_020120F4((const struct Ctx_021613CC *)((const struct Ctx_02161484 *)(*c->f18)));
+    r = 0;
+    if (mode == 0) {
+        t = func_02012934(sv);
+        if (src->f40 == 8) {
+            c->f68 = 3;
+            k = func_0201AB28(t, src->f3c);
+            x = func_02012984(sv);
+            res = func_0201B2B0(t, k, 3, src->f44, x, &out, 4);
+        } else {
+            c->f68 = 4;
+            k = func_0201AB28(t, src->f3c);
+            res = func_0201B2B0(t, k, 0, *func_020127A4(sv), func_02012984(sv), &out, 4);
+        }
+        r = func_02030734(4, 0x14, 0, d_02172978, 0x868);
+        r->f00 = sv;
+        r->f04 = t;
+        r->f08 = res;
+        r->f0a = src->f3c;
+        r->f0b = out;
+        r->f0c = 1;
+        r->f10 = 1;
+    }
+    return r;
+}
+
+
+
+
+
+int func_02161610(int a0)
 {
     int t4;
-    void *big;
-    struct Sub02008700Obj *obj;
 
 t4 = a0 + 0;
-a0 = ((struct Obj05853 *)t4)->f8;
-    if (a0 != 1) goto loc_0215F92E;
-loc_0215F92A:
-a0 = 1;
-    goto loc_0215F930;
-loc_0215F92E:
-a0 = 0;
-loc_0215F930:
-((struct Obj05853 *)t4)->f28 = a0;
-a0 = ((struct Obj05853 *)t4)->f4;
-    big = func_02012EBC((struct Big *)a0);
-loc_0215F938:
-    obj = func_0200873C(big);
-loc_0215F93C:
-    a0 = func_020083E4((short unsigned int *)obj);
-loc_0215F940:
-((struct Obj05853 *)t4)->f2C = a0;
-((struct Obj05853 *)t4)->f30 = a0;
-    return a0;}
-
-
-/*
- * Addresses are Black-image addresses.
- */
-void func_0215F948(u8 *p)
-{
-    u32 *t = (u32 *)p;
-    if (t[2] == 0 || t[2] != 1) {
-        t[0x38 / 4] = 0;
-        t[0x3c / 4] = 2;
-        t[0x40 / 4] = 3;
-        t[0x44 / 4] = 4;
-        t[0x48 / 4] = 7;
-        t[0x4c / 4] = 8;
-        t[0x50 / 4] = 12;
-        t[0x54 / 4] = 9;
-        t[0x58 / 4] = 12;
-        t[0x5c / 4] = 10;
-        t[0x60 / 4] = 11;
-        t[0x64 / 4] = 12;
-        t[0x68 / 4] = 13;
-        t[0x6c / 4] = 14;
-    } else {
-        t[0x38 / 4] = 0;
-        t[0x3c / 4] = 2;
-        t[0x40 / 4] = 1;
-        t[0x44 / 4] = 3;
-        t[0x48 / 4] = 4;
-        t[0x4c / 4] = 5;
-        t[0x50 / 4] = 6;
-        t[0x54 / 4] = 10;
-        t[0x58 / 4] = 11;
-        t[0x5c / 4] = 7;
-        t[0x60 / 4] = 8;
-        t[0x64 / 4] = 13;
-        t[0x68 / 4] = 14;
-    }
-    t[0x34 / 4] = t[0x38 / 4];
-}
-
-
-int func_0215F9C4(void)
-{
-    int a0;
-
-    a0 = func_020111E8();
-loc_0215F9CA:
-    if (a0 == 0x14) goto loc_0215F9D2;
-loc_0215F9CE:
-    if (a0 == 0x15) goto loc_0215F9D6;
-loc_0215F9D2:
-a0 = 8;
+a0 = ((struct Obj05854 *)t4)->f18;
+a0 = ((struct Obj05854 *)((char *)a0))->f0;
+    func_020120F4((const struct Ctx_021613CC *)((const struct Ctx_02161484 *)a0));
+loc_0216161C:
+a0 = ((struct Obj05854 *)t4)->f68;
+    if (a0 != 3) goto loc_0216162A;
+loc_02161622:
+a0 = 2;
+((struct Obj05854 *)t4)->fC = a0;
+a0 = 4;
     return a0;
-loc_0215F9D6:
-a0 = 7;
+loc_0216162A:
+    if (a0 != 4) goto loc_02161636;
+loc_0216162E:
+a0 = 0;
+((struct Obj05854 *)t4)->fC = a0;
+a0 = 4;
+    return a0;
+loc_02161636:
+a0 = 0;
     return a0;}
 
 
-/*
- * Advance the step counter and load the next step from the sequence.
- */
-void func_0215F9DC(Work *w, u32 *i)
-{
-    (*i)++;
-    w->step = w->seq[*i];
-}
-
-
-int func_0215F9EC(int a0)
-{
-    int a1;
-    void *p;
-
-a0 = ((struct Obj17707 *)a0)->f4;
-    p = func_02012F08((int *)a0);
-loc_0215F9F4:
-a1 = 0x5a;
-a1 = a1 << 4;
-    a0 = func_0200C3B8(p, a1);
-loc_0215F9FC:
-    return a0;}
-
-void func_0215FA00(void *p, void *q) { func_02034AC4((u32)ov020_id); func_02183B6C((int)p,q); }
-
-
-static void DSPi_WaitForPipe(struct DSPPipe *pipe)
-{
-    OS_SleepThread(&DSPiBlockingQueue);
-    DSP_SyncPipe(pipe);
-}
 
 
 /*
- * note:     wave 17 (overlay_id class): EXACT. The pooled overlay-id site
- *           abs_id_14 (20) resolves as `overlay_id` (a layout overlay index,
- *           loaded by a pc-relative load of this function, reaching the id
- *           register of a known overlay loader), which was the last blocker.
- *
- * Thumb tail call into the ARM sub_02034AC4 with the id 0x14, which the
- * original loads from its own pool rather than as `movs r0, #0x14`: the
- * pooled small constant is an absolute linker symbol
- * (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md).
- * Unlabelled in the listing (no lr-saving prologue, callers only in arm9);
- * the pair with func_0215FA44 (same id, into sub_02034A5C).
+ * Allocate an 0x10-byte record and store the save handle at +4.
+ * The extent also holds the unlabelled leaf at 0x02161668.
  */
-void func_0215FA34(void)
+u32 *func_0216163C(char *c)
 {
-    sub_02034AC4((int)abs_id_14);
+    u32 *r;
+
+    r = func_02030734(4, 0x10, 1, d_02172978, 0x8AC);
+    r[1] = (u32)func_020120F4((const struct Ctx_021613CC *)(**(void ** *)&((struct Obj18944 *)c)->f18));
+    return r;
 }

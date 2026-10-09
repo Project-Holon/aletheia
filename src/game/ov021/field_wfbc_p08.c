@@ -1,8 +1,8 @@
 /*
  * file:     field_wfbc_p08.c
  * unit:     yes
- * function: func_02193FBC, func_02193FD4, func_02193FE8, func_02194014, func_02194038
- * address:  0x02193FBC
+ * function: func_02195E80, func_02195E90, func_02196030
+ * address:  0x02195E80
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,8 +13,18 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   func_02195E54  0x02195E54  thumb  ov021
+ *   func_02045758  0x02045758  arm
+ *   func_02045760  0x02045760  arm
+ *   func_02045748  0x02045748  arm
+ *   func_02045750  0x02045750  arm
+ *   func_020456F8  0x020456F8  arm
+ *   func_02041300  0x02041300  arm
+ *   func_020409B4  0x020409B4  arm
  */
+#include "../../matched/include/Obj09176.h"
+
+struct Descriptor;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
@@ -25,67 +35,109 @@ typedef signed short   s16;
 
 typedef signed char    s8;
 
-typedef struct { u8 a; u8 b; u16 c; } Cell_02193FE8;
+struct FrameStyle {
+    char pad_00[0x10];
+    u32 bgLayer;
+};
 
-typedef struct { u8 a; u8 b; } Pair;
+extern u32 func_02195E54(u32, u32, u32, u32);
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern u8 func_02045748(struct Descriptor *p);
+extern u8 func_02045750(struct Descriptor *p);
+extern void func_020456F8(struct Descriptor *d);
+extern void func_02041300(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
+extern void func_020409B4(u32 index);
+int func_02195E80(u32 a, u32 b);
+void func_02195E90(struct FrameStyle *style, void *win);
+void func_02196030(u32 *p, u32 v);
 
-typedef struct { Pair k; u16 c; } Cell_02194014;
-
-extern void func_02082D44(void *src, void *dst, int n);
-void func_02193FBC(u16 *a, void *b);
-void func_02193FD4(u16 *a, void *b);
-void func_02193FE8(Cell_02193FE8 (*t)[8]);
-void func_02194014(Cell_02194014 (*t)[8], int j, int i, Pair e, u16 c);
-u32 func_02194038(char *a, int b, int c);
-
-
-/*
- * Addresses are Black-image addresses.
- */
-void func_02193FBC(u16 *a, void *b)
-{
-    if (*a == 1) {
-        func_02082D44(b, (u8 *)a + 0x34, 0x18);
-    }
-}
-
-
-void func_02193FD4(u16 *a, void *b)
-{
-    if (*a == 1) {
-        func_02082D44((u8 *)a + 0x34, b, 0x18);
-    }
-}
-
-
-void func_02193FE8(Cell_02193FE8 (*t)[8])
-{
-    int i;
-    int j;
-
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 8; j++) {
-            t[i][j].b = 0xFF;
-            t[i][j].c = 0xFFFF;
-        }
-    }
-}
 
 
 /*
- * Cell holds the Pair as one member; the struct copy t[i][j].k = e emits the
- * two byte stores, the first one addressed [j*4, row].
+ * Emitted from the ov021 instruction shape.
  *
  * Addresses are Black-image addresses.
  */
-void func_02194014(Cell_02194014 (*t)[8], int j, int i, Pair e, u16 c)
+int func_02195E80(u32 a, u32 b)
 {
-    t[i][j].k = e;
-    t[i][j].c = c;
+return func_02195E54(a, ((struct Obj09176 *)((u8 *)(b)))->fC, ((struct Obj09176 *)((u8 *)(b)))->f3, ((struct Obj09176 *)((u8 *)(b)))->f58);
 }
 
 
-u32 func_02194038(char *a, int b, int c)
+
+/*
+ * Clears the one-tile frame around a window (tile 0 on all eight edges),
+ * skipping any edge that touches the 32x24 screen border. The erase
+ * counterpart of func_02195938.
+ */
+void func_02195E90(struct FrameStyle *style, void *win)
 {
-    return *(u32 *)(a + c * 0x20 + b * 4);
+    u16 x;
+    u16 y;
+    u16 w;
+    u16 h;
+    int topClip;
+    int bottomClip;
+    int leftClip;
+    int rightClip;
+    u8 bg;
+    int top;
+    int right;
+    int bottom;
+
+    x = func_02045758(win);
+    y = func_02045760(win);
+    w = func_02045748(win);
+    h = func_02045750(win);
+    topClip = 0;
+    bottomClip = 0;
+    leftClip = 0;
+    rightClip = 0;
+    bg = style->bgLayer;
+
+    func_020456F8(win);
+
+    if (x == 0)
+        leftClip = 1;
+    right = x + w;
+    if (right == 0x20)
+        rightClip = 1;
+    if (y == 0)
+        topClip = 1;
+    bottom = y + h;
+    if (bottom == 0x18)
+        bottomClip = 1;
+
+    if (!topClip) {
+        if (!leftClip)
+            func_02041300(bg, 0, x - 1, y - 1, 1, 1, 0x11);
+        top = y - 1;
+        func_02041300(bg, 0, x, top, w, 1, 0x11);
+        if (!rightClip)
+            func_02041300(bg, 0, right, top, 1, 1, 0x11);
+    }
+    if (!leftClip)
+        func_02041300(bg, 0, x - 1, y, 1, h, 0x11);
+    if (!rightClip)
+        func_02041300(bg, 0, right, y, 1, h, 0x11);
+    if (!bottomClip) {
+        if (!leftClip)
+            func_02041300(bg, 0, x - 1, bottom, 1, 1, 0x11);
+        func_02041300(bg, 0, x, bottom, w, 1, 0x11);
+        if (!rightClip)
+            func_02041300(bg, 0, right, bottom, 1, 1, 0x11);
+    }
+    func_020409B4(bg);
+}
+
+
+/*
+ * Unlabelled leaf setter, callee of the thunk at 0x02196034.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_02196030(u32 *p, u32 v)
+{
+    *p = v;
 }

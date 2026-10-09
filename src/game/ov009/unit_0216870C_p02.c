@@ -1,8 +1,9 @@
 /*
  * file:     unit_0216870C_p02.c
  * unit:     yes
- * function: func_021688FC, func_02168994
- * address:  0x021688FC
+ * function: func_021689BC
+ * address:  0x021689BC
+ * packet:   pkt_021689BC
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,63 +11,55 @@
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * DWCi_FriendInit (dwc_friend.o): install the friend control block at
+ * 0x021AA860+0xc, zero the whole descriptor, seed +0x04/+0x14/+0x18/+0x28
+ * from the arguments and run DWCi_SetSentBuddyReqFlag over the n records of
+ * the +0x18 table.  The +0x0c..+0x14 triple is written through one cached
+ * pointer load (a local), every other field re-reads the global slot.
  *
  * symbols:
- *   func_0216AA70  0x0216AA70  arm  ov009
- *   func_02059B40  0x02059B40  arm
- *   func_021690D0  0x021690D0  arm  ov009
- *   g_021AA860  0x021AA860  data
+ *   g_021AA860     0x021AA860  data  ov009
+ *   func_020592A0  0x020592A0  arm
  */
-#include "../../matched/include/G_FriendGlobal.h"
 
-typedef struct FriendCtl {
-	unsigned char pad0[0x34];
-	void (*statusCallback)(int, unsigned char, char *, void *);
-	void *statusParam;
-} FriendCtl;
+extern char g_021AA860[];
+extern void func_020592A0(void *frienddata, int setflag);
 
-typedef struct FriendGlobal FriendGlobal;
-
-typedef unsigned int   u32;
-
-extern int func_0216AA70(void);
-extern int func_02059B40(const char *src, u32 srclen, char *dst, u32 dstlen);
-extern int func_021690D0(int status, const char *statusString, const char *locString);
-int func_021688FC(char *statusData, unsigned long size);
-int func_02168994(void (*callback)(int, void *), void *param);
-extern struct FriendGlobal g_021AA860;
-
-
-/*
- * sdk:      DWC_SetOwnStatusData (libdwcmatch.TWL.HYB.a(dwc_friend.o))
- */
-int func_021688FC(char *statusData, unsigned long size)
+void func_021689BC(char *p, int a1, int a2, int a3, int n)
 {
-	char statusString[256];
-	int len;
-	int ret;
+    int i;
+    char *q;
 
-	if (g_021AA860.ctl == 0 || !func_0216AA70())
-		return 0;
-	len = func_02059B40(statusData, size, statusString, 255);
-	if (len == -1)
-		return 0;
-	statusString[len] = 0;
-	ret = func_021690D0(-1, 0, statusString);
-	if (ret == 0)
-		return 1;
-	return 0;
-}
+    *(char **)(g_021AA860 + 0xc) = p;
+    *(int *)p = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 4) = a1;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 8) = 0;
+    q = *(char **)(g_021AA860 + 0xc);
+    *(int *)(q + 0xc) = 0;
+    *(int *)(q + 0x10) = 0;
+    *(int *)(q + 0x14) = n;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x18) = a3;
+    *(char *)(*(char **)(g_021AA860 + 0xc) + 0x1c) = 0;
+    *(char *)(*(char **)(g_021AA860 + 0xc) + 0x1d) = 0;
+    *(char *)(*(char **)(g_021AA860 + 0xc) + 0x1e) = 0;
+    *(char *)(*(char **)(g_021AA860 + 0xc) + 0x1f) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x20) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x24) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x28) = a2;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x2c) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x30) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x34) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x38) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x3c) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x40) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x44) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x48) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x4c) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x50) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x54) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x58) = 0;
+    *(int *)(*(char **)(g_021AA860 + 0xc) + 0x5c) = 0;
 
-
-/*
- * sdk:      DWC_SetBuddyFriendCallback (dwc_friend.o)
- */
-int func_02168994(void (*callback)(int, void *), void *param)
-{
-    if (*(char **)(((char *)&g_021AA860) + 0xc) == 0) return 0;
-    *(void **)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x44) = (void *)callback;
-    *(void **)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x48) = param;
-    return 1;
+    for (i = 0; i < n; i++)
+        func_020592A0((void *)(*(int *)(*(char **)(g_021AA860 + 0xc) + 0x18) + i * 12), 0);
 }

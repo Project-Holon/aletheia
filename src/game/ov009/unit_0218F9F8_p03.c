@@ -1,8 +1,8 @@
 /*
  * file:     unit_0218F9F8_p03.c
  * unit:     yes
- * function: func_0218FF38, func_0218FF98
- * address:  0x0218FF38
+ * function: gpiGetProfile, func_0218FDD8, func_0218FEF0, func_0218FF24
+ * address:  0x0218FD9C
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,64 +13,153 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   strcmp                           0x020948E0 arm
- *   gpiProfileMap                    0x0218FFFC arm
+ *   TableLookup                      0x0218482C arm
+ *   func_0219329C  0x0219329c  arm   ov009
+ *   func_020949F4  0x020949f4  arm
+ *   func_02193710  0x02193710  arm   ov009
+ *   func_02189D78  0x02189d78  arm   ov009
+ *   func_0217EAB0  0x0217eab0  arm   ov009
+ *   func_02193734  0x02193734  arm   ov009
+ *   func_02189DFC  0x02189dfc  arm   ov009
+ *   func_0218E240  0x0218e240  arm   ov009
+ *   g_021A5224     0x021a5224  data
+ *   g_021A51D8     0x021a51d8  data
+ *   g_021A5214     0x021a5214  data
+ *   TableRemove                      0x021847BC arm
+ *   func_021847BC  0x021847BC  arm
  */
+struct GPIOperation;
 struct GPIProfile;
-struct GPIUserInfo
+typedef struct GPIProfile
 {
-	char * field0;
-	int pad;
-	char * field8;
-};
+	int profileId;
+	char pad[0x2C];
+} GPIProfile;
 
-struct GPIProfile
+typedef struct GPIConnection
 {
-	char pad[0x10];
-	struct GPIUserInfo * info;
-};
+	char pad[0x5C8];
+	void * profiles;
+} GPIConnection;
 
-struct GPIFindProfileByUserData
+typedef struct GPICallback {
+    void (*callback)(void **, void *, void *);
+    void *param;
+} GPICallback;
+
+typedef struct GPIOperation_s {
+    int type;
+    void *data;
+    int blocking;
+    GPICallback callback;
+} GPIOperation;
+
+typedef struct {
+    int result;
+    int profile;
+} GPDeleteProfileResponseArg;
+
+typedef struct {
+    char pad[0x1a0];
+    int profileid;
+} GPIConnection_0218FDD8;
+
+typedef unsigned int   u32;
+
+typedef unsigned char  u8;
+
+typedef struct GPIConnection_0218FEF0
 {
-	char * nick;
-	char * email;
-	struct GPIProfile ** profile;
-	int found;
-};
+	char pad[0x5C8];
+	void * profiles;
+} GPIConnection_0218FEF0;
 
-extern int strcmp(const char * a, const char * b);
-extern int gpiProfileMap(void ** connection, int (*func)(void *, struct GPIProfile *, void *), void * data);
-int gpiCheckProfileForUser(void * unused, struct GPIProfile * profile, void * udata);
-int gpiFindProfileByUser(void ** connection, char * nick, char * email, struct GPIProfile ** profile);
+extern void * TableLookup(void * table, void * elemKey);
+extern int func_0219329C(int *connection, const char *input, int fatal);
+extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
+extern void func_02193710(int *connection, int result, int errorString);
+extern int func_02189D78(int *connection, int a1, int a2);
+extern void *func_0217EAB0(unsigned long size);
+extern void func_02193734(int *p, int b);
+extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
+extern void func_0218E240(void **connection, struct GPIOperation *operation);
+extern int TableRemove(void * table, void * delElem);
+extern void func_021847BC(int v);
+int gpiGetProfile(void ** connection, int profileid, GPIProfile ** pProfile);
+/* * sdk: gpiProcessDeleteProfle (libdwcgsgp.TWL.HYB.a gpiprofile.o) */ int func_0218FDD8(void **connection, GPIOperation *operation, char *input);
+void gpiRemoveProfileByID(void ** connection, int profileid);
+/* * Tail call on the word at +0x5c8 of the block the object points at. */ void func_0218FF24(const int *p, void *profile);
+extern char g_021A5224[];
+extern char g_021A51D8[];
+extern char g_021A5214[];
 
 
-int gpiCheckProfileForUser(void * unused, struct GPIProfile * profile, void * udata)
+int gpiGetProfile(void ** connection, int profileid, GPIProfile ** pProfile)
 {
-	struct GPIFindProfileByUserData * data = (struct GPIFindProfileByUserData *)udata;
-	struct GPIUserInfo * info = profile->info;
+	GPIConnection * iconnection = (GPIConnection *)*connection;
+	GPIProfile profileTemp;
+	GPIProfile * profile;
 
-	if (info != 0
-	    && strcmp(data->nick, info->field0) == 0
-	    && strcmp(data->email, info->field8) == 0)
-	{
-		*(data->profile) = profile;
-		data->found = 1;
-		return 0;
-	}
-	return 1;
+	profileTemp.profileId = profileid;
+	profile = (GPIProfile *)TableLookup(iconnection->profiles, &profileTemp);
+	if (pProfile)
+		*pProfile = profile;
+	return profile != 0;
 }
 
 
-int gpiFindProfileByUser(void ** connection, char * nick, char * email, struct GPIProfile ** profile)
-{
-	struct GPIFindProfileByUserData data;
 
-	data.nick = nick;
-	data.email = email;
-	data.profile = profile;
-	data.found = 0;
-	gpiProfileMap(connection, gpiCheckProfileForUser, &data);
-	if (!data.found)
-		*profile = 0;
-	return 0;
+/*
+ * sdk:      gpiProcessDeleteProfle (libdwcgsgp.TWL.HYB.a gpiprofile.o)
+ */
+int func_0218FDD8(void **connection, GPIOperation *operation, char *input)
+{
+    GPIConnection_0218FDD8 *iconnection = (GPIConnection_0218FDD8 *)*connection;
+    GPICallback callback;
+    GPDeleteProfileResponseArg *arg;
+    int __result__;
+
+    if (func_0219329C((int *)connection, input, 1))
+        return 4;
+    if (func_020949F4((const u8 *)input, (const u8 *)g_021A5224, 5) != 0) {
+        func_02193710((int *)connection, 1, (int)g_021A51D8);
+        func_02189D78((int *)connection, 3, 1);
+        return 3;
+    }
+    callback = operation->callback;
+    if (operation->callback.callback != 0) {
+        arg = (GPDeleteProfileResponseArg *)func_0217EAB0(sizeof(GPDeleteProfileResponseArg));
+        if (arg == 0) {
+            func_02193734((int *)connection, (int)g_021A5214);
+            return 1;
+        }
+        arg->profile = iconnection->profileid;
+        arg->result = 0;
+        __result__ = func_02189DFC(connection, callback, arg, operation, 0);
+        if (__result__ != 0)
+            return __result__;
+    }
+    func_0218E240(connection, (struct GPIOperation *)operation);
+    return 0;
+}
+
+
+
+void gpiRemoveProfileByID(void ** connection, int profileid)
+{
+	GPIConnection_0218FEF0 * iconnection = (GPIConnection_0218FEF0 *)*connection;
+	struct GPIProfile * profile;
+
+	if (gpiGetProfile(connection, profileid, &profile))
+		TableRemove(iconnection->profiles, profile);
+}
+
+
+
+/*
+ * Tail call on the word at +0x5c8 of the block the object points at.
+ */
+void func_0218FF24(const int *p, void *profile)
+{
+    func_021847BC(*(const int *)(*p + 0x5c8));
 }

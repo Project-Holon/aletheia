@@ -1,7 +1,7 @@
 /*
  * file:     unit_0215FDA4_p07.c
  * unit:     yes
- * function: func_02160C9C, func_02160D68
+ * function: func_02160C9C, func_02160D68, func_02160DB4, func_02160E0C
  * address:  0x02160C9C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -16,6 +16,7 @@
  *   func_02082D44  0x02082D44  arm
  *   func_020923F0  0x020923F0  arm
  *   func_0215FFD0  0x0215FFD0  arm  ov009
+ *   d_021A1D40     0x021A1D40  data
  */
 typedef struct CPSSslConnection {
     unsigned char pad0[0x30];
@@ -30,9 +31,19 @@ typedef struct CPSSslConnection {
 
 typedef unsigned char  u8;
 
+typedef unsigned short u16;
+
+typedef unsigned int   u32;
+
 extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern void func_0215FFD0(CPSSslConnection *con);
+/* * sdk: rcv_server_hello (libssl.TWL.HYB.a(ssl.o)) */ static void func_02160C9C(CPSSslConnection *con, unsigned char *s);
+/* * sdk: has_method (libssl.TWL.HYB.a(ssl.o)) */ static int func_02160D68(unsigned char *s, int num, int size, unsigned short method);
+/* * Scans the two halfword entries of a table, returning the first entry the * helper accepts, else zero. */ int func_02160DB4(int a0, int a1, int a2);
+/* * True when the value is 3. */ int func_02160E0C(int v);
+extern u16 d_021A1D40[];
+
 
 
 /*
@@ -69,6 +80,7 @@ static void func_02160C9C(CPSSslConnection *con, unsigned char *s)
         con->state = 2;
 }
 
+
 /*
  * sdk:      has_method (libssl.TWL.HYB.a(ssl.o))
  */
@@ -86,4 +98,30 @@ static int func_02160D68(unsigned char *s, int num, int size, unsigned short met
         s += size;
     }
     return 0;
+}
+
+
+
+/*
+ * Scans the two halfword entries of a table, returning the first entry the
+ * helper accepts, else zero.
+ */
+int func_02160DB4(int a0, int a1, int a2)
+{
+    u32 i;
+
+    for (i = 0; i < 2; i++) {
+        if (func_02160D68((unsigned char *)a0, a1, a2, d_021A1D40[i]))
+            return d_021A1D40[i];
+    }
+    return 0;
+}
+
+
+/*
+ * True when the value is 3.
+ */
+int func_02160E0C(int v)
+{
+    return v == 3;
 }

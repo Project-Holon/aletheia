@@ -1,8 +1,8 @@
 /*
  * file:     btl_server_p23.c
  * unit:     yes
- * function: func_021BD1D0, func_021BD1E0, func_021BD200
- * address:  0x021BD1D0
+ * function: func_021BF168, func_021BF1B4
+ * address:  0x021BF168
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,13 +13,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021BCA08   0x021BCA08  thumb
- *   func_021BD264  0x021BD264  thumb  ov093
- *   func_021BD274  0x021BD274  thumb  ov093
- *   func_021BD284  0x021BD284  thumb  ov093
- *   func_021BD294  0x021BD294  thumb  ov093
- *   func_021BD2A4  0x021BD2A4  thumb  ov093
+ *   func_021D74F8  0x021D74F8  thumb  ov093
  *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021D75A8  0x021D75A8  thumb  ov093
+ *   func_021D7630  0x021D7630  thumb  ov093
+ *   func_021D70F0  0x021D70F0  thumb  ov093
+ *   func_021D775C  0x021D775C  thumb  ov093
+ *   func_021D7540  0x021D7540  thumb  ov093
+ *   func_021BF204  0x021BF204  thumb  ov093
+ *   func_021BF214  0x021BF214  thumb  ov093
+ *   func_021BF224  0x021BF224  thumb  ov093
+ *   func_021BF234  0x021BF234  thumb  ov093
+ *   func_021D6D7C  0x021D6D7C  thumb  ov093
+ *   func_0201BEB8  0x0201BEB8  thumb
  */
 typedef unsigned char u8;
 
@@ -27,75 +33,45 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-struct Unk021BD1E0 {
-    u16 f0;
-    u8 f2;
-    u8 f3;
-    u8 f4;
-    u8 b0 : 1;
-    u8 b1 : 1;
-    u8 rest : 6;
-};
-
-struct Unk021BD200 {
-    u16 f0;
-    u8 f2;
-    u8 f3;
-    u8 f4;
-    u8 b0 : 1;
-    u8 b1 : 1;
-    u8 rest : 6;
-};
-
-extern u8 *func_021BCA08(u8 *p, u8 x);
+extern void func_021D74F8(int line);
 extern u8 func_021D5440(u8 *p);
-extern int func_021BD264(int t);
-extern u8 func_021BD274(u8 *p, u8 x);
-extern int func_021BD284(int t);
-extern u8 *func_021BD294(int t, int k);
-extern u8 func_021BD2A4(u8 *p, u8 x);
-/* 021BD1D0 guard on a callee's pointer result, then set a byte */ void func_021BD1D0(u8 *p, u8 n);
-void func_021BD1E0(struct Unk021BD1E0 *p);
-void func_021BD200(struct Unk021BD200 *p, u8 *q, u8 *a, int t);
+extern void func_021D75A8(int key, u32 val);
+extern void func_021D7630(int key, u32 val);
+extern void func_021D70F0(void *a, int id);
+extern int func_021D775C(int key);
+extern void func_021D7540(int line);
+extern void func_021BF204(int c);
+extern int func_021BF214(int c);
+extern void func_021BF224(int c, int x);
+extern int func_021BF234(int c);
+extern u32 func_021D6D7C(u8 *p);
+extern int func_0201BEB8(void *bag, int item);
+int func_021BF168(u8 *p, u16 *a, u8 *b);
+void func_021BF1B4(int u, u16 *b, int s, int c, int e);
 
 
-/* 021BD1D0  guard on a callee's pointer result, then set a byte */
-/*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; bl func_021BCA08; cmp r0, #0; beq loc_021BD1DE; movs r1, #1; strb r1, [r0, #0xd]; pop {r3, pc}.
- */
-void func_021BD1D0(u8 *p, u8 n)
+int func_021BF168(u8 *p, u16 *a, u8 *b)
 {
-    u8 *e = func_021BCA08(p, n);
-    if (e != 0)
-        e[0xd] = 1;
+    int r;
+    func_021D74F8(4500);
+    func_021D75A8(3, func_021D5440(b));
+    func_021D75A8(0x12, *a);
+    func_021D7630(0x51, 0);
+    func_021D70F0(p, 0x3d);
+    r = func_021D775C(0x51);
+    func_021D7540(4506);
+    return r;
 }
 
 
-void func_021BD1E0(struct Unk021BD1E0 *p)
+void func_021BF1B4(int u, u16 *b, int s, int c, int e)
 {
-    p->f0 = 0;
-    p->f2 = 6;
-    p->f3 = 6;
-    p->f4 = 0;
-    p->b0 = 0;
-    p->b1 = 0;
-}
-
-
-void func_021BD200(struct Unk021BD200 *p, u8 *q, u8 *a, int t)
-{
-    int r = func_021BD264(t);
-    p->f2 = func_021BD274(q + 0x1ab8, func_021D5440(a));
-    p->f3 = 6;
-    p->b0 = 0;
-    p->b1 = 0;
-    if (r == 1 && func_021BD284(t)) {
-        p->f3 = func_021BD2A4(q + 0x1ab8, func_021D5440(func_021BD294(t, 0)));
+    int x;
+    func_021BF204(c);
+    x = func_021BF214(c);
+    while (x != 0) {
+        if (s != x && func_021D6D7C((u8 *)x) != 0 && e == 0 && (u32)func_0201BEB8((void *)((u16)((void *)*b)), (int)0xd) == 0)
+            func_021BF224(c, x);
+        x = func_021BF234(c);
     }
 }

@@ -1,8 +1,8 @@
 /*
  * file:     btl_server_p05.c
  * unit:     yes
- * function: func_021B9C50, func_021B9C98, func_021B9CBC, func_021B9CE8, func_021B9D10, func_021B9DB8, func_021B9DE8
- * address:  0x021B9C50
+ * function: func_021BC0E8, func_021BC220, func_021BC2B0, func_021BC310, func_021BC360, func_021BC390, func_021BC3B0
+ * address:  0x021BC0E8
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,172 +13,277 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021B9AB0  0x021B9AB0  thumb  ov093
- *   func_021B9AC8  0x021B9AC8  thumb  ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D5B7C 0x021D5B7C thumb ov093
+ *   func_021BC948 0x021BC948 thumb ov093
+ *   func_021D8454 0x021D8454 thumb ov093
+ *   func_021CC8D8 0x021CC8D8 thumb ov093
+ *   func_021BC8EC 0x021BC8EC thumb ov093
+ *   func_021CC95C 0x021CC95C thumb ov093
+ *   func_021C6350 0x021C6350 thumb ov093
+ *   func_021BC874 0x021BC874 thumb ov093
+ *   func_021BB85C  0x021BB85C  thumb  ov093
+ *   func_021BB8A8  0x021BB8A8  thumb  ov093
+ *   func_021BB8B0  0x021BB8B0  thumb  ov093
+ *   func_021BD9D4  0x021BD9D4  thumb  ov093
+ *   func_021BDA00  0x021BDA00  thumb  ov093
+ *   func_021C5200  0x021C5200  thumb  ov093
+ *   func_021B8B9C  0x021B8B9C  thumb  ov093
+ *   func_021B8BC4  0x021B8BC4  thumb  ov093
+ *   func_021B8FF4  0x021B8FF4  thumb  ov093
+ *   func_021B9AEC  0x021B9AEC  thumb  ov093
+ *   func_021B9B98  0x021B9B98  thumb  ov093
+ *   func_021B990C 0x021B990C thumb ov093
+ *   func_021BD584 0x021BD584 thumb ov093
+ *   func_021BB890  0x021BB890  thumb  ov093
  *   func_021B8588  0x021B8588  thumb  ov093
- *   func_021B8B78  0x021B8B78  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021D5844  0x021D5844  thumb  ov093
- *   func_021D5848  0x021D5848  thumb  ov093
- *   func_021D5864  0x021D5864  thumb  ov093
- *   func_021D5854  0x021D5854  thumb  ov093
- *   func_021D6C24  0x021D6C24  thumb  ov093
- *   func_020307B0  0x020307B0  arm
+ *   func_021BC408  0x021BC408  thumb  ov093
+ *   func_021CD4B0  0x021CD4B0  thumb  ov093
  */
-#include "../../matched/include/Obj20992.h"
-#include "../../matched/include/Obj20995.h"
-#include "../../matched/include/Obj09942.h"
-#include "../../matched/include/Obj03187.h"
+#include "../../matched/include/Obj00003.h"
+#include "../../matched/include/Obj06224.h"
+#include "../../matched/include/Obj05189.h"
 
-struct QH;
-struct R4;
-struct Work;
+#define ENTRY(i) (&e[i])
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef signed char s8;
+typedef struct { u32 a:4; u32 b:3; u32 action:16; u32 rest:9; } B;
 
-typedef signed short s16;
+typedef struct { u8 *a; B b; u32 c; u8 d,f; u16 pad; } E;
 
-typedef signed int s32;
+typedef struct { u8 *a; B b; u32 c; u8 d,f; u16 pad; } E2;
 
-struct Arr { void *e[6]; u8 n; };
+typedef struct {
+    u32 a : 4;
+    u32 b : 3;
+    u32 c : 3;
+    u32 d : 1;
+} Bf;
 
-extern int func_021B9AB0(int k);
-extern int func_021B9AC8(int k);
-extern u8 func_021D5440(u8 *p);
-extern int func_021D5B7C(void *);
+extern u16 func_021BC948(u8 *, u8 *, int);
+extern u32 func_021D8454(u32 *);
+extern u32 func_021CC8D8(void *, int);
+extern int func_021BC8EC(u8 *, u32, u8 *);
+extern void func_021CC95C(u32 *p, u32 v, int line);
+extern u8 func_021C6350(u8 *, u8 *);
+typedef struct { u32 a, b, key, d; } E_021BC874;
+
+extern void func_021BC874(E_021BC874 *p, u32 n);
+extern u8 *func_021BB85C(u8 *p, unsigned int i);
+extern u8 func_021BB8A8(u8 *p, u8 i);
+extern Bf func_021BB8B0(u8 *p, u8 i, u8 j);
+extern void func_021BD9D4(u8 *p, u8 i, u8 a, u8 b, int c);
+extern int func_021BDA00(u8 *p);
+extern int func_021C5200(u8 *p);
+extern int func_021B8B9C(u8 *p, u8 k);
+extern unsigned char func_021B8BC4(int unused, unsigned int b);
+extern u8 func_021B8FF4(u8 *p);
+extern char *func_021B9AEC(char *p, int i);
+extern u8 func_021B9B98(u8 *p);
+extern void *func_021B990C(char *, u32, u32);
+extern int func_021BD584(u8 *, u8 *);
+extern int func_021BB890(u8 *p, u8 i);
 extern u32 func_021B8588(void **p);
-extern unsigned int func_021B8B78(unsigned char *p, int k);
-extern int func_021D59B4(u8 *p, int k);
-extern void *func_021D5844(void *m);
-extern void func_021D5848(struct QH *p, void *v);
-extern void *func_021D5864(struct Work *p);
-extern void func_021D5854(struct Work *p);
-extern int func_021D6C24(struct R4 *p);
-extern u32 func_020307B0(void *p);
-void func_021B9C50(u8 **p, int k, u8 **o1, u8 **o2);
-int func_021B9C98(u8 *p,u32 v);
-int func_021B9CBC(u8 *p, int v);
-void *func_021B9CE8(u8 *p);
-void func_021B9D10(char *a, struct Arr *arr, int k);
-void func_021B9DB8(char *p);
-void func_021B9DE8(char *p);
+extern int func_021BC408(u8 *p, u8 i, u32 *out);
+extern void func_021CD4B0(int p, int k, u8 a, u8 b);
+void func_021BC0E8(u8 *p, E *e, u32 n);
+int func_021BC220(u8 *p, u8 *o);
+int func_021BC2B0(u8 *p);
+int func_021BC310(u8 *p);
+int func_021BC360(u8 *p);
+int func_021BC390(u8 *p);
+void func_021BC3B0(int *p);
 
 
-void func_021B9C50(u8 **p, int k, u8 **o1, u8 **o2)
+
+static inline void set_accuracy(E *e, u16 v)
 {
-    u8 *t;
-    int a;
-    int b;
+    e->c = (v & 0x1fff) | (e->c & 0xffffe000);
+}
 
-    if (k != 0) {
-        if (k != 1) {
-            t = p[0];
-            a = func_021B9AB0(k);
-            b = func_021B9AC8(k);
-            p[0] = p[a];
-            p[a] = p[b];
-            p[b] = t;
-            if (o1)
-                *o1 = t;
-            if (o2)
-                *o2 = p[0];
+
+
+static inline u32 pack(u16 low, u8 a, u8 b, u8 c)
+{
+    return (low & 0x1fff) | (((u16)(a << 13)) | ((((u32)(u16)(c << 13) << 9)) | (((u32)b & 63) << 16)));
+}
+
+
+
+static inline void update(E *e, int result)
+{
+    u16 low = (u16)(e->c & 0x1fff);
+    u8 a = (e->c >> 13) & 7;
+    u8 c = (e->c >> 22) & 7;
+    e->c = pack(low, a, result, c);
+}
+
+
+
+void func_021BC0E8(u8 *p, E *e, u32 n)
+{
+    u32 i;
+    u32 off;
+    u32 type;
+    u16 value;
+    u32 lock;
+    int result;
+    E *q;
+    for (i = 0; i < n; i++) {
+        off = i * 16;
+        q = &e[i];
+        set_accuracy(q, func_021BC948(p, ENTRY(i)->a, 1));
+        type = func_021D8454((u32 *)&q->b);
+        if (type == 1) {
+            if (((E2 *)e)[i].b.a == 1) value = ((E2 *)e)[i].b.action; else value = 0;
+            lock = func_021CC8D8(p + 0x1d74, 1076);
+            q = (E *)((u32)e + off);
+            result = func_021BC8EC(p, value, q->a);
+            update(q, result);
+            func_021CC95C((u32 *)(p + 0x1d74), lock, 1079);
+        }
+        if (type == 1 || type == 5) {
+            lock = func_021CC8D8(p + 0x1d74, 1087);
+            q = (E *)((u32)e + off);
+            q->c = ((func_021C6350(p, q->a) & 7) << 13) | (q->c & 0xffff1fff);
+            func_021CC95C((u32 *)(p + 0x1d74), lock, 1090);
         }
     }
+    func_021BC874((E_021BC874 *)e, n);
 }
 
-int func_021B9C98(u8 *p,u32 v) {
-    int i;
-    for(i=0;i<*(volatile u8 *)&((struct Obj20992 *)p)->f18;i++) {
-        u32 t=*(u32 *)((u32)p+(u32)i*4);
-        if(t==v) return i;
+
+
+
+
+/*
+ * func_021BB8B0 returns a 4-byte bitfield struct: declaring it that way
+ * (a u32 return with shifts and masks gives a different frame) is what
+ * matches.
+ */
+int func_021BC220(u8 *p, u8 *o)
+{
+    u32 i;
+    u32 j;
+    u32 n;
+    Bf v;
+
+    for (i = 0; i < 4; i++) {
+        if (func_021BB85C((u8 *)(*(int *)&((struct Obj00003 *)p)->f0), (u8)i) != 0) {
+            n = func_021BB8A8(o, i);
+            for (j = 0; j < n; j++) {
+                v = func_021BB8B0(o, i, j);
+                if (v.a == 3 && v.d == 0)
+                    func_021BD9D4(p, i, v.b, v.c, 1);
+            }
+        }
     }
-    return -1;
+    func_021BDA00(p);
+    return func_021C5200(p);
 }
 
-int func_021B9CBC(u8 *p, int v) {
-    int i;
-    for(i=0;i<p[24];i++) if(v==func_021D5440(*(void **)((u32)p+(u32)i*4))) return i;
-    return -1;
-}
 
-void *func_021B9CE8(u8 *p) {
-    int i;
-    for(i=0;i<p[24];i++) if(func_021D5B7C(*(void **)((u32)p+(u32)i*4))) return *(void **)((u32)p+(u32)i*4);
+
+
+
+int func_021BC2B0(u8 *p)
+{
+    u8 f[2];
+    u32 i;
+
+    f[1] = 0;
+    f[0] = f[1];
+    for (i = 0; i < 4; i++) {
+        if (func_021B8B9C(*(u8 * *)&((struct Obj00003 *)p)->f4, i) != 0) {
+            char *q = func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, i);
+            u8 k = func_021B8BC4((int)(*(u8 * *)&((struct Obj00003 *)p)->f4), (u8)i);
+
+            if (func_021B9B98((u8 *)q) != 0)
+                f[k] = 1;
+        }
+    }
+    if (f[0] == 0 || f[1] == 0)
+        return 1;
     return 0;
 }
 
 
-void func_021B9D10(char *a, struct Arr *arr, int k)
-{
-    int j;
-    void *m;
-    void *h;
 
-    for (j = arr->n - 1; j > 0; j--) {
-        if (func_021D5B7C(arr->e[j]) != 0)
-            break;
-    }
-    if (func_021B8588((void **)a) != 3)
-        k = func_021B8B78((unsigned char *)a, k);
-    else
-        k = 3;
-    for (; k < arr->n; k++) {
-        m = arr->e[k];
-        if (func_021D59B4(m, 0x11) == 0x95) {
-            if (k < j) {
-                func_021D5848(m, func_021D5844(arr->e[j]));
-            } else {
-                h = func_021D5864(m);
-                if (h != ((struct Obj20995 *)a)->f2C0)
-                    func_021D5854(m);
+
+int func_021BC310(u8 *p)
+{
+    u32 i;
+
+    for (i = 0; i < 4; i++) {
+        if (func_021B8B9C(*(u8 * *)&((struct Obj06224 *)p)->f4, i) != 0) {
+            u8 a = func_021B8BC4((int)(*(u8 * *)&((struct Obj06224 *)p)->f4), (u8)i);
+            u8 b = func_021B8BC4((int)(*(u8 * *)&((struct Obj06224 *)p)->f4), (u8)func_021B8FF4(*(u8 * *)&((struct Obj06224 *)p)->f4));
+
+            if (a == b) {
+                if (func_021B9B98((u8 *)func_021B9AEC(*(char * *)&((struct Obj06224 *)p)->f8, i)) != 0)
+                    return 1;
             }
         }
     }
-    for (k = 0; k < arr->n; k++)
-        func_021D6C24(arr->e[k]);
-}
-
-void func_021B9DB8(char *p) {
-    u32 i;
-    char *q;
-    for(i=0;i<4;i++) {
-        q=p+i*40;
-        ((struct Obj09942 *)q)->f20=0;
-        ((struct Obj09942 *)q)->f2A=0;
-        ((struct Obj09942 *)q)->f2C=0;
-    }
-    for(i=0;i<4;i++) *(u32 *)(p+i*4+0x3e0)=0;
+    return 0;
 }
 
 
-void func_021B9DE8(char *p)
+
+/*
+ * extent: two zero alignment bytes at 0x021BC38E, then func_021BC390.
+ * Lever: bind the first call result before initializing the boolean result.
+ */
+int func_021BC360(u8 *p)
+{
+    u8 *a;
+    u32 side;
+    int result;
+    u32 *out;
+    side = func_021B8FF4(*(u8 * *)&((struct Obj00003 *)p)->f4);
+    result = 0;
+    a = func_021B990C(*(char * *)&((struct Obj00003 *)p)->f8, side, 0);
+    out = *(u32 * *)&((struct Obj00003 *)p)->fC;
+    out[0] = 0;
+    out[1] = 0;
+    if (func_021BD584(p, a)) result = 1;
+    return result;
+}
+
+
+
+/*
+ * extent: two zero alignment bytes at 0x021BC3AE, then matched func_021BC3B0.
+ */
+int func_021BC390(u8 *p)
+{
+    int result = 0;
+    u32 *out = *(u32 * *)&((struct Obj05189 *)p)->fC;
+    out[0] = 0;
+    out[1] = 0;
+    func_021BC3B0((int *)p);
+    if (**(u32 * *)&((struct Obj05189 *)p)->fC) result = 1;
+    return result;
+}
+
+
+void func_021BC3B0(int *p)
 {
     u32 i;
-    char *q;
+    u32 x;
+    u32 v;
 
-    for (i = 0; i < 4; i++) {
-        q = p + i * 0x28;
-        if (((struct Obj03187 *)q)->f20) {
-            func_020307B0(((struct Obj03187 *)q)->f20);
-            ((struct Obj03187 *)q)->f20 = 0;
-        }
-        if (((struct Obj03187 *)q)->f24) {
-            func_020307B0(((struct Obj03187 *)q)->f24);
-            ((struct Obj03187 *)q)->f24 = 0;
-        }
-    }
-    for (i = 0; i < 4; i++) {
-        q = p + i * 4;
-        if (((struct Obj03187 *)q)->f3E0) {
-            func_020307B0(((struct Obj03187 *)q)->f3E0);
-            ((struct Obj03187 *)q)->f3E0 = 0;
+    if (p[6] == 1) {
+        for (i = 0; i < 4; i++) {
+            if (func_021BB890((u8 *)p[0], i) != 0) {
+                if (func_021B8588((void **)p[1]) != 2)
+                    v = 1;
+                else
+                    v = func_021BC408((u8 *)p + 0x1ab8, i, &x) + 1;
+                func_021CD4B0(p[3], 0x29, i, v);
+            }
         }
     }
 }

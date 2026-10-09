@@ -1,7 +1,7 @@
 /*
  * file:     unit_02180410_p01.c
  * unit:     yes
- * function: func_02180410, func_02180420, func_02180430
+ * function: func_02180410, func_02180420, func_02180430, gsUdpRemotePeerCompare
  * address:  0x02180410
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -16,11 +16,18 @@
  *   ArrayFree                    0x021841B0  arm
  *   func_020923F0                0x020923F0  arm
  */
+struct GSUdpRemotePeer {
+    unsigned int   ip;    /* +0x00 */
+    unsigned short port;  /* +0x04 */
+};
+
 extern void ArrayFree(void);
 extern void func_020923F0(void);
 asm void gsUdpMsgHandlerFree(void);
 asm void gsUdpMsgHandlerCompare(void);
 asm void gsUdpMsgHandlerCompare2(void);
+int gsUdpRemotePeerCompare(void *theFirstPeer, void *theSecondPeer);
+
 
 asm void gsUdpMsgHandlerFree(void)
 {
@@ -28,6 +35,7 @@ asm void gsUdpMsgHandlerFree(void)
 	ldr ip, =ArrayFree
 	bx ip
 }
+
 
 asm void gsUdpMsgHandlerCompare(void)
 {
@@ -37,6 +45,7 @@ asm void gsUdpMsgHandlerCompare(void)
 }
 
 
+
 asm void gsUdpMsgHandlerCompare2(void)
 {
 	ldr ip, =func_020923F0
@@ -44,4 +53,17 @@ asm void gsUdpMsgHandlerCompare2(void)
 	add r1, r1, #0x10
 	mov r2, #0x10
 	bx ip
+}
+
+
+int gsUdpRemotePeerCompare(void *theFirstPeer, void *theSecondPeer)
+{
+    struct GSUdpRemotePeer *aPeer1 = (struct GSUdpRemotePeer *)theFirstPeer;
+    struct GSUdpRemotePeer *aPeer2 = (struct GSUdpRemotePeer *)theSecondPeer;
+
+    if (aPeer1->ip != aPeer2->ip)
+        return 1;
+    if (aPeer1->port != aPeer2->port)
+        return 1;
+    return 0;
 }

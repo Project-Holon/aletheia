@@ -1,7 +1,7 @@
 /*
  * file:     unit_02180410_p03.c
  * unit:     yes
- * function: func_02180518, func_021806A8, func_02180924
+ * function: func_02180518, func_021806A8, func_02180924, func_02180A64
  * address:  0x02180518
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -33,7 +33,11 @@
  *   g_021A39C8                     0x021A39C8  data
  *   g_021A39EC                     0x021A39EC  data
  *   g_021A3A14                     0x021A3A14  data
+ *   func_02180430                  0x02180430  arm ov009
+ *   g_021A3A30                     0x021A3A30  data
  */
+#include "../../matched/arm9_sdk/libc/string.h"
+
 typedef struct GSUdpRemotePeer {
     unsigned int mAddr;
     unsigned short mPort;
@@ -83,9 +87,17 @@ extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void 
 extern void func_0218437C(int a, int b);
 extern int func_02180474(void *theFirstPeer, void *theSecondPeer);
 extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
+extern int func_02180430(void *theFirstHandler, void *theSecondHandler);
+/*
+ * sdk: gsUdpClosedRoutingCB (gsudpengine.o)
+ */
 void func_02180518(void *theConnection, int reason);
+/*
+ * sdk: gsUdpConnectedRoutingCB (gsudpengine.o)
+ */
 void func_021806A8(void *theConnection, int theResult);
 void func_02180924(void *theConnection, int theLatency);
+void func_02180A64(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable);
 extern char g_021A38A8[];
 extern char g_021A38D0[];
 extern char g_021A390C[];
@@ -95,6 +107,8 @@ extern char g_021A399C[];
 extern char g_021A39C8[];
 extern char g_021A39EC[];
 extern char g_021A3A14[];
+extern char g_021A3A30[];
+
 
 
 /*
@@ -141,6 +155,7 @@ void func_02180518(void *theConnection, int reason)
         return;
     func_0218437C((int)aUdp->mRemotePeers, index);
 }
+
 
 
 /*
@@ -219,6 +234,7 @@ void func_021806A8(void *theConnection, int theResult)
 }
 
 
+
 void func_02180924(void *theConnection, int theLatency)
 {
     GSUdpEngineObject *aUdp;
@@ -245,5 +261,51 @@ void func_02180924(void *theConnection, int theLatency)
     if (aUdp->mAppPingReply) {
         func_0217D254(12, 0, 16, g_021A3A14);
         aUdp->mAppPingReply(func_02195E28(theConnection), func_02195E30(theConnection), theLatency, aUdp->mAppUserData);
+    }
+}
+
+
+/*
+ * sdk:      gsUdpReceivedRoutingCB (gsudpengine.o)
+ * Closed (lane U13): the 16-byte copy into aHandler.mHeader is
+ * memcpy(&aHandler.mHeader, theMessage, sizeof(aHandler.mHeader)) with the
+ * house string.h prototype (which makes mwccarm expand memcpy as the two-byte
+ * loop instead of emitting a call -- a prototype written in the .c file itself
+ * always produces the call, which is why lane w2_o2 saw "memcpy (a real call)").
+ * The intrinsic expansion colours the destination r4 and the source r3, exactly
+ * as the object does; the struct assignment `aHandler.mHeader = *(GSUdpHdr *)
+ * theMessage` gives the mirror image (destination r3, source r4).  Same close as
+ * ov009_func_0217ECA4 (sendto) and gsUdpConnAttemptCB (0x02180C94).
+ */
+void func_02180A64(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable)
+{
+    GSUdpEngineObject *aUdp;
+    GSUdpMsgHandler aHandler;
+    int index;
+    char anAddr[22];
+    GSUdpMsgHandler *aHandlerFound;
+
+    aUdp = func_02180404();
+    func_0217D254(12, 0, 16, g_021A3A30,
+        func_02198620(func_02195E28(theConnection), func_02195E30(theConnection), anAddr));
+
+    if (theMessageLen >= 16) {
+        memcpy(&aHandler.mHeader, theMessage, sizeof(aHandler.mHeader));
+        index = func_021843E8(aUdp->mMsgHandlers, &aHandler, func_02180430, 0, 0);
+        if (index != -1) {
+            aHandlerFound = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, index);
+            if (aHandlerFound->mReceived) {
+                func_0217D254(12, 0, 16, g_021A39EC);
+                aHandlerFound->mReceived(func_02195E28(theConnection), func_02195E30(theConnection),
+                    theMessage + 16, theMessageLen - 16, reliable, aHandlerFound->mUserData);
+                return;
+            }
+        }
+    }
+
+    if (aUdp->mAppRecvData) {
+        func_0217D254(12, 0, 16, g_021A3A14);
+        aUdp->mAppRecvData(func_02195E28(theConnection), func_02195E30(theConnection),
+            theMessage, theMessageLen, reliable, aUdp->mAppUserData);
     }
 }

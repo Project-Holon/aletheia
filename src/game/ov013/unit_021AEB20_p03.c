@@ -1,7 +1,7 @@
 /*
  * file:     unit_021AEB20_p03.c
  * unit:     yes
- * function: func_021AEDEC, func_021AEE14
+ * function: func_021AEDEC, func_021AEE14, func_021AEF44
  * address:  0x021AEDEC
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -23,7 +23,9 @@
  *   func_0216B838  0x0216B838  arm  ov009
  *   func_021AEC74  0x021AEC74  thumb  ov013
  *   func_021AECC4  0x021AECC4  thumb  ov013
+ *   func_021B38B0 0x021B38B0 arm ov013
  */
+#include "../../matched/include/G_Work.h"
 #include "../../matched/include/G_Work.h"
 
 struct Node;
@@ -45,9 +47,12 @@ extern void func_021B386C(void);
 extern unsigned char func_0216B838(void);
 extern int func_021AEC74(int x);
 extern int func_021AECC4(int x);
+extern int func_021B38B0(int a, int b, int c);
 void func_021AEDEC(struct Node *p);
-void func_021AEE14(int input);
+/* * Frame step: records the input halfword at G+0x19B0, accumulates the * elapsed microseconds past one 60 Hz frame (16666 us) at G+0x1A44 since * the tick stamped at G+0x1A3C, runs func_021B386C once per whole frame * owed, then advances the state machine at G+0x19AC unless G+0x19A8 is 3. */ void func_021AEE14(int input);
+int func_021AEF44(int a, int b, int c);
 extern struct Work *d_021B3C80;
+
 
 void func_021AEDEC(struct Node *p)
 {
@@ -56,6 +61,7 @@ void func_021AEDEC(struct Node *p)
     *(int *)(((u8 *)d_021B3C80) + 0x1A1C) = 0;
     func_02156400();
 }
+
 
 
 /*
@@ -106,4 +112,15 @@ void func_021AEE14(int input)
     case 2:
         break;
     }
+}
+
+/*
+ * Narrow first callee argument follows the explicit lsls/lsrs at 021AEF52;
+ * the other two inputs stay live from entry for the three-input callee.
+ */
+int func_021AEF44(int a, int b, int c)
+{
+    if (d_021B3C80 == 0) return 0;
+    if (func_021B38B0((unsigned char)a, b, c) != 0) return 1;
+    return 0;
 }

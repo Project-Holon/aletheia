@@ -1,19 +1,18 @@
 # ghttpEncryption.c (ov114)
 
-Translation unit 021C109C..021C1D30, 17 functions, confidence proven (tools/tuboundary.py).
+Translation unit 021C109C..021C1D30, 17 functions. The TU is now two files:
+ghttpEncryption_p01.c (021C109C..) and ghttpEncryption_p02.c (021C121C..). All
+parts use one compiler and one set of flags (dsi/1.1p1, -O4,p, ARM, c99).
 
-The member files below each match on their own. Merging them into one
-`ghttpEncryption.c` is blocked by:
+Blocker, unmatched code:
 
-- ov114_func_021C109C.c..ov114_func_021C1C98.c: prototype of func_0217D254 differs between members (src/matched/ov_sdk/ov114_func_021C1230.c); prototype of func_0217D254 differs between members (src/matched/ov_sdk/ov114_func_021C137C.c); prototype 
-- ov114_func_021C109C.c..ov114_func_021C1668.c: prototype of func_0217D254 differs between members (src/matched/ov_sdk/ov114_func_021C1230.c); prototype of func_0217D254 differs between members (src/matched/ov_sdk/ov114_func_021C137C.c); prototype 
-- ov114_func_021C109C.c..ov114_func_021C1230.c: prototype of func_0217D254 differs between members (src/matched/ov_sdk/ov114_func_021C1230.c)
-- ov114_func_021C1804.c..ov114_func_021C1C98.c: prototype of func_0217D254 differs between members (src/matched/ov_sdk/ov114_func_021C1C98.c)
-- no verified entry for 021C1210
+- 0x021C1204..0x021C1210: 12 bytes between func_021C1184 and func_021C1210
+  (CaseInsensitiveCompare) that no function covers. It is a linker veneer
+  (ldr ip, [pc]; bx ip; literal word, branch to func_020948E0). A merged file
+  lays CaseInsensitiveCompare 12 bytes too early and every later function
+  shifts, so the boundary stays until veneers are generated or placed in a file.
 
-Members, in address order:
-
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names ghttpEncryption.c` again.
+Everything else was merged by hand: func_0217D254 has the definition's prototype
+(int, char *, int, const char *, ...) with casts at the calls, the d_ and g_ names
+for the same globals are one name, and the two views of CPSSslConnection are one
+struct.

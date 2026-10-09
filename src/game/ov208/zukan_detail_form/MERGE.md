@@ -1,40 +1,6 @@
-# zukan_detail_form.c (ov208)
+﻿# zukan_detail_form merge status (r4_ov10)
 
-Translation unit 021C31CC..021C80CC, 97 functions, confidence weak (tools/tuboundary.py).
-
-The member files below each match on their own. Merging them into one
-`zukan_detail_form.c` is blocked by:
-
-- func_021C31CC.c..ov208_func_021C80AC.c: prototype of ov208_func_021BC3A8 differs between members (src/matched/ov/ov208_func_021C3D3C.c); prototype of ov208_func_021BC508 differs between members (src/matched/ov/ov208_func_021C3D3C.c); protot
-- func_021C31CC.c..ov208_func_021C50F8.c: prototype of ov208_func_021BC3A8 differs between members (src/matched/ov/ov208_func_021C3D3C.c); prototype of ov208_func_021BC508 differs between members (src/matched/ov/ov208_func_021C3D3C.c); protot
-- ov208_func_021C3B6C.c..ov208_func_021C50F8.c: prototype of ov208_func_021BC3A8 differs between members (src/matched/ov/ov208_func_021C3D3C.c); prototype of ov208_func_021BC508 differs between members (src/matched/ov/ov208_func_021C3D3C.c); protot
-- ov208_func_021C3B6C.c..ov208_func_021C4B2C.c: prototype of ov208_func_021BC3A8 differs between members (src/matched/ov/ov208_func_021C3D3C.c); prototype of ov208_func_021BC508 differs between members (src/matched/ov/ov208_func_021C3D3C.c); protot
-- ov208_func_021C3B6C.c..ov208_func_021C47B4.c: prototype of ov208_func_021BC3A8 differs between members (src/matched/ov/ov208_func_021C3D3C.c); prototype of ov208_func_021BC508 differs between members (src/matched/ov/ov208_func_021C3D3C.c); protot
-- ov208_func_021C3B6C.c..ov208_func_021C3D3C.c: prototype of ov208_func_021BC3A8 differs between members (src/matched/ov/ov208_func_021C3D3C.c); prototype of ov208_func_021BC508 differs between members (src/matched/ov/ov208_func_021C3D3C.c)
-- ov208_func_021C47C4.c..ov208_func_021C4B2C.c: prototype of ov208_func_021C4B60 differs between members (src/matched/ov/ov208_func_021C4B2C.c)
-- ov208_func_021C4B60.c..ov208_func_021C50F8.c: c99=CCERR: line 318: illegal implicit conversion from 'struct Ov208Menu_021C4BB4 *' to | line 318: 'struct Ov208Menu_021C4B60 *' | line 353: illegal implicit conversion from 'struct Ov208Menu_021C4D68
-- ov208_func_021C4B60.c..ov208_func_021C4F30.c: c99=CCERR: line 203: illegal implicit conversion from 'struct Ov208Menu_021C4BB4 *' to | line 203: 'struct Ov208Menu_021C4B60 *' | line 238: illegal implicit conversion from 'struct Ov208Menu_021C4D68
-- ov208_func_021C4B60.c..ov208_func_021C4D68.c: c99=CCERR: line 165: illegal implicit conversion from 'struct Ov208Menu_021C4BB4 *' to | line 165: 'struct Ov208Menu_021C4B60 *' | line 200: illegal implicit conversion from 'struct Ov208Menu_021C4D68
-- ov208_func_021C4BB4.c..ov208_func_021C4D68.c: prototype of ov208_func_021C4B60 differs between members (src/matched/ov/ov208_func_021C4D68.c)
-- ov208_func_021C5128.c..ov208_func_021C80AC.c: prototype of func_021C7534 differs between members (src/matched/ov/ov208_func_021C5F34.c); prototype of func_021C4EAC differs between members (src/matched/ov/ov208_func_021C5F34.c); prototype of func_
-- ov208_func_021C5128.c..ov208_func_021C625C.c: prototype of ov208_func_021C6A10 differs between members (src/matched/ov/ov208_func_021C5C64.c); prototype of func_021C7534 differs between members (src/matched/ov/ov208_func_021C5F34.c); prototype of
-- ov208_func_021C53F4.c..ov208_func_021C625C.c: prototype of ov208_func_021C6A10 differs between members (src/matched/ov/ov208_func_021C5C64.c); prototype of func_021C7534 differs between members (src/matched/ov/ov208_func_021C5F34.c); prototype of
-- ov208_func_021C5B00.c..ov208_func_021C625C.c: prototype of ov208_func_021C569C differs between members (src/matched/ov/ov208_func_021C5C64.c); prototype of func_021C7534 differs between members (src/matched/ov/ov208_func_021C5F34.c); prototype of
-- ov208_func_021C5D64.c..ov208_func_021C625C.c: c99=CCERR: line 185: illegal implicit conversion from 'int' to | line 185: 'void *' | line 190: illegal implicit conversion from 'int' to nolang=CCERR: line 185: illegal implicit conversion from 'int'
-- ov208_func_021C66C8.c..ov208_func_021C80AC.c: prototype of func_020355D8 differs between members (src/matched/ov/ov208_func_021C6C00.c)
-- ov208_func_021C6E60.c..ov208_func_021C80AC.c: c99=CCERR: line 348: illegal implicit conversion from 'struct Ov208Mdl_021C7534 *' to | line 348: 'struct Ov208Mdl_021C7FF8 *' | line 352: illegal implicit conversion from 'struct Ov208Mdl_021C7534 *'
-- ov208_func_021C6E60.c..ov208_func_021C7860.c: prototype of ov208_func_021C7FF8 differs between members (src/matched/ov/ov208_func_021C7860.c)
-- ov208_func_021C7534.c..ov208_func_021C7860.c: prototype of ov208_func_021C7FF8 differs between members (src/matched/ov/ov208_func_021C7860.c)
-
-Members, in address order:
-
-- `ov208_func_021C3B6C.c`
-- `ov208_func_021C4B60.c`
-- `ov208_func_021C4BB4.c`
-- `ov208_func_021C4D68.c`
-- `ov208_func_021C5D64.c`
-- `ov208_func_021C7534.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names zukan_detail_form.c` again.
+5 parts left (was 6; r4_ov10 closed old p01|p02: func_020056A0 callback type, ov208_func_021C47B4 prototype dropped from p01, ov208_func_021BC3A8 returns void *, ov208_func_021BC508 takes void *, key typed int in func_021BC3C0 and func_021C3280).
+Remaining boundaries (p01..p05):
+- p01|p02: views Ov208Menu_021C31CC/4E54/4F78 and Anm_021C5214 are one 0x6e4-byte form object (allocated in ov208_func_021C4AC4's caller with size 0x6e4). A canonical struct Ov208Form (offsets: f0 0, font 4, cam 8, item[4] at 0xc stride 0x44, mem 0x11c, heap3d 0x120, arc 0x128, res 0x12c, j 0x134, k 0x138, obj 0x13c, cur 0x144, ents 0x148 stride 0x10, count 0x548, sel 0x54e, sel2 0x550, win 0x554, active 0x568, print 0x57c, msg 0x590, marc 0x594, msg2 0x598, str 0x59c, state 0x6b8) plus u8 *p -> struct pointer in 44 signatures compiles in the merged file, but the result is DIFF: ov208_func_021C36CC (view struct Ov208Scroll, a sub-object at 0x18..0x30) comes out 4 bytes short (the 0xffff literal pool entry disappears) and func_021C3A24 comes out 6 bytes short. Not solved. Unused trailing int key is needed on ov208_func_021C4F78 and ov208_func_021C52F0 (callers pass 3 arguments). func_021C4FDC is (u16 *heap, form *p, int key) with p->cam, p->mem, p->heap3d.
+- p02|p03, p03|p04, p04|p05: see r3_ov10 notes (struct Ov208Menu views in old p03 differ again: owner/arc/res/j/k/obj/cur/ents/sel; keys int versus void *; anonymous struct pointers). The canonical Ov208Form above already covers p03's Ov208Menu and Ov208Ent.

@@ -1,143 +1,96 @@
 /*
- * file:     net_state_p38.c
- * unit:     yes
- * function: func_0203B448, func_0203B48C, func_0203B4DC, func_0203B52C
- * address:  0x0203B448
+ * function: func_0203B5D4
+ * address:  0x0203B5D4
+ * packet:   pkt_0203B5D4
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ * note:     promoted MATCH -> EXACT on 2026-09-21 (family wave 4).
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * THE FIX WAS THE DECLARATION, NOT THE C.  The body is byte-identical to the
+ * parked version; only the +0x00a4 site's spelling changed.  The earlier
+ * header read that word as a module-name STRING (`str_0203B52C`, kind
+ * `data`) and concluded no class could attest it.  It is not a string: it is
+ * the CODE ADDRESS of func_0203B52C, handed to func_0203AD80 as the
+ * reporting call's identifier tag, exactly the way func_0203B038 hands it
+ * the no-op at 0x0203B018 and func_0203B52C hands it func_0203B4DC.  Spelt
+ * `func_0203B52C 0x0203B52C arm` and passed as `(void *)func_0203B52C`, the
+ * site resolves `sole-ref x1` -- sole-ref/code, since 0x0203B52C is exactly
+ * a traced ARM function start, and that sub-kind needs no outside branch.
+ *
+ * The companion site at +0x00ac (0x0203B48C) already resolved `literal x8`
+ * and is unchanged.
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
- *   func_020393D0  0x020393D0  arm
+ *   func_0203D788  0x0203D788  arm
  *   func_020393A8  0x020393A8  arm
+ *   func_0203D798  0x0203D798  arm
+ *   func_0203B2A8  0x0203B2A8  arm
+ *   func_0203D700  0x0203D700  arm
  *   func_0203AD80  0x0203AD80  arm
- *   func_020399EC  0x020399EC  arm
- *   func_02039ACC  0x02039ACC  arm
- *   func_0203D650  0x0203D650  arm
  *   g_021469DC     0x021469DC  data
- *   func_0203C00C  0x0203C00C  arm
+ *   func_0203B52C  0x0203B52C  arm
+ *   str_0203B48C   0x0203B48C  data
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B5D4.c \
+ *       --func func_0203B5D4 --addr 0x0203B5D4 --cc 1.1p1 --arm
  */
-struct NetState;
-typedef unsigned char u8;
 
-typedef unsigned int  u32;
-
+typedef unsigned char  u8;
 typedef unsigned short u16;
+typedef unsigned int   u32;
 
-struct Slot {
-    u8  pad_00[0x2c];
-    u32 f2c;
-};
+extern u32  g_021469DC;
+struct Slot;
+extern void func_0203B52C(struct Slot *p);
+extern char str_0203B48C[];
 
 extern void *func_0203D788(void);
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
-extern void func_0203C00C(void);
-extern void *func_0203D798(void);
-extern int func_020393D0(void);
 extern int func_020393A8(void);
-extern int func_020399EC(void);
-extern int func_02039ACC(void);
-extern u32   func_0203D650(void);
-void func_0203B448(void);
-void func_0203B48C(void);
-void func_0203B4DC(void);
-extern u32  g_021469DC;
+extern u8   *func_0203D798(void);
+extern void func_0203B2A8(int a0);
+extern void  func_0203D700(void);
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 
+struct Vt {
+    u8  pad_00[0x38];
+    u32 (*f38)(u32 a);
+};
 
+struct Obj {
+    u8         pad_00[0x340];
+    struct Vt *f340;
+};
 
-/*
- * Reports at line 0x25D (605) when the transport's +0x78 virtual answers
- * non-zero.  The condition is the negated guard - the `pop` is on the equal
- * arm - so the C is the report inside a `!= 0` if, not a return.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B448.c \
- *       --func func_0203B448 --addr 0x0203B448 --cc 1.1p1 --arm
- */
-void func_0203B448(void)
+struct Slot {
+    u8  pad_00[0x46];
+    u16 f46;
+    u8  pad_48[0xe];
+    u8  f56;
+};
+
+void func_0203B5D4(struct Slot *p)
 {
-    if (((u32 (*)(void))*(u32 *)(*(u32 *)((char *)func_0203D788() + 0x340) + 0x78))() != 0)
-        func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)0x203B390, 0, (int)0x25D);
-}
+    struct Obj *q = (struct Obj *)func_0203D788();
 
-
-
-/*
- * The same +0x10 virtual call as func_0203B4DC, reporting at line 0x265
- * (613).  Both the first call argument and the reported line derive from the
- * single 1 that the function materialises, which is what makes the line come
- * out as `add r3, r5, #0x264`.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B48C.c \
- *       --func func_0203B48C --addr 0x0203B48C --cc 1.1p1 --arm
- */
-void func_0203B48C(void)
-{
-    if (((u32 (*)(u32, u32))*(u32 *)(*(u32 *)((char *)func_0203D788() + 0x340) + 0x10))(1, 0) != 0)
-        func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)0x203B448, 0, 0x265);
-}
-
-
-
-/*
- * Calls the transport's +0x10 virtual with (1, 0) and reports at line 0x282
- * (642) when it answers non-zero.  The zero argument and the report's third
- * argument are the same `mov r4, #0` local, which is what puts the two
- * together in one register.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B4DC.c \
- *       --func func_0203B4DC --addr 0x0203B4DC --cc 1.1p1 --arm
- */
-void func_0203B4DC(void)
-{
-    if (((u32 (*)(u32, u32))*(u32 *)(*(u32 *)((char *)func_0203D788() + 0x340) + 0x10))(1, 0) != 0)
-        func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)0x203B390, 0, (int)0x282);
-}
-
-
-/*
- * Wave 14: the "unresolvable" second tag site was a misread.  The pool word
- * at 0x0203B5CC (+0xA0) is 0x0203C00C (bytes 0c c0 03 02), not 0x0203B40C;
- * 0x0203C00C is the same tag func_0203AF40 passes and resolves `literal`.
- * The first tag, 0x0203B4DC, resolves `matched` (src/matched/func_0203B4DC.c).
- * The callback takes func_0203D650's result in r0, which is why the
- * function pointer is loaded into r1 (docs/families/net_state.h, THE
- * CALLBACK ARITY RULE).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B52C.c \
- *       --func func_0203B52C --addr 0x0203B52C --cc 1.1p1 --arm
- */
-void func_0203B52C(struct Slot *p)
-{
-    func_0203D798();
-    if (func_020393D0() != 0)
-        return;
-    if (func_020393A8() == 0) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B4DC, 0, 0x297);
+    if (func_020393A8() != 0) {
+        func_0203B2A8(*(u16 *)(func_0203D798() + 0x56));
+        func_0203D700();
+        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B52C, 0, 0x2c1);
         return;
     }
-    if (func_020399EC() == 0)
+    if (p->f56 == 1)
         return;
-    if (func_02039ACC() == 0)
+    if (q->f340->f38(0) == 0)
         return;
-    if (p->f2c != 0) {
-        ((void (*)(u32))p->f2c)(func_0203D650());
-        p->f2c = 0;
+    if (p->f46 != 0) {
+        p->f46--;
+        return;
     }
-    func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203C00C, 0, 0x2a6);
+    func_0203AD80((struct NetState *)g_021469DC, str_0203B48C, 0, 0x2d3);
 }

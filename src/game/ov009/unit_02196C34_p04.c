@@ -1,8 +1,8 @@
 /*
  * file:     unit_02196C34_p04.c
  * unit:     yes
- * function: func_02197C5C, func_02197CE0
- * address:  0x02197C5C
+ * function: gti2BeginReliableMessage, gti2EndReliableMessage
+ * address:  0x02197458
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,17 +13,25 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   gti2UShortToBuffer      0x02195EA0 arm
- *   gti2ConnectionSendData  0x02195750 arm
- *   func_02197594  0x02197594  arm  ov009
- *   func_02197930  0x02197930  arm  ov009
+ *   gti2GetBufferFreeSpace              0x02194DD4  arm  ov009
+ *   gti2ConnectionMemoryError           0x02195F70  arm  ov009
+ *   gti2StoreOutgoingReliableMessageInfo 0x021973E4 arm  ov009
+ *   gti2BufferWriteData                 0x02194E2C  arm  ov009
+ *   gti2BufferWriteByte                 0x02194DE4  arm  ov009
+ *   gti2BufferWriteUShort               0x02194DFC  arm  ov009
+ *   d_021A5948                          0x021A5948  data ov009
+ *   ArrayLength            0x02184200 arm
+ *   ArrayNth               0x02184208 arm
+ *   gti2ConnectionSendData 0x02195750 arm
  */
-struct GTI2Connection;
+struct GTI2Connection_02197458;
 struct GTI2Socket;
 struct GTI2Buffer;
 struct GTI2OutgoingBufferMessage;
+struct DArrayImplementation;
 struct GTI2Socket {
-    char pad00[0x44];
+    char pad00[0x40];
+    int field_40;
     int field_44;
 };
 
@@ -33,15 +41,7 @@ struct GTI2Buffer {
     int position;
 };
 
-struct GTI2OutgoingBufferMessage {
-    unsigned int offset;
-    int len;
-    unsigned short SN;
-    unsigned short pad;
-    unsigned int sendTime;
-};
-
-struct GTI2Connection {
+struct GTI2Connection_02197458 {
     char pad00[8];
     struct GTI2Socket *socket;
     char pad0c[0x44];
@@ -49,48 +49,75 @@ struct GTI2Connection {
     char pad5c[8];
     unsigned short field_64;
     unsigned short field_66;
-    char pad68[0x20];
-    unsigned int lastSend;
-    unsigned int field_8c;
 };
 
-typedef unsigned char  u8;
+struct GTI2OutgoingBufferMessage {
+    unsigned int offset;
+    int len;
+};
 
-extern void gti2UShortToBuffer(unsigned char *buffer, int pos, unsigned short s);
-extern int gti2ConnectionSendData(struct GTI2Connection *connection,
+struct GTI2Connection_0219754C {
+    char pad00[0x50];
+    unsigned char *buffer;
+    char pad54[0xc];
+    struct DArrayImplementation *outgoingBuffers;
+    char pad64[0x2c];
+    int pendingAck;
+};
+
+extern int gti2GetBufferFreeSpace(struct GTI2Buffer *buffer);
+extern int gti2ConnectionMemoryError(struct GTI2Connection_02197458 *connection);
+extern int gti2StoreOutgoingReliableMessageInfo(struct GTI2Connection_02197458 *connection,
+                                                unsigned short SN, int len);
+extern void gti2BufferWriteData(struct GTI2Buffer *buffer,
+                                unsigned char *data, int len);
+extern void gti2BufferWriteByte(struct GTI2Buffer *buffer, unsigned char b);
+extern void gti2BufferWriteUShort(struct GTI2Buffer *buffer, unsigned short s);
+extern int ArrayLength(struct DArrayImplementation *array);
+extern void *ArrayNth(struct DArrayImplementation *array, int n);
+extern int gti2ConnectionSendData(struct GTI2Connection_0219754C *connection,
                                   unsigned char *message, int len);
-extern void func_02197594(int a, int b, int c);
-extern int func_02197930(struct GTI2Connection *connection, u8 *message, int len);
-int gti2ResendMessage(struct GTI2Connection *connection, struct GTI2OutgoingBufferMessage *message);
-void func_02197CE0(int a, int b, int c, int d);
+extern unsigned char d_021A5948[];
 
 
-int gti2ResendMessage(struct GTI2Connection *connection,
-                      struct GTI2OutgoingBufferMessage *message)
+static int gti2BeginReliableMessage(struct GTI2Connection_02197458 *connection,
+                                    int type, int len, int *overflow)
 {
-    gti2UShortToBuffer(connection->buffer.data,
-                       message->offset + connection->socket->field_44 + 5,
-                       connection->field_66);
-    if (gti2ConnectionSendData(connection,
-                               connection->buffer.data + message->offset,
-                               message->len) == 0)
-        return 0;
-    message->sendTime = connection->lastSend;
-    if (connection->buffer.data[message->offset +
-                                connection->socket->field_44 + 2] == 2)
-        connection->field_8c = connection->lastSend;
+    unsigned short vdpDataLength;
+    int freeSpace;
+
+    vdpDataLength = (unsigned short)(len - connection->socket->field_44);
+    freeSpace = gti2GetBufferFreeSpace(&connection->buffer);
+    if (freeSpace < len)
+        return (gti2ConnectionMemoryError(connection) == 0) ? 0 : (*overflow = 1);
+    if (!gti2StoreOutgoingReliableMessageInfo(connection, connection->field_64,
+                                              len))
+        return (gti2ConnectionMemoryError(connection) == 0) ? 0 : (*overflow = 1);
+    if (connection->socket->field_40 == 2)
+        gti2BufferWriteData(&connection->buffer,
+                            (unsigned char *)&vdpDataLength,
+                            connection->socket->field_44);
+    gti2BufferWriteData(&connection->buffer, d_021A5948, 2);
+    gti2BufferWriteByte(&connection->buffer, (unsigned char)type);
+    gti2BufferWriteUShort(&connection->buffer, connection->field_64++);
+    gti2BufferWriteUShort(&connection->buffer, connection->field_66);
+    *overflow = 0;
     return 1;
 }
 
 
-/*
- * Dispatches on the fourth argument.
- */
-void func_02197CE0(int a, int b, int c, int d)
+static int gti2EndReliableMessage(struct GTI2Connection_0219754C *connection)
 {
-    if (d != 0) {
-        func_02197594(a, b, c);
-    } else {
-        func_02197930((struct GTI2Connection *)a, (u8 *)b, c);
+    struct GTI2OutgoingBufferMessage *message;
+    int len;
+
+    len = ArrayLength(connection->outgoingBuffers);
+    message = ArrayNth(connection->outgoingBuffers, len - 1);
+    if (gti2ConnectionSendData(connection, connection->buffer + message->offset,
+                               message->len))
+    {
+        connection->pendingAck = 0;
+        return 1;
     }
+    return 0;
 }

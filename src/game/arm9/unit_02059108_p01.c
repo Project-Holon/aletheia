@@ -25,12 +25,11 @@ typedef unsigned char u8;
 
 typedef int BOOL;
 
-extern void func_02059108(void);
 extern BOOL CTRDG_IsExisting(void);
 extern BOOL CTRDGi_IsBitIDAtInit(u8 bitID);
 extern unsigned long DWCi_Acc_GetFlag_DataType(void *frienddata);
 unsigned long DWCi_Acc_GetFlags(DWCstAccFlag *userdata);
-asm void func_0205911C(void);
+asm unsigned long func_0205911C(void *userdata);
 BOOL func_0205912C(u8 bitID);
 int DWCi_IsBuddyFriendData(void *frienddata);
 int DWCi_IsReverseBuddyFriendData(void *frienddata);
@@ -47,10 +46,10 @@ unsigned long DWCi_Acc_GetFlags(DWCstAccFlag *userdata)
 
 
 
-asm void func_0205911C(void)
+asm unsigned long func_0205911C(void *userdata)
 {
     stmdb	sp!, {r3, lr}
-    bl	func_02059108
+    bl	DWCi_Acc_GetFlags
     and	r0, r0, #3
     ldmia	sp!, {r3, pc}
 }

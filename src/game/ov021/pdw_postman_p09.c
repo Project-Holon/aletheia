@@ -1,8 +1,8 @@
 /*
  * file:     pdw_postman_p09.c
  * unit:     yes
- * function: func_021B8040, func_021B8048, func_021B8050, func_021B80D8, func_021B80E0
- * address:  0x021B8040
+ * function: func_021B7D68, func_021B7DC0
+ * address:  0x021B7D68
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,22 +13,25 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021B91F8  0x021B91F8  thumb  ov021
- *   func_021B9238  0x021B9238  thumb  ov021
- *   func_021B9368  0x021B9368  thumb  ov021
- *   VEC_Subtract   0x0207CA00  arm
- *   VEC_Normalize  0x0207CCA4  arm
+ *   func_021B7EE4  0x021B7EE4  thumb
+ *   func_021B8820  0x021B8820  thumb
+ *   func_021B8870  0x021B8870  thumb
  */
-#include "../../matched/include/Obj18103.h"
-#include "../../matched/include/Obj18104.h"
-#include "../../matched/include/Obj00454.h"
-#include "../../matched/include/Obj18105.h"
+typedef unsigned short u16;
+
+typedef unsigned int u32;
+
+struct Info { char pad00[0x10]; u32 f10; char pad14[0x28]; u32 f3C; };
+
+struct Sub { u16 f0; u16 pad2; struct Info *f4; char pad08[0x1C]; void *f24; };
+
+typedef void (*Cb)(void *);
+
+struct Obj { char pad00[0x14]; struct Sub *f14; char pad18[4]; struct Sub *f1C; };
 
 typedef unsigned char  u8;
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
+typedef signed char    s8;
 
 typedef signed short   s16;
 
@@ -36,116 +39,70 @@ typedef signed int     s32;
 
 typedef struct { s32 x, y, z; } VecFx32;
 
-typedef struct { u16 h0; u8 b2; u8 pad3; s16 h4; u16 h6; } Arg;
+typedef struct { u16 w, h; } Size16;
 
-typedef struct { u8 pad[8]; u32 f8; } Info;
+typedef struct { u16 a, b; Size16 sz; } Rect4;
 
-typedef struct Sub {
-    u16 f0;
-    u16 pad2;
-    Info *f4;
-    u16 f8;
-    u16 padA;
-    s32 fC;
-    s32 f10;
-    u32 f14;
-    u8 pad18[0x60];
+struct Cam {
+    u8 pad00[0x50];
+    VecFx32 f50;
+    Rect4 f5C;
+    u8 pad64[8];
+    Rect4 f6C;
+    u8 f74;
+    u8 f75;
+    u8 f76;
+    u8 pad77;
     void *f78;
-} Sub;
+};
 
-typedef struct {
-    u8 pad[0x2C];
-    u8 b2c;
-    u8 b2d;
-    u16 h2e;
-    u16 h30;
-} Obj;
-
-extern void func_021B91F8(Sub *p, VecFx32 *out);
-extern void func_021B9238(Sub *p, Arg *out);
-extern int func_021B9368(u8 *p, u32 a1, u32 a2, int a3, u32 a5);
-extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
-extern void VEC_Normalize(const VecFx32 *src, VecFx32 *dst);
-u8 func_021B8040(u8 *p);
-u8 func_021B8048(u8 *p);
-void func_021B8050(Sub *o, s16 *out);
-u32 func_021B80D8(u8 *p);
-int func_021B80E0(Obj *o, u16 a, u16 b);
+extern void func_021B7EE4(struct Sub *s, void *r);
+extern u32 *func_021B8820(void *p);
+extern Cb func_021B8870(void *p, u32 v);
+void func_021B7D68(struct Obj *o, void *r);
+void func_021B7DC0(struct Cam *c, Rect4 * __restrict out);
 
 
-u8 func_021B8040(u8 *p)
+/*
+ * Addresses are Black-image addresses.
+ */
+void func_021B7D68(struct Obj *o, void *r)
 {
-    return ((struct Obj18103 *)p)->f2C;
+    Cb cb;
+    struct Sub *keep;
+    struct Sub *t;
+
+    cb = 0;
+    func_021B7EE4(o->f1C, r);
+    keep = o->f14;
+    t = o->f1C;
+    o->f14 = t;
+    switch (t->f0) {
+    case 0:
+        if (t->f4->f3C == 0xFFFF)
+            break;
+        goto lookup;
+    case 1:
+        if (t->f4->f10 == 0xFFFF)
+            break;
+lookup:
+        cb = func_021B8870(t->f24, *func_021B8820(t->f24));
+        break;
+    }
+    if (cb)
+        cb(o);
+    o->f14 = keep;
 }
 
 
 /*
- * Loads the byte at byte +0x34 of the object.
+ * The out parameter is __restrict: it lets the scheduler pair the last two
+ * halfword loads ahead of their stores (see docs/idioms/a-restrict-table-parameter-
+ * hoists-a-load-above-a-store-only-at-a-different-offset.md).
+ *
+ * Addresses are Black-image addresses.
  */
-u8 func_021B8048(u8 *p)
+void func_021B7DC0(struct Cam *c, Rect4 * __restrict out)
 {
-    return ((struct Obj18104 *)p)->f34;
-}
-
-
-static inline void set3(s16 *d, int x, int y, int z)
-{
-    d[0] = x;
-    d[1] = y;
-    d[2] = z;
-}
-
-
-void func_021B8050(Sub *o, s16 *out)
-{
-    VecFx32 a;
-    VecFx32 b;
-    Arg q;
-    s32 cur;
-    s32 lim;
-    s32 end;
-    u32 save;
-
-    save = o->f14;
-    o->f14 = 0;
-    func_021B91F8(o, &a);
-    cur = o->fC;
-    o->f14 = save;
-    lim = o->f10;
-    end = cur + 0x10;
-    if (end < lim) {
-        o->fC += 0x10;
-        o->f14 = 0;
-        func_021B91F8(o, &b);
-        o->f14 = save;
-        o->fC = cur;
-    } else {
-        func_021B9238(o, &q);
-        q.h4 = 0;
-        func_021B9368(o->f78, (u32)(&q), o->f4->f8, end - lim, (u32)(&b));
-    }
-    VEC_Subtract(&b, &a, &b);
-    VEC_Normalize(&b, &b);
-    set3(out, b.x, b.y, b.z);
-}
-
-
-u32 func_021B80D8(u8 *p)
-{
-    u8 *q = *(u8 * *)&((struct Obj00454 *)p)->f4;
-
-    return ((struct Obj18105 *)q)->f8;
-}
-
-
-int func_021B80E0(Obj *o, u16 a, u16 b)
-{
-    if (o->b2c == 0) {
-        o->b2c = 1;
-        o->b2d = 0;
-        o->h2e = b;
-        o->h30 = a;
-        return 1;
-    }
-    return 0;
+    *out = c->f5C;
 }

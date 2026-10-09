@@ -1,7 +1,7 @@
 /*
  * file:     unit_02083644_p01.c
  * unit:     yes
- * function: func_02083644, func_02083704, func_020837B8, func_02083844, func_02083934
+ * function: func_02083644, func_02083704, func_020837B8, func_02083844, func_02083934, func_020839E8, func_02083DC8
  * address:  0x02083644
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -25,7 +25,6 @@
  *   OS_InitAlarm                   0x02087208  arm
  *   OS_CreateAlarm                 0x02087254  arm
  *   NVRAMi_Callback                0x02084204  arm
- *   nvramInitialized               0x02150EA0  data
  *   nvramw                         0x02150EE0  data
  *   NVRAMi_IsInitialized           0x020841E8  arm
  *   NVRAMi_ReadDataBytes           0x020843B4  arm
@@ -39,7 +38,20 @@
  *   NVRAMi_SyncCallback            0x02084260  arm
  *   OSi_ThreadInfo                 0x02150FEC  data
  *   NVRAMi_WriteEnable             0x020842D8  arm
+ *   g_02150EA0                 0x02150EA0  data
+ *   nvramTemp                  0x02150EC0  data
+ *   NVRAMi_PageWrite           0x020844A8  arm
+ *   NVRAMi_SoftwareReset       0x02084570  arm
+ *   NVRAMi_WriteDisable        0x02084304  arm
+ *   NVRAMi_ReadStatusRegister  0x02084330  arm
+ *   NVRAMi_AlarmHandler        0x02084288  arm
+ *   OS_GetTick                 0x020870D0  arm
+ *   OS_SetAlarm                0x0208738C  arm
+ *   DC_InvalidateRange         0x020862B8  arm
+ *   DC_StoreRange              0x020862D4  arm
+ *   NVRAMi_WriteAsync                0x02083934  arm
  */
+#define NVRAM_RETRY_SPAN 0x20B
 typedef unsigned long u32;
 
 typedef unsigned short u16;
@@ -97,7 +109,7 @@ typedef struct NVRAMWork {
     OSAlarm alarm;
     OSTick tick;
     u32 seq;
-    u32 arg[3];
+    volatile u32 arg[3];
     OSThreadQueue queue;
 } NVRAMWork;
 
@@ -117,6 +129,15 @@ typedef struct OSThreadInfo {
     u16 irqDepth;
     struct _OSThread *current;
 } OSThreadInfo;
+
+/* nvram.o .bss from 0x02150EA0: nvramInitialized at +0, nvramTemp (32-byte
+   aligned) at +0x20.  A direct read or write of nvramTemp goes through this
+   section base; taking its address uses the nvramTemp symbol. */
+typedef struct NvramBss {
+    u32 nvramInitialized;
+    u8 pad04[0x1C];
+    u8 nvramTemp[32];
+} NvramBss;
 
 u32 OS_DisableInterrupts(void);
 u32 OS_RestoreInterrupts(u32 state);
@@ -141,23 +162,35 @@ void OS_Terminate(void);
 void NVRAMi_SyncCallback(NVRAMResult result, void *arg);
 NVRAMResult NVRAMi_ReadAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
 BOOL NVRAMi_WriteEnable(void);
+extern BOOL NVRAMi_PageWrite(u32 address, u16 size, u8 *pData);
+extern BOOL NVRAMi_SoftwareReset(void);
+extern BOOL NVRAMi_WriteDisable(void);
+extern BOOL NVRAMi_ReadStatusRegister(u8 *pData);
+extern void NVRAMi_AlarmHandler(void *arg);
+extern OSTick OS_GetTick(void);
+extern void OS_SetAlarm(OSAlarm *alarm, OSTick tick, OSAlarmHandler handler, void *arg);
+extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
+extern void DC_StoreRange(void *startAddr, u32 nBytes);
+NVRAMResult NVRAMi_WriteAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
 void func_02083644(void);
 NVRAMResult func_02083704(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
 void NVRAMi_ReadCallback(u32 data, BOOL err);
 NVRAMResult func_02083844(u32 address, u32 size, void *pData);
 NVRAMResult func_02083934(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
-/* nvram.o .bss from 0x02150EA0: nvramInitialized at +0, nvramTemp (32-byte
-   aligned) at +0x20.  A direct read or write of nvramTemp goes through this
-   section base; taking its address uses the nvramTemp symbol. */
+void NVRAMi_WriteCallback(u32 data, BOOL err);
+NVRAMResult func_02083DC8(u32 address, u32 size, void *pData);
 extern NVRAMWork nvramw;
-extern u32 nvramInitialized;
 extern OSThreadInfo OSi_ThreadInfo;
+extern NvramBss g_02150EA0;
+extern u8 nvramTemp[32];
+
 
 
 static inline void OS_InitThreadQueue(OSThreadQueue *queue)
 {
     queue->head = queue->tail = 0;
 }
+
 
 
 /*
@@ -168,11 +201,11 @@ void func_02083644(void)
     u32 e;
 
     e = OS_DisableInterrupts();
-    if (nvramInitialized) {
+    if (g_02150EA0.nvramInitialized) {
         (void)OS_RestoreInterrupts(e);
         return;
     }
-    nvramInitialized = 1;
+    g_02150EA0.nvramInitialized = 1;
     (void)OS_RestoreInterrupts(e);
 
     PXI_Init();
@@ -190,8 +223,9 @@ void func_02083644(void)
     }
     OS_CreateAlarm(&nvramw.alarm);
     OS_InitThreadQueue(&nvramw.queue);
-    nvramInitialized = 2;
+    g_02150EA0.nvramInitialized = 2;
 }
+
 
 
 /*
@@ -228,6 +262,7 @@ NVRAMResult func_02083704(u32 address, u32 size, void *pData, NVRAMCallback call
 }
 
 
+
 void NVRAMi_ReadCallback(u32 data, BOOL err)
 {
     NVRAMResult result;
@@ -261,6 +296,7 @@ void NVRAMi_ReadCallback(u32 data, BOOL err)
     }
     OS_WakeupThread(&nvramw.queue);
 }
+
 
 
 /*
@@ -299,6 +335,7 @@ NVRAMResult func_02083844(u32 address, u32 size, void *pData)
 }
 
 
+
 /*
  * sdk:      NVRAMi_WriteAsync (libnvram.TWL.HYB.a nvram.o)
  */
@@ -333,4 +370,193 @@ NVRAMResult func_02083934(u32 address, u32 size, void *pData, NVRAMCallback call
     (void)OS_RestoreInterrupts(e);
     OS_WakeupThread(&nvramw.queue);
     return NVRAM_RESULT_SEND_ERROR;
+}
+
+
+
+static inline u32 MinU32(u32 a, u32 b)
+{
+    return (a < b) ? a : b;
+}
+
+
+
+void NVRAMi_WriteCallback(u32 data, BOOL err)
+{
+    NVRAMResult result;
+    u16 pxiResult = (u16)(data & 0xFF);
+    u16 tempSize;
+    NVRAMCallback cb;
+
+    result = NVRAM_RESULT_UNKNOWN;
+    tempSize = (u16)(0x100 - (nvramw.arg[0] & 0xFF));
+    tempSize = (u16)MinU32(nvramw.arg[1], tempSize);
+
+    switch (nvramw.seq) {
+    case 0:
+        if (!err && pxiResult == 0) {
+            if (NVRAMi_PageWrite(nvramw.arg[0], tempSize, (u8 *)nvramw.arg[2]) == 1) {
+                nvramw.seq = 1;
+                return;
+            }
+            result = NVRAM_RESULT_SEND_ERROR;
+        } else if (err == 1) {
+            result = NVRAM_RESULT_SEND_ERROR;
+        } else if (pxiResult == 4) {
+            result = NVRAM_RESULT_BUSY;
+        }
+        break;
+
+    case 1:
+        if (!err && pxiResult == 0) {
+            nvramw.arg[0] += tempSize;
+            nvramw.arg[1] -= tempSize;
+            nvramw.arg[2] += tempSize;
+            nvramw.tick = OS_GetTick();
+            nvramw.seq = 5;
+            OS_SetAlarm(&nvramw.alarm, NVRAM_RETRY_SPAN, NVRAMi_AlarmHandler, 0);
+            return;
+        } else if (err == 1) {
+            result = NVRAM_RESULT_SEND_ERROR;
+        } else {
+            switch (pxiResult) {
+            case 2:
+                result = NVRAM_RESULT_ILLEGAL_PARAMETER;
+                break;
+            case 3:
+                result = NVRAM_RESULT_INVALID_COMMAND;
+                break;
+            case 4:
+                if (NVRAMi_PageWrite(nvramw.arg[0], tempSize, (u8 *)nvramw.arg[2]) == 1) {
+                    return;
+                }
+                result = NVRAM_RESULT_SEND_ERROR;
+                break;
+            }
+        }
+        break;
+
+    case 2:
+        if (!err && pxiResult == 0) {
+            if (g_02150EA0.nvramTemp[0] & 0x20) {
+                if (NVRAMi_SoftwareReset() == 1) {
+                    nvramw.seq = 4;
+                    return;
+                }
+                nvramw.seq = 4;
+                OS_SetAlarm(&nvramw.alarm, NVRAM_RETRY_SPAN, NVRAMi_AlarmHandler, (void *)4);
+                return;
+            }
+            if (!(g_02150EA0.nvramTemp[0] & 0x01)) {
+                if (tempSize) {
+                    if (NVRAMi_WriteEnable() == 1) {
+                        nvramw.seq = 0;
+                        return;
+                    }
+                    result = NVRAM_RESULT_SEND_ERROR;
+                    break;
+                }
+                if (NVRAMi_WriteDisable() == 1) {
+                    nvramw.seq = 3;
+                    return;
+                }
+                nvramw.seq = 3;
+                OS_SetAlarm(&nvramw.alarm, NVRAM_RETRY_SPAN, NVRAMi_AlarmHandler, (void *)4);
+                return;
+            }
+        } else if (!err && pxiResult != 4) {
+            break;
+        }
+        nvramw.seq = 5;
+        OS_SetAlarm(&nvramw.alarm, NVRAM_RETRY_SPAN, NVRAMi_AlarmHandler, 0);
+        return;
+
+    case 3:
+        if (!err && pxiResult == 0) {
+            result = NVRAM_RESULT_SUCCESS;
+        } else if (err || pxiResult == 4) {
+            if (NVRAMi_WriteDisable() == 1) {
+                return;
+            }
+            nvramw.seq = 3;
+            OS_SetAlarm(&nvramw.alarm, NVRAM_RETRY_SPAN, NVRAMi_AlarmHandler, (void *)4);
+            return;
+        }
+        break;
+
+    case 4:
+        if (!err && pxiResult == 0) {
+            result = NVRAM_RESULT_ILLEGAL_STATUS;
+        } else if (err || pxiResult == 4) {
+            if (NVRAMi_SoftwareReset() == 1) {
+                return;
+            }
+            nvramw.seq = 4;
+            OS_SetAlarm(&nvramw.alarm, NVRAM_RETRY_SPAN, NVRAMi_AlarmHandler, (void *)4);
+            return;
+        }
+        break;
+
+    case 5:
+        DC_InvalidateRange(nvramTemp, 32);
+        if (NVRAMi_ReadStatusRegister(nvramTemp) == 1) {
+            nvramw.seq = 2;
+            return;
+        }
+        nvramw.seq = 2;
+        g_02150EA0.nvramTemp[0] = 1;
+        DC_StoreRange(nvramTemp, 32);
+        OS_SetAlarm(&nvramw.alarm, NVRAM_RETRY_SPAN, NVRAMi_AlarmHandler, 0);
+        return;
+    }
+
+    nvramw.lock = NVRAM_LOCK_OFF;
+    nvramw.seq = 0;
+    if (nvramw.callback) {
+        cb = nvramw.callback;
+        nvramw.callback = 0;
+        cb(result, nvramw.callbackArg);
+    }
+    OS_WakeupThread(&nvramw.queue);
+}
+
+
+
+/*
+ * sdk:      NVRAMi_Write (libnvram.TWL.HYB.a nvram.o)
+ *
+ * Catalogued as NVRAMi_Read. It calls NVRAMi_WriteAsync (0x02083934), so it is NVRAMi_Write,
+ * the 240-byte nvram.o symbol of that name; the three sync wrappers
+ * share one DWARF shape.
+ */
+NVRAMResult func_02083DC8(u32 address, u32 size, void *pData)
+{
+    NVRAMResult result;
+    OSMessageQueue msgQ;
+    OSMessage msg[1];
+    u32 intr;
+
+    if (!OSi_ThreadInfo.current) {
+        return NVRAM_RESULT_INVALID_COMMAND;
+    }
+    OS_InitMessageQueue(&msgQ, msg, 1);
+    while (1) {
+        intr = OS_DisableInterrupts();
+        result = NVRAMi_WriteAsync(address, size, pData, NVRAMi_SyncCallback, &msgQ);
+        if (result == NVRAM_RESULT_BUSY) {
+            OS_SleepThread(&nvramw.queue);
+        } else if (result == NVRAM_RESULT_SEND_ERROR) {
+            OS_Sleep(1);
+        } else {
+            (void)OS_RestoreInterrupts(intr);
+            break;
+        }
+        (void)OS_RestoreInterrupts(intr);
+    }
+    if (result == NVRAM_RESULT_SUCCESS) {
+        if (!OS_ReceiveMessage(&msgQ, (OSMessage *)&result, 1)) {
+            OS_Terminate();
+        }
+    }
+    return result;
 }

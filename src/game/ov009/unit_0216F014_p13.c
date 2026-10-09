@@ -1,133 +1,109 @@
 /*
  * file:     unit_0216F014_p13.c
  * unit:     yes
- * function: func_02172B08, func_02172BB8
- * address:  0x02172B08
+ * function: func_0217273C
+ * address:  0x0217273C
+ * packet:   pkt_ov009_0217273C
  * region:   ov009
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * measured (U23): rule-4b check done -- all eleven ../2.0/* trees give 388 bytes / 221
+ *   concrete against the image's 380, so 1.1p1 (384/177 on the same source) stays right.
+ * sdk:      DWCi_PostProcessSVConnectionFullmesh (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
+ *   func_02176978  0x02176978  arm  ov009
+ *   func_02175F4C  0x02175F4C  arm  ov009
+ *   func_0217637C  0x0217637C  arm  ov009
+ *   func_02172604  0x02172604  arm  ov009
  *   func_0216FF2C  0x0216FF2C  arm  ov009
- *   func_0217653C  0x0217653C  arm  ov009
- *   DWCi_FinishCancelMatch        0x02172A58  arm  ov009
- *   DWCi_ResetMatchParam          0x0216F388  arm  ov009
- *   DWCi_GetMatchCnt              0x02175F3C  arm  ov009
- *   DWCi_GetFriendListIndex       0x02169038  arm  ov009
- *   DWCi_SetHostStatus            0x02175F84  arm  ov009
- *   DWCi_SetMatchStatus           0x02175F4C  arm  ov009
- *   DWCi_SBUpdateAsync            0x0216F770  arm  ov009
- *   DWCi_HandleSBError            0x02173D9C  arm  ov009
+ *   func_021719A4  0x021719A4  arm  ov009
+ *
+ * The `flag = result` store sits inside the `cmdState != 0x13` block: the image's
+ * beq at +0xE8 jumps straight to `return 0`, past that store. With the store in
+ * the right block, `int result = 0` (the DWARF type) matches; the earlier
+ * enum-zero workaround and the r4/r5 swap were both side effects of the
+ * misplaced store.
  */
-typedef unsigned char u8;
 
-typedef unsigned short u16;
+typedef struct {
+    int profileID;
+    unsigned long publicInetAddress;
+    unsigned long privateInetAddress;
+    unsigned short publicQueryPort;
+    unsigned short privateQueryPort;
+    unsigned long gt2IP;
+    unsigned short gt2Port;
+    unsigned char aid;
+    unsigned char hasPrivateAddress;
+    int nnTryCount;
+    unsigned long long nextMeshMakeTryTick;
+    unsigned char connUserData[4];
+} NodeInfo;
 
-typedef unsigned long u32;
+typedef struct {
+    unsigned char pad0[0x554];
+    NodeInfo newNodeInfo;
+    unsigned char pad1[0x61c - 0x554 - 0x28];
+    int cmdState;
+    unsigned char linkProgress;
+    unsigned char pad2[0x6d9 - 0x621];
+    unsigned char flag;
+} MatchCnt;
 
-typedef struct DWCstMatchControl {
-	u8 _00[0xd];
-	u8 f0D;
-	u8 _0E[0x15 - 0x0e];
-	u8 f15;
-	u8 _16[0x678 - 0x16];
-	u32 f678;
-	u32 f67C;
-	u32 f680;
-	u8 _684[0x770 - 0x684];
-	void (*f770)(u32, u32, u32, u32, u32, u32);
-	u32 f774;
-	u8 _778[0x798 - 0x778];
-	u32 f798;
-} DWCstMatchControl;
-
-extern int func_02175F3C(void);
+extern MatchCnt *func_02175F3C(void);
+extern int func_02176978(void);
+extern void func_02175F4C(int state);
+extern char *func_0217637C(int index);
+extern int func_02172604(void);
 extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
-extern void func_0217653C(void);
-extern void DWCi_FinishCancelMatch(void);
-extern void DWCi_ResetMatchParam(int level);
-extern DWCstMatchControl *DWCi_GetMatchCnt(void);
-extern int DWCi_GetFriendListIndex(int profileID);
-extern void DWCi_SetHostStatus(int host);
-extern void DWCi_SetMatchStatus(int state);
-extern int DWCi_SBUpdateAsync(int profileID);
-extern int DWCi_HandleSBError(int error);
-int func_02172B08(void);
-void DWCi_RestartFromCancel(int level);
+extern int func_021719A4(int error);
 
-
-/*
- * sdk:      DWCi_InvalidateReservation (dwc_match.o)
- */
-int func_02172B08(void)
+int func_0217273C(void)
 {
+    unsigned long senddata[16];
     int result;
-    unsigned long senddata = 0;
+    NodeInfo tmpNewNodeInfo;
+    unsigned char linkProgress;
+    NodeInfo *pNodeInfo;
+    NodeInfo *pNew;
 
     result = 0;
-    if (*(unsigned char *)(func_02175F3C() + 0x18) != 0 && *(int *)(func_02175F3C() + 0x5dc) != 0
-        && *(int *)(func_02175F3C() + 0x5dc) != *(int *)(func_02175F3C() + 0x678)) {
-        result = func_0216FF2C(12, *(int *)(func_02175F3C() + 0x5dc), *(int *)(func_02175F3C() + 0x558), *(unsigned short *)(func_02175F3C() + 0x560), (const unsigned int *)(&senddata), 1);
-        *(unsigned char *)(func_02175F3C() + 0x18) = 0;
-        *(int *)(func_02175F3C() + 0x5dc) = 0;
-        func_0217653C();
+    tmpNewNodeInfo = func_02175F3C()->newNodeInfo;
+    pNew = &tmpNewNodeInfo;
+    if (func_02175F3C()->linkProgress < func_02176978() - 1) {
+        linkProgress = func_02176978() - 1 - func_02175F3C()->linkProgress;
+        func_02175F4C(0x10);
+        pNodeInfo = (NodeInfo *)func_0217637C(linkProgress);
+        senddata[0] = pNodeInfo->profileID;
+        senddata[1] = linkProgress;
+        senddata[2] = pNodeInfo->aid;
+        senddata[3] = pNodeInfo->publicInetAddress;
+        senddata[4] = pNodeInfo->publicQueryPort;
+        senddata[5] = pNodeInfo->privateInetAddress;
+        senddata[6] = pNodeInfo->privateQueryPort;
+        senddata[7] = pNodeInfo->hasPrivateAddress;
+        senddata[8] = *(unsigned long *)pNodeInfo->connUserData;
+    } else {
+        func_02175F3C()->linkProgress = result;
+        return func_02172604();
     }
-    return result;
-}
-
-
-void DWCi_RestartFromCancel(int level)
-{
-	int sbError;
-	int b;
-
-	if (level == 0) {
-		DWCi_FinishCancelMatch();
-		return;
-	}
-	DWCi_ResetMatchParam(level);
-	if (DWCi_GetMatchCnt()->f15 == 2 || DWCi_GetMatchCnt()->f15 == 3) {
-		b = DWCi_GetMatchCnt()->f680 == 0;
-		DWCi_GetMatchCnt()->f770(0, 1, b, 0,
-		        DWCi_GetFriendListIndex(DWCi_GetMatchCnt()->f680),
-		        DWCi_GetMatchCnt()->f774);
-		return;
-	}
-	if (DWCi_GetMatchCnt()->f15 == 0) {
-		if (DWCi_GetMatchCnt()->f0D != 0) {
-			b = DWCi_GetMatchCnt()->f680 == 0;
-			DWCi_GetMatchCnt()->f770(0, 1, b, 0,
-			        DWCi_GetFriendListIndex(DWCi_GetMatchCnt()->f680),
-			        DWCi_GetMatchCnt()->f774);
-		}
-		if (level == 1) {
-			DWCi_SetHostStatus(0);
-			DWCi_SetMatchStatus(0x16);
-			sbError = DWCi_SBUpdateAsync(DWCi_GetMatchCnt()->f678);
-			DWCi_HandleSBError(sbError);
-		}
-		return;
-	}
-	if (DWCi_GetMatchCnt()->f15 == 1) {
-		if (DWCi_GetMatchCnt()->f0D != 0) {
-			b = DWCi_GetMatchCnt()->f680 == 0;
-			DWCi_GetMatchCnt()->f770(0, 1, b, 0,
-			        DWCi_GetFriendListIndex(DWCi_GetMatchCnt()->f680),
-			        DWCi_GetMatchCnt()->f774);
-		}
-		if (level == 1) {
-			DWCi_SetHostStatus(0);
-			DWCi_GetMatchCnt()->f798 = 0;
-			DWCi_SetMatchStatus(0x16);
-			sbError = DWCi_SBUpdateAsync(DWCi_GetMatchCnt()->f678);
-			DWCi_HandleSBError(sbError);
-		}
-		return;
-	}
+    if (func_02175F3C()->cmdState != 0x13) {
+        if (func_021719A4(func_0216FF2C(8, pNew->profileID, pNew->publicInetAddress,
+                                       pNew->publicQueryPort, (const unsigned int *)senddata, 9)))
+            return result;
+        pNodeInfo = (NodeInfo *)func_0217637C(linkProgress);
+        senddata[0] = pNew->profileID;
+        senddata[1] = pNew->aid;
+        if (func_021719A4(func_0216FF2C(10, pNodeInfo->profileID, pNodeInfo->publicInetAddress,
+                                       pNodeInfo->publicQueryPort, (const unsigned int *)senddata, 2)))
+            return result;
+        func_02175F3C()->flag = result;
+    }
+    return 0;
 }

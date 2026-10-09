@@ -1,8 +1,8 @@
 /*
  * file:     weather_task_p18.c
  * unit:     yes
- * function: func_021A2BB8, func_021A2BC4, func_021A2BD4, func_021A2C10, func_021A2C24, func_021A2C28, func_021A2C2C
- * address:  0x021A2BB8
+ * function: func_021A548C, func_021A54A0, func_021A54B4
+ * address:  0x021A548C
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,20 +13,22 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
- *   func_0204B294  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204BA20  0x0204BA20  arm
- *   data_021D88E0  0x021D88E0  data  a4
- *   func_0204B3B4  0x0204B3B4  arm
+ *   func_021A5458  0x021A5458  thumb  ov021
+ *   func_021A53BC  0x021A53BC  thumb  ov021
+ *   func_02163F10  0x02163F10  thumb  ov010
+ *   func_02164010  0x02164010  thumb  ov010
+ *   func_021640B0  0x021640B0  thumb  ov010
+ *   func_0216D568  0x0216D568  thumb  ov010
+ *   func_0216D85C  0x0216D85C  thumb  ov010
+ *   func_0216D88C  0x0216D88C  thumb  ov010
+ *   func_0216DB4C  0x0216DB4C  thumb  ov010
+ *   func_0216DCE8  0x0216DCE8  thumb  ov010
+ *   func_021A3960  0x021A3960  thumb
  */
-#include "../../matched/include/Obj18004.h"
-#include "../../matched/include/Obj12086.h"
-#include "../../matched/include/Obj18005.h"
-#include "../../matched/include/Obj18006.h"
+#include "../../matched/include/Obj12739.h"
 
-struct Obj;
 struct Actor;
+struct VecFx32;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
@@ -37,34 +39,24 @@ typedef signed short   s16;
 
 typedef signed char    s8;
 
-typedef struct { u16 id; u16 x, y, z; } Q;
-
 typedef signed int     s32;
 
-extern void func_02082BCC();
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-void func_0204B3DC(struct Obj *h, unsigned int v);
-void func_0204BA20(struct Actor *a, u32 v);
-extern void func_0204B3B4(struct Obj *p);
-void func_021A2BB8(u32 a);
-int func_021A2BC4(u32 a);
-void func_021A2BD4(u32 *p, u32 a, const Q *q, int b, u16 e);
-void func_021A2C10(u8 *p);
-unsigned char *func_021A2C24(unsigned char *o);
-u32 func_021A2C28(u8 *p);
-void func_021A2C2C(u8 *p, u32 v);
-extern u32 data_021D88E0[];
+typedef struct { s32 x, y, z; } VecFx32;
 
-
-/*
- * Tail-call thunk: pins arguments 2 and 3 to 0 and 56.
- *
- * Addresses are Black-image addresses.
- */
-void func_021A2BB8(u32 a)
-{
-    func_02082BCC(a, 0, 56);
-}
+extern u32 func_021A5458(u32, u32, u32, u32);
+extern int func_021A53BC(u32 a);
+extern void *func_021A3960(u8 *p);
+extern int func_0216DB4C(void *a0, int a1);
+extern int func_0216DCE8(void *a0, int a1);
+extern void *func_0216D568(void *p, u32 v);
+extern int func_02164010(int a);
+extern void func_0216D88C(const struct Actor *obj, struct VecFx32 *out);
+extern void func_0216D85C(void *p, int v);
+extern int func_021640B0(int a);
+extern int func_02163F10(int a0);
+int func_021A548C(u32 a, u32 b, u32 c, u32 d);
+int func_021A54A0(u32 a);
+void func_021A54B4(u8 *p);
 
 
 /*
@@ -72,61 +64,38 @@ void func_021A2BB8(u32 a)
  *
  * Addresses are Black-image addresses.
  */
-int func_021A2BC4(u32 a)
+int func_021A548C(u32 a, u32 b, u32 c, u32 d)
 {
-if (((struct Obj18004 *)((u8 *)(a)))->f30 != 0) {
+if (func_021A5458(a, 9, c, d) != 0) {
     return 1;
 }
 return 0;
 }
 
-void func_021A2BD4(u32 *p, u32 a, const Q *q, int b, u16 e)
+
+int func_021A54A0(u32 a)
 {
-    p[0] = a;
-    p[1] = (u32)func_0204B294((void *)b, q->x, q->y, q->z, data_021D88E0, 0, e);
-    func_0204B3DC((struct Obj *)p[1], 0);
-    func_0204BA20((struct Actor *)p[1], 0);
+if (func_021A53BC(a) == 1) {
+    return 1;
+}
+return 0;
 }
 
 
 /*
- * Pattern-generated from the ov021 family.
- *
  * Addresses are Black-image addresses.
  */
-void func_021A2C10(u8 *p)
+void func_021A54B4(u8 *p)
 {
-    u32 v = ((struct Obj12086 *)p)->f4;
-    if (v != 0) {
-        func_0204B3B4((struct Obj *)v);
-        ((struct Obj12086 *)p)->f4 = 0;
-    }
-}
+    VecFx32 v;
+    void *o = func_021A3960(((struct Obj12739 *)p)->fC);
 
-/*
- * Unlabelled leaf (adds r0,#8; bx lr), filed for the ov026 lane.
- */
-unsigned char *func_021A2C24(unsigned char *o)
-{
-    return o + 8;
-}
-
-
-/*
- * Loads the 32-bit word at byte +0x4 of the object.
- */
-u32 func_021A2C28(u8 *p)
-{
-    return ((struct Obj18005 *)p)->f4;
-}
-
-
-/*
- * Field setter at +0x8.
- *
- * Addresses are Black-image addresses.
- */
-void func_021A2C2C(u8 *p, u32 v)
-{
-    ((struct Obj18006 *)p)->f8 = v;
+    func_0216DB4C(o, 0);
+    func_0216DCE8(o, 0);
+    func_0216D568(o, 0x140);
+    func_02164010((int)o);
+    func_0216D88C(o, (struct VecFx32 *)&v);
+    func_0216D85C(o, (s16)((v.y >> 4) / 4096));
+    func_021640B0((int)o);
+    func_02163F10((int)o);
 }

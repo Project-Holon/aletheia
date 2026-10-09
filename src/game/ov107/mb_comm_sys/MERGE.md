@@ -1,52 +1,25 @@
 # mb_comm_sys.c (ov107)
 
-Translation unit 021EE740..021F1404, 82 functions, confidence weak (tools/tuboundary.py).
+Round 4 (lane r4_ov08): 13 parts reduced to 10. d_021F6EA0 is now one struct Counter
+{ u8 f0; u8 f1; u16 f2; u32 f4; int f8; } in every part (the G_Counter.h view and the byte and
+int array views are gone); old p01..p03 and p05..p06 are merged. Every file verifies EXACT.
 
-The member files below each match on their own. Merging them into one
-`mb_comm_sys.c` is blocked by:
+Parts, in address order:
 
-- ov107_func_021EE740.c..ov107_func_021F13BC.c: global d_021F6EA0 declared two ways (src/matched/ov/ov107_func_021EEEB4.c); prototype of func_02040588 differs between members (src/matched/ov/ov107_func_021EF0D0.c); prototype of func_02040588 differ
-- ov107_func_021EE740.c..ov107_func_021F0AE4.c: global d_021F6EA0 declared two ways (src/matched/ov/ov107_func_021EEEB4.c); prototype of func_02040588 differs between members (src/matched/ov/ov107_func_021EF0D0.c); prototype of func_02040588 differ
-- ov107_func_021EE740.c..ov107_func_021EFC1C.c: global d_021F6EA0 declared two ways (src/matched/ov/ov107_func_021EEEB4.c); prototype of func_02040588 differs between members (src/matched/ov/ov107_func_021EF0D0.c); prototype of func_02040588 differ
-- ov107_func_021EE740.c..ov107_func_021EF0D0.c: global d_021F6EA0 declared two ways (src/matched/ov/ov107_func_021EEEB4.c); prototype of func_02040588 differs between members (src/matched/ov/ov107_func_021EF0D0.c)
-- ov107_func_021EEEB4.c..ov107_func_021EF0D0.c: global d_021F6EA0 declared two ways (src/matched/ov/ov107_func_021EEEF8.c); prototype of func_02040588 differs between members (src/matched/ov/ov107_func_021EF0D0.c)
-- ov107_func_021EEEB4.c..ov107_func_021EEEF8.c: global d_021F6EA0 declared two ways (src/matched/ov/ov107_func_021EEEF8.c)
-- ov107_func_021EEF28.c..ov107_func_021EF0D0.c: prototype of func_02040588 differs between members (src/matched/ov/ov107_func_021EF0D0.c)
-- ov107_func_021EF0F4.c..ov107_func_021EFC1C.c: prototype of func_02040588 differs between members (src/matched/ov/ov107_func_021EF444.c); prototype of func_02049658 differs between members (src/matched/ov/ov107_func_021EF444.c); prototype of func_
-- ov107_func_021EF0F4.c..ov107_func_021EF74C.c: prototype of func_02040588 differs between members (src/matched/ov/ov107_func_021EF444.c); prototype of func_02049658 differs between members (src/matched/ov/ov107_func_021EF444.c); prototype of func_
-- ov107_func_021EF0F4.c..ov107_func_021EF444.c: prototype of func_02040588 differs between members (src/matched/ov/ov107_func_021EF444.c); prototype of func_02049658 differs between members (src/matched/ov/ov107_func_021EF444.c); prototype of func_
-- ov107_func_021EF79C.c..ov107_func_021EFC1C.c: prototype of func_021F18D8 differs between members (src/matched/ov/ov107_func_021EFA14.c); global d_021F6EA0 declared two ways (src/matched/ov/ov107_func_021EFC10.c)
-- ov107_func_021EFCA8.c..ov107_func_021F0AE4.c: prototype of func_021F1B14 differs between members (src/matched/ov/ov107_func_021EFFB0.c); global d_021F6EA0 declared two ways (src/matched/ov/ov107_func_021F05DC.c); prototype of func_020307B0 differ
-- ov107_func_021EFCA8.c..ov107_func_021F0694.c: prototype of func_021F1B14 differs between members (src/matched/ov/ov107_func_021EFFB0.c); global d_021F6EA0 declared two ways (src/matched/ov/ov107_func_021F05DC.c); prototype of func_020307B0 differ
-- ov107_func_021EFCA8.c..ov107_func_021EFE3C.c: c99=CCERR: line 117: illegal implicit conversion from 'unsigned char *' to | line 117: 'struct  *' nolang=CCERR: line 117: illegal implicit conversion from 'unsigned char *' to | line 117: 'struct  *'
-- ov107_func_021F0728.c..ov107_func_021F0AE4.c: prototype of func_02034714 differs between members (src/matched/ov/ov107_func_021F080C.c); global d_021F6E24 declared two ways (src/matched/ov/ov107_func_021F080C.c); global d_021F6EAC declared two wa
-- ov107_func_021F0728.c..ov107_func_021F08E4.c: prototype of func_02034714 differs between members (src/matched/ov/ov107_func_021F080C.c); global d_021F6E24 declared two ways (src/matched/ov/ov107_func_021F080C.c); global d_021F6EAC declared two wa
-- ov107_func_021F080C.c..ov107_func_021F08E4.c: global d_021F6EAC declared two ways (src/matched/ov/ov107_func_021F0850.c)
-- ov107_func_021F0850.c..ov107_func_021F08E4.c: global d_021F6EAC declared two ways (src/matched/ov/ov107_func_021F08E4.c)
-- ov107_func_021F0B04.c..ov107_func_021F13BC.c: global d_021F6EAC declared two ways (src/matched/ov/ov107_func_021F0B2C.c); prototype of func_0208799C differs between members (src/matched/ov/ov107_func_021F0D34.c); global d_021F6EAC declared two wa
-- ov107_func_021F0B04.c..ov107_func_021F1060.c: global d_021F6EAC declared two ways (src/matched/ov/ov107_func_021F0B2C.c); prototype of func_0208799C differs between members (src/matched/ov/ov107_func_021F0D34.c); global d_021F6EAC declared two wa
-- ov107_func_021F0B04.c..ov107_func_021F0E40.c: global d_021F6EAC declared two ways (src/matched/ov/ov107_func_021F0B2C.c); prototype of func_0208799C differs between members (src/matched/ov/ov107_func_021F0D34.c); global d_021F6EAC declared two wa
-- ov107_func_021F0D34.c..ov107_func_021F0E40.c: global d_021F6EAC declared two ways (src/matched/ov/ov107_func_021F0DB4.c)
-- ov107_func_021F0D34.c..ov107_func_021F0DB4.c: global d_021F6EAC declared two ways (src/matched/ov/ov107_func_021F0DB4.c)
-- ov107_func_021F1064.c..ov107_func_021F13BC.c: prototype of func_0203996C differs between members (src/matched/ov/ov107_func_021F1370.c)
-- ov107_func_021F116C.c..ov107_func_021F13BC.c: prototype of func_0203996C differs between members (src/matched/ov/ov107_func_021F1370.c)
-- ov107_func_021F11CC.c..ov107_func_021F13BC.c: c99=DIFF nolang=DIFF
-- ov107_func_021F11F0.c..ov107_func_021F13BC.c: c99=DIFF nolang=DIFF
+- p01: 021EE740 .. 021EEF28 (old p01 to p03)
+- p02: 021EF080 .. 021EF0F4
+- p03: 021EF444 .. 021EFC1C (old p05, p06)
+- p04..p10: old p07..p13 (021EFCA8 .. 021F13BC)
 
-Members, in address order:
+Blockers still open:
 
-- `ov107_func_021EEEB4.c`
-- `ov107_func_021EEEF8.c`
-- `ov107_func_021EEF28.c`
-- `ov107_func_021EF0F4.c`
-- `ov107_func_021EF444.c`
-- `ov107_func_021F080C.c`
-- `ov107_func_021F0850.c`
-- `ov107_func_021F08E4.c`
-- `ov107_func_021F0D34.c`
-- `ov107_func_021F0DB4.c`
-- `ov107_func_021F11F0.c`
+- p01 | p02 and p02 | p03 (old p03|p04, p04|p05): DIFF when merged. func_02040588 has two prototypes
+  (u32/unsigned char versus unsigned char/unsigned char), func_02049658 returns u32 in the old p05
+  and void in p04, func_020413B0 takes u32 first in p05 and u8 in p04. p05 passes u32 bg: try making
+  the callers' locals u8.
+- Masks views: d_021F6EAC is a struct Masks with three different local layouts (Masks_021F08E4,
+  Masks_021F0B04, Masks_021F0D34) and an int array in p12 (d_021F6EAC[0], [1]). Build one struct.
+- d_021F6E1C is u8[] in one part and const char[] in another; d_021F6AF8 has no declaration.
+- Old p12 | p13 gives DIFF when merged.
 
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names mb_comm_sys.c` again.
+Shared rule: the part files must stay separate where a data label only has witnesses in the other part.

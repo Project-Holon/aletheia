@@ -1,8 +1,8 @@
 /*
  * file:     fldeff_splash_p03.c
  * unit:     yes
- * function: func_021C49C0, func_021C4A00
- * address:  0x021C49C0
+ * function: func_021C4C54, func_021C4CDC, func_021C4D14
+ * address:  0x021C4C54
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,56 +13,134 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021ABE24  0x021ABE24  thumb  ov021
- *   func_02046E24  0x02046E24  arm
- *   func_021AC1F0  0x021AC1F0  thumb  ov021
- *   func_020500F0  0x020500F0  arm
+ *   func_0216E1C4  0x0216E1C4  thumb  ov010
+ *   func_021AC154  0x021AC154  thumb  ov021
+ *   func_0216DBE8  0x0216DBE8  thumb  ov010
+ *   func_021ABE18  0x021ABE18  thumb  ov021
+ *   func_021C6658  0x021C6658  thumb  ov021
+ *   func_021C6844  0x021C6844  thumb  ov021
+ *   func_021C66EC  0x021C66EC  thumb  ov021
+ *   func_021C6828  0x021C6828  thumb  ov021
+ *   func_0216D88C  0x0216D88C  thumb  ov010
+ *   func_021AC1CC  0x021AC1CC  thumb  ov021
+ *   func_021AC1B8  0x021AC1B8  thumb  ov021
+ *   func_021C67F4  0x021C67F4  thumb  ov021
+ *   func_02188C84  0x02188C84  thumb  ov021
+ *   func_02188C80  0x02188C80  thumb  ov021
+ *   func_02012134  0x02012134  thumb
+ *   func_0202B57C  0x0202B57C  thumb
+ *   func_02030734  0x02030734  arm
+ *   func_0202B928  0x0202B928  thumb
+ *   func_0202B920  0x0202B920  thumb
+ *   d_021DE48C     0x021DE48C  data  a4
  */
-struct BbActRec;
-struct BbActSys;
-struct X;
-typedef unsigned char u8;
+#include "../../matched/include/Obj06076.h"
+#include "../../matched/include/Obj01507.h"
 
+struct Actor;
+struct VecFx32;
 typedef unsigned short u16;
 
-typedef unsigned int u32;
+typedef unsigned int   u32;
 
-typedef struct S_021C49C0 { u32 w0; u8 b4, b5, b6, b7; u32 w8; } S_021C49C0;
+typedef unsigned char  u8;
 
-typedef struct P { u32 f0; u32 f4; u16 f8; } P;
+typedef struct { int x, y, z; } V3;
 
 typedef struct {
-    u32 f0;
-    u32 obj;
+    u32 *owner;
+    u32 f4;
+    u32 f8;
+    u32 fC;
     u16 id;
-} S_021C4A00;
+} S;
 
-extern u32 func_021ABE24(u8 *p);
-extern void *func_02046E24(u32 a0, u32 a1);
-extern void func_021AC1F0(struct X *x, void *b);
-extern u16 func_020500F0(struct BbActSys *o, const struct BbActRec *recs, u32 n);
-extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
-void func_021C49C0(P *p);
-void func_021C4A00(S_021C4A00 *s);
+extern int func_0216E1C4(int a0, int a1);
+extern void func_021AC154(int a);
+extern int func_0216DBE8(void *a0);
+extern u32 func_021ABE18(u8 *p);
+extern int func_021C6658(u32 a, u32 b);
+extern int func_021C6844(int a, int b);
+extern int func_021C66EC(u32 *a, int idx, int v);
+extern void func_021C6828(int a, int b, int c);
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
+extern void func_021AC1CC(int a, int *v);
+extern void func_021AC1B8(void *a, V3 *v);
+extern void func_021C67F4(u32 o, u16 id);
+extern u16 func_02188C84(u8 *p);
+extern void *func_02188C80(void *p);
+extern u32 func_02012134(u32 *p);
+extern u32 func_0202B57C(void *obj);
+extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, u16 e);
+extern int func_0202B928(int a, int b);
+extern void func_0202B920(void *m, int i, int a, int b);
+void func_021C4C54(int a, int *b);
+void func_021C4CDC(void *a, S *s);
+void *func_021C4D14(int a, int b, int c, int d, int e);
+extern int d_021DE48C;
 
 
-void func_021C49C0(P *p)
+
+void func_021C4C54(int a, int *b)
 {
-    S_021C49C0 s;
-    u32 x = func_021ABE24((u8 *)p->f0);
+    int v[3];
+    int h;
+    int r;
 
-    s.b4 = 2;
-    s.b5 = 0x13;
-    s.b6 = 0x10;
-    s.b7 = 0x10;
-    s.w8 = 1;
-    s.w0 = (u32)func_02046E24(x, 0x2d);
-    func_021AC1F0((struct X *)p->f0, (void *)s.w0);
-    p->f8 = func_020500F0((struct BbActSys *)p->f4, (const struct BbActRec *)(&s), 1);
+    if (func_0216E1C4(b[1], (int)(b + 2)) == 0) {
+        func_021AC154(a);
+        return;
+    }
+    if (func_0216DBE8((void *)b[1]) == 0) {
+        func_021AC154(a);
+        return;
+    }
+    h = ((struct Obj06076 *)b)->f10;
+    r = func_021ABE18((u8 *)(*(int *)b[0]));
+    func_021C6658(r, h);
+    if (func_021C6844(r, h) == 0) {
+        func_021C66EC((u32 *)r, h, 0x1000);
+        func_021C6828(r, h, 1);
+    }
+    func_0216D88C((const struct Actor *)b[1], (struct VecFx32 *)v);
+    v[2] += 0x8000;
+    func_021AC1CC(a, v);
 }
 
 
-void func_021C4A00(S_021C4A00 *s)
+
+/*
+ * Copies the owner's current position into map-object slot id.
+ */
+void func_021C4CDC(void *a, S *s)
 {
-    func_02050278((struct BbActSys *)s->obj, s->id, 1);
+    u16 id = s->id;
+    u32 o = func_021ABE18((u8 *)(*s->owner));
+    V3 *dst = (V3 *)func_021C6658(o, id);
+    V3 t;
+
+    func_021AC1B8(a, &t);
+    *dst = t;
+    func_021C67F4(o, id);
+}
+
+
+void *func_021C4D14(int a, int b, int c, int d, int e)
+{
+    int n = func_02188C84((u8 *)a);
+    int r;
+    int *p;
+
+    r = func_0202B57C((void *)func_02012134((u32 *)func_02188C80((void *)a)));
+    p = (int *)func_02030734(n, 0x18, 0, (const char *)&d_021DE48C, 0x3c);
+    ((struct Obj01507 *)p)->f0 = n;
+    p[1] = a;
+    p[2] = r;
+    p[3] = c;
+    p[4] = 0;
+    p[5] = b;
+    if (func_0202B928(r, c) == 0) {
+        func_0202B920((void *)r, c, d, e);
+    }
+    return p;
 }

@@ -1,159 +1,70 @@
 /*
- * file:     btl_server_p04.c
- * unit:     yes
- * function: func_021B9AE0, func_021B9AEC, func_021B9AF8, func_021B9B04, func_021B9B10, func_021B9B40, func_021B9B54, func_021B9B60, func_021B9B94, func_021B9B98, func_021B9BC4, func_021B9BF0, func_021B9C00, func_021B9C10, func_021B9C24
- * address:  0x021B9AE0
- * region:   ov093
+ * function: func_021BBFA8
+ * address: 0x021BBFA8
+ * packet: pkt_ov093_021BBFA8
+ * region: ov093
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
  * symbols:
- *   func_021B8B9C 0x021B8B9C thumb ov093
- *   func_021CD9F4 0x021CD9F4 thumb ov093
- *   func_021D5B7C 0x021D5B7C thumb ov093
+ *   func_021D8454 0x021D8454 thumb ov093
+ *   func_021BDC2C 0x021BDC2C thumb ov093
+ *   func_021BC0E8 0x021BC0E8 thumb ov093
+ *   func_021BCCE0 0x021BCCE0 thumb ov093
+ *   func_021C5200 0x021C5200 thumb ov093
+ *   func_021BC2B0 0x021BC2B0 thumb ov093
+ *   func_021C446C 0x021C446C thumb ov093
+ *   func_021BC0D8 0x021BC0D8 thumb ov093
+ *   func_021C8534 0x021C8534 thumb ov093
+ *   func_021BC4DC 0x021BC4DC thumb ov093
+ *   func_021C6158 0x021C6158 thumb ov093
  */
-typedef unsigned char  u8;
-
+typedef unsigned char u8;
 typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-/* 021B9B54  ldrb r3,[r0,#0x18]; adds r2,r3,#1; strb r2,[r0,#0x18];
- *           lsls r2,r3,#2; str r1,[r0,r2] */
-struct Q1 { u32 items[6]; u8 count; };
-
-/* 021B9BF0  ldrb r2,[r0,#0x18]; cmp r1,r2; bhs; lsls r1,#2; ldr r0,[r0,r1] */
-struct S2_021B9BF0 { u32 items[6]; u8 count; };
-
-struct S2_021B9C00 { u8 *items[6]; u8 count; };
-
-extern int func_021B8B9C(unsigned char *p, unsigned char k);
-extern void func_021CD9F4(void *,int);
-extern int func_021D5B7C(void *);
-unsigned char func_021B9AE0(unsigned int x);
-char *func_021B9AEC(char *p, int i);
-char *func_021B9AF8(char *p, int i);
-unsigned char func_021B9B04(int a, int b);
-void func_021B9B10(u8 *p,u8 i,int v);
-void func_021B9B40(u8 *p);
-void func_021B9B54(struct Q1 *p, u32 v);
-void func_021B9B60(u8 *p);
-/* 021B9B94 ldrb r0,[r0,#0x18] */ u8 func_021B9B94(struct Q1 *p);
-u8 func_021B9B98(u8 *p);
-u8 func_021B9BC4(u8 *p,int i);
-u32 func_021B9BF0(struct S2_021B9BF0 *p, u32 i);
-/* 021B9C00 same shape as 021B9BF0 */ u8 *func_021B9C00(struct S2_021B9C00 *p, u32 i);
-void func_021B9C10(u32 *p, int a, int b);
-void func_021B9C24(u8 *p, u8 i);
-
-unsigned char func_021B9AE0(unsigned int x)
+typedef struct { u32 a, b, c; u8 d, f; unsigned short pad; } E;
+typedef struct { u8 pad[0x14]; u32 state; u8 pad2[0x76a]; u8 n; u8 pad3[0x5d]; E e[6]; } S;
+extern u32 func_021D8454(u32 *);
+extern void func_021BDC2C(u8 *p);
+extern void func_021BC0E8(S *, E *, u32);
+extern u32 func_021BCCE0(S *, E *);
+extern int func_021C5200(u8 *p);
+extern int func_021BC2B0(u8 *p);
+extern int func_021C446C(u8 *p);
+extern int func_021BC0D8(void *, int);
+extern int func_021C8534(u8 *p);
+extern int func_021BC4DC(u8 *p, u8 *out);
+extern void func_021C6158(u8 *p, u8 *a);
+u32 func_021BBFA8(S *p, u32 i)
 {
-    return x & 1;
-}
-
-char *func_021B9AEC(char *p, int i)
-{
-    return p + 4 + i * 0x1c;
-}
-
-char *func_021B9AF8(char *p, int i)
-{
-    return p + 4 + i * 0x1c;
-}
-
-
-unsigned char func_021B9B04(int a, int b)
-{
-    return func_021B9B98((u8 *)func_021B9AF8((char *)a, b));
-}
-
-void func_021B9B10(u8 *p,u8 i,int v) {
-    void *q;
-    if(p[0x46e] && func_021B8B9C(p,i)) {
-        q=*(void **)(p+i*4+16);
-        if(q) func_021CD9F4(q,v);
+    u32 previous = 0;
+    for (; i < p->n; i++) {
+        u32 current = func_021D8454(&p->e[i].b);
+        u8 stop;
+        if (previous == 6 && current != 6) {
+            func_021BDC2C((u8 *)p);
+            func_021BC0E8(p, &p->e[i], p->n - i);
+        }
+        previous = func_021BCCE0(p, &p->e[i]);
+        stop = func_021C5200((u8 *)p);
+        if ((u8)func_021BC2B0((u8 *)p)) { p->state = 4; return i + 1; }
+        if (p->state == 6) return i + 1;
+        if (p->state == 1) return i + 1;
+        if (stop) { p->state = 3; return i + 1; }
     }
-}
-
-void func_021B9B40(u8 *p) {
-    int i;
-    p[24] = 0;
-    for(i=0;i<6;i++) ((u32 *)p)[i]=0;
-}
-
-void func_021B9B54(struct Q1 *p, u32 v)
-{
-    u8 n = p->count;
-    p->count = n + 1;
-    p->items[n] = v;
-}
-
-void func_021B9B60(u8 *p) {
-    unsigned int j;
-    int i;
-    j=0;
-    i=0;
-    for(;j<p[24];j++) {
-        if(func_021D5B7C(*(void **)((u32)p+(u32)i*4))) i++;
-        else func_021B9C24(p,i);
+    if (p->state == 0) {
+        u8 stop = func_021C446C((u8 *)p);
+        int present;
+        if ((u8)func_021BC2B0((u8 *)p)) { p->state = 4; return p->n; }
+        if (stop) { p->state = 3; return p->n; }
+        present = func_021BC0D8((u8 *)p + 0x3e0, 0);
+        if (func_021C8534((u8 *)p) || present) {
+            func_021BC4DC((u8 *)p, (u8 *)p + 0x4ce);
+            func_021C6158((u8 *)p, (u8 *)p + 0x4ce);
+            p->state = 2;
+            return p->n;
+        }
+        p->state = 0;
     }
-}
-
-/* 021B9B94  ldrb r0,[r0,#0x18] */
-/*
- * Reads the u8 field at #0x18 of the argument and returns it.
- */
-u8 func_021B9B94(struct Q1 *p) { return p->count; }
-
-u8 func_021B9B98(u8 *p) {
-    int i;
-    u32 n;
-    i = 0;
-    n = 0;
-    for (; i < p[24]; i++) if (func_021D5B7C(((void **)p)[i])) n++;
-    return n;
-}
-
-u8 func_021B9BC4(u8 *p,int i) {
-    u32 n=0;
-    for(;i<p[24];i++) if(func_021D5B7C(*(void **)((u32)p+(u32)i*4))) n++;
-    return n;
-}
-
-u32 func_021B9BF0(struct S2_021B9BF0 *p, u32 i)
-{
-    if (i < p->count)
-        return ((u32 *)p)[i];
-    return 0;
-}
-
-/* 021B9C00  same shape as 021B9BF0 */
-u8 *func_021B9C00(struct S2_021B9C00 *p, u32 i)
-{
-    if (i < p->count)
-        return p->items[i];
-    return 0;
-}
-
-void func_021B9C10(u32 *p, int a, int b) {
-    u32 t=*(u32 *)((u32)p+(u32)a*4);
-    *(u32 *)((u32)p+(u32)a*4)=*(u32 *)((u32)p+(u32)b*4);
-    *(u32 *)((u32)p+(u32)b*4)=t;
-}
-
-void func_021B9C24(u8 *p, u8 i) {
-    u32 t=((u32 *)p)[i];
-    for(;i<p[24]-1;i++) ((u32 *)p)[i]=((u32 *)p)[i+1];
-    ((u32 *)p)[i]=t;
+    return p->n;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_0204EE0C.c
  * unit:     yes
- * function: func_0204EE0C, func_0204EE64, func_0204EEC8, func_0204EF58, func_0204EFC8, func_0204F044, func_0204F10C, func_0204F150, func_0204F1A0, func_0204F214, func_0204F27C, func_0204F2B4, func_0204F2CC
+ * function: func_0204EE0C, func_0204EE64, func_0204EEC8, func_0204EF58, func_0204EFC8, func_0204F044, func_0204F10C, func_0204F150, func_0204F1A0, func_0204F214, func_0204F27C, func_0204F2B4, func_0204F2CC, func_0204F2E4
  * address:  0x0204EE0C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -20,9 +20,6 @@
  *   gTexSizeTbl  0x020A14C0  data
  *   gTexParamS   0x020A14D4  data
  *   gTexParamT   0x020A14D8  data
- *   func_0204EE0C   0x0204EE0C  arm
- *   func_0204EE64   0x0204EE64  arm
- *   func_0204EEC8   0x0204EEC8  arm
  *   func_02046DB8   0x02046DB8  arm
  *   func_02046F48  0x02046F48  arm
  *   func_02047250  0x02047250  arm
@@ -39,6 +36,7 @@
 #include "../../matched/include/Obj16127.h"
 #include "../../matched/include/Obj16128.h"
 #include "../../matched/include/Obj16129.h"
+#include "../../matched/include/Obj16130.h"
 
 struct Layer;
 struct Struct_0204EE0C;
@@ -167,30 +165,48 @@ struct Actor {
     u16 count;
 };
 
+struct Slot {
+    u8  pad_00[4];
+    u32 unk_04;
+    u32 unk_08;
+    u32 unk_0c;
+    u32 unk_10;
+    u32 unk_14;
+    u8  pad_18[8];
+    u32 unk_20;
+    u32 unk_24;
+};
+
 extern int func_02046FF8(int *self);
 extern u32 func_02047388(struct Layer *layer);
 extern u32 func_020473B8(struct Layer *layer);
 extern s32 _s32_div_f(s32 a, s32 b);
-extern int func_0204EE0C(struct Struct_0204EE0C *p, int *out_index);
-extern void func_0204EE64(struct Struct_0204EE64 *p, u32 heapId);
-extern void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c);
 extern void *func_02046DB8(u32 a0, u32 a1);
 extern void *func_02046F48(struct Tagged *p);
 extern struct Record *func_02047250(void *p);
 extern void func_020307E0(void *p, u32 size);
 extern int func_020470D0(u32 *p);
 extern void func_02046EFC(struct Tagged *p);
+int func_0204EE0C(struct Struct_0204EE0C *p, int *out_index);
+void func_0204EE64(struct Struct_0204EE64 *p, u32 heapId);
+void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c);
+u32 func_0204EF58(struct Desc *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+u32 func_0204EFC8(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
+int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
 void func_0204F10C(void *table, u32 idx);
 void func_0204F150(u8 *a0, int i);
 void func_0204F1A0(Obj0204F1A0 *a0, u32 a1);
 void func_0204F214(u8 *a0, int i);
+void func_0204F27C(struct Actor *p);
 void func_0204F2B4(int p0, int p1, int p2);
 void func_0204F2CC(int p0, int p1, int p2);
+void func_0204F2E4(u8 *a0, int i, u32 *out);
 extern const u32 gTexSizeTbl[];
 extern const struct Pair8 gTexParamS[];
 extern const struct Pair8 gTexParamT[];
 extern Fn0204F1A0 g_020A8144;
 extern Fn0204F1A0 g_020A814C;
+
 
 
 /*
@@ -216,6 +232,7 @@ int func_0204EE0C(struct Struct_0204EE0C *p, int *out_index)
 }
 
 
+
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0204EE64.c \
@@ -239,6 +256,7 @@ void func_0204EE64(struct Struct_0204EE64 *p, u32 heapId)
     p->offC = (u32)(p->off20 << 16) >> 13;
     p->off10 = (u32)(res << 16) >> 13;
 }
+
 
 
 /*
@@ -269,6 +287,7 @@ void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c)
     dst->f0a = _s32_div_f(dst->f04, dst->f08);
     dst->f0b = _s32_div_f(dst->f06, dst->f09);
 }
+
 
 
 /*
@@ -306,6 +325,7 @@ u32 func_0204EF58(struct Desc *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5)
 }
 
 
+
 /*
  * The second wrapper, one call longer than func_0204EF58: the handle it seats
  * the slot with is func_02046DB8(a1, a2) rather than a1 directly, and the
@@ -325,6 +345,7 @@ u32 func_0204EFC8(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a
     }
     return idx;
 }
+
 
 
 /*
@@ -351,6 +372,7 @@ int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6)
 }
 
 
+
 /*
  * Hand the 0x28-stride entry's payload buffer to func_020307E0 with its
  * length.  The payload pointer is a named local, not an inline call argument,
@@ -366,6 +388,7 @@ void func_0204F10C(void *table, u32 idx)
 
     func_020307E0(buf, (u32)((u8 *)last + last->size - (u8 *)buf));
 }
+
 
 
 /*
@@ -394,6 +417,7 @@ void func_0204F150(u8 *a0, int i)
     }
     *(u32 *)(((struct Obj05758 *)a0)->f4 + off + 0x14) = 5;
 }
+
 
 
 /*
@@ -435,9 +459,12 @@ void func_0204F1A0(Obj0204F1A0 *a0, u32 a1)
 }
 
 
+
 extern void (*g_020A8144)(u32 v);
 
+
 extern void (*g_020A814C)(u32 v);
+
 
 
 /*
@@ -462,6 +489,7 @@ void func_0204F214(u8 *a0, int i)
 }
 
 
+
 /*
  * Walk the actor's u16 count at +0xc and release every entry.  The count is
  * re-read on each iteration because func_0204F150 may change it.  The
@@ -478,7 +506,21 @@ void func_0204F27C(struct Actor *p)
 }
 
 
+
 void func_0204F2B4(int p0, int p1, int p2){ ((struct Obj16127 *)p2)->f0 = (int)*(int *)(((p1 * 0x28 + ((struct Obj16126 *)p0)->f4) + 12)); }
 
 
+
 void func_0204F2CC(int p0, int p1, int p2){ ((struct Obj16129 *)p2)->f0 = (int)*(int *)(((p1 * 0x28 + ((struct Obj16128 *)p0)->f4) + 16)); }
+
+
+/*
+ * Word getter through an out-parameter on one 0x28-byte slot; the `mla`
+ * means the stride is the entry type's sizeof, not a byte offset.
+ */
+void func_0204F2E4(u8 *a0, int i, u32 *out)
+{
+    struct Slot *p = (struct Slot *)((struct Obj16130 *)a0)->f4;
+
+    *out = p[i].unk_20;
+}

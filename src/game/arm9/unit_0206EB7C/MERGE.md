@@ -1,37 +1,11 @@
-# unit_0206EB7C.c (arm9)
+# unit_0206EB7C (arm9)
 
-Translation unit 0206EB7C..0207010C, 12 functions, confidence weak (tools/tuboundary.py).
+Round 4 state: 3 files remain, all byte-exact, compiler ../2.0/sp2p2, -O4,p, c99. Every member is EXACT under sp2p2 (func_0206ECE0 group and func_0206F4C8 need it, the rest build under both sp2 and sp2p2; func_0206EB7C also under 1.1p1). `-proc arm946e` is the default, so the flags are written as -O4,p everywhere. No uncovered code between files.
 
-The member files below each match on their own. Merging them into one
-`unit_0206EB7C.c` is blocked by:
+- `unit_0206EB7C_p01.c`: func_0206EB7C, func_0206EBB8, func_0206EC50
+- `unit_0206EB7C_p02.c`: func_0206ECE0 .. func_0206F6B0 (six functions)
+- `unit_0206EB7C_p03.c`: func_0206F844, func_0206FC5C, func_0206FFA0
 
-- func_0206EB7C.c..func_0206FFA0.c: settings differ: src/matched/arm9/func_0206EBB8.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lan
-- func_0206EB7C.c..func_0206F214.c: settings differ: src/matched/arm9/func_0206EBB8.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lan
-- func_0206EB7C.c..func_0206EC50.c: settings differ: src/matched/arm9/func_0206EBB8.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lan
-- func_0206EBB8.c..func_0206EC50.c: c99=CCERR: line 38: identifier 'Root' redeclared | line 38: was declared as: 'struct ' | line 38: now declared as: 'struct Root' nolang=CCERR: line 38: identifier 'Root' redeclared | line 38: was decl
-- func_0206ECE0.c..func_0206F214.c: global g_02148DB0 declared two ways (src/matched/arm9/func_0206EE60.c)
-- func_0206EE60.c..func_0206F214.c: c99=CCERR: line 107: illegal implicit conversion from 'unsigned int *' to | line 107: 'int *' | line 116: illegal implicit conversion from 'unsigned int *' to nolang=CCERR: line 107: illegal implicit 
-- func_0206F36C.c..func_0206FFA0.c: settings differ: src/matched/arm9/func_0206F4C8.c has {'compiler': '../2.0/sp2p2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p
-- func_0206F36C.c..func_0206F6B0.c: settings differ: src/matched/arm9/func_0206F4C8.c has {'compiler': '../2.0/sp2p2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p
-- func_0206F4C8.c..func_0206F6B0.c: settings differ: src/matched/arm9/func_0206F6B0.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2p2', 'flags': '-O4,p
-- func_0206F844.c..func_0206FFA0.c: settings differ: src/matched/arm9/func_0206FC5C.c has {'compiler': '../2.0/sp2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2p2', 'flags': '-O4,p
-- func_0206FC5C.c..func_0206FFA0.c: settings differ: src/matched/arm9/func_0206FFA0.c has {'compiler': '../2.0/sp2p2', 'flags': '-O4,p -proc arm946e', 'lang': 'c99', 'isa': 'arm'}, first member {'compiler': '../2.0/sp2', 'flags': '-O4,p
-
-Status after the merge-lane pass (same-settings runs merged greedily; the blocker list above may include entries already resolved):
-
-Parts: 
-
-Members still separate:
-
-- `func_0206EB7C.c`
-- `func_0206EBB8.c`
-- `func_0206EC50.c`
-- `func_0206ECE0.c`
-- `func_0206EE60.c`
-- `func_0206F214.c`
-- `func_0206F36C.c`
-- `func_0206F4C8.c`
-- `func_0206F6B0.c`
-- `func_0206F844.c`
-- `func_0206FC5C.c`
-- `func_0206FFA0.c`
+Blockers (struct or helper conflicts only):
+- p01 | p02: two static helpers both named `entry_of` with different struct parameters ("object redefined"). Needs one canonical struct and one helper.
+- p02 | p03: func_0206F844 uses fields cnt04 and f08 of an object that the earlier parts view through an anonymous struct. Needs one named struct by offset.

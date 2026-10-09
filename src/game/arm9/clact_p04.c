@@ -1,251 +1,379 @@
 /*
  * file:     clact_p04.c
  * unit:     yes
- * function: func_0204C214, func_0204C2C8, func_0204C3CC
- * address:  0x0204C214
+ * function: func_0204CBB0, func_0204CC6C, func_0204CEB4, func_0204CED8, func_0204CF40
+ * address:  0x0204CBB0
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   MATCH
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   tbl_020A17D8   0x020A17D8  data
- *   tbl_020A17F0   0x020A17F0  data
- *   func_0204C3CC  0x0204C3CC  arm
+ *   func_02067AB8  0x02067AB8  arm
+ *   func_0204B658  0x0204B658  arm
+ *   func_02067B78  0x02067B78  arm
+ *   func_02065CE4  0x02065CE4  104 bytes  -- OPEN (pkt_02065CE4), 4 bytes
+ *   func_02065D4C  0x02065D4C  104 bytes  -- OPEN (pkt_02065D4C), twin of
+ *   func_02066080  0x02066080  220 bytes  -- OPEN (pkt_02065D4C), unattempted
+ *   func_020663D0  0x020663D0  arm
+ *   func_020664CC  0x020664CC  arm
+ *   func_02066620  0x02066620  arm
+ *   g_020A1B38     0x020A1B38  data
+ *   _fflt          0x0209BDBC  arm
+ *   _ffix          0x0209C494  arm
+ *   _fadd          0x0209C95C  arm
+ *   _fsub          0x0209CB8C  arm
+ *   sub_0204B8D4  0x0204B8D4  arm
+ *   sub_0204B49C  0x0204B49C  arm
+ *   sub_0204B84C  0x0204B84C  arm
+ *   sub_0204B878  0x0204B878  arm
+ *   sub_0204B95C  0x0204B95C  arm
+ *   sub_0204B784  0x0204B784  arm
+ *   sub_0204B728  0x0204B728  arm
  */
-struct C;
-struct M;
+struct Actor;
+struct G2dOamState;
+struct Obj02066080;
+struct Struct36;
+struct Xform;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-typedef short          s16_0204C214;
-
-typedef int            s32_0204C214;
-
-struct A { u16 f00; u16 f02; u16 f04; u16 f06; s16_0204C214 f08; s16_0204C214 f0a; s16_0204C214 f0c; s16_0204C214 f0e; };
-
-struct B { u8 pad_00[0x10]; s32_0204C214 f10; s32_0204C214 f14; };
-
-struct C { s32_0204C214 f00; s32_0204C214 f04; s32_0204C214 f08; s32_0204C214 f0c; };
-
-typedef signed short s16_0204C2C8;
-
-typedef signed int s32_0204C2C8;
-
-typedef union {
-    u32 attr01;
-    struct {
-        u32 y : 8;
-        u32 rsMode : 2;
-        u32 objMode : 2;
-        u32 mosaic : 1;
-        u32 colorMode : 1;
-        u32 shape : 2;
-        u32 x : 9;
-        u32 rsParam : 5;
-        u32 size : 2;
-    };
-} OamAttr;
-
 struct Elem {
-    u8 pad_00[0x30];
-    u32 visible;
-    u8 pad_34[4];
-    OamAttr oam;
+    u8  pad_00[0x60];
+    u32 pad_60_0  : 8;
+    u32 f_08      : 4;   /* 0x60, bits 8-11  */
+    u32 pad_60_1  : 4;
+    u32 f_10      : 2;   /* 0x60, bits 16-17 */
+    u32 f_12      : 2;   /* 0x60, bits 18-19 */
+    u32 pad_60_2  : 2;
+    u32 f_16      : 2;   /* 0x60, bits 22-23 */
+    u32 f_18      : 1;   /* 0x60, bit 24     */
+    u32 pad_60_3  : 7;
 };
 
-struct Pair {
-    s32_0204C2C8 x;
-    s32_0204C2C8 y;
+struct Rec {
+    u8  pad_00[0x84];
+    u32 unk_84;   /* 0x84 */
+    u16 unk_88;   /* 0x88 */
+    u16 pad_8a;
+    u32 unk_8c;   /* 0x8c */
+    u32 unk_90;   /* 0x90 */
 };
 
-struct Box {
-    u8 pad[0x10];
-    s32_0204C2C8 f10;
-    s32_0204C2C8 f14;
+typedef signed short   s16;
+
+typedef signed int     s32;
+
+typedef float          f32;
+
+struct Obj_0204CC6C {
+    u8  pad_00[0xc];
+    s16 unk_0c;       /* 0x0c */
+    s16 unk_0e;       /* 0x0e */
+    s16 unk_10;       /* 0x10 */
+    s16 unk_12;       /* 0x12 */
+    u32 unk_14;       /* 0x14 */
+    u32 unk_18;       /* 0x18 */
+    u8  pad_1c[0x3c];
+    u16 unk_58;       /* 0x58 */
+    u8  pad_5a[6];
+    u32 pad_60_0 : 18;
+    u32 unk_60_12 : 2; /* 0x60, bits 18-19 */
+    u32 pad_60_1 : 12;
+    u32 unk_64_0 : 1;  /* 0x64, bit 0 */
+    u32 pad_64_1 : 31;
+    u32 unk_68;        /* 0x68 */
+    u8  pad_6c[8];
+    u8  unk_74[0x30];  /* 0x74 */
+    u32 unk_a4;        /* 0xa4 */
 };
 
-typedef int s32_0204C3CC;
+struct Obj_0204CEB4 {
+    u8   pad_00[0x54];
+    u32  unk_54;
+    u8   pad_58[8];
+    u32  pad_60_lo : 25;
+    u32  enabled   : 1;
+    u32  pad_60_hi : 6;
+};
 
-typedef long long s64;
+struct Req_0204CED8 {
+    s16 unk_00;
+    s16 unk_02;
+    u16 unk_04;
+    u8  unk_06;
+    u8  unk_07;
+};
 
-struct M { s32_0204C3CC f00; s32_0204C3CC f04; s32_0204C3CC f08; s32_0204C3CC f0c; s32_0204C3CC f10; s32_0204C3CC f14; };
+struct Obj_0204CED8 {
+    u8  pad_00[0x60];
+    u32 low     : 8;
+    u32 flag_hi : 24;
+};
 
-extern int func_0204C3CC(s32_0204C2C8 dx, s32_0204C2C8 dy, s32_0204C2C8 x0, s32_0204C2C8 x1, s32_0204C2C8 y0, s32_0204C2C8 y1, const struct M *m, const struct C *c);
-extern const u16 tbl_020A17D8[4][4];
-extern const u16 tbl_020A17F0[4][4];
+struct Req_0204CF40 {
+    u16 unk_00;
+    u16 unk_02;
+    u32 unk_04;
+    u32 unk_08;
+};
+
+struct Obj_0204CF40 {
+    u8  pad_00[0x5c];
+    u16 unk_5c;
+    u16 unk_5e;
+};
+
+extern void func_02067AB8(struct G2dOamState *p, u32 mode);
+extern u32 func_0204B658(const struct Actor *actor, u32 which);
+extern void func_02067B78(struct G2dOamState *p, u32 h, u32 v);
+extern void func_020663D0(s32 x, s32 y, s32 z);
+extern void func_020664CC(s32 x, s32 y, s32 z);
+extern void func_02066620(s32 a, s32 b);
+extern void func_02065CE4(void *a0);
+extern void func_02065D4C(void *p);
+extern void func_02066080(struct Obj02066080 *c);
+extern void sub_0204B8D4(struct Obj_0204CEB4 *o, u32 arg);
+extern void sub_0204B49C(struct Actor *o, s16 value, u32 space, u32 axis);
+extern void sub_0204B84C(struct Obj_0204CED8 *o, u8 value);
+extern void sub_0204B878(struct Obj_0204CED8 *o, u16 value);
+extern void sub_0204B95C(struct Actor *a);
+extern void sub_0204B784(char *dst, const struct Struct36 *src);
+extern void sub_0204B728(struct Obj_0204CF40 *o, const struct Xform *m);
+extern s16 g_020A1B38[];
 
 
 /*
- * The axis-aligned sibling of func_0204C060 (clact.c): take the sprite's four
- * half-extents in 20.12 fixed point, translate by the camera delta and cull
- * against the viewport.  Where func_0204C060 runs the extents through a 2x2
- * matrix, this one adds the deltas straight to them.  No relocations.
+ * Publishes five bitfields of the element's flag word at +0x60 into the
+ * render record: the two-bit mode at bits 18-19 through func_02067AB8, the
+ * two corner values through func_02067B78 when that mode is zero, then the
+ * four-bit value at bits 8-11 into +0x84, bit 24 into +0x90, bits 22-23 into
+ * +0x8c and bits 16-17 into +0x88.
  *
- * Four levers, all measured against the image (docs/notes/pkt_0204C060.c.txt
- * had this row at 37-148 bytes out before the second pass):
- *  - The fall-through arm is the `flag == 1` field arm and the synthetic arm
- *    is the predicated one (`rsbne`/`lslne`/`movne` + `bne` over the fields).
- *    That only happens when the 6-bit extraction is hoisted ABOVE the `if`.
- *  - `dy` is declared before `dx` (the image's first `sub` is
- *    `b->f10 - c->f00`); swapping them costs 8 bytes.
- *  - The four sums must be computed as named locals in the order
- *    ay, ax, bx, by BEFORE the `&&` chain; computing them inside the chain
- *    makes the compiler interleave the adds with the branches (115 out).
- *  - The extraction must go through an explicit u8 narrowing of the MASK,
- *    `(s32)(u8)(w & 0x3f)` then `(m6 << 2) & 0xff`, exactly as
- *    func_0204C060 documents.  Every spelling that masks first and narrows
- *    the SHIFTED value -- `(u8)((w & 0x3f) << 2)`, `((w & 0x3f) << 2) & 0xff`,
- *    the u32 and the `* 4` forms -- lets 1.1p1 prove the field contiguous and
- *    fuse it into `lsl #26` + `lsr #24`, where the image keeps
- *    `and #0x3f` + `lsl #2` + `and #0xff`.  This was the final 6-byte residue;
- *    tools/permuter.py exhausted 261 single mutations on it without moving it,
- *    which is the "residue is in the reading, not the allocation" signature.
+ * The +0x84 store is three instructions of arithmetic that computes nothing:
+ * `(v | m) & ~(~m)` is `m`, and mwccarm folds every direct spelling of it
+ * away.  The cast between the two complements, and the statement boundaries
+ * that put the first `mvn` ahead of the `orr`, are what keep all five
+ * instructions:
+ * docs/idioms/a-cast-between-two-complements-is-what-keeps-both-mvns.md.
+ *
+ * Decompiled so that it becomes a `matched` witness for the call at
+ * 0x0204CB44+0x3c (src/pending/func_0204CB44.c).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0204C214.c \
- *       --func func_0204C214 --addr 0x0204C214 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0204CBB0.c \
+ *       --func func_0204CBB0 --addr 0x0204CBB0 --cc 1.1p1 --arm
  */
-int func_0204C214(struct A *a, struct B *b, struct C *c)
+void func_0204CBB0(struct Elem *e, struct Rec *r)
 {
-    u16 w = a->f02;
-    s32_0204C214 m6 = (s32_0204C214)(u8)(w & 0x3f);
-    s32_0204C214 v = (m6 << 2) & 0xff;
-    s32_0204C214 dy = b->f10 - c->f00;
-    s32_0204C214 dx = b->f14 - c->f04;
-    s32_0204C214 x0, y0, x1, y1;
-    s32_0204C214 ax, ay, bx, by;
+    u32 a, b, v;
+    int n;
+    u8  m;
 
-    if (((w >> 11) & 1) == 1) {
-        x0 = a->f0e << 12;
-        y0 = a->f0a << 12;
-        x1 = a->f0c << 12;
-        y1 = a->f08 << 12;
-    } else {
-        x0 = -v << 12;
-        y0 = v << 12;
-        x1 = -v << 12;
-        y1 = v << 12;
+    func_02067AB8((struct G2dOamState *)r, e->f_12);
+
+    if (e->f_12 == 0) {
+        a = func_0204B658((const struct Actor *)e, 0);
+        b = func_0204B658((const struct Actor *)e, 1);
+        func_02067B78((struct G2dOamState *)r, b, a);
     }
-    ay = y0 + dx;
-    ax = x0 + dx;
-    bx = x1 + dy;
-    by = y1 + dy;
-    return ay > 0 && ax < c->f0c && by > 0 && bx < c->f08;
+
+    m = e->f_08;
+    n = ~m;
+    v = r->unk_84 | m;
+    r->unk_84 = v & ~(u32)n;
+    r->unk_90 = e->f_18;
+    r->unk_8c = e->f_16;
+    r->unk_88 = (u8)e->f_10;
 }
 
 
-static inline s32_0204C2C8 RepeatX(s16_0204C2C8 x)
+#define CONV(d, v) do { s32 _t = (v); if (_t > 0) { (d) = (f32)(_t << 12) + 0.5f; } else { (d) = (f32)(_t << 12) - 0.5f; } } while (0)
+
+
+/*
+ * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
+ *
+ * All 584 concrete bytes are right; 36 of 40 relocation sites resolve.  The
+ * four that do not are the three fan-in-1 callees of the trailing switch:
+ *
+ *   func_02065CE4  0x02065CE4  104 bytes  -- OPEN (pkt_02065CE4), 4 bytes
+ *                                            from EXACT, see
+ *                                            docs/notes/func_02065CE4.c.txt
+ *   func_02065D4C  0x02065D4C  104 bytes  -- OPEN (pkt_02065D4C), twin of
+ *                                            the above, same near miss
+ *   func_02066080  0x02066080  220 bytes  -- OPEN (pkt_02065D4C), unattempted
+ *
+ * Each has exactly one branch reference image-wide and it is the call in this
+ * function, so `label` cannot see them and a single function cannot be split.
+ * Closing all three turns this file EXACT and makes it the `matched` witness
+ * that src/pending/func_0204CB44.c's last open site needs.
+ *
+ * What it does.  Publishes the cell actor's two coordinate pairs into the
+ * render state.  Each s16 field is converted with the same inlined helper:
+ * the fixed-point value `v << 12` is turned into a float and rounded half
+ * away from zero, `(f32)(v << 12) + 0.5f` for a positive v and
+ * `(f32)(v << 12) - 0.5f` otherwise, then truncated back to s32 by the
+ * soft-float runtime.  The
+ * second pair is published only when the 2-bit field at 0x60 bits 18-19 is
+ * set, is followed by a scale (func_020664CC, 0x1000 == FX32_ONE) and a
+ * rotation read as a pair of s16 from the table at 0x020A1B38 indexed by
+ * `unk_58 >> 4`, and is then undone by publishing the negated pair.  The
+ * trailing switch on +0x68 picks the draw path; case 0 splits again on bit 0
+ * of +0x64.
+ *
+ * The add in the first arm is the expression form: mwccarm canonicalises the
+ * commutative add so the constant becomes the first operand and the call is
+ * `_fadd(0.5f, t)`, which is what the image has.  See
+ * docs/idioms/a-soft-float-add-puts-the-constant-first-unless-it-is-a-compound-assignment.md
+ * (this file was matched earlier as `0.5f - t' / `t += 0.5f' against swapped
+ * _fsub/_fadd addresses; 0x0209C95C is the add, 0x0209CB8C the subtract).
+ */
+void func_0204CC6C(struct Obj_0204CC6C *o)
 {
-    if (x > 0xff)
-        x |= ~0xff;
-    return x;
+    f32 a, b;
+    s32 i;
+
+    CONV(a, o->unk_0e);
+    CONV(b, o->unk_0c);
+    func_020663D0((s32)b, (s32)a, 0);
+
+    if (o->unk_60_12 != 0) {
+        CONV(a, o->unk_12);
+        CONV(b, o->unk_10);
+        func_020663D0((s32)b, (s32)a, 0);
+
+        func_020664CC(o->unk_14, o->unk_18, 0x1000);
+
+        i = o->unk_58 >> 4;
+        func_02066620(g_020A1B38[i * 2], g_020A1B38[i * 2 + 1]);
+
+        CONV(a, o->unk_12);
+        CONV(b, o->unk_10);
+        func_020663D0(-(s32)b, -(s32)a, 0);
+    }
+
+    switch (o->unk_68) {
+    case 0:
+        if (o->unk_64_0 == 1) {
+            func_02065CE4((void *)o->unk_a4);
+        } else {
+            func_02065D4C(o->unk_74);
+        }
+        break;
+    case 1:
+        func_02065D4C(o->unk_74);
+        break;
+    case 2:
+        func_02066080((struct Obj02066080 *)o->unk_74);
+        break;
+    }
 }
 
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_0204CC6C.c \
+ *       --func func_0204CC6C --addr 0x0204CC6C --cc 1.1p1 --arm
+ */
 
-static inline s32_0204C2C8 RepeatY(s16_0204C2C8 y)
+
+/*
+ * Run the object through sub_0204B8D4, but only when the flag word at +0x60
+ * has its seventh bit set.
+ *
+ * `lsl #6; lsr #31` with nothing that could be a type conversion is a
+ * one-bit unsigned bitfield
+ * (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).  The
+ * pair names the bit from the top: `lsl #6` says six bits sit above it, so
+ * it is bit 25 counting from the least significant end, and this front end
+ * allocates bitfields from the least significant end upward, which means
+ * twenty-five bits of padding must be declared before it.  Declaring the
+ * six-bit pad first instead gives `lsl #25` and is the whole difference
+ * between the two spellings.  The guard is `== 1`, not a plain truth test, which
+ * is why the comparison survives as an explicit `cmp r1, #1` instead of
+ * folding into the shift's flags.
+ *
+ * sub_0204B8D4 takes one argument; the `ldr r1, [r0, #0x54]` that precedes
+ * the call is a second, forwarded value this function reads but that callee
+ * ignores (src/pending/sub_0204B8D4.c).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_0204CEB4.c \
+ *       --func sub_0204CEB4 --addr 0x0204CEB4 --cc 1.1p1 --arm
+ */
+void sub_0204CEB4(struct Obj_0204CEB4 *o)
 {
-    if (y > 0x7f)
-        y |= ~0xff;
-    return y;
-}
-
-static inline u16 SizeX(s32_0204C2C8 shape)
-{
-    return tbl_020A17F0[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
-}
-
-
-static inline u16 SizeY(s32_0204C2C8 shape)
-{
-    return tbl_020A17D8[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
+    if (o->enabled == 1) {
+        sub_0204B8D4(o, o->unk_54);
+    }
 }
 
 
 /*
- * The OAM cull callback func_0204BE38 installs at element +0x40: read the
- * element's GXOamAttr attr01 word (+0x38), wrap x (9 bits) and y (8 bits),
- * size the object from the OBJ width/height tables indexed [shape][size],
- * and store func_0204C3CC's verdict into the element's visible flag (+0x30).
- * box is the 2x2 matrix plus translation (f10/f14), p the viewport.
+ * Apply the seven-field request to the object: the two signed halfwords at
+ * +0 and +2 are the two axes of the same setter, selected by a trailing
+ * 0/1; the byte at +6 replaces the low eight bits of the flag word at
+ * +0x60; the byte at +7 and the halfword at +4 go to their own setters, and
+ * sub_0204B95C commits the result.
  *
- * Lever (wave 16, declaration facts): the two OBJ size tables are
- * read-only data and are declared `const`.  Without const every register
- * name of the second half shuffled (58 bytes, flat under 120 declaration
- * orders, 80 index casts and two anneals); with it, EXACT.  const on the
- * p parameter is wrong (264 bytes); const on box and on the callee's
- * pointer parameters is neutral.
+ * `ldrsh` with no immediate offset form is the only evidence that the first
+ * two fields are `s16` rather than `u16`
+ * (docs/idioms/ldrsh-register-offset-is-signedness.md); the third is
+ * `ldrh`, so the request really does mix the two.
+ *
+ * The flag-word update is a plain `bic #0xff` / `orr`, with no shift on
+ * either side, which places the field at bit 0 and fixes its width at
+ * eight: the value comes from an `ldrb`, so nothing has to mask it first.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_0204CED8.c \
+ *       --func sub_0204CED8 --addr 0x0204CED8 --cc 1.1p1 --arm
  */
-void func_0204C2C8(struct Elem *e, struct Pair *p, s32_0204C2C8 u2, s32_0204C2C8 u3, struct Box *box)
+void sub_0204CED8(struct Obj_0204CED8 *o, const struct Req_0204CED8 *r, u32 space)
 {
-    s32_0204C2C8 shape = e->oam.attr01 & 0xC000C000;
-    s32_0204C2C8 x0 = RepeatX(e->oam.x) << 12;
-    s32_0204C2C8 x1 = (RepeatX(e->oam.x) + SizeX(shape)) << 12;
-    s32_0204C2C8 y0 = RepeatY(e->oam.y) << 12;
-    s32_0204C2C8 y1 = (RepeatY(e->oam.y) + SizeY(shape)) << 12;
-
-    e->visible = func_0204C3CC(box->f10 - p->x, box->f14 - p->y,
-                               x0, x1, y0, y1, (const struct M *)box, (const struct C *)p) != 0;
+    sub_0204B49C((struct Actor *)o, r->unk_00, space, 0);
+    sub_0204B49C((struct Actor *)o, r->unk_02, space, 1);
+    o->low = r->unk_06;
+    sub_0204B84C(o, r->unk_07);
+    sub_0204B878(o, r->unk_04);
+    sub_0204B95C((struct Actor *)o);
 }
 
 
-#define fxmul(a, b) ((s32_0204C3CC)((((s64)(a) * (s64)(b)) + 0x800) >> 12))
-
-
 /*
- * The 2x2-matrix cull test behind func_0204C2C8 (its only caller): transform
- * the four corners (x0,y0) (x0,y1) (x1,y0) (x1,y1) of an OAM rectangle through
- * the matrix m (20.12, rounded +0x800), take min/max per axis, translate by the
- * camera delta (dx, dy) and test against the viewport c->f08 / c->f0c.  Eight
- * arguments: dx, dy, x0, x1 in r0-r3; y0, y1, m, c on the stack.
+ * Apply a four-field request to the object: the two words at +4 and +8 go
+ * through the setters at 0x0204B784 and 0x0204B728, the two halfwords at +0
+ * and +2 are copied straight into the object's +0x5c/+0x5e pair.
  *
- * Levers, all measured (wave 10):
- *  - the four translated bounds are added EAGERLY as statements
- *    (`minx += dx; maxx += dx; miny += dy; maxy += dy;`) before the `&&`
- *    chain, same lever as func_0204C214; inline in the chain: 41-66 out.
- *  - declaration order `maxx, minx, maxy, miny` and the seed order
- *    `min = p; max = p;` put the minimum in p's register and the maximum in
- *    the copy (r4/lr, sb/r7), as the image has it; any other order swaps the
- *    pair (25-37 out).  Found by tools/permuter.py (decl-order + reorder),
- *    then closed by sweeping all 240 decl/seed orders.
- *  - the umull/mla (not smull) products from the second use of each
- *    coordinate on are the CSE'd `(s64)` sign halves, not a different macro.
+ * Both halfwords are loaded before either is stored, which is the ordinary
+ * effect of the two loads having no dependence on the stores: reading them
+ * one at a time would have interleaved `ldrh`/`strh`.
+ *
+ * Was capped at MATCH: the PC24 site at +0x1c names 0x0204B728 and this is
+ * that address's only branch site anywhere in the image, so `label` has
+ * nothing outside the compared range to point at, and the two functions are
+ * not contiguous, so no unit can make the site `local` either.  0x0204B728
+ * is now EXACT in src/matched/sub_0204B728.c (the blocker there was one
+ * `const` on the source pointer of its closing struct assignment, see
+ * docs/idioms/const-source-pointer-schedules-the-block-load-first.md), and
+ * the site resolves `matched` against it.  The C in this file is unchanged.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_0204CF40.c \
+ *       --func sub_0204CF40 --addr 0x0204CF40 --cc 1.1p1 --arm
  */
-int func_0204C3CC(s32_0204C3CC dx, s32_0204C3CC dy, s32_0204C3CC x0, s32_0204C3CC x1, s32_0204C3CC y0, s32_0204C3CC y1,
-                  const struct M *m, const struct C *c)
+void sub_0204CF40(struct Obj_0204CF40 *o, const struct Req_0204CF40 *r)
 {
-    s32_0204C3CC maxx, minx, maxy, miny;
-    s32_0204C3CC p;
-
-    p = fxmul(x0, m->f00) + fxmul(y0, m->f08);
-    minx = p;
-    maxx = p;
-    p = fxmul(x0, m->f00) + fxmul(y1, m->f08);
-    if (p < minx) minx = p; else if (p > maxx) maxx = p;
-    p = fxmul(x1, m->f00) + fxmul(y0, m->f08);
-    if (p < minx) minx = p; else if (p > maxx) maxx = p;
-    p = fxmul(x1, m->f00) + fxmul(y1, m->f08);
-    if (p < minx) minx = p; else if (p > maxx) maxx = p;
-
-    p = fxmul(x0, m->f04) + fxmul(y0, m->f0c);
-    miny = p;
-    maxy = p;
-    p = fxmul(x0, m->f04) + fxmul(y1, m->f0c);
-    if (p < miny) miny = p; else if (p > maxy) maxy = p;
-    p = fxmul(x1, m->f04) + fxmul(y0, m->f0c);
-    if (p < miny) miny = p; else if (p > maxy) maxy = p;
-    p = fxmul(x1, m->f04) + fxmul(y1, m->f0c);
-    if (p < miny) miny = p; else if (p > maxy) maxy = p;
-
-    minx += dx; maxx += dx; miny += dy; maxy += dy;
-    if (maxy > 0 && miny < c->f0c && maxx > 0 && minx < c->f08)
-        return 1;
-    return 0;
+    sub_0204B784((char *)o, (const struct Struct36 *)r->unk_04);
+    sub_0204B728(o, (const struct Xform *)r->unk_08);
+    o->unk_5c = r->unk_00;
+    o->unk_5e = r->unk_02;
 }

@@ -1,8 +1,8 @@
 /*
  * file:     field_effect_p09.c
  * unit:     yes
- * function: func_021A9604, func_021A96B8, func_021A9780, func_021A9810
- * address:  0x021A9604
+ * function: func_021AACD4, func_021AAE34
+ * address:  0x021AACD4
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,197 +13,208 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0219390C  0x0219390C  thumb  ov021
- *   func_02193C00  0x02193C00  thumb  ov021
- *   func_020056EC  0x020056EC  thumb
+ *   func_02188C98  0x02188C98  thumb  ov021
  *   func_02082BCC  0x02082BCC  arm
- *   func_020084F4  0x020084F4  thumb
- *   func_02008550  0x02008550  thumb
- *   func_02017588  0x02017588  thumb
- *   func_02017E40  0x02017E40  thumb
- *   func_020185C4  0x020185C4  thumb
- *   func_02018A00  0x02018A00  thumb
- *   func_0201ADE4  0x0201ADE4  thumb
- *   func_0201AE14  0x0201AE14  thumb
- *   func_021A9CAC  0x021A9CAC  thumb
- *   func_021A9D30  0x021A9D30  thumb
- *   func_0200D4B8  0x0200D4B8  thumb
- *   func_021A99A8  0x021A99A8  thumb
+ *   func_0218D168  0x0218D168  thumb  ov021
+ *   func_0218DBD4  0x0218DBD4  thumb  ov021
+ *   func_021AABF4  0x021AABF4  thumb  ov021
+ *   func_0209BDBC  0x0209BDBC  arm
+ *   func_0209C95C  0x0209C95C  arm
+ *   func_0209CB8C  0x0209CB8C  arm
+ *   func_0209C494  0x0209C494  arm
+ *   func_0218DBAC  0x0218DBAC  thumb  ov021
+ *   func_021AB504  0x021AB504  thumb  ov021
+ *   func_02005728  0x02005728  thumb
+ *   func_02012A38  0x02012A38  thumb
+ *   func_021AAEC0  0x021AAEC0  thumb
+ *   func_02188C9C  0x02188C9C  thumb
+ *   func_021AABEC  0x021AABEC  thumb
+ *   func_021AAFC0  0x021AAFC0  thumb
  */
-struct Mon;
-struct Sub0200852CObj;
-struct GdsEnt;
-struct Entry8;
+struct Ctx;
+struct BigObj;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct Sel {
-    u8 pad00[8];
-    int f08;
-};
-
-struct Out {
-    u16 f00;
-    u16 f02;
-    u8 f04;
-    u8 f05;
-    u8 f06;
-    u8 f07;
-};
-
 typedef signed char    s8;
 
-typedef signed short   s16;
+typedef signed short   s16_021AACD4;
 
 typedef signed int     s32;
 
-typedef unsigned long long u64;
+typedef struct Vec { int x, y, z; } Vec;
 
-struct Unit_021A96B8 {
+struct Area {
+    s16_021AACD4 x;
+    s16_021AACD4 y;
+    s16_021AACD4 mx;
+    s16_021AACD4 my;
+    s16_021AACD4 bx;
+    s16_021AACD4 by;
+    u16 ox;
+    u16 oy;
+    s16_021AACD4 x0;
+    s16_021AACD4 y0;
+    s16_021AACD4 x1;
+    s16_021AACD4 y1;
+};
+
+struct Cell {
     u8 pad00[8];
-    int f08;
-    u8 pad0C[0x11];
-    u8 f1D;
-    u8 pad1E[2];
-    u32 f20;
-    void *f24;
-    u32 b0 : 9;
-    u32 b9 : 1;
-    u32 b10 : 1;
+    u32 f08;
+    u32 f0C;
 };
 
-struct Slot14 { u16 f00; u16 f02; u8 f04; u8 f05; u8 f06; u8 f07; };
-
-struct Unit_021A9780 {
-    u8 pad00[0x20];
-    u32 f20;
+struct Spot {
+    u8 kind;
+    u8 pad01;
+    s16_021AACD4 x;
+    u8 pad04[2];
+    u16 y;
+    u32 f08;
 };
 
-extern void *func_0219390C(void *a, u32 b);
-extern u8 *func_02193C00(int a);
-extern u32 func_020056EC(u32 v);
+struct Enc {
+    u8 pad00[4];
+    u16 count;
+    u8 pad06[2];
+    struct Spot spots[121];
+};
+
+typedef short s16_021AAE34;
+
+typedef struct {
+    u8 b0;
+    u8 pad1;
+    u16 h2;
+    u16 h4;
+    u16 h6;
+    int f8;
+} E;
+
+typedef struct {
+    int f0;
+    u16 h4;
+    u16 pad6;
+    E e[1];
+} R;
+
+typedef struct {
+    u16 h0;
+    u16 h2;
+    u16 h4;
+    u16 h6;
+    int f8;
+    u8 bc;
+    u8 lo : 4;
+    u8 mid : 2;
+    u8 hi : 2;
+    u8 pad[2];
+} Sub;
+
+typedef struct {
+    u8 pad[0x10];
+    Sub sub;
+} T;
+
+typedef struct {
+    int f0;
+    int f4;
+    int f8;
+} S;
+
+extern u32 func_02188C98(u8 *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_0201ADE4(unsigned int a, int b, unsigned int c);
-extern u32 func_021A9D30(struct Unit_021A96B8 *u, void *src, struct Slot14 *s);
-extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void func_02017E40(void *p, u32 id, u32 v);
-extern void func_02018A00(void *p, u32 a, u32 b);
-extern void func_021A9CAC(void *mon, void *src, int a, int b);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern const void *func_020084F4(const void *p);
-extern void func_020185C4(void *p);
-extern void func_0201AE14(void *p);
-extern u32 func_0200D4B8(const struct GdsEnt *e, u32 i);
-extern const struct Entry8 *func_021A99A8(void *p);
-u32 func_021A9604(int obj, struct Sel *sel, struct Out *out);
-void func_021A96B8(void *mon, const struct Unit_021A96B8 *u, struct Slot14 *s);
-void func_021A9780(void *mon, const struct Unit_021A9780 *u, void *src);
-u16 func_021A9810(int a);
+extern int func_0218D168(char *p);
+extern int func_0218DBD4(char *p, int i);
+extern void func_021AABF4(struct Ctx *ctx, void *unused, struct Area *a);
+extern int func_0209BDBC(int a);
+extern int func_0209C95C(int a, int b);
+extern int func_0209CB8C(int a, int b);
+extern int func_0209C494(int a);
+extern int func_0218DBAC(u8 *a, int idx, u32 c, u8 *d);
+extern int func_021AB504(u32 attr);
+extern u32 func_02005728(u32 n);
+extern u32 func_02012A38(const struct BigObj *p);
+extern int func_021AAEC0(S *s, s16_021AAE34 x, s16_021AAE34 y, s16_021AAE34 z, int w);
+extern u16 func_02188C9C(u8 *p);
+extern void func_021AABEC(u8 *p);
+extern void func_021AAFC0(S *s, R *r, Sub *b);
+void func_021AACD4(void **ctx, struct Enc *e);
+void func_021AAE34(S *s, R *r);
 
 
 /*
  * Addresses are Black-image addresses.
  */
-u32 func_021A9604(int obj, struct Sel *sel, struct Out *out)
+void func_021AACD4(void **ctx, struct Enc *e)
 {
-    u32 k;
-    u32 sum;
-    u32 r;
-    int i;
-    u8 *q;
-    int p;
+    Vec v;
+    struct Area a;
+    struct Cell c;
+    int idx;
+    int xs;
+    s16_021AACD4 y;
+    s16_021AACD4 x;
+    u32 m;
+    int r;
+    int k;
 
-    switch (sel->f08) {
-    case 0:
-        k = 0;
-        break;
-    case 1:
-        k = 1;
-        break;
-    case 3:
-        k = 2;
-        break;
-    case 0xFF:
-        return 0;
-    }
-    sum = 0;
-    for (i = 0; i < 30; i++) {
-        p = (int)func_0219390C((void *)obj, i);
-        if (p) {
-            sum += func_02193C00(p)[k + 0x14];
-        }
-    }
-    r = func_020056EC(sum);
-    sum = 0;
-    for (i = 0; i < 30; i++) {
-        p = (int)func_0219390C((void *)obj, i);
-        if (p) {
-            q = func_02193C00(p);
-            sum += q[k + 0x14];
-            if (r < sum) {
-                func_02082BCC(out, 0, 0x14);
-                out->f00 = ((u16 *)(q + 8))[k];
-                out->f04 = (q + k)[0x10];
-                return 1;
+    m = func_02188C98(ctx[0]);
+    func_02082BCC(&e->count, 0, 0x5B0);
+    v.y = 0;
+    idx = func_0218D168((char *)m);
+    if (func_0218DBD4((char *)m, idx) == 0)
+        return;
+    func_021AABF4((struct Ctx *)ctx, e, &a);
+    y = a.y0;
+    if ((y << 4) > 0)
+        r = func_0209C95C(0x3f000000, func_0209BDBC(y << 16));
+    else
+        r = func_0209CB8C(func_0209BDBC(y << 16), 0x3f000000);
+    v.z = func_0209C494(r) + 0x8000;
+    if ((a.x0 << 4) > 0)
+        r = func_0209C95C(0x3f000000, func_0209BDBC(a.x0 << 16));
+    else
+        r = func_0209CB8C(func_0209BDBC(a.x0 << 16), 0x3f000000);
+    xs = func_0209C494(r) + 0x8000;
+    for (; y <= a.y1; y++) {
+        v.x = xs;
+        for (x = a.x0; x <= a.x1; x++) {
+            func_0218DBAC((u8 *)m, idx, (u32)(&v), (u8 *)(&c));
+            k = func_021AB504(c.f08);
+            if (k != 8) {
+                e->spots[e->count].kind = k;
+                e->spots[e->count].x = x;
+                e->spots[e->count].y = y;
+                e->spots[e->count++].f08 = c.f0C;
             }
+            v.x += 0x10000;
         }
+        v.z += 0x10000;
     }
-    return 0;
 }
 
 
-void func_021A96B8(void *mon, const struct Unit_021A96B8 *u, struct Slot14 *s)
+void func_021AAE34(S *s, R *r)
 {
-    void *pd = func_0201ADE4(s->f00, s->f05, 4);
-    u32 pid = func_021A9D30((struct Unit_021A96B8 *)u, pd, s);
-
-    func_02017588(mon, s->f00, s->f04, u->f20, 0xFFFFFFFF, pid);
-    func_02017E40(mon, 0x6F, s->f05);
-    if (s->f07)
-        func_02018A00(mon, s->f00, s->f05);
-    if (s->f02 <= 0x272) {
-        if (s->f02 != 0)
-            func_02017E40(mon, 6, s->f02);
-        else
-            func_021A9CAC(mon, pd, u->b9, u->f08 == 1);
+    u16 k = func_02005728(r->h4);
+    E *e = &r->e[k];
+    T *t = (T *)func_02012A38((const struct BigObj *)s->f8);
+    Sub *b = &t->sub;
+    e->h4 = (e->f8 >> 4) / 0x1000;
+    if (func_021AAEC0(s, e->h2, e->h4, e->h6, 0) == 0) {
+        b->h2 = e->h2;
+        b->h4 = e->h4;
+        b->h6 = e->h6;
+        b->f8 = e->f8;
+        b->bc = e->b0;
+        b->h0 = func_02188C9C((u8 *)s->f0);
+        b->lo = 1;
+        func_021AABEC((u8 *)t);
+        func_021AAFC0(s, r, b);
     }
-    func_02017E40(mon, 0x9A, func_02008550(u->f24));
-    func_02017E40(mon, 0x8E, (u32)func_020084F4(u->f24));
-    if (u->b10)
-        func_02017E40(mon, 0x70, u->f1D);
-    func_020185C4(mon);
-    func_0201AE14(pd);
-}
-
-
-/*
- * Addresses are Black-image addresses.
- *
- * Lever: `const struct Unit *u` settles the argument scheduling before the
- * func_02017588 call (as in ov021_func_021A96B8.c).
- */
-void func_021A9780(void *mon, const struct Unit_021A9780 *u, void *src)
-{
-    u16 species = func_0200D4B8(src, 4);
-    u8 level = func_0200D4B8(src, 6);
-    u32 pow = func_0200D4B8(src, 2);
-
-    func_02017588(mon, species, level, u->f20, pow, func_0200D4B8(src, 3));
-    func_02017E40(mon, 0x70, func_0200D4B8(src, 10));
-    func_02017E40(mon, 0x9D, func_0200D4B8(src, 7));
-    func_02017E40(mon, 0xA0, func_0200D4B8(src, 5));
-    func_020185C4(mon);
-}
-
-
-u16 func_021A9810(int a)
-{
-    u16 *p = (u16 *)func_021A99A8((void *)a);
-    if (p == 0) {
-        return 0xffff;
-    }
-    return *p;
 }

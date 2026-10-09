@@ -1,8 +1,8 @@
 /*
  * file:     unit_0215FDA4_p09.c
  * unit:     yes
- * function: func_02160E1C, func_02160EE0
- * address:  0x02160E1C
+ * function: func_02161480, func_021614BC, func_02161598
+ * address:  0x02161480
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,104 +13,116 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02160E0C  0x02160E0C  arm  ov009
- *   func_02160DB4  0x02160DB4  arm  ov009
+ *   decrypt_premaster_secret  0x02160F80  arm
+ *   create_master_secret      0x02161264  arm
+ *   cache_session             0x0215FEE0  arm
+ *   create_key_block          0x021612C8  arm
+ *   func_02163438  0x02163438  arm  ov009
  *   func_02082BCC  0x02082BCC  arm
- *   func_02082D44  0x02082D44  arm
- *   func_0215FDA4  0x0215FDA4  arm  ov009
+ *   func_021634F0  0x021634F0  arm  ov009
+ *   func_021633F0  0x021633F0  arm  ov009
+ *   g_021A1D98     0x021A1D98  data
+ *   g_021A1DA0     0x021A1DA0  data
+ *   func_02163CF0  0x02163CF0  arm  ov009
+ *   func_02163DA8  0x02163DA8  arm  ov009
+ *   func_02163C9C  0x02163C9C  arm  ov009
  */
-typedef struct CPSSslConnection_02160E1C {
-    unsigned char pad0[0x30];
-    unsigned char cache;                /* +0x30 */
-    unsigned char pad31;
-    unsigned short method;              /* +0x32 */
-    unsigned char random[0x20];         /* +0x34 */
-    unsigned char pad54[0x455 - 0x54];
-    unsigned char state;                /* +0x455 */
-} CPSSslConnection_02160E1C;
+struct _CPSSslConnection_02161480 {
+    char pad0[0x455];
+    unsigned char f455;
+    char pad1[0x81c - 0x455 - 1];
+    void *f81c;
+};
 
-typedef struct CPSSslConnection_02160EE0 {
-    unsigned char pad0[0x30];
-    unsigned char cache;                /* +0x30 */
-    unsigned char pad31;
-    unsigned short method;              /* +0x32 */
-    unsigned char random[0x74 - 0x34];  /* +0x34 */
-    unsigned char session_id[0x455 - 0x74];  /* +0x74 */
-    unsigned char state;                /* +0x455 */
-} CPSSslConnection_02160EE0;
+struct _CPSSslConnection_021614BC {
+    unsigned char master_secret[48];
+    char pad0[0x3a4 - 0x30];
+    unsigned char md5_hash[0x58];
+    char pad1[0x454 - 0x3fc];
+    unsigned char server;
+};
 
-extern int func_02160E0C(unsigned char major, unsigned char minor);
-extern int func_02160DB4(int a0, int a1, int a2);
+struct _CPSSslConnection_02161598 {
+    unsigned char master_secret[48];
+    char pad0[0x2ec - 0x30];
+    unsigned char sha1_hash[0x5c];
+    char pad1[0x454 - 0x348];
+    unsigned char server;
+};
+
+extern void decrypt_premaster_secret(unsigned char *d, unsigned char *s, void *k);
+extern void create_master_secret(struct _CPSSslConnection_02161480 *con);
+extern void cache_session(struct _CPSSslConnection_02161480 *con, unsigned long ip,
+                          unsigned short port);
+extern void create_key_block(struct _CPSSslConnection_02161480 *con);
+extern void func_02163438(void *ctx, void *data0, int datalen);
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
-extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
-extern void func_0215FDA4(CPSSslConnection_02160EE0 *con);
+extern void func_021634F0(void *ctx, unsigned char *digest);
+extern void func_021633F0(void *ctx);
+extern void func_02163CF0(void *ctx, void *data0, int datalen);
+extern void func_02163DA8(void *ctx, unsigned char *digest);
+extern void func_02163C9C(void *ctx);
+void func_021614BC(struct _CPSSslConnection_021614BC *con, unsigned char *d, int flag);
+void func_02161598(struct _CPSSslConnection_02161598 *con, unsigned char *d, int flag);
+extern int g_021A1D98;
+extern int g_021A1DA0;
 
 
-/*
- * sdk:      client_hello_v2 (libssl.TWL.HYB.a(ssl.o))
- *
- * The offset `pairlist_len + 8 + sessionID_len` needs a local of its own
- * (`offset`); accumulating it back into pairlist_len colours r4/r5/r6/r7 as
- * pairlist_len/s/con/random_len where the vendor has pairlist_len/random_len/
- * s/con, which also pushes the s[4] temp out of r5 and into ip.  With the
- * separate name the coalescer merges pairlist_len and offset back into one
- * register and all four land as the vendor has them.
- *
- * Declaration order is inert here: all 24 permutations of the four locals
- * compile to the same 26-byte DIFF.
- */
-static void func_02160E1C(CPSSslConnection_02160E1C *con, unsigned char *s)
+static void rcv_client_key_exchange(struct _CPSSslConnection_02161480 *con, unsigned char *s)
 {
-    int pairlist_len;
-    int offset;
-    int sessionID_len;
-    int random_len;
-    unsigned short method;
-
-    if (!func_02160E0C(s[0], s[1]))
-        return;
-    pairlist_len = (s[2] << 8) + s[3];
-    method = func_02160DB4((int)(s + 8), pairlist_len / 3, 3);
-    if (method == 0)
-        return;
-    con->method = method;
-    sessionID_len = (s[4] << 8) + s[5];
-    random_len = (s[6] << 8) + s[7];
-    con->cache = 0;
-    offset = pairlist_len + 8 + sessionID_len;
-    if (random_len >= 0x20) {
-        func_02082D44(s + offset, con->random, 0x20);
-    } else {
-        func_02082BCC(con->random, 0, 0x20 - random_len);
-        func_02082D44(s + offset, con->random + 0x20 - random_len, random_len);
-    }
-    con->state = 1;
+    decrypt_premaster_secret((unsigned char *)con, s, con->f81c);
+    create_master_secret(con);
+    cache_session(con, 0, 0);
+    create_key_block(con);
+    con->f455 = 5;
 }
 
 
 /*
- * sdk:      client_hello (libssl.TWL.HYB.a(ssl.o))
+ * sdk:      finished_md5 (ssl.o)
  */
-static void func_02160EE0(CPSSslConnection_02160EE0 *con, unsigned char *s)
+void func_021614BC(struct _CPSSslConnection_021614BC *con, unsigned char *d, int flag)
 {
-    int sessionID_len;
-    unsigned short method;
+    unsigned char tmp[48];
+    unsigned char *p = con->md5_hash;
 
-    if (!func_02160E0C(s[0], s[1]))
-        return;
-    s += 2;
-    func_02082D44(s, con->random, 0x20);
-    s += 0x20;
-    sessionID_len = *s++;
-    if (sessionID_len != 0x20) {
-        con->cache = 0;
-    } else {
-        func_02082D44(s, con->session_id, 0x20);
-        func_0215FDA4(con);
-    }
-    s += sessionID_len;
-    method = func_02160DB4((int)(s + 2), ((s[0] << 8) + s[1]) / 2, 2);
-    con->method = method;
-    if (method != 0)
-        con->state = 1;
+    if ((con->server ^ flag) != 0)
+        func_02163438(p, &g_021A1D98, 4);
+    else
+        func_02163438(p, &g_021A1DA0, 4);
+    func_02163438(p, con->master_secret, 48);
+    func_02082BCC(tmp, 0x36, 48);
+    func_02163438(p, tmp, 48);
+    func_021634F0(p, d);
+    func_021633F0(p);
+    func_02163438(p, con->master_secret, 48);
+    func_02082BCC(tmp, 0x5c, 48);
+    func_02163438(p, tmp, 48);
+    func_02163438(p, d, 16);
+    func_021634F0(p, d);
+}
+
+
+/*
+ * sdk:      finished_sha1 (ssl.o)
+ */
+void func_02161598(struct _CPSSslConnection_02161598 *con, unsigned char *d, int flag)
+{
+    unsigned char tmp[40];
+    unsigned char *p = con->sha1_hash;
+
+    if ((con->server ^ flag) != 0)
+        func_02163CF0(p, &g_021A1D98, 4);
+    else
+        func_02163CF0(p, &g_021A1DA0, 4);
+    func_02163CF0(p, con->master_secret, 48);
+    func_02082BCC(tmp, 0x36, 40);
+    func_02163CF0(p, tmp, 40);
+    func_02163DA8(p, d);
+    func_02163C9C(p);
+    func_02163CF0(p, con->master_secret, 48);
+    func_02082BCC(tmp, 0x5c, 40);
+    func_02163CF0(p, tmp, 40);
+    func_02163CF0(p, d, 20);
+    func_02163DA8(p, d);
 }

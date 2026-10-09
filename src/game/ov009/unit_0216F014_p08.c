@@ -1,8 +1,8 @@
 /*
  * file:     unit_0216F014_p08.c
  * unit:     yes
- * function: func_021713CC, func_02171524, func_02171884, func_021719A4
- * address:  0x021713CC
+ * function: DWCi_SendResvCommandToFriend, func_02171E34, func_02171F68
+ * address:  0x02171C08
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,30 +13,29 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   DWCi_GetMatchCnt                 0x02175F3C arm
+ *   _s32_div_f                       0x0209C0A4 arm
+ *   DWCi_GetUserData                 0x0216A39C arm
+ *   DWC_GetGsProfileId               0x020598EC arm
+ *   DWCi_Acc_IsValidFriendData       0x020596F0 arm
+ *   DWCi_NodeInfoList_GetNodeInfoForProfileID 0x021763AC arm
+ *   gpGetBuddyIndex                  0x02186108 arm
+ *   gpGetBuddyStatus                 0x02185FD4 arm
+ *   DWCi_IsLockedBuddyStatus         0x02176984 arm
+ *   DWCi_TempNewNodeInfo_Clear       0x0217653C arm
+ *   DWCi_SendResvCommand             0x021719D0 arm
+ *   OS_GetTick                       0x020870D0 arm
  *   func_02175F3C                0x02175F3C arm   ov009
- *   func_02175FB8                0x02175FB8 arm   ov009
- *   DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID 0x02176500 arm   ov009
- *   DWCi_ClearMeshMakingTempInfo 0x02176870 arm   ov009
- *   func_02176344                0x02176344 arm   ov009
  *   func_020870D0                0x020870D0 arm
- *   func_02171524                0x02171524 arm   ov009
- *   DWCi_IsServerLocked              0x021767f4 arm
- *   DWCi_GetMatchCnt                 0x02175f3c arm
- *   gpIsBuddy                        0x021861a8 arm
- *   DWCi_GetFriendListIndex          0x02169038 arm
- *   DWCi_IsFriendByIdxList           0x02173b74 arm
- *   DWCi_GetNumEntry                 0x02175760 arm
- *   DWC_GetSuspendMatch              0x0216cb90 arm
- *   DWCi_NodeInfoList_GetNodeInfoForProfileID 0x021763ac arm
- *   DWCi_GetHostStatus               0x02175fb8 arm
- *   DWCi_SetupGameServer_InterChange 0x021755d4 arm
- *   qr2_send_statechanged        0x0219B490 arm   ov009
- *   func_02176474                0x02176474 arm   ov009
- *   func_0217603C                0x0217603C arm   ov009
- *   func_0217637C                0x0217637C arm   ov009
- *   func_0216FF2C                0x0216FF2C arm   ov009
- *   func_02173D9C  0x02173D9C  arm  ov009
- *   func_02173D28  0x02173D28  arm  ov009
+ *   func_0217653C                0x0217653C arm   ov009
+ *   func_02175F4C                0x02175F4C arm   ov009
+ *   func_0216F770                0x0216F770 arm   ov009
+ *   func_02173D9C                0x02173D9C arm   ov009
+ *   func_02171C08                0x02171C08 arm   ov009
+ *   func_021719A4                0x021719A4 arm   ov009
+ *   func_0216EB68                0x0216EB68 arm   ov009
+ *   func_02176554  0x02176554  arm  ov009
+ *   func_0216FF2C  0x0216FF2C  arm  ov009
  */
 typedef unsigned char u8;
 
@@ -44,339 +43,198 @@ typedef unsigned short u16;
 
 typedef unsigned long u32;
 
+struct DWCstMatchControl_02171C08
+{
+    void *f0;
+    u8 pad0[0x14 - 4];
+    u8 f_14;
+    u8 pad1[0x554 - 0x15];
+    u32 f_554;
+    u8 pad2[0x56a - 0x558];
+    u8 f_56a;
+    u8 pad3[0x621 - 0x56b];
+    u8 f_621;
+    u8 pad4[0x638 - 0x622];
+    u32 f_638;
+    u8 pad5[0x644 - 0x63c];
+    u32 f_644;
+    unsigned long long f_648;
+    u8 pad6[0x68c - 0x650];
+    u8 *f_68c;
+    u8 pad7[0x694 - 0x690];
+    u8 f_694[0x6d4 - 0x694];
+    int f_6d4;
+};
+
+struct GPBuddyStatus
+{
+    int f0;
+    int f4;
+    u8 pad[0x214 - 8];
+};
+
 typedef unsigned long long u64;
 
-struct DWCstMatchControl_021713CC {
-    u8 pad0[0x554];
-    int f554;
-    u8 pad1[0x57c - 0x558];
-    int f57c;
-    u8 pad2[0x5a4 - 0x580];
-    int f5a4;
-    u8 pad3[0x61c - 0x5a8];
-    int f61c;
-    u8 pad4[0x768 - 0x620];
-    u64 f768;
-    u8 pad5[0x7b4 - 0x770];
-    u8 f7b4;
-};
-
-struct DWCstNodeInfo_021713CC {
-    int profileID;
-};
-
-struct DWCstMatchControl_02171524
-{
-    void **connection;
-    u8 pad0[0x14 - 0x4];
-    u8 f_14;
-    u8 f_15;
-    u8 pad1[0x17 - 0x16];
-    u8 f_17;
-    u8 pad2[0x48 - 0x18];
-    int f_48;
-    u8 pad3[0x5d4 - 0x4c];
-    u16 f_5d4;
-    u8 pad4[0x5d8 - 0x5d6];
-    int f_5d8;
-    int f_5dc;
-    u8 pad5[0x61c - 0x5e0];
-    int f_61c;
-    u8 pad6[0x678 - 0x620];
-    int f_678;
-    int f_67c;
-    u8 pad7[0x7b0 - 0x680];
-    int f_7b0;
-    u8 f_7b4;
-    u8 pad8[0x7b8 - 0x7b5];
-    int (*f_7b8)(unsigned char *, int);
-    u8 pad9[0x7c0 - 0x7bc];
-    int f_7c0;
-};
-
-struct DWCstMatchControl_02171884 {
-    u8 pad0[0x10];
-    void *qr2Obj;
-    u8 pad1[0x18 - 0x14];
-    u8 f18;
-    u8 pad2[0x554 - 0x19];
-    u32 f554;
-    u8 pad3[0x56a - 0x558];
-    u8 aid;
-    u8 pad4[0x5a4 - 0x56b];
-    int f5a4;
-    u8 pad5[0x5dc - 0x5a8];
-    int f5dc;
-    u8 pad6[0x638 - 0x5e0];
-    int f638;
-    u8 pad7[0x644 - 0x63c];
-    int f644;
-    u8 pad8[0x67c - 0x648];
+struct DWCstMatchControl_0216F014 {
+    u8 pad0[0x15];
+    u8 qr2MatchTypeExt;
+    u8 pad1[0x5e4 - 0x16];
+    int f5e4;
+    u64 f5e8;
+    u8 pad2[0x628 - 0x5f0];
+    u8 f628;
+    u8 pad3[0x648 - 0x629];
+    u64 f648;
+    u8 pad4[0x67c - 0x650];
     int f67c;
+    u8 pad5[0x798 - 0x680];
+    int f798;
 };
 
-struct DWCstNodeInfo_02171884 {
-    int profileID;
-    u32 ip;
-    u8 pad0[0xc - 0x8];
-    u16 port;
-};
-
+extern struct DWCstMatchControl_02171C08 * DWCi_GetMatchCnt(void);
+extern void * DWCi_GetUserData(void);
+extern int DWC_GetGsProfileId(void * userdata, void * frienddata);
+extern int DWCi_Acc_IsValidFriendData(void * frienddata);
+extern void * DWCi_NodeInfoList_GetNodeInfoForProfileID(int profileID);
+extern int gpGetBuddyIndex(void * connection, int profile, int * index);
+extern int gpGetBuddyStatus(void * connection, int index, struct GPBuddyStatus * status);
+extern int DWCi_IsLockedBuddyStatus(struct GPBuddyStatus * status);
+extern void DWCi_TempNewNodeInfo_Clear(void);
+extern int DWCi_SendResvCommand(int profileID, int delay);
+extern unsigned long long OS_GetTick(void);
+extern void _s32_div_f(void);
 extern int func_02175F3C(void);
-extern unsigned char func_02175FB8(void);
-extern int DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(int profileID);
-extern void DWCi_ClearMeshMakingTempInfo(void);
-extern char *func_02176344(void);
 extern u64 func_020870D0(void);
-extern u8 func_02171524(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int connectGroupID, u32 topologyType, u8 *newClientUserData, int meshReserve);
-extern int DWCi_IsServerLocked(void);
-extern struct DWCstMatchControl_02171524 *DWCi_GetMatchCnt(void);
-extern int gpIsBuddy(void **connection, int profile);
-extern int DWCi_GetFriendListIndex(int profileID);
-extern int DWCi_IsFriendByIdxList(int profileID);
-extern int DWCi_GetNumEntry(void);
-extern int DWC_GetSuspendMatch(void);
-extern void *DWCi_NodeInfoList_GetNodeInfoForProfileID(int profileID);
-extern int DWCi_GetHostStatus(void);
-extern void DWCi_SetupGameServer_InterChange(int init);
-extern void qr2_send_statechanged(void *qrec);
-extern u8 func_02176474(void);
-extern int func_0217603C(void);
-extern char *func_0217637C(int index);
-extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
+extern void func_0217653C(void);
+extern void func_02175F4C(int state);
+extern int func_0216F770(int profileID);
 extern int func_02173D9C(int error);
-extern int func_02173D28(int error);
-u8 func_021713CC(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int connectGroupID, u32 topologyType, u8 *newClientUserData, int meshReserve);
-unsigned char DWCi_CheckResvCommand_Sub(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int connectGroupID, u32 topologyType, unsigned char *newClientUserData, int meshReserve);
-int func_02171884(int profileID);
-int func_021719A4(int error);
+extern int func_02171C08(int delay, int init, int resendPid);
+extern int func_021719A4(int error);
+extern void func_0216EB68(int error, int errorCode);
+extern int func_02176554(void);
+extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
+int DWCi_SendResvCommandToFriend(int delay, int init, int resendPid);
+/* * sdk: DWCi_RetryReserving (libdwcmatch.TWL.HYB.a dwc_match.o) */ int func_02171E34(int resendPid);
+/* * Sends command 5 to the new node recorded in the temporary node info. */ int func_02171F68(int arg);
 
 
-/*
- * sdk:      DWCi_CheckResvCommand (libdwcmatch.TWL.HYB.a dwc_match.o)
- */
-u8 func_021713CC(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int connectGroupID, u32 topologyType, u8 *newClientUserData, int meshReserve)
+int DWCi_SendResvCommandToFriend(int delay, int init, int resendPid)
 {
-    struct DWCstNodeInfo_021713CC *pMyNodeInfo;
-    u8 sendCommand;
-    u64 tick;
-
-    ((struct DWCstMatchControl_021713CC *)func_02175F3C())->f7b4 = 1;
-    switch (func_02175FB8()) {
-    case 1:
-        if (DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(profileID)) {
-            if (((struct DWCstMatchControl_021713CC *)func_02175F3C())->f5a4 == 0) {
-                if (((struct DWCstMatchControl_021713CC *)func_02175F3C())->f61c == 1) {
-                    if (((struct DWCstMatchControl_021713CC *)func_02175F3C())->f57c != 0) {
-                        sendCommand = 4;
-                    } else {
-                        ((struct DWCstMatchControl_021713CC *)func_02175F3C())->f5a4 = 1;
-                        DWCi_ClearMeshMakingTempInfo();
-                        goto send;
-                    }
-                } else {
-                    sendCommand = 4;
-                }
-            } else {
-                if (((struct DWCstMatchControl_021713CC *)func_02175F3C())->f61c == 3) {
-                    pMyNodeInfo = (struct DWCstNodeInfo_021713CC *)func_02176344();
-                    if (profileID == ((struct DWCstMatchControl_021713CC *)func_02175F3C())->f554) {
-                        if (pMyNodeInfo->profileID >= profileID) {
-                            sendCommand = 0xff;
-                        } else {
-                        send:
-                            sendCommand = 2;
-                            tick = func_020870D0();
-                            ((struct DWCstMatchControl_021713CC *)func_02175F3C())->f768 = tick;
-                        }
-                    } else {
-                        sendCommand = 4;
-                    }
-                } else {
-                    sendCommand = 4;
-                }
-            }
-        } else {
-            sendCommand = 3;
-            ((struct DWCstMatchControl_021713CC *)func_02175F3C())->f7b4 = 0x14;
-        }
-        break;
-    case 0:
-    case 2:
-        sendCommand = func_02171524(profileID, qr2IP, qr2Port, matchType, connectGroupID, topologyType, newClientUserData, meshReserve);
-        break;
-    }
-    return sendCommand;
-}
-
-
-unsigned char DWCi_CheckResvCommand_Sub(int profileID, u32 qr2IP, u16 qr2Port,
-                                        u32 matchType, int connectGroupID,
-                                        u32 topologyType,
-                                        unsigned char *newClientUserData,
-                                        int meshReserve)
-{
-    unsigned char sendCommand;
-
-    if (DWCi_IsServerLocked() != 0) {
-        DWCi_GetMatchCnt()->f_7b4 = 0x13;
-        return 3;
-    }
-    if (meshReserve != 0) {
-        DWCi_GetMatchCnt()->f_7b4 = 0x18;
-        return 3;
-    }
-    if (connectGroupID != 0)
-        goto main;
-
-    if ((matchType == 0 && DWCi_GetMatchCnt()->f_15 != 0) ||
-        (matchType == 1 && DWCi_GetMatchCnt()->f_15 != 1) ||
-        (matchType == 3 && DWCi_GetMatchCnt()->f_15 != 2)) {
-        DWCi_GetMatchCnt()->f_7b4 = 0x12;
-        return 3;
-    }
-
-    if (DWCi_GetMatchCnt()->f_15 == 1) {
-        if (gpIsBuddy(DWCi_GetMatchCnt()->connection, profileID) != 0) {
-            if (DWCi_GetFriendListIndex(profileID) != -1)
-                goto isfriend;
-        }
-        return 0xff;
-    isfriend:
-        if (DWCi_IsFriendByIdxList(profileID) != 0)
-            goto main;
-        DWCi_GetMatchCnt()->f_7b4 = 0x15;
-        return 3;
-    }
-    if (DWCi_GetMatchCnt()->f_15 == 2) {
-        if (gpIsBuddy(DWCi_GetMatchCnt()->connection, profileID) != 0) {
-            if (DWCi_GetFriendListIndex(profileID) != -1)
-                goto main;
-        }
-        return 0xff;
-    }
-
-main:
-    if (DWCi_GetMatchCnt()->f_17 + 1 == DWCi_GetNumEntry()) {
-        sendCommand = 3;
-        DWCi_GetMatchCnt()->f_7b4 = 0x10;
-        goto done;
-    }
-    if (DWCi_GetMatchCnt()->f_61c == 0x16) {
-        sendCommand = 4;
-        goto done;
-    }
-    if (DWC_GetSuspendMatch() != 0 || DWCi_GetMatchCnt()->f_48 != 0) {
-        sendCommand = 3;
-        DWCi_GetMatchCnt()->f_7b4 = 0x11;
-        goto done;
-    }
-    if (topologyType != DWCi_GetMatchCnt()->f_7b0) {
-        sendCommand = 3;
-        DWCi_GetMatchCnt()->f_7b4 = 0x12;
-        goto done;
-    }
-    if (DWCi_NodeInfoList_GetNodeInfoForProfileID(profileID) != 0) {
-        sendCommand = 0xff;
-        goto done;
-    }
-    if (DWCi_GetMatchCnt()->f_61c == 0xd ||
-        DWCi_GetMatchCnt()->f_61c == 2 ||
-        DWCi_GetMatchCnt()->f_61c == 3) {
-        if ((DWCi_GetMatchCnt()->f_5d8 != 0 || DWCi_GetMatchCnt()->f_5d4 != 0) &&
-            (qr2IP != 0 || qr2Port != 0))
-            goto lookup;
-    }
-    if (DWCi_GetMatchCnt()->f_61c == 0xe &&
-        profileID == DWCi_GetMatchCnt()->f_5dc) {
-        sendCommand = 0xff;
-        goto done;
-    }
-    sendCommand = 4;
-    goto done;
-
-lookup:
-    if (DWCi_GetMatchCnt()->f_14 != 2 &&
-        DWCi_GetMatchCnt()->f_67c != 0) {
-        if (profileID == DWCi_GetMatchCnt()->f_67c) {
-            if (DWCi_GetMatchCnt()->f_678 < profileID)
-                sendCommand = 2;
-            else
-                sendCommand = 0xff;
-        } else {
-            sendCommand = 3;
-            DWCi_GetMatchCnt()->f_7b4 = 0x17;
-        }
-        goto done;
-    }
-    sendCommand = 2;
-    goto done;
-
-done:
-    if (sendCommand == 2) {
-        if (DWCi_GetMatchCnt()->f_7b8 != 0) {
-            if (DWCi_GetMatchCnt()->f_7b8(newClientUserData, DWCi_GetMatchCnt()->f_7c0) == 0) {
-                DWCi_GetMatchCnt()->f_7b4 = 0x16;
-                return 3;
-            }
-        }
-        if (DWCi_GetHostStatus() == 0)
-            DWCi_SetupGameServer_InterChange(1);
-    }
-    return sendCommand;
-
-err12:
-    DWCi_GetMatchCnt()->f_7b4 = 0x12;
-    return 3;
-}
-
-
-/*
- * sdk:      DWCi_ProcessResvOK (libdwcmatch.TWL.HYB.a dwc_match.o)
- */
-int func_02171884(int profileID)
-{
-    u32 senddata[16];
-    int result;
+    int found = 0;
+    int profileID;
     int i;
-    u8 aid;
-    struct DWCstNodeInfo_02171884 *pMyNodeInfo;
-    struct DWCstNodeInfo_02171884 *pNodeInfo;
+    int gpResult;
+    struct GPBuddyStatus status;
+    int buddyIdx;
+    unsigned long long tick;
 
-    if (((struct DWCstMatchControl_02171884 *)func_02175F3C())->f18 != 0 && profileID == ((struct DWCstMatchControl_02171884 *)func_02175F3C())->f5dc)
-        return 0;
-    ((struct DWCstMatchControl_02171884 *)func_02175F3C())->f18 = 1;
-    ((struct DWCstMatchControl_02171884 *)func_02175F3C())->f5dc = profileID;
-    ((struct DWCstMatchControl_02171884 *)func_02175F3C())->f638 = 0;
-    ((struct DWCstMatchControl_02171884 *)func_02175F3C())->f644 = 0;
-    qr2_send_statechanged(((struct DWCstMatchControl_02171884 *)func_02175F3C())->qr2Obj);
-    ((struct DWCstMatchControl_02171884 *)func_02175F3C())->f67c = 0;
-    aid = func_02176474();
-    ((struct DWCstMatchControl_02171884 *)func_02175F3C())->aid = aid;
-    if (((struct DWCstMatchControl_02171884 *)func_02175F3C())->f5a4 == 0) {
-        senddata[0] = ((struct DWCstMatchControl_02171884 *)func_02175F3C())->f554;
-        senddata[1] = ((struct DWCstMatchControl_02171884 *)func_02175F3C())->aid;
-        pMyNodeInfo = (struct DWCstNodeInfo_02171884 *)func_02176344();
-        for (i = 0; i < func_0217603C(); i++) {
-            pNodeInfo = (struct DWCstNodeInfo_02171884 *)func_0217637C(i);
-            if (pMyNodeInfo->profileID != pNodeInfo->profileID) {
-                result = func_0216FF2C(7, pNodeInfo->profileID, pNodeInfo->ip, pNodeInfo->port, (const unsigned int *)senddata, 2);
-                if (result != 0)
-                    return result;
-            }
-        }
+    if (init == 0) {
+        DWCi_GetMatchCnt()->f_621++;
+        DWCi_GetMatchCnt()->f_621 =
+            DWCi_GetMatchCnt()->f_621 % DWCi_GetMatchCnt()->f_6d4;
     }
+    DWCi_GetMatchCnt()->f_14 = 3;
+    i = 0;
+    if (DWCi_GetMatchCnt()->f_6d4 > 0) {
+        do {
+            profileID = DWC_GetGsProfileId(
+                DWCi_GetUserData(),
+                DWCi_GetMatchCnt()->f_68c +
+                    DWCi_GetMatchCnt()->f_694[DWCi_GetMatchCnt()->f_621] * 12);
+            if (profileID == 0 || profileID == -1)
+                goto next;
+            if (DWCi_Acc_IsValidFriendData(
+                    DWCi_GetMatchCnt()->f_68c +
+                    DWCi_GetMatchCnt()->f_694[DWCi_GetMatchCnt()->f_621] * 12) == 0)
+                goto next;
+            if (DWCi_NodeInfoList_GetNodeInfoForProfileID(profileID) != 0)
+                goto next;
+            gpResult = gpGetBuddyIndex(DWCi_GetMatchCnt()->f0, profileID, &buddyIdx);
+            gpResult |= gpGetBuddyStatus(DWCi_GetMatchCnt()->f0, buddyIdx, &status);
+            if (!(DWCi_IsLockedBuddyStatus(&status) == 0 &&
+                  gpResult == 0 && status.f4 == 4))
+                goto next;
+            found = 1;
+            break;
+        next:
+            i++;
+            DWCi_GetMatchCnt()->f_621 =
+                (i + DWCi_GetMatchCnt()->f_621) % DWCi_GetMatchCnt()->f_6d4;
+        } while (i < DWCi_GetMatchCnt()->f_6d4);
+    }
+    if (found) {
+        if (profileID == resendPid)
+            delay = 1;
+        DWCi_TempNewNodeInfo_Clear();
+        DWCi_GetMatchCnt()->f_56a = 0xff;
+        DWCi_GetMatchCnt()->f_554 = profileID;
+        return DWCi_SendResvCommand(profileID, delay);
+    }
+    DWCi_GetMatchCnt()->f_644 = 0xbb8;
+    tick = OS_GetTick();
+    DWCi_GetMatchCnt()->f_648 = tick;
+    DWCi_GetMatchCnt()->f_638 = 0;
     return 0;
 }
 
 
+
 /*
- * DWCi_HandleMatchCommandError: dispatches to the server-browsing or command error handler.
+ * sdk:      DWCi_RetryReserving (libdwcmatch.TWL.HYB.a dwc_match.o)
  */
-int func_021719A4(int error)
+int func_02171E34(int resendPid)
 {
-    if (*(unsigned char *)(func_02175F3C() + 0x15) == 0) {
-        return func_02173D9C(error);
+    int result;
+    int sbError;
+    u64 tick;
+
+    ((struct DWCstMatchControl_0216F014 *)func_02175F3C())->f67c = 0;
+    ((struct DWCstMatchControl_0216F014 *)func_02175F3C())->f628 = 0;
+    tick = func_020870D0();
+    ((struct DWCstMatchControl_0216F014 *)func_02175F3C())->f648 = tick;
+    func_0217653C();
+    if (((struct DWCstMatchControl_0216F014 *)func_02175F3C())->f798 != 0) {
+        func_02175F4C(0xc);
+        sbError = func_02173D9C(func_0216F770(0));
+        if (sbError != 0)
+            return 0;
+    } else if (((struct DWCstMatchControl_0216F014 *)func_02175F3C())->qr2MatchTypeExt == 0) {
+        func_02175F4C(2);
+        if (resendPid != 0) {
+            ((struct DWCstMatchControl_0216F014 *)func_02175F3C())->f5e4 = 1;
+            tick = func_020870D0();
+            ((struct DWCstMatchControl_0216F014 *)func_02175F3C())->f5e8 = tick;
+        } else {
+            sbError = func_02173D9C(func_0216F770(0));
+            if (sbError != 0)
+                return 0;
+        }
+    } else if (((struct DWCstMatchControl_0216F014 *)func_02175F3C())->qr2MatchTypeExt == 1) {
+        result = func_021719A4(func_02171C08(1, 0, resendPid));
+        if (result != 0)
+            return 0;
+    } else if (((struct DWCstMatchControl_0216F014 *)func_02175F3C())->qr2MatchTypeExt == 3) {
+        func_0216EB68(6, -80410);
+        return 0;
     }
-    return func_02173D28(error);
+    return 1;
+}
+
+
+
+/*
+ * Sends command 5 to the new node recorded in the temporary node info.
+ */
+int func_02171F68(int arg)
+{
+    int result;
+
+    if (func_02176554() == 0) {
+        return 0;
+    }
+    result = func_0216FF2C(5, *(int *)(func_02175F3C() + 0x554), *(unsigned int *)(func_02175F3C() + 0x558),
+                           *(unsigned short *)(func_02175F3C() + 0x560), 0, 0);
+    *(int *)(func_02175F3C() + 0x67c) = 0;
+    return result;
 }

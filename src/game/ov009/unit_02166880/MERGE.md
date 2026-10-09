@@ -1,27 +1,26 @@
-# unit_02166880.c (ov009)
+# unit_02166880 (ov009)
 
-Translation unit 02166880..02167E88, 21 functions, confidence proven (tools/tuboundary.py).
+The TU is split into 7 parts in address order. Every part is byte-exact (checked).
+The greedy merge (neighbour into running file, both member orders, type policies rename/first/last)
+stops at these boundaries. Each part is the largest run that merges; the next part fails to join it:
 
-The member files below each match on their own. Merging them into one
-`unit_02166880.c` is blocked by:
+- before unit_02166880_p02.c: CCERR: line 58: struct/union/enum/class tag 'WCMWork' redefined | line 215: 'wmSysBuf' is not a member of class 'struct ' | line 242: 'wmState' is not 
+- before unit_02166880_p03.c: CCERR: line 60: struct/union/enum/class tag 'WCMWork' redefined | line 190: 'flag' is not a member of class 'struct WCMWork' | line 192: 'flag' is not 
+- before unit_02166880_p04.c: CCERR: line 54: undefined identifier 'WCMPrivacyDesc' | line 86: identifier 'WCMPrivacyDesc' redeclared | line 86: was declared as: 'int'
+- before unit_02166880_p05.c: CCERR: line 49: undefined identifier 'WMScanExParam' | line 77: identifier 'WMScanExParam' redeclared | line 77: was declared as: 'int'
+- before unit_02166880_p06.c: CCERR: line 39: struct/union/enum/class tag 'WCMWork' redefined | line 56: identifier 'WCMWork' redeclared | line 56: was declared as: 'struct WCMWork'
+- before unit_02166880_p07.c: CCERR: line 75: struct/union/enum/class tag 'WCMWork' redefined | line 92: identifier 'WCMWork' redeclared | line 92: was declared as: 'struct WCMWork'
 
-- ov009_func_02166880.c..ov009_func_02167E20.c: prototype of WCMi_GetSystemWork differs between members (src/matched/ov_sdk/ov009_func_02166E5C.c); prototype of WCMi_GetSystemWork differs between members (src/matched/ov_sdk/ov009_func_02166F24.c); 
-- ov009_func_02166880.c..ov009_func_02166EB0.c: prototype of WCMi_GetSystemWork differs between members (src/matched/ov_sdk/ov009_func_02166E5C.c)
-- ov009_func_02166C44.c..ov009_func_02166EB0.c: c99=CCERR: line 59: struct/union/enum/class tag 'WCMWork' redefined | line 200: 'flag' is not a member of class 'struct WCMWork' | line 202: 'flag' is not a member of class 'struct WCMWork' nolang=CCE
-- ov009_func_02166F24.c..ov009_func_02167E20.c: prototype of WCMi_GetCpsifWork differs between members (src/matched/ov_sdk/ov009_func_02167E20.c)
-- ov009_func_02166F24.c..ov009_func_021676E4.c: c99=CCERR: line 84: struct/union/enum/class tag 'WCMWork' redefined | line 102: identifier 'WCMWork' redeclared | line 102: was declared as: 'struct WCMWork' nolang=CCERR: line 84: struct/union/enum/c
-- ov009_func_02166F24.c..ov009_func_021671C0.c: c99=CCERR: line 80: struct/union/enum/class tag 'WCMWork' redefined | line 98: identifier 'WCMWork' redeclared | line 98: was declared as: 'struct WCMWork' nolang=CCERR: line 80: struct/union/enum/cla
-- ov009_func_02167448.c..ov009_func_021676E4.c: c99=CCERR: line 65: struct/union/enum/class tag 'WCMWork' redefined | line 70: identifier 'WCMWork' redeclared | line 70: was declared as: 'struct WCMWork' nolang=CCERR: line 65: struct/union/enum/cla
-- ov009_func_021674BC.c..ov009_func_021676E4.c: c99=CCERR: line 65: struct/union/enum/class tag 'WCMWork' redefined | line 70: identifier 'WCMWork' redeclared | line 70: was declared as: 'struct WCMWork' nolang=CCERR: line 65: struct/union/enum/cla
+The blockers are struct views of one object that differ between parts (field names and
+offsets are not yet unified), plus prototypes with different argument lists. A later struct pass
+should give each object one definition, then rerun the greedy merge.
 
-Members, in address order:
+Parts:
 
-- `ov009_func_02166F24.c`
-- `ov009_func_021671C0.c`
-- `ov009_func_02167448.c`
-- `ov009_func_021674BC.c`
-- `ov009_func_021676E4.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_02166880.c` again.
+- `unit_02166880_p01.c`
+- `unit_02166880_p02.c`
+- `unit_02166880_p03.c`
+- `unit_02166880_p04.c`
+- `unit_02166880_p05.c`
+- `unit_02166880_p06.c`
+- `unit_02166880_p07.c`

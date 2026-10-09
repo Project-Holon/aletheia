@@ -1,8 +1,8 @@
 /*
  * file:     weather_task_p17.c
  * unit:     yes
- * function: func_021A2A84, func_021A2AAC, func_021A2AB8, func_021A2B8C
- * address:  0x021A2A84
+ * function: func_021A5408, func_021A5458
+ * address:  0x021A5408
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -11,9 +11,22 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_021A572C  0x021A572C  thumb  ov021
+ *   func_0216D5F8  0x0216D5F8  thumb  ov010
+ *   func_0216D4B4  0x0216D4B4  thumb  ov010
+ *   func_0216D5E0  0x0216D5E0  thumb  ov010
+ *   func_0216D674  0x0216D674  thumb  ov010
+ *   func_021A3964  0x021A3964  thumb  ov021
+ *   func_021A3960  0x021A3960  thumb  ov021
+ *   func_0216D7DC  0x0216D7DC  thumb  ov010
+ *   func_021A5318  0x021A5318  thumb  ov021
+ *   func_021AB0F0  0x021AB0F0  thumb  ov021
+ *   func_021AB348  0x021AB348  thumb  ov021
  */
-#include "../../matched/include/Obj02344.h"
-#include "../../matched/include/Obj07494.h"
+#include "../../matched/include/Obj09570.h"
+#include "../../matched/include/Obj19803.h"
 
 typedef unsigned char  u8;
 
@@ -21,125 +34,52 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-typedef signed short   s16;
-
-typedef signed char    s8;
-
-typedef signed int     s32;
-
-typedef struct {
-    u32 f0;
-    s16 f4;
-    s16 f6;
-    s16 f8;
-    s16 fA;
-    s16 fC;
-    s16 fE;
-    s16 f10;
-    s16 f12;
-    s32 f14;
-    void (*f18)(u32 a, s32 b, u32 c);
-} Obj;
-
-typedef struct {
-    u32 arg;
-    short x4;
-    short timer;
-    short reload;
-    u8 padA[0xE];
-    void (*cb)(u32 arg, int x, int a);
-} Obj021A2B8C;
-
-int func_021A2A84(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u32 e2, u32 e3, u32 e4, u32 e5);
-void func_021A2AAC(char *p, int a, int b, int c, int d);
-s32 func_021A2AB8(Obj *o, u32 arg);
-int func_021A2B8C(Obj021A2B8C *p, int a);
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_021A2A84(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u32 e2, u32 e3, u32 e4, u32 e5)
-{
-((struct Obj02344 *)((u8 *)(a)))->f0 = b;
-((struct Obj02344 *)((u8 *)(a)))->f6 = 0;
-((struct Obj02344 *)((u8 *)(a)))->fA = 0;
-((struct Obj02344 *)((u8 *)(a)))->f4 = d;
-((struct Obj02344 *)((u8 *)(a)))->fC = e0;
-((struct Obj02344 *)((u8 *)(a)))->f8 = c;
-((struct Obj02344 *)((u8 *)(a)))->fE = e1;
-((struct Obj02344 *)((u8 *)(a)))->f10 = e2;
-((struct Obj02344 *)((u8 *)(a)))->f12 = e3;
-((struct Obj02344 *)((u8 *)(a)))->f14 = e4;
-((struct Obj02344 *)((u8 *)(a)))->f18 = e5;
-return a;
-}
-
-
-void func_021A2AAC(char *p, int a, int b, int c, int d)
-{
-    ((struct Obj07494 *)p)->fC = a;
-    ((struct Obj07494 *)p)->fE = b;
-    ((struct Obj07494 *)p)->f10 = c;
-    ((struct Obj07494 *)p)->f14 = d;
-}
+extern void *func_021A572C(u8 *p);
+extern u32 func_0216D5F8(void);
+extern void *func_0216D4B4(char *p);
+extern void func_0216D5E0(int a0, int a1);
+extern void func_0216D674(void *p, u16 v);
+extern void func_021A3964(u8 *p, u32 v);
+void *func_021A3960(unsigned char *p);
+u32 func_0216D7DC(void *p);
+int func_021A5318(u32 *p, u32 m);
+u16 func_021AB0F0(u32 attr);
+int func_021AB348(u32 id);
+int func_021A5408(u8 *a);
+int func_021A5458(u32 *p);
 
 
 /*
  * Addresses are Black-image addresses.
  */
-s32 func_021A2AB8(Obj *o, u32 arg)
+int func_021A5408(u8 *a)
 {
-    u32 flags;
-    s32 neg;
-
-    flags = 0;
-    if (o->f10 == 0) {
-        flags |= 1;
-    } else {
-        neg = o->f10 > 0 ? 0 : 1;
-        if ((o->f8 >= o->fE && neg == 0) || (o->f8 <= o->fE && neg == 1)) {
-            flags |= 1;
-            o->f8 = o->fE;
-        }
+    u32 x;
+    u32 y;
+    switch (((struct Obj09570 *)a)->f0) {
+    case 0:
+        break;
+    case 1:
+        return 0;
+    case 2:
+    case 3:
+        x = (u32)func_021A572C(a);
+        y = func_0216D5F8();
+        func_0216D4B4((char *)x);
+        func_0216D5E0(x, y);
+        func_0216D674((void *)x, 0);
+        func_021A3964((u8 *)(*(u32 *)&((struct Obj09570 *)a)->fC), 0);
+        break;
     }
-    if (o->f14 == 0) {
-        flags |= 2;
-    } else {
-        neg = o->f14 > 0 ? 0 : 1;
-        if ((o->f4 >= o->fC && neg == 0) || (o->f4 <= o->fC && neg == 1)) {
-            flags |= 2;
-            o->f4 = o->fC;
-        }
-    }
-    o->f6--;
-    if (o->f6 <= 0) {
-        o->f18(o->f0, o->f4, arg);
-        o->f6 = o->f8;
-        if (!(flags & 1)) {
-            o->f8 += o->f10;
-        }
-        if (!(flags & 2)) {
-            o->fA++;
-            if (o->fA >= o->f12) {
-                o->fA = 0;
-                o->f4 += (s16)o->f14;
-            }
-        }
-    }
-    return (flags & 1) ? 1 : 0;
+    return 1;
 }
 
 
-int func_021A2B8C(Obj021A2B8C *p, int a)
+int func_021A5458(u32 *p)
 {
-    p->timer--;
-    if (p->timer <= 0) {
-        p->cb(p->arg, p->x4, a);
-        p->timer = p->reload;
+    int x = func_0216D7DC(func_021A3960(*(unsigned char * *)&((struct Obj19803 *)p)->fC));
+
+    if (func_021A5318(p, 2) == 0 && func_021AB348(func_021AB0F0(x)) == 1)
         return 1;
-    }
     return 0;
 }

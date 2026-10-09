@@ -1,8 +1,8 @@
 /*
  * file:     btl_server_p81.c
  * unit:     yes
- * function: func_021C6DD0, func_021C6E00, func_021C6E3C, func_021C6F0C
- * address:  0x021C6DD0
+ * function: func_021C846C, func_021C8494, func_021C84AC, func_021C84D0, func_021C84D8, func_021C84E0, func_021C84E8, func_021C84F4, func_021C8534
+ * address:  0x021C846C
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,98 +13,149 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D74F8 0x021D74F8 thumb ov093
- *   func_021D7540 0x021D7540 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D75EC 0x021D75EC thumb ov093
- *   func_021D70F0 0x021D70F0 thumb ov093
- *   func_021D75A8 0x021D75A8 thumb ov093
- *   func_021D70E4 0x021D70E4 thumb ov093
- *   func_021D57FC 0x021D57FC thumb ov093
- *   func_021E8CFC 0x021E8CFC thumb ov093
- *   func_021E8D04 0x021E8D04 thumb ov093
- *   func_021E8DA8 0x021E8DA8 thumb ov093
- *   func_021C7038 0x021C7038 thumb ov093
- *   func_021D79E8 0x021D79E8 thumb ov093
- *   func_021C5750 0x021C5750 thumb ov093
- *   func_021C6FC0 0x021C6FC0 thumb ov093
- *   func_021EF948 0x021EF948 thumb ov093
- *   func_021C6F34 0x021C6F34 thumb ov093
+ *   func_021B9934 0x021B9934 thumb ov093
+ *   func_021BFEAC 0x021BFEAC thumb ov093
+ *   func_021BFF60   0x021BFF60  thumb  ov093
+ *   func_021C2128 0x021C2128 thumb ov093
+ *   func_021BDBB8   0x021BDBB8  thumb ov093
+ *   func_021CC668   0x021CC668  thumb ov093
+ *   func_021B8DDC  0x021B8DDC  thumb  ov093
+ *   func_021C8578  0x021C8578  thumb  ov093
  */
-typedef unsigned char u8;
+#include "../../matched/include/Obj00003.h"
 
-typedef unsigned int u32;
+typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-extern void func_021D74F8(int);
-extern void func_021D7540(int);
-extern u8 func_021D5440(u8 *p);
-extern void func_021D75EC(int, u32);
-extern void func_021D70F0(void *a, int id);
-extern void func_021D75A8(int, u32);
-extern void func_021D70E4(void *a, int id);
-extern u16 func_021D57FC(void *);
-extern u8 func_021E8CFC(int);
-extern int func_021E8D04(int);
-extern int func_021E8DA8(int);
-extern int func_021C7038(u8 *, u8 *, u8 *, u32, u8);
-extern int func_021D79E8(int, int);
-extern void func_021C5750(u8 *, u8 *);
-extern void func_021C6FC0(u8 *, u8 *);
-extern int func_021EF948(int);
-extern int func_021C6F34(u8 *, u8 *, int);
-void func_021C6DD0(u8 *p, u8 *a);
-void func_021C6E00(u8 *p, u8 *a, u8 k);
-int func_021C6E3C(u8 *p, u8 *a, u8 *b, u8 *q, int flag);
-int func_021C6F0C(u8 *p, u8 *a, int k);
+typedef unsigned int u32;
 
-void func_021C6DD0(u8 *p, u8 *a)
+typedef signed char s8;
+
+typedef signed short s16;
+
+typedef signed int s32;
+
+typedef struct { u32 f0; u8 pad[60]; } E64;
+
+struct Flags { u8 low:5; u8 flag:1; u8 high:2; };
+
+extern u8 *func_021B9934(char *p, int i);
+extern int func_021BFEAC(u8 *, u8 *, u8 *, int *);
+extern void func_021BFF60(u8 *p, u8 *a, int z);
+extern int func_021C2128(u8 *p, u8 *a);
+extern void func_021BDBB8(u8 *p, u8 *a);
+extern int func_021CC668(u8 *p);
+extern u8 func_021B8DDC(u32 x);
+extern int func_021C8578(u8 *p, int v, u32 *out);
+int func_021C846C(u8 *p, int a, int b, int *out);
+void func_021C8494(u8 *p, int i);
+int func_021C84AC(u8 *p, u8 *a, u8 *out);
+void func_021C84D0(u8 *p, u8 *a);
+int func_021C84D8(u8 *p);
+void func_021C84E0(unsigned char *p, unsigned int v);
+void func_021C84E8(u8 *p);
+void func_021C84F4(unsigned char *p, unsigned int v);
+int func_021C8534(u8 *p);
+
+
+/*
+ * extent: Two bytes of alignment padding follow the 38-byte function.
+ */
+int func_021C846C(u8 *p, int a, int b, int *out)
 {
-    int line = 12077;
-    func_021D74F8(line);
-    func_021D75EC(2, func_021D5440(a));
-    func_021D70F0(p, 114);
-    func_021D7540(line + 3);
+    u8 *x = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, a);
+    u8 *y = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, b);
+    return func_021BFEAC(p, x, y, out);
 }
 
-void func_021C6E00(u8 *p, u8 *a, u8 k)
-{
-    int line = 12093;
-    func_021D74F8(line);
-    func_021D75A8(2, func_021D5440(a));
-    func_021D75A8(3, k);
-    func_021D70E4(p, 115);
-    func_021D7540(line + 4);
-}
 
-int func_021C6E3C(u8 *p, u8 *a, u8 *b, u8 *q, int flag)
+
+/*
+ * Wrapper family member; the body is the hand-checked shape of the family's first instance with only the member's constants substituted, per the family uniformity assertion in o36/report.md.
+ */
+void func_021C8494(u8 *p, int i) { func_021BFF60(p, func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, i), 1); }
+
+
+int func_021C84AC(u8 *p, u8 *a, u8 *out)
 {
-    int r, x;
-    int changed = 0;
-    if (q[6] == 17) return 3;
-    x = func_021D57FC(b);
-    r = func_021C7038(p, a, b, q[6], func_021E8CFC(x));
-    if (func_021E8DA8(x) == 0)
-        r = func_021D79E8(r, func_021C7038(p, a, b, q[6], func_021E8D04(x)));
-    if (r != 0) {
-        if (q[6] != 4) return r;
-        changed = func_021C6F0C(p, b, 0);
-        if (changed == 0) return r;
-        r = 0;
-    } else if (q[6] == 4) {
-        if (func_021C6F0C(p, b, 1) == 0) return 3;
-    }
-    if (r == 0 && flag != 0) {
-        if (changed == 0) func_021C5750(p, b);
-        else func_021C6FC0(p, b);
-    }
+    int r;
+    ((struct Flags *)(p + 0x78a))->flag = 0;
+    r = func_021C2128(p, a);
+    *out = ((struct Flags *)(p + 0x78a))->flag;
     return r;
 }
 
-int func_021C6F0C(u8 *p, u8 *a, int k)
+
+
+/*
+ * tail-call thunk to func_021BDBB8
+ */
+void func_021C84D0(u8 *p, u8 *a)
 {
-    if (func_021EF948(2) == 0 && func_021C6F34(p, a, k) != 0)
-        return 1;
+    func_021BDBB8(p, a);
+}
+
+
+
+/*
+ * tail-call thunk to func_021CC668
+ */
+int func_021C84D8(u8 *p)
+{
+    return func_021CC668(p);
+}
+
+
+
+/*
+ * Was MATCH (pool word to the unlabelled 0x021C84F4 had no witness); the
+ * matched func_021C84F4 now resolves it, verified EXACT.
+ */
+void func_021C84E0(unsigned char *p, unsigned int v)
+{
+    func_021C84F4(p, v);
+}
+
+
+
+void func_021C84E8(u8 *p)
+{
+    p[0x785] = 0;
+}
+
+
+/*
+ * Unlabelled Thumb leaf in a .word run.  Extent 0x021C84F4..0x021C8534
+ * (64 bytes, including a 2-byte pool-alignment nop and two pool words).
+ * Searches the u8 set at p+0x791 for v; if absent and i < 0x18, appends v
+ * and bumps the count at p+0x785.
+ */
+void func_021C84F4(unsigned char *p, unsigned int v)
+{
+    unsigned int i;
+    unsigned int n = p[0x785];
+
+    for (i = 0; i < n; i++) {
+        if (v == p[0x791 + i])
+            return;
+    }
+    if (i < 0x18) {
+        *(p + i + 0x791) = v;
+        p[0x785] = p[0x785] + 1;
+    }
+}
+
+
+
+int func_021C8534(u8 *p)
+{
+    u32 i;
+    u32 buf;
+    for (i = 0; i < p[0x785]; i++) {
+        if (func_021C8578(p + 0x1ab8, func_021B8DDC(p[0x791 + i]), &buf)) {
+            return 1;
+        }
+    }
     return 0;
 }

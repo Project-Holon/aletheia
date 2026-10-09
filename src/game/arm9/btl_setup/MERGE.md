@@ -1,15 +1,21 @@
 # btl_setup.c (arm9)
 
-Three parts (`_p01`, `_p02`, `_p03`) and two singles (func_020136E0, func_02013734) remain, in address order
-p01, p02, func_020136E0, func_02013734, p03.
-Done in this pass: p01 absorbed the old parts 02, 03, 04, 05, 06 (prototypes of func_020127A4 and func_0201333C
-unified to the definitions, casts added at calls, two generated stubs rewritten with typed pointers: func_02012DAC,
-func_0201333C, bytes unchanged).
-Blockers left:
-- p01 + p02: func_0201A920 is declared `struct Party *func_0201A920(u32 heap)` in p01 but p02 passes a u16 value; with a
-  u32 parameter p02's func_02013528 changes (DIFF), with a u16 parameter p01 changes. Neither a K&R `()` declaration
-  nor a u16/u32 swap works; the true prototype is in another TU. Needs the argument types of all callers checked.
-- func_020136E0, func_02013734: local structs Obj020136E0 / Obj02013734 are views of the same battle-setup object as
-  BigObj*/Obj00155 in p01; the code passes them where u8 * is expected. A struct pass that merges the BigObj views
-  (offsets in p01: BigObj_0201283C, BigObj_02012914, BigObj, BigObj_02012AE4, BigObj_02012C0C) is needed first.
-- p03: struct Obj/ZoneData views, same issue.
+Two files, address order: `btl_setup_p01.c` (02012914..) and `btl_setup_p02.c` (02013528..,
+the old p02, func_020136E0, func_02013734 and p03, merged in round 4).
+
+Blocker p01|p02: the callee func_0201A920 and the helper func_02013284 are used with two
+incompatible argument widths.
+
+- p02 needs `func_0201A920(u16)` and `func_02013284(..., u16 h)`: with a u32 parameter,
+  func_02013528 changes (the home store of r3 moves) and func_020136E0 loses its early ldrh.
+- p01 needs `func_0201A920(u32)`: func_02013284 and func_0201333C pass a wide value without
+  narrowing. With a u16 prototype the callers emit lsl/lsr. Making the callers' own parameters
+  u16 changes the frame of func_02013284 (the image has `sub sp, #8`, so `h` is a full u32).
+- An unprototyped (K&R) declaration breaks func_0201347C.
+
+No single declaration reproduces both halves, so the original source most probably had them in
+two files (the TU boundary guess here is weak). p03's `sub_0201A920` alias is the same function
+under a second name.
+
+Guess made in p02: `func_0203D1A4` returns u8 (the callers keep the result in a byte argument
+with no narrowing).

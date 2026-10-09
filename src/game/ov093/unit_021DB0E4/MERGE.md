@@ -1,30 +1,7 @@
-# unit_021DB0E4.c (ov093)
+# unit_021DB0E4: remaining boundary
 
-Translation unit 021DB0E4..021DB560, 22 functions, confidence weak (tools/tuboundary.py).
+Lane r2_01 closed the other boundaries by adding the hidden setters (func_021DB128, func_021DB404,
+func_021DB410).
 
-The member files below each match on their own. Merging them into one
-`unit_021DB0E4.c` is blocked by:
-
-- ov093_func_021DB0E4.c..ov093_func_021DB4E8.c: c99=DIFF nolang=DIFF
-- ov093_func_021DB0E4.c..ov093_func_021DB2B8.c: c99=DIFF nolang=DIFF
-- ov093_func_021DB0E4.c..ov093_func_021DB200.c: c99=DIFF nolang=DIFF
-- ov093_func_021DB0E4.c..ov093_func_021DB134.c: c99=DIFF nolang=DIFF
-- ov093_func_021DB1A8.c..ov093_func_021DB200.c: c99=DIFF nolang=DIFF
-- ov093_func_021DB2C8.c..ov093_func_021DB4E8.c: c99=DIFF nolang=DIFF
-- ov093_func_021DB2C8.c..ov093_func_021DB41C.c: c99=DIFF nolang=DIFF
-- ov093_func_021DB318.c..ov093_func_021DB41C.c: c99=DIFF nolang=DIFF
-- ov093_func_021DB374.c..ov093_func_021DB41C.c: c99=DIFF nolang=DIFF
-- no verified entry for 021DB1C4, 021DB550
-
-Members, in address order:
-
-- `ov093_func_021DB0E4.c`
-- `ov093_func_021DB134.c`
-- `ov093_func_021DB1A8.c`
-- `ov093_func_021DB318.c`
-- `ov093_func_021DB374.c`
-- `ov093_func_021DB41C.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021DB0E4.c` again.
+- unit_021DB0E4_p01 | p02 (starts 0x021DB1D4): 0x021DB1C4 to 0x021DB1D3 is a Thumb to ARM linker veneer
+  (`bx pc; nop; ldr ip,[pc]; bx ip; .word`): file boundary.

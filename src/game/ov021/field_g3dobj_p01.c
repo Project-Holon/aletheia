@@ -1,7 +1,7 @@
 /*
  * file:     field_g3dobj_p01.c
  * unit:     yes
- * function: func_021C5FA8, func_021C5FC0, func_021C5FEC, func_021C6018, func_021C602C
+ * function: func_021C5FA8, func_021C5FC0, func_021C5FEC, func_021C6018, func_021C602C, func_021C6054
  * address:  0x021C5FA8
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -47,6 +47,8 @@ int func_021C5FC0(u8 *p, u32 lim);
 void func_021C5FEC(u8 *p);
 void func_021C6018(u32 *p);
 void func_021C602C(u8 *p);
+void func_021C6054(u32 *p);
+
 
 
 int func_021C5FA8(Work *w, u32 n)
@@ -56,6 +58,7 @@ int func_021C5FA8(Work *w, u32 n)
     w->f60 = 0;
     return 1;
 }
+
 
 
 /*
@@ -79,6 +82,7 @@ int func_021C5FC0(u8 *p, u32 lim)
 }
 
 
+
 /*
  * Switches the window to mode 2 and opens the message box.
  */
@@ -91,6 +95,7 @@ void func_021C5FEC(u8 *p)
     func_021AE01C(((struct Obj06080 *)p)->f30, 1);
 }
 
+
 void func_021C6018(u32 *p)
 {
     if (p[11] != 0) {
@@ -99,7 +104,16 @@ void func_021C6018(u32 *p)
     }
 }
 
+
 void func_021C602C(u8 *p)
 {
     ((struct Obj06081 *)p)->f30 = func_021ADF94(func_02188CD0((u8 *)(((struct Obj06081 *)p)->f8)), p + 0x40, ((struct Obj06081 *)p)->f58, ((struct Obj06081 *)p)->f44 == ((struct Obj06081 *)p)->f38);
+}
+
+void func_021C6054(u32 *p)
+{
+    if (p[12] != 0) {
+        func_021AC154(p[12]);
+        p[12] = 0;
+    }
 }

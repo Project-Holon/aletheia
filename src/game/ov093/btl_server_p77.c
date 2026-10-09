@@ -1,8 +1,8 @@
 /*
  * file:     btl_server_p77.c
  * unit:     yes
- * function: func_021C6668, func_021C66AC
- * address:  0x021C6668
+ * function: func_021C6FC0, func_021C7008, func_021C7038
+ * address:  0x021C6FC0
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,15 +13,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D74F8  0x021D74F8  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021D75A8  0x021D75A8  thumb  ov093
- *   func_021D70F0  0x021D70F0  thumb  ov093
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D7540  0x021D7540  thumb  ov093
- *   func_021C6710  0x021C6710  thumb  ov093
- *   func_021D75EC  0x021D75EC  thumb  ov093
+ *   func_021CC8D8  0x021CC8D8  thumb  ov093
+ *   func_021C88E4  0x021C88E4  thumb  ov093
+ *   func_021C5750  0x021C5750  thumb  ov093
+ *   func_021CC95C  0x021CC95C  thumb  ov093
+ *   func_021D74F8 0x021D74F8 thumb ov093
+ *   func_021D7540 0x021D7540 thumb ov093
+ *   func_021D5440 0x021D5440 thumb ov093
+ *   func_021D75EC 0x021D75EC thumb ov093
+ *   func_021D70F0 0x021D70F0 thumb ov093
  *   func_021D7630  0x021D7630  thumb  ov093
+ *   func_021D775C  0x021D775C  thumb  ov093
+ *   func_021C70D4  0x021C70D4  thumb  ov093
+ *   func_021D794C  0x021D794C  thumb  ov093
  */
 typedef unsigned char u8;
 
@@ -35,43 +39,61 @@ typedef signed short s16;
 
 typedef signed int s32;
 
-extern void func_021D74F8(int line);
+extern u32 func_021CC8D8(void *, int);
+extern int func_021C88E4(u8 *p);
+extern void func_021C5750(u8 *p, u8 *q);
+extern void func_021CC95C(u32 *p, u32 v, int line);
+extern void func_021D74F8(int);
+extern void func_021D7540(int);
 extern u8 func_021D5440(u8 *p);
-extern void func_021D75A8(int key, u32 val);
+extern void func_021D75EC(int, u32);
 extern void func_021D70F0(void *a, int id);
-extern int func_021D775C(int key);
-extern void func_021D7540(int line);
-extern u8 *func_021C6710(u32 a, int b);
-extern void func_021D75EC(int key, u32 val);
 extern void func_021D7630(int key, u32 val);
-int func_021C6668(u8 *p, u8 *a, u8 *a2, u16 a3);
-int func_021C66AC(u8 *p, u8 *a, u32 c);
+extern int func_021D775C(int key);
+extern void func_021C70D4(u8 *p, u8 *b);
+extern int func_021D794C(int a, int b);
+void func_021C6FC0(u8 *p, u8 *q);
+void func_021C7008(u8 *p, u8 *a);
+int func_021C7038(u8 *p, u8 *a, u8 *b, u32 q, u8 s);
 
 
-int func_021C6668(u8 *p, u8 *a, u8 *a2, u16 a3)
+void func_021C6FC0(u8 *p, u8 *q)
 {
-    int r;
-    func_021D74F8(11574);
-    func_021D75A8(3, func_021D5440(a));
-    func_021D75A8(0x51, 0);
-    func_021D70F0(p, 0x2E);
-    r = func_021D775C(0x51);
-    func_021D7540(11579);
-    return r;
+    u32 v = func_021CC8D8(p + 0x1D74, 12246);
+    func_021C7008(p, q);
+    if (func_021C88E4(p) != 2) func_021C5750(p, q);
+    func_021CC95C((u32 *)(p + 0x1D74), v, 12253);
 }
 
 
-int func_021C66AC(u8 *p, u8 *a, u32 c)
+void func_021C7008(u8 *p, u8 *a)
 {
-    u8 *q;
-    int r;
-    q = func_021C6710(c, 0);
-    func_021D74F8(11599);
+    int line = 12265;
+    func_021D74F8(line);
+    func_021D75EC(2, func_021D5440(a));
+    func_021D70F0(p, 27);
+    func_021D7540(line + 3);
+}
+
+
+
+int func_021C7038(u8 *p, u8 *a, u8 *b, u32 q, u8 s)
+{
+    int x, y, r;
+    func_021D74F8(12290);
     func_021D75EC(3, func_021D5440(a));
-    func_021D75EC(4, q ? func_021D5440(q) : 0x1F);
-    func_021D7630(0x41, 0);
-    func_021D70F0(p, 0x93);
-    r = func_021D775C(0x41);
-    func_021D7540(11605);
+    func_021D75EC(4, func_021D5440(b));
+    func_021D75EC(0x15, s);
+    func_021D75EC(0x16, q);
+    func_021D7630(0x4b, 0);
+    func_021D7630(0x4c, 0);
+    func_021C70D4(p, b);
+    func_021D70F0(p, 0x3e);
+    x = func_021D775C(0x4b);
+    y = func_021D775C(0x4c);
+    func_021D7540(12303);
+    if (y) return 3;
+    r = func_021D794C(q, s);
+    if (r == 0 && x) r = 3;
     return r;
 }

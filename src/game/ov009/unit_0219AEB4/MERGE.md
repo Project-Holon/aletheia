@@ -1,32 +1,10 @@
-# unit_0219AEB4.c (ov009)
+# unit_0219AEB4 (ov009)
 
-Translation unit 0219AEB4..0219B7FC, 14 functions, confidence proven (tools/tuboundary.py).
+Round 3 (lane r3_ov03): the greedy merge with the call-argument harmonizer was re-run; the parts below are what is left. Every part verifies byte-exact on its own.
 
-The member files below each match on their own. Merging them into one
-`unit_0219AEB4.c` is blocked by:
+Ten parts. Boundaries stop on: struct qr2_implementation_s defined with different member subsets
+(cm_callback, pa_callback, f_c4); strlen declared with two prototypes (one returns unsigned int); SOCHostEnt redefined.
+Next step: one canonical
+qr2_implementation_s by offset.
 
-- ov009_func_0219AEB4.c..ov009_func_0219B73C.c: global current_rec declared two ways (src/matched/ov_sdk/ov009_func_0219B170.c); global current_rec declared two ways (src/matched/ov_sdk/ov009_func_0219B1AC.c); global current_rec declared two ways (
-- ov009_func_0219AEB4.c..ov009_func_0219B350.c: global current_rec declared two ways (src/matched/ov_sdk/ov009_func_0219B170.c); global current_rec declared two ways (src/matched/ov_sdk/ov009_func_0219B1AC.c); global current_rec declared two ways (
-- ov009_func_0219AEB4.c..ov009_func_0219B170.c: global current_rec declared two ways (src/matched/ov_sdk/ov009_func_0219B170.c)
-- ov009_func_0219B134.c..ov009_func_0219B170.c: global current_rec declared two ways (src/matched/ov_sdk/ov009_func_0219B170.c)
-- ov009_func_0219B1AC.c..ov009_func_0219B350.c: global current_rec declared two ways (src/matched/ov_sdk/ov009_func_0219B1E8.c)
-- ov009_func_0219B1AC.c..ov009_func_0219B1E8.c: global current_rec declared two ways (src/matched/ov_sdk/ov009_func_0219B1E8.c)
-- ov009_func_0219B490.c..ov009_func_0219B73C.c: c99=CCERR: line 45: the file '../arm9_sdk/libc/string.h' cannot be opened | line 61: struct/union/enum/class tag 'qr2_implementation_s' redefined | line 90: struct/union/enum/class tag 'SOCHostEnt' re
-- ov009_func_0219B490.c..ov009_func_0219B5EC.c: c99=CCERR: line 49: struct/union/enum/class tag 'qr2_implementation_s' redefined nolang=CCERR: line 49: struct/union/enum/class tag 'qr2_implementation_s' redefined
-- ov009_func_0219B628.c..ov009_func_0219B73C.c: c99=CCERR: line 28: the file '../arm9_sdk/libc/string.h' cannot be opened | line 47: struct/union/enum/class tag 'SOCHostEnt' redefined nolang=CCERR: line 28: the file '../arm9_sdk/libc/string.h' cann
-- ov009_func_0219B6CC.c..ov009_func_0219B73C.c: c99=CCERR: line 24: the file '../arm9_sdk/libc/string.h' cannot be opened | line 38: struct/union/enum/class tag 'SOCHostEnt' redefined nolang=CCERR: line 24: the file '../arm9_sdk/libc/string.h' cann
-
-Members, in address order:
-
-- `ov009_func_0219AEB4.c`
-- `ov009_func_0219B134.c`
-- `ov009_func_0219B170.c`
-- `ov009_func_0219B1AC.c`
-- `ov009_func_0219B1E8.c`
-- `ov009_func_0219B490.c`
-- `ov009_func_0219B6CC.c`
-- `ov009_func_0219B73C.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_0219AEB4.c` again.
+Parts: unit_0219AEB4_p01.c, unit_0219AEB4_p02.c, unit_0219AEB4_p03.c, unit_0219AEB4_p04.c, unit_0219AEB4_p05.c, unit_0219AEB4_p06.c, unit_0219AEB4_p07.c, unit_0219AEB4_p08.c, unit_0219AEB4_p09.c, unit_0219AEB4_p10.c

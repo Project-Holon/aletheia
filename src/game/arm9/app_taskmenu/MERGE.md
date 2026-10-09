@@ -1,37 +1,19 @@
 # app_taskmenu (arm9)
 
-Translation unit 020263B0..02028844, 193 functions, confidence weak (tools/tuboundary.py).
+Translation unit 020263B0..02028844. Three files, address order:
 
-Eight parts are left (`app_taskmenu_p01.c` .. `app_taskmenu_p08.c`, address order). The
-unit started as 56 files. What was unified: `g_02146940`/`g_GameBeacon` now share one
-`struct BeaconSys` (own record `Inner`, `BeaconSlot slot[30]`, mask at 0xBA4), one
-`struct Req`, one `struct TaskMenu`/`TaskMenuTmpl`, one `struct Ctx`, one `struct Cfg`/`Src`,
-`func_02027B30` returns `u32` everywhere, `func_02166C7C` is unprototyped (two call shapes).
+- `app_taskmenu_p01.c`: 020263B0..0202822D and 02028230..0202859F (the old p01 to p07 and the
+  members func_020275DC, func_020275E0, func_02027A20, func_0202815C, merged in round 3).
+  One `struct Cfg` now has the template pointer at +0x04 (`struct CfgTmpl *f04`), one `struct Src`,
+  and `struct Obj` has `flags` at +0x14. func_02027FEC, func_0202800C and func_0202804C take
+  `struct Cfg *`, `struct Src *`, u16, u16 like the definition of func_02028084.
+- `app_taskmenu_p02.c`: func_0202822E, a lone `bx lr`. It is the second half of
+  func_0202822C (`str r1, [r0, #8]` at +0, `bx lr` at +2), listed as its own function in the
+  function map. It cannot be code of its own inside a merged file, and gamecheck needs the
+  definition, so it stays a one-function file placed between p01's two ranges.
+- `app_taskmenu_p03.c`: 020285A4..02028844.
 
-Boundaries still blocked (each part verifies on its own):
-
-- p01|p02: c99=DIFF. The merged range loses the outside witness of `d_0209FCF8` and
-  `d_0209FCEC` (data referenced only inside the range), and 934 bytes differ.
-- p02|p03: c99=DIFF. Merged code is 4 bytes longer before `func_02027D44`; every later call
-  displacement moves (1567 bytes differ).
-- p03|p04: `func_02028084(struct Cfg *, struct Src *, u16 a2, u16 a3, u8, u8, u32, u32, u16)`
-  has narrow parameters; the callers in p03 (`func_0202800C`, `func_0202804C`) pass full
-  `u32` values and the bytes match only without the typed prototype (an unprototyped
-  declaration is not accepted once the definition is in the same file).
-- p04|p05: c99=DIFF (196 bytes): `func_02028164` is reached by a different pool/branch
-  shape inside one file.
-- p05|p06: `func_0202822E` is the `bx lr` at +2 of `func_0202822C` (a second entry inside
-  the previous function), so it cannot be a separate function of a merged file.
-- p06|p07 and p07|p08: c99=DIFF. `g_0209FD10` has no witness outside the merged range.
-
-`struct Obj` is still defined differently in several parts (the task menu object in p03,
-the cfg object `CfgObj` in p04); `d_02146940` (p01) and `g_GameBeacon` stay separate symbols
-for the same address because their pool words do not fold.
-
-- `func_020275DC.c` was missing from the restructured tree and was added back from src/matched (tools/gamefix.py); merge it into its neighbours.
-
-- `func_020275E0.c` was missing from the restructured tree and was added back from src/matched (tools/gamefix.py); merge it into its neighbours.
-
-- `func_02027A20.c` was missing from the restructured tree and was added back from src/matched (tools/gamefix.py); merge it into its neighbours.
-
-- `func_0202815C.c` was missing from the restructured tree and was added back from src/matched (tools/gamefix.py); merge it into its neighbours.
+Blocker p01|p03: the merged file loses the outside witness for `g_0209FD10`
+(`unresolved: 0209FD10 (data, from header) has no witness outside 020263B0..02028846`).
+The only references to that address are inside the range, so the verifier cannot attest the
+pool word. The code itself is the same; this is the verifier's data-witness rule only.

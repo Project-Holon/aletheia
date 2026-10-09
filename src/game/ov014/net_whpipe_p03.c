@@ -1,82 +1,63 @@
 /*
  * file:     net_whpipe_p03.c
  * unit:     yes
- * function: func_02177310, func_0217731C
- * address:  0x02177310
+ * function: func_021777FC
+ * address:  0x021777FC
+ * packet:   pkt_ov014_021777FC
  * region:   ov014
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
  * symbols:
- *   g_021797A4  0x021797A4  data  a4
+ *   g_021797A4     0x021797A4  data   a4
+ *   d_02179790     0x02179790  data   a4
  *   func_0203D798  0x0203D798  arm
- *   func_0203F1FC  0x0203F1FC  arm
+ *   func_02034714  0x02034714  arm
+ *   func_02082D44  0x02082D44  arm
+ *   func_02177A74  0x02177A74  thumb  ov014
+ *   func_02177D58  0x02177D58  thumb  ov014
  */
-#include "../../matched/include/Obj03087.h"
-#include "../../matched/include/Obj05922.h"
-#include "../../matched/include/Obj19327.h"
-#include "../../matched/include/G_W.h"
-
-typedef unsigned int u32;
-
-typedef unsigned short u16;
+#include "../../matched/include/Obj04955.h"
+#include "../../matched/include/Obj19331.h"
 
 typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
 
-typedef int (*CheckFn)(u8 a, u8 b, u32 c);
+extern u8 *g_021797A4;
+extern u8 d_02179790[];
+extern void *func_0203D798(void);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_02082D44(void *src, void *dst, int n);
+extern int func_02177A74(void);
+extern void func_02177D58(u8 *buf, u32 len);
 
-typedef void (*NotifyFn)(u32 a, u8 *obj, u32 b, u32 c);
+typedef int (*SizeFn)(u32 a);
+typedef u32 (*DataFn)(u32 a);
 
-void *func_0203D798(void);
-u16 func_0203F1FC(const u8 *src, u32 len);
-void func_02177310(u32 v);
-int func_0217731C(u8 *obj);
-extern struct W *g_021797A4;
-
-
-void func_02177310(u32 v)
+void func_021777FC(void)
 {
-    *(u32 *)(*(u32 *)0x021797A4 + 4) = v;
-}
-
-
-int func_0217731C(u8 *obj)
-{
-    u8 *base = ((u8 *)g_021797A4);
+    u8 *w = g_021797A4;
+    u8 *e = w + 0xC6E;
     u8 *st = func_0203D798();
-    u8 *p;
-    int v67;
-    u16 v50;
-    CheckFn fn;
-    NotifyFn nf;
+    SizeFn sfn = *(SizeFn *)&((struct Obj19331 *)st)->f1C;
+    int n;
 
-    v67 = st[0x67];
-    v50 = ((struct Obj05922 *)st)->f50;
-    p = obj + 0x50;
-    if (p[7] != 0)
-        return 0;
-    if (p[5] != 0)
-        return 0;
-    if (((struct Obj03087 *)p)->f0 != func_0203F1FC(p + 2, 0x6e))
-        return 0;
-    if (((struct Obj03087 *)p)->f2 != v50)
-        return 0;
-    nf = *(NotifyFn *)(((u8 *)g_021797A4) + 0xC38);
-    if (nf != 0)
-        nf(*(u32 *)(((u8 *)g_021797A4) + 0xC3C), obj, p[4], p[6]);
-    fn = *(CheckFn *)&((struct Obj05922 *)st)->f20;
-    if (fn != 0) {
-        if (fn(v67, p[4], ((struct Obj19327 *)base)->fC64) == 0)
-            return 0;
-    } else if (v67 != p[4]) {
-        return 0;
+    if (sfn != 0) {
+        n = sfn(((struct Obj04955 *)w)->fC64);
+        if (n > 0x68)
+            func_02034714((const char *)d_02179790, 0, (const char *)d_02179790);
+        func_02082D44((void *)(*(DataFn *)(st + 0x18))(((struct Obj04955 *)w)->fC64), e + 8, n);
     }
-    if (v67 != 0x14 && p[6] >= st[0x60] && st[0x60] > 1)
-        return 0;
-    return 1;
+    if (e[6] != func_02177A74()) {
+        w[0xCF0] = 0;
+        e[6] = func_02177A74();
+    }
+    if (w[0xCF0] == 0) {
+        func_02177D58(w + 0xC6E, 0x70);
+        w[0xCF0] = 2;
+    }
+    w[0xCF0]--;
 }

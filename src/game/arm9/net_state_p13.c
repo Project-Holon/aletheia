@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p13.c
  * unit:     yes
- * function: func_020371D8, func_02037200, func_02037224, func_02037234, func_02037258, func_02037288, func_02037478
- * address:  0x020371D8
+ * function: func_02038570, func_020385C4, func_020387A0, func_02038924
+ * address:  0x02038570
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,301 +13,256 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021469C8  0x021469C8  data
- *   func_02036D64  0x02036D64  arm
- *   d_020A7A20   0x020A7A20  data  a1
+ *   g_021469D0    0x021469D0  data
+ *   func_0203D680 0x0203D680  arm
+ *   func_02039160 0x02039160  arm
  *   func_0203D788  0x0203D788  arm
- *   func_0203D6BC  0x0203D6BC  arm
- *   func_0203D680  0x0203D680  arm
- *   lbl_021469D0   0x021469D0  data
+ *   func_0203D798  0x0203D798  arm
+ *   func_02034714  0x02034714  arm
+ *   func_02037224  0x02037224  arm
+ *   func_02037258  0x02037258  arm
+ *   func_02038380  0x02038380  arm
+ *   func_02038524  0x02038524  arm
+ *   func_02038AE0  0x02038AE0  arm
  *   str_020A7A24   0x020A7A24  data
- *   func_02030734  0x02030734  arm
- *   func_02036AF4  0x02036AF4  arm
- *   g_021469D0     0x021469D0  data
- *   str_020A7A20   0x020A7A20  data
- *   func_02082BCC  0x02082BCC  arm
- *   func_0203640C  0x0203640C  arm
- *   func_02036B4C  0x02036B4C  arm
+ *   str_020A7A54   0x020A7A54  data
+ *   g_020A7A20     0x020A7A20  data
+ *   lbl_021469D0   0x021469D0  data
+ *   func_0203D6BC  0x0203D6BC  arm
+ *   func_0203F1FC  0x0203F1FC  arm
+ *   func_02039548  0x02039548  arm
+ *   func_0203CA98  0x0203CA98  arm
+ *   func_0203C9AC  0x0203C9AC  arm
+ *   func_02036428  0x02036428  arm
  */
-#include "../../matched/include/Obj05733.h"
-#include "../../matched/include/Obj08828.h"
+#include "../../matched/include/Obj03447.h"
+#include "../../matched/include/Obj03449.h"
+#include "../../matched/include/Obj06939.h"
+#include "../../matched/include/Obj11355.h"
 
-struct Rec;
+struct Conn;
+struct Hdr;
+typedef unsigned char  u8;
+
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct Notifier_020371D8 {
-    u16   unk00;      /* 0x00 */
-    u16   unk02 : 14; /* 0x02, bits 0-13 */
-    u16   mode  : 2;  /* 0x02, bits 14-15 */
-    void *handler;    /* 0x04 */
+struct Ctx {
+    u8   pad00[0x340];
+    u32 *f340;
 };
 
-struct Notifier_1 {
-    u32   unk00;
-    void *handler;
-};
-
-typedef unsigned char  u8;
-
-struct Net_02037288 {
-    void *f00;
-    void *f04;
-    void *f08;
-    void *f0C;
-    void *f10;
-    void *f14;
-    void *f18;
-    u8  pad1C[0x1ac - 0x1c];
-    u32 f1AC;
-    u8  pad1B0[0x1e0 - 0x1b0];
-    u32 f1E0;
+struct Oth {
+    u8 pad00[0x64];
+    u8 f64;
+    u8 f65;
 };
 
 typedef signed int     s32;
 
-struct Net_02037478 {
-    u32  f00;
-    u32 *f04;
-    u8  *f08;
-    u8  *f0C;
-    u8  *f10;
-    u8  *f14;
-    u8   pad18[0x1b0 - 0x18];
-    u32  f1B0;
-    u32  f1B4[8];
-    u8   pad1D4[0x1e0 - 0x1d4];
-    u32  f1E0;
-};
-
-extern u32 func_02036D64(u8 *p);
+extern u32 func_0203D680(void);
+extern u32 func_02039160(u16 a);
 extern void *func_0203D788(void);
-extern u32  func_0203D6BC(void);
-extern u32  func_0203D680(void);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02036AF4(u8 *p, u32 n, u32 a, u32 b);
-extern void func_02082BCC(u8 *p, u32 v, u32 n);
-extern void func_0203640C(struct Rec *p, u32 a, int b);
-extern int func_02036B4C(int a0);
-void func_020371D8(u32 mode);
-u32 func_02037200(void);
-void func_02037224(u8 v, int b);
-void func_02037234(u8 *p);
-u32 func_02037258(void);
-int func_02037288(u32 a0, u32 heap, u32 c);
-void func_02037478(void);
-extern struct Notifier_020371D8 g_021469C8;
-extern u8 d_020A7A20;
-extern struct Net_02037288 *lbl_021469D0;
-extern char str_020A7A24[];
-extern struct Net_02037478 *g_021469D0;
-extern u8 str_020A7A20[];
+extern void *func_0203D798(void);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_02037224(u8 v, int b);
+extern u32  func_02037258(void);
+extern void func_02038380(void);
+extern int  func_02038524(void);
+extern s32 func_02038AE0(struct Hdr *h, struct Conn *c, s32 len, u8 a3);
+extern u32 func_0203D6BC(void);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern void func_02039548(void);
+extern u32 func_0203CA98(void);
+extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
+extern void func_02036428(u8 *dst, u8 *src, s32 len);
+void func_02038570(void);
+void func_020385C4(void);
+int func_020387A0(u32 i, u8 *p, s32 n);
+int func_02038924(u32 a0, u8 *p, s32 n);
+extern u32 *g_021469D0;
+extern const u8 str_020A7A24[];
+extern const u8 str_020A7A54[];
+extern u8   g_020A7A20[];
+extern u8 *lbl_021469D0;
 
 
-/*
- * Setter for the two-bit mode field in the top of the halfword at +0x02 of
- * the global at 0x021469C8.  The `lsl #0x1e` plus the `lsr #16` shifter
- * operand on the `orr` is the bitfield insert, and the `bic` of 0xc000 is
- * the field's own mask.  The `lsl #0x10 / lsr #0x10` pair above it is an
- * explicit `(u16)` cast on the stored value: declaring the parameter `u16`
- * instead drops the pair entirely (the insert already masks), so the cast
- * has to be written out.  See
- * docs/idioms/an-explicit-narrowing-cast-into-a-bitfield-is-not-folded.md.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020371D8.c \
- *       --func func_020371D8 --addr 0x020371D8 --cc 1.1p1 --arm
- */
-void func_020371D8(u32 mode)
+
+void func_02038570(void)
 {
-    g_021469C8.mode = (u16)mode;
-}
+    int i;
+    int n = func_0203D680();
 
-
-
-u32 func_02037200(void)
-{
-    if (g_021469C8.handler == 0) {
-        return 1;
+    for (i = 0; i < n; i++) {
+        if (func_02039160((u16)i) != 0) {
+            *(u32 *)((u8 *)((u32 *)g_021469D0 + i) + 0x1b4) += 1;
+        }
     }
-    return func_02036D64(g_021469C8.handler);
-}
-
-
-
-void func_02037224(u8 v, int b)
-{
-    d_020A7A20 = v;
 }
 
 
 
 /*
- * Resets a sixteen-byte record: both halfwords at +8 and +0x0A become 0xFFFF
- * (the "no value" sentinel) and the words at +0 and +4 and the halfword at
- * +0x0C are cleared.  The sentinel cannot be encoded as an ARM immediate, so it
- * comes out of the function's own literal pool; the stores then run in the
- * order the source writes them.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02037234.c \
- *       --func func_02037234 --addr 0x02037234 --cc 1.1p1 --arm
+ * net_system.c.  The outer per-frame entry: it dispatches on the link-state
+ * byte at +0x65 of the 0x0203D798 object, in two two-wide bands written as
+ * unsigned-wrapped range tests ((u8)(s - 1) <= 1 and (u8)(s - 3) <= 1), and
+ * falls through to func_02038380 in both of the middle bands.
+ * func_02037224 takes the caller's __LINE__ as its second argument; the four
+ * line numbers are 0x4d5, 0x4da, 0x4e1 and 0x4f4.  The assert at +0x50 is
+ * the usual func_02034714(file, line, expr) triple.
  */
-void func_02037234(u8 *p)
+void func_020385C4(void)
 {
-    ((struct Obj05733 *)p)->fC = 0;
-    ((struct Obj05733 *)p)->f8 = 0xFFFF;
-    ((struct Obj05733 *)p)->fA = 0xFFFF;
-    ((struct Obj05733 *)p)->f4 = 0;
-    ((struct Obj05733 *)p)->f0 = 0;
-}
+    struct Ctx *c = func_0203D788();
+    struct Oth *o = func_0203D798();
+    u8 s = o->f65;
 
-
-
-/*
- * The current capacity, or the measured one: when the state object's byte at
- * +0x64 is set and its halfword at +0x6C is non-zero, that halfword is the
- * answer; otherwise the two measurement calls are multiplied.
- *
- * The conjunction is the reason both loads after the first comparison are
- * conditional (`ldrhne`, `cmpne`) and the early return is a bare `popne`:
- * written as one `&&` in a single `if`, mwcc keeps the whole guard inside the
- * flags.  The product is a plain `mul`, so the function returns a 32-bit
- * value, not a narrowed one.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02037258.c \
- *       --func func_02037258 --addr 0x02037258 --cc 1.1p1 --arm
- */
-u32 func_02037258(void)
-{
-    u8 *p;
-
-    p = func_0203D788();
-    if (p[0x64] != 0 && ((struct Obj08828 *)p)->f6C != 0)
-        return ((struct Obj08828 *)p)->f6C;
-    return func_0203D6BC() * func_0203D680();
-}
-
-
-
-/*
- * Closes the 4-byte residue docs/notes/pkt_02037288_wave25.c.txt records
- * (the `mov r3, r4` / `lsl r1, r1, #1` pair at +0x00B0).  The lever is the
- * ALLOCATION RESULT TYPE, not the size spelling: the seven pointer fields
- * are declared `void *` so each func_02030734 result is stored without an
- * integer conversion.  With them declared `u32` the file does not even
- * compile; with a cast at each site the argument scheduling shifts and the
- * 0xE8 call's size is finished before r3 is written.  The size arguments
- * themselves must stay as in-place expressions re-reading ->f1E0, never
- * bound to a local.
- *
- * The note's other two findings are confirmed and kept: the prototype
- * returns int (the tail `mov r0,#1` is a `return 1`), and the +0x1E0 store
- * is two separate `+ 0x40` adds in the two arms, not one factored add.
- */
-int func_02037288(u32 a0, u32 heap, u32 c)
-{
-    u32 n;
-    u32 m;
-
-    if (lbl_021469D0 == 0) {
-        n = func_0203D680();
-        m = func_02037258();
-        lbl_021469D0 = func_02030734(heap, 0x1f0, 1, str_020A7A24, 0xdd);
-        if (c != 0)
-            lbl_021469D0->f1E0 = m + 0x40;
-        else
-            lbl_021469D0->f1E0 = a0 + 0x40;
-
-        lbl_021469D0->f14 = func_02030734(heap, lbl_021469D0->f1E0 * 3, 1,
-                                          str_020A7A24, 0xe6);
-        lbl_021469D0->f18 = func_02030734(heap, lbl_021469D0->f1E0 * 2, 1,
-                                          str_020A7A24, 0xe8);
-        lbl_021469D0->f10 = func_02030734(heap, n * lbl_021469D0->f1E0, 1,
-                                          str_020A7A24, 0xe9);
-        lbl_021469D0->f00 = func_02030734(heap, func_0203D6BC(), 1,
-                                          str_020A7A24, 0xec);
-        lbl_021469D0->f04 = func_02030734(heap, func_0203D6BC() * 15, 1,
-                                          str_020A7A24, 0xed);
-        lbl_021469D0->f08 = func_02030734(heap, m, 1, str_020A7A24, 0xee);
-        lbl_021469D0->f0C = func_02030734(heap, m * 2, 1, str_020A7A24, 0xef);
-        func_02036AF4((u8 *)lbl_021469D0 + 0xcc, 0x64,
-                      (u32)((u8 *)lbl_021469D0 + 0x1c), heap);
-        func_02036AF4((u8 *)lbl_021469D0 + 0xf4, 0xb4,
-                      (u32)((u8 *)lbl_021469D0 + 0x3c), heap);
-        lbl_021469D0->f1AC = 1;
-        func_02037478();
+    if ((u8)(s + 0xff) <= 1) {
+        if (func_02039160(0) == 0)
+            return;
+        if (o->f64 != 0)
+            func_02034714((const char *)str_020A7A24, 0x4d5, (const char *)str_020A7A54);
+        if (g_020A7A20[0] == 4 && *(u32 *)((u8 *)g_021469D0 + 0x1ac) != 0
+            && func_02038524() != 0)
+            func_02037224(1, 0x4da);
+        if (g_020A7A20[0] != 1)
+            return;
+        {
+            u32 t = func_02037258();
+            if (((int (*)(u32, u32, u32, u32))c->f340[0x64 / 4])(
+                    ((u32 *)g_021469D0)[2], t, 0, 0) == 0)
+                return;
+        }
+        func_02037224(4, 0x4e1);
+        func_02038570();
+        return;
     }
-    *(u16 *)((u8 *)lbl_021469D0 + 0x100 + 0xe4) = 0;
-    *((u8 *)lbl_021469D0 + 0x1e7) = 0;
+    if ((u8)(s + 0xfd) <= 1) {
+        if (g_020A7A20[0] == 4) {
+            u8 *g = (u8 *)g_021469D0;
+            u32 t = func_02037258();
+
+            func_02038AE0((struct Hdr *)(((struct Obj03447 *)g)->f8), (struct Conn *)(g + 0xf4), t, g[0x1d4]);
+            g = (u8 *)g_021469D0;
+            g[0x1d4] = (u8)(g[0x1d4] + 1);
+            func_02037224(1, 0x4f4);
+        }
+        func_02038380();
+        return;
+    }
+    if (((int (*)(void))c->f340[0x70 / 4])() == 0)
+        return;
+    if (func_02038524() == 0)
+        return;
+    if (g_020A7A20[0] == 4) {
+        u8 *g = (u8 *)g_021469D0;
+        u32 t = func_02037258();
+
+        func_02038AE0((struct Hdr *)(((struct Obj03447 *)g)->f8), (struct Conn *)(g + 0xf4), t, g[0x1d4]);
+        g = (u8 *)g_021469D0;
+        g[0x1d4] = (u8)(g[0x1d4] + 1);
+        func_02037224(1, 0x501);
+    }
+    func_02038380();
+}
+
+
+
+/*
+ * The indexed twin of src/matched/func_02038924.c (the own-slot variant):
+ * same receive/validate/copy shape, but every global offset is scaled by
+ * the slot index -- the 0x1B4 credit counter by i*4, the 0x54 accepted
+ * flag and the 0x4C payload by i*16, the 0x1D7 sequence byte by i.  The
+ * extra middle block this one has and 0x02038924 does not is the sequence
+ * check at 0x1D7+i with its own 0x3F3 error line.
+ */
+int func_020387A0(u32 i, u8 *p, s32 n)
+{
+    u8 *g;
+    u8 *q;
+    u32 v;
+    s32 len;
+    int r;
+
+    func_0203D6BC();
+    if (p == 0)
+        return 0;
+    g = lbl_021469D0;
+    *(u32 *)(g + 0x1b4 + i * 4) = *(u32 *)(g + 0x1b4 + i * 4) - 1;
+    if (i == 0)
+        *(u16 *)(lbl_021469D0 + 0x100 + 0xe4) = p[3];
+    v = p[4];
+    if (v == 0xff)
+        return 0;
+    if (*(u32 *)(lbl_021469D0 + i * 16 + 0x54) == 0) {
+        if (v & 2)
+            return 0;
+    }
+    r = func_0203F1FC(p + 2, n - 2);
+    if (p[0] != (u8)r || ((r & 0xff00) >> 8) != p[1]) {
+        func_02039548();
+        q = (u8 *)func_0203CA98();
+        if (((struct Obj03449 *)q)->fC == 0)
+            func_0203C9AC(((struct Obj03449 *)q)->f0, ((struct Obj03449 *)q)->f4, ((struct Obj03449 *)q)->f8, 0x3f2);
+        return 0;
+    }
+    {
+        u8 *s = lbl_021469D0 + 0xd7 + 0x100;
+        if (s[i] != 0 && (u8)(p[5] - 1) != s[i]) {
+            func_02039548();
+            q = (u8 *)func_0203CA98();
+            if (((struct Obj03449 *)q)->fC == 0)
+                func_0203C9AC(((struct Obj03449 *)q)->f0, ((struct Obj03449 *)q)->f4, ((struct Obj03449 *)q)->f8, 0x3f3);
+            return 0;
+        }
+        s[i] = p[5];
+    }
+    len = p[2];
+    if (p[4] & 8)
+        len += 0xff;
+    func_02036428(lbl_021469D0 + 0x4c + i * 16, p + 7, len);
+    *(u32 *)(lbl_021469D0 + i * 16 + 0x54) = 1;
     return 1;
 }
 
 
-
-/*
- * Second half of net_system init: wipe and re-seed every buffer
- * func_02037288 allocated (docs/families/net_system.h).  Closed from the
- * 520-byte / 135-out source of docs/notes/pkt_02037288_wave25.c.txt with two
- * changes:
- *   1. func_0203640C is a THREE-argument call at every site.  The first
- *      loop's "leftover" r2 is the slot stride f1E0 passed as the header's
- *      length (same finding as func_02037680); with it the file is 12 out.
- *   2. the loop index is declared FIRST, before the three counts.  With
- *      the counts first, n1 and i swap r7/r8 (the last 12 bytes).
- * The three product pairs stay spelled differently per site (n2 + n2 vs
- * n2 << 1, etc.) so the compiler rematerialises instead of CSEing them.
- */
-void func_02037478(void)
+int func_02038924(u32 a0, u8 *p, s32 n)
 {
-    s32 i;
-    s32 n1;
-    s32 n2;
-    s32 n3;
+    u8 *g;
+    u8 *q;
+    u32 v;
+    s32 len;
+    int r;
 
-    n1 = func_0203D680();
-    n2 = func_02037258();
-    n3 = func_0203D6BC();
-
-    func_02082BCC(g_021469D0->f10, 0, g_021469D0->f1E0 * n1);
-    for (i = 0; i < n1; i++) {
-        func_0203640C((struct Rec *)((u8 *)g_021469D0 + 0x4c + i * 16),
-              (u32)(g_021469D0->f10 + i * g_021469D0->f1E0), g_021469D0->f1E0);
-        ((u8 *)g_021469D0)[0x1d7 + i] = 0;
+    (int)func_0203D798();
+    func_0203D6BC();
+    g = lbl_021469D0;
+    ((struct Obj11355 *)g)->f1B0 = ((struct Obj11355 *)g)->f1B0 - 1;
+    if (p == 0)
+        return 0;
+    if (a0 == 0)
+        *(u16 *)(lbl_021469D0 + 0x100 + 0xe4) = p[3];
+    v = p[4];
+    if (v == 0xff)
+        return 0;
+    if (*(u32 *)(lbl_021469D0 + 0x34) == 0) {
+        if (v & 2)
+            return 0;
     }
-
-    func_02082BCC(g_021469D0->f0C, 0, n2 + n2);
-    func_0203640C((struct Rec *)((u8 *)g_021469D0 + 0x3c), (u32)g_021469D0->f0C, (u32)n2 << 1);
-    for (i = 0; i < n2; i++)
-        g_021469D0->f08[i] = 0;
-
-    func_02082BCC((u8 *)g_021469D0->f04, 0, n3 * 16 - n3);
-    func_0203640C((struct Rec *)((u8 *)g_021469D0 + 0x1c), (u32)((u8 *)g_021469D0->f04), ((u32)n3 << 4) - n3);
-    *(u8 *)g_021469D0->f00 = 0xff;
-    for (i = 1; i < n3; i++)
-        ((u8 *)g_021469D0->f00)[i] = 0;
-
-    func_02082BCC(g_021469D0->f14, 0, g_021469D0->f1E0 + g_021469D0->f1E0 * 2);
-    func_0203640C((struct Rec *)((u8 *)g_021469D0 + 0x2c), (u32)g_021469D0->f14,
-                  g_021469D0->f1E0 * 3);
-    for (i = 0; i < 8; i++) {
-        func_02037234((u8 *)g_021469D0 + 0x11c + i * 16);
-        g_021469D0->f1B4[i] = 0;
+    r = func_0203F1FC((const u8 *)(p + 2), n - 2);
+    if (p[0] != (u8)r || ((r & 0xff00) >> 8) != p[1]) {
+        func_02039548();
+        q = (u8 *)func_0203CA98();
+        if (((struct Obj06939 *)q)->fC == 0)
+            func_0203C9AC(((struct Obj06939 *)q)->f0, ((struct Obj06939 *)q)->f4, ((struct Obj06939 *)q)->f8, 0x3f2);
+        return 0;
     }
-    g_021469D0->f1B0 = 0;
-    func_02037234((u8 *)g_021469D0 + 0x19c);
-    func_02037224(4, 0x13a);
-    str_020A7A20[1] = 4;
-    func_02036B4C((int)((u8 *)g_021469D0 + 0xcc));
-    func_02036B4C((int)((u8 *)g_021469D0 + 0xf4));
-    ((u8 *)g_021469D0)[0x1e8] = 0;
-    ((u8 *)g_021469D0)[0x1eb] = 1;
-    ((u8 *)g_021469D0)[0x1ea] = 0;
-    ((u8 *)g_021469D0)[0x1ed] = 0;
+    *(u8 *)(lbl_021469D0 + 0x1d6) = p[5];
+    len = p[2];
+    if (p[4] & 8)
+        len += 0xff;
+    func_02036428(lbl_021469D0 + 0x2c, p + 7, len);
+    *(u32 *)(lbl_021469D0 + 0x34) = 1;
+    return 1;
 }

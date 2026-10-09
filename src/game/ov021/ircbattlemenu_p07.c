@@ -1,8 +1,8 @@
 /*
  * file:     ircbattlemenu_p07.c
  * unit:     yes
- * function: func_02197F90, func_02197F9C, func_02197FA8, func_02197FB4, func_02197FC0
- * address:  0x02197F90
+ * function: func_0219852C, func_02198550, func_0219862C, func_02198650, func_02198674, func_02198694, func_021986B8, func_021986D8, func_021986F8, func_02198718, func_02198738, func_02198758, func_0219877C, func_021987A0, func_021987C0, func_021987E0, func_02198804, func_02198824, func_02198848, func_02198868, func_02198888, func_021988AC, func_021988D0, func_021988F4, func_02198918, func_0219893C
+ * address:  0x0219852C
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,15 +13,20 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02197F6C  0x02197F6C  thumb
- *   func_0216D6BC  0x0216D6BC  thumb  ov010
+ *   func_021984C0 0x021984C0  thumb  ov021
+ *   func_0216D6D4  0x0216D6D4  thumb  ov010
+ *   func_02163FC0  0x02163FC0  thumb  ov010
+ *   func_02164010  0x02164010  thumb  ov010
  *   func_02163E7C  0x02163E7C  thumb  ov010
- *   func_0216D60C  0x0216D60C  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
  *   func_0216D568  0x0216D568  thumb  ov010
+ *   d_021DDBD4     0x021DDBD4  data   ov021  a4
+ *   func_0216D8C0  0x0216D8C0  thumb  ov010
+ *   func_02163F10  0x02163F10  thumb  ov010
+ *   func_0216D674  0x0216D674  thumb  ov010
  *   func_0216D7CC  0x0216D7CC  thumb  ov010
+ *   func_020061E4  0x020061E4  thumb
  */
-#include "../../matched/include/Obj07465.h"
+#include "../../matched/include/Obj01032.h"
 
 typedef unsigned char  u8;
 
@@ -29,81 +34,344 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-typedef int BOOL;
+typedef signed short   s16;
 
-extern int func_02197F6C(u32 a, u32 b);
-extern void *func_0216D6BC(int a0, int a1, int a2);
+typedef signed char    s8;
+
+typedef struct { int x, y, z; } Vec;
+
+extern void func_021984C0(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g, u32 h);
+extern void *func_0216D6D4(void *p);
+extern void func_02163FC0(int a, int dir, int amt);
+extern int func_02164010(int a);
 extern void func_02163E7C(int a, int b);
-extern void func_0216D60C(u8 *, u16);
-extern void func_0216D674(void *p, u16 v);
 extern void *func_0216D568(void *p, u32 v);
-extern void func_0216D7CC(u8 *);
-u32 func_02197F90(u32 a1);
-u32 func_02197F9C(u32 a1);
-u32 func_02197FA8(u32 a1);
-u32 func_02197FB4(u32 a1);
-void func_02197FC0(u8 *a, u32 b, u32 c, u16 d, u16 e);
+extern void func_0216D8C0(u32, Vec *);
+extern int func_02163F10(int a0);
+extern void func_0216D674(void *p, u16 v);
+extern void func_0216D7CC(u8 *p);
+extern void func_020061E4(u32);
+void func_0219852C(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g);
+int func_02198550(u32 a);
+int func_0219862C(u8 *a);
+int func_02198650(u8 *a);
+int func_02198674(u8 *a);
+int func_02198694(u8 *a);
+int func_021986B8(u8 *a);
+int func_021986D8(u8 *a);
+int func_021986F8(u8 *a);
+int func_02198718(u8 *a);
+int func_02198738(u8 *a);
+int func_02198758(u8 *a);
+int func_0219877C(u8 *a);
+int func_021987A0(u8 *a);
+int func_021987C0(u8 *a);
+int func_021987E0(u8 *a);
+int func_02198804(u8 *a);
+int func_02198824(u8 *a);
+int func_02198848(u8 *a);
+int func_02198868(u8 *a);
+int func_02198888(u8 *a);
+int func_021988AC(u8 *a);
+int func_021988D0(u8 *a);
+int func_021988F4(u8 *a);
+int func_02198918(u8 *a);
+int func_0219893C(u8 *a);
+extern int *d_021DDBD4[];
 
 
-/*
- * Calls func_02197F6C(its own argument 1, 0x0) and returns 0x1.
- */
-u32 func_02197F90(u32 a1)
-{
-    func_02197F6C(a1, 0x0);
 
-    return 0x1;
-}
-
-
-/*
- * Calls func_02197F6C(its own argument 1, 0x1) and returns 0x1.
- */
-u32 func_02197F9C(u32 a1)
-{
-    func_02197F6C(a1, 0x1);
-
-    return 0x1;
-}
-
-
-/*
- * Calls func_02197F6C(its own argument 1, 0x2) and returns 0x1.
- */
-u32 func_02197FA8(u32 a1)
-{
-    func_02197F6C(a1, 0x2);
-
-    return 0x1;
-}
-
-
-/*
- * Calls func_02197F6C(its own argument 1, 0x3) and returns 0x1.
- */
-u32 func_02197FB4(u32 a1)
-{
-    func_02197F6C(a1, 0x3);
-
-    return 0x1;
-}
 
 
 /*
  * Addresses are Black-image addresses.
  */
-void func_02197FC0(u8 *a, u32 b, u32 c, u16 d, u16 e)
+void func_0219852C(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g)
 {
-    u16 *r;
+    func_021984C0(a, b, c, d, e, f, g, 0x55E);
+}
 
-    r = func_0216D6BC((int)a, (u32)12, c);
-    r[0] = e;
-    r[1] = d;
-    ((struct Obj07465 *)r)->f4 = b;
-    ((struct Obj07465 *)r)->f8 = c;
-    func_02163E7C((int)a, (u16)b);
-    func_0216D60C(a, b);
-    func_0216D674(a, e);
-    func_0216D568(a, 0x20);
-    func_0216D7CC(a);
+
+
+
+
+int func_02198550(u32 a)
+{
+    u8 *h;
+
+    h = func_0216D6D4((void *)a);
+    if (((struct Obj01032 *)h)->f0 != 0) {
+        func_02163FC0(a, ((struct Obj01032 *)h)->fC, ((struct Obj01032 *)h)->f0);
+        func_02164010(a);
+        if (((struct Obj01032 *)h)->f4 >= 0x10000) {
+            ((struct Obj01032 *)h)->f4 = 0;
+            func_02163E7C(a, ((struct Obj01032 *)h)->fC);
+            func_0216D568((void *)a, 0x20);
+        }
+        ((struct Obj01032 *)h)->f4 += (((struct Obj01032 *)h)->f0 < 0) ? -((struct Obj01032 *)h)->f0 : ((struct Obj01032 *)h)->f0;
+    }
+    ((struct Obj01032 *)h)->fA += ((struct Obj01032 *)h)->f8;
+    if (((struct Obj01032 *)h)->fA > 0xF00) {
+        ((struct Obj01032 *)h)->fA = 0xF00;
+    }
+    {
+        Vec v;
+        u16 k;
+        int i;
+        k = ((struct Obj01032 *)h)->fA / 256;
+        i = ((struct Obj01032 *)h)->fF;
+        v.x = 0;
+        v.y = d_021DDBD4[i][k];
+        v.z = 0;
+        func_0216D8C0(a, &v);
+    }
+    ((struct Obj01032 *)h)->fD = ((struct Obj01032 *)h)->fD - 1;
+    if (((struct Obj01032 *)h)->fD > 0) {
+        return 0;
+    }
+    {
+        Vec v = { 0, 0, 0 };
+        func_0216D8C0(a, &v);
+    }
+    func_0216D568((void *)a, 0x540);
+    func_02163F10(a);
+    func_0216D674((void *)a, 0);
+    func_0216D7CC((u8 *)a);
+    func_020061E4(0x67B);
+    return 1;
+}
+
+
+
+
+
+int func_0219862C(u8 *a)
+{
+    func_0219852C(a, 0, 0x0, 16, 2, 1, 0x100);
+    return 1;
+}
+
+
+
+
+
+int func_02198650(u8 *a)
+{
+    func_0219852C(a, 1, 0x0, 16, 2, 1, 0x100);
+    return 1;
+}
+
+
+
+
+
+int func_02198674(u8 *a)
+{
+    func_0219852C(a, 2, 0x0, 16, 2, 1, 0x100);
+    return 1;
+}
+
+
+
+
+
+int func_02198694(u8 *a)
+{
+    func_0219852C(a, 3, 0x0, 16, 2, 1, 0x100);
+    return 1;
+}
+
+
+
+
+
+int func_021986B8(u8 *a)
+{
+    func_0219852C(a, 0, 0x0, 8, 3, 1, 0x200);
+    return 1;
+}
+
+
+
+
+
+int func_021986D8(u8 *a)
+{
+    func_0219852C(a, 1, 0x0, 8, 3, 1, 0x200);
+    return 1;
+}
+
+
+
+
+
+int func_021986F8(u8 *a)
+{
+    func_0219852C(a, 2, 0x0, 8, 3, 1, 0x200);
+    return 1;
+}
+
+
+
+
+
+int func_02198718(u8 *a)
+{
+    func_0219852C(a, 3, 0x0, 8, 3, 1, 0x200);
+    return 1;
+}
+
+
+
+
+
+int func_02198738(u8 *a)
+{
+    func_0219852C(a, 0, 0x2000, 8, 3, 0, 0x200);
+    return 1;
+}
+
+
+
+
+
+int func_02198758(u8 *a)
+{
+    func_0219852C(a, 1, 0x2000, 8, 3, 0, 0x200);
+    return 1;
+}
+
+
+
+
+
+int func_0219877C(u8 *a)
+{
+    func_0219852C(a, 2, 0x2000, 8, 3, 0, 0x200);
+    return 1;
+}
+
+
+
+
+
+int func_021987A0(u8 *a)
+{
+    func_0219852C(a, 3, 0x2000, 8, 3, 0, 0x200);
+    return 1;
+}
+
+
+
+
+
+int func_021987C0(u8 *a)
+{
+    func_0219852C(a, 0, 0x2000, 16, 3, 0, 0x100);
+    return 1;
+}
+
+
+
+
+
+int func_021987E0(u8 *a)
+{
+    func_0219852C(a, 1, 0x2000, 16, 3, 0, 0x100);
+    return 1;
+}
+
+
+
+
+
+int func_02198804(u8 *a)
+{
+    func_0219852C(a, 2, 0x2000, 16, 3, 0, 0x100);
+    return 1;
+}
+
+
+
+
+
+int func_02198824(u8 *a)
+{
+    func_0219852C(a, 3, 0x2000, 16, 3, 0, 0x100);
+    return 1;
+}
+
+
+
+
+
+int func_02198848(u8 *a)
+{
+    func_0219852C(a, 2, 0x1000, 16, 2, 0, 0xF0);
+    return 1;
+}
+
+
+
+
+
+int func_02198868(u8 *a)
+{
+    func_0219852C(a, 3, 0x1000, 16, 2, 0, 0xF0);
+    return 1;
+}
+
+
+
+
+
+int func_02198888(u8 *a)
+{
+    func_0219852C(a, 2, 0x4000, 12, 3, 0, 0x140);
+    return 1;
+}
+
+
+
+
+
+int func_021988AC(u8 *a)
+{
+    func_0219852C(a, 3, 0x4000, 12, 3, 0, 0x140);
+    return 1;
+}
+
+
+
+
+
+int func_021988D0(u8 *a)
+{
+    func_021984C0(a, 0, 0x2000, 24, 3, 0, 0xA0, 0);
+    return 1;
+}
+
+
+
+
+int func_021988F4(u8 *a)
+{
+    func_021984C0(a, 1, 0x2000, 24, 3, 0, 0xA0, 0);
+    return 1;
+}
+
+
+
+
+int func_02198918(u8 *a)
+{
+    func_021984C0(a, 2, 0x2000, 24, 3, 0, 0xA0, 0);
+    return 1;
+}
+
+
+int func_0219893C(u8 *a)
+{
+    func_021984C0(a, 3, 0x2000, 24, 3, 0, 0xA0, 0);
+    return 1;
 }

@@ -1,8 +1,8 @@
 /*
  * file:     intrude_comm_p02.c
  * unit:     yes
- * function: func_021730AC, func_021731C8, func_02173368
- * address:  0x021730AC
+ * function: func_02172CB0, func_02172D70, func_021730AC, func_021731C8, func_02173368, func_02173464, func_02173558, func_02173568, func_02173580, func_0217358C, func_02173590, func_021735FC
+ * address:  0x02172CB0
  * region:   ov011
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -15,23 +15,57 @@
  * symbols:
  *   func_02026478  0x02026478  thumb
  *   func_02012E40  0x02012E40  thumb
+ *   func_02030734  0x02030734  arm
+ *   func_02158590  0x02158590  thumb  ov010
+ *   func_0203CBAC  0x0203CBAC  arm
+ *   func_020307B0  0x020307B0  arm
+ *   func_0203D10C  0x0203D10C  arm
+ *   func_0203CFF0  0x0203CFF0  arm
+ *   d_02177000     0x02177000  data  ov011
+ *   d_021768C8     0x021768C8  data  a4
+ *   func_020127C4  0x020127C4  thumb
+ *   func_02161F74  0x02161F74  thumb  ov010
  *   func_0200FB24  0x0200FB24  thumb
+ *   func_02026400  0x02026400  thumb
+ *   func_02035390  0x02035390  arm
+ *   func_020353B0  0x020353B0  arm
+ *   func_02173658  0x02173658  thumb  ov011
+ *   func_020392B8  0x020392B8  arm
+ *   func_0203D7BC  0x0203D7BC  arm
+ *   func_02039ACC  0x02039ACC  arm
+ *   func_02039338  0x02039338  arm
+ *   func_02012B64  0x02012B64  thumb
+ *   func_02012950  0x02012950  thumb
+ *   func_02012944  0x02012944  thumb
+ *   func_02008494  0x02008494  thumb
+ *   func_02175710  0x02175710  thumb  ov011
+ *   func_02012984  0x02012984  thumb
+ *   func_020399A8  0x020399A8  arm
+ *   func_020399B8  0x020399B8  arm
+ *   func_02161F54  0x02161F54  thumb  ov010
+ *   func_02174E3C  0x02174E3C  thumb  ov011
+ *   func_02174EAC  0x02174EAC  thumb  ov011
+ *   func_02173828  0x02173828  thumb  ov011
+ *   func_0203F4FC  0x0203F4FC  arm
+ *   func_02012B70  0x02012B70  thumb
+ *   func_02012114  0x02012114  thumb
+ *   func_02174978  0x02174978  thumb  ov011
+ *   func_02175EB8  0x02175EB8  thumb  ov011
+ *   func_0203D378  0x0203D378  arm
+ *   func_02175B14  0x02175B14  thumb  ov011
+ *   func_021739E0  0x021739E0  thumb  ov011
+ *   func_02175ED8  0x02175ED8  thumb  ov011
+ *   func_02175628  0x02175628  thumb  ov011
  *   func_0203CEAC  0x0203CEAC  arm
  *   func_0203D1B4  0x0203D1B4  arm
  *   func_021736EC  0x021736EC  thumb  ov011
- *   func_020399A8  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_0203D7BC  0x0203D7BC  arm
- *   func_0203D378  0x0203D378  arm
- *   func_02173580  0x02173580  thumb  ov011
  *   func_0203CDBC  0x0203CDBC  arm
- *   func_02012B70  0x02012B70  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
  *   func_02013D5C  0x02013D5C  thumb
- *   func_02012114  0x02012114  thumb
  *   func_0201210C  0x0201210C  thumb
  *   func_02188BE8  0x02188BE8  thumb  ov021
  *   func_02161F68  0x02161F68  thumb  ov010
@@ -42,13 +76,11 @@
  *   func_02175BCC  0x02175BCC  thumb  ov011
  *   func_02012B58  0x02012B58  thumb
  *   func_02026480  0x02026480  thumb
- *   func_02012B64  0x02012B64  thumb
  *   func_02012B8C  0x02012B8C  thumb
  *   func_02012B4C  0x02012B4C  thumb
  *   func_02012124  0x02012124  thumb
  *   func_02026680  0x02026680  thumb
  *   func_02045808  0x02045808  arm
- *   func_020307B0  0x020307B0  arm
  *   func_0217873C  0x0217873C  thumb  ov014
  *   func_02177494  0x02177494  thumb  ov014
  *   func_02177BFC  0x02177BFC  thumb  ov014
@@ -56,39 +88,103 @@
  *   func_02165C34  0x02165C34  thumb  ov010
  *   func_02165D08  0x02165D08  thumb  ov010
  *   func_02165C50  0x02165C50  thumb  ov010
+ *   func_02188C9C  0x02188C9C  thumb  ov021
+ *   func_0217C11C  0x0217C11C  thumb  ov018
+ *   func_02167794  0x02167794  thumb  ov010
+ *   func_021676E4  0x021676E4  thumb  ov010
+ *   func_021677E4  0x021677E4  thumb  ov010
+ *   func_02167848  0x02167848  thumb  ov010
+ *   func_02174F54  0x02174F54  thumb  ov011
+ *   func_02167688 0x02167688 thumb ov010
+ *   func_0217963C  0x0217963C  thumb  ov014
+ *   func_02039414  0x02039414  arm
+ *   func_0217778C  0x0217778C  thumb  ov014
  */
-struct Entry;
-struct Link;
-struct Ctx;
+#include "../../matched/include/Obj19161.h"
+#include "../../matched/include/Obj19162.h"
+
+struct Req;
 struct BigObj;
-struct SaveBlock;
+struct Comm;
 struct Rec44;
+struct Sub;
+struct Sub24;
+struct Entry;
+struct Ctx;
+struct Link;
+struct SaveBlock;
 struct O;
 struct U16Vec;
-typedef unsigned char  u8;
+struct Work_1;
+struct Ent;
+struct Obj_1;
+typedef unsigned char u8;
+
+typedef unsigned int u32;
+
+typedef struct {
+    u8 kind;
+    u8 a : 4;
+    u8 b : 4;
+    u8 c : 1;
+    u8 d : 5;
+    u8 e : 2;
+} Hdr;
+
+typedef struct {
+    u32 w[28];
+} T70;
+
+typedef unsigned short u16;
 
 typedef signed short   s16;
 
-typedef unsigned int   u32;
+typedef int            s32;
 
 typedef struct Param {
-    u32   field00;
+    void *field00;
     void *field04;
+    u8    pad08[6];
+    u8    field0e;
 } Param;
 
 typedef struct Work {
-    u8  pad000[0x8f8];
-    u8  field8f8;       /* 0x8F8 */
-    u8  pad8f9[4];
-    u8  field8fd;       /* 0x8FD */
-    u8  pad8fe[0x10];
-    s16 timer;          /* 0x90E */
-    u8  pad910[0x2f];
-    u8  bit0 : 1;       /* 0x93F */
-    u8  bit1 : 1;
+    u32   field000;
+    void *field004;
+    void *field008;
+    u8    pad00c[0x8a - 0x0c];
+    u8    pad08a : 6;       /* 0x08A */
+    u8    mode : 2;
+    u8    kind : 6;         /* 0x08B */
+    u8    flag08b : 1;
+    u8    pad08c[0x8f8 - 0x8c];
+    u8    field8f8;         /* 0x8F8 */
+    u8    pad8f9;
+    u8    field8fa;         /* 0x8FA */
+    u8    field8fb;         /* 0x8FB */
+    u8    pad8fc;
+    u8    step;             /* 0x8FD */
+    u8    pad8fe[3];
+    u8    field901;
+    u8    field902;
+    u8    pad903[0x90a - 0x903];
+    u16   idle;             /* 0x90A */
+    u8    pad90c[2];
+    s16   timer;            /* 0x90E */
+    u8    pad910[0x928 - 0x910];
+    void *field928[2];
+    u8    pad930[0x93f - 0x930];
+    u8    bit0 : 1;         /* 0x93F */
+    u8    quit : 1;
+    u8    bit2 : 1;
+    u8    bit3 : 1;
+    u8    bit4 : 1;
+    u8    bit5 : 1;
+    u8    lock : 1;
+    u32   stamp : 31;       /* 0x940 */
+    u32   warned : 1;
+    u8    pad944[0x94c - 0x944];
 } Work;
-
-typedef unsigned short u16;
 
 typedef struct {
     u8 b0 : 1;
@@ -110,7 +206,7 @@ typedef struct Rec {
     u32 hi : 5;
 } Rec;
 
-typedef struct Obj {
+typedef struct Obj_0 {
     u8 pad0[0x925];
     u8 count;
     u8 f926;
@@ -123,27 +219,86 @@ typedef struct Obj {
     u8 f93f_0 : 1;
     u8 f93f_1 : 1;
     u8 f93f_rest : 6;
-} Obj;
+} Obj_0;
+
+typedef struct Head {
+    u32 f0;
+    u32 w[4];
+} Head;
+
+typedef struct Entry {
+    Head h;
+    u16 f14;
+    u16 a : 3;
+    u16 b : 6;
+    u16 f18;
+    u8 pad1a;
+    u8 pad1b : 7;
+    u8 hi : 1;
+} Entry;
+
+typedef struct Obj_1 {
+    u8 pad0[8];
+    int f8;
+    u8 padc[0x80];
+    Entry ents[3];
+    u8 pad[0x8fb - 0x8c - 3 * 0x1c];
+    u8 mask;
+} Obj_1;
+
+typedef struct { void *sys; void *obj; } Work_1;
 
 extern u32 func_02026478(void *obj);
 extern u8 func_02012E40(const u8 *o);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern int func_02158590(void *p);
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
+extern u32 func_020307B0(void *p);
+extern int func_0203D10C(int a0);
+extern void func_0203CFF0(void *p);
+extern u8 *func_020127C4(void *p);
+extern void func_02161F74(int a0, int a1, int a2);
 extern u32 func_0200FB24(void);
+extern void func_02026400(struct Comm *p);
+extern u32   func_02035390(void);
+extern int func_020353B0(void);
+extern void func_02173658(u8 *o);
+extern int   func_020392B8(void);
+extern void func_0203D7BC(u8 a0);
+extern int func_02039ACC(void);
+extern u16 func_02039338(void);
+extern void  func_02012B64(void *sv, u32 a);
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern u8 *func_02012944(void *p);
+extern void  func_02008494(void *a, void *b);
+extern void func_02175710(u8 *o, u32 v);
+extern u8 func_02012984(const struct BigObj *p);
+extern struct Entry *func_020399A8(void);
+extern u32 func_020399B8(u8 *p);
+extern int func_02161F54(int a0);
+extern void func_02174E3C(u8 *p);
+extern void func_02174EAC(u8 *p, int idx, u8 *q);
+extern int func_02173828(char *p);
+extern u32 func_0203F4FC(void);
+extern int func_02012B70(const struct BigObj *p);
+extern u32   func_02012114(const struct Ctx *p);
+extern void func_02174978(u8 *s);
+extern int   func_02175EB8(void *p);
+extern u32 func_0203D378(void);
+extern int func_02175B14(u8 *p);
+extern int   func_021739E0(void);
+extern int func_02175ED8(struct Sub *s);
+extern int   func_02175628(void);
 extern int func_0203CEAC(int a0);
 extern int   func_0203D1B4(void);
 extern int func_021736EC(char *p);
-extern struct Entry *func_020399A8(void);
 extern void func_02039C68(struct Link *p, u32 a, u32 b);
 extern u32 func_02039CB4(struct Link *p, u32 a, u32 b);
-extern void func_0203D7BC(u8 a0);
-extern u32 func_0203D378(void);
-extern void func_02173580(u8 *w);
 extern int func_0203CDBC(void);
-extern int func_02012B70(const struct BigObj *p);
 extern void func_0200FBA0(void);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
 extern u32 func_02013D5C(u32 id);
-extern u32 func_02012114(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188BE8(void *a);
 extern void func_02161F68(void *p);
@@ -154,13 +309,11 @@ extern int func_02175E90(void *p, u8 *q);
 extern u8 *func_02175BCC(u8 *p);
 extern u8 func_02012B58(const struct BigObj *p);
 extern void func_02026480(void *obj, u32 value);
-extern void func_02012B64(struct BigObj *p, u8 v);
 extern void func_02012B8C(struct BigObj *p, u32 v);
 extern void func_02012B4C(struct BigObj *p, u8 v);
 extern void func_02012124(struct Ctx *p, u32 v);
 extern void func_02026680(u8 *p);
 extern void func_02045808(struct U16Vec *vec);
-extern u32 func_020307B0(void *p);
 extern int func_0217873C(u8 *p);
 extern int func_02177494(u8 *obj, u32 flags);
 extern Rec *func_02177BFC(void *, u8 *);
@@ -168,9 +321,218 @@ extern int func_02158570(u16);
 extern void func_02165C34(struct Rec *r, void *buf);
 extern u8 func_02165D08(struct Rec *r);
 extern u8 func_02165C50(u32 *);
+extern u16 func_02188C9C(u8 *p);
+extern int func_0217C11C(u32 value);
+extern void func_02167794(struct Work_1 *w);
+extern void func_021676E4(struct Work_1 *w);
+extern int func_021677E4(void *p, int i);
+extern void func_02167848(char *a0, int a1, char *a2);
+extern void func_02174F54(u8 *p, int idx, const struct Ent *src, int arg);
+extern void func_02167688(struct Work_1 *w);
+extern void func_0217963C(u32 v);
+extern u32 func_02039414(void);
+extern void func_0217778C(void);
+int func_02172CB0(int *a, Param *b, Work *c);
+void func_02172D70(int *state, Param *p, Work *w);
 int func_021730AC(int *state, Param *p, Work *w);
 int func_021731C8(int a0, void **o, u8 *s);
-void func_02173368(void *a0, Obj *s);
+void func_02173368(void *a0, Obj_0 *s);
+void func_02173464(u8 *a0, Obj_1 *p, int a2);
+void func_02173558(int a, char *p);
+void func_02173568(u8 *w);
+void func_02173580(u8 *w);
+u8 *func_0217358C(u8 *p);
+void func_02173590(int a, Hdr *p, int c);
+int func_021735FC(int a, Hdr *p);
+extern char d_02177000[];
+extern const T70 d_021768C8;
+
+
+
+
+
+
+/*
+ * recoup 2026-10-05: the old draft (196 B, c as u8* with c[0x8fd]) failed on register
+ * colours and a second pool load of 0x8fd. Typed parameters closed it to 192 B, all bytes equal:
+ * b as a struct with the byte at 0x0E, c as a struct with the step byte at 0x8FD (written
+ * c->step = 3 / 4 in each arm, no local v), callee types from matched twins (func_02026478 and
+ * func_02030734 return u32, func_02012E40 takes const u8 *). The only open item is the pool
+ * word func_02173568: the leaf is filed at src/matched/ov/ov011_func_02173568.c (EXACT);
+ * the integrator needs a shard for it, then this file is EXACT.
+ */
+int func_02172CB0(int *a, Param *b, Work *c)
+{
+    u8 *h;
+    T70 *p;
+
+    h = (u8 *)func_02026478(b->field04);
+    if (func_02012E40(h) == 1)
+        return 0;
+    switch (*a) {
+    case 0:
+        p = (T70 *)func_02030734(0x8005, 0x70, 0, d_02177000, 0xcf);
+        *p = d_021768C8;
+        if (b->field0e == 1) {
+            if (func_02158590(h) == 0)
+                *((u8 *)p + 0x60) = 2;
+        }
+        func_0203CBAC((struct Req *)p, (u32)func_02173568, (u32)c);
+        func_020307B0(p);
+        *a = *a + 1;
+        break;
+    case 1:
+        if (c->step >= 2) {
+            if (b->field0e == 1) {
+                func_0203D10C(0);
+                c->step = 3;
+            } else {
+                func_0203CFF0((u8 *)b + 8);
+                c->step = 4;
+            }
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+
+
+
+
+
+/*
+ * evidence: 0x02008494 is an unlabelled ARM9 thunk ("ldr r3, =func_02082D44; movs r2, #0x20; bx r3") that the
+ * prologue sweep misses; its start is seeded in layout/function_starts.txt
+ * from the raw bl sites elsewhere in the image (ov018 0x0217FDEC, ov021 0x021CD548, ov088 0x021BC32A and more), so the call
+ * attests as `label`.
+ */
+void func_02172D70(int *state, Param *p, Work *w)
+{
+    void *sv;
+    void *mon;
+    s32 base;
+    s32 now;
+
+    sv = (void *)func_02026478(p->field04);
+    if (w != 0 && w->step >= 7) {
+        func_02161F74((int)((u8 *)w + 0x35c), (int)func_020127C4(sv), w->field8fb);
+    }
+    if (func_0200FB24() != 0 || w->quit == 1) {
+        if (w->lock) {
+            return;
+        }
+        w->step = 11;
+        w->quit = 1;
+        func_02026400(w->field004);
+        return;
+    }
+    if (func_02035390() == 1 && func_020353B0() == 1 && w->lock == 0) {
+        func_02026400(w->field004);
+        return;
+    }
+    if (w->step == 7 && w->field8fa == 1) {
+        func_02026400(w->field004);
+        return;
+    }
+    func_021735FC((int)sv, (Hdr *)((u8 *)w + 0xc));
+    func_02173658((u8 *)w);
+    switch (*state) {
+    case 0:
+        if (func_020392B8() > 1 && w->step < 5) {
+            w->step = 5;
+            func_0203D7BC(1);
+        }
+        if (w->step == 5) {
+            if (func_02039ACC() == 1) {
+                func_02012B64(sv, func_02039338());
+                mon = func_02012950(sv, func_02039338());
+                func_02008494(func_02012944(sv), mon);
+                func_02175710((u8 *)w, func_02039338());
+                w->kind = 0x15;
+                w->mode = func_02012984(sv);
+                if (func_02158590(sv) == 0) {
+                    w->flag08b = 1;
+                }
+                func_0203D7BC(1);
+                (*state)++;
+            }
+        } else if (w->step == 4) {
+            w->timer++;
+            if (w->timer > 600) {
+                w->timer = 0;
+                func_02026400(w->field004);
+                return;
+            }
+        }
+        break;
+    case 1:
+        if (func_020399B8((u8 *)((u32)func_020399A8())) == 1) {
+            w->step = 6;
+            (*state)++;
+        }
+        break;
+    case 2:
+        func_02161F54((int)((u8 *)w + 0x35c));
+        func_02174E3C((u8 *)w);
+        func_02174EAC((u8 *)w, func_02039338(), (u8 *)w + 0x160);
+        (*state)++;
+        break;
+    case 3:
+        if (func_02173828((char *)w) == 1) {
+            w->step = 7;
+            w->stamp = func_0203F4FC();
+            (*state)++;
+        }
+        break;
+    case 4:
+        if (func_02012B70(sv) == 0 && w->mode != func_02012984(sv)
+            && func_02012114(p->field00) == 1) {
+            func_02026400(w->field004);
+            return;
+        }
+        func_02174978((u8 *)w);
+        if (func_02175EB8((u8 *)w + 0x1ac) == 1) {
+            func_02026400(w->field004);
+            return;
+        }
+        if (func_0203D378() == 1 && func_02175B14((u8 *)w + 0x1ac) == 0) {
+            base = w->stamp;
+            now = func_0203F4FC();
+            if (now < base) {
+                now += 86399;
+            }
+            now -= base;
+            if (now >= 180) {
+                func_02026400(w->field004);
+                return;
+            }
+            if (now > 170 && w->warned == 0 && func_021739E0() == 1) {
+                w->warned = 1;
+            }
+        } else if (w->lock == 0 && func_0203D378() == 1
+                   && func_02175ED8((struct Sub *)((u8 *)w + 0x1ac)) == 1) {
+            func_02026400(w->field004);
+        } else {
+            w->warned = 0;
+        }
+        if (func_02175628() == 0) {
+            w->idle++;
+            if (w->idle > 180) {
+                func_02026400(w->field004);
+                return;
+            }
+        } else {
+            w->idle = 0;
+        }
+        break;
+    }
+}
+
+
+
+
 
 
 int func_021730AC(int *state, Param *p, Work *w)
@@ -178,14 +540,14 @@ int func_021730AC(int *state, Param *p, Work *w)
     if (func_02012E40((const u8 *)func_02026478(p->field04)) == 1) {
         return 0;
     }
-    if (w->bit1 == 1 || func_0200FB24() != 0) {
+    if (w->quit == 1 || func_0200FB24() != 0) {
         w->field8f8 |= 0x40;
         func_0203CEAC((int)func_02173580);
         return 1;
     }
     switch (*state) {
     case 0:
-        w->field8fd = 9;
+        w->step = 9;
         if (func_0203D1B4() <= 1) {
             *state = 4;
         } else if (func_021736EC((char *)w) == 1) {
@@ -221,6 +583,10 @@ int func_021730AC(int *state, Param *p, Work *w)
     }
     return 0;
 }
+
+
+
+
 
 
 /*
@@ -330,10 +696,14 @@ int func_021731C8(int a0, void **o, u8 *s)
 }
 
 
+
+
+
+
 /*
  * Addresses are Black-image addresses.
  */
-void func_02173368(void *a0, Obj *s)
+void func_02173368(void *a0, Obj_0 *s)
 {
     u8 kind;
     Rec *rec;
@@ -381,4 +751,110 @@ void func_02173368(void *a0, Obj *s)
     s->ids[s->count] = rec->id;
     s->f926 = 0;
     s->count++;
+}
+
+
+
+
+
+void func_02173464(u8 *a0, Obj_1 *p, int a2)
+{
+    int h;
+    int me;
+    int i;
+    Head tmp;
+
+    if (p == 0) {
+        return;
+    }
+    h = func_02026478((void *)(((struct Obj19161 *)a0)->f4));
+    me = func_02012B58((const struct BigObj *)h);
+    if (func_02012B70((const struct BigObj *)h) == 0) {
+        if (func_0217C11C(func_02188C9C((u8 *)a2)) == 1) {
+            func_021676E4((struct Work_1 *)p->f8);
+        } else {
+            func_02167794((struct Work_1 *)p->f8);
+        }
+    } else {
+        func_021676E4((struct Work_1 *)p->f8);
+    }
+    for (i = 0; i < 3; i++) {
+        if (i != me && func_021677E4((void *)p->f8, i) == 1) {
+            p->ents[i].h.f0 = p->ents[i].hi;
+            tmp = p->ents[i].h;
+            tmp.f0 = 1;
+            func_02167848((char *)p->f8, i, (char *)(&tmp));
+        }
+    }
+    for (i = 0; i < 3; i++) {
+        if (i != me && (p->mask & (1 << i))) {
+            int hi = p->ents[i].hi;
+            func_02174F54((u8 *)p, i, (const struct Ent *)(&p->ents[i]), 0);
+            p->ents[i].hi = hi;
+        }
+    }
+}
+
+
+
+
+/*
+ * Extent contains followers 02173568, already-filed 02173580, and 0217358C;
+ * the lead stays separate to preserve the existing follower file.
+ */
+void func_02173558(int a, char *p)
+{
+    if (p != 0)
+        func_02167688((struct Work_1 *)(*(Work_1 * *)&((struct Obj19162 *)p)->f8));
+}
+
+
+
+
+
+void func_02173568(u8 *w)
+{
+    w[0x8fd] = 2;
+    func_0217963C((u32)func_02173368);
+}
+
+
+
+/*
+ * Callback leaf: sets the state byte at 0x8FD to 10.  It saves nothing, so
+ * disasm.py left it as .word data; its only reference is the function
+ * pointer func_021730AC hands to func_0203CEAC, which is why it is filed
+ * here, to give that pool word a matched witness.
+ */
+void func_02173580(u8 *w)
+{
+    w[0x8fd] = 10;
+}
+
+
+u8 *func_0217358C(u8 *p) { return p + 12; }
+
+
+
+void func_02173590(int a, Hdr *p, int c)
+{
+    p->kind = 2;
+    p->a = func_0203D1B4();
+    if (c != -1)
+        p->b = c;
+    p->c = func_02039414();
+    p->d = 1;
+    func_02008494(func_02012944((void *)a), (char *)p + 8);
+}
+
+
+
+int func_021735FC(int a, Hdr *p)
+{
+    if (p->a != func_0203D1B4() || p->c != func_02039414()) {
+        func_02173590(a, p, -1);
+        func_0217778C();
+        return 1;
+    }
+    return 0;
 }

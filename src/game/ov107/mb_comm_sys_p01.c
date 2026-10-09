@@ -1,7 +1,7 @@
 /*
  * file:     mb_comm_sys_p01.c
  * unit:     yes
- * function: func_021EE740, func_021EE824, func_021EE894, func_021EEEAC
+ * function: func_021EE740, func_021EE824, func_021EE894, func_021EEEAC, func_021EEEB4, func_021EEEF8, func_021EEF28
  * address:  0x021EE740
  * region:   ov107
  * compiler: dsi/1.1p1
@@ -13,7 +13,6 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021EEF28 0x021EEF28 thumb ov107
  *   func_021EF0F4 0x021EF0F4 thumb ov107
  *   func_021F1404 0x021F1404 thumb ov107
  *   func_021F0DE8 0x021F0DE8 thumb ov107
@@ -25,8 +24,6 @@
  *   func_02005654 0x02005654 thumb
  *   func_02005D90 0x02005D90 thumb
  *   func_02034F84 0x02034F84 arm
- *   func_021EEEB4 0x021EEEB4 thumb ov107
- *   func_021EEEF8 0x021EEEF8 thumb ov107
  *   d_021F6EA0 0x021F6EA0 data a4
  *   func_02034FB8 0x02034FB8 arm
  *   func_02030EAC 0x02030EAC arm
@@ -101,10 +98,36 @@
  *   func_02007774 0x02007774 thumb
  *   d_021F6E08 0x021F6E08 data a4
  *   d_021F6E0C 0x021F6E0C data a4
+ *   func_02040618 0x02040618 arm
+ *   func_020434CC 0x020434CC arm
+ *   func_02043588 0x02043588 arm
+ *   func_020433E0 0x020433E0 arm
+ *   func_0203F8F4 0x0203F8F4 arm
+ *   func_02045088 0x02045088 arm
+ *   func_0203FC28 0x0203FC28 arm
+ *   func_02040588 0x02040588 arm
+ *   func_0204A48C 0x0204A48C arm
+ *   func_0204B100 0x0204B100 arm
+ *   func_0204B270 0x0204B270 arm
+ *   func_020434DC 0x020434DC arm
+ *   func_02043598 0x02043598 arm
+ *   func_0202223C 0x0202223C thumb
+ *   func_02022224 0x02022224 thumb
+ *   func_021EF0D0 0x021EF0D0 thumb ov107
+ *   d_021F6C10 0x021F6C10 data a4
+ *   d_021F6B00 0x021F6B00 data a4
+ *   d_021F6B50 0x021F6B50 data a4
+ *   d_021F6B70 0x021F6B70 data a4
+ *   d_021F6B90 0x021F6B90 data a4
+ *   d_021F6BB0 0x021F6BB0 data a4
+ *   d_021F6BD0 0x021F6BD0 data a4
+ *   d_021F6BF0 0x021F6BF0 data a4
+ *   d_021F6B10 0x021F6B10 data a4
+ *   d_021F6B30 0x021F6B30 data a4
+ *   d_020A1448 0x020A1448 data a4
  */
 #include "../../matched/include/Obj00057.h"
 #include "../../matched/include/Obj22273.h"
-#include "../../matched/include/G_Counter.h"
 #include "../../matched/include/Obj00979.h"
 #include "../../matched/include/Obj22274.h"
 
@@ -124,6 +147,10 @@ struct BigObj;
 struct Bits;
 struct FSFile;
 struct Sub02008C20Obj;
+struct DispVram;
+struct DispConfig;
+struct BgTemplate;
+struct Bank;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
@@ -144,7 +171,10 @@ typedef enum { SEEK_SET=0, SEEK_CUR=1, SEEK_END=2 } SeekOrigin;
 
 typedef enum { Phase0=0,Phase33=33 } Phase;
 
-extern void func_021EEF28(u8 *);
+struct Counter { u8 f0; u8 f1; u16 f2; u32 f4; int f8; };
+
+struct Cfg { u32 prefix[4];u16 dimensions[6]; };
+
 extern void func_021EF0F4(u8 *);
 extern struct Work *func_021F1404(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern struct Object *func_021F0DE8(u16);
@@ -156,8 +186,6 @@ extern void *func_020056A0(u32,u32,u32);
 extern int func_02005654(int,int);
 extern void func_02005D90(u32,u16);
 extern void func_02034F84(u32);
-extern void func_021EEEB4(void);
-extern void func_021EEEF8(void);
 extern void func_02034FB8(u32 v);
 extern void func_02030EAC(struct Node *n);
 extern void func_0200566C(void);
@@ -169,33 +197,40 @@ extern u32 func_020307B0(void *p);
 extern void func_021F0E40(void *);
 extern void func_021F1520(char *p);
 extern void func_021EF080(char *p);
-extern void func_021F0E6C(void *),func_021EFC1C(u8 *,int);
+extern void func_021F0E6C(void *);
+extern void func_021EFC1C(u8 *,int);
 extern u8 func_02012E40(const u8 *);
 extern void func_02012E08(char *p);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020221A4(void);
 extern int func_0202EB44(void);
 extern signed char func_02012FFC(void);
-extern void func_02005E30(u32),func_0203D34C(u32,u32);
+extern void func_02005E30(u32);
+extern void func_0203D34C(u32,u32);
 extern void func_021F1628(void *,int);
 extern void func_021F1704(void *,int,int);
 extern void func_021F1A58(char *p, int a);
 extern void func_021F1B24(void *,int);
-extern int func_021F1B14(void *),func_021F1A2C(void *);
+extern int func_021F1B14(void *);
+extern int func_021F1A2C(void *);
 extern void func_021F19E4(void *,int);
 extern void func_021F1898(void *);
 extern void func_021F1A24(u8 *p);
-extern void func_021EF588(u8 *),func_021EF74C(u8 *),func_021F0EFC(void *);
+extern void func_021EF588(u8 *);
+extern void func_021EF74C(u8 *);
+extern void func_021F0EFC(void *);
 extern int func_021EF79C(u8 *);
 extern int func_021F1008(void *);
 extern int func_021F1050(int *p);
 extern void func_021F1018(u8 *p);
 extern u32 func_020461E4(int);
 extern u32 func_0200C184(struct Blk34 *p);
-extern int func_021F1370(void *,void *),func_021F1060(void *);
+extern int func_021F1370(void *,void *);
+extern int func_021F1060(void *);
 extern void *func_0200575C(u32);
 extern void func_020788AC(File *);
-extern int func_02078C18(File *,void *),func_02078A80(File *);
+extern int func_02078C18(File *,void *);
+extern int func_02078A80(File *);
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 extern u32 func_02078C28(struct FSFile *a0);
@@ -210,7 +245,10 @@ extern int func_02007774(void *);
 extern int func_021F11BC(void *);
 extern int func_021F11E8(struct Bits *a);
 extern int func_021F11F0(void *,u8,u32);
-extern void func_021EFD24(u8 *),func_021EFE40(u8 *),func_021EFE3C(u8 *),func_021EFFB0(u8 *);
+extern void func_021EFD24(u8 *);
+extern void func_021EFE40(u8 *);
+extern void func_021EFE3C(u8 *);
+extern void func_021EFFB0(u8 *);
 extern void func_021F1064(unsigned char *p);
 extern void func_021F1028(int *p);
 extern void func_021F0FE8(void *);
@@ -219,12 +257,36 @@ extern int func_021F1010(void *);
 extern void *func_021F15B0(void *);
 extern void func_0204A600(void *);
 extern void func_0204A648(void);
+extern void func_02040618(unsigned,unsigned,unsigned);
+extern void func_020434CC(void);
+extern void func_02043588(void);
+extern void func_0202223C(u32,u32);
+extern u32 func_02022224(void *);
+extern void func_020433E0(const struct DispVram *);
+extern void func_0203F8F4(u16);
+extern void func_02045088(u16);
+extern void func_0203FC28(struct DispConfig *);
+extern void func_021EF0D0(u32 a, u32 b, u32 c);
+extern void func_02040588(unsigned char which, unsigned char enable);
+extern void func_0204A48C(const struct Cfg *,u32,u32);
+extern struct Bank *func_0204B100(int,u8,u32);
+extern void func_0204B270(struct Bank *);
+extern void func_020434DC(u32,u32);
+extern void func_02043598(u32,u32);
 void func_021EE740(u8 *p);
 void func_021EE824(u8 *p);
 int func_021EE894(u8 *p);
 void func_021EEEAC(void);
+void func_021EEEB4(void);
+void func_021EEEF8(void);
+void func_021EEF28(u8 *p);
 extern struct Counter d_021F6EA0;
 extern u8 d_021F6E08[],d_021F6E0C[];
+extern const struct Cfg d_020A1448;
+extern const struct DispVram d_021F6C10;
+extern struct DispConfig d_021F6B00;
+extern const struct BgTemplate d_021F6B50,d_021F6B70,d_021F6B90,d_021F6BB0,d_021F6BD0,d_021F6BF0,d_021F6B10,d_021F6B30;
+
 
 void func_021EE740(u8 *p) {
  p[0x25]=0;
@@ -257,6 +319,7 @@ void func_021EE740(u8 *p) {
  func_02034F84(16);
 }
 
+
 void func_021EE824(u8 *p) {
  void *q; u16 *a,*b;
  func_02034FB8(16); func_02030EAC(((struct Obj00979 *)p)->f4);func_0200566C();func_020370C8();
@@ -265,6 +328,7 @@ void func_021EE824(u8 *p) {
  if(((struct Obj00979 *)p)->f60) func_020307B0(((struct Obj00979 *)p)->f60);
  func_021F0E40(((struct Obj00979 *)p)->fC);func_021F1520(((struct Obj00979 *)p)->f68);func_021EF080((char *)p);
 }
+
 
 static inline void load_payload(u8 *p) {
  File file; void *name;
@@ -276,6 +340,7 @@ static inline void load_payload(u8 *p) {
  if(!func_02078A80(&file))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
  W(32)=13;
 }
+
 
 int func_021EE894(u8 *p) {
  u32 result;
@@ -374,7 +439,54 @@ fail_tail:func_021F1028(O);W(32)=28;
  func_0204A600(func_021F15B0(M));return 0;
 }
 
+
 /*
  * note: Full 8-byte tailstub loads the even ARM target 0204A648; its own matched body takes no inputs.
  */
 void func_021EEEAC(void) { func_0204A648(); }
+
+void func_021EEEB4(void) {
+ if(d_021F6EA0.f0>1) {
+ d_021F6EA0.f0=0;
+ func_02040618(3,2,1); func_02040618(3,5,1);
+ func_02040618(7,2,1); func_02040618(7,5,1);
+ } else d_021F6EA0.f0++;
+}
+
+
+
+
+/*
+ * volatile: 021EEF02 re-reads counter after 021EEF00 store.
+ */
+void func_021EEEF8(void) { d_021F6EA0.f2++; if(d_021F6EA0.f2>=5){d_021F6EA0.f2=0;func_02040618(3,5,1);func_02040618(7,5,1);} }
+
+
+
+/*
+ * volatile: Hardware MMIO read/write at 021EEF3A..021EEF78; display and power registers.
+ */
+void func_021EEF28(u8 *p) {
+ struct Cfg cfg;
+ func_020434CC();func_02043588();
+ *(volatile u32 *)0x04000000 &= 0xffffe0ff;
+ *(volatile u32 *)0x04001000 &= 0xffffe0ff;
+ func_0202223C(0,0);func_0202223C(1,0);
+ func_02022224((void *)0);func_02022224((void *)1);
+ *(volatile u16 *)0x04000050=0;
+ *(volatile u16 *)0x04001050=0;
+ *(volatile u16 *)0x04000304 |= 0x8000;
+ func_020433E0(&d_021F6C10);
+ func_0203F8F4(((struct Obj00057 *)p)->f0);func_02045088(((struct Obj00057 *)p)->f0);
+ func_0203FC28(&d_021F6B00);
+ func_021EF0D0((u32)(&d_021F6B50),0,0);func_021EF0D0((u32)(&d_021F6B70),1,0);
+ func_021EF0D0((u32)(&d_021F6B90),2,0);func_021EF0D0((u32)(&d_021F6BB0),3,0);
+ func_021EF0D0((u32)(&d_021F6BD0),4,0);func_021EF0D0((u32)(&d_021F6BF0),5,0);
+ func_021EF0D0((u32)(&d_021F6B10),6,0);func_021EF0D0((u32)(&d_021F6B30),7,0);
+ if(!p[0x28])func_02040588(6,1);else func_02040588(6,0);
+ cfg=d_020A1448;cfg.dimensions[0]=64;
+ func_0204A48C(&cfg,(u32)&d_021F6C10,((struct Obj00057 *)p)->f0);
+ *(struct Bank * *)&((struct Obj00057 *)p)->f6C=func_0204B100(8,0,((struct Obj00057 *)p)->f0);
+ func_0204B270(*(struct Bank * *)&((struct Obj00057 *)p)->f6C);
+ func_020434DC(16,1);func_02043598(16,1);
+}

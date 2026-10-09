@@ -1,58 +1,18 @@
-# unit_021BA2F8.c (ov016)
+# unit_021BA2F8 merge status
 
-Translation unit 021BA2F8..021BC820, 32 functions, confidence proven (tools/tuboundary.py).
+The unit is 11 part files (unit_021BA2F8_p01.c to p11.c). Every part is EXACT.
+The parts cannot become one file: the unit changes compiler and flags along the way.
 
-The member files below each match on their own. Merging them into one
-`unit_021BA2F8.c` is blocked by:
+- p01 (0x021BA2F8..0x021BA804): ../2.0/sp1p2, -O4,p, Thumb. Was 2 parts, merged.
+- p02 (0x021BA804): ../2.0/sp1p2 with -ipa file.
+- p03 (0x021BABE8): ../2.0/sp1p2, -O4,p.
+- p04 (0x021BBB98): 1.1p1.
+- p05 (0x021BBBC0): ../2.0/sp1p2.
+- p06 (0x021BC500): 1.1p1.
+- p07 (0x021BC52C): ../2.0/sp1p2.
+- p08 (0x021BC5A0): 1.1p1. Was 2 parts, merged.
+- p09 (0x021BC5D4): ../2.0/sp1p2. Was 2 parts, merged.
+- p10 (0x021BC7F0): 1.1p1.
+- p11 (0x021BC804): ../2.0/sp1p2.
 
-- ov016_func_021BA2F8.c..ov016_func_021BC804.c: settings differ: src/matched/ov_sdk/ov016_func_021BA804.c has {'compiler': '../2.0/sp1p2', 'flags': '-O4,p -ipa file', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags'
-- ov016_func_021BA2F8.c..ov016_func_021BBC38.c: settings differ: src/matched/ov_sdk/ov016_func_021BA804.c has {'compiler': '../2.0/sp1p2', 'flags': '-O4,p -ipa file', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags'
-- ov016_func_021BA2F8.c..ov016_func_021BADD8.c: settings differ: src/matched/ov_sdk/ov016_func_021BA804.c has {'compiler': '../2.0/sp1p2', 'flags': '-O4,p -ipa file', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags'
-- ov016_func_021BA2F8.c..ov016_func_021BA67C.c: global g_021DD324 declared two ways (src/matched/ov_sdk/ov016_func_021BA67C.c); global g_021DD350 declared two ways (src/matched/ov_sdk/ov016_func_021BA67C.c); global g_021DD420 declared two ways (src
-- ov016_func_021BA2F8.c..ov016_func_021BA3F4.c: c99=CCERR: line 34: the file '../arm9_sdk/libc/string.h' cannot be opened nolang=CCERR: line 34: the file '../arm9_sdk/libc/string.h' cannot be opened
-- ov016_func_021BA5C8.c..ov016_func_021BA67C.c: c99=CCERR: line 29: the file '../arm9_sdk/libc/string.h' cannot be opened nolang=CCERR: line 29: the file '../arm9_sdk/libc/string.h' cannot be opened
-- ov016_func_021BA804.c..ov016_func_021BADD8.c: settings differ: src/matched/ov_sdk/ov016_func_021BABE8.c has {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags': '-O4,p -
-- ov016_func_021BA804.c..ov016_func_021BABE8.c: settings differ: src/matched/ov_sdk/ov016_func_021BABE8.c has {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags': '-O4,p -
-- ov016_func_021BAC20.c..ov016_func_021BADD8.c: c99=CCERR: line 25: the file '../arm9_sdk/libc/string.h' cannot be opened | line 26: the file '../arm9_sdk/libc/memcmp/string.h' cannot be opened nolang=CCERR: line 25: the file '../arm9_sdk/libc/stri
-- ov016_func_021BAF90.c..ov016_func_021BBC38.c: settings differ: src/matched/ov_sdk/func_021BBB98.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99
-- ov016_func_021BB7DC.c..ov016_func_021BBC38.c: settings differ: src/matched/ov_sdk/func_021BBB98.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99
-- ov016_func_021BB7DC.c..func_021BBB98.c: settings differ: src/matched/ov_sdk/func_021BBB98.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99
-- ov016_func_021BBC8C_md5.c..ov016_func_021BC804.c: settings differ: src/matched/ov_sdk/ov016_func_021BBC8C.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang'
-- ov016_func_021BBC8C_md5.c..func_021BC5A0.c: settings differ: src/matched/ov_sdk/ov016_func_021BBC8C.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang'
-- ov016_func_021BBC8C_md5.c..ov016_func_021BC52C.c: settings differ: src/matched/ov_sdk/ov016_func_021BBC8C.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang'
-- ov016_func_021BBC8C.c..ov016_func_021BC52C.c: settings differ: src/matched/ov_sdk/ov016_func_021BC52C.c has {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lang'
-- ov016_func_021BC544.c..func_021BC5A0.c: settings differ: src/matched/ov_sdk/func_021BC5A0.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99
-- ov016_func_021BC584.c..func_021BC5A0.c: settings differ: src/matched/ov_sdk/func_021BC5A0.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99
-- func_021BC5C4.c..ov016_func_021BC804.c: settings differ: src/matched/ov_sdk/ov016_func_021BC5D4.c has {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lang'
-- func_021BC5C4.c..ov016_func_021BC63C.c: settings differ: src/matched/ov_sdk/ov016_func_021BC5D4.c has {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lang'
-- func_021BC5C4.c..ov016_func_021BC5D4.c: settings differ: src/matched/ov_sdk/ov016_func_021BC5D4.c has {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lang'
-- ov016_func_021BC724.c..ov016_func_021BC804.c: settings differ: src/matched/ov_sdk/func_021BC7F0.c has {'compiler': '1.1p1', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99
-- ov016_func_021BC724.c..ov016_func_021BC7B8.c: c99=CCERR: line 108: identifier 'ATERMSET_BSS' redeclared | line 108: was declared as: 'struct ' | line 108: now declared as: 'struct ' nolang=CCERR: line 108: identifier 'ATERMSET_BSS' redeclared | l
-- func_021BC7F0.c..ov016_func_021BC804.c: settings differ: src/matched/ov_sdk/ov016_func_021BC804.c has {'compiler': '../2.0/sp1p2', 'flags': '-O4,p', 'lang': 'c99', 'isa': 'thumb'}, first member {'compiler': '1.1p1', 'flags': '-O4,p', 'lang'
-
-Members, in address order:
-
-- `ov016_func_021BA2F8.c`
-- `ov016_func_021BA3F4.c`
-- `ov016_func_021BA5C8.c`
-- `ov016_func_021BA67C.c`
-- `ov016_func_021BA804.c`
-- `ov016_func_021BABE8.c`
-- `ov016_func_021BAC20.c`
-- `ov016_func_021BADD8.c`
-- `ov016_func_021BB7DC.c`
-- `func_021BBB98.c`
-- `ov016_func_021BBC8C.c`
-- `ov016_func_021BC52C.c`
-- `ov016_func_021BC584.c`
-- `func_021BC5A0.c`
-- `func_021BC5C4.c`
-- `ov016_func_021BC5D4.c`
-- `ov016_func_021BC724.c`
-- `ov016_func_021BC7B8.c`
-- `func_021BC7F0.c`
-- `ov016_func_021BC804.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021BA2F8.c` again.
+Adjacent parts with the same compiler and flags are already merged.

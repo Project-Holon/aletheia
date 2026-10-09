@@ -1,8 +1,8 @@
 /*
  * file:     fldmmdl_blact_p03.c
  * unit:     yes
- * function: func_0219C814, func_0219C880, func_0219C8D4
- * address:  0x0219C814
+ * function: func_0219CAD8, func_0219CAF4, func_0219CB24
+ * address:  0x0219CAD8
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,107 +13,80 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D520  0x0216D520  thumb  ov010
- *   func_0216E3C4  0x0216E3C4  thumb  ov010
- *   func_0219CBD4  0x0219CBD4  thumb  ov021
- *   func_0219C7EC  0x0219C7EC  thumb  ov021
- *   func_0219CFB0  0x0219CFB0  thumb  ov021
- *   func_020508D8  0x020508D8  arm
- *   func_02050278  0x02050278  arm
- *   func_0216DFC4  0x0216DFC4  thumb  ov010
+ *   func_0216D4F8  0x0216D4F8  thumb
+ *   func_0219CA00  0x0219CA00  thumb  ov021
  *   func_0219CB98  0x0219CB98  thumb  ov021
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0219D184  0x0219D184  thumb  ov021
- *   func_0219D3B4  0x0219D3B4  thumb  ov021
- *   func_02050468  0x02050468  arm
+ *   func_0219CA34  0x0219CA34  thumb  ov021
+ *   func_0219D3F0  0x0219D3F0  thumb  ov021
+ *   func_0219CA40  0x0219CA40  thumb  ov021
  */
-#include "../../matched/include/Obj00429.h"
+#include "../../matched/include/Obj17970.h"
 
-struct BbActSys;
-typedef unsigned char u8;
+typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-typedef signed short s16;
+typedef unsigned int   u32;
 
-typedef unsigned int u32;
+typedef signed short   s16;
 
-extern void *func_0216D67C(void *a0);
-extern u32 func_0216D520(void *p);
-extern void *func_0216E3C4(void *p);
-extern int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
-extern u16 func_0219C7EC(u32, u32);
-extern void func_0219CFB0(u32, u32, u16 *, u16 *, u32, u32, u32);
-extern u32 func_020508D8(u8 *o, u32 i);
-extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
-extern int func_0216DFC4(void *a, u32 id);
-extern void func_0219CB98(u8 *, u32);
-extern u16 func_0216D598(void *p);
-extern void func_0219D184(int *obj, int key);
-extern int func_0219D3B4(u8 *, u32, u16);
-extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
-int func_0219C814(u32 a, u16 *b);
-void func_0219C880(u8 *o, u32 a, u32 b, u32 c);
-void func_0219C8D4(u32 o, u32 a);
+typedef signed char    s8;
 
+typedef struct { u16 a; u16 b; u16 c; u16 pad; } Ent;
 
-int func_0219C814(u32 a, u16 *b)
-{
-    u32 m = func_0216D520(func_0216D67C((void *)a));
-    u16 *p = func_0216E3C4((void *)a);
-    u16 loc[2];
-    func_0219CBD4(m, *p, (u32)(&loc[1]), (u32)(&loc[0]));
-    if (loc[1] != 0xFFFF && (2 & loc[0]) == 0) {
-        *b = func_0219C7EC(a, *p);
-        return 1;
-    }
-    *b = 0xFFFF;
-    func_0219CFB0(m, a, p, b, 0, 0, 0);
-    return 0;
-}
+typedef struct { int n; Ent *e; } Tbl;
+
+extern u32 func_0216D4F8(u32, u32, u32, u32);
+extern u32 func_0219CA00(u32, u32, u32);
+extern void func_0219CB98(u8 *, u16);
+extern void func_0219CA34(u8 *p);
+extern unsigned short func_0219D3F0(int *o, int a1, int a2, int a3, int a4, int a5);
+extern void func_0219CA40(u8 *, u32, u32, u32);
+int func_0219CAD8(u32 a, u32 b, u32 c, u32 d);
+void func_0219CAF4(u8 *s);
+void func_0219CB24(u8 *o, u32 a, u32 b, u32 c, u8 s0, u32 s1);
 
 
 /*
- * Former blocker (now filed in src/matched/arm9): the only unresolved site is the call to func_020508D8
- * (0x020508D8, arm, arm9), an unlabelled arm9 leaf with no witness (Ilias's).
- * Verified C for the leaf (EXACT, dsi/1.1p1 -O4,p --arm --region arm9):
- *     u32 func_020508D8(u8 *o, u32 i)
- *     {
- *         return *(u16 *)(*(u8 **)(o + 0x18) + i * 0x28 + 4);
- *     }
+ * Promoted from src/pending/: the blocker this file named is filed.
+ * func_0216D4F8 (0x0216D4F8) is a matched manifest entry, so the `matched`
+ * class attests the bl site here and every concrete byte plus every
+ * relocation field reproduces.
+ *
+ * Emitted from the ov021 instruction shape.
  *
  * Addresses are Black-image addresses.
  */
-void func_0219C880(u8 *o, u32 a, u32 b, u32 c)
+int func_0219CAD8(u32 a, u32 b, u32 c, u32 d)
 {
-    u16 v[2];
-    if (func_0219CBD4((u32)o, c, (u32)(&v[1]), (u32)(&v[0])) == 1) {
-        if (v[0] & 2) {
-            u32 t = func_020508D8((u8 *)(((struct Obj00429 *)o)->f4), b);
-            func_02050278((struct BbActSys *)(((struct Obj00429 *)o)->f4), t, 1);
+return func_0219CA00((a + 20), b, func_0216D4F8(((struct Obj17970 *)((u8 *)(a)))->f10, b, c, d));
+}
+
+
+void func_0219CAF4(u8 *s)
+{
+    int i;
+    Ent *e = ((Tbl *)(s + 0x14))->e;
+    i = 0;
+    do {
+        if (e->a != 0xFFFF) {
+            func_0219CB98(s, e->a);
         }
-        if (v[0] & 1) {
-            if (func_0216DFC4((void *)a, c) == 0)
-                func_0219CB98(o, c);
-        }
-    }
+        i++;
+        e++;
+    } while (i < ((Tbl *)(s + 0x14))->n);
+    func_0219CA34((u8 *)(s + 0x14));
 }
 
 
 /*
  * Addresses are Black-image addresses.
  */
-void func_0219C8D4(u32 o, u32 a)
+void func_0219CB24(u8 *o, u32 a, u32 b, u32 c, u8 s0, u32 s1)
 {
-    u32 t = func_0216D598((void *)o);
-    u8 *c = (u8 *)func_0216D520(func_0216D67C((void *)o));
-    if (a == 0xFFFF) {
-        func_0219D184((int *)c, (u32)o);
-        return;
-    }
-    if (func_0219D3B4(c, o, a) != 1) {
-        func_0219C880(c, o, (u16)a, t);
-        func_02050468((struct BbActSys *)(((struct Obj00429 *)c)->f4), a, 1);
-    }
+    int r = -1;
+    u32 t;
+    if (s1 & 2) r = 2;
+    t = func_0219D3F0((int *)o, b, c, s0, a, r);
+    func_0219CA40(o + 0x14, b, t, (u16)s1);
 }

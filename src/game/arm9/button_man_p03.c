@@ -1,10 +1,10 @@
 /*
  * file:     button_man_p03.c
  * unit:     yes
- * function: func_02051A2C, func_02051A34, func_02051A3C, func_02051A54, func_02051AA0, func_02051AB8, func_02051B04, func_02051B0C, func_02051B84, func_02051C58, func_02051C6C
- * address:  0x02051A2C
+ * function: func_02052984, func_02052A50, func_02052DC8, func_02052F58, func_02052F90, func_02052FC8, func_02053044
+ * address:  0x02052984
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: dsi/../1.2/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
@@ -13,254 +13,620 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_020A8140   0x020A8140  data
- *   g_02146A88   0x02146A88  data
- *   g_020A8148   0x020A8148  data
- *   func_0207E1F8  0x0207E1F8  arm
- *   func_0207E24C  0x0207E24C  arm
- *   func_0207E2A0  0x0207E2A0  arm
- *   func_0207E330  0x0207E330  arm
- *   func_0207E22C  0x0207E22C  arm
- *   func_0207E280  0x0207E280  arm
- *   func_0207E2F0  0x0207E2F0  arm
- *   func_0207E388  0x0207E388  arm
- *   func_02030734   0x02030734  arm
- *   func_020307B0   0x020307B0  arm
- *   g_020A7FCC      0x020A7FCC  data
+ *   GX_BeginLoadTex  0x0207F7A0  arm
+ *   GX_LoadTex       0x0207F7FC  arm
+ *   GX_EndLoadTex    0x0207F9B4  arm
+ *   MI_CpuFill8    0x02082BCC  arm
+ *   func_020582CC  0x020582CC  arm
+ *   func_02058204  0x02058204  arm
+ *   func_02058180  0x02058180  arm
+ *   func_020580A8  0x020580A8  arm
+ *   func_02057F8C  0x02057F8C  arm
+ *   func_02057EF8  0x02057EF8  arm
+ *   func_020583CC  0x020583CC  arm
+ *   g_020A8148  0x020A8148  data
+ *   g_020A8140  0x020A8140  data
+ *   func_0205312C  0x0205312C  arm
+ *   func_02053D30  0x02053D30  arm
+ *   func_02053E1C  0x02053E1C  arm
+ *   func_02054718  0x02054718  arm
+ *   func_02054DB8  0x02054DB8  arm
+ *   func_02055B80  0x02055B80  arm
  */
-#include "../../matched/include/Obj16192.h"
-#include "../../matched/include/Obj16193.h"
-#include "../../matched/include/Obj11459.h"
-#include "../../matched/include/Obj11460.h"
-#include "../../matched/include/Obj16194.h"
-#include "../../matched/include/Obj08875.h"
-#include "../../matched/include/Obj16196.h"
+struct Obj_02052FC8;
+struct S;
+struct SPLManager;
+struct SPLParticle;
+struct SPLTexture;
+struct List;
+struct Node;
+struct A;
+struct B;
+struct C;
+struct Src;
+typedef unsigned char u8;
 
-typedef unsigned char  u8;
+typedef unsigned int  u32;
+
+typedef struct {
+    u8  pad0[0x40];
+    u32 *f40;
+} S02052FC8;
+
+typedef struct {
+    unsigned f0   : 21;
+    unsigned b21  : 1;
+    unsigned b22  : 1;
+    unsigned rest : 9;
+} B02052FC8;
 
 typedef unsigned short u16;
 
-typedef unsigned int   u32;
-
-struct Ctx {
-    u8   pad_00[0x44];
-    u8  *base;      /* 0x44 */
+struct Node {
+    struct Node *next;
 };
 
-typedef struct S02051B84 {
-    u8 *f00;
-    int f04;
-    int f08;
-    int f0c;
-    int f10;
-} S02051B84;
+struct Desc {
+    u16 flags;
+};
 
-extern u32 func_020616CC(u32 size, u32 flag, u32 dir);
-extern void *func_0207E1F8(void);
-extern void *func_0207E24C(void);
-extern void *func_0207E2A0(void);
-extern void *func_0207E330(void);
-extern int func_0207E22C(void);
-extern int func_0207E280(void);
-extern void *func_0207E2F0(void);
-extern void *func_0207E388(void);
-extern void *func_02030734(u16 id, u32 size, u32 flags, void *file, u32 line);
-extern u32 func_020307B0(void *p);
-void func_02051A2C(void *p, int v);
-int func_02051A34(void *p);
-unsigned int func_02051A3C(int a0, int a1, int a2, int a3);
-u32 func_02051A54(u32 a, u32 b);
-int func_02051AA0(int a, int b);
-u32 func_02051AB8(u32 a, u32 b);
-u16 func_02051B04(void *res);
-int func_02051B0C(int i);
-void *func_02051B84(u8 *a0, int a1, int a2, int a3);
-void func_02051C58(void *p0);
-void func_02051C6C(void *p);
-extern struct Ctx *g_02146A88;
-extern int g_020A7FCC;
+struct Sub {
+    void *f00;
+    u32 pad[4];
+    struct Desc *f14;
+};
+
+struct Blk {
+    u32 pad0[5];
+    struct Node *f14;
+    u32 pad1[2];
+    struct Sub *f20;
+};
+
+struct Obj_02052FC8 {
+    u32 pad0[11];
+    void *f2c;
+    u32 pad1[4];
+    struct Blk *f40;
+};
+
+typedef void (*Fn)(struct Obj_02052FC8 *, struct Node *);
+
+typedef void *(*AllocFn)(u32 size);
+
+struct Head_02052DC8 {
+    AllocFn alloc;       /* 0x00 */
+    u32 f04;
+    u32 f08;
+    u32 f0c;
+    u32 f10;
+    u32 f14;
+    u32 f18;
+    u32 f1c;
+    u32 f20;
+    u32 f24;
+    u32 f28;
+    u32 f2c;
+    u16 f30;
+    u16 f32;
+    u16 f34;
+    u16 f36;
+    u32 b0  : 6;
+    u32 b6  : 6;
+    u32 b12 : 6;
+    u32 b18 : 6;
+    u32 b24 : 1;
+    u32 b25 : 7;
+    u32 f3c;
+    u32 f40;
+    u32 f44;
+    u16 f48;
+    u16 f4a;
+};
+
+struct Node9C { u8 b[0x9c]; };
+
+struct Node44 { u8 b[0x44]; };
+
+struct Flags {
+    u32 lo   : 8;
+    u32 b8   : 1;
+    u32 b9   : 1;
+    u32 b10  : 1;
+    u32 b11  : 1;
+    u32 b12  : 4;
+    u32 b16  : 1;
+    u32 b17  : 7;
+    u32 b24  : 1;
+    u32 b25  : 1;
+    u32 b26  : 1;
+    u32 b27  : 1;
+    u32 b28  : 1;
+    u32 b29  : 1;
+    u32 b30  : 2;
+};
+
+struct Anim {
+    void (*fn)(void);
+    void *data;
+};
+
+struct Rec {
+    struct Flags *data;  /* 0x00 */
+    void *f04;
+    void *f08;
+    void *f0c;
+    void *f10;
+    void *f14;
+    struct Anim *anims;  /* 0x18 */
+    u16 nanims;          /* 0x1c */
+    u16 pad1e;
+};
+
+struct Res_02052A50 {
+    u32 f00;
+    u32 kind : 4;
+    u32 w    : 4;
+    u32 h    : 4;
+    u32 hi   : 20;
+    u32 f08;
+    u32 f0c;
+    u32 f10;
+    u32 f14;
+    u32 f18;
+    u32 size;            /* 0x1c */
+};
+
+struct Row_02052A50 {
+    struct Res_02052A50 *res;
+    u32 tex_vram;
+    u32 pltt_vram;
+    u32 f0c;
+    u16 w;
+    u16 h;
+};
+
+struct Hdr {
+    u32 f00;
+    u32 f04;
+    u16 nrec;
+    u16 nrow;
+};
+
+struct Head_02052984 {
+    AllocFn alloc;       /* 0x00 */
+    u32 pad04[9];
+    struct Rec *f28;     /* 0x28 */
+    struct Row_02052A50 *f2c;     /* 0x2c */
+    u16 f30;
+    u16 f32;
+};
+
+struct Res_02052984 {
+    u32 f00;
+    u32 kind : 4;
+    u32 b4 : 13;
+    u32 shared : 1;
+    u32 idx : 8;
+    u32 hi : 6;
+    void *f08;
+};
+
+struct Row_02052984 {
+    struct Res_02052984 *res;
+    u32 vram;
+    u32 pad[3];
+};
+
+struct Obj_02052984 {
+    u32 pad0[11];
+    struct Row_02052984 *f2c;
+    u16 pad1[1];
+    u16 f32;
+};
+
+typedef u32 (*Alloc)(void *, u32);
+
+extern void func_0205312C(struct Obj_02052FC8 *o);
+extern void func_02053D30(struct SPLTexture *tex);
+extern void func_02053E1C(struct Obj_02052FC8 *obj, struct S *s);
+extern void func_02054718(struct Obj_02052FC8 *obj, struct S *s);
+extern void func_02054DB8(struct SPLManager *mgr, struct SPLParticle *ptcl);
+extern void func_02055B80(struct Obj_02052FC8 *obj, struct S *s);
+extern void MI_CpuFill8(void *dst, u8 val, u32 size);
+extern void func_020583CC(volatile struct List *list, volatile struct Node *node);
+extern void func_020582CC(struct Obj_02052984 *o, void *s, int *dst);
+extern void func_02058204(struct Obj_02052984 *o, struct Src *s, int *dst);
+extern void func_02058180(struct A *a, struct B *b, volatile int *c);
+extern void func_020580A8(struct Obj_02052984 *o, u8 *dst);
+extern void func_02057F8C(struct A *a, struct S *s, int unused, struct C *c);
+extern void func_02057EF8(struct A *a, struct B *b);
+extern void GX_BeginLoadTex(void);
+extern void GX_LoadTex(void *dst, u32 a, void *b);
+extern void GX_EndLoadTex(void);
+void func_02053044(struct Obj_02052FC8 *o);
+void func_02052FC8(S02052FC8 *o);
+int func_02052F90(u32 a0, u32 a1);
+int func_02052F58(u32 a0, u32 a1);
+struct Head_02052DC8 *func_02052DC8(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5);
+void func_02052A50(struct Head_02052984 *h, struct Hdr *d);
+int func_02052984(struct Obj_02052984 *o, Alloc alloc);
+
 
 
 /*
- * Unlabelled ARM leaf in the ARM9 module: an 8-byte store helper,
- * `p[0x94/4] = v`. The +0x94 twin of func_02051A24.
+ * Per-frame dispatch for one render list.  Reads the object's block at +0x40,
+ * bails when bit 16 of the first word of the sub-block's *f00 chain is clear,
+ * calls func_02053D30 on the 0x14-byte row the descriptor's byte at +0x0f
+ * selects, then picks a per-node handler from a 2-bit field of the
+ * descriptor's halfword (bits 8..9, spelled as the shift pair `lsl #23` /
+ * `lsr #30`), and walks the singly linked list at block+0x14 calling it.
  *
- * Addresses are Black-image addresses.
- */
-void func_02051A2C(void *p, int v)
-{
-    ((struct Obj16192 *)p)->f94 = v;
-}
-
-
-/*
- * Unlabelled ARM leaf in the ARM9 module: an 8-byte load helper,
- * `return p[0x94/4]`. The getter half of func_02051A2C.
+ * Cases 3 and 4 share func_02053E1C, and the `cmp r0, #4` says the switch has
+ * exactly five arms, none of them empty; a sixth arm makes the table one entry
+ * longer and shifts every branch.
  *
- * Addresses are Black-image addresses.
- */
-int func_02051A34(void *p)
-{
-    return ((struct Obj16193 *)p)->f94;
-}
-
-unsigned int func_02051A3C(int a0, int a1, int a2, int a3){ int t0 = func_020614D4((int)a0, (int)a1, (int)0); return ((unsigned int)((t0 << 0x10)) >> 0xd); }
-
-
-extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
-
-
-/*
- * The caller's registered handler (the function pointer in the clact.c global
- * 0x020A8140) is invoked with the two incoming arguments and a literal 0 in
- * r2; r1 is never written, so the callee takes at least two arguments and the
- * third is a constant zero.
+ * COMPILER PIN: ../1.2/sp2, on two tells at once, both documented in
+ * docs/FRONTEND-PINS.md and both already carried by this region's
+ * pkt_020526A8 family (func_020525A0.c, func_02052634.c, func_020528A8.c):
+ *   - the interworking conflict, `blx r4` at 0x02053100 (`34 ff 2f e1`)
+ *     beside the ARMv4T-style return `pop {r4, r5, r6, r7, lr}` / `bx lr` at
+ *     0x02053114/0x02053118 (`f0 40 bd e8` / `1e ff 2f e1`); under
+ *     -proc arm946e no dsi front end emits that pair, it emits `pop {..., pc}`;
+ *   - the frame-padding tell, `sub sp, sp, #4` at 0x02053048 (`04 d0 4d e2`)
+ *     where 1.1p1 pads the five-register frame with a dead `push {r3}` and
+ *     gives `push {r3, r4, r5, r6, r7, lr}` at +0000.
+ * Under 1.1p1 -O4,p the same C is 208 bytes against the original's 232, 161
+ * concrete bytes out (all three epilogues one instruction short); under
+ * ../2.0/sp2 it is 204 bytes and 161 out.  Under the pin it is 232 bytes with
+ * ZERO concrete mismatches.
  *
- * The result is appended to the current context's u32 table: the count
- * halfword at base+0x25c is loaded once, incremented and stored back, and the
- * value is written to base+0x58+count*4 - the store uses the OLD count, so the
- * table is indexed before the increment.  The return value is the low
- * halfword of the result scaled by eight, which the compiler writes as the
- * fused unequal shift pair lsl #16 / lsr #13 (a u16 cast folded into the
- * multiply, see
- * docs/idioms/unequal-shift-pair-is-a-narrowing-cast-folded-with-a-shift.md).
+ * Three of the five relocation sites are ABS32 pool words at +0x00D8/DC/E4
+ * naming func_02055B80, func_02054DB8 and func_02053E1C.  Each is an unfiled
+ * 3D-rig row (see docs/FRONTEND-PINS.md, "The 3D rig unit"), so neither the
+ * `matched` class nor `literal` has a witness: this function's own pool at
+ * 0x0205311C is the only place in the image those words appear, and the
+ * sibling at 0x0205312C carries a DISJOINT handler set (0x02055FD4,
+ * 0x02055498, 0x02054A68, 0x0205429C), so it cannot attest them either.
+ * Filing any one of the three (func_02055B80 is the highest-value) promotes
+ * this file toward EXACT with no change to the C.  func_02054718 already
+ * resolves `matched x1`.
  *
- * The twin at 0x02051AB8 is the same shape over the parallel table 0x100
- * higher (count at +0x25e, elements at +0x158).
- */
-u32 func_02051A54(u32 a, u32 b)
-{
-    u32 v = g_020A8140(a, b, 0);
-    u8 *base = g_02146A88->base;
-    u16 n = ((struct Obj11459 *)base)->f25C;
-
-    ((struct Obj11459 *)base)->f25C = n + 1;
-    *(u32 *)(base + 0x58 + n * 4) = v;
-
-    return (u16)v * 8;
-}
-
-
-/*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051AA0.c \
- *       --func func_02051AA0 --addr 0x02051AA0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/func_02053044.c \
+ *       --func func_02053044 --addr 0x02053044 --cc ../1.2/sp2 --arm
  */
-int func_02051AA0(int a, int b)
+void func_02053044(struct Obj_02052FC8 *o)
 {
-    return (u16)func_020616CC(a, b, 1) << 3;
+    struct Blk *b = o->f40;
+    struct Sub *s = b->f20;
+    Fn fn = 0;
+    struct Node *n;
+
+    if ((((u32 *)s->f00)[0] << 15) >> 31 ? 0 : 1)
+        return;
+
+    func_02053D30((struct SPLTexture *)((char *)o->f2c + ((u8 *)s->f14)[0xf] * 0x14));
+
+    switch ((u32)(s->f14->flags << 23) >> 30) {
+    case 0:
+        fn = (Fn)func_02055B80;
+        break;
+    case 1:
+        fn = (Fn)func_02054DB8;
+        break;
+    case 2:
+        fn = (Fn)func_02054718;
+        break;
+    case 3:
+        fn = (Fn)func_02053E1C;
+        break;
+    case 4:
+        fn = (Fn)func_02053E1C;
+        break;
+    }
+
+    n = b->f14;
+    if (n == 0)
+        return;
+
+    do {
+        fn(o, n);
+        n = n->next;
+    } while (n != 0);
 }
+
+
+
+/*
+ * Blocking class: label.  Both callees, 0x02053044 and 0x0205312C, are
+ * reached only from the two call sites inside this function, so neither has a
+ * witness outside the compared range and all four PC24 fields stay
+ * wildcarded (0x02052FC8 is the last function of the packet before them).
+ * Every concrete byte matches under the packet's 1.2 pin; both callees are
+ * still-open rows of pkt_020526A8, and filing either one EXACT would move
+ * this to EXACT through the `matched` class.
+ *
+ * The two branches are bit 21 and bit 22 of *v, and they must be written as a
+ * 21/1/1/9 bitfield struct: the spelled-out `(*v << 10) >> 31` form loads the
+ * word into the wrong scratch register (r2 where the image uses r1, and the
+ * in-place `lsl r1, r1, #9` of the second test becomes a move), a six-byte
+ * residue that the bitfield declaration removes.  See
+ * docs/notes/pkt_020526A8.c.txt.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02052FC8.c \
+ *       --func func_02052FC8 --addr 0x02052FC8 --arm --cc ../1.2/sp2
+ */
+void func_02052FC8(S02052FC8 *o)
+{
+    B02052FC8 *v = (B02052FC8 *)((u32 **)o->f40[8])[0];
+
+    if (v->b21) {
+        func_02053044((struct Obj_02052FC8 *)o);
+        if (v->b22)
+            return;
+        func_0205312C((struct Obj_02052FC8 *)o);
+        return;
+    }
+    if (v->b22 == 0)
+        func_0205312C((struct Obj_02052FC8 *)o);
+    func_02053044((struct Obj_02052FC8 *)o);
+}
+
+
 
 
 extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
 
 
-/*
- * Byte-for-byte the twin of func_02051A54 over the second table: same
- * indirect call through the handler at 0x020A8140 (two arguments forwarded,
- * a literal 0 in r2), same append-and-count shape, but the count halfword is
- * at base+0x25e and the elements at base+0x158, i.e. the parallel table 0x100
- * bytes higher with its own counter.
- */
-u32 func_02051AB8(u32 a, u32 b)
-{
-    u32 v = g_020A8148(a, b, 0);
-    u8 *base = g_02146A88->base;
-    u16 n = ((struct Obj11460 *)base)->f25E;
 
-    ((struct Obj11460 *)base)->f25E = n + 1;
-    *(u32 *)(base + 0x158 + n * 4) = v;
 
-    return (u16)v * 8;
-}
+extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
+
+
 
 
 /*
- * ARM leaf, seeded 2026-09-27 from the ov195 call site 0x02208954
- * (func_0220887C). Returns the u16 at +8 of its argument.
+ * Twin of src/matched/func_02052F58.c: same twelve instructions and the same
+ * two pool words by position, differing only in the global function pointer
+ * it calls (0x020A8140 against 0x020A8148).  Carries the same per-file pin
+ * for the same measured tells (register `blx r3` beside an ARMv4T
+ * `ldm sp!, {lr}; bx lr` return, and `sub sp, sp, #4` where 1.1p1 pads with a
+ * dead `push {r3}`).
  *
- * Addresses are Black-image addresses.
- */
-u16 func_02051B04(void *res)
-{
-    return ((struct Obj16194 *)res)->f8;
-}
-
-
-/*
- * Eight-way dispatch on a button-man handler id: each of the eight ids tail
- * calls its own handler and returns that handler's value, and any id above 7
- * falls out of the switch to `return 0;`.  That trailing `return 0;` is what
- * the image has at +0x7C (`mov r0, #0; pop {r3, pc}`) and it is also the
- * addls-skipped target at +0x0C, so the `switch` has no `default:` label at
- * all - writing the arms as bare calls (or with `break`) instead of
- * `return f();` loses those eight bytes and the arms' `pop {r3, pc}` with
- * them.
+ * Evidence recorded in docs/notes/pkt_020526A8.c.txt.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051B0C.c \
- *       --func func_02051B0C --addr 0x02051B0C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_02052F90.c \
+ *       --func func_02052F90 --addr 0x02052F90 --arm --cc ../1.2/sp2
  */
-int func_02051B0C(int i)
+int func_02052F90(u32 a0, u32 a1)
 {
-    switch (i) {
-    case 0: return (int)func_0207E1F8();
-    case 1: return (int)func_0207E24C();
-    case 2: return (int)func_0207E2A0();
-    case 3: return (int)func_0207E330();
-    case 4: return func_0207E22C();
-    case 5: return func_0207E280();
-    case 6: return (int)func_0207E2F0();
-    case 7: return (int)func_0207E388();
-    }
-    return 0;
+    return (g_020A8140(a0, a1, 0) & 0xffff) << 3;
 }
 
 
-void *func_02051B84(u8 *a0, int a1, int a2, int a3)
-{
-    S02051B84 *r;
-    int i = 0;
-    unsigned j;
 
-    while (i < 0xff) {
-        if (a0[i * 4] == 0xff) {
-            break;
-        }
-        i++;
-    }
-    r = (S02051B84 *)func_02030734((u16)a3, 0x14, 0, &g_020A7FCC, 0x6b);
-    if (r != 0) {
-        r->f00 = a0;
-        r->f04 = i;
-        r->f08 = a1;
-        r->f0c = a2;
-        r->f10 = (int)func_02030734((u16)a3, i * 4, 0, &g_020A7FCC, 0x73);
-        if (r->f10 != 0) {
-            for (j = 0; j < i; j++) {
-                func_02051C58((void *)(r->f10 + j * 4));
-            }
+
+/*
+ * Calls the routine held in the global function pointer at 0x020A8148 with
+ * (a0, a1, 0) and returns (result & 0xffff) << 3.  The 8-byte frame is
+ * push {lr} plus the AAPCS alignment word.
+ *
+ * Built by the 1.2 front end, on two measured tells at once: the image has a
+ * register `blx r3` beside an ARMv4T return `ldm sp!, {lr}; bx lr`, a pair no
+ * dsi build emits, and the frame is `sub sp, sp, #4` where 1.1p1 pads with a
+ * dead `push {r3}`.  Under 1.1p1 the 16-bit mask also folds into a shift pair
+ * (`lsl r0,r0,#0x10; lsr r0,r0,#0xd`) where the image ANDs with a pooled
+ * 0xffff; ../1.2/sp2 reproduces all of it.  Measured, same packet as
+ * src/matched/func_020525A0.c (pinned for the frame tell).
+ *
+ * Evidence recorded in docs/notes/pkt_020526A8.c.txt.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02052F58.c \
+ *       --func func_02052F58 --addr 0x02052F58 --arm --cc ../1.2/sp2
+ */
+int func_02052F58(u32 a0, u32 a1)
+{
+    return (g_020A8148(a0, a1, 0) & 0xffff) << 3;
+}
+
+
+
+
+/*
+ * The rig constructor: allocate and zero the 0x4c-byte Head_02052DC8 through the
+ * caller's allocator, record the two pool sizes (+0x34, +0x36), pack the
+ * 6-bit fields of the +0x38 word (b0 = a4, b6 = a5, b12 = b0, b18 = a3,
+ * b24 and b25..31 cleared, one read-modify-write per field under 1.2), clear
+ * the three list headers and the counters, then allocate n1 nodes of 0x9c
+ * bytes pushed onto the recycle list at +0x10 and n2 records of 0x44 bytes
+ * pushed onto the list at +0x1c.  Returns the Head_02052DC8.  Caller 0x02050D88 passes
+ * every scalar argument truncated to u16.
+ *
+ * Closed by indexing: `&p[i]` over a 0x9c-byte element type rather than a
+ * hand-advanced `char *` (8 bytes out, a p/i register swap, otherwise).
+ */
+/*
+ * The rig constructor: allocate and zero the 0x4c-byte Head through the
+ * caller's allocator, record the two pool sizes (+0x34, +0x36), pack the
+ * 6-bit fields of the +0x38 word (b0 = a4, b6 = a5, b12 = b0, b18 = a3,
+ * b24 and b25..31 cleared, one read-modify-write per field under 1.2), clear
+ * the three list headers and the counters, then allocate n1 nodes of 0x9c
+ * bytes pushed onto the recycle list at +0x10 and n2 records of 0x44 bytes
+ * pushed onto the list at +0x1c.  Returns the Head.  Caller 0x02050D88 passes
+ * every scalar argument truncated to u16.
+ *
+ * Closed by indexing: `&p[i]` over a 0x9c-byte element type rather than a
+ * hand-advanced `char *` (8 bytes out, a p/i register swap, otherwise).
+ */
+struct Head_02052DC8 *func_02052DC8(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5)
+{
+    struct Head_02052DC8 *h;
+    struct Node9C *p;
+    struct Node44 *q;
+    int i;
+
+    h = alloc(sizeof(struct Head_02052DC8));
+    MI_CpuFill8(h, 0, sizeof(struct Head_02052DC8));
+    h->f34 = n1;
+    h->f36 = n2;
+    h->b0 = a4;
+    h->b6 = a5;
+    h->b12 = h->b0;
+    h->b18 = a3;
+    h->b24 = 0;
+    h->b25 = 0;
+    h->alloc = alloc;
+    h->f08 = 0;
+    h->f14 = 0;
+    h->f20 = 0;
+    h->f04 = 0;
+    h->f10 = 0;
+    h->f1c = 0;
+    h->f3c = 0;
+    h->f48 = 0;
+
+    p = alloc(n1 * sizeof(struct Node9C));
+    MI_CpuFill8(p, 0, n1 * sizeof(struct Node9C));
+    for (i = 0; i < n1; i++)
+        func_020583CC((volatile struct List *)(&h->f10), (volatile struct Node *)(&p[i]));
+
+    q = alloc(n2 * sizeof(struct Node44));
+    MI_CpuFill8(q, 0, n2 * sizeof(struct Node44));
+    for (i = 0; i < n2; i++)
+        func_020583CC((volatile struct List *)(&h->f1c), (volatile struct Node *)(&q[i]));
+
+    h->f28 = 0;
+    h->f2c = 0;
+    h->f30 = h->f32 = 0;
+    return h;
+}
+
+
+
+
+/*
+ * The rig's resource binder: walk a packed blob `d` from byte 0x20 on.
+ * First h->f30 = d->nrec records of 0x20 bytes (h->f28): each takes a
+ * 0x58-byte block whose first word is a flag set; flags 8..11 and 16 each
+ * bind an optional sub-block (0xc/0xc/8/0xc/0x14 bytes) to rec->f04..f14,
+ * and flags 24..29 each add one {callback, data} entry to a table allocated
+ * at rec->f18 (count at rec->f1c) with data sizes 8/8/0x10/4/8/0x10 and the
+ * six callbacks 0x020582CC..0x02057EF8.  Then h->f32 = d->nrow material
+ * rows of 0x14 bytes (h->f2c): row->res points at the next resource, the two
+ * 4-bit size codes at res+4 bits 4..7 and 8..11 give 1 << (code + 3), and
+ * the resource's own size word at +0x1c advances the cursor.
+ *
+ * Levers: the optional fills are if/else statements (a `?:` gives separate
+ * zero stack slots per arm and reorders), the callback entry stores data,
+ * then fn, then advances `off` (any other order if-converts the blocks and
+ * loses 40 bytes), `rec = &h->f28[i]` is bound before the data store, and
+ * the entry count is summed straight from the six bitfields, the later
+ * tests reading the same fields (separate u32 locals give a r4/r5/r6
+ * register cycle, 22 bytes out).
+ */
+void func_02052A50(struct Head_02052984 *h, struct Hdr *d)
+{
+    u32 off;
+    int i;
+
+    off = 0x20;
+    h->f30 = d->nrec;
+    h->f32 = d->nrow;
+    h->f28 = h->alloc(h->f30 * sizeof(struct Rec));
+    MI_CpuFill8(h->f28, 0, h->f30 * sizeof(struct Rec));
+
+    for (i = 0; i < h->f30; i++) {
+        struct Rec *rec;
+        struct Flags fl;
+
+        rec = &h->f28[i];
+        rec->data = (struct Flags *)((char *)d + off);
+        fl = *rec->data;
+        off += 0x58;
+
+        if (fl.b8) { rec->f04 = (char *)d + off; off += 0xc; } else { rec->f04 = 0; }
+        if (fl.b9) { rec->f08 = (char *)d + off; off += 0xc; } else { rec->f08 = 0; }
+        if (fl.b10) { rec->f0c = (char *)d + off; off += 8; } else { rec->f0c = 0; }
+        if (fl.b11) { rec->f10 = (char *)d + off; off += 0xc; } else { rec->f10 = 0; }
+        if (fl.b16) { rec->f14 = (char *)d + off; off += 0x14; } else { rec->f14 = 0; }
+
+        rec->nanims = fl.b24 + fl.b25 + fl.b26 + fl.b27 + fl.b28 + fl.b29;
+        if (rec->nanims != 0) {
+            struct Anim *p;
+            rec->anims = h->alloc(rec->nanims * sizeof(struct Anim));
+            p = rec->anims;
+            if (fl.b24) { p->data = (char *)d + off; p->fn = (void (*)(void))func_020582CC; off += 8; p++; }
+            if (fl.b25) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02058204; off += 8; p++; }
+            if (fl.b26) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02058180; off += 0x10; p++; }
+            if (fl.b27) { p->data = (char *)d + off; p->fn = (void (*)(void))func_020580A8; off += 4; p++; }
+            if (fl.b28) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02057F8C; off += 8; p++; }
+            if (fl.b29) { p->data = (char *)d + off; p->fn = (void (*)(void))func_02057EF8; off += 0x10; }
         } else {
-            func_020307B0(r);
-            r = 0;
+            rec->anims = 0;
         }
     }
-    return r;
+
+    h->f2c = h->alloc(h->f32 * sizeof(struct Row_02052A50));
+    MI_CpuFill8(h->f2c, 0, h->f32 * sizeof(struct Row_02052A50));
+
+    for (i = 0; i < h->f32; i++) {
+        struct Row_02052A50 *row = &h->f2c[i];
+        struct Res_02052A50 *res = (struct Res_02052A50 *)((char *)d + off);
+        row->res = res;
+        row->w = 1 << (res->w + 3);
+        row->h = 1 << (res->h + 3);
+        row->f0c = ((u32 *)res)[1];
+        off += res->size;
+    }
 }
 
 
-void func_02051C58(void *p0){ ((struct Obj08875 *)p0)->f0 = (unsigned char)0; ((struct Obj08875 *)p0)->f1 = (unsigned char)0; ((struct Obj08875 *)p0)->f2 = (unsigned short)0; }
 
 
 /*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02051C6C.c \
- *       --func func_02051C6C --addr 0x02051C6C --cc 1.1p1 --arm
+ * The texture-upload pass of the rig's material rows: GX_BeginLoadTex, then
+ * for every row of o->f2c (o->f32 rows of 0x14 bytes) either share another
+ * row's texture handle (resource flag bit 17 set; the row index is the 8-bit
+ * field at bits 18..25) or allocate through the caller's callback and upload
+ * with GX_LoadTex, then GX_EndLoadTex.  Always returns 1.  Twin of
+ * func_020528D0 (palettes).
+ *
+ * What closed it (wave 9): the natural spelling.  The byte-offset induction
+ * variable and the two stack slots holding 1 and 0 are the compiler's own
+ * strength reduction of o->f2c[i] and of "kind == 5 ? 1 : 0"; writing them
+ * as locals (the wave-7 note) left a register swap no permutation moved.
+ * The flags word is three declared bitfields (kind:4, shared at bit 17,
+ * idx:8 at bits 18..25), and the row pointer is taken before the resource.
  */
-void func_02051C6C(void *p)
+int func_02052984(struct Obj_02052984 *o, Alloc alloc)
 {
-    func_020307B0((void *)((struct Obj16196 *)p)->f10);
-    func_020307B0(p);
+    int i;
+
+    GX_BeginLoadTex();
+
+    for (i = 0; i < o->f32; i++) {
+        struct Row_02052984 *r = &o->f2c[i];
+        struct Res_02052984 *res = r->res;
+
+        if (res->shared) {
+            r->vram = o->f2c[res->idx].vram;
+        } else {
+            u32 v = alloc(res->f08, res->kind == 5 ? 1 : 0);
+            GX_LoadTex((char *)r->res + 0x20, v, res->f08);
+            r->vram = v;
+        }
+    }
+
+    GX_EndLoadTex();
+    return 1;
 }

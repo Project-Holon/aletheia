@@ -1,8 +1,8 @@
 /*
  * file:     script_work_p05.c
  * unit:     yes
- * function: func_02157E34, func_02157E6C, func_02157E78, func_02157E8C, func_02157E9C, func_02158318, func_02158344, func_02158378, func_0215839C, func_021583CC, func_021583EC, func_0215840C, func_0215841C, func_02158428, func_02158434, func_0215843C, func_02158468, func_021584A4
- * address:  0x02157E34
+ * function: func_021590D4, func_021590F4, func_021590FC, func_02159104, func_0215910C, func_02159114, func_0215911C, func_02159124, func_02159130, func_02159144, func_02159168, func_02159190, func_02159198, func_021591B4, func_02159204, func_02159240, func_02159244, func_02159248, func_02159254, func_02159260, func_02159284, func_0215929C, func_021592A8, func_021592C0
+ * address:  0x021590D4
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,686 +13,468 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02157E08  0x02157E08  thumb
- *   func_02157960  0x02157960  thumb
- *   func_02157DB8  0x02157DB8  thumb
- *   func_020307B0  0x020307B0  arm
- *   func_0203CEAC  0x0203CEAC  arm
- *   func_020056EC  0x020056EC  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02008530  0x02008530  thumb
- *   func_020084F4  0x020084F4  thumb
- *   func_02008550  0x02008550  thumb
- *   func_020173F0  0x020173F0  thumb
- *   func_020186C8  0x020186C8  thumb
- *   func_02017588  0x02017588  thumb
- *   func_02017E40  0x02017E40  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017FA8  0x02017FA8  thumb
- *   func_0201808C  0x0201808C  thumb
- *   func_020180F4  0x020180F4  thumb
- *   func_02018A00  0x02018A00  thumb
- *   func_020185F0  0x020185F0  thumb
- *   func_020185C4  0x020185C4  thumb
- *   func_0202F2AC  0x0202F2AC  thumb
- *   func_02045A98  0x02045A98  arm
- *   func_02045EC0  0x02045EC0  arm
- *   func_02045808  0x02045808  arm
- *   d_02170068     0x02170068  data
- *   d_0209DF08     0x0209DF08  data  a1
- *   d_0209DF0C     0x0209DF0C  data  a1
- *   d_020A7370     0x020A7370  data
- *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012B70  0x02012B70  thumb
- *   func_0202648C  0x0202648C  thumb
- *   func_02026474  0x02026474  thumb
- *   func_0200FB24  0x0200FB24  thumb
- *   func_02026454  0x02026454  thumb
- *   func_02026460  0x02026460  thumb
- *   func_02026478  0x02026478  thumb
- *   func_02012B58  0x02012B58  thumb
- *   func_020127B8   0x020127B8  thumb
- *   func_020127AC   0x020127AC  thumb
- *   func_02012950   0x02012950  thumb
- *   func_02012B80   0x02012B80  thumb
- *   func_0200855C 0x0200855C thumb
- *   func_02012984  0x02012984  thumb
- *   func_02012B98  0x02012B98  thumb
+ *   func_02158FD0 0x02158FD0 thumb ov010
+ *   func_02082A60 0x02082A60 arm
+ *   func_020307B0 0x020307B0 arm
+ *   d_02172BA0 0x02172BA0 data a4
+ *   func_02082A7C 0x02082A7C arm
+ *   d_021705F0     0x021705F0  data  ov010
+ *   func_0215A5F4 0x0215A5F4 thumb ov010
+ *   func_0215A5DC 0x0215A5DC thumb ov010
+ *   func_020122C0 0x020122C0 thumb
+ *   func_020124E8 0x020124E8 thumb
+ *   func_02011290  0x02011290  thumb
+ *   func_0215A690  0x0215A690  thumb  ov010
+ *   func_0215A684   0x0215A684  thumb  ov010
+ *   func_02011330   0x02011330  thumb
+ *   func_020113D0   0x020113D0  thumb
+ *   func_0201134C  0x0201134C  thumb
+ *   func_020113B4  0x020113B4  thumb
+ *   func_020113C4  0x020113C4  thumb
+ *   func_0215A5E4  0x0215A5E4  thumb  ov010
+ *   func_02159B10  0x02159B10  thumb  ov010
+ *   func_02011398  0x02011398  thumb
  */
-#include "../../matched/include/Obj07276.h"
-#include "../../matched/include/Obj18745.h"
+#include "../../matched/include/Obj17639.h"
+#include "../../matched/include/Obj17640.h"
+#include "../../matched/include/Obj18756.h"
+#include "../../matched/include/Obj18757.h"
+#include "../../matched/include/Obj17641.h"
+#include "../../matched/include/Obj17642.h"
+#include "../../matched/include/Obj00005.h"
 
-struct Mon;
-struct MsgBank;
-struct U16Vec;
-struct Sub0200852CObj;
-struct Ctx;
-struct BigObj;
-struct SaveBlock;
-struct Rec44;
-struct Sub24;
-typedef unsigned char u8;
+struct Desc;
+struct Obj;
+struct S;
+struct ScriptVm;
+struct Stream;
+struct Ring;
+typedef unsigned int   u32;
+
+typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-typedef unsigned int u32;
+typedef signed short   s16;
 
-typedef int s32;
+typedef enum { BIT = 1 } Mask;
 
-typedef unsigned long long u64;
+typedef int (*Fn)(int *, int *);
 
-typedef struct GiftMon {
-    u32 otId;           /* 0x00 */
-    u32 f04;            /* 0x04 */
-    u32 pid;            /* 0x08 */
-    u16 ribbons;        /* 0x0C */
-    u16 ball;           /* 0x0E */
-    u16 item;           /* 0x10 */
-    u16 moves[4];       /* 0x12 */
-    u16 species;        /* 0x1A */
-    u8 form;            /* 0x1C */
-    u8 lang;            /* 0x1D */
-    u16 nick[11];       /* 0x1E */
-    u8 nature;          /* 0x34 */
-    u8 gender;          /* 0x35 */
-    u8 ability;         /* 0x36 */
-    u8 pidType;         /* 0x37 */
-    u16 eggLoc;         /* 0x38 */
-    u16 metLoc;         /* 0x3A */
-    u8 f3C;             /* 0x3C */
-    u8 contest[6];      /* 0x3D */
-    u8 hp;              /* 0x43 */
-    u8 atk;             /* 0x44 */
-    u8 def;             /* 0x45 */
-    u8 spe;             /* 0x46 */
-    u8 spa;             /* 0x47 */
-    u8 spd;             /* 0x48 */
-    u8 pad49;
-    u16 otName[8];      /* 0x4A */
-    u8 otGender;        /* 0x5A */
-    u8 level;           /* 0x5B */
-    u8 isEgg;           /* 0x5C */
-    u8 pad5D[0xAC - 0x5D];
-    s32 date;           /* 0xAC */
-    u8 padB0[3];
-    u8 fB3;             /* 0xB3 */
-} GiftMon;
+struct S { int _0, _4, _8; int c; int idx; int n; };
 
-typedef struct IvMoves {
-    u8 iv[6];
-    u16 moves[4];
-} IvMoves;
+typedef struct TaskWork { void *system; void *vm; void *owner; int c; int idx; int n; } TaskWork;
 
-typedef struct { u8 a : 4; u8 f : 2; u8 b : 2; } Fl;
-
-typedef struct Rec28 {
-    u8 data[0x28];
-} Rec28;
-
-typedef struct RecHolder {
-    u8 pad[0x1AC];
-    Rec28 recs[1];      /* 0x1AC */
-} RecHolder;
-
-typedef struct { u16 f : 3; u16 g : 13; } Fh;
-
-extern int func_02157E08(void *);
-extern void func_02157960(int a, int b, int c);
-extern void func_02157DB8(int p);
+extern int func_02158FD0(int a0, u32 a1, int a2);
+extern void func_02082A60(const void *, void *, unsigned int);
 extern u32 func_020307B0(void *p);
-extern int func_0203CEAC(int a0);
-extern u32 func_020056EC(u32 n);
-extern u8 *func_02012944(void *p);
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern const void *func_020084F4(const void *p);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void *func_020173F0(u16 species, u16 level, u64 id, int heap);
-extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
-extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_02017FA8(void *p);
-extern u32 func_0201808C(void *p, u32 move);
-extern void func_020180F4(void *p, int move);
-extern void func_02018A00(void *p, u32 a, u32 b);
-extern void *func_020185F0(void *p);
-extern void func_020185C4(void *p);
-extern void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern u16 func_02045A98(void);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02012138(const struct Ctx *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern int func_02012B70(const struct BigObj *p);
-extern u32 func_0202648C(void *obj);
-extern u32 func_02026474(void *obj);
-extern u32 func_0200FB24(void);
-extern u32 func_02026454(void *obj);
-extern u32 func_02026460(void *obj);
-extern u32 func_02026478(void *obj);
-extern u8 func_02012B58(const struct BigObj *p);
-extern void *func_020127B8(void *p);
-extern void *func_020127AC(struct SaveBlock *p, u32 idx);
-extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
-extern u8 func_02012B80(const struct BigObj *p);
-extern u8 func_0200855C(const struct Sub0200852CObj *obj);
-extern u8 func_02012984(const struct BigObj *p);
-extern u8 func_02012B98(const struct BigObj *p, u32 i);
-int func_02157E34(void *p);
-unsigned char func_02157E6C(char *p);
-void func_02157E78(u8 *p);
-int func_02157E8C(void *a0);
-void *func_02157E9C(const GiftMon *g, int heap, void *save);
-int func_02158318(int a0);
-int func_02158344(int a0);
-int func_02158378(void *p);
-int func_0215839C(u8 *p, int m, int a2);
-int func_021583CC(void *a0, int a1);
-int func_021583EC(void *a0, int a1);
-Rec28 *func_0215840C(RecHolder *h, int idx);
-u8 func_0215841C(void *p);
-u8 func_02158428(u8 *p);
-void *func_02158434(char *p);
-int func_0215843C(void *p);
-int func_02158468(int a0);
-int func_021584A4(int unused, int a, int mode);
-extern u32 d_02170068[];
-extern u8 d_0209DF08[];
-extern u8 d_0209DF0C[];
-extern void *d_020A7370;
+extern void func_02082A7C(int, void *, int);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
+extern int func_0215A690(char *);
+extern u16 func_02011330(struct Stream *s);
+extern void func_0215A684(int *p, unsigned short v);
+extern void func_020113D0(char *p, int val);
+extern int func_0201134C();
+extern int func_020113B4();
+extern u32 func_020113C4(struct Ring *r);
+extern void *func_0215A5E4(void *a0);
+extern unsigned int func_02159B10(void *, void *);
+extern u32 func_02011398(struct Ring *r);
+void func_021590D4(void *a, void *b, int a2);
+/* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Shifted-index word-field setter, same shape as its getter partner. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/func_021590F4.c \ * --func func_021590F4 --addr 0x021590F4 --region ov010 --cc dsi/1.1p1 --thumb */ void func_021590F4(void *p, u32 v);
+/* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Shifted-index word-field getter: the field table sits at a byte offset built from a small constant shifted left, so the leaf folds it to one immediate. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/func_021590FC.c \ * --func func_021590FC --addr 0x021590FC --region ov010 --cc dsi/1.1p1 --thumb */ u32 func_021590FC(void *p);
+/* * Store of a word at +0x140. * Addresses are Black-image addresses. */ void func_02159104(u8 *p, u32 v);
+/* * Unlabelled leaf, blocker of ov021 func_021D1A54/021D1A74/021D1AB0: reads the word at +0x140. * Overlay choice, ov009 and ov010 share this window; ov009 holds ARM code here, * ov010 holds this Thumb routine, and the ov021 callers already name ov010 * (ov010 is the overlay resident with ov021). * * Addresses are Black-image addresses. */ u32 func_0215910C(void *p);
+/* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Shifted-index word-field setter, same shape as its getter partner. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/func_02159114.c \ * --func func_02159114 --addr 0x02159114 --region ov010 --cc dsi/1.1p1 --thumb */ void *func_02159114(void *p, u32 v);
+/* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Shifted-index word-field getter: the field table sits at a byte offset built from a small constant shifted left, so the leaf folds it to one immediate. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/func_0215911C.c \ * --func func_0215911C --addr 0x0215911C --region ov010 --cc dsi/1.1p1 --thumb */ u32 func_0215911C(void *p);
+char *func_02159124(char *p, int i);
+void func_02159130(void);
+/* * Input evidence: ov010 callers 0215F278/02164946 pass 11/7; * ov021 flag setters pass fixed IDs 0..13 (e.g. 021B5316 passes 0, * 021AEE1E passes 13). No traced setter call supplies a negative ID. * These primary paths make 1 << n defined; no new bound is assumed. */ void func_02159144(int n);
+/* * lever: enum-typed BIT keeps the shifted mask opaque; plain int folds * the complement to mvns and shortens the body by four bytes. * Input evidence: ov010 sites 0215F298/021649D6/02164A14 pass 11/7/7; * ov021 flag clearers pass fixed IDs 0..13 (021B52D8 passes 0, * 021AF03A passes 13; 021B10C8 forwards its saved literal 3). * On these traced paths n is nonnegative and below 14 before the shift. */ void func_02159168(int n);
+/* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Tail call through a pool word and `bx r3`: a two-instruction * thunk into func_02159198, the shape of the arm9 copy. * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/func_02159190.c \ * --func func_02159190 --addr 0x02159190 --region ov010 --cc dsi/1.1p1 --thumb */ int func_02159190(int a0);
+/* * Input evidence: direct callers are 0215914C, 02159170, 021591D0. * Set/clear callers use fixed nonnegative IDs 0..13; the 02159190 tail * forwarder has constant-ID callers in ov010/ov021/ov082 (021F5756: 3). * The task caller's index starts at zero (0215922E), advances by one * (021591EA), and sees a NULL callback at table index 14 (02170628) * before the test call. Its fourteen callbacks leave task+0x10 alone; * state updates use only task+0x0c. Thus shifted IDs are 0..13 on the * traced primary paths; no invented guard or domain was added. */ int func_02159198(int n);
+/* * volatile: 0x021591F2 re-reads idx after the store at 0x021591EC. */ int func_021591B4(int a, int b, struct S *p);
+void *func_02159204(void *vm);
+/* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Constant leaf: `movs r0, #N; bx lr`. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/func_02159240.c \ * --func func_02159240 --addr 0x02159240 --region ov010 --cc dsi/1.1p1 --thumb */ int func_02159240(void);
+/* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Constant leaf: `movs r0, #N; bx lr`. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/func_02159244.c \ * --func func_02159244 --addr 0x02159244 --region ov010 --cc dsi/1.1p1 --thumb */ int func_02159244(void);
+int func_02159248(struct ScriptVm *a0);
+/* * Recursive MATCH unblocker: tail-call thunk at the pool word 0x0215A691 * (func_0215A690). Matched so the ABS32 site in func_02159260 attests as * `matched`. */ void func_02159254(char *a0, char *a1);
+/* * Unblocked by matching func_02159254 (ov010, EXACT; itself unblocked by * func_0215A690). The ABS32 pool word +0x20 now attests as `matched`. * * Registers the second argument under the key the first argument yields, * and installs the in-overlay handler the pool names. */ int func_02159260(void *a0, void *a1);
+int func_02159284(int a0, int a1, int a2);
+int func_0215929C(struct Ring *a0);
+int func_021592A8(int a0, int a1);
+int func_021592C0(int a0, int a1);
+extern int d_02172BA0;
+extern Fn d_021705F0[];
 
 
-int func_02157E34(void *p)
+
+void func_021590D4(void *a, void *b, int a2)
 {
-    int r = func_02157E08(p);
-    *((u8 *)p + 0x675) = 0;
-    *((u8 *)p + 0x676) = 0;
-    *((u8 *)p + 0x677) = 0;
-    ((struct Obj07276 *)p)->f66C = 0;
-    func_02157960((int)p, (int)((void *)func_02157DB8), 0x231);
-    return r;
+    void *p = (void *)func_02158FD0((int)a, 0x8020, a2);
+    func_02082A60(b, p, 0x7e);
+    func_020307B0(b);
 }
+
+
+
 
 /*
- * extent: Accessor ends at 02157E78, followed by labelled callback function.
+ * generated: lane O24 (ov010 leaf/wrapper sweep)
+ *
+ * Shifted-index word-field setter, same shape as its getter partner.
+ *
+ * Addresses are Black-image addresses.  --region ov010 is required: this
+ * address is only ov010 in the overlay that defines it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_021590F4.c \
+ *       --func func_021590F4 --addr 0x021590F4 --region ov010 --cc dsi/1.1p1 --thumb
  */
-unsigned char func_02157E6C(char *p)
+void func_021590F4(void *p, u32 v) { ((struct Obj17639 *)p)->f13C = v; }
+
+
+
+
+/*
+ * generated: lane O24 (ov010 leaf/wrapper sweep)
+ *
+ * Shifted-index word-field getter: the field table sits at a byte offset built from a small constant shifted left, so the leaf folds it to one immediate.
+ *
+ * Addresses are Black-image addresses.  --region ov010 is required: this
+ * address is only ov010 in the overlay that defines it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_021590FC.c \
+ *       --func func_021590FC --addr 0x021590FC --region ov010 --cc dsi/1.1p1 --thumb
+ */
+u32 func_021590FC(void *p) { return ((struct Obj17640 *)p)->f13C; }
+
+
+
+
+/*
+ * Store of a word at +0x140.
+ * Addresses are Black-image addresses.
+ */
+void func_02159104(u8 *p, u32 v)
 {
-    return ((struct Obj18745 *)p)->f674;
+    ((struct Obj18756 *)p)->f140 = v;
 }
 
-void func_02157E78(u8 *p)
+
+
+
+/*
+ * Unlabelled leaf, blocker of ov021 func_021D1A54/021D1A74/021D1AB0: reads the word at +0x140.
+ * Overlay choice, ov009 and ov010 share this window; ov009 holds ARM code here,
+ * ov010 holds this Thumb routine, and the ov021 callers already name ov010
+ * (ov010 is the overlay resident with ov021).
+ *
+ * Addresses are Black-image addresses.
+ */
+u32 func_0215910C(void *p)
 {
-    void (*callback)(u8 *) = *(void (**)(u8 *))(p + 0x678);
-    if (callback != 0)
-        callback(p);
+    return ((struct Obj18757 *)p)->f140;
 }
 
 
-int func_02157E8C(void *a0)
+
+
+/*
+ * generated: lane O24 (ov010 leaf/wrapper sweep)
+ *
+ * Shifted-index word-field setter, same shape as its getter partner.
+ *
+ * Addresses are Black-image addresses.  --region ov010 is required: this
+ * address is only ov010 in the overlay that defines it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02159114.c \
+ *       --func func_02159114 --addr 0x02159114 --region ov010 --cc dsi/1.1p1 --thumb
+ */
+void *func_02159114(void *p, u32 v) { ((struct Obj17641 *)p)->f144 = v;  return p; }
+
+
+
+
+/*
+ * generated: lane O24 (ov010 leaf/wrapper sweep)
+ *
+ * Shifted-index word-field getter: the field table sits at a byte offset built from a small constant shifted left, so the leaf folds it to one immediate.
+ *
+ * Addresses are Black-image addresses.  --region ov010 is required: this
+ * address is only ov010 in the overlay that defines it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0215911C.c \
+ *       --func func_0215911C --addr 0x0215911C --region ov010 --cc dsi/1.1p1 --thumb
+ */
+u32 func_0215911C(void *p) { return ((struct Obj17642 *)p)->f144; }
+
+
+char *func_02159124(char *p, int i)
+{
+    return p + 0x44 + i * 0x1c;
+}
+
+
+void func_02159130(void)
+{
+    func_02082A7C(0, &d_02172BA0, 4);
+}
+
+
+/*
+ * Input evidence: ov010 callers 0215F278/02164946 pass 11/7;
+ * ov021 flag setters pass fixed IDs 0..13 (e.g. 021B5316 passes 0,
+ * 021AEE1E passes 13). No traced setter call supplies a negative ID.
+ * These primary paths make 1 << n defined; no new bound is assumed.
+ */
+void func_02159144(int n)
+{
+    if (n < 14 && !func_02159198(n)) d_02172BA0 |= 1 << n;
+}
+
+
+/*
+ * lever: enum-typed BIT keeps the shifted mask opaque; plain int folds
+ * the complement to mvns and shortens the body by four bytes.
+ * Input evidence: ov010 sites 0215F298/021649D6/02164A14 pass 11/7/7;
+ * ov021 flag clearers pass fixed IDs 0..13 (021B52D8 passes 0,
+ * 021AF03A passes 13; 021B10C8 forwards its saved literal 3).
+ * On these traced paths n is nonnegative and below 14 before the shift.
+ */
+void func_02159168(int n)
+{
+    if (n < 14 && func_02159198(n)) {
+        Mask bit = BIT;
+        d_02172BA0 &= (bit << n) ^ -1;
+    }
+}
+
+
+
+/*
+ * generated: lane O24 (ov010 leaf/wrapper sweep)
+ *
+ * Tail call through a pool word and `bx r3`: a two-instruction
+ * thunk into func_02159198, the shape of the arm9 copy.
+ * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
+ *
+ * Addresses are Black-image addresses.  --region ov010 is required: this
+ * address is only ov010 in the overlay that defines it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02159190.c \
+ *       --func func_02159190 --addr 0x02159190 --region ov010 --cc dsi/1.1p1 --thumb
+ */
+int func_02159190(int a0)
 {
 
-    a0 = (void *)func_020307B0(a0);
-loc_02157E92:
-a0 = 0;
-    a0 = (void *)func_0203CEAC((int)a0);
-loc_02157E98:
+    return func_02159198(a0);
+}
+
+
+/*
+ * Input evidence: direct callers are 0215914C, 02159170, 021591D0.
+ * Set/clear callers use fixed nonnegative IDs 0..13; the 02159190 tail
+ * forwarder has constant-ID callers in ov010/ov021/ov082 (021F5756: 3).
+ * The task caller's index starts at zero (0215922E), advances by one
+ * (021591EA), and sees a NULL callback at table index 14 (02170628)
+ * before the test call. Its fourteen callbacks leave task+0x10 alone;
+ * state updates use only task+0x0c. Thus shifted IDs are 0..13 on the
+ * traced primary paths; no invented guard or domain was added.
+ */
+int func_02159198(int n)
+{
+    if (n >= 14) return 0;
+    if ((d_02172BA0 >> n) & 1) return 1;
+    return 0;
+}
+
+
+
+/*
+ * volatile: 0x021591F2 re-reads idx after the store at 0x021591EC.
+ */
+int func_021591B4(int a, int b, struct S *p)
+{
+    int *pc = &p->c;
+    int *pi = &p->idx;
+    do {
+        Fn fn = d_021705F0[p->idx];
+        if (fn == 0)
+            return 1;
+        if (func_02159198(p->idx)) {
+            if (fn((int *)p, pc)) {
+                (*pi)++;
+                p->c = 0;
+            } else {
+                return 0;
+            }
+        } else {
+            (*pi)++;
+            p->c = 0;
+        }
+    } while (*(volatile int *)&p->idx < p->n);
+    return 1;
+}
+
+
+void *func_02159204(void *vm)
+{
+    void *owner = func_0215A5F4(vm);
+    void *system = func_0215A5DC(vm);
+    void *task = func_020122C0(system, 0, (void *)func_021591B4, sizeof(TaskWork));
+    TaskWork *p = func_020124E8(task);
+    p->system = system;
+    p->vm = vm;
+    p->owner = owner;
+    p->idx = 0;
+    p->c = 0;
+    p->n = 15;
+    return task;
+}
+
+
+
+/*
+ * generated: lane O24 (ov010 leaf/wrapper sweep)
+ *
+ * Constant leaf: `movs r0, #N; bx lr`.
+ *
+ * Addresses are Black-image addresses.  --region ov010 is required: this
+ * address is only ov010 in the overlay that defines it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02159240.c \
+ *       --func func_02159240 --addr 0x02159240 --region ov010 --cc dsi/1.1p1 --thumb
+ */
+int func_02159240(void) { return 0; }
+
+
+
+/*
+ * generated: lane O24 (ov010 leaf/wrapper sweep)
+ *
+ * Constant leaf: `movs r0, #N; bx lr`.
+ *
+ * Addresses are Black-image addresses.  --region ov010 is required: this
+ * address is only ov010 in the overlay that defines it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02159244.c \
+ *       --func func_02159244 --addr 0x02159244 --region ov010 --cc dsi/1.1p1 --thumb
+ */
+int func_02159244(void) { return 0; }
+
+
+
+int func_02159248(struct ScriptVm *a0)
+{
+
+    a0 = (struct ScriptVm *)func_02011290(a0);
+loc_0215924E:
+a0 = (struct ScriptVm *)1;
     return (int)a0;}
 
 
+
 /*
- * Wave 76 lever: gender is a u8 local, loaded from GiftMon.gender and
- * remapped from 0xFF to 2. With the form extern parameter u8, this restores
- * both personality-call setup schedules: 19 differing bytes become EXACT.
- * Signed 64-bit PID and ID were flat19; union PID worsened to38. The u8
- * form extern alone stayed19. Old seed7201 budget400 was not repeated.
- * checks: 1 own callees and forwarding bodies re-read, six personality inputs; 2 021684E8/ov121 DEFAC inspected; 3 byte form flat19, byte gender EXACT; 4 existing width/const idioms inspected; 5 current neighbours and idioms inspected before filing.
- * Wave 75 fresh pass: unsigned-long species, enum flag argument, enum slot, u16 form argument, and nonconst GiftMon each19/1148 B; retain original const best. All54 relocations resolved. Old seed7201 budget400 consumed; never rerun.
- * Prior recorded evidence (retained):
- * func_02157E9C (ov010, Thumb, 1148 bytes), tree_ov010_2, 2026-09-28
- *
- * Best source: src/pending/ov010_func_02157E9C.c (DIFF, size right, 54 of 54
- * relocations resolved, 10 instructions out). The residue is the argument
- * setup of the first and third func_020186C8 calls:
- *
- *   image  (pidType 0): ldr r1,[sp,#0x20]; str r0,[sp]; movs r0,#0; lsls r1;
- *                       ldrb r2,[r4,#0x1c]; str r0,[sp,#0x28]; str r0,[sp,#4]
- *   this C (pidType 0): str r0,[sp]; movs r0,#0; ldr r1,[sp,#0x20];
- *                       str r0,[sp,#4]; str r0,[sp,#0x28]; lsls r1; ldrb r2
- *   image  (pidType 2): ldr r1; ldrb r2; str r0,[sp,#4]; lsls r1
- *   this C (pidType 2): ldr r1; str r0,[sp,#4]; lsls r1; ldrb r2
- *
- * Measured:
- * - 288-shape grid (species u32/int/u16 x species arg plain/(u16) x callee
- *   a1 u16/int/u32 x form arg plain/(int) x slot u32/int x gender u32/int x
- *   if-chain/switch on pidType): flat at 10 or 11, never lower.
- * - pid as two u32 locals (the ov121 func_021DEFAC spelling, hi written
- *   before the call in pidType 0 and after in 1 and 2): 431 at every one of
- *   the 46 declaration positions (level leaves its stack slot for r7).
- * - pid as u32[2]: 432. Half writes through ((u32 *)&pid)[k]: 52 (pid moves
- *   to sp+0x34).
- * - permuter seed 7201, budget 400, focus 0x17E: no gain.
- *
- * The same function exists in ov121 (src/pending/func_021DEFAC.c, DIFF); a
- * lever found for one should be tried on the other.
- *
- * 2026-09-28, tree_ov010_3: not re-drafted (the lane's time went to the
- * open roots); the residue above is unchanged at 10 instructions.
- *
- * Builds a gift Pokemon from a mystery-gift record. 1148/1148 bytes, every
- * relocation resolved, 10 instructions out in two argument-setup schedules
- * of the func_020186C8 calls (pid types 0 and 2). See
- * docs/notes/pkt_ov010_02157E9C.c.txt.
+ * Recursive MATCH unblocker: tail-call thunk at the pool word 0x0215A691
+ * (func_0215A690). Matched so the ABS32 site in func_02159260 attests as
+ * `matched`.
  */
-void *func_02157E9C(const GiftMon *g, int heap, void *save)
+void func_02159254(char *a0, char *a1)
 {
-    u16 moves[4];
-    u8 iv[6];
-    u32 month;
-    u32 ability;
-    u8 gender;
-    u64 pid;
-    u32 species;
-    u32 otId;
-    u64 id;
-    u16 level;
-    u32 slot;
-    void *ret;
-    u32 ivs;
-    int i;
-    u32 k;
-    u16 mv;
-    void *pp;
-    void *name;
-    u32 v;
-    u8 day;
-    u16 year;
-    u32 loc;
-
-    level = g->level;
-    otId = g->otId;
-    species = g->species;
-    gender = g->gender;
-    ability = g->ability;
-    iv[0] = g->hp;
-    iv[1] = g->atk;
-    iv[2] = g->def;
-    iv[3] = g->spa;
-    iv[4] = g->spd;
-    iv[5] = g->spe;
-    moves[0] = g->moves[0];
-    moves[1] = g->moves[1];
-    moves[2] = g->moves[2];
-    moves[3] = g->moves[3];
-
-    if (g->fB3 != 1) {
-        ret = 0;
-        goto out;
-    }
-    if (species > 649) {
-        ret = 0;
-        goto out;
-    }
-    if (species == 0) {
-        ret = 0;
-        goto out;
-    }
-    if (level > 100) {
-        ret = 0;
-        goto out;
-    }
-    if (g->item > 626) {
-        ret = 0;
-        goto out;
-    }
-
-    if (level == 0)
-        level = func_020056EC(100) + 1;
-    if (g->otId == 0)
-        otId = func_02008530((const struct Sub0200852CObj *)func_02012944(save));
-    if (gender == 0xFF)
-        gender = 2;
-    for (i = 0; i < 6; i++) {
-        if (iv[i] == 0xFF)
-            iv[i] = func_020056EC(32);
-    }
-
-    id = otId;
-    pp = func_020173F0(species, level, id, heap);
-    ivs = (iv[0] & 0x1F) | ((iv[1] & 0x1F) << 5) | ((iv[2] & 0x1F) << 10)
-        | ((iv[3] & 0x1F) << 15) | ((iv[4] & 0x1F) << 20) | ((iv[5] & 0x1F) << 25);
-
-    if (ability == 4)
-        ability = (u8)func_020056EC(3);
-    switch (ability) {
-    case 0:
-        slot = 0;
-        break;
-    case 1:
-        slot = 1;
-        break;
-    case 2:
-        slot = 0;
-        break;
-    case 3:
-        slot = 2;
-        break;
-    default:
-        ret = 0;
-        goto out;
-    }
-
-    if (g->pid != 0) {
-        pid = g->pid;
-    } else if (g->pidType == 0) {
-        pid = func_020186C8(otId, (u16)species, (u8)g->form, gender, slot, 0);
-    } else if (g->pidType == 1) {
-        pid = func_020186C8(otId, (u16)species, (u8)g->form, gender, slot, 2);
-    } else if (g->pidType == 2) {
-        pid = func_020186C8(otId, (u16)species, (u8)g->form, gender, slot, 1);
-    }
-
-    func_02017588(pp, g->species, level, id, ivs, pid);
-    func_02017E40(pp, 6, g->item);
-    func_02017FA8(pp);
-    for (i = 0; i < 4; i++) {
-        mv = moves[i];
-        if (mv != 0 && mv < 0x230) {
-            if (func_0201808C(pp, mv) == 0xFFFF)
-                func_020180F4(pp, mv);
-        }
-    }
-    if (g->pid == 0 && ability == 2)
-        func_02018A00(pp, species, g->form);
-    func_02017E40(pp, 0x6F, g->form);
-    if (g->ball != 0 && g->ball <= 0x19)
-        func_02017E40(pp, 0x98, g->ball);
-    else
-        func_02017E40(pp, 0x98, 4);
-    if (g->f3C != 0)
-        func_02017E40(pp, 0x99, g->f3C);
-    func_02017E40(pp, 0x13, g->contest[0]);
-    func_02017E40(pp, 0x14, g->contest[1]);
-    func_02017E40(pp, 0x15, g->contest[2]);
-    func_02017E40(pp, 0x16, g->contest[3]);
-    func_02017E40(pp, 0x17, g->contest[4]);
-    func_02017E40(pp, 0x18, g->contest[4]);
-    for (k = 0; k < 15; k++) {
-        if (g->ribbons & (1 << k))
-            func_02017E40(pp, d_02170068[k], 1);
-    }
-    if (g->f04 == 0)
-        func_02017E40(pp, 0x77, d_0209DF08[0]);
-    else
-        func_02017E40(pp, 0x77, g->f04);
-    if (g->lang == 0)
-        func_02017E40(pp, 0xC, d_0209DF0C[0]);
-    else
-        func_02017E40(pp, 0xC, g->lang);
-    if (g->nick[0] == 0) {
-        func_020307B0(pp);
-        ret = 0;
-        goto out;
-    }
-    if (g->nick[0] != func_02045A98())
-        func_02017E40(pp, 0x74, (u32)g->nick);
-    v = g->nature;
-    if (v == 0xFF)
-        v = (u8)func_020056EC(25);
-    func_02017E40(pp, 0x70, v);
-    func_02017E40(pp, 0x95, g->eggLoc);
-    func_02017E40(pp, 0x96, g->metLoc);
-    if (g->otName[0] == 0) {
-        func_020307B0(pp);
-        ret = 0;
-        goto out;
-    }
-    if (g->otName[0] == func_02045A98())
-        func_02017E40(pp, 0x8E, (u32)func_020084F4(func_02012944(save)));
-    else
-        func_02017E40(pp, 0x8E, (u32)g->otName);
-    if (g->otGender <= 2)
-        func_02017E40(pp, 0x9A, g->otGender);
-    else
-        func_02017E40(pp, 0x9A, func_02008550((const struct Sub0200852CObj *)func_02012944(save)));
-    if (g->isEgg) {
-        func_02017E40(pp, 0x4C, 1);
-        name = func_02045EC0(d_020A7370, 0x28A);
-        func_02017E40(pp, 0x73, (u32)name);
-        func_02045808(name);
-        func_02017E40(pp, 9, 10);
-    }
-    year = g->date >> 16;
-    month = (u8)(g->date >> 8);
-    day = g->date;
-    loc = g->isEgg ? g->eggLoc : g->metLoc;
-    func_0202F2AC(func_020185F0(pp), loc, year - 2000, month, day);
-    func_020185C4(pp);
-    ret = 0;
-    if (func_02017E1C(pp, 3, 0) != 0)
-        func_020307B0(pp);
-    else
-        ret = pp;
-out:
-    return ret;
+    func_0215A690(a1);
+    (void)a0;
 }
 
 
-int func_02158318(int a0)
+
+/*
+ * Unblocked by matching func_02159254 (ov010, EXACT; itself unblocked by
+ * func_0215A690). The ABS32 pool word +0x20 now attests as `matched`.
+ *
+ * Registers the second argument under the key the first argument yields,
+ * and installs the in-overlay handler the pool names.
+ */
+int func_02159260(void *a0, void *a1)
+{
+    func_0215A684(a1, func_02011330(a0));
+    func_020113D0(a0, (int)func_02159254);
+
+    return 1;
+}
+
+
+
+int func_02159284(int a0, int a1, int a2)
 {
     int t4;
-    int t5;
-    void *p;
 
-t5 = a0 + 0;
-    a0 = func_02012138((const struct Ctx *)a0);
-loc_02158320:
 t4 = a0 + 0;
-a0 = t5 + 0;
-    p = func_020120F4((const struct Ctx *)a0);
-loc_02158328:
-    a0 = func_02012B70(p);
-loc_0215832C:
-    if (a0 != 1) goto loc_0215833E;
-loc_02158330:
+    a0 = func_0201134C(a0);
+loc_0215928C:
+a2 = a0 + 0;
+a1 = *(int *)&((struct Obj00005 *)t4)->f14;
 a0 = t4 + 0;
-    a0 = func_0202648C((void *)a0);
-loc_02158336:
-    if (a0 == 0) goto loc_0215833E;
-loc_0215833A:
+a1 = a1 + a2;
+    a0 = func_020113B4(a0, a1, a2);
+loc_02159298:
 a0 = 0;
-    return a0;
-loc_0215833E:
-a0 = 1;
     return a0;}
 
 
-int func_02158344(int a0)
-{
-    int t4;
-    int t5;
 
-t5 = a0 + 0;
-    a0 = func_02026474((void *)a0);
-loc_0215834C:
-t4 = a0 + 0;
-    a0 = func_0200FB24();
-loc_02158352:
-    if (a0 != 0) goto loc_0215836E;
-loc_02158356:
-a0 = t5 + 0;
-    a0 = func_02026454((void *)a0);
-loc_0215835C:
-    if (a0 != 2) goto loc_0215836E;
-loc_02158360:
-a0 = t5 + 0;
-    a0 = func_02026460((void *)a0);
-loc_02158366:
-    if (a0 == 1) goto loc_0215836E;
-loc_0215836A:
-    if (t4 != 0) goto loc_02158372;
-loc_0215836E:
+int func_0215929C(struct Ring *a0)
+{
+
+    a0 = (struct Ring *)func_020113C4(a0);
+loc_021592A2:
 a0 = 0;
-    return a0;
-loc_02158372:
-a0 = t4 + 0;
-    return a0;}
+    return (int)a0;}
 
 
-int func_02158378(void *p)
+
+int func_021592A8(int a0, int a1)
 {
-    u8 *q = (u8 *)func_02158344((int)p);
-    if (q == 0) {
-        return func_02012B58((const struct BigObj *)func_02026478(p));
-    }
-    return q[0x911];
-}
-
-
-int func_0215839C(u8 *p, int m, int a2)
-{
-    Fl *s = (Fl *)(p + 0x93F);
-    u8 t = s->f;
-    if (m & t) {
-        s->f ^= 1;
-        return 1;
-    }
-    return 0;
-}
-
-
-/*
- * Dispatch on the record's key: an equal key goes to the
- * single-argument arm9 read, anything else to the pair form.
- */
-int func_021583CC(void *a0, int a1)
-{
-    if (func_02012B58(a0) == a1)
-        return (int)func_020127B8(a0);
-
-    return (int)func_020127AC(a0, a1);
-}
-
-
-int func_021583EC(void *a0, int a1)
-{
-    if (func_02012B58(a0) == a1)
-        return (int)func_02012944(a0);
-
-    return (int)func_02012950(a0, a1);
-}
-
-
-/*
- * Address of the idx-th 0x28-byte record at +0x1AC.
- */
-Rec28 *func_0215840C(RecHolder *h, int idx)
-{
-    return &h->recs[idx];
-}
-
-
-/*
- * Byte out of the arm9 reader, zero-extended.
- */
-u8 func_0215841C(void *p)
-{
-    return (u8)(unsigned)func_02012B80(p);
-}
-
-
-/*
- * Unlabelled leaf (no lr save, so disasm.py prints it inside the extent of
- * func_0215841C); sole blocker of ov018 func_0217D1C0. Followed by another
- * unlabelled leaf at 0x02158434.
- */
-u8 func_02158428(u8 *p)
-{
-    return p[0x90C];
-}
-
-/*
- * Unlabelled Thumb leaf (no lr save, prints as .word data in the listing),
- * called from ov020 func_021870C4.
- */
-void *func_02158434(char *p)
-{
-    return p + 0x35C;
-}
-
-/*
- * extent: Two zero alignment bytes at 0x02158466 precede 0x02158468.
- * lever: A named u8 id truncates the result in r0 before preparing r1.
- */
-int func_0215843C(void *p)
-{
-    void *q = (void *)func_02026478(p);
-    u8 id;
-    if (func_02012B70(q) == 0)
-        return 21;
-    id = (int)func_02012B80(q);
-    return func_0200855C((const struct Sub0200852CObj *)func_021583EC(q, id));
-}
-
-
-int func_02158468(int a0)
-{
-    int a1;
     int t4;
     int t5;
+    void *v0;
 
-    a0 = func_02026478((void *)a0);
-loc_0215846E:
+t4 = a1 + 0;
 t5 = a0 + 0;
-    a0 = func_02012B70((const struct BigObj *)a0);
-loc_02158474:
-    if (a0 != 0) goto loc_02158480;
-loc_02158478:
-a0 = t5 + 0;
-    a0 = func_02012984((const struct BigObj *)a0);
-loc_0215847E:
-    return a0;
-loc_02158480:
-a0 = t5 + 0;
-    a0 = func_0215841C((void *)a0);
-loc_02158486:
-t4 = a0 + 0;
-a0 = t5 + 0;
-    a0 = func_02012B58((const struct BigObj *)a0);
-loc_0215848E:
-    if (t4 != a0) goto loc_0215849A;
-loc_02158492:
-a0 = t5 + 0;
-    a0 = func_02012984((const struct BigObj *)a0);
-loc_02158498:
-    return a0;
-loc_0215849A:
+a0 = t4 + 0;
+    v0 = func_0215A5E4((void *)a0);
+loc_021592B4:
 a0 = t5 + 0;
 a1 = t4 + 0;
-    a0 = func_02012B98((const struct BigObj *)a0, a1);
-loc_021584A2:
+    a0 = func_02159B10((void *)a0, (void *)a1);
+loc_021592BC:
+a0 = 0;
     return a0;}
 
 
-int func_021584A4(int unused, int a, int mode)
+
+int func_021592C0(int a0, int a1)
 {
-    u8 *q = (u8 *)func_02158344(unused);
-    int n;
-    int cur;
-    if (q == 0)
-        return 1;
-    cur = ((Fh *)(q + 0x86))->f;
-    if (mode == 2) {
-        n = cur - 1;
-        if (n < 0)
-            n = q[0x901];
-    } else {
-        n = cur + 1;
-        if (n >= q[0x901] + 1)
-            n = 0;
-    }
-    if (n == func_02012B58((const struct BigObj *)a))
-        return 1;
-    return 0;
-}
+    int t4;
+    int t5;
+
+t5 = a0 + 0;
+t4 = a1 + 0;
+    a0 = func_02011398((struct Ring *)a0);
+loc_021592CA:
+a0 = t5 + 0;
+a1 = t4 + 0;
+    a0 = func_02159B10((void *)a0, (void *)a1);
+loc_021592D2:
+a0 = 0;
+    return a0;}

@@ -1,28 +1,17 @@
-# unit_02177ED8.c (ov009)
+# unit_02177ED8 (ov009)
 
-Translation unit 02177ED8..02178C88, 14 functions, confidence proven (tools/tuboundary.py).
+4 part files remain (unit_02177ED8_p01.c .. p04.c, address order), each EXACT. Round 4 (r4_ov02)
+joined old p03 and p04 (0x021782B4..0x02178C48) with the greedy driver; the rest does not join.
 
-The member files below each match on their own. Merging them into one
-`unit_02177ED8.c` is blocked by:
+Boundaries:
 
-- ov009_func_02177ED8.c..ov009_func_02178C48.c: global g_021AB184 declared two ways (src/matched/ov_sdk/ov009_func_02177FFC.c); global g_021AB184 declared two ways (src/matched/ov_sdk/ov009_func_021780A8.c); global g_021AB184 declared two ways (src
-- ov009_func_02177ED8.c..ov009_func_021781DC.c: global g_021AB184 declared two ways (src/matched/ov_sdk/ov009_func_02177FFC.c); global g_021AB184 declared two ways (src/matched/ov_sdk/ov009_func_021780A8.c); global g_021AB184 declared two ways (src
-- ov009_func_02177ED8.c..ov009_func_02177FFC.c: global g_021AB184 declared two ways (src/matched/ov_sdk/ov009_func_02177FFC.c)
-- ov009_func_02177EE8.c..ov009_func_02177FFC.c: global g_021AB184 declared two ways (src/matched/ov_sdk/ov009_func_02177FFC.c)
-- ov009_func_02178224.c..ov009_func_02178C48.c: global g_021AB184 declared two ways (src/matched/ov_sdk/ov009_func_021782B4.c); global g_021AB184 declared two ways (src/matched/ov_sdk/ov009_func_021783BC.c); global g_021AB184 declared two ways (src
-- ov009_func_02178224.c..ov009_func_021783BC.c: global g_021AB184 declared two ways (src/matched/ov_sdk/ov009_func_021782B4.c); global g_021AB184 declared two ways (src/matched/ov_sdk/ov009_func_021783BC.c)
-- ov009_func_02178678.c..ov009_func_02178C48.c: global g_021AB184 declared two ways (src/matched/ov_sdk/ov009_func_02178C48.c)
-- ov009_func_02178A94.c..ov009_func_02178C48.c: global g_021AB184 declared two ways (src/matched/ov_sdk/ov009_func_02178C48.c)
+- p01 | p02 and p03 | p04: g_021AB184 is viewed as struct DWCWFCUtil (field auth, G_DWCWFCUtil.h)
+  in p01/p03 and as struct DWCAuthGlobal (field ctx, G_DWCAuthGlobal.h) in p02/p04. Same object,
+  offset 4 (pointer to the auth work area). The work area is also viewed as DWCAuth (p01),
+  DWCAuthCtx (p02, p04) and DWCAuth_02178678/DWCAuth_021783BC (p03).
+- Names disagree for the same offsets: 0x1004 is "result" in p01/p03 and "error" in p02/p04;
+  0x1008 is "error" in p01 and the start of a 0x1c4-byte result block in p02.
 
-Members, in address order:
-
-- `ov009_func_02177ED8.c`
-- `ov009_func_02177EE8.c`
-- `ov009_func_02177FFC.c`
-- `ov009_func_02178224.c`
-- `ov009_func_02178A94.c`
-- `ov009_func_02178C48.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_02177ED8.c` again.
+Next step: one canonical DWCAuth (stack to 0x1004, int at 0x1004, result block at 0x1008 with
+returncode first, param at 0x11cc, http at 0x1314, thread at 0x1320 with id at 0x138c, mutex,
+abort_flag) and one g_021AB184 struct (f0, auth, state, userid); then rerun the greedy driver.

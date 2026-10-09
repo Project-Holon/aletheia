@@ -1,8 +1,8 @@
 /*
  * file:     unit_021F4560_p04.c
  * unit:     yes
- * function: func_021F5F74, func_021F5FB0, func_021F6148
- * address:  0x021F5F74
+ * function: MBi_CommEnd, func_021F5F74, func_021F5FB0, func_021F6148, func_021F6158, func_021F61A4, func_021F628C, func_021F62A0, func_021F62B4, MBi_IsStarted, MBi_CheckWmErrcode
+ * address:  0x021F5EE4
  * region:   ov107
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -14,88 +14,111 @@
  *
  * symbols:
  *   OS_DisableInterrupts             0x02087988 arm
- *   OS_Terminate                     0x02088234 arm
- *   MBi_CommEnd                      0x021f5ee4 arm
+ *   MBi_EndCommon                    0x021f4684 arm
+ *   MBi_IsTaskAvailable              0x021f6610 arm
+ *   MBi_EndTaskThread                0x021f67bc arm
+ *   MBi_CallReset                    0x021f5ea0 arm
  *   OS_RestoreInterrupts             0x0208799c arm
  *   d_021F6F90                       0x021F6F90 data
+ *   MBi_OnReset                      0x021f5ed8 arm
+ *   OS_Terminate                     0x02088234 arm
  *   func_0208F938  0x0208F938  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_021F6850  0x021F6850  arm  ov107
  *   func_021F46C8  0x021F46C8  arm  ov107
- *   g_021F6F90     0x021F6F90  data
  *   mbiScanParam   0x021F6FC0  data
+ *   WM_SetMPDataToPortEx             0x0208fcb4 arm
+ *   func_021F6158 0x021F6158 arm ov107
+ *   func_021F4EFC 0x021F4EFC arm ov107
  */
-#include "../../matched/include/G_WmBase.h"
+#include "mb_wm.h"
 
-#define FILEINFO(id)     (((MBiFileSlot *)((u8 *)((MBiParam *)g_021F6F90.ext) + (id) * sizeof(MBiFileInfo)))->fi)
-typedef unsigned long u32;
+typedef struct MBiFileSlot {
+    u8 pad0[0x1788];
+    MBiParentFileInfo fi;
+} MBiFileSlot;
 
-typedef unsigned char  u8;
+extern u32 OS_DisableInterrupts(void);
+extern void MBi_EndCommon(void *arg);
+extern int MBi_IsTaskAvailable(void);
+extern void MBi_EndTaskThread(void (*callback)(struct MBiTaskInfo *));
+extern int MBi_CallReset(void);
+extern u32 OS_RestoreInterrupts(u32 state);
+extern void MBi_OnReset(void);
+extern void OS_Terminate(void);
+extern int func_0208F938(void (*callback)(void *), u16 aid);
+extern void func_02082BCC(void *dstp, u8 data, u32 size);
+extern void func_021F6850(u16 child_aid);
+extern void func_021F46C8(void *arg);
+extern int WM_SetMPDataToPortEx(void (*callback)(void *), void *arg, u16 *sendData, u16 sendDataSize, u16 destBitmap, u16 port, u16 prio);
+extern int func_021F6158(void *callback, unsigned short *sendData, unsigned short sendDataSize, unsigned short arg3, unsigned short pollbmp);
+extern void func_021F4EFC(void *arg);
+int MBi_CommEnd(void);
+void MB_EndToIdle(void);
+void func_021F5FB0(u16 aid);
+void MBi_SetMaxScanTime(u16 time);
+int func_021F61A4(unsigned short *buf, int len, int pollbmp);
+u32 MBi_GetGgid(void);
+u16 MB_GetTgid(void);
+unsigned char MBi_GetAttribute(void);
+int MBi_IsStarted(void);
+void MBi_CheckWmErrcode(u16 apiid, int errcode);
 
-typedef signed char    s8;
-
-typedef unsigned short u16;
-
-typedef struct MBiFileInfo {
-    u8 pad0[0x5c4];
-    u16 gameinfo_child_bmp;
-    u16 active_child_bmp;
-    u16 update_child_bmp;
-    u8 pad5ca[0x5d4 - 0x5ca];
-} MBiFileInfo;
-
-typedef struct MBiParam {
-    u8 pad0[0x1340];
-    u8 childInfo[15][0x16];
-    u16 childversion[15];
-    u32 childggid[15];
-    u32 p_comm_state_cb;
-    u32 p_comm_state[15];
-    u8 pad1524[2];
-    s8 req_fid[15];
-    u8 req_num;
-    u16 req_bmp;
-    u8 pad1538[0x1754 - 0x1538];
-    u16 child_seq[15];
-    u8 pad1772[0x1788 - 0x1772];
-    MBiFileInfo fileinfo[16];
-} MBiParam;
 
 /*
  * The object adds fid * 0x5d4 to mbc before the member offset (0x1788 +
  * field); `mbc->fileinfo[fid].field` folds the constant first and indexes
  * last (48 bytes differ).  Stepping mbc by whole file slots reproduces it.
  */
-typedef struct MBiFileSlot {
-    u8 pad0[0x1788];
-    MBiFileInfo fi;
-} MBiFileSlot;
+#define FILEINFO(id)     (((MBiFileSlot *)((u8 *)((MBCommPWork *)mbWm.ext) + (id) * sizeof(MBiParentFileInfo)))->fi)
 
-extern u32 OS_DisableInterrupts(void);
-extern void OS_Terminate(void);
-extern int MBi_CommEnd(void);
-extern u32 OS_RestoreInterrupts(u32 state);
-extern int func_0208F938(void (*callback)(void *), u16 aid);
-extern void func_02082BCC(void *dstp, u8 data, u32 size);
-extern void func_021F6850(u16 child_aid);
-extern void func_021F46C8(void *arg);
-void MB_EndToIdle(void);
-void func_021F5FB0(u16 aid);
-void MBi_SetMaxScanTime(u16 time);
-extern struct WmBase d_021F6F90;
-extern struct WmBase g_021F6F90;
-extern char mbiScanParam[];
+
+
+
+
+
+int MBi_CommEnd(void)
+{
+    int ret = 1;
+    u32 enabled;
+
+    enabled = OS_DisableInterrupts();
+    if (*(u8 *)(*(char **)(d_021F6F90 + 0xC) + 0x50D) == 0) {
+        MBi_EndCommon(0);
+    } else if (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) == 0) {
+        *(u32 *)(*(char **)(d_021F6F90 + 0xC) + 0x5E4) = 0;
+        *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) = 1;
+        if (MBi_IsTaskAvailable()) {
+            MBi_EndTaskThread((void (*)(struct MBiTaskInfo *))MBi_OnReset);
+            ret = 0;
+        } else {
+            ret = MBi_CallReset();
+        }
+    }
+    OS_RestoreInterrupts(enabled);
+    return ret;
+}
+
+
+
+
+
 
 
 void MB_EndToIdle(void)
 {
     u32 enabled = OS_DisableInterrupts();
 
-    if (*(u32 *)(*(char **)(((char *)&d_021F6F90) + 0x10) + 0x1320) == 0)
+    if (*(u32 *)(*(char **)(d_021F6F90 + 0x10) + 0x1320) == 0)
         OS_Terminate();
     MBi_CommEnd();
     OS_RestoreInterrupts(enabled);
 }
+
+
+
+
+
 
 
 void func_021F5FB0(u16 aid)
@@ -104,29 +127,139 @@ void func_021F5FB0(u16 aid)
     func_0208F938(func_021F46C8, aid);
     if (aid == 0 || aid >= 16)
         return;
-    ((MBiParam *)g_021F6F90.ext)->childversion[aid - 1] = 0;
-    func_02082BCC(&((MBiParam *)g_021F6F90.ext)->childggid[aid - 1], 0, sizeof(u32));
-    func_02082BCC(((MBiParam *)g_021F6F90.ext)->childInfo[aid - 1], 0, 0x16);
+    ((MBCommPWork *)mbWm.ext)->childversion[aid - 1] = 0;
+    func_02082BCC(&((MBCommPWork *)mbWm.ext)->childggid[aid - 1], 0, sizeof(u32));
+    func_02082BCC(&((MBCommPWork *)mbWm.ext)->childUser[aid - 1], 0, 0x16);
     func_021F6850(aid);
-    ((MBiParam *)g_021F6F90.ext)->child_seq[aid - 1] = 0;
-    if (((MBiParam *)g_021F6F90.ext)->req_fid[aid - 1] != -1) {
-        u8 fid = (u8)((MBiParam *)g_021F6F90.ext)->req_fid[aid - 1];
+    ((MBCommPWork *)mbWm.ext)->req2child[aid - 1] = 0;
+    if (((MBCommPWork *)mbWm.ext)->fileid_of_child[aid - 1] != -1) {
+        u8 fid = (u8)((MBCommPWork *)mbWm.ext)->fileid_of_child[aid - 1];
         u16 child = aid;
 
-        FILEINFO(fid).active_child_bmp &= (u16)~(1 << child);
-        FILEINFO(fid).update_child_bmp |= (u16)(1 << child);
-        ((MBiParam *)g_021F6F90.ext)->req_fid[child - 1] = -1;
         FILEINFO(fid).gameinfo_child_bmp &= (u16)~(1 << child);
+        FILEINFO(fid).gameinfo_changed_bmp |= (u16)(1 << child);
+        ((MBCommPWork *)mbWm.ext)->fileid_of_child[child - 1] = -1;
+        FILEINFO(fid).pollbmp &= (u16)~(1 << child);
     }
-    if (((MBiParam *)g_021F6F90.ext)->req_bmp & (1 << aid)) {
-        ((MBiParam *)g_021F6F90.ext)->req_num--;
-        ((MBiParam *)g_021F6F90.ext)->req_bmp &= (u16)~(1 << aid);
+    if (((MBCommPWork *)mbWm.ext)->child_entry_bmp & (1 << aid)) {
+        ((MBCommPWork *)mbWm.ext)->child_num--;
+        ((MBCommPWork *)mbWm.ext)->child_entry_bmp &= (u16)~(1 << aid);
     }
-    ((MBiParam *)g_021F6F90.ext)->p_comm_state[aid - 1] = 0;
+    ((MBCommPWork *)mbWm.ext)->p_comm_state[aid - 1] = 0;
 }
+
+
+
+
+
 
 
 void MBi_SetMaxScanTime(u16 time)
 {
-    *(u16 *)(mbiScanParam + 8) = time;
+    mbiScanParam.maxChannelTime = time;
+}
+
+
+
+
+
+
+static int MBi_SetMPData(void (*callback)(void *), u16 *sendData, u16 sendDataSize, u16 unused, u16 pollbmp)
+{
+    int errcode;
+
+    errcode = WM_SetMPDataToPortEx(callback, 0, sendData, sendDataSize, pollbmp, 1, 3);
+    MBi_CheckWmErrcode(0xF, errcode);
+    return errcode;
+}
+
+
+
+
+
+
+/*
+ * sdk:      MBi_SendMP (libmb.TWL.HYB.a(mb_wm_base.o))
+ */
+int func_021F61A4(unsigned short *buf, int len, int pollbmp)
+{
+    unsigned short size = len;
+    unsigned short pollbitmap = pollbmp;
+    int errcode;
+
+    if (*(unsigned short *)((u8 *)mbWm.work + 0x528) == 0 || *(unsigned short *)((u8 *)mbWm.work + 0x526) == 1) {
+        return 1;
+    }
+    switch (*(unsigned short *)((u8 *)mbWm.work + 0x524)) {
+    case 1:
+        errcode = func_021F6158(*(void **)((u8 *)mbWm.work + 0x508), buf, size, *(unsigned short *)((u8 *)mbWm.work + 0x52C) == 0 ? 0x3E8 : 0, pollbitmap);
+        if (errcode == 2) {
+            ((u8 *)mbWm.work)[0x50C] = 1;
+        }
+        return errcode == 2 ? 0 : errcode;
+    case 2:
+        errcode = func_021F6158(func_021F4EFC, buf, size, 0, pollbitmap);
+        if (errcode == 2) {
+            ((u8 *)mbWm.work)[0x50C] = 1;
+        }
+        return errcode == 2 ? 0 : errcode;
+    }
+    return 1;
+}
+
+
+
+
+
+
+u32 MBi_GetGgid(void)
+{
+    return *(u32 *)(*(char **)(d_021F6F90 + 0xC) + 8);
+}
+
+
+
+
+
+u16 MB_GetTgid(void)
+{
+    return *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0xC);
+}
+
+
+
+
+
+unsigned char MBi_GetAttribute(void)
+{
+    char *base = *(char **)(d_021F6F90 + 0xC);
+
+    return (*(u16 *)(base + 0xE) ? 1 : 0) | (*(u16 *)(base + 0x12) ? 2 : 0) |
+           (*(u16 *)(base + 0x14) ? 4 : 0) | (*(u16 *)(base + 0x16) ? 8 : 0);
+}
+
+
+
+int MBi_IsStarted(void)
+{
+    return *(u8 *)(*(char **)(d_021F6F90 + 0xC) + 0x50D) == 1;
+}
+
+
+void MBi_CheckWmErrcode(u16 apiid, int errcode)
+{
+    struct
+    {
+        u16 apiid;
+        u16 errcode;
+    } arg;
+    void (*callback)(int, void *);
+
+    if (errcode == 2 || errcode == 0)
+        return;
+
+    arg.apiid = apiid;
+    arg.errcode = (u16)errcode;
+    callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+    callback(0xFF, &arg);
 }

@@ -1,41 +1,32 @@
-# unit_0216870C.c (ov009)
+# unit_0216870C (ov009)
 
-Translation unit 0216870C..0216A1F4, 37 functions, confidence proven (tools/tuboundary.py).
+The TU is split into 9 parts in address order. Every part is byte-exact (checked).
+The greedy merge (neighbour into running file, both member orders, type policies rename/first/last)
+stops at these boundaries. Each part is the largest run that merges; the next part fails to join it:
 
-The member files below each match on their own. Merging them into one
-`unit_0216870C.c` is blocked by:
+- before unit_0216870C_p02.c: CCERR: line 226: not a struct/union/class
+- before unit_0216870C_p03.c: CCERR: line 205: illegal operands 'struct FriendGlobal' + 'int' | line 207: illegal operands 'struct FriendGlobal' + 'int' | line 208: illegal operands
+- before unit_0216870C_p04.c: DIFF
+- before unit_0216870C_p05.c: CCERR: line 125: struct/union/enum/class tag 'FriendCtl' redefined | line 129: identifier 'FriendCtl' redeclared | line 129: was declared as: 'struct F
+- before unit_0216870C_p06.c: CCERR: line 68: undefined identifier 'u64' | line 89: identifier 'u64' redeclared | line 89: was declared as: 'int'
+- before unit_0216870C_p07.c: CCERR: line 279: identifier 's_bNeedCloseStatsConnection' redeclared as 'int' | line 149: identifier 's_bNeedCloseStatsConnection' was originally decla
+- before unit_0216870C_p08.c: CCERR: line 182: 'field0' is not a member of class 'struct ' | line 188: 'userName' is not a member of class 'struct ' | line 192: 'field4' is not a me
+- before unit_0216870C_p09.c: CCERR: line 255: 'field0' is not a member of class 'struct ' | line 261: 'userName' is not a member of class 'struct ' | line 265: 'field4' is not a me
 
-- ov009_func_0216870C.c..ov009_func_0216A020.c: global g_021AA860 declared two ways (src/matched/ov_sdk/ov009_func_021689BC.c); prototype of DWC_GetGsProfileId differs between members (src/matched/ov_sdk/ov009_func_02168FF0.c); prototype of DWCi_Ge
-- ov009_func_0216870C.c..ov009_func_021690D0.c: global g_021AA860 declared two ways (src/matched/ov_sdk/ov009_func_021689BC.c); prototype of DWC_GetGsProfileId differs between members (src/matched/ov_sdk/ov009_func_02168FF0.c)
-- ov009_func_0216870C.c..ov009_func_02168D7C.c: global g_021AA860 declared two ways (src/matched/ov_sdk/ov009_func_021689BC.c)
-- ov009_func_0216870C.c..ov009_func_02168864.c: c99=CCERR: line 26: the file '../arm9_sdk/libc/string.h' cannot be opened nolang=CCERR: line 26: the file '../arm9_sdk/libc/string.h' cannot be opened
-- ov009_func_0216870C.c..ov009_func_02168724.c: c99=CCERR: line 24: the file '../arm9_sdk/libc/string.h' cannot be opened nolang=CCERR: line 24: the file '../arm9_sdk/libc/string.h' cannot be opened
-- ov009_func_021688FC.c..ov009_func_02168D7C.c: global g_021AA860 declared two ways (src/matched/ov_sdk/ov009_func_021689BC.c)
-- ov009_func_021689BC.c..ov009_func_02168D7C.c: global g_021AA860 declared two ways (src/matched/ov_sdk/ov009_func_02168D7C.c)
-- ov009_func_02169174.c..ov009_func_0216A020.c: prototype of func_020591CC differs between members (src/matched/ov_sdk/ov009_func_021696B0.c); prototype of func_0205915C differs between members (src/matched/ov_sdk/ov009_func_021696B0.c); prototype 
-- ov009_func_02169174.c..ov009_func_021696B0.c: prototype of func_020591CC differs between members (src/matched/ov_sdk/ov009_func_021696B0.c); prototype of func_0205915C differs between members (src/matched/ov_sdk/ov009_func_021696B0.c)
-- ov009_func_02169174.c..ov009_func_02169294.c: c99=CCERR: line 63: illegal use of incomplete struct/union/class 'struct Work' | line 64: illegal use of incomplete struct/union/class 'struct Work' | line 65: illegal use of incomplete struct/union/c
-- ov009_func_021692C4.c..ov009_func_021696B0.c: prototype of func_020591CC differs between members (src/matched/ov_sdk/ov009_func_021696B0.c); prototype of func_0205915C differs between members (src/matched/ov_sdk/ov009_func_021696B0.c)
-- ov009_func_0216959C.c..ov009_func_021696B0.c: prototype of func_020591CC differs between members (src/matched/ov_sdk/ov009_func_021696B0.c); prototype of func_0205915C differs between members (src/matched/ov_sdk/ov009_func_021696B0.c)
-- ov009_func_021695F0.c..ov009_func_021696B0.c: prototype of func_020591CC differs between members (src/matched/ov_sdk/ov009_func_021696B0.c); prototype of func_0205915C differs between members (src/matched/ov_sdk/ov009_func_021696B0.c)
-- ov009_func_021697D8.c..ov009_func_0216A020.c: prototype of DWC_GetFriendDataType differs between members (src/matched/ov_sdk/ov009_func_02169BB0.c); prototype of DWC_IsBuddyFriendData differs between members (src/matched/ov_sdk/ov009_func_02169BB
-- ov009_func_021697D8.c..ov009_func_02169BB0.c: prototype of DWC_GetFriendDataType differs between members (src/matched/ov_sdk/ov009_func_02169BB0.c); prototype of DWC_IsBuddyFriendData differs between members (src/matched/ov_sdk/ov009_func_02169BB
-- ov009_func_021698C0.c..ov009_func_02169BB0.c: prototype of DWC_GetFriendDataType differs between members (src/matched/ov_sdk/ov009_func_02169BB0.c); prototype of DWC_IsBuddyFriendData differs between members (src/matched/ov_sdk/ov009_func_02169BB
-- ov009_func_02169934.c..ov009_func_02169BB0.c: prototype of DWC_GetFriendDataType differs between members (src/matched/ov_sdk/ov009_func_02169BB0.c); prototype of DWC_IsBuddyFriendData differs between members (src/matched/ov_sdk/ov009_func_02169BB
-- ov009_func_02169E18.c..ov009_func_0216A020.c: prototype of func_020591CC differs between members (src/matched/ov_sdk/ov009_func_0216A020.c); prototype of func_0205912C differs between members (src/matched/ov_sdk/ov009_func_0216A020.c)
+The blockers are struct views of one object that differ between parts (field names and
+offsets are not yet unified), plus prototypes with different argument lists. A later struct pass
+should give each object one definition, then rerun the greedy merge.
 
-Members, in address order:
+Parts:
 
-- `ov009_func_0216870C.c`
-- `ov009_func_02168724.c`
-- `ov009_func_021689BC.c`
-- `ov009_func_0216959C.c`
-- `ov009_func_021695F0.c`
-- `ov009_func_021696B0.c`
-- `ov009_func_021698C0.c`
-- `ov009_func_02169934.c`
-- `ov009_func_02169BB0.c`
+- `unit_0216870C_p01.c`
+- `unit_0216870C_p02.c`
+- `unit_0216870C_p03.c`
+- `unit_0216870C_p04.c`
+- `unit_0216870C_p05.c`
+- `unit_0216870C_p06.c`
+- `unit_0216870C_p07.c`
+- `unit_0216870C_p08.c`
+- `unit_0216870C_p09.c`
 
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_0216870C.c` again.
+Round 3 (r3_ov01): p03 and p06 verify MATCH (status fixed); all parts contiguous.

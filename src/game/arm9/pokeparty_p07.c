@@ -1,8 +1,8 @@
 /*
  * file:     pokeparty_p07.c
  * unit:     yes
- * function: func_0201C020, func_0201C0BC, func_0201C158, func_0201C184, func_0201C1BC
- * address:  0x0201C020
+ * function: func_0201C1C8, func_0201C1D8, func_0201C1E8, func_0201C1F4, func_0201C284
+ * address:  0x0201C1C8
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -15,22 +15,21 @@
  * symbols:
  *   gWazaTool   0x02146530  data
  *   g_02146534  0x02146534  data
- *   _s32_div_f  0x0209C0A4  arm
  */
-typedef unsigned char  u8;
-
-typedef signed char    s8;
+typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-typedef unsigned int   u32;
+typedef unsigned int u32;
 
 typedef int            s32;
 
 struct Waza {
-    u8  unk00[0x15];
-    u8  unk15[3];
-    s8  unk18[3];
+    u8  unk00[4];
+    u8  unk04;
+    u8  unk05[9];
+    u8  unk0E;
+    u8  unk0F;
 };
 
 struct WazaTool {
@@ -39,171 +38,132 @@ struct WazaTool {
     s32 count;
 };
 
+extern u32 sub_0201BD28(void *p, u32 id);
+extern int func_0201BD28(int, int);
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
-extern u32 sub_0201BD28(u16 id, u32 field);
-u8 sub_0201C020(u16 id);
-u8 sub_0201C0BC(u16 id, u32 idx, s32 *out);
-u8 sub_0201C158(u16 move, u32 ppUp);
-u32 sub_0201C184(int id);
-u32 sub_0201C1BC(u16 move);
+u8 sub_0201C1C8(void *p);
+u16 sub_0201C1D8(void *p);
+int func_0201C1E8(int a);
+u32 sub_0201C1F4(u16 id);
+u32 sub_0201C284(u16 id);
 extern struct WazaTool *gWazaTool;
 extern struct Waza g_02146534;
 
 
 /*
- * waza_tool.c: two more readers over a move record, each with its own copy of
- * the cache lookup src/matched/unit_0201BD28.c and
- * src/matched/unit_0201C1F4.c also carry.  sub_0201C020 counts how many of
- * the three bytes at +0x15 are set; sub_0201C0BC hands one of the three
- * signed bytes at +0x18 back through an out-parameter, or zero when the
- * matching +0x15 byte is clear.
+ * A whole translation unit, matched as one byte range.
  *
- * The +0x18 read is a `movs`/`ldrsb` register-offset pair because the index
- * is a run-time value and Thumb has no immediate-offset `ldrsb`, which is
- * also the only evidence that the field is signed where its +0x15 neighbour
- * is not (docs/idioms/ldrsh-register-offset-is-signedness.md).
+ * Two truncating wrappers around sub_0201BD28 (0x0201BD28, still open, a
+ * getter dispatched by a small id constant), one narrowing the result to a
+ * byte for id 0, the other to a halfword for id 3.
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C020.c  *       --addr 0x0201C020 --thumb
+ *   python tools/match.py tu --src src/matched/unit_0201C1C8.c \
+ *       --addr 0x0201C1C8 --thumb
  */
-u8 sub_0201C020(u16 id)
+u8 sub_0201C1C8(void *p)
 {
-    struct Waza *rec;
-    s32 i;
-    u32 k;
-    u32 n;
-
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (gWazaTool->vals[i] == 0) {
-                gWazaTool->vals[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
-                break;
-            }
-            if (id == gWazaTool->vals[i]) {
-                break;
-            }
-        }
-        if (i == gWazaTool->count) {
-            i--;
-            gWazaTool->vals[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
-        }
-        rec = gWazaTool->recs[i];
-    } else {
-        rec = &g_02146534;
-        func_02048F4C(rec, 0x15, id);
-    }
-    n = 0;
-    for (k = 0; k < 3; k++) {
-        if (rec->unk15[k] != 0) {
-            n++;
-        }
-    }
-    return (u8)n;
+    return (u8)sub_0201BD28(p, 0);
 }
 
 
-u8 sub_0201C0BC(u16 id, u32 idx, s32 *out)
+u16 sub_0201C1D8(void *p)
 {
-    struct Waza *rec;
-    s32 i;
-    u8 v;
-
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (gWazaTool->vals[i] == 0) {
-                gWazaTool->vals[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
-                break;
-            }
-            if (id == gWazaTool->vals[i]) {
-                break;
-            }
-        }
-        if (i == gWazaTool->count) {
-            i--;
-            gWazaTool->vals[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
-        }
-        rec = gWazaTool->recs[i];
-    } else {
-        rec = &g_02146534;
-        func_02048F4C(rec, 0x15, id);
-    }
-    v = rec->unk15[idx];
-    if (v != 0) {
-        *out = rec->unk18[idx];
-    } else {
-        *out = 0;
-    }
-    return v;
+    return (u16)sub_0201BD28(p, 3);
 }
 
 
 /*
- * waza_tool.c: the effective PP calculation, a four-entry id translation and
- * one more named field read.
- *
- * sub_0201C158 is the function src/pending/sub_02018E34.c's field map calls
- * for ids 0x42 to 0x45: base PP (field 5 of the move record, through
- * src/matched/unit_0201BD28.c) plus base * 20 * ppUp / 100, with ppUp clamped
- * to 3 and every intermediate truncated to u8.  The two `muls` are one
- * expression and their order is the source's: the clamped count multiplies
- * the already-scaled base, not the other way round
- * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
- *
- * The clamp compares unsigned (`bls`) while the division calls _s32_div_f,
- * so the count is an unsigned parameter and the product is cast to `int`
- * before the divide; written unsigned throughout, every concrete byte is
- * still right and the call goes to _u32_div_f instead, which is a different
- * address and a DIFF.
- *
- * sub_0201C184 is a sparse four-case switch, which this front end lowers as a
- * binary search rather than a table: `> 0xF1`, then `< 0xF0`, then the two
- * equality tests.  The bodies are still emitted in source order, so the arms
- * are written 0xF0, 0xF1, 0xC9, 0x102 even though the comparisons are in
- * value order, and the value is signed: the two range tests are `bgt`/`blt`,
- * so the parameter is `int` and not `u32`.  0x102 arrives from a pool word because it is past the 255 a
- * `movs` immediate reaches.
- *
- * VERSION SENSITIVITY: 0xF0, 0xF1, 0xC9 and 0x102 are content ids (moves or
- * items), not offsets.  They are expected to be the same in Pokemon White,
- * which shares Black's numbering, but they are the constants to re-read first
- * if a White build diverges here.
- *
- * sub_0201C1BC is an unlabelled tail call, three instructions and two pool
- * words (docs/idioms/tail-call-is-a-pool-word-and-bx.md), reading field 1.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C158.c \
- *       --addr 0x0201C158 --thumb
+ * Tail call with argument 2. Filed as the witness for ov094 func_021F7C2C.
  */
-u8 sub_0201C158(u16 move, u32 ppUp)
+int func_0201C1E8(int a)
 {
-    u8 base;
-
-    if (ppUp > 3) {
-        ppUp = 3;
-    }
-    base = (u8)sub_0201BD28(move, 5);
-    return (u8)(base + (u8)((int)(ppUp * (base * 20)) / 100));
+    return func_0201BD28(a, 2);
 }
 
 
-u32 sub_0201C184(int id)
+/*
+ * waza_tool.c: two predicates over a move record, "is field 4 equal to 0x65"
+ * and "is field 0x0E equal to 6", which are the same two special values
+ * src/matched/unit_0201BD28.c's getter substitutes for at ids 4 and 7.
+ *
+ * Both carry their own copy of that file's cache lookup rather than calling
+ * it: the slot search, the "cache full, reuse the last slot" fixup, the
+ * func_02048F4C load and the not-yet-built fallback to 0x02146534 are written
+ * out again in each.  The duplication is in the source, not an inlining
+ * decision: sub_0201BD28 is a real function with eight callers, and the
+ * bodies here reach the record directly instead of going through its
+ * 32 case getter.
+ *
+ * VERSION SENSITIVITY: 0x65 and 6 are content ids of the move table, not
+ * offsets.  They are expected to be identical in Pokemon White but are the
+ * constants to re-read first if a White build diverges.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0201C1F4.c \
+ *       --addr 0x0201C1F4 --thumb
+ */
+u32 sub_0201C1F4(u16 id)
 {
-    switch (id) {
-    case 0xF0:  return 2;
-    case 0xF1:  return 1;
-    case 0xC9:  return 4;
-    case 0x102: return 3;
+    struct Waza *rec;
+    s32 i;
+
+    if (gWazaTool != 0) {
+        for (i = 0; i < gWazaTool->count; i++) {
+            if (gWazaTool->vals[i] == 0) {
+                gWazaTool->vals[i] = id;
+                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+                break;
+            }
+            if (id == gWazaTool->vals[i]) {
+                break;
+            }
+        }
+        if (i == gWazaTool->count) {
+            i--;
+            gWazaTool->vals[i] = id;
+            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+        }
+        rec = gWazaTool->recs[i];
+    } else {
+        rec = &g_02146534;
+        func_02048F4C(rec, 0x15, id);
+    }
+    if (rec->unk04 == 0x65) {
+        return 1;
     }
     return 0;
 }
 
 
-u32 sub_0201C1BC(u16 move)
+u32 sub_0201C284(u16 id)
 {
-    return sub_0201BD28(move, 1);
+    struct Waza *rec;
+    s32 i;
+
+    if (gWazaTool != 0) {
+        for (i = 0; i < gWazaTool->count; i++) {
+            if (gWazaTool->vals[i] == 0) {
+                gWazaTool->vals[i] = id;
+                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+                break;
+            }
+            if (id == gWazaTool->vals[i]) {
+                break;
+            }
+        }
+        if (i == gWazaTool->count) {
+            i--;
+            gWazaTool->vals[i] = id;
+            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+        }
+        rec = gWazaTool->recs[i];
+    } else {
+        rec = &g_02146534;
+        func_02048F4C(rec, 0x15, id);
+    }
+    if (rec->unk0E == 6) {
+        return 1;
+    }
+    return 0;
 }

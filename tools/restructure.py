@@ -385,8 +385,19 @@ def merge(members, tu_name, region, start, funcs, out_dir=None, reverse=False):
             settings['lang'] = 'c99'
         elif st != settings:
             problems.append('settings differ: %s has %s, first member %s' % (rel, st, settings))
-        for row in re.findall(r'^ \*   (\S+\s+0x[0-9A-Fa-f]{8}\s+.*)$', raw, re.M):
-            symbols.setdefault(row.split()[0], row.rstrip())
+        hm = re.match(r'\s*/\*.*?\*/', raw, re.S)
+        rows = re.findall(r'^\s*\*\s+(\w+\s+0x[0-9A-Fa-f]{8}\s+\w+(?:\s+\w+)*)\s*$', hm.group(0), re.M) if hm else []
+        rows += re.findall(r'^ \*   (\S+\s+0x[0-9A-Fa-f]{8}\s+.*)$', raw, re.M)
+        for row in rows:                        # header rows with any indent, then the usual form anywhere
+            nm_ = row.split()[0]
+            prev_ = symbols.get(nm_)
+            if prev_ is not None and prev_.split()[1].lower() != row.split()[1].lower():
+                # two members put one name at different addresses: a member that
+                # defines it (not only declares it) knows the right address
+                if re.search(r'^(?!\s*extern)[^;\n]*\b%s\s*(\[[^\]]*\]\s*)*=' % re.escape(nm_), raw, re.M):
+                    symbols[nm_] = row.rstrip()
+                continue
+            symbols.setdefault(nm_, row.rstrip())
         items = split_items(raw)
         try:
             tds[rel] = pf.parse_file(os.path.join(ROOT, rel), rel).td
@@ -413,8 +424,12 @@ def merge(members, tu_name, region, start, funcs, out_dir=None, reverse=False):
         for rel, items in parsed:
             mine = local_type_names(items) & clash
             if mine:
+                # the member's own first function address (a part file's name
+                # carries the TU address, which every part shares)
+                hdr_addr = re.search(r'^ \* address:\s*0x([0-9A-Fa-f]{8})',
+                                     open(os.path.join(ROOT, rel), encoding='latin1').read(), re.M)
                 suf = re.search(r'([0-9A-F]{8})', os.path.basename(rel))
-                suf = suf.group(1) if suf else str(len(new))
+                suf = (hdr_addr.group(1).upper() if hdr_addr else (suf.group(1) if suf else str(len(new))))
                 items = rename_types(items, mine, suf)
                 problems_renamed.append('%s: %s' % (suf, ','.join(sorted(mine))))
             new.append((rel, items))
@@ -482,7 +497,8 @@ def merge(members, tu_name, region, start, funcs, out_dir=None, reverse=False):
     own = []
     for it in body:
         if it.kind == 'func':
-            head = it.text[:pf.mask(it.text).find('{')].rstrip()
+            # the definition's head without the comment the item carries before it
+            head = comment_mask(it.text[:pf.mask(it.text).find('{')]).rstrip()
             head = re.sub(r'\s+', ' ', head).strip()
             if not head.startswith('static') and not re.search(r'\binline\b', head):
                 own.append(head + ';\n')

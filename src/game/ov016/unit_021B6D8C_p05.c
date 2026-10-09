@@ -1,8 +1,8 @@
 /*
  * file:     unit_021B6D8C_p05.c
  * unit:     yes
- * function: func_021B7FF8, func_021B8030, func_021B8068, func_021B80E4, func_021B8118, func_021B813C
- * address:  0x021B7FF8
+ * function: AOSS_SetIPAddr, AOSS_Disconnect, AOSS_Memcmp
+ * address:  0x021B8194
  * region:   ov016
  * compiler: dsi/../2.0/sp1p2
  * flags:    -O4,p
@@ -13,109 +13,76 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   AOSS_MALLOC  0x021B61B0  thumb
- *   AOSS_FREE    0x021B61C0  thumb
- *   _s32_div_f  0x0209C0A4  arm
- *   AOSS_Memcpy  0x021B8230  thumb
+ *   aoss_data    0x021DAAB4  data
+ *   CPSMyIp      0x021A82BC  data
+ *   AOSS_Htonl   0x021B82E4  thumb
+ *   SOC_Startup  0x0215F8FC  arm
+ *   OS_Sleep     0x02085A38  arm
+ *   SOC_Cleanup       0x0215FA90  arm
+ *   AOSSi_Disconnect  0x021B8640  thumb
  */
-extern void *AOSS_MALLOC(int a);
-extern void AOSS_FREE(void *a);
-extern void *AOSS_Memcpy(void *dest, void *src, int n);
-unsigned long update_crc(unsigned long crc, unsigned char *buf, int len, int crc_table_computed, unsigned long *crc_table);
-void make_crc_table(int crc_table_computed, unsigned long *crc_table);
-int CryptSeqNo(unsigned char *Data, int Datalen, char *KeyData, int Keylen);
-void MakeKey(int ID, char *Key, int maclen, char *Wep, int weplen);
-void AddKey(char *Key, unsigned char *mac, int maclen);
-void Rotate(unsigned char *mac, int maclen, char *wBuff);
+/*
+ * aoss.o's 96-byte .data section (0x021DAAB4): s_sFd, AOSS_StatusExclusion's
+ * static before, and soconfig, declared as one object because the vendor
+ * object addresses them section-relative.
+ */
+typedef struct {
+    unsigned char  pad00[0x10];
+    unsigned long  addr;       /* +0x10 */
+    unsigned long  netmask;    /* +0x14 */
+    unsigned long  router;     /* +0x18 */
+    unsigned char  pad1C[0x58 - 0x1C];
+} SOCConfig;
+
+typedef struct {
+    int       s_sFd;
+    int       before;
+    SOCConfig soconfig;
+} AOSS_DATA_SECTION;
+
+extern unsigned long AOSS_Htonl(unsigned long hostlong);
+extern int SOC_Startup(SOCConfig *config);
+extern void OS_Sleep(unsigned long msec);
+extern int SOC_Cleanup(void);
+extern int AOSSi_Disconnect(void);
+int AOSS_SetIPAddr(unsigned long ip, unsigned long sm, unsigned long gw);
+int AOSS_Disconnect(void);
+int AOSS_Memcmp(void *s1, void *s2, int n);
+extern AOSS_DATA_SECTION aoss_data;
+extern unsigned long CPSMyIp;
 
 
-unsigned long update_crc(unsigned long crc, unsigned char *buf, int len,
-                         int crc_table_computed, unsigned long *crc_table)
+
+int AOSS_SetIPAddr(unsigned long ip, unsigned long sm, unsigned long gw)
 {
-    unsigned long c = crc;
-    int n;
-
-    if (!crc_table_computed)
-        make_crc_table(crc_table_computed, crc_table);
-    for (n = 0; n < len; n++) {
-        c = crc_table[(c ^ buf[n]) & 0xff] ^ (c >> 8);
-    }
-    return c;
-}
-
-void make_crc_table(int crc_table_computed, unsigned long *crc_table)
-{
-    unsigned long c;
-    int n, k;
-
-    for (n = 0; n < 256; n++) {
-        c = (unsigned long)n;
-        for (k = 0; k < 8; k++) {
-            if (c & 1)
-                c = 0xedb88320L ^ (c >> 1);
-            else
-                c = c >> 1;
-        }
-        *crc_table++ = c;
-    }
-}
-
-
-int CryptSeqNo(unsigned char *Data, int Datalen, char *KeyData, int Keylen)
-{
-    int i;
-    char *Key, *wBuff;
-
-    Key = AOSS_MALLOC(Datalen / 2);
-    if (Key == 0)
+    aoss_data.soconfig.addr = AOSS_Htonl(ip);
+    aoss_data.soconfig.netmask = AOSS_Htonl(sm);
+    aoss_data.soconfig.router = AOSS_Htonl(gw);
+    if (SOC_Startup(&aoss_data.soconfig) < 0)
         return -1;
-    wBuff = AOSS_MALLOC(Datalen);
-    if (wBuff == 0) {
-        AOSS_FREE(Key);
-        return -1;
-    }
-    for (i = 0; i < 2; i++) {
-        MakeKey(i, Key, Datalen, KeyData, Keylen);
-        AddKey(Key, Data, Datalen);
-        Rotate(Data, Datalen, wBuff);
-    }
-    AOSS_FREE(Key);
-    AOSS_FREE(wBuff);
+    while (CPSMyIp == 0)
+        OS_Sleep(100);
     return 0;
 }
 
-void MakeKey(int ID, char *Key, int maclen, char *Wep, int weplen)
-{
-    int i, size, pos;
 
-    size = maclen / 2;
-    pos = ID % weplen;
-    for (i = 0; i < size; i++) {
-        Key[i] = i;
-        Key[i] = Key[i] ^ Wep[pos];
-        pos++;
-        if (pos >= weplen)
-            pos = 0;
-    }
+
+int AOSS_Disconnect(void)
+{
+    if (SOC_Cleanup() < 0)
+        return -1;
+    return -(AOSSi_Disconnect() != 0);
 }
 
-void AddKey(char *Key, unsigned char *mac, int maclen)
+int AOSS_Memcmp(void *s1, void *s2, int n)
 {
-    int i, size;
+    unsigned char *c1 = s1;
+    unsigned char *c2 = s2;
+    int diff = 0;
 
-    size = maclen / 2;
-    for (i = 0; i < size; i++) {
-        mac[size + i] ^= Key[i];
+    while (n-- > 0 && (diff = *c1 - *c2) == 0) {
+        c1++;
+        c2++;
     }
-}
-
-
-void Rotate(unsigned char *mac, int maclen, char *wBuff)
-{
-    int size;
-
-    size = maclen / 2;
-    AOSS_Memcpy(wBuff, mac + size, size);
-    AOSS_Memcpy(wBuff + size, mac, size);
-    AOSS_Memcpy(mac, wBuff, maclen);
+    return diff;
 }

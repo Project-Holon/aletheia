@@ -1,8 +1,8 @@
 /*
  * file:     comm_player_p04.c
  * unit:     yes
- * function: func_021677E4, func_02167810, func_02167848, func_0216786C, func_021679A4, func_021679C4
- * address:  0x021677E4
+ * function: func_02168F54, func_02169004, func_02169068, func_021690A4, func_021690B4, func_021690D0, func_021690E0, func_021690F0, func_02169100, func_02169110, func_02169120, func_02169138, func_02169148, func_0216928C, func_02169308
+ * address:  0x02168F54
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,282 +13,474 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034714 0x02034714 arm
- *   d_02172A28 0x02172A28 data a4
- *   func_020120F4  0x020120F4  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012B28  0x02012B28  thumb
- *   func_02012B38  0x02012B38  thumb
- *   func_02014484  0x02014484  thumb
- *   func_02012114  0x02012114  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188BE8  0x02188BE8  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_021A34EC  0x021A34EC  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_02197CCC  0x02197CCC  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
- *   func_02012AA0  0x02012AA0  thumb
- *   func_02012AE4  0x02012AE4  thumb
- *   func_0203EFC8  0x0203EFC8  arm
- *   func_02194384   0x02194384  thumb
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_021943EC  0x021943EC  thumb  ov021
- *   func_021BB578  0x021BB578  thumb
+ *   func_02089004  0x02089004  arm
+ *   func_02088F58  0x02088F58  arm
+ *   _ll_sdiv       0x0209BE5C  arm
+ *   func_02012EBC  0x02012EBC  thumb
+ *   func_0201296C  0x0201296C  thumb
+ *   func_020143F0  0x020143F0  thumb
+ *   func_0200D440  0x0200D440  thumb
+ *   func_02012934  0x02012934  thumb
+ *   func_0201B100  0x0201B100  thumb
+ *   func_02012F2C  0x02012F2C  thumb
+ *   func_02008E30  0x02008E30  thumb
+ *   func_02009470  0x02009470  thumb
+ *   func_0200952C  0x0200952C  thumb
+ *   func_021862A8  0x021862A8  thumb
+ *   func_0200E394  0x0200E394  thumb
+ *   func_0200E518  0x0200E518  thumb
+ *   func_0200A8A0  0x0200A8A0  thumb
+ *   func_0200AB04  0x0200AB04  thumb
+ *   func_0201AD0C 0x0201AD0C thumb
+ *   func_02012984 0x02012984 thumb
+ *   func_0216A2EC 0x0216A2EC thumb ov010
+ *   func_0200C0F0 0x0200C0F0 thumb
+ *   func_0200C3C0 0x0200C3C0 thumb
+ *   func_02008B14  0x02008B14  thumb
+ *   func_020113F0  0x020113F0  thumb
+ *   func_0203F524 0x0203F524 arm
+ *   func_02008BD0  0x02008BD0  thumb
+ *   sub_02030734   0x02030734  arm
+ *   func_02046C94  0x02046C94  arm
+ *   func_0216990C  0x0216990C  thumb  ov010
+ *   d_02172A40     0x02172A40  data
+ *   g_020A8140     0x020A8140  data
+ *   g_020A8148     0x020A8148  data
+ *   func_021693A0  0x021693A0  thumb  ov010
+ *   func_020307B0  0x020307B0  arm
+ *   d_020A814C     0x020A814C  data   a4
+ *   d_020A8144     0x020A8144  data   a4
  */
-#include "../../matched/include/Obj12372.h"
-#include "../../matched/include/Obj12373.h"
-#include "../../matched/include/Obj17734.h"
+#include "../../matched/include/Obj17735.h"
+#include "../../matched/include/Obj17736.h"
+#include "../../matched/include/Obj17737.h"
+#include "../../matched/include/Obj17738.h"
+#include "../../matched/include/Obj17739.h"
+#include "../../matched/include/Obj17740.h"
+#include "../../matched/include/Obj12384.h"
+#include "../../matched/include/Obj04162.h"
 
+struct RTCDate;
+struct RTCTime;
 struct BigObj;
-struct Ctx;
-struct Rec44;
-struct SaveBlock;
-struct Sub02014444Obj;
-struct Obj00020;
-struct Tbl;
-typedef unsigned char u8;
-
+struct Tally;
+struct Big;
+struct Rec0200AB04;
+struct Sub02009470Obj;
+struct Blk34;
+struct Sub02008AECSession;
 typedef unsigned int u32;
 
-typedef struct { u8 used:1; u8 rest:7; u8 pad[27]; } Slot;
+typedef long long s64;
 
-typedef struct { u8 pad[28]; Slot slot; } Row;
+typedef struct { u32 a, b, c, d; } Date;
+
+typedef struct { u32 a, b, c; } Time;
+
+typedef struct {
+    int f0;
+    Date date;
+    Time time;
+    int f20;
+} A;
+
+typedef signed int     s32;
+
+typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned long long u64;
 
-typedef struct Blk12_02167810 {
-    u64 lo;
-    u32 hi;
-} Blk12_02167810;
+typedef struct Cfg {
+    u32 size;           /* 0x00 */
+    u32 texSize;        /* 0x04 */
+    u32 f08;            /* 0x08 */
+    u32 f0c;            /* 0x0C */
+    u32 f10;            /* 0x10 */
+    u16 nA;             /* 0x14 */
+    u16 nB;             /* 0x16 */
+    u32 f18;            /* 0x18 */
+    u32 f1c;            /* 0x1C */
+} Cfg;
 
-typedef struct Ent {
-    Blk12_02167810 pos;
-    u32 f0c;
-    u16 f10;
-    u16 f12;
-    u8 used : 1;
-    u8 pend : 1;
-    u8 dir : 4;
-    u8 f15[3];
-    u32 f18;
-} Ent;
+typedef struct Node {
+    u32 f00;
+    u32 f04;
+} Node;
 
-typedef struct Work_02167810 {
-    void *sys;
-    void *obj;
-    Ent e[4];
-} Work_02167810;
+typedef struct Mgr {
+    u8 pad00[0x10];
+    u32 f10;            /* 0x10 */
+    u8 pad14[0x1C - 0x14];
+    u32 size;           /* 0x1C */
+    u32 texSize;        /* 0x20 */
+    u32 f24;            /* 0x24 */
+    u32 f28;            /* 0x28 */
+    Node *head;         /* 0x2C */
+    Node node;          /* 0x30 */
+    u8 pad38[0x84 - 0x38];
+    void *f84;          /* 0x84 */
+    void *f88;          /* 0x88 */
+    u32 texKey;         /* 0x8C */
+    u32 plttKey;        /* 0x90 */
+    u32 f94;            /* 0x94 */
+    u8 pad98[4];
+    void *listA;        /* 0x9C */
+    void *listB;        /* 0xA0 */
+    u16 nA;             /* 0xA4 */
+    u16 nB;             /* 0xA6 */
+    u32 fA8;            /* 0xA8 */
+    u32 fAC;            /* 0xAC */
+    u8 padB0[0xD4 - 0xB0];
+    void *buf;          /* 0xD4 */
+    u32 fD8;            /* 0xD8 */
+} Mgr;
 
-typedef struct {
-    u64 lo;
-    u32 hi;
-} Blk12_02167848;
+typedef void (*Cb)(u8 *, u32);
 
-typedef int s32;
-
-typedef s32 fx32;
-
-typedef struct VecFx32 {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} VecFx32;
-
-typedef struct Where {
-    VecFx32 pos;        /* 0x00 */
-    u16 zone;           /* 0x0C */
-    u8 dir : 4;         /* 0x0E */
-    u8 flag : 1;
-} Where;
-
-typedef struct Report {
-    u32 flag;           /* 0x00 */
-    VecFx32 pos;        /* 0x04 */
-    u16 zone;           /* 0x10 */
-    u8 dir;             /* 0x12 */
-} Report;
-
-typedef struct Work_0216786C {
-    void *sys;          /* 0x00 */
-    u8 pad04[0x78 - 0x04];
-    Where last;         /* 0x78 */
-    u8 pad88[0x8F - 0x88];
-    u8 f8f;             /* 0x8F */
-} Work_0216786C;
-
-typedef struct Blk12_021679C4 {
-    u64 lo;
-    u32 hi;
-} Blk12_021679C4;
-
-typedef struct Work_021679C4 {
-    void *sys;
-    void *obj;
-    Ent e[4];
-} Work_021679C4;
-
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u32 func_02012B28(const struct Rec44 *p);
-extern void *func_02012B38(const struct BigObj *p);
-extern u8 func_02014484(struct Sub02014444Obj *o);
-extern u32 func_02012114(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188BE8(void *proc);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(u8 *p);
-extern int func_021A34EC(u8 *p);
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_02197CCC(u8 *p, s32 *out);
-extern u16 func_021A3050(u8 *p);
-extern VecFx32 *func_02012AA0(void *pl);
-extern u16 func_02012AE4(void *pl);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern int func_02194384(int, int, int, int, int, int);
-extern u32 func_02188CD0(u8 *p);
-extern u32 func_021943EC(struct Tbl *t, u32 key);
-extern u32 func_021BB578(void *a, void *b, int c, int d);
-int func_021677E4(void *p, int i);
-u16 func_02167810(Work_02167810 *w, int i);
-void func_02167848(char *a0, int a1, char *a2);
-int func_0216786C(Work_0216786C *w, Report *out);
-int func_021679A4(void *a0, int a1, int a2, int a3, int a4, int a5);
-int func_021679C4(Work_021679C4 *w, int i);
-extern const char d_02172A28[];
-
-/*
- * domain: the signed i>=4 guard admits negative indices; raw unsigned scaling preserves the original modulo-32 address arithmetic without a fixed-array bound.
- * address lever: Row supplies the +28 load offset after unsigned scaling; combining +28 with the scaled index folds i+1 and changes the instructions.
- */
-int func_021677E4(void *p, int i) {
-    if (p == 0 || i >= 4) func_02034714(d_02172A28, 0, d_02172A28);
-    return ((Row *)((u32)p + (u32)i * 28u))->slot.used;
-}
+extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
+extern s32 func_02088F58(struct RTCDate *date);
+extern void *func_02012EBC(struct Big *p);
+extern u32 func_0201296C(const struct BigObj *p);
+extern void func_020143F0(u8 *a);
+extern void func_0200D440(void *sys);
+extern void *func_02012934(const struct BigObj *p);
+extern void func_0201B100(void *, int);
+extern void *func_02012F2C(int *p);
+extern void func_02008E30(void *a0);
+extern struct Sub02009470Obj *func_02009470(void *sys);
+extern void func_0200952C(struct Sub02009470Obj *obj);
+extern void func_021862A8(int, int, int);
+extern void *func_0200E394(void *a0);
+extern void func_0200E518(struct Tally *t);
+extern void *func_0200A8A0(void *sys);
+extern void func_0200AB04(struct Rec0200AB04 *o);
+extern void *func_0201AD0C(void *sys);
+extern u8 func_02012984(const struct BigObj *p);
+extern int func_0216A2EC(int,int,int,int *,int);
+extern void *func_0200C0F0(void *sys);
+extern void func_0200C3C0(struct Blk34 *p, u16 v);
+extern struct Sub02008AECSession *func_02008B14(void *sys);
+extern int func_020113F0(int row, int col);
+extern u64 func_0203F524(void);
+extern int func_02008BD0(const struct Sub02008AECSession *s);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern int func_02046C94(void);
+extern void func_0216990C(u8 *p);
+extern void func_021693A0(int a0);
+extern u32 func_020307B0(void *p);
+int func_02168F54(A *a, Date *b, Time *c, int *d, int *e);
+void func_02169004(int a, int b);
+void func_02169068(int a,int b,int *c);
+void *func_021690A4(int a0);
+int func_021690B4(int a0);
+int func_021690D0(int a0);
+int func_021690E0(int a0);
+int func_021690F0(int a0);
+int func_02169100(int a0);
+int func_02169110(int a0);
+void func_02169120(void *p);
+int func_02169138(int a0);
+Mgr *func_02169148(const Cfg *cfg, u32 heap);
+void func_0216928C(void *p);
+void func_02169308(u8 *p);
+extern const char d_02172A40[];
 
 
-u16 func_02167810(Work_02167810 *w, int i)
+
+int func_02168F54(A *a, Date *b, Time *c, int *d, int *e)
 {
-    if (w == 0 || i >= 4 || w->e[i].used != 1)
-        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
-    return w->e[i].f12;
-}
-
-
-/*
- * Recursive MATCH unblocker: callee of func_0217FF78 (ov019) +005C.  An
- * unlabelled Thumb leaf inside ov010: `disasm.py` emitted its body as the
- * `pool_02167844` word run because its `push {r4, r5}` prologue saves no `lr`
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  ov009 holds
- * ARM data at the address, ov011/ov018/ov019 only call it, so ov010 is the
- * region it lives in.
- *
- * The byte shape turns on the 12-byte aggregate copy: writing the +8 block as
- * one `struct { u64; u32; }` assignment is what makes mwcc evaluate the
- * destination address first (dst in r3, a2 kept in r2) and emit the exact
- * `ldm r5!`/`stm r4!` run.  Splitting it into a `u64` store plus a `u32` store
- * (or an explicit `dst` local, u32 index, Src/Dst structs) makes the allocator
- * compute the source address first and move a2 into r4, losing the whole range.
- * See docs/notes/recursive-match-unblocker-ov010-0215.c.txt and
- * docs/idioms/a-twelve-byte-aggregate-copy-pins-the-destination-first.md.
- */
-void func_02167848(char *a0, int a1, char *a2)
-{
-    char *d = a0 + a1 * 0x1C;
-
-    *(Blk12_02167848 *)(d + 8) = *(Blk12_02167848 *)(a2 + 4);
-    ((struct Obj12373 *)d)->f18 = ((struct Obj12372 *)a2)->f10;
-    ((struct Obj12373 *)d)->f14 = ((struct Obj12372 *)a2)->f0;
-}
-
-
-/*
- * Report the player's position, zone and facing (from the saved copy
- * while flying, from the ov021 rail object, or from the player object),
- * returning 1 only when it differs from the last report. One lever: the
- * change test written positively so the update block comes before the
- * `return 0`.
- */
-int func_0216786C(Work_0216786C *w, Report *out)
-{
-    VecFx32 pos;
-    void *a;
-    void *pl;
-    void *ctx;
-    Where *last;
-    void *q;
-    u32 flag;
-    u32 dir;
-    u16 zone;
-
-    ctx = func_020120F4(w->sys);
-    last = &w->last;
-    flag = 0;
-    if (w->f8f == 1)
+    s64 sa = func_02089004((struct RTCDate *)(&a->date), (struct RTCTime *)(&a->time));
+    s64 sb = func_02089004((struct RTCDate *)b, (struct RTCTime *)c);
+    int day = func_02088F58((struct RTCDate *)b);
+    int q;
+    *d = 0;
+    *e = 0;
+    if (sb < sa) {
+        a->date = *b;
+        a->time = *c;
+        a->f20 = day;
         return 0;
-    pl = func_020127A4(ctx);
-    dir = func_02012B28(pl);
-    if (func_02014484(func_02012B38(ctx)) == 2) {
-        zone = last->zone;
-        pos = last->pos;
-        flag = 1;
-        dir = last->dir;
-    } else if (func_02012114(w->sys) == 1 && func_02188BE8(func_0201210C(w->sys)) == 1) {
-        q = func_02188CB4(func_0201210C(w->sys));
-        a = func_021A3074(q);
-        if (func_021A34EC(q) == 4)
-            func_021A3038(q, &pos);
-        else
-            func_02197CCC(a, (s32 *)(&pos));
-        zone = func_021A3050(q);
-    } else {
-        pos = *func_02012AA0(pl);
-        zone = func_02012AE4(pl);
     }
-    out->zone = zone;
-    out->pos = pos;
-    out->flag = flag;
-    out->dir = dir;
-    if (zone != last->zone || dir != last->dir || flag != last->flag
-        || func_0203EFC8((const u8 *)(&pos), (const u8 *)last, sizeof(VecFx32)) != 0) {
-        last->zone = zone;
-        last->pos = pos;
-        last->dir = dir;
-        last->flag = flag;
-        return 1;
+    q = (int)((sb - sa) / 60);
+    if (q > 0) {
+        int dd;
+        *e = q;
+        a->date = *b;
+        a->time = *c;
+        dd = day - a->f20;
+        if (dd != 0) {
+            *d = dd;
+            a->f20 = day;
+        }
     }
-    return 0;
-}
-
-
-/*
- * The record's second word is the first argument of the six-argument
- * overlay call, with a zero bail.
- */
-int func_021679A4(void *a0, int a1, int a2, int a3, int a4, int a5)
-{
-    int v = ((struct Obj17734 *)a0)->f4;
-
-    if (v == 0)
-        return 0;
-
-    return func_02194384(v, a1, a2, a3, a4, a5);
-}
-
-
-int func_021679C4(Work_021679C4 *w, int i)
-{
-    Ent *e;
-    void *a;
-
-    e = &w->e[i];
-    if (w->obj == 0 || e->used == 0 || e->f18 != 0)
-        return 0;
-    a = (void *)func_02188CD0(func_0201210C(w->sys));
-    e->f18 = func_021BB578(a, (void *)func_021943EC(w->obj, i), 0, 0);
     return 1;
 }
+
+
+
+/*
+ * evidence: 0x0200E518 is an unlabelled ARM9 leaf ("push {r4, r5, r6, r7}",
+ * no lr, right after the "pop {r4, pc}" at 0x0200E516) that the prologue
+ * sweep misses.  The bl at +0x52 is its only reference in the image; its
+ * start is seeded in layout/function_starts.txt, and the callee itself is
+ * matched EXACT* (src/matched/arm9/func_0200E518.c), so +0x52 attests as
+ * `matched`.
+ */
+void func_02169004(int a, int b)
+{
+    int x;
+    func_02169138(a);
+    x = (int)func_02012EBC((struct Big *)a);
+    func_020143F0((u8 *)func_0201296C((const struct BigObj *)a));
+    func_0200D440((void *)x);
+    func_0201B100(func_02012934((void *)a), b);
+    func_02008E30(func_02012F2C((int *)a));
+    func_0200952C(func_02009470((void *)x));
+    func_021862A8(a, b, 4);
+    func_0200E518(func_0200E394((void *)x));
+    func_0200AB04(func_0200A8A0((void *)x));
+}
+
+
+/*
+ * extent: trailing two-byte alignment padding.
+ * interface: final u16 argument follows the original lsls/lsrs #16 pair.
+ */
+void func_02169068(int a,int b,int *c) { int t=(int)func_0201AD0C(func_02012EBC((struct Big *)a)); func_0216A2EC(a,t,b,c,func_02012984((const struct BigObj *)a)); func_0200C3C0((struct Blk34 *)((int)func_0200C0F0(func_02012EBC((struct Big *)a))),b); }
+
+
+
+void *func_021690A4(int a0)
+{
+    void *big;
+    struct Sub02008AECSession *s;
+
+
+    big = func_02012EBC((struct Big *)a0);
+loc_021690AA:
+    s = func_02008B14(big);
+loc_021690AE:
+    return (char *)s + 4;}
+
+
+
+int func_021690B4(int a0)
+{
+    int a1;
+    struct Sub02008AECSession *t4;
+    void *big;
+    int t5;
+
+t5 = a0 + 0;
+    big = func_02012EBC((struct Big *)a0);
+loc_021690BC:
+    t4 = func_02008B14(big);
+loc_021690C0:
+a0 = t5 + 0;
+    a0 = func_02012984((const struct BigObj *)a0);
+loc_021690C8:
+a1 = ((struct Obj17735 *)t4)->f14;
+    a0 = func_020113F0(a0, a1);
+loc_021690CE:
+    return a0;}
+
+
+
+int func_021690D0(int a0)
+{
+    void *big;
+    struct Sub02008AECSession *s;
+
+
+    big = func_02012EBC((struct Big *)a0);
+loc_021690D6:
+    s = func_02008B14(big);
+loc_021690DA:
+a0 = ((struct Obj17736 *)s)->f8;
+    return a0;}
+
+
+
+
+int func_021690E0(int a0)
+{
+    void *big;
+    struct Sub02008AECSession *s;
+
+
+    big = func_02012EBC((struct Big *)a0);
+loc_021690E6:
+    s = func_02008B14(big);
+loc_021690EA:
+a0 = ((struct Obj17737 *)s)->fC;
+    return a0;}
+
+
+
+
+int func_021690F0(int a0)
+{
+    void *big;
+    struct Sub02008AECSession *s;
+
+
+    big = func_02012EBC((struct Big *)a0);
+loc_021690F6:
+    s = func_02008B14(big);
+loc_021690FA:
+a0 = ((struct Obj17738 *)s)->f10;
+    return a0;}
+
+
+
+
+int func_02169100(int a0)
+{
+    void *big;
+    struct Sub02008AECSession *s;
+
+
+    big = func_02012EBC((struct Big *)a0);
+loc_02169106:
+    s = func_02008B14(big);
+loc_0216910A:
+a0 = ((struct Obj17739 *)s)->f14;
+    return a0;}
+
+
+
+
+int func_02169110(int a0)
+{
+    void *big;
+    struct Sub02008AECSession *s;
+
+
+    big = func_02012EBC((struct Big *)a0);
+loc_02169116:
+    s = func_02008B14(big);
+loc_0216911A:
+a0 = ((struct Obj17740 *)s)->f18;
+    return a0;}
+
+
+
+void func_02169120(void *p) { char *q = (char *)func_02008B14(func_02012EBC(p)); *(u64 *)(q + 0x2c) = func_0203F524(); }
+
+
+
+
+int func_02169138(int a0)
+{
+    void *big;
+    struct Sub02008AECSession *s;
+
+
+    big = func_02012EBC((struct Big *)a0);
+loc_0216913E:
+    s = func_02008B14(big);
+loc_02169142:
+    a0 = func_02008BD0(s);
+loc_02169146:
+    return a0;}
+
+
+
+#define F(o) (*(u32 *)((char *)p + (o)))
+
+
+
+extern u32 (*g_020A8140)(u32 size, u32 is4x4, u32 opt);
+
+
+
+extern u32 (*g_020A8148)(u32 size, u32 is4pltt, u32 opt);
+
+
+
+
+/*
+ * Create the 0xDC-byte effect manager from its Cfg: two record lists,
+ * work buffers, and texture/palette VRAM keys through the NNS default
+ * allocator hooks. Levers: the buffer size from cfg (not the just-stored
+ * copy), and the list terminator cleared through m->head.
+ */
+Mgr *func_02169148(const Cfg *cfg, u32 heap)
+{
+    Mgr *m;
+    u32 sz;
+
+    m = sub_02030734(heap, sizeof(Mgr), 1, d_02172A40, 0x6E);
+    sz = func_02046C94();
+    m->nA = cfg->nA;
+    m->nB = cfg->nB;
+    m->fA8 = cfg->f18;
+    m->fAC = cfg->f1c;
+    if (m->nA != 0)
+        m->listA = sub_02030734(heap, cfg->nA * 20, 1, d_02172A40, 0x77);
+    if (m->nB != 0)
+        m->listB = sub_02030734(heap, cfg->nB * 20, 1, d_02172A40, 0x7A);
+    func_0216990C((u8 *)m);
+    m->f28 = cfg->f08;
+    m->size = cfg->size;
+    m->buf = sub_02030734(heap, cfg->size, 1, d_02172A40, 0x86);
+    if (cfg->f10 == 0)
+        m->f24 = 0x800;
+    else
+        m->f24 = cfg->f10;
+    m->fD8 = cfg->f0c;
+    m->head = &m->node;
+    m->head->f04 = 0;
+    m->f10 = 0;
+    m->f84 = sub_02030734(heap, sz, 1, d_02172A40, 0x97);
+    m->f88 = sub_02030734(heap, sz, 1, d_02172A40, 0x9A);
+    m->f94 = 0;
+    if (cfg->texSize != 0) {
+        m->texSize = cfg->texSize;
+        m->texKey = g_020A8140(cfg->texSize, 0, 0);
+        m->plttKey = g_020A8148(0x200, 0, 0);
+    } else {
+        m->texSize = 0;
+        m->texKey = 0;
+        m->plttKey = 0;
+    }
+    return m;
+}
+
+
+
+extern void (*d_020A814C)(u32);
+
+
+
+extern void (*d_020A8144)(u32);
+
+
+
+
+void func_0216928C(void *p)
+{
+    func_021693A0((int)p);
+    if (F(0x20) != 0) {
+        d_020A814C(F(0x90));
+        d_020A8144(F(0x8c));
+    }
+    func_020307B0((void *)F(0x88));
+    func_020307B0((void *)F(0x84));
+    func_020307B0((void *)F(0xd4));
+    if (((struct Obj12384 *)p)->fA4 != 0)
+        func_020307B0((void *)F(0x9c));
+    if (((struct Obj12384 *)p)->fA6 != 0)
+        func_020307B0((void *)F(0xa0));
+    func_020307B0((void *)((u32)p));
+}
+
+
+
+/*
+ * address arithmetic: unsigned 32-bit index scaling and base addition
+ * preserve the original lsls/adds wraparound without an invented index bound.
+ */
+void func_02169308(u8 *p) { Cb cb; if (((struct Obj04162 *)p)->fB0) { cb = *(Cb *)(((struct Obj04162 *)p)->f28+((struct Obj04162 *)p)->f18*16u+4u); if(cb) cb(p,((struct Obj04162 *)p)->fD8); } }

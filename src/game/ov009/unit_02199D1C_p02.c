@@ -1,8 +1,8 @@
 /*
  * file:     unit_02199D1C_p02.c
  * unit:     yes
- * function: func_0219A034, func_0219A054
- * address:  0x0219A034
+ * function: func_0219A968, func_0219AA08, func_0219AB8C
+ * address:  0x0219A968
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,40 +13,32 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02199FB4  0x02199FB4  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_021991C8  0x021991C8  arm  ov009
- *   func_0217EF50  0x0217EF50  arm  ov009
- *   func_0217EC60  0x0217EC60  arm  ov009
- *   func_0217ED54  0x0217ED54  arm  ov009
- *   func_0219AB8C  0x0219AB8C  arm  ov009
  *   func_0217F264  0x0217F264  arm  ov009
- *   func_021994F0  0x021994F0  arm  ov009
- *   func_021995E4  0x021995E4  arm  ov009
  *   func_0219972C  0x0219972C  arm  ov009
- *   func_02199A90  0x02199A90  arm  ov009
- *   func_02199394  0x02199394  arm  ov009
- *   g_021A5E88     0x021A5E88  data
- *   g_021A5EAC     0x021A5EAC  data
- *   g_021AE7A0     0x021AE7A0  data
- *   g_021A5EE8     0x021A5EE8  data
- *   g_021A5F1C     0x021A5F1C  data
- *   g_021A5F5C     0x021A5F5C  data
- *   g_021A5FA0     0x021A5FA0  data
- *   g_021A5FE8     0x021A5FE8  data
- *   g_021A6028     0x021A6028  data
- *   g_021A606C     0x021A606C  data
- *   g_021A60B8     0x021A60B8  data
- *   g_021A60FC     0x021A60FC  data
- *   g_021A6150     0x021A6150  data
- *   g_021A61A0     0x021A61A0  data
+ *   g_021A6450  0x021A6450  data
+ *   gsDebugFormat  0x0217D254  arm  ov009
+ *   current_time   0x0217F264  arm  ov009
+ *   SendPacket     0x021992A8  arm  ov009
+ *   g_021A6470     0x021A6470  data
+ *   g_021A648C     0x021A648C  data
+ *   g_021A6498     0x021A6498  data
+ *   func_02199284  0x02199284  arm  ov009
+ *   func_0215FA9C  0x0215FA9C  arm  ov009
+ *   func_021990D4  0x021990D4  arm  ov009
+ *   func_0219A620  0x0219A620  arm  ov009
+ *   func_0219A7AC  0x0219A7AC  arm  ov009
+ *   g_021A64D4     0x021A64D4  data
+ *   g_021A6504     0x021A6504  data
+ *   g_021A6538     0x021A6538  data
+ *   g_021A657C     0x021A657C  data
+ *   g_021A65BC     0x021A65BC  data
  */
-struct NATNegotiator;
-typedef enum NegotiateState {
-    ns_preinitsent, ns_preinitack, ns_initsent, ns_initack, ns_connectping,
-    ns_finished, ns_canceled, ns_reportsent, ns_reportack
-} NegotiateState;
+#include "../../matched/arm9_sdk/libc/string.h"
 
+#define NN_SWAP16(x) ((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00))
+#define NN_NTOHS(x) ((unsigned short)((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00)))
+#define NN_NTOHL(x) ((((x) >> 24) & 0xFF) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | (((x) << 24) & 0xFF000000))
 typedef struct SOCSockAddrIn {
     unsigned char len;
     unsigned char family;
@@ -57,167 +49,188 @@ typedef struct SOCSockAddrIn {
 typedef struct _NATNegotiator {
     int gameSock;                                    /* 0x00 */
     int cookie;                                      /* 0x04 */
-    int clientindex;                                 /* 0x08 */
+    int clientIndex;                                 /* 0x08 */
     void (*progressCallback)(int state, void *userdata);                              /* 0x0C */
     void (*completedCallback)(int result, int gameSocket, SOCSockAddrIn *remoteaddr, void *userdata); /* 0x10 */
     void *userdata;                                  /* 0x14 */
     int negotiateSock;                               /* 0x18 */
-    NegotiateState state;                            /* 0x1C */
+    int state;                                       /* 0x1C */
     int initAckRecv[4];                              /* 0x20 */
     int retryCount;                                  /* 0x30 */
     int maxRetryCount;                               /* 0x34 */
-    unsigned long retryTime;                         /* 0x38 */
+    unsigned int retryTime;                          /* 0x38 */
     unsigned int guessedIP;                          /* 0x3C */
     unsigned short guessedPort;                      /* 0x40 */
     unsigned char gotRemoteData;                     /* 0x42 */
     unsigned char sendGotRemoteData;                 /* 0x43 */
     int result;                                      /* 0x44 */
-    int connectedSocket;                             /* 0x48 */
+    int socket;                                      /* 0x48 */
     SOCSockAddrIn remoteaddr;                        /* 0x4C */
 } NATNegotiator;
 
-extern void func_02199FB4(int v);
+typedef struct _NatNegPacket {
+    unsigned char pad0[0xD];
+    unsigned char porttype;
+} NatNegPacket;
+
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int u32;
+
+typedef struct SOCSockAddrIn_02199D1C
+{
+    u8 len;
+    u8 family;
+    u16 port;
+    u32 addr;
+} SOCSockAddrIn_02199D1C;
+
+typedef struct NatNegPacket_02199D1C
+{
+    u8 magic[6];
+    u8 version;
+    u8 packettype;
+    int cookie;
+    u8 clientindex;
+    u8 rest[0x3F];
+} NatNegPacket_02199D1C;
+
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_021991C8(NATNegotiator *neg);
-extern int func_0217EF50(int sock);
-extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
-extern int func_0217ED54(int sock);
-extern void func_0219AB8C(char *data, int len, SOCSockAddrIn *fromaddr);
-extern unsigned long func_0217F264(void);
-extern void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
-extern void func_021995E4(struct NATNegotiator *neg);
+extern unsigned int func_0217F264(void);
 extern void func_0219972C(NATNegotiator *neg);
-extern void func_02199A90(struct NATNegotiator *neg);
-extern void func_02199394(struct NATNegotiator *neg);
-void func_0219A034(int *p);
-void func_0219A054(NATNegotiator *neg);
-extern char g_021A5E88[];
-extern char g_021A5EAC[];
-extern char g_021AE7A0[];
-extern char g_021A5EE8[];
-extern char g_021A5F1C[];
-extern char g_021A5F5C[];
-extern char g_021A5FA0[];
-extern char g_021A5FE8[];
-extern char g_021A6028[];
-extern char g_021A606C[];
-extern char g_021A60B8[];
-extern char g_021A60FC[];
-extern char g_021A6150[];
-extern char g_021A61A0[];
+extern void gsDebugFormat();
+extern u32 current_time(void);
+extern void SendPacket();
+extern int func_02199284(char *data);
+extern char *func_0215FA9C(unsigned int in);
+extern NATNegotiator *func_021990D4(int cookie);
+extern void func_0219A620(NATNegotiator *neg, NatNegPacket_02199D1C *p, SOCSockAddrIn_02199D1C *fromaddr);
+extern void func_0219A7AC(NATNegotiator *neg, NatNegPacket_02199D1C *p, SOCSockAddrIn_02199D1C *fromaddr);
+void func_0219A968(NATNegotiator *neg, NatNegPacket *p);
+void func_0219AA08(NATNegotiator *neg, NatNegPacket_02199D1C *p, SOCSockAddrIn_02199D1C *fromaddr);
+void func_0219AB8C(char *data, int len, SOCSockAddrIn_02199D1C *fromaddr);
+extern char g_021A6450[];
+extern char g_021A6470[];
+extern char g_021A648C[];
+extern char g_021A6498[];
+extern char g_021A64D4[];
+extern char g_021A6504[];
+extern char g_021A6538[];
+extern char g_021A657C[];
+extern char g_021A65BC[];
 
 
 /*
- * Marks the record spent and tail calls on its second word.
+ * sdk:      ProcessPreinitAckPacket (natneg.o)
  */
-void func_0219A034(int *p)
+void func_0219A968(NATNegotiator *neg, NatNegPacket *p)
 {
-    if (p[0] == -1) {
-        p[6] = -1;
+    func_0217D254(7, 0, 8, g_021A6450, p->porttype);
+    if (neg->state != 1) {
+        neg->state = 1;
+        neg->progressCallback(1, neg->userdata);
+        neg->retryTime = func_0217F264() + 10000;
+        neg->retryCount = 0;
+        neg->maxRetryCount = 12;
     }
-
-    func_02199FB4(p[1]);
+    switch (p->porttype) {
+    case 0:
+    case 1:
+        return;
+    case 2:
+        func_0219972C(neg);
+        break;
+    }
 }
 
 
-/*
- * sdk:      NegotiateThink (libdwcgsnatneg.TWL.HYB.a natneg.o)
- *
- * State enum is compared unsigned in the two range tests (bhi), so those
- * two reads are cast to unsigned int. The receive loop is a do/while with
- * the socket test at the bottom, inside an outer socket test.
- */
-void func_0219A054(NATNegotiator *neg)
+
+void func_0219AA08(NATNegotiator *neg, NatNegPacket_02199D1C *p, SOCSockAddrIn_02199D1C *fromaddr)
 {
-    SOCSockAddrIn saddr;
-    int saddrlen = sizeof(SOCSockAddrIn);
-    int error;
+    switch (p->packettype)
+    {
+    case 1:
+        if (p->clientindex > 3)
+            return;
+        gsDebugFormat(7, 0, 8, g_021A6470, p->clientindex);
+        neg->initAckRecv[p->clientindex] = 1;
+        if (neg->state != 2)
+            return;
+        if (!neg->initAckRecv[1] || !neg->initAckRecv[2] || !neg->initAckRecv[3])
+            return;
+        if (neg->gameSock != -1)
+        {
+            if (!neg->initAckRecv[0])
+                return;
+        }
+        neg->state = 3;
+        neg->retryTime = current_time() + 60000;
+        neg->progressCallback(neg->state, neg->userdata);
+        break;
+    case 2:
+        gsDebugFormat(7, 0, 8, g_021A648C);
+        p->packettype = 3;
+        SendPacket(neg->negotiateSock, fromaddr->addr, (u16)NN_SWAP16(fromaddr->port), p, 0x15);
+        break;
+    case 14:
+        gsDebugFormat(7, 0, 8, g_021A6498, neg->cookie);
+        neg->state = 8;
+        break;
+    }
+}
 
-    if (neg == 0) {
-        func_0217D254(7, (char *)4, 4, g_021A5E88);
+
+
+void func_0219AB8C(char *data, int len, SOCSockAddrIn_02199D1C *fromaddr)
+{
+    NatNegPacket_02199D1C p;
+    NATNegotiator *neg;
+    unsigned char ptype;
+
+    if (!func_02199284(data)) {
+        func_0217D254(7, 0, 4, g_021A64D4);
         return;
     }
 
-    if (neg->state == ns_canceled) {
-        func_0217D254(7, (char *)2, 8, g_021A5EAC, neg->cookie);
-        func_021991C8(neg);
-        return;
-    }
+    ptype = ((NatNegPacket_02199D1C *)data)->packettype;
+    func_0217D254(7, 0, 8, g_021A6504, ptype, len, func_0215FA9C(fromaddr->addr), NN_NTOHS(fromaddr->port));
 
-    if (neg->negotiateSock != -1) {
-        do {
-            if (!func_0217EF50(neg->negotiateSock))
-                break;
-            error = func_0217EC60(neg->negotiateSock, g_021AE7A0, 512, 0, &saddr, &saddrlen);
-            if (error == -1) {
-                func_0217D254(7, 0, 8, g_021A5EE8, neg->cookie, func_0217ED54(neg->negotiateSock));
-                break;
-            }
-            func_0219AB8C(g_021AE7A0, error, &saddr);
-            if (neg->state == ns_canceled)
-                break;
-        } while (neg->negotiateSock != -1);
-    }
-
-    if ((neg->state == ns_preinitsent || neg->state == ns_preinitack || neg->state == ns_initsent ||
-         neg->state == ns_connectping) && func_0217F264() > neg->retryTime) {
-        if (neg->retryCount > neg->maxRetryCount) {
-            func_0217D254(7, 0, 8, g_021A5F1C, neg->cookie);
-            if ((unsigned int)neg->state <= ns_initsent)
-                func_021994F0(neg, 2, -1, 0);
-            else
-                func_021994F0(neg, 3, -1, 0);
-        } else {
-            neg->retryCount++;
-            func_0217D254(7, 0, 8, g_021A5F5C, neg->cookie, neg->retryCount);
-            if ((unsigned int)neg->state <= ns_preinitack)
-                func_021995E4((struct NATNegotiator *)neg);
-            else if (neg->state == ns_initsent)
-                func_0219972C(neg);
-            else
-                func_02199A90((struct NATNegotiator *)neg);
+    if (ptype == 5 || ptype == 7) {
+        if (len < 20) {
+            func_0217D254(7, 0, 4, g_021A6538);
+            return;
         }
-    }
-
-    if (neg->state == ns_initack && func_0217F264() > neg->retryTime) {
-        func_0217D254(7, 0, 8, g_021A5FA0, neg->cookie);
-        func_021994F0(neg, 1, -1, 0);
-    }
-
-    if (neg->state == ns_connectping && func_0217F264() > neg->retryTime) {
-        if (neg->retryCount > neg->maxRetryCount) {
-            func_0217D254(7, 0, 8, g_021A5FE8, neg->cookie);
-            func_021994F0(neg, 3, -1, 0);
-        } else {
-            neg->retryCount++;
-            func_0217D254(7, 0, 8, g_021A6028, neg->cookie, neg->retryCount);
-            func_02199A90((struct NATNegotiator *)neg);
-            neg->retryTime = func_0217F264() + 700;
+        memcpy(&p, data, 20);
+        neg = func_021990D4(NN_NTOHL((unsigned int)p.cookie));
+        if (neg == 0) {
+            func_0217D254(7, (char *)0, 4, g_021A657C, NN_NTOHL((unsigned int)p.cookie));
+            return;
         }
-    }
-
-    if (neg->state == ns_reportsent && func_0217F264() > neg->retryTime) {
-        if (neg->retryCount > neg->maxRetryCount) {
-            func_0217D254(7, (char *)3, 8, g_021A606C, neg->cookie);
-            neg->state = ns_finished;
-        } else {
-            func_02199394((struct NATNegotiator *)neg);
-            neg->retryCount++;
-            func_0217D254(7, 0, 8, g_021A60B8, neg->cookie, neg->retryCount);
-            neg->retryTime = func_0217F264() + 500;
+        if (ptype == 5)
+            func_0219A620(neg, &p, fromaddr);
+        else
+            func_0219A7AC(neg, &p, fromaddr);
+    } else if (ptype == 16) {
+        if (len < 18)
+            return;
+        memcpy(&p, data, 18);
+        neg = func_021990D4(NN_NTOHL((unsigned int)p.cookie));
+        if (neg == 0)
+            return;
+        func_0219A968(neg, (NatNegPacket *)&p);
+    } else {
+        if (len < 21) {
+            func_0217D254(7, 0, 4, g_021A65BC);
+            return;
         }
-    }
-
-    if (neg->state == ns_finished || neg->state == ns_reportack) {
-        if (neg->sendGotRemoteData)
-            func_0217D254(7, (char *)3, 8, g_021A60FC, neg->cookie);
-        else if (func_0217F264() > neg->retryTime)
-            func_0217D254(7, (char *)3, 8, g_021A6150, neg->cookie);
-        func_0219A034((int *)neg);
-    }
-
-    if (neg->state == ns_canceled) {
-        func_0217D254(7, (char *)2, 8, g_021A61A0, neg->cookie);
-        func_021991C8(neg);
+        memcpy(&p, data, 21);
+        neg = func_021990D4(NN_NTOHL((unsigned int)p.cookie));
+        if (neg == 0) {
+            func_0217D254(7, (char *)0, 4, g_021A657C, NN_NTOHL((unsigned int)p.cookie));
+            return;
+        }
+        func_0219AA08(neg, &p, fromaddr);
     }
 }

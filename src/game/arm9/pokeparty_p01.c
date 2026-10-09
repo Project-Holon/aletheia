@@ -1,7 +1,7 @@
 /*
  * file:     pokeparty_p01.c
  * unit:     yes
- * function: func_02019A50, func_02019A7C, func_02019A9C, func_02019ABC, func_02019B04, func_02019B44, func_02019B58, func_02019B64, func_02019B94, func_02019BA4
+ * function: func_02019A50, func_02019A7C, func_02019A9C, func_02019ABC, func_02019B04, func_02019B44, func_02019B58, func_02019B64, func_02019B94, func_02019BA4, func_02019C38, func_02019C54, func_02019C7C, func_02019C90, func_02019CA0, func_02019CE0
  * address:  0x02019A50
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,13 +19,21 @@
  *   func_02019B04_Table  0x0209E324  data
  *   func_02048F4C  0x02048F4C  arm
  *   gWordBuf       0x02146398  data
+ *   gBlockOrder  0x0209E3A4  data
+ *   g_02146270   0x02146270  data
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_02017E40  0x02017E40  thumb
+ *   func_02018584  0x02018584  thumb
+ *   func_020185C4  0x020185C4  thumb
+ *   func_0201AE1C  0x0201AE1C  thumb
  */
 struct MsgData;
+struct Personal;
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct Mon {
+struct Mon_02019A50 {
     u32 unk00;
 };
 
@@ -35,16 +43,41 @@ struct BlockA {
 
 typedef signed char    s8;
 
-extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
+typedef unsigned char  u8;
+
+struct Mon_02019C38 {
+    u32 unk00;
+    u16 flags;
+    u16 unk06;
+    u8  block[0x80];
+};
+
+struct Memo {
+    u16 b;
+    u16 a;
+    u8  obj[0x10];
+};
+
+struct RecDC {
+    u32 unk00[0x37];
+};
+
 extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern u32 func_0201F448(const u16 *a, const u16 *b);
 extern void *func_020185F0(void);
 extern u32   func_02017E88(void *p, u32 id, u32 v);
 extern void  func_02017E64(void *p, u32 id, u32 v);
 extern void  func_02048F4C(void *a, u32 b, u32 c);
+extern void sub_0201ADA4(u32 a, int b, void *dest);
+extern u32  func_02017E1C(void *p, u32 id, u32 v);
+extern void func_02017E40(void *p, u32 id, u32 v);
+extern u32  func_02018584(u16 a, u16 b, u16 v);
+extern void func_020185C4(void *p);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 void func_02019A50(u16 *p, u32 size, u32 seed);
 u16 func_02019A7C(u32 *s);
 u16 func_02019A9C(const u16 *p, u32 size);
+u32 func_02019ABC(struct Mon_02019A50 *p);
 u32 func_02019B04(u32 a, u32 b, u32 n);
 s8 func_02019B44(u32 a, u32 n);
 void func_02019B58(void *p);
@@ -52,10 +85,19 @@ void func_02019B64(void *p);
 void func_02019B94(u32 a, void *b);
 u32 func_02019BA4(u32 a, u32 i);
 u32 func_02019BBC(u32 item);
+void *func_02019C38(struct Mon_02019C38 *p, u32 pid, u32 n);
+void *func_02019C54(u32 a, u32 b);
+u32 func_02019C7C(void *h);
+u32 func_02019C90(u16 a, u16 b, u32 k);
+void func_02019CA0(void *p, u32 v);
+void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 extern void *gMsgBank;
 extern u16   gNameBuf[];
 extern const s8 func_02019B04_Table[][5];
 extern u32   gWordBuf[];
+extern const u8 gBlockOrder[32][4];
+extern struct Memo g_02146270;
+
 
 
 /*
@@ -91,11 +133,13 @@ void func_02019A50(u16 *p, u32 size, u32 seed)
 }
 
 
+
 u16 func_02019A7C(u32 *s)
 {
     *s = *s * 0x41C64E6D + 0x6073;
     return (u16)(*s >> 16);
 }
+
 
 
 u16 func_02019A9C(const u16 *p, u32 size)
@@ -112,6 +156,7 @@ u16 func_02019A9C(const u16 *p, u32 size)
     }
     return sum;
 }
+
 
 
 /*
@@ -135,11 +180,11 @@ u16 func_02019A9C(const u16 *p, u32 size)
  *   python tools/match.py tu --src src/matched/unit_02019ABC.c \
  *       --addr 0x02019ABC --thumb
  */
-u32 func_02019ABC(struct Mon *p)
+u32 func_02019ABC(struct Mon_02019A50 *p)
 {
     u32 r = 0;
-    struct BlockA *a = (struct BlockA *)func_02019C38(p, p->unk00, 0);
-    void *c = func_02019C38(p, p->unk00, 2);
+    struct BlockA *a = (struct BlockA *)func_02019C38((struct Mon_02019C38 *)p, p->unk00, 0);
+    void *c = func_02019C38((struct Mon_02019C38 *)p, p->unk00, 2);
 
     func_02045F5C(gMsgBank, a->species, gNameBuf, 0x20);
     if (func_0201F448(gNameBuf, c) == 0) {
@@ -147,6 +192,7 @@ u32 func_02019ABC(struct Mon *p)
     }
     return r;
 }
+
 
 
 /*
@@ -187,6 +233,7 @@ u32 func_02019B04(u32 a, u32 b, u32 n)
 }
 
 
+
 /*
  * The unlabelled leaf whose pool word is the second image-wide reference to
  * the table at 0x0209E324; traced via layout/function_starts.txt. Its pool
@@ -200,6 +247,7 @@ s8 func_02019B44(u32 a, u32 n)
 {
     return func_02019B04_Table[a][n - 1];
 }
+
 
 
 /*
@@ -250,6 +298,7 @@ void func_02019B58(void *p)
 }
 
 
+
 void func_02019B64(void *p)
 {
     u32 s = func_02017E88(p, 5, 0);
@@ -259,10 +308,12 @@ void func_02019B64(void *p)
 }
 
 
+
 void func_02019B94(u32 a, void *b)
 {
     func_02048F4C(b, 0x11, a);
 }
+
 
 
 u32 func_02019BA4(u32 a, u32 i)
@@ -270,6 +321,7 @@ u32 func_02019BA4(u32 a, u32 i)
     func_02019B94(a, gWordBuf);
     return gWordBuf[i];
 }
+
 
 
 u32 func_02019BBC(u32 item)
@@ -293,4 +345,142 @@ u32 func_02019BBC(u32 item)
     case 0x139: return 8;
     }
     return 0;
+}
+
+
+
+
+/*
+ * note:     28 bytes including its pool word, one function
+ * note:     re-verified 2026-09-21: EXACT.  The MATCH cap was lifted by the
+ *           sole-ref widening of 2026-09-21, not by any edit to the C:
+ *           the data address this file reaches now attests as
+ *           sole-ref/data.  Promoted from src/pending/ unchanged.
+ *
+ * The substruct permuter the whole poke_tool.c field machinery reaches every
+ * block through: bits 13 to 17 of the personality word select one of 32
+ * orderings, and the ordering's n-th byte is the offset of the n-th 0x20 byte
+ * substruct inside the 0x80 byte block area at +0x08, so the table at
+ * 0x0209E3A4 is 32 rows of four offsets drawn from 0x00, 0x20, 0x40 and 0x60.
+ * src/matched/sub_02019388.c, src/matched/unit_020188B4.c and
+ * src/pending/sub_02018E34.c all index through it, and ov188 calls it eight
+ * more times.
+ *
+ * Why it WAS capped (historical, resolved 2026-09-21): the one relocation is an ABS32 against the table at
+ * 0x0209E3A4, and a scan of every word in all 242 regions finds exactly one
+ * occurrence of that address, the pool word at 0x02019C50 inside this
+ * function.  The `literal` class discards its only witness under the honesty
+ * rule and no cut helps, because the range cannot be made smaller than the one
+ * function that holds the pool word.  The `matched` class never applies to
+ * data (docs/MATCHING.md, "The matched class"), so this is the same shape as
+ * src/matched/sub_02013FA8.c's private table and not the same shape as
+ * sub_02018E34's runtime helper.  It closes the day anything else in the image
+ * names 0x0209E3A4, or the day the table itself is a matched data entry.
+ *
+ * The neighbour func_02019C54, which is the one-entry memo in front of this
+ * function, has no such site and was cut off into
+ * src/matched/unit_02019C54.c rather than left capped with it
+ * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md is the same
+ * remedy applied to a data reference).
+ *
+ * What pinned the source: the mask is written `(pid & 0x3E000) >> 13` and not
+ * `(pid >> 13) & 0x1F`.  The first is the `movs #0x3E` / `lsls #0xC` / `ands`
+ * / `lsrs #0xD` the original has; the second folds to a `lsrs` and an `ands`
+ * against a pooled 0x1F.
+ *
+ * Verified with
+ *   python tools/match.py tu --src src/pending/sub_02019C38.c \
+ *       --addr 0x02019C38 --thumb
+ */
+void *func_02019C38(struct Mon_02019C38 *p, u32 pid, u32 n)
+{
+    return &p->block[gBlockOrder[(pid & 0x3E000) >> 13][n]];
+}
+
+
+
+/*
+ * A one-entry memo: the (a, b) key pair at 0x02146270 and the 0x10 byte
+ * object built for it at 0x02146274, rebuilt through sub_0201ADA4
+ * (src/matched/unit_0201ADA4.c) only when the key changes.  func_02019C90 in
+ * src/matched/unit_02019C7C.c is its only caller.
+ *
+ * Two things pin the source.
+ *
+ * The guard is one `||` expression rather than two ifs, which is what puts
+ * both stores and the call in one block, per
+ * docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md; and the
+ * arm that falls through the first `bne` is the second half of the
+ * disjunction, not the body.
+ *
+ * The two pool words 0x02146270 and 0x02146274 are one symbol and an addend,
+ * per docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md.
+ * Declared as two symbols, 0x02146274 would need a witness of its own and the
+ * only word in the image that holds it is the one under test.
+ *
+ * The neighbour func_02019C38 at the head of this packet is byte-correct but
+ * MATCH-capped on its private table and is parked in
+ * src/pending/sub_02019C38.c; this range is cut to exclude it.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_02019C54.c \
+ *       --addr 0x02019C54 --thumb
+ */
+void *func_02019C54(u32 a, u32 b)
+{
+    if (a != g_02146270.a || b != g_02146270.b) {
+        g_02146270.b = (u16)b;
+        g_02146270.a = (u16)a;
+        sub_0201ADA4(a, b, g_02146270.obj);
+    }
+    return g_02146270.obj;
+}
+
+
+
+/*
+ * func_02019CE0 carries no label in the generated listing: it saves r3 and r4
+ * but not lr, so disasm.py's prologue sweep never fires on it and its 24 bytes
+ * arrive as a run of .word between two literal pools.  See
+ * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  It is one
+ * struct assignment: 27 ldm/stm pairs of eight bytes plus a trailing word is
+ * 0xDC bytes, and the eight byte step is what says the record is at least four
+ * aligned, which is docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
+ *
+ * The range stops at 0x02019CF8, which is an eight byte tail call whose pool
+ * word names 0x02019BBC.  That address carries no func_ label and no other
+ * pool word in the image holds it, so neither the label nor the literal class
+ * can attest it and the stub cannot be matched from either side.
+ */
+u32 func_02019C7C(void *h)
+{
+    if (func_0201AE1C(h, 0x1B) != 0) {
+        return 2;
+    }
+    return 1;
+}
+
+
+
+u32 func_02019C90(u16 a, u16 b, u32 k)
+{
+    return func_0201AE1C(func_02019C54(a, b), k);
+}
+
+
+
+void func_02019CA0(void *p, u32 v)
+{
+    u32 a = func_02017E1C(p, 5, 0);
+    u32 b = func_02017E1C(p, 0x6F, 0);
+
+    func_02017E40(p, 8, func_02018584((u16)a, (u16)b, (u16)v));
+    func_020185C4(p);
+}
+
+
+
+void func_02019CE0(const struct RecDC *src, struct RecDC *dest)
+{
+    *dest = *src;
 }

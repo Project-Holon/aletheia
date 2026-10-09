@@ -1,0 +1,301 @@
+/*
+ * file:     unit_021BE9B8.c
+ * unit:     yes
+ * function: func_021BE9B8, func_021BE9E8, func_021BE9F8, func_021BEA48, func_021BEAB8, func_021BEAF8, func_021BEB48, func_021BEBC8, func_021BEC24, func_021BEC3C, func_021BEC60, func_021BEC84, func_021BECA8, func_021BED94, func_021BEDCC
+ * address:  0x021BE9B8
+ * region:   ov203
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   d_021C3B98 0x021C3B98 data a4
+ *   func_020311B8 0x020311B8 arm
+ *   func_02031290 0x02031290 arm
+ *   func_02080C54 0x02080C54 arm
+ *   func_020056A0 0x020056A0 thumb
+ *   func_0207D4B0 0x0207D4B0 arm
+ *   func_0208068C 0x0208068C arm
+ *   func_02082AC0 0x02082AC0 arm
+ *   func_02031194 0x02031194 arm
+ *   func_02030EAC 0x02030EAC arm
+ *   func_0200616C 0x0200616C thumb
+ *   func_020061E4 0x020061E4 thumb
+ *   func_02006148 0x02006148 thumb
+ *   func_020062BC 0x020062BC thumb
+ *   func_02006268 0x02006268 thumb
+ *   sub_020311B8 0x020311B8 arm
+ *   sub_02031290 0x02031290 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_021BF7AC 0x021BF7AC thumb
+ *   sub_0207C768 0x0207C768 arm
+ *   _fflt 0x0209BDBC arm
+ *   _fadd 0x0209C95C arm
+ *   _fsub 0x0209CB8C arm
+ *   _ffix 0x0209C494 arm
+ *   func_02005D90 0x02005D90 thumb
+ *   func_02005D28 0x02005D28 thumb
+ */
+#include "../../matched/include/Obj10864.h"
+#include "../../matched/include/Obj02919.h"
+
+struct Owner;
+struct TcblNode;
+struct CaptureConfig;
+struct S02030FB4;
+struct Node;
+struct Tcbl;
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int u32;
+
+typedef struct Config_021BE9B8 {unsigned words[11];} Config_021BE9B8;
+
+typedef struct Config_021BE9E8 { unsigned words[11]; } Config_021BE9E8;
+
+typedef enum {GX_CAPTURE_SIZE_128x128=0,GX_CAPTURE_SIZE_256x64=1,GX_CAPTURE_SIZE_256x128=2,GX_CAPTURE_SIZE_256x192=3} GXCaptureSize;
+
+typedef enum {GX_CAPTURE_MODE_A=0,GX_CAPTURE_MODE_B=1,GX_CAPTURE_MODE_AB=2} GXCaptureMode;
+
+typedef enum {GX_CAPTURE_SRCA_2D3D=0,GX_CAPTURE_SRCA_3D=1} GXCaptureSrcA;
+
+typedef enum {GX_CAPTURE_SRCB_VRAM_0x00000=0,GX_CAPTURE_SRCB_MRAM=1,GX_CAPTURE_SRCB_VRAM_0x08000=2,GX_CAPTURE_SRCB_VRAM_0x10000=4,GX_CAPTURE_SRCB_VRAM_0x18000=6} GXCaptureSrcB;
+
+typedef enum {GX_CAPTURE_DEST_VRAM_A_0x00000=0,GX_CAPTURE_DEST_VRAM_D_0x18000=15} GXCaptureDest;
+
+typedef struct CaptureConfig {int bank,pad[2];GXCaptureSize size;GXCaptureMode mode;GXCaptureSrcA a;GXCaptureSrcB b;GXCaptureDest dest;} CaptureConfig;
+
+typedef signed short   s16;
+
+typedef signed char    s8;
+
+typedef struct Config {unsigned words[11];} Config;
+
+struct Owner { u8 pad[0x20]; struct Tcbl *manager; };
+
+struct Work { struct Owner *owner; u8 state,kind,target,pad; int duration,start,end,current,step; };
+
+extern void *func_020311B8(void *, void (*)(void *, void *), unsigned, unsigned);
+extern void *func_02031290(struct S02030FB4 *p);
+extern unsigned short func_02080C54(void);
+extern void *func_020056A0(unsigned, unsigned, unsigned);
+extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
+extern void func_0208068C(int);
+extern void func_02082AC0(unsigned,void *,unsigned);
+extern void func_02031194(struct TcblNode *);
+extern void func_02030EAC(struct Node *n);
+extern void func_0200616C(void *,int);
+extern void func_020061E4(unsigned);
+extern int func_02006148(unsigned);
+extern void func_020062BC(int,unsigned);
+extern void func_02006268(int,unsigned,unsigned,unsigned);
+extern void func_020061F8(int);
+extern struct TcblNode *sub_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
+extern void *sub_02031290(struct S02030FB4 *);
+extern void func_02082BCC(void *,u32,u32);
+extern int func_021BF7AC(char *p, int v);
+extern u32 sub_0207C768(u32,u32);
+extern void func_02005D90(int,int);
+extern void func_02005D28(void);
+void * func_021BE9B8(void *p,unsigned a,unsigned b);
+void func_021BE9E8(int a);
+void *func_021BE9F8(void *manager, const Config_021BE9E8 *source);
+void func_021BEA48(int *s,unsigned a,unsigned b,unsigned c);
+void func_021BEAB8(void *task, const int *ctx);
+void func_021BEAF8(void *node,int *s);
+void func_021BEB48(CaptureConfig *s);
+void func_021BEBC8(void *unused,int ignored,int *s);
+void func_021BEC24(u32 a, u32 b, int *c);
+void func_021BEC3C(int a0, int a1, int *src);
+void func_021BEC60(struct Owner *p,int unused,int *v);
+void func_021BEC84(struct Owner *p,int unused,int *s);
+void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int duration,int flag);
+void func_021BED94(struct TcblNode *p,char *q);
+void func_021BEDCC(int mode,int channel,int value);
+void func_021BEE04(int a,int b,int *s);
+void func_021BEE14(void);
+extern const Config_021BE9B8 d_021C3B98;
+
+
+
+void * func_021BE9B8(void *p,unsigned a,unsigned b) { Config_021BE9B8 c;c=d_021C3B98;c.words[8]=a;c.words[9]=b;return func_021BE9F8(p, (const Config_021BE9E8 *)&c); }
+
+
+
+
+
+void func_021BE9E8(int a)
+{
+    func_021BEA48((int *)a, 1, 0, 1);
+}
+
+
+
+
+void *func_021BE9F8(void *manager, const Config_021BE9E8 *source)
+{
+    void *task;
+    char *ctx;
+    task = func_020311B8(manager, (void (*)(void *, void *))func_021BEAB8, 56, 5);
+    ctx = func_02031290(task);
+    *(Config_021BE9E8 *)(ctx + 4) = *source;
+    ((struct Obj10864 *)ctx)->f34 = task;
+    ((struct Obj10864 *)ctx)->f30 = 0;
+    ((struct Obj10864 *)ctx)->f0 = func_02080C54();
+    func_021BEB48((struct CaptureConfig *)(ctx + 4));
+    func_020056A0((unsigned)func_021BEAF8, (unsigned)ctx, 0);
+    return ctx;
+}
+
+
+
+void func_021BEA48(int *s,unsigned a,unsigned b,unsigned c)
+{
+    func_0207D4B0(a,b,c);func_0208068C(s[0]);
+    switch(s[1]){
+    case 2:func_02082AC0(0,(void *)0x06800000,0x20000);break;
+    case 6:func_02082AC0(0,(void *)0x06820000,0x20000);break;
+    case 10:func_02082AC0(0,(void *)0x06840000,0x20000);break;
+    case 14:func_02082AC0(0,(void *)0x06860000,0x20000);break;
+    default:func_0208068C(0);break;
+    }
+    func_02031194((struct TcblNode *)s[13]);
+}
+
+
+
+static inline void GX_SetCapture(GXCaptureSize sz, GXCaptureMode mode, GXCaptureSrcA a, GXCaptureSrcB b, GXCaptureDest dest, int eva, int evb)
+{
+    *(volatile unsigned *)0x04000064 = 0x80000000 | (mode << 29) | (b << 25) | (a << 24) | (sz << 20) | (dest << 16) | (evb << 8) | eva;
+}
+
+
+
+void func_021BEAB8(void *task, const int *ctx)
+{
+    if (ctx[12]) {
+        GX_SetCapture(ctx[4], ctx[5], ctx[6], ctx[7], ctx[8], ctx[9], ctx[10]);
+    }
+}
+
+
+
+void func_021BEAF8(void *node,int *s)
+{
+    int bank;
+    switch(s[1]){case 2:bank=1;break;case 6:bank=2;break;case 10:bank=4;break;case 14:bank=8;break;default:bank=0;break;}
+    func_0208068C(bank);func_0207D4B0(s[1],s[2],s[3]);s[12]=1;func_02030EAC(node);
+}
+
+
+
+
+
+/*
+ * volatile: SDK GX_SetCapture write to DISPCAPCNT 04000064 at 021BEBB4.
+ */
+void func_021BEB48(CaptureConfig *s)
+{
+    switch(s->bank){
+    case 2:func_02082AC0(0,(void *)0x06800000,0x20000);break;
+    case 6:func_02082AC0(0,(void *)0x06820000,0x20000);break;
+    case 10:func_02082AC0(0,(void *)0x06840000,0x20000);break;
+    case 14:func_02082AC0(0,(void *)0x06860000,0x20000);break;
+    }
+    GX_SetCapture(s->size,s->mode,s->a,s->b,s->dest,16,0);
+}
+
+
+
+void func_021BEBC8(void *unused,int ignored,int *s)
+{
+    int channel;
+    if(s[4]!=-1){func_0200616C((void *)s[0],s[4]);channel=s[4];}
+    else {func_020061E4(s[0]);channel=func_02006148(s[0]);}
+    if(s[1]!=-1)func_020062BC(channel,s[1]);
+    if(s[2]!=-1)func_02006268(channel,-1,-1,s[2]);
+    if(s[3]!=-1)func_02006268(channel,-1,s[3],-1);
+}
+
+
+
+
+void func_021BEC24(u32 a, u32 b, int *c)
+{
+    int ch = c[1];
+    if (ch == -1) {
+        ch = func_02006148(c[0]);
+    }
+    func_020061F8(ch);
+}
+
+
+
+
+void func_021BEC3C(int a0, int a1, int *src)
+{
+    func_021BECA8((struct Owner *)a0, 0, (unsigned short)src[0], src[1], src[2], src[3], src[4]);
+}
+
+
+
+void func_021BEC60(struct Owner *p,int unused,int *v) {func_021BECA8(p,1,(u16)v[0],v[1],v[2],v[3],v[4]);}
+
+
+
+void func_021BEC84(struct Owner *p,int unused,int *s) { func_021BECA8(p,2,s[0],s[1],s[2],s[3],s[4]); }
+
+
+
+/*
+ * The u16 target parameter fixes the otherwise swapped home stores at +6/+8.
+ */
+void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int duration,int flag)
+{
+    struct Work *work;
+    float a,b,c;
+    int final;
+    work=sub_02031290((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BED94,0x1c,0));
+    func_02082BCC(work,0,0x1c);
+    work->owner=owner;
+    work->kind=kind;
+    work->start=start;
+    work->end=end;
+    work->duration=func_021BF7AC((char *)owner,duration);
+    if(flag == -1) work->target=flag;
+    else work->target=func_02006148(target);
+    if(start>0) a=0.5f+(float)(start<<12);
+    else a=(float)(start<<12)-0.5f;
+    work->current=(int)a;
+    if(duration>0) b=0.5f+(float)(duration<<12);
+    else b=(float)(duration<<12)-0.5f;
+    if(end>0) c=0.5f+(float)(end<<12);
+    else c=(float)(end<<12)-0.5f;
+    final=(int)c;
+    work->step=sub_0207C768(final-work->current,(int)b);
+}
+
+
+
+void func_021BED94(struct TcblNode *p,char *q) { int old;old=((struct Obj02919 *)q)->f8;((struct Obj02919 *)q)->f8=old-1;if(old>0){func_021BEDCC(((struct Obj02919 *)q)->f5,((struct Obj02919 *)q)->f6,((struct Obj02919 *)q)->f14>>12);((struct Obj02919 *)q)->f14+=((struct Obj02919 *)q)->f18;}else {func_021BEDCC(((struct Obj02919 *)q)->f5,((struct Obj02919 *)q)->f6,((struct Obj02919 *)q)->f10);func_02031194(p);} }
+
+
+
+void func_021BEDCC(int mode,int channel,int value)
+{
+    switch(mode){case 0:func_020062BC(channel,value);break;case 1:func_02006268(channel,-1,-1,value);break;case 2:func_02006268(channel,-1,value,-1);break;}
+}
+
+
+
+void func_021BEE04(int a,int b,int *s){func_02005D90(s[0],0xffff);}
+
+
+
+void func_021BEE14(void){func_02005D28();}

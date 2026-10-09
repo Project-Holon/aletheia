@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p16.c
  * unit:     yes
- * function: func_020379C8, func_02037A44, func_02037A6C, func_02037B08
- * address:  0x020379C8
+ * function: func_020390BC, func_02039160, func_020392B8, func_020392EC
+ * address:  0x020390BC
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,157 +13,191 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203D788   0x0203D788  arm
- *   func_0203D798   0x0203D798  arm
- *   func_02037858   0x02037858  arm
- *   func_02038924   0x02038924  arm
- *   func_02037288   0x02037288  arm
- *   g_020A7A20      0x020A7A20  data
- *   func_020307B0   0x020307B0  arm
- *   func_02036B88   0x02036B88  arm
  *   g_021469D0      0x021469D0  data
+ *   func_0203D6BC   0x0203D6BC  arm
+ *   func_0203D680   0x0203D680  arm
+ *   func_0203666C   0x0203666C  arm
+ *   func_020365E8   0x020365E8  arm
+ *   func_02038DF0   0x02038DF0  arm
+ *   lbl_021469D0   0x021469D0  data
+ *   func_0203D788  0x0203D788  arm
+ *   func_0203D798  0x0203D798  arm
+ *   func_02039338  0x02039338  arm
  */
-#include "../../matched/include/Obj15930.h"
-#include "../../matched/include/Obj06938.h"
-#include "../../matched/include/Obj15931.h"
+typedef unsigned char u8;
 
-typedef unsigned char  u8;
+typedef unsigned int  u32;
+
+typedef int           s32_020390BC;
 
 typedef unsigned short u16;
 
-typedef unsigned int   u32;
+typedef signed int     s32_020392B8;
 
-struct Struct_02037B08 {
-    void *field_0;
-    void *field_4;
-    void *field_8;
-    void *field_C;
-    void *field_10;
-    void *field_14;
-    void *field_18;
-    u8 pad[0xcc - 0x1c];
-    char obj_CC;
-    u8 pad2[0xf4 - 0xcd];
-    char obj_F4;
-};
+extern u32 func_0203D6BC(void);
+extern u32 func_0203D680(void);
+extern void func_0203666C(u8 *p);
+extern int func_020365E8(char *p);
+extern void func_02038DF0(u8 *p, s32_020390BC i, u32 v, u8 *q, u8 *s);
+extern int func_0203D788(void);
+extern int func_0203D798(void);
+extern int func_02039338(void);
+void func_020390BC(void);
+int func_02039160(u32 mode);
+u32 func_020392B8(void);
+int func_020392EC(void);
+extern u8  *g_021469D0;
+extern u8 *lbl_021469D0;
 
-extern void *func_0203D788(void);
-extern char *func_0203D798(void);
-extern void  func_02037858(u32 arg);
-extern void  func_02038924(u32 arg);
-extern int func_02037288(u32 a0, u32 heap, u32 c);
-extern u32 func_020307B0(void *p);
-extern void  func_02036B88(void *p);
-int func_020379C8(u32 p);
-void func_02037A44(int a);
-void func_02037A6C(u32 a0, u32 a1, u16 a2, u32 a3);
-void func_02037B08(void);
-extern u8    g_020A7A20[];
-extern struct Struct_02037B08 *g_021469D0;
 
 
 /*
- * Context teardown through three vtable slots at +0x3c, +0xbc and +0x68 of the
- * object the context's word at +0x340 names.  The first and third are handed a
- * function address as their argument (0x02037858 and 0x02038924), which is why
- * the pool holds two code pointers; the +0xbc slot's answer decides whether the
- * rest runs, and the byte at +1 of the object at 0x020A7A20 is set to 4.
+ * n slots of 0x10 bytes at g+0x4c, each prepared by func_0203666C and then
+ * offered to func_02038DF0 up to four times, with the record at g+0x11c and
+ * the frame returned by func_0203D6BC handed to each call.
+ *
+ * Three spellings are load-bearing.  The global is re-read through
+ * g_021469D0 itself in every statement (mwcc keeps its address in `sb` and
+ * reloads the value, because the calls may store through it).  There is no
+ * explicit `if (n <= 0) return;`: with `n = func_0203D680();` followed
+ * straight by `for (i = 0; i < n; i++)` the loop's pre-test folds to
+ * `cmp r7, #0` / `pople` because i is known zero, and the loop-exit
+ * epilogue tail-merges with the function's own.  And the inner body is
+ * `if (test > 0) call(...)` rather than `if (test <= 0) break;`, because
+ * the original's branch lands on the inner increment (the continue path).
+ *
+ * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020379C8.c \
- *       --func func_020379C8 --addr 0x020379C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_020390BC.c \
+ *       --func func_020390BC --addr 0x020390BC --cc 1.1p1 --arm
  */
-int func_020379C8(u32 p)
+void func_020390BC(void)
 {
-    int   r;
-    char *c = func_0203D788();
+    s32_020390BC i, j, n;
+    u8 *s;
 
-    (*(void (**)(u32))(*(char **)(c + 0x340) + 0x3C))((u32)func_02037858);
-    r = (*(int (**)(void))(*(char **)(c + 0x340) + 0xBC))();
-    if (r == 1) {
-        (*(void (**)(u32))(*(char **)(c + 0x340) + 0x68))((u32)func_02038924);
-        func_02037288(p, *(u16 *)(func_0203D798() + 0x56), 0);
-        g_020A7A20[1] = 4;
-    }
-    return r;
-}
-
-
-void func_02037A44(int a)
-{
-    int *r = func_0203D788();
-    int *t = *(int * *)&((struct Obj15930 *)r)->f340;
-    if (t == 0)
+    s = (u8 *)func_0203D6BC();
+    if (g_021469D0 == 0)
         return;
-    ((void (*)(int))t[0x30])(a);
-}
 
+    n = func_0203D680();
 
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02037A6C.c \
- *       --func func_02037A6C --addr 0x02037A6C --cc 1.1p1 --arm
- */
-void func_02037A6C(u32 a0, u32 a1, u16 a2, u32 a3)
-{
-    char *b = func_0203D788();
-    char *a = func_0203D798();
-    void (*f1)(void *);
-    u32 flag;
-    u16 val;
-    void (*f2)(u32, u32, u32, u32, u32);
-
-    f1 = *(void (**)(void *))(*(char * *)&((struct Obj06938 *)b)->f340 + 0x68);
-    f1(func_02038924);
-
-    if (a0 != 0) {
-        if (((struct Obj06938 *)b)->f64 != 0 && ((struct Obj06938 *)b)->f6C != 0) {
-            flag = 1;
-        } else {
-            flag = 0;
+    for (i = 0; i < n; i++) {
+        func_0203666C(g_021469D0 + 0x4C + (i << 4));
+        for (j = 0; j < 4; j++) {
+            if (func_020365E8((char *)(g_021469D0 + 0x4C + (i << 4))) > 0)
+                func_02038DF0(g_021469D0 + 0x4C + (i << 4), i,
+                              *(u32 *)(g_021469D0 + 0x18),
+                              g_021469D0 + 0x11C + (i << 4), s);
         }
-
-        a = func_0203D798();
-        val = ((struct Obj15931 *)a)->f56;
-        func_02037288(a2, val, flag);
-
-        g_020A7A20[1] = 4;
     }
+}
 
-    f2 = *(void (**)(u32, u32, u32, u32, u32))(*(char * *)&((struct Obj06938 *)b)->f340 + 0x48);
-    f2(a0, a1, 0, 0, a3);
+
+
+int func_02039160(u32 mode)
+{
+    u8 *p5;
+    u8 *p4;
+    u8 *g;
+    u32 v;
+    u16 m;
+
+    p5 = (u8 *)func_0203D788();
+    p4 = (u8 *)func_0203D798();
+    g = lbl_021469D0;
+    if (g == 0)
+        return 0;
+    v = (u8)(p4[0x65] + 0xff);
+    if (v <= 1) {
+        if (g[0x1e7] != 0) {
+            if (((int (*)(void))(*(u32 *)(*(u32 *)(p5 + 0x340) + 0x80)))() != -1) {
+                if (mode == 0)
+                    return 1;
+                if (mode == 1)
+                    return 1;
+            }
+        }
+        return 0;
+    }
+    v = (u8)(p4[0x65] + 0xfd);
+    if (v <= 1) {
+        if (mode < 2 || mode == 0xff) {
+            if (((int (*)(void))(*(u32 *)(*(u32 *)(p5 + 0x340) + 0x70)))() != 0)
+                return 1;
+        }
+        return 0;
+    }
+    if (func_020392EC() == 0)
+        return 0;
+    if (((int (*)(void))(*(u32 *)(*(u32 *)(p5 + 0x340) + 0x70)))() == 0)
+        return 0;
+    if (mode == (u32)func_02039338())
+        return 1;
+    if (func_02039338() == 0 || p4[0x64] == 0) {
+        m = (u16)((int (*)(void))(*(u32 *)(*(u32 *)(p5 + 0x340) + 0x7c)))();
+        if (((1 << mode) & m) != 0)
+            return 1;
+    } else {
+        if (((1 << mode) & *(u16 *)(lbl_021469D0 + 0x100 + 0xe4)) != 0)
+            return 1;
+    }
+    return 0;
 }
 
 
 
 /*
+ * Counts the eight slots whose test function answers non-zero.  The slot
+ * number goes in as a `u16` - the `lsl #16` / `lsr #16` pair in the loop is
+ * that narrowing - so the callee is declared with a `u16` parameter and the
+ * cast costs nothing at the call site.  The counter is in r4 and the index in
+ * r5, which is the declaration order below.
+ *
+ * Addresses are Black-image addresses.
+ *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02037B08.c \
- *       --func func_02037B08 --addr 0x02037B08 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_020392B8.c \
+ *       --func func_020392B8 --addr 0x020392B8 --cc 1.1p1 --arm
  */
-void func_02037B08(void)
+u32 func_020392B8(void)
 {
-    func_0203D788();
-    func_0203D798();
+    u32 count;
+    s32_020392B8 i;
 
-    if (g_021469D0 == 0) {
-        return;
+    count = 0;
+    for (i = 0; i < 8; i++) {
+        if (func_02039160((u16)i) != 0)
+            count++;
     }
+    return count;
+}
 
-    func_020307B0(g_021469D0->field_14);
-    func_020307B0(g_021469D0->field_18);
-    func_020307B0(g_021469D0->field_10);
 
-    func_02036B88(&g_021469D0->obj_F4);
-    func_02036B88(&g_021469D0->obj_CC);
 
-    func_020307B0(g_021469D0->field_0);
-    func_020307B0(g_021469D0->field_4);
-    func_020307B0(g_021469D0->field_8);
-    func_020307B0(g_021469D0->field_C);
+/*
+ * Returns 1 while the state byte at +0x65 is one to four, but only while the
+ * global at 0x021469D0 is live; otherwise it dispatches through the vtable at
+ * +0x340 of the net state and returns that hook's value (+0x6C slot).
+ *
+ * The `add r0, r0, #0xff` / `and r0, r0, #0xff` pair is `(u8)(v - 1)`: mwcc
+ * writes the -1 as +0xFF because the truncation to u8 makes the two
+ * equivalent and 0xFF keeps the `and` mask a plain immediate.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020392EC.c \
+ *       --func func_020392EC --addr 0x020392EC --cc 1.1p1 --arm
+ */
+int func_020392EC(void)
+{
+    u8 *s = (void *)func_0203D788();
+    u8 *p = (void *)func_0203D798();
 
-    func_020307B0(g_021469D0);
+    if (g_021469D0 != 0 && (u8)(p[0x65] + 0xFF) <= 3)
+        return 1;
 
-    g_021469D0 = 0;
+    return (*(int (**)(void))(*(u32 *)(s + 0x340) + 0x6C))();
 }

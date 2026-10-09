@@ -1,31 +1,19 @@
-# mystery_util.c (ov121)
+# Merge blockers (lane r2_13)
 
-Translation unit 021D9624..021DD980, 120 functions, confidence weak (tools/tuboundary.py).
+Parts in ../ are in address order (p01 to p04). Names below are the current part numbers.
 
-The member files below each match on their own. Merging them into one
-`mystery_util.c` is blocked by:
+- p01 already holds the old p01 to p03 (func_021D9624 to func_021DA3EB). p01 and p02 do not merge: func_021DA1BC (in p01) is called from func_021DA3EC (p02) with a word argument for its fifth stack parameter (`e`, declared u16). With the prototype in one file the caller adds a narrowing (lsls/lsrs 0x10) that the original does not have, and making `e` u32 changes func_021DA1BC itself. Needs an unprototyped or K&R style definition, or a different parameter split.
+- p02 (func_021DA3EC to func_021DB937, includes the merged blend() helper and func_021DAAA4/func_021DAB50) and p03 do not merge yet:
+  - the two Rect unions (Rect_021DA3EC with s16 h[4], Rect_021DB938 with u16 h[4]) are one object seen two ways; the struct Obj_021DB938 / Obj_021DBCC8 / Obj_021DAEF0 variants (same pool of slots at 0xA7C, different tails) need one canonical struct with named fields;
+  - func_0204B3B4, func_0204B404, func_0204B3DC, func_0200A348, func_020490F4 have different prototypes in the two members (struct Obj * versus the local object pointers, const Vec2 *);
+  - func_021DBDF4 is called with a non-const record pointer where a const struct pointer is declared;
+  - d_021DF86E is declared as const Rect[] and as u8[] (p03/p04 boundary, line 482 data_021DF86E in the merged part).
+- p03 and p04 (func_021DC030 onward): not tried in this pass; the same prototype set (func_02082BCC, func_020457B0, func_0204B3xx) applies.
 
-- ov121_func_021D9624.c..ov121_func_021DD24C.c: global d_021DF598 declared two ways (src/matched/ov/ov121_func_021D9790.c); global d_021DF598 declared two ways (src/matched/ov/ov121_func_021D97C8.c); prototype of func_02082BCC differs between membe
-- ov121_func_021D9624.c..ov121_func_021DA854.c: global d_021DF598 declared two ways (src/matched/ov/ov121_func_021D9790.c); global d_021DF598 declared two ways (src/matched/ov/ov121_func_021D97C8.c); prototype of func_02082BCC differs between membe
-- ov121_func_021D9624.c..ov121_func_021D9B9C.c: global d_021DF598 declared two ways (src/matched/ov/ov121_func_021D9790.c); global d_021DF598 declared two ways (src/matched/ov/ov121_func_021D97C8.c); prototype of func_02082BCC differs between membe
-- ov121_func_021D9624.c..ov121_func_021D98C0.c: global d_021DF598 declared two ways (src/matched/ov/ov121_func_021D9790.c); global d_021DF598 declared two ways (src/matched/ov/ov121_func_021D97C8.c); prototype of func_02082BCC differs between membe
-- ov121_func_021D9BC0.c..ov121_func_021DA854.c: prototype of func_020457B0 differs between members (src/matched/ov/ov121_func_021D9D4C.c); global d_021DFBA0 declared two ways (src/matched/ov/ov121_func_021DA1BC.c); prototype of func_02082BCC differ
-- ov121_func_021DA280.c..ov121_func_021DA854.c: global d_021DF76C declared two ways (src/matched/ov/ov121_func_021DA6D0.c); global d_021DFBA0 declared two ways (src/matched/ov/ov121_func_021DA854.c); prototype of func_02082BCC differs between membe
-- ov121_func_021DA3EC.c..ov121_func_021DA854.c: global d_021DF76C declared two ways (src/matched/ov/ov121_func_021DA6D0.c); global d_021DFBA0 declared two ways (src/matched/ov/ov121_func_021DA854.c); prototype of func_02082BCC differs between membe
-- ov121_func_021DA890.c..ov121_func_021DD24C.c: global d_020A1B38 declared two ways (src/matched/ov/ov121_func_021DAB50.c); prototype of func_02061CA4 differs between members (src/matched/ov/ov121_func_021DAB50.c); prototype of func_0200A348 differ
-- ov121_func_021DA890.c..ov121_func_021DBC08.c: global d_020A1B38 declared two ways (src/matched/ov/ov121_func_021DAB50.c); prototype of func_02061CA4 differs between members (src/matched/ov/ov121_func_021DAB50.c); prototype of func_0200A348 differ
-- ov121_func_021DAAA4.c..ov121_func_021DBC08.c: global d_020A1B38 declared two ways (src/matched/ov/ov121_func_021DAB50.c); prototype of func_02061CA4 differs between members (src/matched/ov/ov121_func_021DAB50.c); prototype of func_0200A348 differ
-- ov121_func_021DAAA4.c..ov121_func_021DB018.c: prototype of func_02061CA4 differs between members (src/matched/ov/ov121_func_021DAB50.c); prototype of func_0200A348 differs between members (src/matched/ov/ov121_func_021DAE1C.c)
-- ov121_func_021DAAA4.c..ov121_func_021DAC18.c: c99=CCERR: line 104: identifier 'blend(int, unsigned short, unsigned short)' redeclared as 'unsigned short (unsigned short, unsigned short, short)' | line 87: identifier 'blend(int, unsigned short, un
-- ov121_func_021DB3E8.c..ov121_func_021DBC08.c: global d_021DF86E declared two ways (src/matched/ov/ov121_func_021DB938.c)
-- ov121_func_021DBCC8.c..ov121_func_021DD24C.c: prototype of func_02020E60 differs between members (src/matched/ov/ov121_func_021DBF9C.c); global data_021DF86E declared two ways (src/matched/ov/ov121_func_021DC4F0.c); prototype of func_02082BCC dif
-- ov121_func_021DBCC8.c..ov121_func_021DC02C.c: prototype of func_02020E60 differs between members (src/matched/ov/ov121_func_021DBF9C.c)
-- ov121_func_021DBCC8.c..ov121_func_021DBF08.c: c99=CCERR: line 109: illegal implicit conversion from 'struct Item *' to | line 109: 'char *' nolang=CCERR: line 109: illegal implicit conversion from 'struct Item *' to | line 109: 'char *'
-
-Members, in address order:
-
-- `ov121_func_021DAAA4.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names mystery_util.c` again.
+Round 4 (lane r4_ov09) findings:
+- p01|p02: unifying Pair_021DA3EC with Pair_021D9624 (same layout) fixes the Rect/pair call, but the merged
+  func_021DA4DC (p02) grows 4 bytes at the call func_021DA1BC(..., (u32)in->bank, ...): in->bank is a pointer
+  passed to the u16 `e` stack parameter. The original passes the word unnarrowed, so the callee has no usable
+  prototype in view. Needs a form that keeps `ldrh` in the callee and no shift pair at the caller.
+- p02|p03 and p03|p04: struct Obj_021DB938 / Obj_021DBCC8 / Obj_021DAEF0 views and the const Rect d_021DF86E
+  (Rect union s16 versus u16, and a u8[] view of the same symbol) are still not unified.

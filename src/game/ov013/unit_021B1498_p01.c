@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B1498_p01.c
  * unit:     yes
- * function: func_021B1498, func_021B14A8, func_021B14F8, func_021B1588, func_021B1634, func_021B1688, func_021B16B4
+ * function: func_021B1498, func_021B14A8, func_021B14F8, func_021B1588, func_021B1634, func_021B1688, func_021B16B4, func_021B16E4
  * address:  0x021B1498
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -18,6 +18,9 @@
  *   func_0208799C  0x0208799C  arm
  *   d_021B4B98  0x021B4B98  data  a4
  *   d_021B3C28 0x021B3C28 data a4
+ *   d_021B4BC4 0x021B4BC4 data a4
+ *   d_021B4BAC 0x021B4BAC data a4
+ *   d_021B4BB8 0x021B4BB8 data a4
  */
 typedef unsigned int u32;
 
@@ -28,15 +31,18 @@ extern void func_0208799C(u32 h);
 int func_021B1498(unsigned int i);
 Node *func_021B14A8(u32 type);
 u32 func_021B14F8(Node *n);
-void func_021B1588(unsigned char *dst, const short *src, unsigned int n);
 void func_021B1634(unsigned char *src, short *dst, unsigned int n);
 void func_021B1688(unsigned char *dst, short *src, unsigned int n);
 void func_021B16B4(signed char *src, short *dst, unsigned int n, int fmt);
+void func_021B16E4(unsigned int i);
 extern int d_021B4BA0[];
 extern Node *d_021B4B98[2];
 extern const int d_021B3C28[8];
+extern u32 d_021B4BC4[], d_021B4BAC[], d_021B4BB8[];
+
 
 int func_021B1498(unsigned int i) { return d_021B4BA0[i]; }
+
 
 
 Node *func_021B14A8(u32 type)
@@ -53,6 +59,7 @@ Node *func_021B14A8(u32 type)
     func_0208799C(h);
     return 0;
 }
+
 
 
 u32 func_021B14F8(Node *n)
@@ -77,6 +84,7 @@ u32 func_021B14F8(Node *n)
     func_0208799C(h);
     return d_021B4BA0[n->type];
 }
+
 
 
 /*
@@ -125,6 +133,7 @@ void func_021B1588(unsigned char *dst, const short *src, unsigned int n)
     }
 }
 
+
 void func_021B1634(unsigned char *src, short *dst, unsigned int n)
 {
     unsigned int i;
@@ -137,6 +146,7 @@ void func_021B1634(unsigned char *src, short *dst, unsigned int n)
     }
 }
 
+
 void func_021B1688(unsigned char *dst, short *src, unsigned int n)
 {
     unsigned int i;
@@ -145,10 +155,20 @@ void func_021B1688(unsigned char *dst, short *src, unsigned int n)
         dst[i] = (signed char)(src[i] >> 8);
 }
 
+
 void func_021B16B4(signed char *src, short *dst, unsigned int n, int fmt)
 {
     unsigned int i;
 
     for (i = 0; i < n; i++)
         dst[i] = (short)(src[i] << 8);
+}
+
+void func_021B16E4(unsigned int i)
+{
+    u32 h = func_02087988();
+    d_021B4BC4[i] = 0;
+    d_021B4BAC[i] = 0;
+    d_021B4BB8[i] = 0;
+    func_0208799C(h);
 }

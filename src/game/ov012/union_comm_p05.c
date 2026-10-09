@@ -1,8 +1,8 @@
 /*
  * file:     union_comm_p05.c
  * unit:     yes
- * function: func_02172EDC, func_02172EEC
- * address:  0x02172EDC
+ * function: func_021731E0, func_02173248
+ * address:  0x021731E0
  * region:   ov012
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,75 +13,64 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0200FB24  0x0200FB24  thumb
- *   func_021739CC  0x021739CC  thumb  ov012
- *   func_02080D24  0x02080D24  arm
- *   func_0203D1B4  0x0203D1B4  arm
- *   func_0203D7BC  0x0203D7BC  arm
- *   func_0203D378  0x0203D378  arm
- *   func_02172D38  0x02172D38  thumb  ov012
+ *   memcmp  0x0203EFC8  arm
+ *   func_0217325C 0x0217325C thumb ov012
  */
 typedef unsigned char u8;
 
-typedef struct {
-    u8 pad[0x5E];
-    u8 f5E;
-    u8 step : 7;
-    u8 active : 1;
-} Sub;
+typedef unsigned short u16;
 
 typedef struct {
-    u8 pad[0x2830];
-    Sub sub;
-} Work;
+    u8 mac[6];
+    u8 pad;
+    u8 a : 1;
+    u8 valid : 1;
+} Rec_021731E0;
 
-typedef unsigned int   u32;
+typedef struct Entry {
+    u8 head[7];
+    u8 lo : 4;
+    u8 used : 1;
+    u8 hi : 3;
+    u8 pad[0x20];
+    Rec_021731E0 recs[5];
+    u8 pad2[0x14];
+    u8 mac[6];
+    u8 state;
+    u8 idx;
+    u16 timer;
+    u8 tail[0x1e];
+} Entry;
 
-extern u32 func_0200FB24(void);
-extern int func_021739CC(void);
-extern int func_02080D24(u8 a);
-extern int func_0203D1B4(void);
-extern void func_0203D7BC(u8 a0);
-extern u32 func_0203D378(void);
-extern void func_02172D38(u8 *p);
-void func_02172EDC(u8 *p);
-void func_02172EEC(Work *w);
+typedef struct Rec_02173248 { u8 b[0x64]; } Rec_02173248;
 
-void func_02172EDC(u8 *p) { p[0x288f] |= 0x80; }
+extern int memcmp(const void *a, const void *b, int n);
+extern void func_0217325C(u8 *self, Rec_02173248 *out);
+int func_021731E0(u8 *self, Entry *info, const u8 *mac);
+Rec_02173248 *func_02173248(u8 *p);
 
 
-void func_02172EEC(Work *w)
+int func_021731E0(u8 *self, Entry *info, const u8 *mac)
 {
-    Sub *s = &w->sub;
+    int i;
+    Entry *e;
+    int j;
 
-    if (s->active == 0) {
-        return;
-    }
-    if (func_0200FB24() != 0) {
-        return;
-    }
-    switch (s->step) {
-    case 0:
-        if (func_021739CC() == 1) {
-            s->step++;
-        }
-        break;
-    case 1:
-        if (func_02080D24(s->f5E) >= func_0203D1B4()) {
-            func_0203D7BC(0);
-            s->step++;
-        }
-        break;
-    case 2:
-        if (func_0203D378() == 1) {
-            if (func_0203D1B4() <= 1) {
-                func_02172D38((u8 *)w);
-                s->step++;
+    e = (Entry *)(self + 0x2910);
+
+    for (i = 0; i < 10; i++, e++) {
+        if (e->used == 1) {
+            for (j = 0; j < 5; j++) {
+                if (e->recs[j].valid == 1 && memcmp(mac, &e->recs[j], 6) == 0) {
+                    if (e->timer != 0) {
+                        e->timer = 1;
+                    }
+                    return 0;
+                }
             }
-        } else {
-            func_02172D38((u8 *)w);
-            s->step++;
         }
-        break;
     }
+    return 1;
 }
+
+Rec_02173248 *func_02173248(u8 *p) { func_0217325C(p, (Rec_02173248 *)(p + 0x28ac)); return (Rec_02173248 *)(p + 0x28ac); }

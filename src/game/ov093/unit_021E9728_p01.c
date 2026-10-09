@@ -1,7 +1,7 @@
 /*
  * file:     unit_021E9728_p01.c
  * unit:     yes
- * function: func_021E9728, func_021E9730, func_021E9738, func_021E9760, func_021E979C
+ * function: func_021E9728, func_021E9730, func_021E9738, func_021E9760, func_021E979C, func_021E97A4, func_021E97BC
  * address:  0x021E9728
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -16,10 +16,15 @@
  *   func_021D5440  0x021D5440  thumb  ov093
  *   func_021E964C  0x021E964C  thumb  ov093
  *   func_021E9928 0x021E9928 thumb ov093
+ *   func_021E97F8  0x021E97F8  thumb  ov093
+ *   func_021E9884  0x021E9884  thumb  ov093
  */
 #include "../../matched/include/Obj06279.h"
+#include "../../matched/include/Obj21552.h"
+#include "../../matched/include/Obj06280.h"
 
 struct QU;
+struct S;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
@@ -47,11 +52,16 @@ struct S {
 extern u8 func_021D5440(u8 *p);
 extern int func_021E964C(char *p, int *st);
 extern void func_021E9928(char *p);
+extern void func_021E97F8(void *a, u8 *b, int c);
+extern int func_021E9884(void *p);
 void func_021E9728(struct QU *p, u32 v);
-/* 021E9730 movs r1,#0; str r1,[r0,#0x14]; str r1,[r0,#0x18] */ void func_021E9730(struct QU *p);
+void func_021E9730(struct QU *p);
 int func_021E9738(struct S *s);
 void func_021E9760(char *p, u8 *a, int b, int c);
 void func_021E979C(char *p);
+int func_021E97A4(char *p);
+void func_021E97BC(char *p, u8 *a, int b);
+
 
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: str r1, [r0, #0x14]; movs r1, #0; str r1, [r0, #0x18]; bx lr.
@@ -62,6 +72,7 @@ void func_021E9728(struct QU *p, u32 v)
     p->b = 0;
 }
 
+
 /* 021E9730  movs r1,#0; str r1,[r0,#0x14]; str r1,[r0,#0x18] */
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: movs r1, #0; str r1, [r0, #0x14]; str r1, [r0, #0x18]; bx lr.
@@ -71,6 +82,7 @@ void func_021E9730(struct QU *p)
     p->a = 0;
     p->b = 0;
 }
+
 
 
 int func_021E9738(struct S *s)
@@ -86,6 +98,7 @@ int func_021E9738(struct S *s)
 }
 
 
+
 void func_021E9760(char *p, u8 *a, int b, int c)
 {
     *(u8 * *)&((struct Obj06279 *)p)->fBC = a;
@@ -96,7 +109,29 @@ void func_021E9760(char *p, u8 *a, int b, int c)
     func_021E9728((struct QU *)p, (u32)func_021E964C);
 }
 
+
 /*
  * Tail-call thunk to func_021E9928 (ldr r3 pool, bx r3). Unlabelled leaf filed as the witness for the call in func_021CE4D0.
  */
 void func_021E979C(char *p) { func_021E9928(p); }
+
+
+
+int func_021E97A4(char *p)
+{
+    if (func_021E9738((struct S *)p) != 0) {
+        return ((struct Obj21552 *)p)->fC4;
+    }
+    return 0;
+}
+
+
+
+void func_021E97BC(char *p, u8 *a, int b)
+{
+    *(u8 * *)&((struct Obj06280 *)p)->fBC = a;
+    ((struct Obj06280 *)p)->fC0 = func_021D5440(a);
+    ((struct Obj06280 *)p)->fB8 = b;
+    func_021E97F8(((struct Obj06280 *)p)->f180, *(u8 * *)&((struct Obj06280 *)p)->fBC, b);
+    func_021E9728((struct QU *)p, (u32)func_021E9884);
+}

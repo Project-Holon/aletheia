@@ -1,7 +1,7 @@
 /*
  * file:     unit_0272E9E8_p01.c
  * unit:     yes
- * function: func_0272E9E8, func_0272EA04
+ * function: func_0272E9E8, func_0272EA04, func_0272EA74
  * address:  0x0272E9E8
  * region:   twl
  * compiler: dsi/1.1p1
@@ -19,6 +19,8 @@
 void func_0272F740(void *ptr);
 int func_0272E9E8(int a0, int a1, int a2, int a3);
 asm void func_0272EA04(void);
+asm void func_0272EA74(void);
+
 
 
 int func_0272E9E8(int a0, int a1, int a2, int a3) {
@@ -26,6 +28,11 @@ int func_0272E9E8(int a0, int a1, int a2, int a3) {
     return a3;
 }
 
+
 asm void func_0272EA04(void)
+{
+}
+
+asm void func_0272EA74(void)
 {
 }

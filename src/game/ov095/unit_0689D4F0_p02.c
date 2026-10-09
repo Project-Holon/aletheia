@@ -1,8 +1,8 @@
 /*
  * file:     unit_0689D4F0_p02.c
  * unit:     yes
- * function: func_0689D588, func_0689D59C
- * address:  0x0689D588
+ * function: func_0689D5C8, func_0689D5F4
+ * address:  0x0689D5C8
  * region:   ov095
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -11,31 +11,32 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
- *
- * symbols:
- *   func_0689D5C8 0x0689D5C8 thumb ov095
- *   func_0689D5B8 0x0689D5B8 thumb ov095
  */
 typedef unsigned char u8;
 
-extern u8 func_0689D5C8(u8 *, u8);
-extern int func_0689D5B8(void *, int);
-int func_0689D588(u8 *p, u8 key);
-int func_0689D59C(u8 *p, void *q, u8 key);
+typedef unsigned int u32;
+
+u8 func_0689D5C8(u8 *base, u8 key);
+int func_0689D5F4(u8 *p, int i);
+
 
 /*
- * note: Two-byte zero alignment padding follows; contiguous scratch TU is EXACT.
+ * Scan a table of 3-byte records: find the first record whose first byte is
+ * non-zero and whose third byte equals `key`; return its index (0..5), or 6.
+ * Addresses are Black-image addresses.
  */
-int func_0689D588(u8 *p, u8 key)
+u8 func_0689D5C8(u8 *base, u8 key)
 {
-    if (func_0689D5C8(p, key) != 6) return 1;
-    return 0;
+    u32 i;
+
+    for (i = 0; i < 6; i++) {
+        if (base[i * 3] != 0 && base[i * 3 + 2] == key)
+            return (u8)i;
+    }
+    return 6;
 }
 
-int func_0689D59C(u8 *p, void *q, u8 key)
-{
-    int i;
-    i = func_0689D5C8(p, key);
-    if (i != 6) return func_0689D5B8(q, i);
-    return 0;
-}
+/*
+ * ABI: reads r0 base and full-word r1 index; byte load returned in r0.
+ */
+int func_0689D5F4(u8 *p, int i) { return (p + i)[18]; }

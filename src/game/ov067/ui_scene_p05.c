@@ -1,8 +1,8 @@
 /*
  * file:     ui_scene_p05.c
  * unit:     yes
- * function: func_021B69A4, func_021B69B8, func_021B69BC, func_021B69C8, func_021B69D0, func_021B69D4, func_021B69D8, func_021B69F8
- * address:  0x021B69A4
+ * function: func_021B9394, func_021B9398, func_021B93A4, func_021B93B0, func_021B93B8, func_021B93C0, func_021B93D4
+ * address:  0x021B9394
  * region:   ov067
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,93 +13,125 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0204B98C 0x0204B98C arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   func_021B92F0  0x021B92F0  thumb  ov067
  */
-#include "../../matched/include/Obj20610.h"
-#include "../../matched/include/Obj20611.h"
-#include "../../matched/include/Obj20612.h"
-#include "../../matched/include/Obj20613.h"
+#include "../../matched/include/Obj20627.h"
+#include "../../matched/include/Obj20628.h"
+#include "../../matched/include/Obj13135.h"
+#include "../../matched/include/Obj20629.h"
+#include "../../matched/include/Obj20630.h"
+#include "../../matched/include/Obj13136.h"
 
-struct Actor;
-struct Obj;
-typedef unsigned int   u32;
+typedef unsigned int u32;
 
 typedef unsigned short u16;
 
-struct S {
-    struct Obj *f0;
-    u32 f4;
-    u32 f8;
-    char pad[0x26 - 0xC];
-    u16 f26;
-    u16 f28;
-    u16 f2a;
+typedef unsigned char u8;
+
+typedef signed short s16;
+
+struct Ops {
+    void *f0;
+    void (*f4)(void *obj, int pos, int flag);
 };
 
-extern u32 func_0204B98C(struct Actor *a);
-extern void func_0204B878(struct Obj *p, u16 value);
-int func_021B69A4(void **p);
-int func_021B69B8(void *p);
-void func_021B69BC(void *p, unsigned int v);
-int func_021B69C8(void *p, int a);
-void func_021B69D0(void *p, int v);
-void func_021B69D4(void *p, int v);
-void func_021B69D8(struct S *p, u32 v);
-u32 func_021B69F8(u32 p);
+struct S_p08 {
+    u8 _0[0x20];
+    struct Ops *f20;
+    void *f24;
+    u8 _28[0x5c - 0x28];
+    s16 f5c;
+    u8 _5e[0x60 - 0x5e];
+    s16 f60;
+    s16 f62;
+};
 
-int func_021B69A4(void **p)
+extern void func_021B92F0(struct S_p08 *p, u32 a1, u32 a2);
+unsigned func_021B9394(char *p);
+u32 func_021B9398(char *p, int index);
+int func_021B93A4(char *p);
+int func_021B93B0(char *p);
+int func_021B93B8(char *p);
+int func_021B93C0(char *p);
+void func_021B93D4(struct S_p08 *s, int v);
+void func_021B940C(struct S_p08 *s);
+void func_021B941C(struct S_p08 *s);
+
+/*
+ * extent: four-byte getter; next leaf 021B9398 belongs to S27, not this file.
+ */
+unsigned func_021B9394(char *p)
 {
-    if (func_0204B98C(*p) == 0) return 1;
-    return 0;
+    return ((struct Obj20627 *)p)->f34;
+}
+
+/*
+ * trailing: 2-byte alignment padding; separate existing functions follow
+ */
+u32 func_021B9398(char *p, int index)
+{
+    return *(u32 *)(*(char * *)&((struct Obj20628 *)p)->f28 + index * 8 + 4);
+}
+
+/*
+ * Caller ov209 021BCE98 reads the signed sum. ov067 is loaded by
+ * ov209 021BCC94 and unloaded by 021BCD48. Following code starts at 021B93B0.
+ */
+int func_021B93A4(char *p)
+{
+    return ((struct Obj13135 *)p)->f5C + ((struct Obj13135 *)p)->f62;
 }
 
 
 /*
- * Getter, ARM9 tail call, indirect call, and two setters.  0x021B69BC is also
- * resident in ov172, so the packet id is region-qualified.
+ * Unlabelled leaf in ov067, printed as a .word run; signed halfword getter.
+ * Blocker target of ov210's func_021BF728 (pkt_021BF728), reached across the
+ * ov210/ov067 overlay pair.
  */
-int func_021B69B8(void *p)
+int func_021B93B0(char *p)
 {
-    return ((struct Obj20610 *)p)->f18;
-}
-
-void func_021B69BC(void *p, unsigned int v)
-{
-    void func_0204B3DC(struct Obj *p, u32 v);
-    func_0204B3DC(((struct Obj20611 *)p)->f0, v);
+    return ((struct Obj20629 *)p)->f5C;
 }
 
 
-int func_021B69C8(void *p, int a)
+int func_021B93B8(char *p)
 {
-    return (*(int (**)(void *, int))((char *)p + 0x10))(p, a);
+    return ((struct Obj20630 *)p)->f62;
 }
 
 
-void func_021B69D0(void *p, int v)
+/*
+ * Unlabelled leaf in ov067, printed as a .word run: true when the signed
+ * halfword at +0x62 is below the unsigned halfword at +0x64.  Blocker target
+ * of ov210's func_021BF728 (pkt_021BF728), across the ov210/ov067 pair.
+ */
+int func_021B93C0(char *p)
 {
-    ((struct Obj20612 *)p)->f34 = v;
+    return ((struct Obj13136 *)p)->f62 < ((struct Obj13136 *)p)->f64;
 }
 
 
-void func_021B69D4(void *p, int v)
+void func_021B93D4(struct S_p08 *s, int v)
 {
-    ((struct Obj20613 *)p)->f30 = v;
+    s->f60 = s->f5c;
+    s->f5c = v;
+    func_021B92F0(s, (u16)s->f5c, (u16)s->f60);
+    s->f20->f4(s->f24, s->f5c + s->f62, 1);
 }
 
 
-void func_021B69D8(struct S *p, u32 v)
+void func_021B940C(struct S_p08 *s)
 {
-    if (v != 0)
-        p->f8 = p->f2a;
-    else
-        p->f8 = p->f26;
-    func_0204B878(p->f0, (u16)p->f8);
+    func_021B92F0(s, (u16)s->f5c, (u16)0xff);
 }
 
-u32 func_021B69F8(u32 p) {
-    int r = 1;
-    if (*(u32 *)(p+8) != *(u16 *)(p+42) && *(u32 *)(p+8) != *(u16 *)(p+44)) r = 0;
-    return r;
+
+/*
+ * The handed 460-byte extent is this 56-byte function, two unlabelled
+ * 16-byte tail-call stubs into func_021B92F0 (0x021B940C, 0x021B941C), and
+ * rodata from 0x021B942C on. tu reproduces 0x021B93D4..0x021B942C.
+ */
+void func_021B941C(struct S_p08 *s)
+{
+    func_021B92F0(s, (u16)0xff, (u16)s->f5c);
 }

@@ -1,45 +1,8 @@
-# unit_021DA624.c (ov093)
+# unit_021DA624: remaining boundary
 
-Translation unit 021DA624..021DB0E4, 35 functions, confidence weak (tools/tuboundary.py).
+Lane r2_01 closed the other boundaries by adding the hidden setters (func_021DA838, func_021DA89C,
+func_021DABE8, func_021DAD20, func_021DAED8, func_021DB000) and one hidden predicate (func_021DAEC4).
 
-The member files below each match on their own. Merging them into one
-`unit_021DA624.c` is blocked by:
-
-- ov093_func_021DA624.c..ov093_func_021DB00C.c: c99=DIFF nolang=DIFF
-- ov093_func_021DA624.c..ov093_func_021DAAEC.c: c99=DIFF nolang=DIFF
-- ov093_func_021DA624.c..ov093_func_021DA844.c: c99=DIFF nolang=DIFF
-- ov093_func_021DA7DC.c..ov093_func_021DA844.c: c99=DIFF nolang=DIFF
-- func_021DA820.c..ov093_func_021DA844.c: c99=DIFF nolang=DIFF
-- ov093_func_021DA868.c..ov093_func_021DAAEC.c: c99=DIFF nolang=DIFF
-- ov093_func_021DA868.c..ov093_func_021DA96C.c: c99=DIFF nolang=DIFF
-- ov093_func_021DA868.c..ov093_func_021DA8A8.c: c99=DIFF nolang=DIFF
-- ov093_func_021DAB24.c..ov093_func_021DB00C.c: c99=DIFF nolang=DIFF
-- ov093_func_021DAB24.c..ov093_func_021DAD58.c: c99=DIFF nolang=DIFF
-- ov093_func_021DAB24.c..ov093_func_021DABF4.c: c99=DIFF nolang=DIFF
-- ov093_func_021DAB78.c..ov093_func_021DABF4.c: c99=DIFF nolang=DIFF
-- ov093_func_021DAC1C.c..ov093_func_021DAD58.c: c99=DIFF nolang=DIFF
-- func_021DAC90.c..ov093_func_021DAD58.c: c99=DIFF nolang=DIFF
-- ov093_func_021DAD84.c..ov093_func_021DB00C.c: c99=DIFF nolang=DIFF
-- func_021DAEAC.c..ov093_func_021DB00C.c: c99=DIFF nolang=DIFF
-- func_021DAEAC.c..ov093_func_021DAEE4.c: c99=DIFF nolang=DIFF
-- ov093_func_021DAF1C.c..ov093_func_021DB00C.c: c99=DIFF nolang=DIFF
-- ov093_func_021DAF58.c..ov093_func_021DB00C.c: c99=DIFF nolang=DIFF
-
-Members, in address order:
-
-- `func_021DA820.c`
-- `ov093_func_021DA844.c`
-- `ov093_func_021DA868.c`
-- `ov093_func_021DA8A8.c`
-- `ov093_func_021DAB78.c`
-- `ov093_func_021DABF4.c`
-- `func_021DAC90.c`
-- `func_021DAEAC.c`
-- `ov093_func_021DAEE4.c`
-- `ov093_func_021DAF1C.c`
-- `ov093_func_021DAF58.c`
-- `ov093_func_021DB00C.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021DA624.c` again.
+- unit_021DA624_p01 | p02 (starts 0x021DAEAC): 0x021DAE94 to 0x021DAEAB holds two Thumb call thunks
+  (`ldr r1,[pc,#4]; ldr r3,[pc,#8]; bx r3; nop; .word` to func_021D7320 and `ldr r3,[pc]; bx r3; .word`
+  to func_021D7324). They are linker-style veneers, not compilable C: file boundary.

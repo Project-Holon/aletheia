@@ -1,8 +1,7 @@
 /*
- * file:     btl_server_p21.c
- * unit:     yes
- * function: func_021BCF34, func_021BCF70
- * address:  0x021BCF34
+ * function: func_021BF04C
+ * address:  0x021BF04C
+ * packet:   pkt_ov093_021BF04C
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,43 +9,34 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
  * symbols:
- *   func_021D74F8 0x021D74F8 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D75EC 0x021D75EC thumb ov093
- *   func_021D70F0 0x021D70F0 thumb ov093
- *   func_021D7540 0x021D7540 thumb ov093
+ *   func_021BF0A4  0x021BF0A4  thumb  ov093
+ *   func_021BF0B4  0x021BF0B4  thumb  ov093
+ *   func_021BF0C4  0x021BF0C4  thumb  ov093
+ *   func_021BF0D4  0x021BF0D4  thumb  ov093
+ *   func_021BFA00  0x021BFA00  thumb  ov093
+ *   func_021C572C  0x021C572C  thumb  ov093
  */
-typedef unsigned char u8;
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-typedef unsigned int u32;
+extern void func_021BF0A4(int c);
+extern int func_021BF0B4(int c);
+extern void func_021BF0C4(int c, int x);
+extern int func_021BF0D4(int c);
+extern int func_021BFA00(u8 *p, u8 *a, u8 *b, void *item);
+extern void func_021C572C(u8 *p, u8 *a, u32 v);
 
-extern void func_021D74F8(int);
-extern u8 func_021D5440(u8 *p);
-extern void func_021D75EC(int, u32);
-extern void func_021D70F0(void *a, int id);
-extern void func_021D7540(int);
-void func_021BCF34(u8 *p, u8 *a, u32 k);
-void func_021BCF70(u8 *p, u8 *a, u32 k);
-
-void func_021BCF34(u8 *p, u8 *a, u32 k)
+void func_021BF04C(u8 *p, u16 *b, int s, int c)
 {
-    int line = 0x864;
-    func_021D74F8(line);
-    func_021D75EC(2, func_021D5440(a));
-    func_021D75EC(12, k);
-    func_021D70F0(p, 1);
-    func_021D7540(line + 4);
-}
-
-void func_021BCF70(u8 *p, u8 *a, u32 k)
-{
-    int line = 0x874;
-    func_021D74F8(line);
-    func_021D75EC(2, func_021D5440(a));
-    func_021D75EC(12, k);
-    func_021D70F0(p, 2);
-    func_021D7540(line + 4);
+    int x;
+    func_021BF0A4(c);
+    x = func_021BF0B4(c);
+    while (x != 0) {
+        if (func_021BFA00(p, (u8 *)s, (u8 *)x, (void *)(*b)) != 0) {
+            func_021BF0C4(c, x);
+            func_021C572C(p, (u8 *)x, *b);
+            p[0x78a] |= 0x10;
+        }
+        x = func_021BF0D4(c);
+    }
 }

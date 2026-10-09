@@ -1,44 +1,38 @@
 /*
- * file:     btl_server_p58.c
- * unit:     yes
- * function: func_021C334C, func_021C3370
- * address:  0x021C334C
+ * function: func_021C43F0
+ * address:  0x021C43F0
+ * packet:   pkt_ov093_021C43F0
  * region:   ov093
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * status:   EXACT*
  *
  * symbols:
- *   func_021C3394 0x021C3394 thumb ov093
- *   func_021C33E8 0x021C33E8 thumb ov093
- *   func_021D5B7C 0x021D5B7C thumb ov093
- *   func_021D5B48 0x021D5B48 thumb ov093
+ *   func_021C443C  0x021C443C  thumb  ov093
+ *   func_021BD2B4  0x021BD2B4  thumb  ov093
+ *   func_021BD34C  0x021BD34C  thumb  ov093
+ *   func_021C444C  0x021C444C  thumb  ov093
+ *   func_021C445C  0x021C445C  thumb  ov093
  */
-typedef unsigned char u8;
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021C3394(u8 *, u8 *, int);
-extern void func_021C33E8(int, int, int);
-extern int func_021D5B7C(void *);
-extern int func_021D5B48(u8 *p);
-int func_021C334C(u8 *p, u8 *q, int a, int b);
-int func_021C3370(u8 *p, void *q);
+extern void func_021C443C(u8 *a);
+extern void func_021BD2B4(u8 *it, u8 **q);
+extern int func_021BD34C(u8 *it, u8 **q, u8 **x);
+extern void func_021C444C(u8 *a, u8 *x);
+extern void func_021C445C(u8 *a, u8 *p);
 
-int func_021C334C(u8 *p, u8 *q, int a, int b)
+void func_021C43F0(u8 *p, u8 *a)
 {
-    if (func_021C3394(p, q, b) == 0) {
-        func_021C33E8((int)p, (int)q, a);
-        return 1;
+    u32 it;
+    u8 *x;
+    func_021C443C(a);
+    func_021BD2B4((u8 *)&it, (u8 **)p);
+    while (func_021BD34C((u8 *)&it, (u8 **)p, &x)) {
+        func_021C444C(a, x);
     }
-    return 0;
-}
-
-int func_021C3370(u8 *p, void *q)
-{
-    if (func_021D5B7C(q) == 0) return 1;
-    if (func_021D5B48(q) != 0) return 1;
-    return 0;
+    func_021C445C(a, p);
 }

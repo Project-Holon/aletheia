@@ -1,7 +1,7 @@
 /*
  * file:     unit_0216870C_p04.c
  * unit:     yes
- * function: func_02168DA4, func_02168E50, func_02168ECC, func_02168F18, func_02168F4C, func_02168FF0, func_02169038, func_0216909C, func_021690D0
+ * function: func_02168DA4, func_02168E50, func_02168ECC, func_02168F18, func_02168F4C, func_02168FF0, func_02169038, func_0216909C, func_021690D0, func_02169174, func_021691FC
  * address:  0x02168DA4
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -29,6 +29,7 @@
  *   func_020870D0  0x020870D0  arm
  *   func_0216AA70  0x0216AA70  arm  ov009
  *   func_0218627C  0x0218627C  arm  ov009
+ *   func_0216870C  0x0216870C  arm  ov009
  */
 #include "../../matched/include/G_FriendGlobal.h"
 
@@ -55,6 +56,22 @@ typedef struct RecvArg {
 	int index;
 } RecvArg;
 
+struct Friend { int a, b, c; };
+
+struct Work {
+	int state;
+	char pad0[0x18 - 4];
+	struct Friend *friends;
+	char pad1[0x34 - 0x1c];
+	void (*cb34)(int index, unsigned char status, char *str, void *arg);
+	void *arg38;
+	char pad2[0x44 - 0x3c];
+	void (*cb44)(int index, void *arg);
+	void *arg48;
+};
+
+typedef unsigned char  u8;
+
 extern void func_02059F54(int error, int errorCode);
 extern int func_02168D7C(void);
 extern void func_0205A1B0(int name, void *ptr, int flag);
@@ -71,16 +88,20 @@ extern int DWC_GetGsProfileId(void *user, void *data);
 extern unsigned long long func_020870D0(void);
 extern int func_0216AA70(void);
 extern int func_0218627C(void **connection, int status, const char *statusString, const char *locationString);
-void func_02168DA4(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
-void func_02168E50(int error, int errorCode);
-void func_02168ECC(void **connection, int *arg);
-int func_02168F18(void **connection, int *arg);
-void func_02168F4C(void **connection, RecvArg *arg);
-int func_02168FF0(int index);
-int func_02169038(int pid);
-void func_0216909C(void);
+extern u8 func_0216870C(int a, int b);
+/* * Fill the descriptor hanging off the global at 0x021AA860 (+0x0c): six * arguments land at +0x2c..+0x40, four status bytes are cleared, the state * word is set to 1, and the +0x1f counter is bumped twice -- once only when * the +0x18 word is zero. */ void func_02168DA4(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
+/* * sdk: DWCi_StopFriendProcess (dwc_friend.o) */ void func_02168E50(int error, int errorCode);
+/* * sdk: DWCi_GPRecvBuddyRequestCallback (dwc_friend.o) */ void func_02168ECC(void **connection, int *arg);
+/* * sdk: DWCi_GPRecvBuddyAuthCallback (dwc_friend.o) */ int func_02168F18(void **connection, int *arg);
+/* * sdk: DWCi_GPRecvBuddyStatusCallback (libdwcmatch.TWL.HYB.a(dwc_friend.o)) */ void func_02168F4C(void **connection, RecvArg *arg);
+/* * DWCi_GetProfileIDFromList: the profile id of a friend list entry, zero when unset or invalid. */ int func_02168FF0(int index);
+/* * DWCi_GetFriendListIndex: the friend list index holding a profile id, or -1. */ int func_02169038(int pid);
+/* * sdk: DWCi_InitGPProcessCount (dwc_friend.o) */ void func_0216909C(void);
 int func_021690D0(int status, const char *statusString, const char *locString);
+/* * sdk: DWCi_CallBuddyFriendCallback (libdwcmatch.TWL.HYB.a(dwc_friend.o)) */ void func_02169174(int index);
+/* * Clears the word at +0xc of the module state block. */ void func_021691FC(void);
 extern struct FriendGlobal g_021AA860;
+
 
 
 /*
@@ -110,6 +131,7 @@ void func_02168DA4(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a
 }
 
 
+
 /*
  * sdk:      DWCi_StopFriendProcess (dwc_friend.o)
  */
@@ -131,6 +153,7 @@ void func_02168E50(int error, int errorCode)
 }
 
 
+
 /*
  * sdk:      DWCi_GPRecvBuddyRequestCallback (dwc_friend.o)
  */
@@ -141,6 +164,7 @@ void func_02168ECC(void **connection, int *arg)
 }
 
 
+
 /*
  * sdk:      DWCi_GPRecvBuddyAuthCallback (dwc_friend.o)
  */
@@ -149,6 +173,7 @@ int func_02168F18(void **connection, int *arg)
     func_02185BD8(connection, *arg, 0, 0, (void (*)(void **, void *, void *))func_02169E18, 0);
     return 1;
 }
+
 
 
 /*
@@ -172,6 +197,7 @@ void func_02168F4C(void **connection, RecvArg *arg)
 }
 
 
+
 /*
  * DWCi_GetProfileIDFromList: the profile id of a friend list entry, zero when unset or invalid.
  */
@@ -189,6 +215,7 @@ int func_02168FF0(int index)
     }
     return 0;
 }
+
 
 
 /*
@@ -210,6 +237,7 @@ int func_02169038(int pid)
 }
 
 
+
 /*
  * sdk:      DWCi_InitGPProcessCount (dwc_friend.o)
  */
@@ -221,6 +249,7 @@ void func_0216909C(void)
     *(int *)(p + 8) = 0;
     *(unsigned long long *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0xc) = func_020870D0();
 }
+
 
 
 int func_021690D0(int status, const char *statusString, const char *locString)
@@ -238,4 +267,30 @@ int func_021690D0(int status, const char *statusString, const char *locString)
         locString = **(char ***)(*(char **)(((char *)&g_021AA860) + 0xc) + 4) + 0x4b8;
     }
     return func_0218627C(*(void **)(*(char **)(((char *)&g_021AA860) + 0xc) + 4), status, statusString, locString);
+}
+
+
+/*
+ * sdk:      DWCi_CallBuddyFriendCallback (libdwcmatch.TWL.HYB.a(dwc_friend.o))
+ */
+void func_02169174(int index)
+{
+	struct { char pad[0x108]; char s[0x10c]; } status;
+	unsigned char st;
+	if (g_021AA860.ctl->cb44 != 0 && g_021AA860.ctl->state != 1)
+		g_021AA860.ctl->cb44(index, g_021AA860.ctl->arg48);
+	if (g_021AA860.ctl->cb34 == 0)
+		return;
+	st = func_0216870C((int)(&g_021AA860.ctl->friends[index]), (int)status.s);
+	g_021AA860.ctl->cb34(index, st, status.s, g_021AA860.ctl->arg38);
+}
+
+
+
+/*
+ * Clears the word at +0xc of the module state block.
+ */
+void func_021691FC(void)
+{
+    *(int *)(((char *)&g_021AA860) + 0xc) = 0;
 }

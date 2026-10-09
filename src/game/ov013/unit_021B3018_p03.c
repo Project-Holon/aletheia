@@ -1,8 +1,8 @@
 /*
  * file:     unit_021B3018_p03.c
  * unit:     yes
- * function: func_021B370C, func_021B3844
- * address:  0x021B370C
+ * function: func_021B3250, func_021B3278, func_021B3364, func_021B33E0
+ * address:  0x021B3250
  * region:   ov013
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,97 +13,138 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02004EB0  0x02004EB0  arm
- *   d_02005108     0x02005108  data
- *   func_02082BCC  0x02082BCC  arm
- *   d_021B60CC     0x021B60CC  data  ov013
- *   d_021B60D8     0x021B60D8  data  ov013
- *   func_021B0508  0x021B0508  arm  ov013
- *   func_021B22B4  0x021B22B4  arm  ov013
- *   func_021B23C8  0x021B23C8  arm  ov013
- *   func_021B2ED8  0x021B2ED8  arm  ov013
- *   func_021B2F98  0x021B2F98  arm  ov013
- *   func_021B0600  0x021B0600  arm  ov013
+ *   d_021B3C50 0x021B3C50 data a4
+ *   func_021B3018 0x021B3018 arm ov013
+ *   d_021B4C48  0x021B4C48  data  ov013
+ *   d_021B3C60  0x021B3C60  data  a2
+ *   d_021B50CC  0x021B50CC  data  a2
+ *   d_021B4C74  0x021B4C74  data  a4
+ *   d_021B4C5C  0x021B4C5C  data  a4
+ *   MIi_CpuCopyFast              0x02082B0C  arm
  */
-struct Config;
-struct E;
-typedef unsigned char u8;
+#include "../../matched/include/G_VadCfg.h"
+#include "../../matched/include/G_021B4C48.h"
 
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    u8  fc;
-    u8  fd, fe, ff;
-    int f10;
-    int f14;
-    int f18;
-    int f1c;
-} Param;
+#define reg_CP_DIVCNT       (*(volatile u16 *)0x04000280)
+#define reg_CP_DIV_NUMER    (*(u64 *)0x04000290)
+#define reg_CP_DIV_DENOM    (*(u64 *)0x04000298)
+#define reg_CP_DIV_RESULT_L (*(volatile u32 *)0x040002A0)
+typedef enum { CountZero } Count;
 
-typedef unsigned int   u32;
+typedef short s16;
 
-extern void func_02004EB0(const void *symbol);
-extern void func_02082BCC(void *dst, int c, int n);
-extern int  func_021B0508(void);
-extern int func_021B22B4(struct Config *cfg);
-extern void func_021B23C8(void);
-extern int func_021B2ED8(struct E *a, u32 b);
-extern void func_021B2F98(void);
-extern void func_021B0600(void);
-int func_021B370C(Param *p);
-void func_021B3844(void);
-extern char d_02005108[];
-extern int  d_021B60CC[];
-extern u8   d_021B60D8[];
+typedef int s32;
 
+typedef unsigned short u16;
 
-int func_021B370C(Param *p)
+typedef unsigned int u32;
+
+typedef long long s64;
+
+typedef unsigned long long u64;
+
+extern void func_021B3018(void);
+extern void MIi_CpuCopyFast(void);
+void func_021B3250(void);
+s32 func_021B3278(s16 *x, u32 len);
+void func_021B3364(void);
+asm void sakeGetFileIdFromHeaders(void);
+extern struct VadCfg d_021B3C50;
+extern s32 d_021B4C48[];
+extern s16 d_021B3C60[];
+extern s16 d_021B50CC[];
+extern int d_021B4C74[];
+extern int d_021B4C5C[];
+
+/*
+ * lever: enum count cast to short preserves the smulbb; short local folded 15*68.
+ */
+void func_021B3250(void)
 {
-    func_02004EB0(d_02005108);
-    if (p == 0)
-        return 0;
-    if (d_021B60CC[2] != 0)
-        return 1;
-    if (p->f8 != 1 && p->f8 != 2 && p->f8 != 3)
-        return 0;
-    if (p->f18 == 0)
-        return 0;
-    if (p->f10 == 0 || p->f14 == 0)
-        return 0;
-    if (p->f10 % 32 != 0)
-        return 0;
-    func_02082BCC(d_021B60D8, 0, 0x18);
-    d_021B60CC[4] = p->f18;
-    d_021B60CC[5] = p->f1c;
-    d_021B60CC[7] = p->f8;
-    d_021B60CC[6] = 0;
-    if (p->fc >= 0x20)
-        return 0;
-    ((u8 *)d_021B60CC)[0xc] = p->fc;
-    if (func_021B2ED8((struct E *)p->f10, p->f14) == 0) {
-        func_021B2F98();
-        return 0;
-    }
-    if (func_021B22B4((struct Config *)p) == 0) {
-        func_021B2F98();
-        return 0;
-    }
-    if (func_021B0508() != 0) {
-        d_021B60CC[2] = 1;
-        return 1;
-    }
-    func_021B23C8();
-    func_021B2F98();
-    return 0;
+    Count n=15;
+    short stride=68;
+    ((int *)&d_021B3C50)[2]=n;
+    ((int *)&d_021B3C50)[3]=(short)n*stride;
+    func_021B3018();
 }
 
 
-void func_021B3844(void)
+
+static inline void CP_SetDiv64_32(u64 numer, u32 denom)
 {
-    func_021B0600();
-    func_021B23C8();
-    func_021B2F98();
-    d_021B60CC[7] = 0;
-    d_021B60CC[2] = 0;
+    reg_CP_DIVCNT = 1;
+    reg_CP_DIV_NUMER = numer;
+    reg_CP_DIV_DENOM = denom;
+}
+
+
+
+static inline void CP_WaitDiv(void)
+{
+    while (reg_CP_DIVCNT & 0x8000) {
+    }
+}
+
+
+
+s32 func_021B3278(s16 *x, u32 len)
+{
+    s32 prev;
+    u32 i;
+    s64 e;
+    s32 y;
+    s32 t;
+
+    t = x[0] * 0xE9F;
+    y = (t + d_021B4C48[1] + d_021B4C48[4] * 0xD3E) >> 12;
+    d_021B4C48[4] = y;
+    d_021B4C48[1] = prev = -t;
+    e = y * y;
+    len >>= 1;
+    i = 1;
+    if (len > 1) {
+        do {
+            t = x[i] * 0xE9F;
+            x[i - 1] = y;
+            y = (t + prev + y * 0xD3E) >> 12;
+            e += y * y;
+            prev = -t;
+        } while (++i < len);
+        d_021B4C48[1] = prev;
+        d_021B4C48[4] = y;
+    }
+    (x + len)[-1] = y;
+    reg_CP_DIVCNT = 1;
+    reg_CP_DIV_NUMER = e;
+    reg_CP_DIV_DENOM = len;
+    CP_WaitDiv();
+    return reg_CP_DIV_RESULT_L;
+}
+
+
+
+void func_021B3364(void)
+{
+    int i;
+    s16 *src;
+
+    src = d_021B3C60;
+    ((int *)&d_021B4C48)[3] = 0;
+    ((int *)&d_021B4C48)[2] = 0x19D;
+    for (i = 0; i < 0x800; i++)
+        d_021B50CC[i] = 0;
+    for (i = 0; i < 6; i++) {
+        d_021B4C74[i] = 0;
+        d_021B4C5C[i] = src[i];
+    }
+}
+
+
+
+asm void sakeGetFileIdFromHeaders(void)
+{
+	mov r2, r1
+	ldr r1, =0x021B4C8C
+	ldr ip, =MIi_CpuCopyFast
+	bx ip
 }

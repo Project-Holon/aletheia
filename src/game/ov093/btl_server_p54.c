@@ -1,79 +1,96 @@
 /*
- * file:     btl_server_p54.c
- * unit:     yes
- * function: func_021C264C, func_021C26A8, func_021C26FC
- * address:  0x021C264C
- * region:   ov093
+ * function: func_021C3E0C
+ * address: 0x021C3E0C
+ * packet: pkt_ov093_021C3E0C
+ * region: ov093
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
  * symbols:
- *   func_021D74F8  0x021D74F8  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021D75EC  0x021D75EC  thumb  ov093
- *   func_021D75A8  0x021D75A8  thumb  ov093
- *   func_021D70F0  0x021D70F0  thumb  ov093
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D7540  0x021D7540  thumb  ov093
+ *  func_021C3FAC 0x021C3FAC thumb ov093
+ *  func_021D59B4 0x021D59B4 thumb ov093
+ *  func_021C3FBC 0x021C3FBC thumb ov093
+ *  func_021C3FCC 0x021C3FCC thumb ov093
+ *  func_021D5440 0x021D5440 thumb ov093
+ *  func_021CD4B0 0x021CD4B0 thumb ov093
+ *  func_021CD64C 0x021CD64C thumb ov093
+ *  func_021CC8D8 0x021CC8D8 thumb ov093
+ *  func_021CC95C 0x021CC95C thumb ov093
+ *  func_021C7B3C 0x021C7B3C thumb ov093
+ *  func_021C7B7C 0x021C7B7C thumb ov093
+ *  func_021D66D0 0x021D66D0 thumb ov093
+ *  func_021D8564 0x021D8564 thumb ov093
+ *  func_021D62C4 0x021D62C4 thumb ov093
+ *  func_021C195C 0x021C195C thumb ov093
+ *  func_021C3FDC 0x021C3FDC thumb ov093
  */
+#include "../../matched/include/Obj03191.h"
 typedef unsigned char u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int u32;
-
-extern void func_021D74F8(int line);
+typedef struct { u8 pad[5]; u8 a:1,b:1,c:6; } Flag;
+extern u8 *func_021C3FAC(u8 *, int);
+extern int func_021D59B4(u8 *p, int k);
+extern int func_021C3FBC(u16);
+extern int func_021C3FCC(u16);
 extern u8 func_021D5440(u8 *p);
-extern void func_021D75EC(int key, u32 val);
-extern void func_021D75A8(int key, u32 val);
-extern void func_021D70F0(void *a, int id);
-extern int func_021D775C(int key);
-extern void func_021D7540(int line);
-int func_021C264C(u8 *p, u8 *a, u8 *b, u32 c);
-void func_021C26A8(u8 *p, u32 a, u8 *b, u8 *c, u32 d);
-void func_021C26FC(u8 *p, u8 *a, u8 *b, u32 c, u32 *d);
-
-
-int func_021C264C(u8 *p, u8 *a, u8 *b, u32 c)
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern void func_021CD64C(void *w, u8 id, ...);
+extern u32 func_021CC8D8(void *, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
+extern void func_021C7B3C(u8 *p, u32 a, u16 b, u16 c);
+extern void func_021C7B7C(u8 *p, unsigned int i);
+struct QJ;
+extern void func_021D66D0(struct QJ *p, u32 v);
+extern void func_021D8564(int a, int b);
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern void func_021C195C(u8 *p, u8 *q, u32 n);
+extern void func_021C3FDC(u8 *, u8 *);
+void func_021C3E0C(u8 *p, u8 *a, u8 *c)
 {
-    int r;
-    func_021D74F8(7681);
-    func_021D75EC(3, func_021D5440(a));
-    func_021D75EC(4, func_021D5440(b));
-    func_021D75EC(0x3f, c);
-    func_021D75A8(0x1d, 0);
-    func_021D70F0(p, 0x60);
-    r = func_021D775C(0x1d);
-    func_021D7540(7688);
-    return r;
-}
-
-
-void func_021C26A8(u8 *p, u32 a, u8 *b, u8 *c, u32 d)
-{
-    func_021D74F8(7704);
-    func_021D75EC(3, func_021D5440(b));
-    func_021D75EC(4, func_021D5440(c));
-    func_021D75EC(0x3f, d);
-    func_021D75EC(0x1d, a);
-    func_021D70F0(p, 0x61);
-    func_021D7540(7710);
-}
-
-
-void func_021C26FC(u8 *p, u8 *a, u8 *b, u32 c, u32 *d)
-{
-    func_021D74F8(7726);
-    func_021D75EC(3, func_021D5440(a));
-    func_021D75EC(4, func_021D5440(b));
-    func_021D75EC(0x1d, c);
-    func_021D75A8(0x1e, *d);
-    func_021D70F0(p, 0x62);
-    *d = func_021D775C(0x1e);
-    func_021D7540(7726 + 7);
+    u8 *b;
+    u32 x, y, ai, bi;
+    u32 s, t;
+    int line;
+    Flag *f;
+    b = func_021C3FAC(c, 0);
+    x = func_021D59B4(a, 16);
+    y = func_021D59B4(b, 16);
+    if (x != y && !func_021C3FBC(x) && !func_021C3FCC(y)) {
+        ai = func_021D5440(a);
+        bi = func_021D5440(b);
+        f = *(Flag * *)&((struct Obj03191 *)p)->f4A8;
+        if (f->a == 0) f->a = 1;
+        func_021CD4B0(((struct Obj03191 *)p)->fC, 0x4a, ai, bi, (u16)y, (u16)x);
+        func_021CD64C(((struct Obj03191 *)p)->fC, 0x5b, 0x1fc, ai, 0xffff0000);
+        line = 9140;
+        s = func_021CC8D8(p + 0x1d74, line);
+        func_021C7B3C(p, ai, x, y);
+        func_021C7B3C(p, bi, y, x);
+        func_021CC95C((u32 *)(p + 0x1d74), s, line + 3);
+        func_021D66D0((struct QJ *)a, y);
+        func_021D66D0((struct QJ *)b, x);
+        func_021D8564((int)a, (int)b);
+        func_021CD4B0(((struct Obj03191 *)p)->fC, 0x58, ai);
+        func_021CD4B0(((struct Obj03191 *)p)->fC, 0x58, bi);
+        if (x != y) {
+            t = func_021CC8D8(p + 0x1d74, line + 16);
+            func_021C7B7C(p, ai);
+            func_021C7B7C(p, bi);
+            line += 19;
+            func_021CC95C((u32 *)(p + 0x1d74), t, line);
+        }
+        if (func_021D62C4((struct Unk021D62A8 *)a, 16) == 0) {
+            if (x == 0x67) func_021C195C(p, a, 0);
+            if (x == 0x7f) func_021C3FDC(p, a);
+        }
+        if (func_021D62C4((struct Unk021D62A8 *)b, 16) == 0) {
+            if (y == 0x67) func_021C195C(p, b, 0);
+            if (y == 0x7f) func_021C3FDC(p, b);
+        }
+    } else {
+        func_021CD64C(((struct Obj03191 *)p)->fC, 0x5a, 0x47, 0xffff0000);
+    }
 }

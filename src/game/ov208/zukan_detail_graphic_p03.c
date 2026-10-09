@@ -1,8 +1,8 @@
 /*
  * file:     zukan_detail_graphic_p03.c
  * unit:     yes
- * function: func_021BD330, func_021BD358, func_021BD35C, func_021BD360, func_021BD368, func_021BD378
- * address:  0x021BD330
+ * function: func_021BD404, func_021BD43C, func_021BD444, func_021BD538, func_021BD56C
+ * address:  0x021BD404
  * region:   ov208
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,79 +13,146 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021BD7FC  0x021BD7FC  thumb
- *   func_021BD404 0x021BD404  thumb  ov208
- *   func_021BD814 0x021BD814  thumb  ov208
+ *   func_021BD7F8  0x021BD7F8  thumb
+ *   func_021BD404  0x021BD404  thumb  ov208
+ *   func_02082BCC        0x02082BCC  arm
+ *   func_020275E4        0x020275E4  thumb
+ *   func_020490F4        0x020490F4  arm
+ *   func_02027624        0x02027624  thumb
+ *   func_02049B68        0x02049B68  arm
+ *   func_02027628        0x02027628  thumb
+ *   func_02049740        0x02049740  arm
+ *   func_0202762C        0x0202762C  thumb
+ *   ov208_func_021BD574  0x021BD574  thumb
+ *   func_02027614        0x02027614  thumb
+ *   func_0204AC18        0x0204AC18  arm
+ *   func_02027618        0x02027618  thumb
+ *   func_0204A6C8        0x0204A6C8  arm
+ *   func_0202761C        0x0202761C  thumb
+ *   func_02027620        0x02027620  thumb
+ *   func_0204AF28        0x0204AF28  arm
+ *   func_02049238        0x02049238  arm
  */
-#include "../../matched/include/Obj18229.h"
-#include "../../matched/include/Obj18230.h"
+#include "../../matched/include/Obj05865.h"
 
-struct Obj;
 typedef unsigned int u32;
 
-struct Ov208Mgr_021BD330 {
-    u32 f0;
-    u32 count;
+struct Ov208Rec {
+    u32 w[14];
 };
 
-struct Ov208Mgr_021BD360 {
-    u32 pad0[4];
+struct Ov208Mgr {
+    u32 f0;
+    u32 count;
+    u32 pad8[8];
+    struct Ov208Rec recs[1];
+};
+
+typedef unsigned char  u8;
+
+typedef unsigned short u16;
+
+struct Ov208Bg {
+    u32 f0;
+    u32 f4;
+    u32 f8;
+    u32 fc;
     u32 f10;
 };
 
-extern void func_021BD7FC(struct Obj **p, unsigned int v);
-extern int func_021BD404(int, int);
-extern void func_021BD814(char *p, int v);
-void ov208_func_021BD330(struct Ov208Mgr_021BD330 *p, int v);
-void func_021BD358(char *p, int v);
-int func_021BD35C(char *p);
-void ov208_func_021BD360(struct Ov208Mgr_021BD360 *p);
-void func_021BD368(int a, int b, int c);
-void func_021BD378(int a, int b, int c);
+typedef signed int     s32;
+
+extern int func_021BD7F8(char *p);
+extern void *func_021BD404(void *mgr, int key);
+extern void func_02082BCC(void *p, u32 v, u32 n);
+extern u32  func_020275E4(void);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern u32  func_02027624(void);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern u32  func_02027628(void);
+extern u32  func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 flags);
+extern u32  func_0202762C(void);
+extern void ov208_func_021BD574(void *a0, u32 a1, u32 channel, u32 add, u8 a4, u8 a5, u8 a6,
+                                u8 a7, u8 x, u8 y, u8 w, u8 h, u8 pal, u32 a13, u32 heap);
+extern u32  func_02027614(void);
+extern u32  func_0204AC18(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u32  func_02027618(void);
+extern u32  func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u32 flags);
+extern u32  func_0202761C(u32 a);
+extern u32  func_02027620(u32 a);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern void func_02049238(void *h);
+extern void func_0204AFD8(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+struct Ov208Rec *ov208_func_021BD404(struct Ov208Mgr *p, int key);
+void *func_021BD43C(void *mgr, int key);
+void ov208_func_021BD444(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 palOfs, u32 kind, u8 pal, u8 objPal, u32 skip, u32 heap);
+void func_021BD538(char *p);
+int func_021BD56C(int *p, int i);
 
 
-void ov208_func_021BD330(struct Ov208Mgr_021BD330 *p, int v)
+
+struct Ov208Rec *ov208_func_021BD404(struct Ov208Mgr *p, int key)
 {
     u32 i;
 
-    for (i = 0; i < p->count; i++)
-        func_021BD7FC((void *)((u32)p + 0x28 + i * 0x38), v);
+    for (i = 0; i < p->count; i++) {
+        if (key == func_021BD7F8((char *)((u32)p + 0x28 + i * 0x38)))
+            return (struct Ov208Rec *)((u32)p + 0x28 + i * 0x38);
+    }
+    return 0;
+}
+
+
+
+void *func_021BD43C(void *mgr, int key)
+{
+    return func_021BD404(mgr, key);
+}
+
+
+
+void ov208_func_021BD444(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 palOfs,
+                         u32 kind, u8 pal, u8 objPal, u32 skip, u32 heap)
+{
+    void *h;
+
+    func_02082BCC(p, 0, sizeof(*p));
+    p->fc = channel;
+    h = func_020490F4(func_020275E4(), heap);
+    if (skip == 0) {
+        func_02049B68(h, func_02027624(), palOfs, pal << 5, 0x20, heap);
+        p->f10 = func_02049740(h, func_02027628(), p->fc, 0x800, 0, heap);
+        ov208_func_021BD574(h, func_0202762C(), p->fc, (u16)p->f10, 0, 0x15, 0x20, 0x18,
+                            0, 0x15, 0x20, 3, pal, 0, heap);
+    }
+    p->f0 = func_0204AC18(h, func_02027614(), objChannel, (u16)(objPal << 5), 0, 3, heap);
+    p->f4 = func_0204A6C8(h, func_02027618(), 0, objChannel, heap);
+    p->f8 = func_0204AF28(h, func_0202761C(kind), func_02027620(kind), heap);
+    func_02049238(h);
 }
 
 
 
 /*
- * Stores the second argument at +0xC.
+ * Releases +8, +4 and +0, passes the pair at +0x10 on and clears the 0x14-byte object.
  */
-void func_021BD358(char *p, int v)
+void func_021BD538(char *p)
 {
-    ((struct Obj18229 *)p)->fC = v;
+    unsigned int w;
+
+    func_0204AFD8(((struct Obj05865 *)p)->f8);
+    func_0204A8D4(((struct Obj05865 *)p)->f4);
+    func_0204ADA4(((struct Obj05865 *)p)->f0);
+    w = ((struct Obj05865 *)p)->f10;
+    func_0203FB44(((struct Obj05865 *)p)->fC, (unsigned short)w, (unsigned short)(w >> 16));
+    func_02082BCC((void *)((int)p), 0, 0x14);
 }
 
 
-
-/*
- * Returns the word at +0xC (the two words after it are untraced continuations).
- */
-int func_021BD35C(char *p)
+int func_021BD56C(int *p, int i)
 {
-    return ((struct Obj18230 *)p)->fC;
-}
-
-
-void ov208_func_021BD360(struct Ov208Mgr_021BD360 *p)
-{
-    p->f10 = 0;
-}
-
-
-void func_021BD368(int a, int b, int c)
-{
-    func_021BD814((char *)func_021BD404(a, b), c);
-}
-
-
-void func_021BD378(int a, int b, int c)
-{
-    func_021BD7FC((struct Obj **)func_021BD404(a, b), c);
+    return p[i];
 }

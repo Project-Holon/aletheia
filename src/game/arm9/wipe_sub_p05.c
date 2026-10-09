@@ -1,8 +1,8 @@
 /*
  * file:     wipe_sub_p05.c
  * unit:     yes
- * function: func_020222EC, func_02022340, func_02022390, func_020223AC, func_020223C0, func_02022424, func_02022430, func_02022458, func_02022478, func_02022490
- * address:  0x020222EC
+ * function: func_020225F0, func_020225F4, func_02022608, func_0202262C, func_02022640, func_02022670, func_020226A0, func_020226E0, func_020226FC, func_0202271C, func_02022758, func_02022790, func_020227CC, func_02022804, func_02022830, func_0202285C, func_02022888, func_020228B4, func_020228E0, func_0202290C, func_0202291C, func_02022940, func_020229A4, func_02022A44, func_02022A88, func_02022AC4, func_02022AD0, func_02022CEC, func_02022D70, func_02022D78, func_02022D88, func_02022D98, func_02022DCC
+ * address:  0x020225F0
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,67 +13,61 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021467A4     0x021467A4  data
- *   func_02022608  0x02022608  thumb
- *   func_02022670  0x02022670  thumb
- *   func_020226A0  0x020226A0  thumb
- *   g_0209F538  0x0209F538  data
- *   func_020225F0  0x020225F0  thumb
- *   g_021468A4     0x021468A4  data
- *   func_02005624  0x02005624  thumb
+ *   func_020222CC  0x020222CC  thumb
+ *   func_02030EAC  0x02030EAC  arm
+ *   func_020056A0  0x020056A0  thumb
+ *   func_0202223C  0x0202223C  thumb
+ *   func_02022224  0x02022224  thumb
+ *   func_020222A8  0x020222A8  thumb
+ *   func_020238B4  0x020238B4  thumb
+ *   func_0202390C  0x0202390C  thumb
+ *   d_0209F570     0x0209F570  data
+ *   g_020A73D0     0x020A73D0  data
+ *   g_wipe_slot0   0x020A73D0  data
+ *   d_0209F56C     0x0209F56C  data
+ *   d_0209F574     0x0209F574  data
+ *   d_0209F568     0x0209F568  data
+ *   func_02023464  0x02023464  thumb
+ *   func_020234C0  0x020234C0  thumb
+ *   func_020235F0  0x020235F0  thumb
+ *   func_0202363C  0x0202363C  thumb
+ *   func_0209C0A4  0x0209C0A4  arm
+ *   func_02030734  0x02030734  arm
+ *   func_02082BCC  0x02082BCC  arm
+ *   sub_020056A0   0x020056A0  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   sub_020222CC  0x020222CC  thumb
+ *   func_02022D88  0x02022D88  thumb
+ *   MI_CpuCopy8   0x02082D44  arm
+ *   func_02023CFC   0x02023CFC  thumb
+ *   func_02023D18   0x02023D18  thumb
+ *   func_02023D60   0x02023D60  thumb
+ *   func_02023D40   0x02023D40  thumb
  */
-#include "../../matched/include/Obj16741.h"
-#include "../../matched/include/Obj11272.h"
+#include "../../matched/include/Obj11726.h"
+#include "../../matched/include/Obj15738.h"
 
+#define REG_VCOUNT  (*(volatile u16 *)0x04000006)
+#define REG_A       ((volatile u16 *)0x04000004)
+#define REG_B       ((volatile u16 *)0x04001040)
+#define REG_C       ((volatile u16 *)0x04001042)
+struct Node;
+struct Q;
+struct Task;
+struct S;
+struct Rec;
+struct AnimStep;
 struct Obj;
-struct Screen;
+struct Struct_02023CFC;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct Sub {
-    u8    pad00[0x28];
-    void *f28;
-    u8    pad2C[4];
-};
-
-struct G {
-    u8          pad00[4];
-    void       *f04;
-    void       *f08;
-    void       *f0C;
-    void       *f10;
-    struct Sub  f14;
-    struct Sub  f44;
-    u8          f74[0x18];
-    u8          f8C[0xC0];
-    u16         f14C;
-    u8          f14E;
-    u8          f14F;
-    u16         f150;
-};
-
-struct Cluster {
-    u32    mode;
-    void  *top;
-    void  *bottom;
-};
-
-typedef u32 (*FuncPtr)(void *);
-
-struct Mode {
-    u32 kind;
-    u32 a;
-    u32 b;
-    u32 a2;
-    u32 b2;
-};
-
 typedef signed int     s32;
 
-struct Screen {
+struct Sub {
     u32   f00;
     u32   f04;
     s32   f08;
@@ -84,333 +78,1290 @@ struct Screen {
     void *f1C;
     u32   f20;
     u16   f24;
+    u16   f26;
+    u32   f28;
+    void *f2C;
 };
 
-typedef void (*Handler)(void);
 
-struct Slots {
-    void   *ctx[2];
-    Handler fn[2];
-    u32     arg[2];
+struct TextObj {
+    u8  pad00[0x150];
+    u16 f150;
 };
 
-extern u16 func_02022608(struct Obj *p);
-extern void func_02022670(struct Screen *s);
-extern void func_020226A0(u8 *p);
-void func_02022390(u32 *obj, void *arg);
-u32 func_020223AC(void *p);
-extern void func_020225F0(void);
-extern void *func_02005624(u32 a, u32 b, u32 c);
-void func_02022478(int a0, int *p);
-void func_02022490(char *p, int a1, int a2, int a3);
-extern struct G g_021467A4;
-extern FuncPtr g_0209F538[];
-extern char g_021468A4[];
+struct Obj_0 {
+    u8  pad00[0xC];
+    u32 unk0C;
+    u8  pad10[0x150 - 0x10];
+    u16 unk150;
+};
+
+typedef void (*Task)(void *p);
+
+struct Obj_1 {
+    u8  pad00[0xC];
+    u32 unk0C;
+    u8  pad10[0x28 - 0x10];
+    u32 unk28;
+    u32 unk2C;
+};
+
+struct T {
+    u8  pad00[0xc];
+    u32 f0c;
+    u8  pad10[0x14];
+    u16 f24;
+    u8  pad26[2];
+    u32 f28;
+    u32 f2c;
+};
+
+struct G {
+    u32 f00;
+    u8  pad04[0xc];
+    u32 f10;
+    u8  pad14[0xc];
+    u32 f20;
+    u32 pad24;
+    u32 f28;
+};
+
+struct Q {
+    u8  pad[0x10];
+    u32 unk10;
+};
+
+struct Obj_02022804 {
+    u8  pad00[0xC];
+    u32 unk0C;
+    u8  pad10[0x24 - 0x10];
+    u16 unk24;
+    u8  pad26[2];
+    u32 unk28;
+    u32 unk2C;
+};
+
+struct Obj_02022830 {
+    u8  pad00[0xC];
+    u32 unk0C;
+    u8  pad10[0x24 - 0x10];
+    u16 unk24;
+    u8  pad26[2];
+    u32 unk28;
+    u32 unk2C;
+};
+
+struct Obj_0202285C {
+    u8  pad00[0xC];
+    u32 unk0C;
+    u8  pad10[0x24 - 0x10];
+    u16 unk24;
+    u8  pad26[2];
+    u32 unk28;
+    u32 unk2C;
+};
+
+struct Obj_02022888 {
+    u8  pad00[0xC];
+    u32 unk0C;
+    u8  pad10[0x24 - 0x10];
+    u16 unk24;
+    u8  pad26[2];
+    u32 unk28;
+    u32 unk2C;
+};
+
+struct Obj_020228B4 {
+    u8  pad00[0xC];
+    u32 unk0C;
+    u8  pad10[0x24 - 0x10];
+    u16 unk24;
+    u8  pad26[2];
+    u32 unk28;
+    u32 unk2C;
+};
+
+struct Obj_020228E0 {
+    u8  pad00[0xC];
+    u32 unk0C;
+    u8  pad10[0x24 - 0x10];
+    u16 unk24;
+    u8  pad26[2];
+    u32 unk28;
+    u32 unk2C;
+};
+
+typedef int           s32_0202290C;
+
+struct Quad_0202290C {
+    u32 a, b, c, d;
+};
+
+typedef int           s32_02022940;
+
+struct Quad_02022940 {
+    s32_02022940 a, b, c, d;
+};
+
+typedef signed int     s32_020229A4;
+
+struct Obj_020229A4 {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    u32 f0c;
+    u32 f10;
+    u32 f14;
+    u32 f18;
+    u32 f1c;
+    void *f20;    /* 0x20 */
+};
+
+struct Task_020229A4 {
+    u32   f00;
+    u32   f04;
+    u32   f08;
+    u32   phase;  /* 0x0c */
+    u32   f10;
+    struct Obj_020229A4 *obj;  /* 0x14 */
+    u32   f18;
+    u32   f1c;
+    u32   f20;    /* 0x20 */
+    u16   f24;    /* 0x24 */
+};
+
+struct Obj_02022A44 {
+    u32 pad00[8];
+    u32 f20;      /* 0x20 */
+};
+
+struct Task_02022A44 {
+    u32   f00;
+    u32   f04;
+    u32   f08;
+    u32   phase;  /* 0x0c */
+    u32   f10;
+    struct Obj_02022A44 *obj;  /* 0x14 */
+};
+
+typedef int s32_02022A88;
+
+struct AnimStep {
+    s32_02022A88 steps;
+    s32_02022A88 limit;
+    s32_02022A88 counter;
+    s32_02022A88 val;
+    s32_02022A88 target_val;
+    s32_02022A88 step_delta;
+    s32_02022A88 pad18;
+    s32_02022A88 scaled_val;
+};
+
+typedef signed short   s16;
+
+typedef signed int     s32_02022AD0;
+
+struct ctl {
+    u32 pad0;
+    u32 mode;
+    u32 sel;
+};
+
+struct sched {
+    s16 x[0xc0];
+    s16 y[0xc0];
+    u8  pad[0x300];
+    u32 flag;
+};
+
+struct Obj {
+    u8 *base;
+};
+
+struct Container {
+    void *base;
+    s32 count;
+};
+
+extern void func_020222CC(u32 which, int brightness);
+extern u32 func_02030EAC(struct Node *n);
+extern void * func_020056A0(Task fn, void *arg, u32 prio);
+extern void func_0202223C(u32 a, u32 color);
+extern u32 func_02022224(void *win);
+extern void MI_CpuFill8(void *dst, u8 data, u32 size);
+extern void func_020222A8(u32 v);
+extern void func_020238B4(struct Task *t, u32 a1);
+extern u32 func_0202390C(struct Task *t);
+extern void func_02023464(struct Task *t, u8 *cfg);
+extern u32 func_020234C0(struct Task *t);
+extern void func_020235F0(struct S *p, u32 a1);
+extern u32 func_0202363C(struct Rec *r);
+extern s32_0202290C func_0209C0A4(s32_0202290C shifted, s32_0202290C c);
+extern void *func_02030734(u32 a0, u32 a1, int a2, const char *a3, u16 a4);
+extern void  func_02082BCC(void *p, u32 v, u32 n);
+extern void *sub_020056A0(void *fn, void *arg, u32 prio);
+extern u32 func_020307B0(void *p);
+extern void sub_020222CC(u32 which, int brightness);
+extern void *func_02022D88(struct Obj *obj, u32 idx);
+extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+extern void func_02023CFC(struct Struct_02023CFC *table, void *val, u32 idx);
+extern void func_02023D18(void *obj, void *val, u32 f4, u32 f8, u32 fC);
+extern void func_02023D60(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_02023D40(void *obj, void *val, u32 f4, u32 f8);
+void func_020225F0(void);
+u32 func_020225F4(struct TextObj *obj, u32 value);
+u16 func_02022608(struct Obj_0 *p);
+void func_0202262C(void *obj, struct Q *q);
+void func_02022640(struct Sub *s);
+void func_02022670(struct Sub *s);
+void func_020226A0(u8 *p);
+u32 func_020226E0(struct Obj_1 *p);
+u32 func_020226FC(struct Obj_1 *p);
+void func_0202271C(struct T *p);
+void func_02022758(struct T *p);
+void func_02022790(struct T *p);
+void func_020227CC(struct T *p);
+void func_02022804(struct Obj_02022804 *p);
+void func_02022830(struct Obj_02022830 *p);
+void func_0202285C(struct Obj_0202285C *p);
+void func_02022888(struct Obj_02022888 *p);
+void func_020228B4(struct Obj_020228B4 *p);
+void func_020228E0(struct Obj_020228E0 *p);
+s32_0202290C func_0202290C(s32_0202290C a, s32_0202290C b, s32_0202290C c);
+void func_0202291C(struct Quad_0202290C *dst, struct Quad_0202290C *src);
+void func_02022940(struct Quad_02022940 *cur, struct Quad_02022940 *end, struct Quad_02022940 *step, const u8 *from, const u8 *to, s32_02022940 frames);
+void func_020229A4(struct Task_020229A4 *t, u32 dir);
+u32 func_02022A44(struct Task_02022A44 *t);
+int func_02022A88(struct AnimStep *p);
+void sub_02022AC4(void *unused, u8 *o);
+void func_02022AD0(struct ctl *ctl);
+void func_02022CEC(u32 *a0, u32 a1, u32 a2, u32 a3);
+void func_02022D70(void *a0);
+void func_02022D78(u8 *p);
+void *sub_02022D88(struct Obj *obj, u32 idx);
+void func_02022D98(void *p, struct Container *c);
+void func_02022DCC(u32 a0, void *a1, u32 a2);
+extern const u32 d_0209F570[];
+extern struct G g_020A73D0;
+extern struct G g_wipe_slot0;
+extern const u32 d_0209F56C[];
+extern const u32 d_0209F574[];
+extern const u32 d_0209F568[];
 
 
 
 /*
- * Teardown for the dual-screen text cluster, run by func_02022174 once both
- * screen slots have gone null.  It clears the live flag at +0x14C, latches the
- * value func_02022608 returns into the sentinel colour slot at +0x150, and for
- * each of the two delegates at +0x0C and +0x10 runs the per-screen finaliser
- * func_02022670 on the matching sub-object.
- *
- * Two notes on the original's shape.  Both delegate arms retest the *same*
- * field, +0x3C, which is the top sub-object's task handle at 0x14 + 0x28; the
- * bottom arm does not use its own +0x6C.  That is the image's behaviour, not a
- * transcription slip, and it is reproduced literally.  Both flag writes also go
- * through the global rather than the incoming pointer, which the encoding
- * distinguishes: the pointer form would reuse r5, the global form spends a
- * pool word at 0x0202233C.
- *
- * 0x14C and 0x150 are both past the strh immediate reach, so the first is
- * materialised as 0x53 << 2 into a register offset and the second derived from
- * it with a single `adds r1, r4, #4`; see
- * docs/idioms/consecutive-line-numbers-are-one-pool-word-and-adds.md for the
- * same derivation on line-number arguments.
+ * The do-nothing default handler the two-entry callback table in
+ * func_02022458 is initialised with: a single `bx lr` plus two bytes of
+ * section padding.  It has no branch reference anywhere in the image, only
+ * the ABS32 pool word at 0x02022474 that takes its address, so an EXACT
+ * entry here is what lets func_02022458 resolve that pool word on the
+ * `matched` class.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020222EC.c \
- *       --func func_020222EC --addr 0x020222EC --cc 1.1p1 --thumb
+ *   python tools/match.py tu --src src/matched/func_020225F0.c \
+ *       --addr 0x020225F0 --thumb
  */
-void func_020222EC(struct G *p)
+void func_020225F0(void)
 {
-    p->f14C = 0;
-    p->f150 = func_02022608((struct Obj *)p);
-    if (p->f0C != 0) {
-        func_02022670((struct Screen *)(&p->f14));
-        if (p->f14.f28 == 0)
-            g_021467A4.f14E = 0;
-    }
-    if (p->f10 != 0) {
-        func_02022670((struct Screen *)(&p->f44));
-        if (p->f14.f28 == 0)
-            g_021467A4.f14F = 0;
-    }
-    func_020226A0((u8 *)p);
 }
 
 
+
+
 /*
- * One poll step of the dual-screen cluster.  The mode word at +0x00 (the one
- * func_020223C0 wrote) selects which of the two screen slots gets pumped:
- * mode 0 pumps both, mode 1 prefers the top slot and falls back to the bottom
- * one, mode 2 the mirror of that.  It reports 1 only once both slots have gone
- * null, which is what func_02022174 tests before running the teardown.
+ * Sentinel resolver for the dual-screen text cluster: 0xFFFF in the caller's
+ * value means "use the object's own default", which lives in the u16 at
+ * +0x150, the same sentinel colour slot func_0202223C and func_02022268 read.
+ * Any other value passes through untouched, which is what fixes the return
+ * type as u32 rather than u16: the pass-through arm carries no truncation.
  *
- * Three cases starting at zero still compile to a cmp chain, not a halfword
- * table: the table form only wins from four cases up.  The two pump calls are
- * written once per arm and cross-jumped by the compiler into the two shared
- * blocks at 0x0202235C and 0x02022376; factoring them behind a label instead
- * moves the branch targets.  See
- * docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md.
- *
- * The tail has to be written as the positive `if (both null) return 1; return
- * 0;`.  The equivalent `if (top || bottom) return 0; return 1;` inverts the
- * second branch and swaps the two constant returns, four bytes wrong.
+ * The 0xFFFF compare constant costs a pool word rather than a movs/lsls pair
+ * because it is compared, not materialised into a store.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022340.c \
- *       --func func_02022340 --addr 0x02022340 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/func_020225F4.c \
+ *       --func func_020225F4 --addr 0x020225F4 --cc 1.1p1 --thumb
  */
-u32 func_02022340(struct Cluster *p, void *top, void *bottom)
+u32 func_020225F4(struct TextObj *obj, u32 value)
 {
-    switch (p->mode) {
-    case 0:
-        func_02022390((u32 *)(&p->top), top);
-        func_02022390((u32 *)(&p->bottom), bottom);
-        break;
+    if (value == 0xFFFF)
+        value = obj->f150;
+    return value;
+}
+
+
+
+/*
+ * A whole translation unit, matched as one byte range.
+ *
+ * func_02022608 picks one of two sub-objects at fixed offsets (0x14, 0x44)
+ * of its argument depending on a mode field at +0xc, then returns a
+ * halfword out of that sub-object when its own flag at +0x28 is 1, or
+ * else falls back to a halfword 0x150 bytes into the *original* argument
+ * (0x15 << 4), untouched by the sub-object selection.
+ *
+ * func_02022628 alone comes out EXACT* against `one`: its own extent runs
+ * two bytes into the ordinary linker fill in front of func_0202262C, a
+ * real, separately meaningful function.  Pairing the two in one
+ * translation unit lets `tu` lay out both sections with that fill in
+ * between, which reproduces cleanly.
+ *
+ * func_0202262C reads a field 0x10 bytes into its second argument and
+ * forwards it, with a fixed 0, to func_020222CC (whose own second
+ * argument it never reads: see src/matched/func_020222CC.c), then calls
+ * func_02030EAC on the first argument.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_02022608.c \
+ *       --addr 0x02022608 --thumb
+ */
+u16 func_02022608(struct Obj_0 *p)
+{
+    struct Sub *b;
+
+    if (p->unk0C == 1) {
+        b = (struct Sub *)((u8 *)p + 0x14);
+    } else {
+        b = (struct Sub *)((u8 *)p + 0x44);
+    }
+    if (b->f28 == 1) {
+        return b->f24;
+    }
+    return p->unk150;
+}
+
+
+
+
+void func_0202262C(void *obj, struct Q *q)
+{
+    func_020222CC(q->unk10, 0);
+    func_02030EAC(obj);
+}
+
+
+
+
+/*
+ * Arms the deferred screen task for one of the two sub-objects func_0202208C
+ * built, but only for a screen that is still idle: the task handle at +0x28
+ * must be null, the resolved sentinel value at +0x24 must be either the
+ * pass-through 0x7FFF or zero, and the second handle at +0x2C must be null
+ * too.  All three rejections share one epilogue, so the guard is written as a
+ * single conjunction rather than a chain of early returns; see
+ * docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02022640.c \
+ *       --func func_02022640 --addr 0x02022640 --cc 1.1p1 --thumb
+ */
+void func_02022640(struct Sub *s)
+{
+    if (s->f28 == 0 && (s->f24 == 0x7FFF || s->f24 == 0) && s->f2C == 0)
+        func_020056A0((Task)func_0202262C, s, 1 << 10);
+}
+
+
+
+/*
+ * Per-screen finaliser, the mirror of the arming path in func_02022640: it
+ * runs only while the screen is in state 1, its resolved sentinel value at
+ * +0x24 is the pass-through 0x7FFF or zero, and the second handle at +0x2C is
+ * still null.  It then closes the screen's window through the pointer at
+ * +0x10, first the flush at 0x0202223C and then the release thunk at
+ * 0x02022224.
+ *
+ * The +0x10 field is re-read for the second call rather than kept in a
+ * register, because the first call can alias it; a cached local would drop
+ * the second `ldr`.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02022670.c \
+ *       --func func_02022670 --addr 0x02022670 --cc 1.1p1 --thumb
+ */
+void func_02022670(struct Sub *s)
+{
+    if (s->f28 == 1 && (s->f24 == 0x7FFF || s->f24 == 0) && s->f2C == 0) {
+        func_0202223C(s->f10, s->f24);
+        func_02022224((void *)s->f10);
+    }
+}
+
+
+
+/*
+ * A whole translation unit, matched as one byte range.
+ *
+ * func_020226A0 is five back-to-back MI_CpuFill8 zero-fills over five
+ * sub-ranges of one object (sizes 0x14, 0x30, 0x30, 0x18, 0xC0 at offsets
+ * 0, 0x14, 0x44, 0x74, 0x8C); it is one of the "0x0209F5xx/0x0209F6xx"
+ * cluster's neighbours and clears the object the setup functions in
+ * src/matched/func_02022804.c and siblings configure.
+ *
+ * func_020226E0 checks a delegate pointer at +0xc, the same guard shape as
+ * that cluster: when set, the call forwards to func_02022A44 and returns
+ * its result; the fall-through has to be written on the guard's
+ * complement (`== 0`) with the delegate call left unconditional after it,
+ * or the two blocks come out in the wrong order.  The fall-through sets
+ * the flag pair at +0x28 and +0x2c to (1, 1) and calls func_020229A4((struct Task_020229A4 *)p, 1).
+ *
+ * func_020226FC, immediately after this range, is the same shape again
+ * with (0, 1) and mode 0 (src/matched/func_020226FC.c); it is kept in its
+ * own file specifically so that its calls to func_020229A4 and
+ * func_02022A44 stay outside this range and keep attesting them, and vice
+ * versa (docs/MATCHING.md, "the label class" and "the pairwise case across
+ * two files").  Bundling all three into one file drops both relocations to
+ * MATCH, because each one's only other witness is then inside the same
+ * compared range.
+ *
+ * func_020226A0 alone comes out EXACT* against `one`: its own extent runs
+ * two bytes into the ordinary linker fill in front of func_020226E0, which
+ * is a real, separately-matched function and not an unlabelled follower.
+ * Pairing the two in one translation unit lets `tu` lay out both sections
+ * with that fill in between, which reproduces cleanly.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_020226A0.c \
+ *       --addr 0x020226A0 --thumb
+ */
+void func_020226A0(u8 *p)
+{
+    MI_CpuFill8(p, 0, 0x14);
+    MI_CpuFill8(p + 0x14, 0, 0x30);
+    MI_CpuFill8(p + 0x44, 0, 0x30);
+    MI_CpuFill8(p + 0x74, 0, 0x18);
+    MI_CpuFill8(p + 0x8C, 0, 0xC0);
+}
+
+
+
+u32 func_020226E0(struct Obj_1 *p)
+{
+    if (p->unk0C == 0) {
+        p->unk28 = 1;
+        p->unk2C = 1;
+        func_020229A4((struct Task_020229A4 *)((struct Task *)p), 1);
+        return 0;
+    }
+    return func_02022A44((struct Task_02022A44 *)((struct Task *)p));
+}
+
+
+
+/*
+ * Same shape as func_020226E0 in src/matched/unit_020226A0.c, and kept in
+ * its own file for the same reason: its calls to func_020229A4 and
+ * func_02022A44 have to stay outside that unit's compared range to attest
+ * its calls, and vice versa.  Sets the flag pair at +0x28 and +0x2c to
+ * (0, 1) instead of (1, 1) and calls func_020229A4((struct Task_020229A4 *)p, 0).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020226FC.c \
+ *       --func func_020226FC --addr 0x020226FC --cc 1.1p1 --thumb
+ */
+u32 func_020226FC(struct Obj_1 *p)
+{
+    if (p->unk0C == 0) {
+        p->unk28 = 0;
+        p->unk2C = 1;
+        func_020229A4((struct Task_020229A4 *)((struct Task *)p), 0);
+        return 0;
+    }
+    return func_02022A44((struct Task_02022A44 *)((struct Task *)p));
+}
+
+
+
+/*
+ * wipe.c (docs/families/wipe.h): the slot-0 member of the four setup steps
+ * 0x0202271C/0x02022758/0x02022790/0x020227CC (template: func_02022758).
+ *
+ * THE LEVER (wave 18, lane ties_b; it was DIFF 9 out under 1.1p1 and 1 out
+ * under every 2.0 build, docs/notes/pkt_0202271C.c.txt): the pool carries
+ * 0x020A73D0 TWICE (0x02022750 for the store, 0x02022754 for the argument),
+ * so two source-level names were in play. The slot store goes through
+ * g_020A73D0 and the argument is a second extern, g_wipe_slot0, at the same
+ * address. With one name 1.1p1 CSEs both uses into r5 (push {r3, r4, r5,
+ * lr}); with two it reloads each from its own pool word under push {r4, lr}.
+ * Same finding as src/matched/func_02023F98.c in the same module, whose
+ * header explains why the bytes fix the number of names but not whether the
+ * original had one object or two declarations of it. For the other three
+ * slots the two uses differ by the slot offset, so one name suffices there.
+ */
+void func_0202271C(struct T *p)
+{
+    if (p->f0c == 0) {
+        g_020A73D0.f00 = (u32)d_0209F570;
+        func_020222A8(p->f24);
+        func_020238B4((struct Task *)p, (u32)(&g_wipe_slot0));
+        p->f28 = 1;
+        p->f2c = 0;
+    } else {
+        func_0202390C((struct Task *)p);
+    }
+}
+
+
+
+/*
+ * wipe.c (docs/families/wipe.h): one of the four setup steps
+ * 0x0202271C/0x02022758/0x02022790/0x020227CC.  Each installs a rodata
+ * word table (0x0209F568..0x0209F574, four u32 words, NOT ARM code: the
+ * old headers declared them as arm functions, which is why they had no
+ * witness) into one slot of the wipe state at 0x020A73D0, then hands that
+ * slot to func_020238B4.  Declared as data, the table address is attested
+ * sole-ref/self.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02022758.c  *       --func func_02022758 --addr 0x02022758 --thumb --cc 1.1p1
+ */
+void func_02022758(struct T *p)
+{
+    if (p->f0c == 0) {
+        g_020A73D0.f10 = (u32)d_0209F56C;
+        func_020222A8(p->f24);
+        func_020238B4((struct Task *)p, (u32)(&g_020A73D0.f10));
+        p->f28 = 0;
+        p->f2c = 0;
+    } else {
+        func_0202390C((struct Task *)p);
+    }
+}
+
+
+
+
+
+/*
+ * wipe.c (docs/families/wipe.h): one of the four setup steps
+ * 0x0202271C/0x02022758/0x02022790/0x020227CC.  Each installs a rodata
+ * word table (0x0209F568..0x0209F574, four u32 words, NOT ARM code: the
+ * old headers declared them as arm functions, which is why they had no
+ * witness) into one slot of the wipe state at 0x020A73D0, then hands that
+ * slot to func_020238B4.  Declared as data, the table address is attested
+ * sole-ref/self.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02022790.c  *       --func func_02022790 --addr 0x02022790 --thumb --cc 1.1p1
+ */
+void func_02022790(struct T *p)
+{
+    if (p->f0c == 0) {
+        g_020A73D0.f20 = (u32)d_0209F574;
+        func_020222A8(p->f24);
+        func_020238B4((struct Task *)p, (u32)(&g_020A73D0.f20));
+        p->f28 = 1;
+        p->f2c = 0;
+    } else {
+        func_0202390C((struct Task *)p);
+    }
+}
+
+
+
+/*
+ * wipe.c (docs/families/wipe.h): one of the four setup steps
+ * 0x0202271C/0x02022758/0x02022790/0x020227CC.  Each installs a rodata
+ * word table (0x0209F568..0x0209F574, four u32 words, NOT ARM code: the
+ * old headers declared them as arm functions, which is why they had no
+ * witness) into one slot of the wipe state at 0x020A73D0, then hands that
+ * slot to func_020238B4.  Declared as data, the table address is attested
+ * sole-ref/self.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020227CC.c  *       --func func_020227CC --addr 0x020227CC --thumb --cc 1.1p1
+ */
+void func_020227CC(struct T *p)
+{
+    if (p->f0c == 0) {
+        g_020A73D0.f28 = (u32)d_0209F568;
+        func_020222A8(p->f24);
+        func_020238B4((struct Task *)p, (u32)(&g_020A73D0.f28));
+        p->f28 = 0;
+        p->f2c = 0;
+    } else {
+        func_0202390C((struct Task *)p);
+    }
+}
+
+
+
+/*
+ * One of a run of near-identical setup functions on one object
+ * (func_02022804, func_02022830, func_0202285C, func_02022888,
+ * func_020228B4, func_020228E0, each its own file so that the sibling
+ * calls to the shared helpers stay outside the compared range and keep
+ * attesting them; see docs/MATCHING.md, "the label class").
+ *
+ * Checks a delegate pointer at +0xc: when set, the whole call forwards to
+ * func_020234C0 and returns.  That arm has to be written as the
+ * fall-through (the guard on the complement, `== 0`, with the delegate
+ * call left unconditional after it): the mirror phrasing, guarding
+ * `!= 0` with the delegate inside the guarded block, lays the blocks out
+ * in the opposite order and does not reproduce.  The fall-through calls
+ * func_020222A8 with the object's id field at +0x24, then func_02023464
+ * with the object pointer and a second, unattested pool constant
+ * (0x0209F61C, written as a plain integer literal since nothing in this
+ * function's own range names it as a symbol), and finally sets the pair
+ * of flag words at +0x28 (to 1) and +0x2c (to 0).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02022804.c \
+ *       --func func_02022804 --addr 0x02022804 --cc 1.1p1 --thumb
+ */
+void func_02022804(struct Obj_02022804 *p)
+{
+    if (p->unk0C == 0) {
+        func_020222A8(p->unk24);
+        func_02023464((struct Task *)p, (u8 *)0x0209F61C);
+        p->unk28 = 1;
+        p->unk2C = 0;
+        return;
+    }
+    func_020234C0((struct Task *)p);
+}
+
+
+
+/*
+ * Same shape as src/matched/func_02022804.c; kept in its own file for the
+ * same reason (the sibling calls to the shared helpers have to stay
+ * outside the compared range to attest them).  Sets the flag pair to
+ * (0, 0) instead of (1, 0), and stashes the constant 0x0209F628.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02022830.c \
+ *       --func func_02022830 --addr 0x02022830 --cc 1.1p1 --thumb
+ */
+void func_02022830(struct Obj_02022830 *p)
+{
+    if (p->unk0C == 0) {
+        func_020222A8(p->unk24);
+        func_02023464((struct Task *)p, (u8 *)0x0209F628);
+        p->unk28 = 0;
+        p->unk2C = 0;
+        return;
+    }
+    func_020234C0((struct Task *)p);
+}
+
+
+
+/*
+ * Same shape as src/matched/func_02022804.c, but the helper pair is
+ * func_020235F0 / func_0202363C instead of func_02023464 / func_020234C0;
+ * kept in its own file for the same reason (the sibling calls to the
+ * shared helpers have to stay outside the compared range to attest them).
+ * Sets the flag pair to (1, 0) and stashes the constant 0x0209F6B8.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202285C.c \
+ *       --func func_0202285C --addr 0x0202285C --cc 1.1p1 --thumb
+ */
+void func_0202285C(struct Obj_0202285C *p)
+{
+    if (p->unk0C == 0) {
+        func_020222A8(p->unk24);
+        func_020235F0((struct S *)p, 0x0209F6B8);
+        p->unk28 = 1;
+        p->unk2C = 0;
+        return;
+    }
+    func_0202363C((struct Rec *)p);
+}
+
+
+
+/*
+ * Same shape as src/matched/func_0202285C.c; kept in its own file for the
+ * same reason (the sibling calls to the shared helpers have to stay
+ * outside the compared range to attest them).  Sets the flag pair to
+ * (0, 0) instead of (1, 0), and stashes the constant 0x0209F6C4.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02022888.c \
+ *       --func func_02022888 --addr 0x02022888 --cc 1.1p1 --thumb
+ */
+void func_02022888(struct Obj_02022888 *p)
+{
+    if (p->unk0C == 0) {
+        func_020222A8(p->unk24);
+        func_020235F0((struct S *)p, 0x0209F6C4);
+        p->unk28 = 0;
+        p->unk2C = 0;
+        return;
+    }
+    func_0202363C((struct Rec *)p);
+}
+
+
+
+/*
+ * Same shape as src/matched/func_02022804.c; kept in its own file for the
+ * same reason (the sibling calls to the shared helpers have to stay
+ * outside the compared range to attest them).  Sets the flag pair to
+ * (1, 0) and stashes the constant 0x0209F5EC.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020228B4.c \
+ *       --func func_020228B4 --addr 0x020228B4 --cc 1.1p1 --thumb
+ */
+void func_020228B4(struct Obj_020228B4 *p)
+{
+    if (p->unk0C == 0) {
+        func_020222A8(p->unk24);
+        func_02023464((struct Task *)p, (u8 *)0x0209F5EC);
+        p->unk28 = 1;
+        p->unk2C = 0;
+        return;
+    }
+    func_020234C0((struct Task *)p);
+}
+
+
+
+/*
+ * Same shape as src/matched/func_020228B4.c; kept in its own file for the
+ * same reason (the sibling calls to the shared helpers have to stay
+ * outside the compared range to attest them).  Sets the flag pair to
+ * (0, 0) instead of (1, 0), and stashes the constant 0x0209F640.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020228E0.c \
+ *       --func func_020228E0 --addr 0x020228E0 --cc 1.1p1 --thumb
+ */
+void func_020228E0(struct Obj_020228E0 *p)
+{
+    if (p->unk0C == 0) {
+        func_020222A8(p->unk24);
+        func_02023464((struct Task *)p, (u8 *)0x0209F640);
+        p->unk28 = 0;
+        p->unk2C = 0;
+        return;
+    }
+    func_020234C0((struct Task *)p);
+}
+
+
+
+/*
+ * A whole translation unit, matched as one byte range.
+ *
+ * func_0202290C is a 16-byte pool-word-and-bx tail call
+ * (docs/idioms/tail-call-is-a-pool-word-and-bx.md): it computes
+ * (b - a) << 7 and forwards it with the third argument straight to
+ * func_0209C0A4.  The pool word carries no Thumb bit and the branch is a
+ * plain `bx` rather than `blx`, so the callee is declared `arm`; the image
+ * labels it as a real function reached from 161 other call sites.
+ *
+ * func_0202291C is a plain four-word running-sum accumulator.  It does not
+ * fold into an ldm/stm pair the way a whole-object assignment would
+ * (docs/idioms/aggregate-assignment-is-ldm-stm.md), because each field is
+ * added rather than copied.
+ *
+ * Compiling func_0202291C on its own comes out EXACT* against `one`: its
+ * own extent runs to the 2-byte linker fill in front of func_02022940,
+ * which is a real function and not an unlabelled follower.  Pairing it
+ * with func_0202290C in one translation unit lets `tu` lay out both
+ * sections with that fill in between, which reproduces cleanly.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0202290C.c \
+ *       --addr 0x0202290C --thumb
+ */
+s32_0202290C func_0202290C(s32_0202290C a, s32_0202290C b, s32_0202290C c)
+{
+    return func_0209C0A4((b - a) << 7, c);
+}
+
+
+
+void func_0202291C(struct Quad_0202290C *dst, struct Quad_0202290C *src)
+{
+    dst->a += src->a;
+    dst->b += src->b;
+    dst->c += src->c;
+    dst->d += src->d;
+}
+
+
+
+/*
+ * wipe.c: seeds a four-channel fade.  cur = from << 7 (fixed point), end =
+ * to, step = func_0202290C(from, to, frames) per channel; called from
+ * func_0202350C with (obj, &obj->f20, &obj->f10, cfg, cfg + 4, frames).
+ * func_0202290C returns its tail callee's value here (the unit that
+ * matched it declares it void; the caller stores r0).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02022940.c  *       --func func_02022940 --addr 0x02022940 --thumb --cc 1.1p1
+ */
+void func_02022940(struct Quad_02022940 *cur, struct Quad_02022940 *end, struct Quad_02022940 *step,
+                   const u8 *from, const u8 *to, s32_02022940 frames)
+{
+    cur->a = from[0] << 7;
+    cur->b = from[1] << 7;
+    cur->c = from[2] << 7;
+    cur->d = from[3] << 7;
+    end->a = to[0];
+    end->b = to[1];
+    end->c = to[2];
+    end->d = to[3];
+    step->a = func_0202290C(from[0], to[0], frames);
+    step->b = func_0202290C(from[1], to[1], frames);
+    step->c = func_0202290C(from[2], to[2], frames);
+    step->d = func_0202290C(from[3], to[3], frames);
+}
+
+
+
+/*
+ * The constructor of the wipe task whose per-frame step is func_02022A44:
+ * it allocates and zeroes the 0x24-byte sub-object, picks the pair of
+ * start/end extents from the task's direction flag and the sentinel in
+ * +0x24, fills the sub-object's eight words and registers the per-frame
+ * callback sub_02022AC4 with sub_020056A0 at priority 0x80.
+ *
+ * The 0x7FFF in +0x24 is a "no explicit extent" sentinel: when it is
+ * present the moving edge starts at 0x10 (or ends there, depending on the
+ * direction flag) and the other edge starts at 0; when it is absent both
+ * edges start at 0 and the moving one is biased by -0x10.  The four arms
+ * are written out separately, which is what gives four `b` to the shared
+ * continuation rather than a computed pair
+ * (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md).
+ *
+ * Both extents reach the sub-object scaled by 128 (`lsls #7`), i.e. as
+ * 24.7 fixed point, while the unscaled values stay in r7/r6 for the
+ * func_0202290C call and the +0x1c store.
+ *
+ * The direction test is written `dir == 0` first: the image's `bne` at
+ * +0x2e takes the SECOND arm, so the zero case is the fall-through and
+ * therefore the source's first
+ * (docs/idioms/the-fall-through-arm-is-the-source-order.md).  Written the
+ * other way round every byte from +0x2e to +0x4a is wrong -- the four arm
+ * bodies come out in the mirrored order and r6/r7 trade roles -- while
+ * everything before and after stays identical, which is exactly the
+ * signature that says polarity rather than shape.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020229A4.c \
+ *       --func func_020229A4 --addr 0x020229A4 --cc 1.1p1 --thumb
+ */
+void func_020229A4(struct Task_020229A4 *t, u32 dir)
+{
+    struct Obj_020229A4 *o;
+    s32_020229A4         a;
+    s32_020229A4         b;
+
+    t->obj = (struct Obj_020229A4 *)func_02030734((u16)t->f20, 0x24, 0, (const char *)0x020A7450,
+                                         0x09AC);
+    func_02082BCC(t->obj, 0, 0x24);
+    o = t->obj;
+
+    b = 0;
+    if (dir == 0) {
+        if (t->f24 == 0x7FFF) {
+            a = 0x10;
+        } else {
+            a = b;
+            a = a - 0x10;
+        }
+    } else {
+        if (t->f24 == 0x7FFF) {
+            a = b;
+            b = 0x10;
+        } else {
+            a = b;
+            b = b - 0x10;
+        }
+    }
+
+    func_020222CC(t->f10, a);
+
+    o->f00 = t->f04;
+    o->f04 = t->f08;
+    o->f08 = 0;
+    o->f0c = a << 7;
+    o->f10 = b << 7;
+    o->f14 = func_0202290C(a, b, t->f04);
+    o->f18 = t->f10;
+    o->f1c = a;
+    t->phase = t->phase + 1;
+    o->f20 = sub_020056A0((void *)sub_02022AC4, o, 0x80);
+}
+
+
+
+/*
+ * The per-frame step of a wipe task, the sibling of func_020234C0 at the
+ * other end of the family: the same four-phase switch over the task's
+ * +0x0c, the same sub-object slot at +0x14, and the same terminal phase 3
+ * that is the only one to answer 1.  Phase 1 polls func_02022A88 and
+ * advances when it answers 1; phase 2 releases the sub-object's +0x20
+ * handle through func_02030EAC, frees the object itself, clears the slot
+ * and advances.
+ *
+ * THE LEVER, and it is shared with func_02022A44, func_0202390C and
+ * func_020234C0 (all three sat at exactly two bytes out until it was
+ * found; func_0202363C in src/matched had it right all along and is where
+ * it was read from).  Phase 2 assigns the result variable 1 as well,
+ * immediately before its `break`:
+ *
+ *     case 2:  ... t->obj = 0; ret = 1; break;
+ *     case 3:  ret = 1; break;
+ *
+ * The assignment is semantically dead -- the caller re-polls and phase 3
+ * answers 1 on the next frame anyway -- but it is what makes phase 2's
+ * `break` compile to a branch onto phase 3's own `movs r4, #1` instead of
+ * onto the shared tail: the compiler cross-jumps the two identical
+ * assignments and phase 2's exit lands on the surviving copy.  Written
+ * without it the function is right in every other byte and the one branch
+ * displacement is two too large.  Nothing else reaches it: 131 single
+ * mutations and 3000 annealing compiles of tools/permuter.py left the
+ * residue untouched (it is a cross-jumping decision, not an allocation
+ * one), and every other switch spelling tried -- goto into phase 3, a
+ * reordered case set, default before case 3, an if/else-if chain, an
+ * added empty case -- is the same two bytes out or worse.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02022A44.c \
+ *       --func func_02022A44 --addr 0x02022A44 --cc 1.1p1 --thumb
+ */
+u32 func_02022A44(struct Task_02022A44 *t)
+{
+    struct Obj_02022A44 *obj;
+    u32         ret;
+
+    ret = 0;
+    obj = t->obj;
+
+    switch (t->phase) {
     case 1:
-        if (p->top != 0)
-            func_02022390((u32 *)(&p->top), top);
-        else
-            func_02022390((u32 *)(&p->bottom), bottom);
+        if (func_02022A88((struct AnimStep *)obj) == 1) {
+            t->phase = t->phase + 1;
+        }
         break;
     case 2:
-        if (p->bottom != 0)
-            func_02022390((u32 *)(&p->bottom), bottom);
-        else
-            func_02022390((u32 *)(&p->top), top);
+        func_02030EAC((struct Node *)obj->f20);
+        func_020307B0(t->obj);
+        t->phase = t->phase + 1;
+        t->obj = 0;
+        ret = 1;
+        break;
+    case 3:
+        ret = 1;
+        break;
+    default:
         break;
     }
-    if (p->top == 0 && p->bottom == 0)
-        return 1;
-    return 0;
+
+    return ret;
 }
 
 
-void func_02022390(u32 *obj, void *arg)
+
+
+int func_02022A88(struct AnimStep *p)
 {
-    if (*obj != 0) {
-        if (func_020223AC(arg) == 1) {
-            *obj = 0;
+    int ret = 0;
+
+    p->counter++;
+    if (p->counter >= p->limit) {
+        p->counter = 0;
+        if (p->steps - 1 > 0) {
+            p->steps--;
+            p->val += p->step_delta;
+        } else {
+            p->val = p->target_val;
+            ret = 1;
+        }
+
+        p->scaled_val = p->val / 128;
+    }
+
+    return ret;
+}
+
+
+
+/*
+ * Re-verified 2026-09-23: the MATCH park had turned DIFF (one byte) under
+ * the new extents because its header named the callee 0x020202CC.  The
+ * pool word at 0x02022ACC is 0x020222CD: the callee is 0x020222CC
+ * (src/matched/func_020222CC.c, labelled with sixteen outside branches),
+ * so the old "unlabelled leaf, sole reference" blocker was a digit slip.
+ * With the address corrected the site resolves `label` and the file is
+ * EXACT.
+ *
+ * An unlabelled leaf forwarder: it drops its own first argument and calls
+ * sub_020222CC with the two pointer fields at +0x18 and +0x1c of its
+ * second.  The ordinary tail-call form, a pool word and a `bx`
+ * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_02022AC4.c \
+ *       --func sub_02022AC4 --addr 0x02022AC4 --cc 1.1p1 --thumb
+ */
+void sub_02022AC4(void *unused, u8 *o)
+{
+    sub_020222CC((u32)(((struct Obj11726 *)o)->f18), (int)(((struct Obj11726 *)o)->f1C));
+}
+
+
+
+/*
+ * The four pool words at 0x02022CDC are 0x04000006, 0x04000004,
+ * 0x04001040 and 0x04001042: I/O register addresses, written as cast
+ * constants, not relocations.
+ *
+ * The 8-byte residue docs/notes/func_02022AD0.c.txt records at +0x00CC
+ * is closed by ONE statement order: block two must read ctl->sel BEFORE
+ * its three array reads, exactly as blocks one and three do.  With
+ * sel read last (the note's C) the 0x180 constant is hoisted one slot
+ * early and the y[] address lands in r0 instead of r1; with sel first
+ * the block is byte-identical to its two neighbours.
+ */
+void func_02022AD0(struct ctl *ctl)
+{
+    struct sched *p;
+    s32_02022AD0 line;
+    s32_02022AD0 next;
+    s32_02022AD0 x;
+    s32_02022AD0 y;
+    u32 flag;
+    u32 sel;
+
+    line = REG_VCOUNT;
+    if (line >= 0xc0) {
+        return;
+    }
+    next = line + 1;
+    if (next > 0xbf) {
+        next -= 0xc0;
+    }
+
+    if (ctl->mode == 1) {
+        p = func_02022D88((struct Obj *)ctl, 0);
+        sel = ctl->sel;
+        y = p->y[next];
+        x = p->x[next];
+        flag = p->flag;
+        if (flag == 0) {
+            if (sel == 0) {
+                if ((REG_A[0] & 2) != 0) {
+                    REG_A[0x1e] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                    REG_A[0x20] = 0xc0;
+                }
+            } else {
+                if ((REG_A[0] & 2) != 0) {
+                    REG_B[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                    REG_B[2] = 0xc0;
+                }
+            }
+        } else {
+            if (sel == 0) {
+                if ((REG_A[0] & 2) != 0) {
+                    REG_A[0x1f] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                    REG_A[0x21] = 0xc0;
+                }
+            } else {
+                if ((REG_A[0] & 2) != 0) {
+                    REG_C[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                    REG_C[2] = 0xc0;
+                }
+            }
+        }
+        return;
+    }
+
+    p = func_02022D88((struct Obj *)ctl, 0);
+    sel = ctl->sel;
+    y = p->y[next];
+    x = p->x[next];
+    flag = p->flag;
+    if (flag == 0) {
+        if (sel == 0) {
+            if ((REG_A[0] & 2) != 0) {
+                REG_A[0x1e] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_A[0x20] = 0xc0;
+            }
+        } else {
+            if ((REG_A[0] & 2) != 0) {
+                REG_B[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_B[2] = 0xc0;
+            }
+        }
+    } else {
+        if (sel == 0) {
+            if ((REG_A[0] & 2) != 0) {
+                REG_A[0x1f] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_A[0x21] = 0xc0;
+            }
+        } else {
+            if ((REG_A[0] & 2) != 0) {
+                REG_C[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_C[2] = 0xc0;
+            }
+        }
+    }
+
+    p = func_02022D88((struct Obj *)ctl, 1);
+    sel = ctl->sel;
+    y = p->y[next];
+    x = p->x[next];
+    flag = p->flag;
+    if (flag == 0) {
+        if (sel == 0) {
+            if ((REG_A[0] & 2) != 0) {
+                REG_A[0x1e] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_A[0x20] = 0xc0;
+            }
+        } else {
+            if ((REG_A[0] & 2) != 0) {
+                REG_B[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_B[2] = 0xc0;
+            }
+        }
+    } else {
+        if (sel == 0) {
+            if ((REG_A[0] & 2) != 0) {
+                REG_A[0x1f] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_A[0x21] = 0xc0;
+            }
+        } else {
+            if ((REG_A[0] & 2) != 0) {
+                REG_C[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_C[2] = 0xc0;
+            }
         }
     }
 }
 
 
-u32 func_020223AC(void *p)
-{
-    u32 idx = ((struct Obj16741 *)p)->f0;
-    return g_0209F538[idx](p);
-}
-
-
-static void sub_02022424(struct Mode *p, u32 kind, u32 a, u32 b);
-
-
 
 /*
- * Mode decoder for the dual-screen text cluster: a five-case dense switch on
- * the mode index that fills the five leading words of the object with one of
- * five fixed (kind, flagA, flagB) triples.  The writer at 0x02022424 is an
- * unlabelled leaf static in the same translation unit (no lr save, so
- * disasm.py never labels it); it stores the triple twice, once at +0x00/+0x04/
- * +0x08 and once more at +0x0C/+0x10, which is what makes the two later
- * readers see the same pair of values from either half.  It carries its
- * address as its name, and is listed in `function:` above, so the manifest
- * records the address it covers: coverage is counted per address named by an
- * entry, and a range covered only by a unit names nothing on its own.
- *
- * Addresses are Black-image addresses.
+ * Allocate the working buffer for one of the three background planes and
+ * stamp its descriptor word: the two small planes share the 0x604-byte
+ * buffer (tag 0xa9b, mode word 1, the plane's row limit written at +0x600)
+ * while the third takes the 0xc08-byte buffer (tag 0xaa3, mode word 2) and
+ * zeroes +0x600 at a 0x604 stride.  a1 outside 0..2 does nothing.
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020223C0.c \
- *       --addr 0x020223C0 --thumb
+ *   python tools/match.py one --src src/matched/func_02022CEC.c \
+ *       --func func_02022CEC --addr 0x02022CEC --cc 1.1p1 --thumb
  */
-void func_020223C0(u32 mode, struct Mode *p)
+void func_02022CEC(u32 *a0, u32 a1, u32 a2, u32 a3)
 {
-    switch (mode) {
+    int i;
+    u8 *p;
+
+    switch (a1) {
     case 0:
-        sub_02022424(p, 0, 1, 1);
-        break;
     case 1:
-        sub_02022424(p, 1, 1, 1);
+        p = func_02030734((u16)a3, 0x604, 0, (const char *)0x020A7450, 0xA9B);
+        a0[1] = 1;
+        a0[0] = (u32)p;
+        a0[2] = a2;
+        ((struct Obj15738 *)p)->f600 = a1;
         break;
     case 2:
-        sub_02022424(p, 2, 1, 1);
-        break;
-    case 3:
-        sub_02022424(p, 1, 1, 0);
-        break;
-    case 4:
-        sub_02022424(p, 2, 0, 1);
+        p = func_02030734((u16)a3, 0xC08, 0, (const char *)0x020A7450, 0xAA3);
+        a0[0] = (u32)p;
+        a0[1] = 2;
+        a0[2] = a2;
+        for (i = 0; i < 2; i++) {
+            *(u32 *)(a0[0] + 0x600 + i * 0x604) = i;
+        }
         break;
     }
 }
 
-static void sub_02022424(struct Mode *p, u32 kind, u32 a, u32 b)
-{
-    p->kind = kind;
-    p->a = a;
-    p->b = b;
-    p->a2 = a;
-    p->b2 = b;
-}
 
 
 /*
- * The eleven-argument screen descriptor builder func_0202208C runs twice, once
- * per screen: a pure field-by-field copy of the argument list into the 0x26
- * byte sub-object, with no validation at all.  The four register arguments
- * land at +0x00..+0x0C and the seven stacked ones at +0x10..+0x24.
- *
- * Two shape facts the encoding pins down.  The sixth and seventh arguments are
- * stored the other way round from the argument order, +0x14 before +0x10, so
- * the struct's own field order is not the parameter order; writing them in
- * parameter order and letting the scheduler interleave is what reproduces the
- * ldr/str pairing.  The last argument is a u16, not a pointer: it is read back
- * with `add r1, sp, #0` + `ldrh r1, [r1, #0x18]` because Thumb has no
- * halfword load with an sp base, and stored with `strh`.  That is the value
- * func_020225F4 resolved, so the sentinel slot at +0x150 is a u16 end to end.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02022430.c \
- *       --func func_02022430 --addr 0x02022430 --cc 1.1p1 --thumb
+ * Blocked: 02022D78 (thumb, from header) has no witness outside 02022D70..02022D78. Every concrete byte reproduces.
+ * closed:   blocker func_020294C0.c is now a manifest entry (matched class)
  */
-void func_02022430(struct Screen *s, u32 a, u32 b, s32 c, u32 d, u32 e,
-                   u32 f, void *g, void *h, u32 i, u16 j)
+void func_02022D70(void *a0)
 {
-    s->f00 = a;
-    s->f04 = b;
-    s->f08 = c;
-    s->f0C = d;
-    s->f14 = e;
-    s->f10 = f;
-    s->f18 = g;
-    s->f1C = h;
-    s->f20 = i;
-    s->f24 = j;
+    func_02022D78(a0);
 }
 
 
 
 /*
- * Resets the 24-byte two-entry callback block at +0x74 of the dual-screen
- * text object (the buffer func_0202208C hands to both screen builders):
- * three parallel two-element arrays, the context pointers at +0x00, the
- * handlers at +0x08 and the user words at +0x10.  Both handler slots are
- * armed with the do-nothing func_020225F0 rather than a null, so the
- * dispatcher never has to test them.
+ * closed:   blocker func_02029488.c is now a manifest entry (matched class)
  *
- * Addresses are Black-image addresses.
+ * Releases the object the node's first word points at and clears the slot.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022458.c \
- *       --func func_02022458 --addr 0x02022458 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/func_02022D78.c \
+ *       --func func_02022D78 --addr 0x02022D78 --thumb --cc 1.1p1
  */
-void func_02022458(struct Slots *p)
+void func_02022D78(u8 *p)
 {
-    int i;
+    func_020307B0(*(void **)p);
+    *(u32 *)p = 0;
+}
 
-    for (i = 0; i < 2; i++) {
-        p->ctx[i] = 0;
-        p->fn[i] = func_020225F0;
-        p->arg[i] = 0;
+
+
+
+/*
+ * Index into a flat array whose base pointer is the first field of
+ * `obj`, with a fixed 0x604-byte stride.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_02022D88.c \
+ *       --func sub_02022D88 --addr 0x02022D88 --cc 1.1p1 --thumb
+ */
+void *sub_02022D88(struct Obj *obj, u32 idx)
+{
+    return obj->base + idx * 0x604;
+}
+
+
+
+void func_02022D98(void *p, struct Container *c)
+{
+    s32 i;
+
+    for (i = 0; i < c->count; i++) {
+        u8 *ptr = (u8 *)sub_02022D88((struct Obj *)c, i);
+        MI_CpuCopy8(ptr + 0x300, ptr, 0x300);
     }
+    func_02030EAC(p);
 }
 
-void func_02022478(int a0, int *p)
-{
-    int i;
-    for (i = 0; i < 2; i++)
-        ((void (*)(int))p[i + 2])(p[i]);
-}
 
 
 /*
- * Arms one entry of the two-slot callback block at +0x74 of the dual-screen
- * text cluster: the exact inverse of func_020224DC.  It publishes the
- * context pointer at ctx[idx], the handler at fn[idx] (falling back to the
- * do-nothing func_020225F0 when the caller passes none, the same convention
- * func_02022458 uses), and marks the slot live with arg[idx] = 1.  Before
- * any of that, if BOTH user words are still zero the block was idle, so it
- * registers the dispatcher func_02022478 as a task through func_02005624 and
- * parks the handle at g_021468A4 +0x54 -- the same handle func_020224DC
- * releases once both words go back to zero.
- *
- * CLOSED 2026-09-21 by tools/permuter.py after this address had resisted
- * four hand passes (docs/notes/pkt_02022490.c.txt, four appended sections,
- * ~70 spellings measured plus a negative ../2.0/sp2 probe).  All of those
- * passes reached 76 bytes with 16 concrete out and diagnosed the residue
- * correctly as a three-way register rotation over +0x24..+0x3E: the image
- * keeps the scaled index in r2 and recomputes the slot base into r0 before
- * each offset store, the compile puts the index in r0 and the base in r1
- * (`--explain` prints it as r2->r0 x3, r1->r0 x3, r0->r1 x2).  The lever is
- * `temp(tmp = (char *)p)`, found by the hill search at compile 160 of 800:
- *
- *   a SECOND `char *` alias of the base pointer, declared AFTER the first
- *   store and used in exactly ONE of the two arms.
- *
- * That is why every uniform spelling failed.  The alias is a fresh value
- * with its own definition point and a use count of one, so Chaitin numbering
- * gives it a colour of its own and pushes the index and the base into the
- * image's registers; making it live in both arms, or hoisting its
- * declaration above the `i4` assignment, coalesces it straight back into `p`
- * and restores the 16-byte residue.  The `(char *)` re-cast on the other two
- * stores, which the note's last section identified as load-bearing, remains
- * load-bearing: dropping it costs four bytes.
- *
- * The mid-block declaration needs `-lang c99`, which this file's `lang:`
- * header field supplies.  Note that `match.py one` does NOT read that field
- * and defaults to no `-lang` at all, so re-verifying this file by hand needs
- * `--lang c99` on the command line or it reports CCERR; the manifest path
- * reads the header and is unaffected.
- *
- * Data flow checked against both neighbours: func_020224DC clears arg[idx]
- * first and only then tests both words, this function tests both words first
- * and only then writes, so the handle is created exactly once per
- * idle-to-live transition and released exactly once per live-to-idle one.
- *
- * Addresses are Black-image addresses.
+ * Open one sprite/OBJ descriptor: a0 == 0 is the "close" spelling (one call
+ * with mode 0 and no attribute writes), anything else opens with mode 1, sets
+ * the 0x3f field, clears two zero slots through the six-argument entry and
+ * finally stamps the 0x20 field.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022490.c \
- *       --func func_02022490 --addr 0x02022490 --cc 1.1p1 --thumb --lang c99
+ *   python tools/match.py one --src src/matched/func_02022DCC.c \
+ *       --func func_02022DCC --addr 0x02022DCC --cc 1.1p1 --thumb
  */
-void func_02022490(char *p, int a1, int a2, int a3)
+void func_02022DCC(u32 a0, void *a1, u32 a2)
 {
-    int i4;
-
-    if (((struct Obj11272 *)p)->f10 == 0 && ((struct Obj11272 *)p)->f14 == 0)
-        *(u32 *)(g_021468A4 + 0x54) =
-            (u32)func_02005624((int)func_02022478, (u32)p, 0);
-
-    i4 = a3 * 4;
-    *(u32 *)(p + i4) = a1;
-
-    char *q = (char *)p;
-
-    if (a2 != 0)
-        ((u32 *)(q + i4))[2] = a2;
-    else
-        ((u32 *)((char *)p + i4))[2] = (u32)func_020225F0;
-    ((u32 *)((char *)p + i4))[4] = 1;
+    if (a0 == 0) {
+        func_02023CFC(a1, (void *)0, a2);
+        return;
+    }
+    func_02023CFC(a1, (void *)1, a2);
+    func_02023D18(a1, (void *)0x3f, 0, 0, a2);
+    func_02023D60(a1, 0, 0, 0, 0, 0, a2);
+    func_02023D40(a1, (void *)0x20, 0, a2);
 }

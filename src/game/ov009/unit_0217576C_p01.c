@@ -1,150 +1,126 @@
 /*
  * file:     unit_0217576C_p01.c
  * unit:     yes
- * function: func_02175AA4, func_02175BFC, func_02175C64
- * address:  0x02175AA4
+ * function: func_0217576C
+ * address:  0x0217576C
+ * packet:   pkt_ov009_0217576C
  * region:   ov009
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * sdk:      DWCi_SendServerPolling (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:
+ *   func_0216BA08                0x0216BA08 arm   ov009
  *   func_02175F3C                0x02175F3C arm   ov009
- *   func_0219F00C                0x0219F00C arm   ov009
- *   func_02175F4C                0x02175F4C arm   ov009
- *   func_02171C08                0x02171C08 arm   ov009
+ *   func_020870D0                0x020870D0 arm
+ *   _ll_udiv                     0x0209C00C arm
+ *   func_0216B908                0x0216B908 arm   ov009
+ *   func_0217603C                0x0217603C arm   ov009
+ *   func_0217637C                0x0217637C arm   ov009
+ *   func_02176344                0x02176344 arm   ov009
+ *   func_0216FF2C                0x0216FF2C arm   ov009
  *   func_021719A4                0x021719A4 arm   ov009
- *   gpIsBuddy                    0x021861A8 arm   ov009
- *   func_021719D0                0x021719D0 arm   ov009
- *   func_0216F770                0x0216F770 arm   ov009
- *   func_02173D9C                0x02173D9C arm   ov009
- *   func_020870D0  0x020870D0  arm
- *   func_0216CB90  0x0216CB90  arm  ov009
- *   func_021768EC  0x021768EC  arm  ov009
- *   func_02175D10  0x02175D10  arm  ov009
  */
+
 typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned long u32;
+typedef unsigned long long u64;
 
 struct DWCstMatchControl {
-    void **connection;
-    u8 pad0[0xd - 0x4];
-    u8 f0d;
-    u8 pad1[0x15 - 0xe];
-    u8 qr2MatchTypeExt;
-    u8 pad2[0x554 - 0x16];
-    int f554;
-    u8 pad3[0x5e0 - 0x558];
-    void *sbObj;
-    u8 pad4[0x67c - 0x5e4];
-    int f67c;
-    u8 pad5[0x798 - 0x680];
-    int f798;
+	void **connection;
+	unsigned char pad4[0x9];
+	unsigned char f0d;
+	unsigned char pade[0x2];
+	void *qr2Obj;
+	unsigned char pad14[0x1];
+	unsigned char qr2MatchTypeExt;
+	unsigned char hostState;
+	unsigned char pad17[0x5];
+	unsigned int suspendBitmap;
+	unsigned long long f20;
+	unsigned char pad28[0x8];
+	unsigned char suspendSent;
+	unsigned char pad31[0x523];
+	int f554;
+	unsigned char pad558[0x50];
+	int lastStateBeforeStopMeshMaking;
+	unsigned char  tempNodeInfoBeforeStopMeshMaking[0x28];
+	unsigned char pad5d4[0xc];
+	void *sbObj;
+	unsigned char pad5e4[0x38];
+	int f61c;
+	unsigned char pad620[0x58];
+	unsigned int f678;
+	int f67c;
+	unsigned char pad680[0x118];
+	int f798;
+	unsigned char pad79c[0x4];
+	unsigned long long f7a0;
+	unsigned char pad7a8[0x20];
+	unsigned int f7c8;
+	unsigned long long f7cc;
 };
 
+struct DWCstNodeInfo {
+	int profileID;
+	unsigned int ip;
+	unsigned int privateInetAddress;
+	unsigned short port;
+	unsigned short privateQueryPort;
+	unsigned int gt2IP;
+	unsigned short gt2Port;
+	unsigned char aid;
+	unsigned char hasPrivateAddress;
+	int nnTryCount;
+	unsigned long long nextMeshMakeTryTick;
+	unsigned char connUserData[4];
+};
+
+extern int func_0216BA08(void);
 extern int func_02175F3C(void);
-extern void func_0219F00C(char *p);
-extern void func_02175F4C(int state);
-extern int func_02171C08(int delay, int init, int resendPid);
+extern u64 func_020870D0(void);
+extern int func_0216B908(void);
+extern int func_0217603C(void);
+extern char *func_0217637C(int index);
+extern struct DWCstNodeInfo *func_02176344(void);
+extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
 extern int func_021719A4(int error);
-extern int gpIsBuddy(void **connection, int profile);
-extern int func_021719D0(int profileID, int delay);
-extern int func_0216F770(int profileID);
-extern int func_02173D9C(int error);
-extern unsigned long long func_020870D0(void);
-extern int func_0216CB90(void);
-extern void func_021768EC(int result);
-extern int func_02175D10(int suspend);
-int func_02175AA4(void);
-void func_02175BFC(int suspend, void *callback, void *suspendResultParam);
-int func_02175C64(void);
 
-
-/*
- * sdk:      DWCi_StartMatch (libdwcmatch.TWL.HYB.a dwc_match.o)
- */
-int func_02175AA4(void)
+int func_0217576C(int immediate)
 {
+    u32 sendData[3];
+    struct DWCstNodeInfo *pNodeInfo;
     int result;
-    int sbError;
+    int i;
+    u64 tick;
 
-    if (((struct DWCstMatchControl *)func_02175F3C())->sbObj != 0)
-        func_0219F00C(((struct DWCstMatchControl *)func_02175F3C())->sbObj);
-    if (((struct DWCstMatchControl *)func_02175F3C())->f798 != 0) {
-        func_02175F4C(0xc);
-    } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 0) {
-        func_02175F4C(2);
-    } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 1) {
-        func_02175F4C(3);
-        result = 1;
-        if (func_021719A4(func_02171C08(0, 1, 0)))
-            result = 0;
-        return result;
-    } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 2) {
-        func_02175F4C(0xd);
-        ((struct DWCstMatchControl *)func_02175F3C())->f0d = 1;
+    if (!func_0216BA08())
         return 1;
-    } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 3) {
-        if (gpIsBuddy(((struct DWCstMatchControl *)func_02175F3C())->connection, ((struct DWCstMatchControl *)func_02175F3C())->f554)) {
-            func_02175F4C(3);
-            result = func_021719A4(func_021719D0(((struct DWCstMatchControl *)func_02175F3C())->f554, 0));
-            if (result)
-                return 0;
+    if (((struct DWCstMatchControl *)func_02175F3C())->f61c == 0x13 || ((struct DWCstMatchControl *)func_02175F3C())->f61c == 0x14)
+        return 1;
+    if (immediate == 0) {
+        tick = func_020870D0();
+        if (((tick - ((struct DWCstMatchControl *)func_02175F3C())->f7a0) * 64) / 33514 <= 15000)
+            goto done;
+    }
+    sendData[0] = ((struct DWCstMatchControl *)func_02175F3C())->f678;
+    sendData[1] = func_0216B908();
+    sendData[2] = ((struct DWCstMatchControl *)func_02175F3C())->f7c8;
+    for (i = 0; i < func_0217603C(); i++) {
+        pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);
+        if (pNodeInfo != func_02176344()) {
+            result = func_0216FF2C(0x83, pNodeInfo->profileID, pNodeInfo->ip, pNodeInfo->port, (const unsigned int *)sendData, 3);
+            if (func_021719A4(result))
+                return -1;
         }
-        return 1;
     }
-    ((struct DWCstMatchControl *)func_02175F3C())->f67c = 0;
-    sbError = func_02173D9C(func_0216F770(((struct DWCstMatchControl *)func_02175F3C())->f67c));
-    result = 0;
-    if (sbError == 0)
-        result = 1;
-    return result;
-}
-
-
-/*
- * sdk:      DWCi_RequestSuspendMatchInit (dwc_match.o)
- */
-void func_02175BFC(int suspend, void *callback, void *suspendResultParam)
-{
-    *(char *)(func_02175F3C() + 0x30) = 0;
-    *(int *)(func_02175F3C() + 0x2c) = suspend;
-    *(void **)(func_02175F3C() + 0x34) = callback;
-    *(void **)(func_02175F3C() + 0x38) = suspendResultParam;
-    *(unsigned long long *)(func_02175F3C() + 0x20) = 0;
-    {
-        unsigned long long tick = func_020870D0();
-        *(unsigned long long *)(func_02175F3C() + 0x3c) = tick;
-    }
-    *(int *)(func_02175F3C() + 0x48) = 1;
-}
-
-
-/*
- * sdk:      DWCi_RequestSuspendMatchProcess (dwc_match.o)
- */
-int func_02175C64(void)
-{
-    int ret;
-    int suspend;
-
-    if (*(int *)(func_02175F3C() + 0x48) == 0)
-        return 0;
-    if (*(int *)(func_02175F3C() + 0x44) != 0) {
-        func_02175BFC(*(int *)(func_02175F3C() + 0x2c), *(void **)(func_02175F3C() + 0x34), *(void **)(func_02175F3C() + 0x38));
-        *(int *)(func_02175F3C() + 0x44) = 0;
-    }
-    suspend = *(int *)(func_02175F3C() + 0x2c);
-    if (suspend == 0xff)
-        return 0;
-    ret = func_0216CB90();
-    if ((suspend != 0 && ret != 0) || (suspend == 0 && ret == 0)) {
-        func_021768EC(0);
-        return 1;
-    }
-    func_02175D10(suspend);
+    tick = func_020870D0();
+    ((struct DWCstMatchControl *)func_02175F3C())->f7a0 = tick;
+done:
     return 1;
 }

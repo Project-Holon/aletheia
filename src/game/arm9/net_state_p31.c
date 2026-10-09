@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p31.c
  * unit:     yes
- * function: func_0203A634, func_0203A67C, func_0203A70C, func_0203A730, func_0203A748, func_0203A770, func_0203A7EC, func_0203A804, func_0203A81C
- * address:  0x0203A634
+ * function: func_0203B018, func_0203B01C, func_0203B038, func_0203B084
+ * address:  0x0203B018
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,243 +13,124 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02039338  0x02039338  arm
- *   g_020A7AE8     0x020A7AE8  data
- *   g_020A7AE8_arr 0x020A7AE8  data
- *   g_020A7AF8     0x020A7AF8  data
- *   g_020A7B08     0x020A7B08  data
- *   g_021469D8     0x021469D8  data
- *   func_02034714  0x02034714  arm
- *   func_020399B8 0x020399B8  arm
+ *   g_021469DC  0x021469DC  data
+ *   func_02037A6C  0x02037A6C  arm
+ *   func_0203AD80  0x0203AD80  arm
+ *   unk_0203B018   0x0203B018  arm
+ *   unk_0203B01C   0x0203B01C  arm
  */
-struct BaseTable;
-typedef unsigned int u32;
-
+struct NetState;
 typedef unsigned short u16;
 
-struct BaseTable {
-    void *list;
-    int   listNum;
-};
-
-struct HugeRecv {
-    u32 a;
-    int count;
-    u32 c;
-    u32 key;
+struct NetState {
+    unsigned char pad_00[0x46];
+    u16 f46;
 };
 
 typedef unsigned char u8;
 
-extern u16 func_02039338(void);
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u32 func_020399B8(u8 *p);
-u32 func_0203A634(u32 a0);
-struct BaseTable *func_0203A67C(u32 cmd);
-int func_0203A70C(u32 idx);
-u32 func_0203A730(u32 cmd);
-int func_0203A748(u32 idx);
-void func_0203A770(u32 a, u32 b, int c, u32 d, u32 e, u32 f);
-int func_0203A7EC(unsigned int idx);
-int func_0203A804(unsigned int idx);
-u32 func_0203A81C(u32 a0, u32 a1, u32 a2);
-extern struct BaseTable g_020A7AE8;
-extern void  *g_020A7AE8_arr[];
-extern char   g_020A7AF8[];
-extern char   g_020A7B08[];
-extern struct HugeRecv *g_021469D8;
+typedef unsigned int  u32;
+
+extern u32  func_02037A6C(int a0, int a1, int a2, int a3);
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern void *func_0203D798(void);
+extern u32 func_02037928(u32 a0, u16 a1);
+void func_0203B018(void);
+void func_0203B01C(void);
+void func_0203B038(u8 *a0);
+void func_0203B084(void);
+extern struct NetState *g_021469DC;
+extern char unk_0203B018[];
+extern char unk_0203B01C[];
 
 
 
 /*
- * Bit test against a channel mask: 0xFF is always live, otherwise the bit of
- * the argument named by the index func_02039338() reports decides, and a zero
- * index falls back to the 0x80 bit.  `1 << f()` is emitted as the shifted
- * register of a `tst`, and each success path is the conditional
- * `movne r0, #1` / `popne` pair, so the source is the return chain above a
- * final plain `return 0;`.
- *
- * Addresses are Black-image addresses.
- *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A634.c \
- *       --func func_0203A634 --addr 0x0203A634 --cc 1.1p1 --arm
+ *   python tools/match.py tu --src src/matched/unit_0203B018.c \
+ *       --addr 0x0203B018 --arm
+ *
+ * net_state.c.  func_0203B018 is the 4-byte `bx lr` no-op that
+ * func_0203B038 hands to func_02037A6C as its completion callback (the
+ * pool word at 0x0203B080 is its only referrer).  func_0203B01C is the
+ * unlabelled leaf that bumps the state record's +0x46 countdown by 0x3C;
+ * func_0203B390 names it through a pool word.  Filing both here gives the
+ * `matched` class a witness for each (docs/families/net_state.h, THE REPORT
+ * TAG RULE, "the two genuine exceptions").
+ *
+ * Integrator: seed 0x0203B01C arm (member of this unit, no label).
  */
-u32 func_0203A634(u32 a0)
+void func_0203B018(void)
 {
-    if (a0 == 0xFF)
-        return 1;
-    if (a0 & (1 << func_02039338()))
-        return 1;
-    if (func_02039338() == 0 && (a0 & 0x80) != 0)
-        return 1;
-    return 0;
+}
+
+
+
+void func_0203B01C(void)
+{
+    g_021469DC->f46 += 0x3c;
 }
 
 
 
 /*
- * net_command.c's command-record lookup.  The 16-bit command is split into
- * a group (the high byte, kept unshifted throughout: the original compares
- * the masked value, never a shifted one) and an index (the low byte).
+ *           resolved.  Adding the symbols: block (it had none) let
+ *           0x0203B01C resolve as `literal x8, e.g. 0203B43C`; previously it
+ *           reported "no address for 'unk_0203B01C'".  The ONE remaining
+ *           site is 0x0203B018.
+ * PARKED AT MATCH.  Every concrete byte is right (76 of 76) and the file is
+ * the right size; the one open site is the ABS32 to 0x0203B018, the bare
+ * `bx lr` filler word that sits between func_0203AFCC's literal pool and the
+ * unlabelled leaf at 0x0203B01C.  That address has no label (a prologue that
+ * saves no `lr` is never auto-labelled) and the word appears in exactly one
+ * literal pool image-wide - this function's own - so neither `label` nor
+ * `literal` can attest it.
+ *           referenced by exactly ONE word image-wide, the pool word at
+ *           0x0203B080 (grep of asm/ finds it in main.s and the four unit
+ *           listings, all the same address), and 0x0203B080 lies inside this
+ *           function's own compared range 0203B038..0203B084.  `label`
+ *           refuses (a `bx lr` saves no lr so disasm.py never labels it),
+ *           `literal` refuses (no second occurrence outside the range) and
+ *           `sole-ref/code` refuses (not a traced function start).  Blocking
+ *           class: none available, own-pool-only code.  It would unstick if a
+ *           future EXACT entry covered 0x0203B018 itself, but that address is
+ *           outside pkt_0203B038's range (0x0203B038..0x0203B084).
  *
- * Group 0 is the static base table at 0x020A7AE8 -- a { void *list; int
- * listNum; } pair whose strings name it "_BaseTable" (the assert text at
- * 0x020A7B08 reads "_BaseTable.listNum > co...", 0x020A7AF8 is
- * "net_command.c", and the line number is 0x10D).  listNum is SIGNED: the
- * guard is `bgt`, not `bhi`.
+ * Both 0x0203B018 and 0x0203B01C must be declared in the symbols: block:
+ * written as plain integer literals the pair folds into one pool word plus a
+ * `sub r1, r4, #4`, which is four bytes short of the original's two words.
+ * 0x0203B01C resolves as `literal x10`; only the no-op word does not.
  *
- * Any other group scans the four 0x10-byte records behind the pointer at
- * 0x021469D8, the _pCommandWork context src/matched/func_0203A494.c
- * allocates; the second assert string at 0x020A7B20 names those records
- * "_pCommandWork->aNetHugeRecv[index].used".
- *
- * TWO POOL WORDS FOR ONE ADDRESS.  The original spends two separate pool
- * entries on 0x020A7AE8 (at +0x78 and +0x88).  It is one object reached by
- * two declarations: the `.listNum` guard reads the struct, while the
- * returned pointer is the list base spelled as an array.  Collapsing them
- * into a single `&g_020A7AE8` makes the file 140 bytes, four short.
- *
- * DECLARATION ORDER.  `int i` must be declared BEFORE the two masks, and
- * the index must be `int`, not `u32`.  With the masks first the 3-register
- * rotation r2 -> ip -> r3 -> r2 appears and nothing else moves it (found by
- * tools/permuter.py: decl-order(lo<->i) ; decl-order(hi<->i)).
+ * The call's completion callback is the leaf at 0x0203B01C (bumps the +0x46
+ * halfword by 0x3C); the report's identifier is the no-op at 0x0203B018.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A67C.c \
- *       --func func_0203A67C --addr 0x0203A67C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/func_0203B038.c \
+ *       --func func_0203B038 --addr 0x0203B038 --cc 1.1p1 --arm
  */
-struct BaseTable *func_0203A67C(u32 cmd)
+void func_0203B038(u8 *a0)
 {
-    int i;
-    u32 hi = cmd & 0xff00;
-    int lo = (int)(cmd & 0xff);
-
-    if (hi == 0) {
-        if (g_020A7AE8.listNum <= lo)
-            func_02034714(g_020A7AF8, 0x10D, g_020A7B08);
-        return (struct BaseTable *)g_020A7AE8_arr;
-    }
-    for (i = 0; i < 4; i++) {
-        struct HugeRecv *r = g_021469D8 + i;
-        if (hi == r->key) {
-            if (r->count <= lo)
-                return 0;
-            return (struct BaseTable *)r;
-        }
-    }
-    return 0;
+    if (func_02037A6C(0, (int)(a0 + 0x40), 0x200, (int)unk_0203B01C) != 0)
+        func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)unk_0203B018, 0xA, 0x169);
 }
-
-
-
-int func_0203A70C(u32 idx)
-{
-    int *p = (int *)func_0203A67C(idx);
-    if (p != 0) {
-        char *base = (char *)*p;
-        u32 off = ((idx << 24) >> 21);
-        return *(int *)(base + off);
-    }
-    return 0;
-}
-
 
 
 /*
- * The null-tolerant third word of the object func_0203A67C caches: the
- * conditional `ldrne` / `moveq` pair is exactly the `? :` form, not an
- * if/return, which would have needed a second epilogue.
+ * Starts a 0x200-byte transfer over channel 1 and reports at line 0x17C
+ * (380) when it answers zero.  The report site names func_0203B038, the
+ * sibling entry that put the read in flight.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A730.c \
- *       --func func_0203A730 --addr 0x0203A730 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203B084.c \
+ *       --func func_0203B084 --addr 0x0203B084 --cc 1.1p1 --arm
  */
-u32 func_0203A730(u32 cmd)
+void func_0203B084(void)
 {
-    u32 *p = (u32 *)func_0203A67C(cmd);
-
-    return p != 0 ? p[2] : 0;
-}
-
-
-
-int func_0203A748(u32 idx)
-{
-    int *p = (int *)func_0203A67C(idx);
-    if (p != 0) {
-        char *base = (char *)*p;
-        u32 off = ((idx << 24) >> 21);
-        return *(int *)(base + off + 4);
-    }
-    return 0;
-}
-
-
-
-void func_0203A770(u32 a, u32 b, int c, u32 d, u32 e, u32 f)
-{
-    u32 ok;
-    u32 fn;
-
-    if (func_0203A634(b) == 0) {
-        return;
-    }
-    ok = 1;
-    if (func_020399B8((u8 *)f) == 0) {
-        if (c >= 0x11) {
-            ok = 0;
-        }
-    }
-    if (ok == 0) {
-        return;
-    }
-    fn = func_0203A70C(c);
-    if (fn == 0) {
-        return;
-    }
-    ((void (*)(u32, u32, u32, u32, u32))fn)(a, d, e, func_0203A730(c), f);
-}
-
-
-
-int func_0203A7EC(unsigned int idx)
-{
-    return func_0203A70C(idx) != 0;
-}
-
-
-
-int func_0203A804(unsigned int idx)
-{
-    return func_0203A748(idx) != 0;
-}
-
-
-
-/*
- * Indirect dispatch: the first argument names a slot whose function pointer
- * comes back from func_0203A748; a null slot answers 0 with the conditional
- * `moveq`/`popeq` pair, and otherwise the pointer is called with the second
- * argument, the current value func_0203A730 reports and the third argument.
- * func_0203A730's own body ignores its parameter, but the caller still loads
- * one, so the source declares it with a parameter.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A81C.c \
- *       --func func_0203A81C --addr 0x0203A81C --cc 1.1p1 --arm
- */
-u32 func_0203A81C(u32 a0, u32 a1, u32 a2)
-{
-    u32 (*f)(u32, u32, u32) = (u32 (*)(u32, u32, u32))func_0203A748(a0);
-
-    if (f == 0)
-        return 0;
-    return f(a1, func_0203A730(a0), a2);
+    func_0203D798();
+    if (func_02037928(1, 0x200) != 0)
+        func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)0x203B038, 0, (int)0x17C);
 }

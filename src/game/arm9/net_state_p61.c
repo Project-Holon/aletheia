@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p61.c
  * unit:     yes
- * function: func_0203DA68, func_0203DA7C
- * address:  0x0203DA68
+ * function: func_0203D6BC, func_0203D6CC, func_0203D700, func_0203D720, func_0203D754
+ * address:  0x0203D6BC
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,66 +13,127 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   d_021469F0 0x021469F0 data a4
- *   g_021469F0     0x021469F0  data
- *   func_0203DC04  0x0203DC04  arm
+ *   func_0203D788  0x0203D788  arm
+ *   func_02034714  0x02034714  arm
+ *   file_020A7CA0  0x020A7CA0  data
+ *   file_020A7D2C  0x020A7D2C  data
  */
+#include "../../matched/include/Obj15991.h"
+#include "../../matched/include/Obj11377.h"
+#include "../../matched/include/Obj11378.h"
+#include "../../matched/include/Obj11379.h"
+
+struct Entry;
 typedef unsigned char u8;
 
 typedef unsigned int  u32;
 
-struct Ctx {
-    u8  pad_00[0x84];
-    u32 unk_84;
-    u32 unk_88;
-    u32 unk_8c;
-};
+typedef unsigned short u16;
 
-extern void func_0203DC04(void);
-void func_0203DA68(unsigned int value);
-void *func_0203DA7C(void *a0, void *a1, void *a2);
-extern unsigned char *d_021469F0;
-extern struct Ctx *g_021469F0;
+extern u8 *func_0203D788(void);
+extern void func_02034714(const char *file, u32 line, const char *msg);
+extern struct Entry *func_020399A8(void);
+u32 func_0203D6BC(void);
+u32 func_0203D6CC(void);
+void func_0203D700(void);
+void func_0203D720(u32 a);
+void func_0203D754(u32 a);
+extern const char file_020A7CA0[];
+extern const char file_020A7D2C[];
+
+
 
 /*
- * Stores a word into the singleton at +0x74.
+ * Returns the byte at +0x61 of the net context.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D6BC.c \
+ *       --func func_0203D6BC --addr 0x0203D6BC --arm --cc 1.1p1
  */
-void func_0203DA68(unsigned int value)
+u32 func_0203D6BC(void)
 {
-    *(unsigned int *)(d_021469F0 + 0x74) = value;
+    return func_0203D788()[0x61];
 }
 
 
+
 /*
- * Install the three wireless callbacks and hand back the state machine that
- * drives them.  With no live context (0x021469F0 null) the function returns
- * its first argument untouched - the image leaves r0 alone on that path, so
- * the early exit is `bxeq lr`, not a `moveq r0, #0`.  Otherwise each non-null
- * argument is stored at +0x84, +0x88 and +0x8C of the context, and the
- * function returns func_0203DC04.
- *
- * The context is re-read from the global for the second and third stores
- * (`ldrne r0, [pc, ...]; ldrne r0, [r0]`), because the first store could
- * alias the global: the source spells them g_021469F0->unk_88 rather than
- * reusing a cached local.  The first store uses the value already in r3.
+ * Halfword getter for the null-test sibling of func_0203D680: reports through
+ * func_02034714 at line 0x5B1 (1457) when func_0203D788 comes back null, then
+ * reads +0x6C from it regardless.  The null test is the `movs r4, r0` /
+ * `bne` pair, so the result is kept in a local that the tail still
+ * dereferences rather than being re-requested.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203DA7C.c \
- *       --func func_0203DA7C --addr 0x0203DA7C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D6CC.c  *       --func func_0203D6CC --addr 0x0203D6CC --cc 1.1p1 --arm
  */
-void *func_0203DA7C(void *a0, void *a1, void *a2)
+u32 func_0203D6CC(void)
 {
-    struct Ctx *p = g_021469F0;
+    u8 *p = func_0203D788();
 
     if (p == 0)
-        return a0;
-    if (a0 != 0)
-        p->unk_84 = (u32)a0;
-    if (a1 != 0)
-        g_021469F0->unk_88 = (u32)a1;
-    if (a2 != 0)
-        g_021469F0->unk_8c = (u32)a2;
-    return func_0203DC04;
+        func_02034714(file_020A7CA0, 0x5B1, file_020A7D2C);
+    return ((struct Obj15991 *)p)->f6C;
+}
+
+
+
+/*
+ * Calls the net context's +0x30 callback with its +0x34c argument.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D700.c \
+ *       --func func_0203D700 --addr 0x0203D700 --arm --cc 1.1p1
+ */
+void func_0203D700(void)
+{
+    u8 *p = func_0203D788();
+
+    if (((struct Obj11377 *)p)->f30 != 0) {
+        ((void (*)(u32)) * (u32 *)(p + 0x30))(((struct Obj11377 *)p)->f34C);
+    }
+}
+
+
+
+/*
+ * Calls the net context's +0x28 callback with the func_020399A8 result,
+ * the argument and the context's +0x34c value.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D720.c \
+ *       --func func_0203D720 --addr 0x0203D720 --arm --cc 1.1p1
+ */
+void func_0203D720(u32 a)
+{
+    u8 *p = func_0203D788();
+
+    if (((struct Obj11378 *)p)->f28 == 0) {
+        return;
+    }
+    ((void (*)(u32, u32, u32)) * (u32 *)(p + 0x28))(
+        (u32)func_020399A8(), a, ((struct Obj11378 *)p)->f34C);
+}
+
+
+
+/*
+ * Calls the net context's +0x24 callback with the func_020399A8 result,
+ * the argument and the context's +0x34c value.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D754.c \
+ *       --func func_0203D754 --addr 0x0203D754 --arm --cc 1.1p1
+ */
+void func_0203D754(u32 a)
+{
+    u8 *p = func_0203D788();
+
+    if (((struct Obj11379 *)p)->f24 == 0) {
+        return;
+    }
+    ((void (*)(u32, u32, u32)) * (u32 *)(p + 0x24))(
+        (u32)func_020399A8(), a, ((struct Obj11379 *)p)->f34C);
 }

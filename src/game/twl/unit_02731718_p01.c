@@ -1,32 +1,34 @@
 /*
- * file:     unit_02731718_p01.c
- * unit:     yes
- * function: func_02731754, func_02731760
- * address:  0x02731754
+ * function: func_02731718
+ * address:  0x02731718
+ * packet:   twl_sys
  * region:   twl
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
- * isa:      thumb
- * status:   EXACT
+ * isa:      arm
+ * status:   MATCH
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * symbols:
+ *   func_02087988  0x02087988  code twl a2
+ *   func_0208799C  0x0208799C  code twl a2
+ *   data_02732FA8  0x02732FA8  data twl a4
  */
-asm void func_02731754(void);
-asm void func_02731760(void);
 
-asm void func_02731754(void)
-{
-    mov     r3, #0x60
-    add     r3, r0
-    mov     r2, #0
-    str     r2, [r3]
-    swi     0x24
-    bx      lr
-}
+typedef unsigned int u32;
 
-asm void func_02731760(void)
+extern u32 func_02087988(void);
+extern void func_0208799C(u32 state);
+extern u32 data_02732FA8;
+
+int func_02731718(void)
 {
-    swi     0x25
-    bx      lr
+    u32 state = func_02087988();
+    if (data_02732FA8 != 0) {
+        func_0208799C(state);
+        return 0;
+    }
+    data_02732FA8 = 1;
+    func_0208799C(state);
+    return 1;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     pdw_postman_p01.c
  * unit:     yes
- * function: func_021B7364, func_021B7390, func_021B73B8, func_021B7400, func_021B7494
+ * function: func_021B7364, func_021B7390, func_021B73B8, func_021B7400, func_021B7494, func_021B74CC
  * address:  0x021B7364
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -37,6 +37,12 @@
  *   func_0201ED04  0x0201ED04  thumb
  *   func_02045C04  0x02045C04  arm
  *   func_020307B0  0x020307B0  arm
+ *   func_02045CAC  0x02045CAC  arm
+ *   func_02190758  0x02190758  thumb  ov021
+ *   func_0201EFA4  0x0201EFA4  thumb
+ *   func_0201F250  0x0201F250  thumb
+ *   func_021907C0  0x021907C0  thumb  ov021
+ *   func_02045730  0x02045730  arm
  */
 #include "../../matched/include/Obj04890.h"
 
@@ -45,13 +51,14 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 struct Rec;
+struct Descriptor;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-typedef struct Obj {
+typedef struct Obj_021B7364 {
     u16 f0;
     u16 pad2;
     u32 f4;
@@ -63,11 +70,29 @@ typedef struct Obj {
     u32 f1C;
     u32 f20;
     u32 f24;
-} Obj;
+} Obj_021B7364;
 
 typedef signed short   s16;
 
 typedef signed char    s8;
+
+typedef struct {
+    u16 a;
+    u16 b;
+} Entry;
+
+typedef struct {
+    u16 f00;
+    u8 pad02[6];
+    u32 f08;
+    u32 f0C;
+    u8 pad10[4];
+    u32 f14;
+    u32 f18;
+    u32 f1C;
+    int f20;
+    Entry *f24;
+} Obj_021B74CC;
 
 extern u32 func_02159B10(void *, void *);
 extern u16 *func_02159AE8(void *a0, void *a1);
@@ -88,15 +113,23 @@ extern void func_02045808(struct U16Vec *vec);
 extern u32 func_02045C04(struct Rec *rec);
 extern int func_02190728(void *a);
 extern void func_02190788(u8 *p);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_02190758(int a0, int a1, u16 a2, int a3);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern u32 func_021907C0(u8 *p);
+extern u8 func_02045730(struct Descriptor *p);
 int func_021B7364(void *a, void *b);
 int func_021B7390(u32 a, int b);
 int func_021B73B8(u32 a, u32 b);
-Obj *func_021B7400(u32 a, u32 b, int c);
+Obj_021B7364 *func_021B7400(u32 a, u32 b, int c);
 int func_021B7494(void *a);
+void func_021B74CC(Obj_021B74CC *p);
 extern u16 d_021D99E8[];
 extern u16 d_021D99D4[];
 extern u8 d_021D99DE[];
 extern u8 d_021DE288[];
+
 
 
 int func_021B7364(void *a, void *b)
@@ -114,6 +147,7 @@ int func_021B7364(void *a, void *b)
 }
 
 
+
 int func_021B7390(u32 a, int b)
 {
     u32 i;
@@ -127,6 +161,7 @@ int func_021B7390(u32 a, int b)
     }
     return 0;
 }
+
 
 
 /*
@@ -151,10 +186,11 @@ int func_021B73B8(u32 a, u32 b)
 }
 
 
-Obj *func_021B7400(u32 a, u32 b, int c)
+
+Obj_021B7364 *func_021B7400(u32 a, u32 b, int c)
 {
     u32 heap;
-    Obj *o;
+    Obj_021B7364 *o;
     int line;
     int sz;
 
@@ -176,6 +212,7 @@ Obj *func_021B7400(u32 a, u32 b, int c)
 }
 
 
+
 /*
  * Emitted from the ov021 instruction shape.
  *
@@ -191,4 +228,23 @@ func_02045808((struct U16Vec *)(((struct Obj04890 *)((u8 *)(a)))->f1C));
 func_0201ED04((struct WordSet *)(((struct Obj04890 *)((u8 *)(a)))->f14));
 func_02045C04((struct Rec *)(((struct Obj04890 *)((u8 *)(a)))->f8));
 return func_020307B0(a);
+}
+
+
+void func_021B74CC(Obj_021B74CC *p)
+{
+    void *msg;
+    int i;
+
+    msg = func_02045B38(0, 2, 0x36, (u16)((p->f00 & 0x7fff) | 0x8000));
+    for (i = 0; i < p->f20; i++) {
+        func_02045CAC((struct MsgBank *)((u32)msg), p->f24[i].a, (void *)p->f18);
+        func_02190758(p->f0C, 0, i * 14, p->f18);
+        func_02045CAC((struct MsgBank *)p->f08, 5, (void *)p->f18);
+        func_0201EFA4((struct WordSet *)p->f14, 0, p->f24[i].b, 2, 1, 1);
+        func_0201F250((struct WordSet *)p->f14, (void *)p->f1C, (void *)p->f18);
+        func_02190758(p->f0C, 0x6c, i * 14, p->f1C);
+    }
+    func_02045C04(msg);
+    func_020409B4(func_02045730((struct Descriptor *)func_021907C0((u8 *)p->f0C)));
 }

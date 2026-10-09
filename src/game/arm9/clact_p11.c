@@ -1,8 +1,8 @@
 /*
  * file:     clact_p11.c
  * unit:     yes
- * function: func_0204D134, func_0204D158, func_0204D18C, func_0204D224, func_0204D2C8, func_0204D2DC, func_0204D300, func_0204D324, func_0204D340, func_0204D360, func_0204D380
- * address:  0x0204D134
+ * function: sub_0204D478, func_0204D494, func_0204D4A4, sub_0204D4B4, sub_0204D4C4, sub_0204D500, func_0204D510, func_0204D52C, func_0204D53C, func_0204D54C
+ * address:  0x0204D478
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,423 +13,311 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sub_020627D8  0x020627D8  arm
- *   sub_0206428C  0x0206428C  arm
- *   func_02066AE0  0x02066AE0  arm
- *   func_020627D8  0x020627D8  arm
- *   func_020637B4  0x020637B4  arm
- *   func_020642C8  0x020642C8  arm
- *   s_clact_c      0x020A7F74  data
- *   func_020648B4  0x020648B4  arm
- *   func_02030734  0x02030734  arm
- *   func_02064754  0x02064754  arm
- *   func_0206469C  0x0206469C  arm
- *   sub_02082BCC   0x02082BCC  arm
- *   sub_02066B38  0x02066B38  arm
- *   sub_020307B0  0x020307B0  arm
  *   gUnk_020A1394  0x020A1394  data
- *   sub_0206434C  0x0206434C  arm
- *   sub_0206469C  0x0206469C  arm
+ *   func_02064384  0x02064384  arm
+ *   sub_02064AB4  0x02064AB4  arm
+ *   gUnk_020A7F3C  0x020A7F3C  data
+ *   sub_020643C4   0x020643C4  arm
+ *   sub_02064B68  0x02064B68  arm
+ *   g_DispatchTable_0204D510  0x020A7F48  data
+ *   func_020643A4  0x020643A4  arm
  */
-struct AnimBank;
-struct AnimSequence;
-struct Obj0206469C;
-typedef unsigned char u8;
+struct CellAnim;
+struct MultiCellAnim;
+struct Obj02064C10;
+typedef unsigned int u32;
 
-typedef signed int    s32;
-
-struct Req {
-    u8    pad_00[0x14];
-    void *unk_14;
-    u8    pad_18[4];
-    void *unk_1c;
-};
-
-typedef unsigned int  u32;
-
-struct Rec {
-    u8 unk_00[1];
-};
-
-struct Src {
-    u8    pad_00[0xc];
-    void *unk_0c;
-    void *unk_10;
-};
-
-struct Obj_0204D158 {
-    u8         pad_00[4];
-    void      *unk_04;
-    void      *unk_08;
-    struct Rec unk_0c;
-};
-
-struct P_0204D18C {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u8  pad_0c[0x64 - 0x0c];
-    u32 f64;
-};
-
-struct A_0204D18C {
-    u32 f00;
-    u32 f04;
-    u8  pad_08[4];
-    u32 f0c;
-    u32 f10;
-    u8  pad_14[8];
-    u32 f1c;
-};
-
-struct R {
-    u8  pad_00[0x10];
-    u32 f10;
-    u32 f14;
-};
-
-struct P_0204D224 {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u8  pad_0c[0x70 - 0x0c];
-    u32 f70;
-    u32 f74;
-    u32 f78;
-};
-
-struct A_0204D224 {
-    u8  pad_00[0x0c];
-    u32 f0c;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-};
-
-typedef unsigned short u16;
-
-struct Obj_0204D2DC {
-    u8    pad_00[0x64];
-    void *unk_64;
-};
-
-struct Obj_0204D300 {
-    u8    pad_00[0x78];
-    void *unk_78;
-};
-
-struct Obj0204D324 {
+struct Obj0204D478 {
     u32 kind;
 };
 
-struct Obj_0204D340 {
-    u8         pad_00[8];
-    void      *unk_08;
-    struct Rec unk_0c;
+typedef void *(*DispatchFn_0204D478)(struct Obj0204D478 *o, u32 arg);
+
+typedef unsigned char  u8;
+
+struct Obj0204D4B4 {
+    u32 kind;
+    u8  pad_04[8];
+    u8  unk_0c;
 };
 
-struct Obj_0204D360 {
-    u8         pad_00[8];
-    void      *unk_08;
-    struct Rec unk_0c;
+struct Obj {
+    u32 type;
+    u8  pad_04[8];
+    u8  unk_0c;
 };
 
-struct Obj_0204D380 {
-    u8         pad_00[0xc];
-    struct Rec unk_0c;
-    u8         pad_0d[0x74 - 0xd];
-    void      *unk_74;
+typedef void (*DispatchFn_0204D4C4)(struct Obj *o, u32 arg);
+
+struct Ctl {
+    u32 mode;  /* 0x00 */
 };
 
-extern struct AnimSequence *sub_020627D8(struct AnimBank *bank, u32 idx);
-extern void sub_0206428C(char *self, int a1, char *c);
-extern int func_02066AE0(void);
-extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
-extern int func_020637B4(int *p, int i);
-extern void func_020642C8(char *self, int a1, char *c, int d, int e, int f, int g, int h, int i, int j);
-extern int func_020648B4(u32 a, u32 b);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02064754(char *o, char *buf, void *set, int a3, void *bank, int kind);
-extern void func_0206469C(struct Obj0206469C *o, void *bank);
-extern void sub_02082BCC(void *dst, int value, u32 len);
-extern void sub_02066B38(u32 idx);
-extern u32 sub_020307B0(void *p);
-extern void  sub_0206434C(struct Rec *r, void *v);
-extern void sub_0206469C(struct Obj0206469C *o, void *bank);
-void func_0204D2C8(void *anim);
-extern char s_clact_c[];
+typedef void (*Handler)(struct Ctl *c);
+
+extern void func_02064384(struct CellAnim *anim, u32 i);
+extern void sub_02064AB4(char *self, unsigned int i);
+extern void sub_020643C4(struct MultiCellAnim *mca, u32 value);
+extern void sub_02064B68(struct Obj *o, void *arg);
+extern void func_020643A4(struct CellAnim *anim);
+extern void func_02064C10(struct Obj02064C10 *x);
+void *sub_0204D478(struct Obj0204D478 *o, u32 arg);
+void func_0204D494(u8 *a0, u32 i);
+void func_0204D4A4(u8 *a0, u32 i);
+void sub_0204D4B4(struct Obj0204D4B4 *o, u32 i);
+void sub_0204D4C4(struct Obj *o, u32 arg);
+void sub_0204D4E0(struct Obj *o, u32 arg);
+void sub_0204D4F0(struct Obj *o, u32 arg);
+void sub_0204D500(struct Obj *o, u32 arg);
+void func_0204D510(struct Ctl *c);
+void func_0204D52C(void *p);
+void func_0204D53C(u8 *a0);
+void func_0204D54C(void *p);
+extern DispatchFn_0204D478 const gUnk_020A1394[][3];
+extern DispatchFn_0204D4C4 const gUnk_020A7F3C[];
+extern Handler g_DispatchTable_0204D510[];
+
+
+
+
+
+
 
 
 /*
- * Classify a request into the small index the sibling sub_0204D0C4 uses to
- * pick a handler out of its table: 1 if the pointer at +0x1c is set, else 2
- * if the one at +0x14 is, else 0.  A leaf with no prologue at all, so
- * disasm.py never labelled it.
+ * Row 0 of the eight-by-three handler table at 0x020A1394, the same shape as
+ * src/matched/unit_0204D410.c (row 7), src/matched/unit_0204D444.c (row 1)
+ * and src/matched/func_0204D324.c (row 3, and the row map).  Every concrete
+ * byte is reproduced; the single unresolved site is the ABS32 in the pool.
  *
- * The first arm gets its own `bxne lr` while the last two share one exit as
- * a `movne`/`moveq` pair: that is what an early `return` followed by a
- * two-way tail looks like once the compiler has run out of conditional
- * slots to fold the first test into
- * (docs/idioms/initialise-the-result-before-the-input-or-every-arm-duplicates-the-return.md
- * read in reverse, the result here is not initialised first).
+ * Blocked on: evidence class `literal`, and it can never be satisfied.  For
+ * rows 1, 3, 5, 6 and 7 the pool word is base+0x0c..base+0x54, so some other
+ * row's thunk holds a different word and the base is witnessed from outside.
+ * Row 0's pool word *is* the array base, 0x020A1394, and `--suggest-split`
+ * reports exactly one witness image-wide: this function's own relocation site
+ * at 0x0204D490.  Self-reference is refused, so no cut can free it.  It would
+ * become EXACT only if some future matched entry defines the table data at
+ * 0x020A1394, or if a caller elsewhere is found that pools the bare base.
+ *
+ * The arity comes from the register pair, not from the call: the original
+ * takes the kind in r3 and the table base in r2, which is the two-parameter
+ * allocation (compare src/matched/func_0204D324.c).  The one-parameter
+ * spelling allocates r2 then r1 and is a four-instruction diff.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D134.c \
- *       --func sub_0204D134 --addr 0x0204D134 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/sub_0204D478.c \
+ *       --func sub_0204D478 --addr 0x0204D478 --cc 1.1p1 --arm
  */
-s32 sub_0204D134(const struct Req *r)
+void *sub_0204D478(struct Obj0204D478 *o, u32 arg)
 {
-    if (r->unk_1c != 0) {
-        return 1;
-    }
-    if (r->unk_14 != 0) {
-        return 2;
-    }
-    return 0;
+    return gUnk_020A1394[0][o->kind](o, arg);
+}
+
+
+
+
+
+
+
+
+/*
+ * Two identical tail calls to the same callee with the argument biased by
+ * 0xc.  Unlabelled leaves; the range 0x0204D494..0x0204D4B4 is contiguous.
+ */
+void func_0204D494(u8 *a0, u32 i)
+{
+    func_02064384((struct CellAnim *)(a0 + 0xc), i);
+}
+
+
+
+
+
+
+
+
+void func_0204D4A4(u8 *a0, u32 i)
+{
+    func_02064384((struct CellAnim *)(a0 + 0xc), i);
+}
+
+
+
+
+
+
+
+/*
+ * note:     promoted 2026-09-21: the blocker named below, 0x02064AB4, was
+ *           filed EXACT as src/matched/func_02064AB4.c (pin ../2.0/sp2) by the
+ *           pkt_02064934 lane, so the sole ABS32 site now resolves `matched`.
+ *
+ * The third row-0 handler of the table at 0x020A1394 (row map in
+ * src/matched/func_0204D324.c).  Same shape as the two in
+ * src/matched/unit_0204D494.c, tail calling the +0xc subobject through a pool
+ * word, but to a different target.  It saves nothing, so disasm.py gives it
+ * no label.
+ *
+ * Was blocked on: no evidence class at all.  `--suggest-split` reported zero
+ * witnesses image-wide for 0x02064AB4: nothing branches to it (so no `label`),
+ * no other pool holds the word (so no `literal`), and it is inside the G2D
+ * block that has no matched entry yet.  The address is reachable only through
+ * this table row, which is why it never appears as a branch target.  It will
+ * resolve as `matched` once the G2D function at 0x02064AB4 is decompiled, or
+ * as `label` if an overlay turns out to call it directly.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/sub_0204D4B4.c \
+ *       --func sub_0204D4B4 --addr 0x0204D4B4 --cc 1.1p1 --arm
+ */
+void sub_0204D4B4(struct Obj0204D4B4 *o, u32 i)
+{
+    sub_02064AB4((char *)(&o->unk_0c), i);
+}
+
+
+
+
+
+
+/*
+ * A dispatch thunk and the first two of the three handlers its table row
+ * names, 60 bytes end to end.  Each handler steps the pointer past the
+ * object's 0xc-byte header and tail-calls into the G2D layer; a tail call
+ * is always a pool word and a `bx`, never a displacement branch, because
+ * every function is its own section
+ * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  The handlers save
+ * nothing, so disasm.py gives them no labels; they are folded in here
+ * rather than left as this thunk's `EXACT*` tail.
+ *
+ * The thunk forwards two arguments, not one: it allocates r3 then r2 for
+ * the table load, leaving r1 alone, where the one-argument form in
+ * src/matched/unit_0204D410.c allocates r2 then r1
+ * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
+ *
+ * The third handler, sub_0204D500 at 0x0204D500, is deliberately left out
+ * of the range: its tail-call target 0x02064B68 is named only by its own
+ * pool word, so including it caps the whole unit at MATCH.  It is parked
+ * byte-correct in src/pending/sub_0204D500.c, and it graduates when
+ * 0x02064B68 does (docs/notes/sub_02064B68.c.txt).
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0204D4C4.c \
+ *       --addr 0x0204D4C4 --arm
+ */
+void sub_0204D4C4(struct Obj *o, u32 arg)
+{
+    gUnk_020A7F3C[o->type](o, arg);
+}
+
+
+
+
+
+
+void sub_0204D4E0(struct Obj *o, u32 arg)
+{
+    sub_020643C4((struct MultiCellAnim *)(&o->unk_0c), arg);
+}
+
+
+
+
+
+
+void sub_0204D4F0(struct Obj *o, u32 arg)
+{
+    sub_020643C4((struct MultiCellAnim *)(&o->unk_0c), arg);
+}
+
+
+
+
+
+/*
+ * The third handler of the row that src/matched/unit_0204D4C4.c dispatches
+ * through: step the pointer past the object's 0xc-byte header and tail-call
+ * into the G2D layer, forwarding the second argument untouched.
+ *
+ * Byte-correct, capped at MATCH.  The tail call is a pool word and a `bx`
+ * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so the site is an ABS32
+ * naming 0x02064B68, and that address is named by no other pool word and by
+ * no branch anywhere in the image: `label`, `literal` and `veneer` all have
+ * nothing outside this range.  The one route left is an EXACT entry for
+ * 0x02064B68 itself acting as a `matched` witness; that function is a
+ * 168-byte two-armed cell/node walk which is four transposed instructions
+ * away from matching, recorded in docs/notes/sub_02064B68.c.txt.
+ *
+ * Kept out of unit_0204D4C4.c for exactly this reason: folding it back in
+ * would cap that whole range at MATCH for one unattestable word.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/sub_0204D500.c \
+ *       --func sub_0204D500 --addr 0x0204D500 --cc 1.1p1 --arm
+ */
+void sub_0204D500(struct Obj *o, u32 arg)
+{
+    sub_02064B68((struct Obj *)(&o->unk_0c), (void *)arg);
+}
+
+
+
+
+
+/*
+ * Closes the clact.c fan-in-1 blocker documented in
+ * docs/notes/clact_c_fan_in_1_blockers.c.txt: func_0204B9A0 (its only
+ * caller image wide) forwards its argument unchanged.
+ *
+ * Dispatch through a function-pointer table indexed by the mode word at
+ * +0x00 of the argument; the call itself is an indirect `blx` (no PC24
+ * relocation to attest), but the table base at 0x020A7F48 is an ABS32
+ * literal with no second reference anywhere in the ARM9 image, so this
+ * stays MATCH regardless of the C.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_0204D510.c \
+ *       --func func_0204D510 --addr 0x0204D510 --cc 1.1p1 --arm
+ */
+void func_0204D510(struct Ctl *c)
+{
+    g_DispatchTable_0204D510[c->mode](c);
+}
+
+
+
+
+void func_0204D52C(void *p){ func_020643A4((struct CellAnim *)((char *)p + 0xc)); }
+
+
+
+/*
+ * The same 0xc-biased tail call to the other callee of the pair.
+ */
+void func_0204D53C(u8 *a0)
+{
+    func_020643A4((struct CellAnim *)(a0 + 0xc));
 }
 
 
 /*
- * Copy the source's two handles into the object's +4/+8 pair, then bind the
- * record at +0xc to them.
+ * Tear the actor down and release the sub-object at +0x40: func_0204D52C on
+ * the actor itself, then func_02064C10 on the tail.
  *
- * The +4 field is read back from memory for sub_0206428C's third argument
- * rather than reused out of r2: the intervening call to sub_020627D8 could
- * alias it, so the cached load does not survive
- * (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md, the case
- * without the `const`).
+ * Both call sites resolve from `matched` witnesses, which is what this file
+ * waited for while it sat parked in src/pending/ with both PC24s wildcarded.
+ * The trailing star is the listing extent only: the next func_ label after
+ * 0x0204D54C is 540 bytes away, so the harness compares the 32 bytes this
+ * body compiles to and reports the disagreement rather than a concrete diff.
  *
- * sub_020627D8 is called here with an explicit zero in r1, where
- * src/matched/sub_0204D340.c leaves r1 untouched: the two call sites
- * disagree about the arity, and the zero is written out only because this
- * one needs it.
+ * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D158.c \
- *       --func sub_0204D158 --addr 0x0204D158 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0204D54C.c \
+ *       --func func_0204D54C --addr 0x0204D54C --cc 1.1p1 --arm
  */
-void sub_0204D158(struct Obj_0204D158 *o, const struct Src *s)
+void func_0204D54C(void *p)
 {
-    o->unk_04 = s->unk_0c;
-    o->unk_08 = s->unk_10;
-    sub_0206428C((char *)(&o->unk_0c), (int)sub_020627D8(o->unk_08, 0), o->unk_04);
-}
-
-
-/*
- * Record builder in clact.c.  Wave 15 (register-tie lane): the last 10
- * bytes (the image sinks `mov sb, r0` above the two a->f0c/a->f10 loads)
- * close with `const struct A *a`.  The read-only source pointer lets the
- * parameter copy of p be scheduled before the loads, freeing r0 for the
- * stmib pair {r0, r1}.  The rest is the 2026-09-22 source from
- * docs/notes/pkt_0204D18C.func_0204D224.c.txt: the nested t1/t0 block
- * (descending loads) for the stmib, and `two - 3` for the -1 argument.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D18C.c \
- *       --func func_0204D18C --addr 0x0204D18C --cc 1.1p1 --arm
- */
-void func_0204D18C(struct P_0204D18C *p, const struct A_0204D18C *a)
-{
-    u32 zero = 0;
-    u32 two;
-    u32 h0, h1, h2;
-    struct R *r;
-
-    {
-        u32 t1 = a->f10;
-        u32 t0 = a->f0c;
-        p->f04 = t0;
-        p->f08 = t1;
-    }
-    p->f64 = func_02066AE0();
-    r = (struct R *)a->f1c;
-    h0 = (u32)func_020627D8((struct AnimBank *)p->f08, zero);
-    h1 = func_020637B4((int *)a->f04, 1);
-    two = 2;
-    h2 = func_020637B4((int *)a->f04, two);
-    func_020642C8((char *)((u8 *)p + 0xc), h0, (char *)p->f04, p->f64,
-                  two - 3, h1, h2, r->f14, zero, r->f10);
-}
-
-
-/*
- * Record constructor in clact.c.  Wave 15 (register-tie lane): EXACT* (the
- * listing extent runs over the unlabelled fill leaf 0x0204D2C8, filed as
- * src/matched/func_0204D2C8.c).  Two facts closed it:
- *  - the older 2-byte "best source" in
- *    docs/notes/pkt_0204D18C.func_0204D224.c.txt stored a1->f14 into +0x04
- *    and a1->f0c into +0x70, which is NOT what the image does (image: +0x04
- *    gets f0c, +0x70 gets f14).  The honest residue with the image's
- *    pairing was 9 bytes.
- *  - `const struct A *a1` with the four stores written straight from a1 and
- *    func_020648B4 fed a fresh a1->f14: the const source lets mwcc keep all
- *    four loads above the stores in field order and CSE the f14 re-read.
- *    The `volatile` device on +0x04 is no longer needed.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D224.c \
- *       --func func_0204D224 --addr 0x0204D224 --cc 1.1p1 --arm
- */
-void func_0204D224(struct P_0204D224 *p, const struct A_0204D224 *a1, u32 heap)
-{
-    p->f04 = a1->f0c;
-    p->f08 = a1->f10;
-    p->f70 = a1->f14;
-    p->f74 = a1->f18;
-
-    p->f78 = (u32)func_02030734(heap, func_020648B4(a1->f14, 1), 0, s_clact_c, 0x171d);
-    func_02064754((char *)((u8 *)p + 0xc), (char *)p->f78, (void *)p->f08, p->f04, (void *)p->f70, 1);
-    func_0206469C((struct Obj0206469C *)((u8 *)p + 0xc), func_020627D8((struct AnimBank *)p->f74, 0));
-}
-
-
-/*
- * Unlabelled leaf after func_0204D224 in clact.c: clears the 0x7c-byte
- * animation sub-object (the same fill sub_0204D2DC ends with), as a tail
- * call.  Filed as the witness that turns func_0204D224's EXACT* into EXACT
- * once 0x0204D2C8 is seeded.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D2C8.c \
- *       --func func_0204D2C8 --addr 0x0204D2C8 --cc 1.1p1 --arm
- */
-void func_0204D2C8(void *anim)
-{
-    sub_02082BCC(anim, 0, 0x7c);
-}
-
-
-/*
- * Destructor for one variant of the 0x7c-byte 0x0204Cxxx/0x0204Dxxx
- * object: release the sub-resource whose handle lives at +0x64, then wipe
- * the whole record.  0x02082BCC is the SDK's byte fill (dest, value,
- * length); the 0x7c length is the object's own size, which the sibling
- * sub_0204D300 repeats verbatim for the +0x78 variant.
- *
- * Was capped at MATCH: the PC24 site at +0x0c names 0x02066B38 and this is
- * that address's only branch site anywhere in the image, so `label` has
- * nothing to point at and no split can create one from a single function.
- * 0x02066B38 is now EXACT in src/matched/sub_02066B38.c and the site
- * resolves `matched` against it.  The C in this file is unchanged.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D2DC.c \
- *       --func sub_0204D2DC --addr 0x0204D2DC --cc 1.1p1 --arm
- */
-void sub_0204D2DC(struct Obj_0204D2DC *o)
-{
-    sub_02066B38((u32)o->unk_64);
-    sub_02082BCC(o, 0, 0x7c);
-}
-
-
-/*
- * The sibling of sub_0204D2DC: same destructor shape for the variant whose
- * owned resource hangs off +0x78 and is freed through the heap entry point
- * at 0x020307B0 rather than 0x02066B38.  The trailing wipe is the same
- * 0x7c-byte object fill.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D300.c \
- *       --func sub_0204D300 --addr 0x0204D300 --cc 1.1p1 --arm
- */
-void sub_0204D300(struct Obj_0204D300 *o)
-{
-    sub_020307B0(o->unk_78);
-    sub_02082BCC(o, 0, 0x7c);
-}
-
-
-extern void (*const gUnk_020A1394[][3])(struct Obj0204D324 *obj, u32 arg);
-
-
-/*
- * Dispatch on the object's kind word, passing the object and one forwarded
- * argument.
- *
- * The second parameter is real, not a leftover: the original steps over r1
- * entirely (kind in r3, table base in r2) where the one-parameter spelling
- * uses r2 and r1.  A register that the body never touches and never
- * reallocates is a live argument being forwarded.
- *
- * This file was previously parked at MATCH on the theory that the pool word
- * 0x020A13B8 named a table object of its own, which left the ABS32 site
- * with no witness: 0x020A13B8 appears in exactly one pool image-wide, this
- * function's own, and self-reference is refused.  It is not a table of its
- * own.  The words from 0x020A1394 onward are one two-dimensional array of
- * at least eleven rows of three handlers, indexed [operation][kind], and
- * the functions of this family each pin a different row:
- *
- *   row 0  0x020A1394   pooled at 0x0204D490
- *   row 1  0x020A13A0   pooled at 0x0204D45C
- *   row 3  0x020A13B8   pooled here
- *   row 5  0x020A13D0   pooled at 0x0204D130  (sub_0204D104)
- *   row 6  0x020A13DC   pooled at 0x0204D100
- *   row 7  0x020A13E8   pooled at 0x0204D428  (sub_0204D410)
- *   row 10 0x020A140C   pooled at 0x0204D3C4  (unit_0204D3C4.c)
- *
- * Declared that way the relocation names the array's base, 0x020A1394, and
- * the +0x24 is the row index coming from the C rather than from the bytes
- * under test; the base is attested `literal` by the pool word at 0x0204D490,
- * well outside this range.  Same bytes, same pool word, an honest witness.
- * See docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D324.c \
- *       --func func_0204D324 --addr 0x0204D324 --cc 1.1p1 --arm
- */
-void func_0204D324(struct Obj0204D324 *obj, u32 arg)
-{
-    gUnk_020A1394[3][obj->kind](obj, arg);
-}
-
-
-/*
- * One of this family's per-slot "apply" hooks: take the handle at +8,
- * resolve it through sub_020627D8, and feed the result to sub_0206434C
- * together with the embedded record at +0xc.  sub_0204D360 is a
- * byte-for-byte duplicate of this function at a different address (the two
- * differ only in their PC24 displacements), which is what a pair of
- * distinct table slots sharing one body looks like when neither was folded.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D340.c \
- *       --func sub_0204D340 --addr 0x0204D340 --cc 1.1p1 --arm
- */
-void sub_0204D340(struct Obj_0204D340 *o, u32 idx)
-{
-    sub_0206434C(&o->unk_0c, sub_020627D8(o->unk_08, idx));
-}
-
-
-/*
- * The second copy of sub_0204D340: same body, same two callees, emitted
- * again thirty-two bytes later.  Two adjacent dispatch-table slots each got
- * their own definition and nothing folded them, so the only difference
- * between the two functions in the image is the PC24 displacement.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D360.c \
- *       --func sub_0204D360 --addr 0x0204D360 --cc 1.1p1 --arm
- */
-void sub_0204D360(struct Obj_0204D360 *o, u32 idx)
-{
-    sub_0206434C(&o->unk_0c, sub_020627D8(o->unk_08, idx));
-}
-
-
-/*
- * The third member of the sub_0204D340 / sub_0204D360 trio, reading the
- * handle from +0x74 instead of +8 and finishing in sub_0206469C instead of
- * sub_0206434C.  The shared middle step, sub_020627D8 on the handle, is
- * what says these three are the same operation over different slots.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D380.c \
- *       --func sub_0204D380 --addr 0x0204D380 --cc 1.1p1 --arm
- */
-void sub_0204D380(struct Obj_0204D380 *o, u32 idx)
-{
-    sub_0206469C((struct Obj0206469C *)(&o->unk_0c), sub_020627D8(o->unk_74, idx));
+    func_0204D52C(p);
+    func_02064C10((struct Obj02064C10 *)((u8 *)p + 0x40));
 }

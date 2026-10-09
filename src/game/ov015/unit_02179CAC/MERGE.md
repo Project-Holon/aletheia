@@ -1,20 +1,4 @@
-# unit_02179CAC.c (ov015)
+# unit_02179CAC (ov015)
 
-Translation unit 02179CAC..02179EE0, 6 functions, confidence likely (tools/tuboundary.py).
-
-The member files below each match on their own. Merging them into one
-`unit_02179CAC.c` is blocked by:
-
-- ov015_func_02179CAC.c..ov015_func_02179D80.c: c99=DIFF nolang=DIFF
-- ov015_func_02179D30.c..ov015_func_02179D80.c: c99=DIFF nolang=DIFF
-- ov015_func_02179D3C.c..ov015_func_02179D80.c: c99=DIFF nolang=DIFF
-
-Members, in address order:
-
-- `ov015_func_02179D30.c`
-- `ov015_func_02179D3C.c`
-- `ov015_func_02179D80.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_02179CAC.c` again.
+Round 4 (r4_ov05): the uncovered leaf 0x02179D68 is now the hidden function func_02179D68 inside p01.
+The p01|p02 boundary is one linker veneer (0x02179D78..0x02179D80, ldr r3,[pc]; bx r3 to func_0217A024), a real file boundary.

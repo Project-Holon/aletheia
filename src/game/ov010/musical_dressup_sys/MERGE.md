@@ -1,45 +1,12 @@
-# musical_dressup_sys.c (ov010)
+# musical_dressup_sys (ov010)
 
-Translation unit 02155478..0215766C, 71 functions, confidence weak (tools/tuboundary.py).
+Round 3 (lane r3_ov03): the greedy merge with the call-argument harmonizer was re-run; the parts below are what is left. Every part verifies byte-exact on its own.
 
-The member files below each match on their own. Merging them into one
-`musical_dressup_sys.c` is blocked by:
+Eight parts (was 10). The struct pass is the only blocker. Local structs with different field
+sets per part: Work (dims use sizeof of another local struct), Seq (Link_02155478 vs
+Link_02155C0C pointer members), Stage (Member * vs void * at +4), Member / Party / Ent / Deal
+(nested renamed views Rec6_02157028, Member_02156934, Tbl, Ent_02157028), Obj and Rec (complex
+members). Prototype conflicts that need these structs first: func_02155FB4, func_02155FC8,
+func_02156530, func_02156710..func_02156824, func_021568A8..func_02156B74, func_02157028..func_021572E4.
 
-- ov010_func_02155478.c..ov010_func_02157650.c: prototype of func_020120F4 differs between members (src/matched/ov/ov010_func_021559E4.c); prototype of func_020120F0 differs between members (src/matched/ov/ov010_func_02155C0C.c); prototype of func_
-- ov010_func_02155478.c..ov010_func_02156A3C.c: prototype of func_020120F4 differs between members (src/matched/ov/ov010_func_021559E4.c); prototype of func_020120F0 differs between members (src/matched/ov/ov010_func_02155C0C.c); prototype of func_
-- ov010_func_02155478.c..ov010_func_02156420.c: prototype of func_020120F4 differs between members (src/matched/ov/ov010_func_021559E4.c); prototype of func_020120F0 differs between members (src/matched/ov/ov010_func_02155C0C.c); prototype of func_
-- ov010_func_02155478.c..ov010_func_02155A98.c: prototype of func_020120F4 differs between members (src/matched/ov/ov010_func_021559E4.c)
-- ov010_func_02155478.c..ov010_func_02155A6C.c: prototype of func_020120F4 differs between members (src/matched/ov/ov010_func_021559E4.c)
-- ov010_func_02155C0C.c..ov010_func_02156420.c: prototype of func_021FD904 differs between members (src/matched/ov/func_02155F24.c); type typedef Party differs between members (src/matched/ov/ov010_func_0215611C.c); type typedef Party differs betwe
-- ov010_func_02155C0C.c..func_02155F9C.c: prototype of func_021FD904 differs between members (src/matched/ov/func_02155F24.c)
-- ov010_func_02155C0C.c..func_02155F24.c: prototype of func_021FD904 differs between members (src/matched/ov/func_02155F24.c)
-- ov010_func_02155FB4.c..ov010_func_02156420.c: type typedef Party differs between members (src/matched/ov/ov010_func_0215611C.c); type typedef Party differs between members (src/matched/ov/ov010_func_02156420.c)
-- ov010_func_02156074.c..ov010_func_02156420.c: type typedef Party differs between members (src/matched/ov/ov010_func_0215611C.c); type typedef Party differs between members (src/matched/ov/ov010_func_02156420.c)
-- ov010_func_0215611C.c..ov010_func_02156420.c: type typedef Party differs between members (src/matched/ov/ov010_func_02156420.c)
-- ov010_func_02156530.c..ov010_func_02156A3C.c: prototype of func_021854B0 differs between members (src/matched/ov/ov010_func_02156824.c); type typedef Party differs between members (src/matched/ov/ov010_func_02156934.c); type typedef Party differs
-- ov010_func_02156908.c..ov010_func_02156A3C.c: type typedef Party differs between members (src/matched/ov/ov010_func_02156954.c); type typedef Party differs between members (src/matched/ov/ov010_func_02156978.c); type typedef Party differs between
-- ov010_func_02156978.c..ov010_func_02156A3C.c: prototype of func_021568E8 differs between members (src/matched/ov/ov010_func_02156A3C.c); prototype of func_021568A8 differs between members (src/matched/ov/ov010_func_02156A3C.c)
-- ov010_func_021569A4.c..ov010_func_02156A3C.c: prototype of func_021568E8 differs between members (src/matched/ov/ov010_func_02156A3C.c); prototype of func_021568A8 differs between members (src/matched/ov/ov010_func_02156A3C.c)
-- ov010_func_021569EC.c..ov010_func_02156A3C.c: prototype of func_021568E8 differs between members (src/matched/ov/ov010_func_02156A3C.c); prototype of func_021568A8 differs between members (src/matched/ov/ov010_func_02156A3C.c)
-- ov010_func_02156AD4.c..ov010_func_02157650.c: global ov112_id declared two ways (src/matched/ov/ov010_func_02156EDC.c)
-- ov010_func_02156AD4.c..ov010_func_0215700C.c: global ov112_id declared two ways (src/matched/ov/ov010_func_02156EDC.c)
-- ov010_func_02156CE0.c..ov010_func_0215700C.c: global ov112_id declared two ways (src/matched/ov/ov010_func_02156EDC.c)
-- ov010_func_02156CE0.c..ov010_func_02156F68.c: global ov112_id declared two ways (src/matched/ov/ov010_func_02156EDC.c)
-- ov010_func_02156F98.c..ov010_func_0215700C.c: type typedef Stage differs between members (src/matched/ov/ov010_func_02156FD0.c); type typedef Stage differs between members (src/matched/ov/ov010_func_0215700C.c)
-- ov010_func_02156FD0.c..ov010_func_0215700C.c: type typedef Stage differs between members (src/matched/ov/ov010_func_0215700C.c)
-
-Members, in address order:
-
-- `ov010_func_02155C0C.c`
-- `func_02155F24.c`
-- `ov010_func_02156074.c`
-- `ov010_func_0215611C.c`
-- `ov010_func_02156420.c`
-- `ov010_func_021569A4.c`
-- `ov010_func_021569EC.c`
-- `ov010_func_02156A3C.c`
-- `ov010_func_02156FD0.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names musical_dressup_sys.c` again.
+Parts: musical_dressup_sys_p01.c, musical_dressup_sys_p02.c, musical_dressup_sys_p03.c, musical_dressup_sys_p04.c, musical_dressup_sys_p05.c, musical_dressup_sys_p06.c, musical_dressup_sys_p07.c, musical_dressup_sys_p08.c

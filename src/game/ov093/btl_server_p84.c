@@ -1,8 +1,7 @@
 /*
- * file:     btl_server_p84.c
- * unit:     yes
- * function: func_021C7CD4, func_021C7CDC, func_021C7CE8
- * address:  0x021C7CD4
+ * function: func_021C8C6C
+ * address:  0x021C8C6C
+ * packet:   pkt_ov093_021C8C6C
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,46 +9,25 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * symbols:
+ *   func_021C8CAC  0x021C8CAC  thumb  ov093
+ *   func_021B9934  0x021B9934  thumb  ov093
+ *   func_021C60D4  0x021C60D4  thumb  ov093
  */
-#include "../../matched/include/Obj18322.h"
-#include "../../matched/include/Obj18323.h"
+#include "../../matched/include/Obj00003.h"
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-typedef unsigned char u8;
+extern int func_021C8CAC(int a, u8 b);
+extern u8 *func_021B9934(char *p, int i);
+extern void func_021C60D4(u8 *p, u8 *a);
 
-typedef unsigned short u16;
+typedef struct { u32 pad : 8; u32 idx : 5; u32 rest : 19; } Ent;
 
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-/* 021C7CD4  movs r1,#0x7e; lsls r1,#6; ldrh r0,[r0,r1] */
-struct Q6 { u8 pad[0x1f80]; u16 v; };
-
-u16 func_021C7CD4(struct Q6 *p);
-u16 func_021C7CDC(u8 *p);
-u16 func_021C7CE8(u8 *p);
-
-/*
- * Leaf with no calls and no pool; 4 instructions, 8 bytes: movs r1, #0x7e; lsls r1, r1, #6; ldrh r0, [r0, r1]; bx lr.
- */
-u16 func_021C7CD4(struct Q6 *p) { return p->v; }
-
-
-/*
- * ldrh at #0x1f82 (pool constant)
- */
-u16 func_021C7CDC(u8 *p)
+int func_021C8C6C(int a, Ent *e)
 {
-    return ((struct Obj18322 *)p)->f1F82;
-}
-
-
-u16 func_021C7CE8(u8 *p)
-{
-    return ((struct Obj18323 *)p)->f1F86;
+    if (func_021C8CAC(a + 0x1ab8, e->idx)) {
+        func_021C60D4((u8 *)a, func_021B9934(*(char * *)&((struct Obj00003 *)a)->f8, (u8)e->idx));
+        return 1;
+    }
+    return 0;
 }

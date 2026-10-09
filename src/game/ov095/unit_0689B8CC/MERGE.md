@@ -1,17 +1,5 @@
-# unit_0689B8CC.c (ov095)
+# ov095 unit_0689B8CC: boundaries left
 
-Translation unit 0689B8CC..0689B9F4, 10 functions, confidence weak (tools/tuboundary.py).
+Each boundary below is a real file boundary for now (uncovered bytes, an ARM/Thumb switch, a lang change, or an asm veneer).
 
-The member files below each match on their own. Merging them into one
-`unit_0689B8CC.c` is blocked by:
-
-- ov095_func_0689B8CC.c..ov095_func_0689B974.c: c99=DIFF nolang=DIFF
-- no verified entry for 0689B8FC, 0689B90C, 0689B91C, 0689B9B4, 0689B9C4, 0689B9D4, 0689B9E4
-
-Members, in address order:
-
-- `ov095_func_0689B8CC.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_0689B8CC.c` again.
+- unit_0689B8CC_p01.c | unit_0689B8CC_p02.c: 48 uncovered bytes before the next part (stub, pool or padding)

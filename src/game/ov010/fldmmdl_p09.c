@@ -1,8 +1,8 @@
 /*
  * file:     fldmmdl_p09.c
  * unit:     yes
- * function: func_0216CD78, func_0216CD88, func_0216CDB8, func_0216CDC4
- * address:  0x0216CD78
+ * function: func_0216E39C, func_0216E3C4, func_0216E3C8, func_0216E3CC, func_0216E3D0, func_0216E3D8, func_0216E400, func_0216E40C, func_0216E418, func_0216E42C, func_0216E434
+ * address:  0x0216E39C
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,27 +13,15 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0219C624  0x0219C624  thumb
- *   func_0219C630  0x0219C630  thumb
- *   func_0216CD64  0x0216CD64  thumb  ov010
- *   func_02087A3C  0x02087A3C  arm
- *   func_0216D95C  0x0216D95C  thumb  ov010
- *   func_0216DEEC  0x0216DEEC  thumb  ov010
- *   func_0216D1C8  0x0216D1C8  thumb  ov010
- *   func_0216D040  0x0216D040  thumb  ov010
- *   func_0216D208  0x0216D208  thumb  ov010
- *   func_0216E51C  0x0216E51C  thumb  ov010
+ *   func_0216D550  0x0216D550  thumb  ov010
+ *   func_0216E2E8  0x0216E2E8  thumb  ov010
  *   func_0216D548  0x0216D548  thumb  ov010
- *   func_0216D4D4  0x0216D4D4  thumb  ov010
- *   func_0216D244  0x0216D244  thumb  ov010
- *   func_0216D268  0x0216D268  thumb  ov010
- *   func_0216E114  0x0216E114  thumb  ov010
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D4FC  0x0216D4FC  thumb  ov010
- *   func_0216D0E8  0x0216D0E8  thumb  ov010
+ *   func_020143CC 0x020143CC thumb
+ *   d_021D5E04  0x021D5E04  data  ov093  a4
+ *   d_021D770C  0x021D770C  data  ov021  a4
+ *   func_020142E8  0x020142E8  thumb
  */
-#include "../../matched/include/Obj17771.h"
-#include "../../matched/include/Obj19116.h"
+#include "../../matched/include/Obj19137.h"
 
 typedef unsigned char u8;
 
@@ -41,113 +29,164 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct {
-    u32 w[9];
-} Rec;
+typedef signed short   s16;
 
-extern int func_0219C624();
-extern int func_0219C630();
-extern int func_0216CD64(int a0);
-extern int func_02087A3C();
-extern void func_0216D95C(unsigned int *p, unsigned int v, int a2);
-extern int func_0216DEEC(int a0);
-extern void func_0216D1C8(u8 *o, u32 a, u32 b);
-extern void func_0216D040(u8 *o, u16 *r, u32 b, u32 c);
-extern void func_0216D208(void *p);
-extern int func_0216E51C(void *a);
-extern u32 *func_0216D548(u32 *p, u32 v);
-extern int func_0216D4D4(int a0, int a1);
-extern void func_0216D244(u32 a, u8 *o);
-extern int func_0216D268(int a0, int a1);
-extern int func_0216E114(int a0);
-extern void *func_0216D67C(void *a0);
-extern int func_0216D4FC(int a0);
-extern void func_0216D0E8(u8 *o, Rec *r, u32 z);
-int func_0216CD78(int a0);
-int func_0216CD88(int a0);
-void func_0216CDB8(u8 *p, u32 v, int a2);
-u8 *func_0216CDC4(u32 a, Rec *p, u32 b, u32 c);
+typedef signed char    s8;
+
+extern int func_0216D550();
+extern int func_0216E2E8();
+extern unsigned int *func_0216D548(unsigned int *, unsigned int);
+extern unsigned int func_020143CC(unsigned int, unsigned int);
+extern unsigned int func_020142E8(void *bitmap, int id);
+void func_0216E39C(int a0, int a1, int a2);
+void *func_0216E3C4(void *p);
+void *func_0216E3C8(void *p);
+u8 *func_0216E3CC(u8 *p);
+int func_0216E3D0(int a, int b);
+unsigned int func_0216E3D8(unsigned int, unsigned int);
+u32 func_0216E400(int i);
+u32 func_0216E40C(int i);
+int func_0216E418(void *a);
+unsigned int func_0216E42C(void *bitmap, int id);
+u32 func_0216E434(u32 a);
+extern u32 d_021D5E04[];
+extern u32 d_021D770C[];
 
 
-/*
- * blocked:  listing 16 compiled 14
- */
-int func_0216CD78(int a0)
+
+void func_0216E39C(int a0, int a1, int a2)
 {
-    int a1;
-
-a1 = ((struct Obj17771 *)a0)->f24;
-    if (a1 == 0) goto loc_0216CD84;
-loc_0216CD80:
-    a0 = func_0219C624(a0);
-loc_0216CD84:
-    return a0;}
-
-
-/*
- * blocked:  listing 48 compiled 46
- */
-int func_0216CD88(int a0)
-{
-    int a1;
     int t4;
     int t5;
+    int t6;
 
+t6 = a2 + 0;
 t5 = a0 + 0;
-    a0 = func_0219C630(a0);
-loc_0216CD90:
-    if (a0 != 1) goto loc_0216CDB4;
-loc_0216CD94:
-t4 = 1;
-loc_0216CD96:
+t4 = a1 + 0;
+a0 = t6 + 0;
+a1 = 1;
+    a0 = func_0216D550(a0, a1);
+loc_0216E3AC:
+a2 = t6 + 0;
 a0 = t5 + 0;
-    a0 = func_0216CD64(a0);
-loc_0216CD9C:
-a0 = t4 + 0;
 a1 = t4 + 0;
-    a0 = func_02087A3C(a0, a1);
-loc_0216CDA4:
-a0 = t5 + 0;
-    a0 = func_0216CD78(a0);
-loc_0216CDAA:
-a0 = t5 + 0;
-    a0 = func_0219C630(a0);
-loc_0216CDB0:
-    if (a0 == 1) goto loc_0216CD96;
-loc_0216CDB4:
-    return a0;}
+a2 = a2 + 0xe4;
+    a0 = func_0216E2E8(a0, a1, a2);
+loc_0216E3B8:
+a0 = t6 + 0;
+a1 = 1;
+    a0 = (int)func_0216D548((unsigned int *)a0, a1);
+loc_0216E3C0:
+    return;}
+
 
 
 /*
- * Unlabelled thumb leaf (store, then tail call through a pool word), the
- * sole blocker of ov021 func_02189204 (lane S26).
- * Addresses are Black-image addresses.
+ * generated: lane O24 (ov010 leaf/wrapper sweep)
+ *
+ * Returns the address of an interior member (field address), pool-free leaf.
+ *
+ * Addresses are Black-image addresses.  --region ov010 is required: this
+ * address is only ov010 in the overlay that defines it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0216E3C4.c \
+ *       --func func_0216E3C4 --addr 0x0216E3C4 --region ov010 --cc dsi/1.1p1 --thumb
  */
-void func_0216CDB8(u8 *p, u32 v, int a2)
+void *func_0216E3C4(void *p) { return (char *)p + 228; }
+
+
+/*
+ * Unlabelled leaf: adds r0, #0x10; bx lr.
+ */
+void *func_0216E3C8(void *p)
 {
-    ((struct Obj19116 *)p)->f40 = v;
-    func_0216D95C((unsigned int *)p, 1, a2);
+    return (char *)p + 0x10;
 }
 
 
-u8 *func_0216CDC4(u32 a, Rec *p, u32 b, u32 c)
-{
-    Rec r = *p;
-    u8 *o;
 
-    o = (u8 *)func_0216DEEC(a);
-    func_0216D1C8(o, a, b);
-    func_0216D040(o, (u16 *)(&r), c, a);
-    func_0216D208(o);
-    if (func_0216E51C(o) == 1)
-        func_0216D548((u32 *)o, 640);
-    if (func_0216D4D4(a, 0x10)) {
-        func_0216D244(a, o);
-        func_0216D268(a, (int)o);
-    }
-    if (func_0216D4D4(a, 1))
-        func_0216E114((int)o);
-    func_0216D4FC((int)func_0216D67C(o));
-    func_0216D0E8(o, &r, 0);
-    return o;
+/*
+ * Unlabelled leaf: returns its argument plus 0x10.
+ *
+ * Addresses are Black-image addresses.
+ */
+u8 *func_0216E3CC(u8 *p)
+{
+    return p + 0x10;
+}
+
+
+
+/*
+ * Unlabelled thumb tail-call stub (ldr r3,[pc,#0]; bx r3; .word 0x0216E3D9);
+ * the sole blocker of ov021 func_021B181C.
+ */
+int func_0216E3D0(int a, int b)
+{
+    return func_0216E3D8(a, b);
+}
+
+
+unsigned int func_0216E3D8(unsigned int a, unsigned int id) { if (id>=162 && id<=177) { if(a==0) id=10; else id=*(u16 *)func_020143CC(a,(u16)(id+0x3f7e)); } return id; }
+
+
+
+/*
+ * note: the parked file gave no overlay hint; un-hinted, sole-ref/data saw
+ * data at 0x021D5E04 in several overlapping overlays and refused.  ov093 is
+ * the one overlay where it is a data object start, so the hint fixes the
+ * choice and the site resolves as sole-ref/data.
+ */
+u32 func_0216E400(int i)
+{
+    return d_021D5E04[i];
+}
+
+
+
+/*
+ * note: the parked file gave no overlay hint; un-hinted, sole-ref saw data at
+ * 0x021D770C in several overlapping overlays and refused.  ov021 is the
+ * pointer-table home of the word (the ov021 datum is 0x021D86C0), so the hint
+ * fixes the choice and the site resolves as sole-ref/self.
+ */
+u32 func_0216E40C(int i)
+{
+    return d_021D770C[i];
+}
+
+
+int func_0216E418(void *a) { if (((struct Obj19137 *)a)->fA==65535) return 1; return 0; }
+
+
+
+/*
+ * Tail call thunk: forwards its arguments unchanged to 0x020142E8.
+ */
+unsigned int func_0216E42C(void *bitmap, int id)
+{
+    return func_020142E8(bitmap, id);
+}
+
+
+/*
+ * Classify an id: 1 for the eight 'special' values, the id itself otherwise.
+ *
+ * Addresses are Black-image addresses.
+ */
+u32 func_0216E434(u32 a)
+{
+switch (a) {
+case 4:
+case 5:
+case 6:
+case 7:
+case 8:
+case 11:
+case 12:
+case 13:
+return 1;
+}
+return a;
 }

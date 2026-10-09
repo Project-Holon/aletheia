@@ -1,21 +1,12 @@
 # unit_021B7560.c (ov105)
 
-Translation unit 021B7560..021B8860, 49 functions, confidence weak (tools/tuboundary.py).
+Merged as far as the verifier and the compile allow. Remaining parts:
 
-The member files below each match on their own. Merging them into one
-`unit_021B7560.c` is blocked by:
+- `unit_021B7560_p01.c`: func_021B7560 .. func_021B80D8 (37 functions)
+- `unit_021B7560_p02.c`: func_021B80E8,func_021B8340 .. func_021B8840 (12 functions)
 
-- ov105_func_021B7560.c..ov105_func_021B8840.c: prototype of func_02082BCC differs between members (src/matched/ov/ov105_func_021B7C20.c); prototype of func_02082BCC differs between members (src/matched/ov/ov105_func_021B7C6C.c); prototype of func_
-- ov105_func_021B7560.c..ov105_func_021B7CB0.c: prototype of func_02082BCC differs between members (src/matched/ov/ov105_func_021B7C20.c); prototype of func_02082BCC differs between members (src/matched/ov/ov105_func_021B7C6C.c)
-- ov105_func_021B7D20.c..ov105_func_021B8840.c: prototype of func_02082BCC differs between members (src/matched/ov/ov105_func_021B7D90.c); prototype of func_02043B5C differs between members (src/matched/ov/ov105_func_021B7E48.c); prototype of func_
-- ov105_func_021B80E8.c..ov105_func_021B8840.c: prototype of func_02061CA4 differs between members (src/matched/ov/ov105_func_021B8734.c)
-- ov105_func_021B80E8.c..ov105_func_021B8440.c: c99=CCERR: line 109: illegal implicit conversion from 'struct  *' to | line 109: 'struct  *' | line 109: illegal implicit conversion from 'struct  *' to nolang=CCERR: line 109: illegal implicit conver
-- ov105_func_021B80E8.c..ov105_func_021B83E0.c: c99=CCERR: line 99: illegal implicit conversion from 'struct  *' to | line 99: 'struct  *' | line 99: illegal implicit conversion from 'struct  *' to nolang=CCERR: line 99: illegal implicit conversion
+Blockers:
 
-Members, in address order:
+- data labels d_021B8974 and d_021B8984 have no witness outside a whole-TU window. Compile is clean after: unify Data_021B80E8 into Data_021B7560 and Display_021B8348 into Display (identical fields), (Window *)(p+0xc0) cast at the func_021B8008 calls. The two parts are the verifier's floor.
 
-- `ov105_func_021B80E8.c`
-
-To merge: give each listed global and function one declaration that every
-member compiles against byte-exact, then run
-`python tools/restructure.py --proposal <tsv> --names unit_021B7560.c` again.
+Shared rule: the part files must stay separate where a data label only has witnesses in the other part.

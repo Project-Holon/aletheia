@@ -1,38 +1,42 @@
 /*
  * file:     nhttp_rap_p02.c
  * unit:     yes
- * function: func_021B97F4, func_021B9800
- * address:  0x021B97F4
+ * function: func_021B9B4C, func_021B9B58
+ * address:  0x021B9B4C
  * region:   ov114
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
- * isa:      thumb
+ * isa:      arm
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_02086028  0x02086028  arm
  */
-#include "../../matched/include/Obj13848.h"
-
 typedef unsigned char u8;
 
 typedef unsigned int u32;
 
-typedef unsigned short u16;
-
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-u8 *func_021B97F4(u8 *p);
-u8 *func_021B9800(int a, int b, int c);
-
-u8 *func_021B97F4(u8 *p) { if(p==0) return 0; return p+0x10; }
+extern void func_02086004(void);
+extern void func_02086028(void);
+void func_021B9B4C(int *mutex_p);
+void func_021B9B58(void);
 
 
-u8 *func_021B9800(int a, int b, int c)
+void func_021B9B4C(int *mutex_p)
 {
-    u8 *p = func_02030734(a, 0x5a8, 1, (const char *)0x021CE310, 0x1aa);
+    func_02086004();
+}
 
-    *(u32 *)0x021CF960 = (u32)p;
-    ((struct Obj13848 *)p)->f5A4 = b;
-    ((struct Obj13848 *)p)->f8 = c;
-    return p;
+
+/*
+ * ARM linker veneer / far tail call: ldr ip,[pc,#0]; bx ip; .word
+ * 0x02086028, printed as a .word run by disasm.py at 0x021B9B58 in ov114.
+ * Blocker target of func_021BEFCC (pkt_021B9500).
+ */
+void func_021B9B58(void)
+{
+    func_02086028();
 }

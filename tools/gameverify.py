@@ -52,7 +52,10 @@ def main():
                 continue
             files += [os.path.join(dp, f) for f in fn if f.endswith('.c') and not f.startswith('_')]
         for p in sorted(files):
-            raw = open(p, encoding='latin1').read()
+            try:
+                raw = open(p, encoding='latin1').read()
+            except OSError:
+                continue                        # removed while the check ran (a lane merged it)
             if raw.startswith('\xef\xbb\xbf'):
                 raw = raw[3:]
             h, st = settings_of(raw)
