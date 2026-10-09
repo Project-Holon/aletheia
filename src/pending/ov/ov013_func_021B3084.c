@@ -209,6 +209,15 @@
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4
  *   d_021B4C2C  0x021B4C2C  data  a4
+ *
+ * pass 9 2026-10-09 (by hand, 9 compiles, best stays 6 B): residue at +00D0..D8,
+ * original `lsr r1; str r1,[r2]; ldr r1,=d_021B3C50`, compile `lsr ip; ldr r1,=..;
+ * str ip,[r2]`. Tried: `*(volatile u32 *)&p->f4 = 0` (15 B, pool load moves even
+ * earlier); cfg through a block-local pointer `c->f0 = 1` (6 B); thr through a
+ * used copy `u32 t = thr` (6 B, copy coalesced before scheduling); thr assigned
+ * inside the store expression (8 B); p assigned before the second sqrt loop
+ * (83 B); `extern volatile VadCfg d_021B3C50` (6 B). Copies and pointer locals are
+ * folded before the pre-RA scheduler, so they add no node.
  */
 
 typedef unsigned char u8;
