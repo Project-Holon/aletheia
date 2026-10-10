@@ -1,15 +1,10 @@
 # eventdata_system (ov010)
 
-Round 3 (lane r3_ov03): the greedy merge with the call-argument harmonizer was re-run; the parts below are what is left. Every part verifies byte-exact on its own.
+Round 10 (lane w10c): 15 parts reduced to 10. Merged: old p01+p02, p04+p05 (func_02162408 rewritten as typed C), p06+p07..; stand-ins rewritten as typed C: func_02161E60, func_02161F54, func_02161F74, func_02161FF0, func_02162008, func_0216210C (unused arg kept, callers pass one), func_021620A0, func_021621E8, func_021622F4, func_02162358, func_021623BC, func_02162408, func_02162438, func_02162694.
 
-15 parts (was 20). The last part still holds 6 verified parts that did not merge (see the part
-headers). Boundaries left: stand-in bodies that call func_02082BCC, func_02162358, func_02161E78,
-func_02082D44, func_021630F4, func_021631C0, func_021634D8, func_021636C8, func_02163994,
-func_02163A08, func_02163E34, func_02163E58, func_0216D80C, func_0216D818, func_0216D824,
-func_0216D89C with int arguments where the callee takes a pointer or with fewer or more
-arguments than the definition; struct Box / Sub (three local copies with different field names);
-TrigCell / Payload typedefs defined in one part only; fx32 declared twice. Rewrite the stand-in
-bodies in plain C with the definition's prototype, check EXACT alone, then merge. Keep hash signs
-out of comments (they break the merge tool's prototype extraction).
+Boundaries left (every part EXACT alone):
+- p01|p02 (and p02|p03): struct Sub / Box have different views: f0/f2 u16 in func_02162BCC (p02) but s16 in the p01 and p03 functions (a canonical Sub with u16 f0/f2 breaks p01 and p03 by a few bytes; s16 breaks p02). Needs a per-function look at which accesses cast.
+- p03|p04, p04|p05, p05|p06, p06|p07, p07|p08: stand-ins calling func_021634D8, func_021636C8, func_02163994, func_02163A08, func_02163E34 and friends with int arguments or a wrong argument count (about 200 goto-style bodies in p04..p06 still to rewrite).
+- p09|p10: DIFF, prototype of func_02163A08 differs.
 
-Parts: eventdata_system_p01.c, eventdata_system_p02.c, eventdata_system_p03.c, eventdata_system_p04.c, eventdata_system_p05.c, eventdata_system_p06.c, eventdata_system_p07.c, eventdata_system_p08.c, eventdata_system_p09.c, eventdata_system_p10.c, eventdata_system_p11.c, eventdata_system_p12.c, eventdata_system_p13.c, eventdata_system_p14.c, eventdata_system_p15.c
+Parts: eventdata_system_p01.c, eventdata_system_p02.c, eventdata_system_p03.c, eventdata_system_p04.c, eventdata_system_p05.c, eventdata_system_p06.c, eventdata_system_p07.c, eventdata_system_p08.c, eventdata_system_p09.c, eventdata_system_p10.c

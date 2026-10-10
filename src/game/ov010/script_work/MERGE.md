@@ -1,14 +1,5 @@
-# script_work.c
+# script_work (ov010)
 
-Round 5 (r5 s07): 5 parts -> 4. p01 and p02 merged and EXACT. func_021588B0 is now typed
-`int f(struct Obj00105 *obj, int arg)` (callback invoker), func_021588DC is typed C,
-func_02158824 lost its three unused parameters (body is `func_020307B0(a0)`).
+Round 9 (lane w9c): 4 parts to 2. Old p02..p04 merged EXACT (func_02158FD0 is a K&R definition `int f(a0, a1, a2)` called with 2 or 3 arguments).
 
-Left:
-- p01|p02 (new numbering): func_02158F94 is defined with 3 parameters (the third is used when q != 0)
-  but func_02158920 calls it with 2, so r2 is a stale register at the call. Passing an extra argument adds
-  an instruction. Only a K&R definition could reproduce it. The old p03 stand-ins also pass int where
-  callees take pointers (func_020307B0, func_02045808) and call func_0203CDBC(a0) with an
-  argument although it takes none: these machine-style stand-ins must be rewritten as typed C.
-- Global d_0217289C is declared two ways (p03|p04); func_02158FD0 has two prototypes (p04|p05).
-- 0x021588CE..0x021588D0, 0x02158A8E..0x02158A90, 0x02158FDE..0x02158FE0 are 2-byte alignment pads, not code.
+Boundary left (p01|p02): in the test merge the only open item is func_02158A34. Its caller func_02158A90 passes `int result` with no narrowing, but the definition `void f(int a, int b, u16 c, int d)` compiles EXACT only with a prototype in scope, and a prototype makes the caller narrow (lsls/lsrs, 6 bytes more). Tried: int c, u16 result, no prototype with K&R u16 (all DIFF, 42 to 96 bytes). Also func_02158F94 is called with 2 arguments and defined with 3 (K&R fixes it), func_02158BFC needs int parameters in the merged file.

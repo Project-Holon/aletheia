@@ -1,12 +1,15 @@
-# field_effect (ov021): 17 parts (was 19)
+# field_effect (ov021): 2 parts (was 17)
 
-Round 6 (g021): hidden functions func_021AC660 (`func_021C6628(q->f4, q->f8)`) and func_021AC688
-(empty leaf) closed old p17|p18 and p18|p19; the last three parts are now p17.
-Old p17 (func_021AC62C) still does not join the part before it: `D` is declared as two different structs.
+Round 10 (w10a) merged everything from 0x021A87A8 to the end into p01 (EXACT). p02 stays on purpose.
 
-Remaining boundaries, all type conflicts or DIFF:
-- p01..p03, p05, p08, p11, p15: merged file is DIFF.
-- p04: struct Obj_021A8E78 redefined with different fields; p07: `Entry` redefined; p14, p16, p17: `D`, `T` typedef clashes.
-- p06, p09, p10, p12, p13: u32 against struct pointer or array arguments; void against int returns (func_02082BCC, func_021AB37C, func_021ABB54).
+p01|p02 is a real overlap, not a type conflict. func_021A8E10 (in p01) is the whole function
+`p = s->pf8; if (p == 0) return 0; return p->f8;` and its bytes run through 0x021A8E1F. The symbol
+func_021A8E14 (p02) is a second entry label in the middle of those bytes. A TU that holds both
+doubles the bytes (DIFF); p02 alone is EXACT. gamecheck needs the function present, so p02 stays a
+separate file that is not part of any other TU compile. If a way to record a mid-function label
+appears, drop p02 and name p01 field_effect.c.
 
-Note: the p-numbers in the list of remaining boundaries come from the greedy log and use the numbering before this round's renumbering (re-run the greedy driver to refresh the pairs).
+Hidden functions added to p01 (gap 0x021AB474 to 0x021AB4B8, three leaf predicates on an id):
+- func_021AB474: `id == 0x54 || (unsigned short)(id + 0xFFA9) <= 1`
+- func_021AB490: `id == 0x52 || id == 0x56 || id == 0x58`
+- func_021AB4A4: `id == 0x51 || id == 0x55 || id == 0x57`

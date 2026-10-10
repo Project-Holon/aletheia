@@ -15,7 +15,7 @@
  * symbols:
  */
 
-typedef unsigned long u32;
+typedef unsigned int u32;
 
 u32 func_021A8E14(u32 p)
 {

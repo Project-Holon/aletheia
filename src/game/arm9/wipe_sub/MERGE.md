@@ -15,7 +15,8 @@ Boundaries left (what blocks each):
   Task_020238B4 describe one task object). Needs the struct pass from p05 to p08.
 - p05|p06, p06|p07, p07|p08: calls between members do not type-check because of those clones
   (Struct_02023CFC, Interp, Task) and a void-versus-value return of one callee.
-- p08|p09: with MI_CpuCopy8 (src, dest) and func_02045B38 unified the merged build compiles but gives
+- (w10d) old p07|p08 is merged and EXACT (the 3 byte DIFF is gone with the current merge tool). Part numbers: 8 parts -> 7.
+- (old note, resolved) p08|p09: with MI_CpuCopy8 (src, dest) and func_02045B38 unified the merged build compiles but gives
   DIFF (3 bytes in the first function area; same function layout). Not located yet: run
   scratchpad/ol027/mm27.py on the merged pair. func_02045B38's first two parameters are int in p08
   and u32 in p09, MI_CpuCopy8's order differs (p09 fixed in round 4).

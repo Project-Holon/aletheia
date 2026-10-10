@@ -461,7 +461,7 @@ extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201D83C(void *ptr);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern int func_0219049C(u8 *p);
-extern int func_021CD1AC(Obj_021CC810 *p);
+extern void func_021CD1AC(Work_021CCBE0 *w);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
@@ -1126,7 +1126,7 @@ int func_021CC810(Obj_021CC810 *p)
             if (r == -1)
                 break;
             func_021CCF48((u8 *)p);
-            func_021CD1AC(p);
+            func_021CD1AC((Work_021CCBE0 *)p);
             func_021CCFD8((u8 *)p);
             switch (r) {
             case 2:
@@ -1528,7 +1528,7 @@ void func_021CCF60(void *a, u32 sel)
     if (sel < 2)
         func_021CD184(p, sel);
     else
-        func_021CD1AC((Obj_021CC810 *)p);
+        func_021CD1AC((Work_021CCBE0 *)p);
 }
 
 

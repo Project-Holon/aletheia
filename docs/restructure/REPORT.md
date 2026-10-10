@@ -1,4 +1,4 @@
-# Restructure report (2026-10-09, after round 8)
+# Restructure report (2026-10-10, after round 10)
 
 Handoff for the next session. Goal of this phase: rebuild `src/game/` as the
 original source files (one `.c` per translation unit, TU). `src/matched/` stays the
@@ -10,11 +10,11 @@ TUs that are one file (file counts from `split_tus.tsv`; estimate 1816 TUs):
 
 | Area | Whole | Percent |
 |---|---|---|
-| ARM9 | 371 / 406 | 91.4% |
-| Overlays | 1217 / 1325 | 91.8% |
+| ARM9 | 376 / 406 | 92.6% |
+| Overlays | 1229 / 1325 | 92.8% |
 | twl | 80 / 82 | 97.6% |
 | ITCM | 2 / 3 | 66.7% |
-| **Total** | **1670 / 1816** | **92.0%** |
+| **Total** | **1687 / 1816** | **92.9%** |
 
 Denominator change in round 6 (+7 TUs): arm9 `unit_02004F94.c` and `unit_02004FD4.c`
 (crt0 helpers copied to WRAM, data words around them; their own units like the
@@ -26,7 +26,7 @@ when those become real code. (Round 5 listed 164 split TUs; the recount finds 16
 at that commit: ov093 unit_021EFC1C was missed.)
 
 Checks at this commit:
-- `python tools/gameverify.py`: 2617 files, all EXACT or MATCH except
+- `python tools/gameverify.py`: 2480 files, all EXACT or MATCH except
   `arm9/unit_020911D4_p09.c` and `_p11.c` (compiler runtime pieces that are not
   contiguous in the image: every function is EXACT with `match.py one`, the TU
   compare cannot line up).
@@ -81,6 +81,9 @@ functions written into `src/game` are not counted (see "Coverage caveats").
 | Tooling wave (symbols rows, shape regex, `member` rule) | 6 | MATCH files 120 -> 13 |
 | Round 7 | 4 | 91.5%: ov021 fldeff_splash, fldeff_namipoke, field_g3dobj, field_ground_anime, ircbattlemenu; ov010 scrcmd_musical, game_beacon_search whole |
 | Round 8 | 4 | 92.0%: ov021 pdw_postman, fld3d_ci, field_place_name; ov013 unit_021B0D18, unit_021B1498; ov095 unit_06898BFC, ov056 unit_021F36C0, ov106 irc_ranking whole |
+| Filing | 3 | 756 hidden functions filed into src/matched and the layout; MATCH files 13 -> 7 |
+| Round 9 | 4 | 92.5%: ov021 field_wfbc, ov013 unit_021B23E0, ov010 fldmmdl, ov102/103/105 unit_021B7560, ov018 intrude_field, intrude_subdisp, ov019 union_oneself, ov121 mystery_util whole |
+| Round 10 | 4 | 92.9%: ov021 weather_task, fldmmdl_blact; arm9 net_err, unit_02083644, unit_020643CC, unit_0206EB7C, unit_0207312C whole; ov021 field_effect 17 -> 2 (p02 is a second entry label inside func_021A8E10, final) |
 
 Subagents in opencode use `.opencode/agents/lane.md` (model
 `anthropic/claude-sonnet-5-5`, not committed; it is local opencode config).
@@ -143,7 +146,7 @@ Current report: `gamegaps.tsv` / `gamegaps_summary.txt` in this folder.
   all 29 of unit_0273042C, func_02701AA0, func_02731AF0, and 3 in unit_0272E9E8
   (`src/matched/twl*`, shard `twl_sys` re-verified).
 
-### 2. TUs still split (146)
+### 2. TUs still split (129)
 List with piece counts: `split_tus.tsv` (columns: region, tu, parts, folder
 members). Each TU folder has a `MERGE.md` with its blockers. Not reached yet:
 ov021 field_effect, field_wfbc, weather_task (30), fldmmdl_blact (14), fld_trade
@@ -163,6 +166,14 @@ unit_02064D70 (15), clact (13). About 80 to 100 of the 164 are real boundaries
 (veneers, ARM/Thumb, compiler, SDK stand-ins), so the ceiling is roughly 93 to 95%.
 
 ### 3. Readability debt (from lane reports)
+- Calls through `((void *(*)())f)(...)` to get a call with no prototype in view
+  (the original had an implicit declaration of a callee defined later with
+  narrow parameters; -lang c99 forbids implicit declarations): ov010
+  script_work_p02, symbol_map_p01, ov121 mystery_util. Cleaner option: build
+  those files without c99 if the bytes stay, and drop the casts.
+- Hidden functions written after the filing are only in src/game: ov021
+  field_effect 0x021AB474, 0x021AB490, 0x021AB4A4 (plus the 13 that could not be
+  filed). File them the same way.
 - Per-part renamed typedefs instead of one struct: ov135 worldtrade_adapter
   (`Work_vXXXX`), ov072 townmap (`W_*`, `Pos_*`), ov217 research_top
   (`S_021BC8E4`...), dwc_rap_p01 (one renamed view), ov009 unit_0217956C
@@ -291,7 +302,7 @@ shared strings and data), and lanes adjusted them (1812 became 1809).
 - Evidence not used yet: alignment gaps between each file's data block, one static
   initialiser entry per file with globals, overlay edges as outer bounds.
 
-So "92.0%" means 1670 of the 1816 estimated TUs are one file.
+So "92.9%" means 1687 of the 1816 estimated TUs are one file.
 
 ## Tools
 - `tools/restructure.py` builds/merges; `tools/gamepromote.py` moves one-piece TUs
