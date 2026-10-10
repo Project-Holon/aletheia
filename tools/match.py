@@ -7405,12 +7405,14 @@ SOLE_REF_CODE_NONLABEL = 0x02005DA6
 SOLE_REF_STRING_AFTER_TABLE = 0x020A716C
 
 # --- sole-ref/self (2026-09-21) -------------------------------------------
-# A real ABS32-shaped site: the pool word at 0x020049D4 holds 0x02004F94,
-# which is a rodata address (in_data_section() agrees) and no code extent
-# covers it.  This is the positive `self` case -- relocation agreement is
-# the whole evidence, no second referrer anywhere.
-SOLE_REF_SELF_SITE = 0x020049D4
-SOLE_REF_SELF_TARGET = 0x02004F94
+# A real ABS32-shaped site: the pool word at 0x02059FA4 holds 0x02005050, a
+# rodata address (in_data_section() agrees) that no code extent covers.  This
+# is the positive `self` case -- relocation agreement is the whole evidence,
+# no second referrer anywhere.  (Until 2026-10-10 this was 0x02004F94, which
+# is in fact a crt0 helper copied to WRAM; it is labelled code now,
+# src/game/arm9/unit_02004F94.c.)
+SOLE_REF_SELF_SITE = 0x02059FA4
+SOLE_REF_SELF_TARGET = 0x02005050
 # The pool word at 0x020052E0 holds 0x0200FB6D, a Thumb function pointer:
 # 0x0200FB6C is inside a traced function's extent, so in_data_section()
 # refuses it and `self` must too, however well the ROM word agrees.  Code
@@ -7433,12 +7435,13 @@ SOLE_REF_STRING_INTERIOR = SOLE_REF_ANCHOR + 1
 # includes.
 SOLE_REF_MAP_OVERLAY = 0x020050AC
 SOLE_REF_MAP_OVERLAY_SITE = 0x02157588
-# 0x02004F94 has exactly one referrer image-wide, the pool word at 0x020049D4.
+# 0x02005050 has exactly one referrer image-wide, the pool word at 0x02059FA4.
 # Outside that range the map attests it; with that one site inside the range
 # under test, the start has no witness left and the class must refuse it,
-# because a lone reference never attests its own start.
-SOLE_REF_MAP_LONE = 0x02004F94
-SOLE_REF_MAP_LONE_SITE = 0x020049D4
+# because a lone reference never attests its own start.  (Was 0x02004F94
+# until 2026-10-10, now labelled crt0 code.)
+SOLE_REF_MAP_LONE = 0x02005050
+SOLE_REF_MAP_LONE_SITE = 0x02059FA4
 # one word past SOLE_REF_MAP_OVERLAY, and before the next map start at
 # 0x020050C4: an address BETWEEN two map starts is interior to neither's
 # object and is refused.

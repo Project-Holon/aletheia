@@ -23,10 +23,6 @@
    ],
    "evidence": {
     "sole-ref": [
-     "code:0x0217BBDC",
-     "code:0x0217C2EC",
-     "code:0x0217CAE0",
-     "code:0x0217CC78",
      "data:0x0217E618"
     ]
    }

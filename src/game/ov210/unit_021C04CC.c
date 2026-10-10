@@ -1,7 +1,7 @@
 /*
  * file:     unit_021C04CC.c
  * unit:     yes
- * function: func_021C04CC, func_021C0550, func_021C0584, func_021C05B4, func_021C05B8, func_021C05BC, func_021C05EC, func_021C05F0, func_021C0608, func_021C0660, func_021C0678, func_021C06A8, func_021C06AC, func_021C06C4
+ * function: func_021C04CC, func_021C0550, func_021C0584, func_021C05B4, func_021C05B8, func_021C05BC, func_021C05EC, func_021C05F0, func_021C0608, func_021C0660, func_021C0678, func_021C06A8, func_021C06AC, func_021C06C4, func_021C06F8
  * address:  0x021C04CC
  * region:   ov210
  * compiler: dsi/1.1p1
@@ -255,4 +255,9 @@ void func_021C06C4(int p, unsigned a, unsigned *b, int c, int d)
     if ((*(u8 **)(*(int * *)&((struct Obj25636 *)p)->f0 + 2))[6] == a)
         func_021BFA14((char *)p, c, d);
     func_021BFB8C((char *)p, (unsigned short)a, c, d);
+}
+
+/* Empty callback. */
+void func_021C06F8(void)
+{
 }

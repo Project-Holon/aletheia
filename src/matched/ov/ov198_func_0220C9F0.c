@@ -1,7 +1,7 @@
 /*
  * function: func_0220C9F0
  * address:  0x0220C9F0
- * packet:   pkt_ov198_0220C9F0
+ * packet:   pkt_0220C9F0
  * region:   ov198
  * compiler: 1.1p1
  * flags:    -O4,p

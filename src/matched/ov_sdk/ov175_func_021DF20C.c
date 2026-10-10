@@ -11,13 +11,13 @@
  *
  * sdk:      DWC_ScGetConnectionId (dwc_sc.o)
  *
- * scGetConnectionId is an unlabelled ARM leaf at 0x021DFA98 (add r0,r0,#0x5c;
- * bx lr) that disasm.py emits as a .word run, so it attests as sole-ref/data
- * with the ov175 hint rather than a code label.
+ * scGetConnectionId is the ARM leaf at 0x021DFA98 (add r0,r0,#0x5c; bx lr). It
+ * had no listing label (disasm.py emitted a .word run); it is now seeded in
+ * layout/function_starts.txt, so it attests as a code label.
  *
  * symbols:
  *   s_callback         0x021e4d08  data
- *   scGetConnectionId  0x021dfa98  data  ov175
+ *   scGetConnectionId  0x021dfa98  arm   ov175
  */
 
 extern int s_callback[];

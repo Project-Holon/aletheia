@@ -1,7 +1,7 @@
 /*
  * file:     script_command.c
  * unit:     yes
- * function: func_021F9E40, func_021F9E44, func_021F9E4C, func_021F9E50, func_021F9E94, func_021F9ECC, func_021F9ED4, func_021F9EDC, func_021F9F58, func_021F9F74, func_021F9FB4, func_021F9FD0, func_021F9FEC, func_021FA04C, func_021FA064, func_021FA0D0, func_021FA0D4, func_021FA0D8, func_021FA278, func_021FA27C, func_021FA2A0, func_021FA3A8, func_021FA4AC, func_021FA528, func_021FA558, func_021FA56C, func_021FA57C, func_021FA5B0, func_021FA64C, func_021FA6CC, func_021FA7E0, func_021FA99C, func_021FAAB8, func_021FAAF4, func_021FAB58, func_021FABD8, func_021FAC74, func_021FAD0C, func_021FAD2C, func_021FAD7C, func_021FADA0, func_021FADF8, func_021FAE1C, func_021FAE4C, func_021FAEA8, func_021FAEE8, func_021FAF1C, func_021FAF28, func_021FAF38, func_021FAF54, func_021FAF70, func_021FAFDC, func_021FB050, func_021FB0DC, func_021FB104, func_021FB190, func_021FB1C0, func_021FB1CC, func_021FB1E4, func_021FB1F4, func_021FB208, func_021FB258, func_021FB2B0, func_021FB3E0, func_021FB528, func_021FB55C, func_021FB5A4, func_021FB5EC, func_021FB640, func_021FB698, func_021FB6F0, func_021FB738, func_021FB774, func_021FB7A4, func_021FB7D8, func_021FB808, func_021FB8CC, func_021FB948, func_021FBA14, func_021FBA6C, func_021FBD78, func_021FBDCC, func_021FBE00, func_021FBE38, func_021FBE64, func_021FBE90, func_021FBF74, func_021FBFA8, func_021FBFDC, func_021FC014, func_021FC080, func_021FC0AC, func_021FC178, func_021FC1D4, func_021FC22C, func_021FC268, func_021FC34C, func_021FC380, func_021FC490, func_021FC4CC, func_021FC53C, func_021FC560, func_021FC570, func_021FC5A0, func_021FC5BC, func_021FC5D8, func_021FC5E8, func_021FC61C, func_021FC634, func_021FC644, func_021FC684, func_021FC694, func_021FC6EC, func_021FC7DC, func_021FC804, func_021FC81C, func_021FC848, func_021FCA38, func_021FCAA0, func_021FCAA8, func_021FCDEC, func_021FCE00, func_021FCE28, func_021FCE44, func_021FCE74, func_021FCEA8, func_021FCEDC, func_021FD14C, func_021FD208, func_021FD218, func_021FD22C, func_021FD2B8, func_021FD328, func_021FD350, func_021FD3D8, func_021FD3F0, func_021FD400, func_021FD470
+ * function: func_021F9E40, func_021F9E44, func_021F9E4C, func_021F9E50, func_021F9E94, func_021F9ECC, func_021F9ED4, func_021F9EDC, func_021F9F58, func_021F9F74, func_021F9FB4, func_021F9FD0, func_021F9FEC, func_021FA04C, func_021FA064, func_021FA0D0, func_021FA0D4, func_021FA0D8, func_021FA278, func_021FA27C, func_021FA2A0, func_021FA3A8, func_021FA4AC, func_021FA528, func_021FA558, func_021FA56C, func_021FA57C, func_021FA5B0, func_021FA64C, func_021FA6CC, func_021FA7E0, func_021FA99C, func_021FAAB8, func_021FAAF4, func_021FAB58, func_021FABD8, func_021FAC74, func_021FAD0C, func_021FAD2C, func_021FAD7C, func_021FADA0, func_021FADF8, func_021FAE1C, func_021FAE4C, func_021FAEA8, func_021FAEE8, func_021FAF1C, func_021FAF28, func_021FAF38, func_021FAF54, func_021FAF70, func_021FAFDC, func_021FB050, func_021FB0DC, func_021FB104, func_021FB190, func_021FB1C0, func_021FB1CC, func_021FB1E4, func_021FB1F4, func_021FB208, func_021FB258, func_021FB2B0, func_021FB3E0, func_021FB528, func_021FB55C, func_021FB5A4, func_021FB5EC, func_021FB640, func_021FB698, func_021FB6F0, func_021FB738, func_021FB774, func_021FB7A4, func_021FB7D8, func_021FB808, func_021FB8CC, func_021FB948, func_021FBA14, func_021FBA6C, func_021FBD78, func_021FBDCC, func_021FBE00, func_021FBE38, func_021FBE64, func_021FBE90, func_021FBF74, func_021FBFA8, func_021FBFDC, func_021FC014, func_021FC080, func_021FC0AC, func_021FC178, func_021FC1D4, func_021FC22C, func_021FC268, func_021FC34C, func_021FC380, func_021FC490, func_021FC4CC, func_021FC53C, func_021FC560, func_021FC570, func_021FC5A0, func_021FC5BC, func_021FC5D8, func_021FC5E8, func_021FC61C, func_021FC634, func_021FC644, func_021FC684, func_021FC694, func_021FC6EC, func_021FC7DC, func_021FC804, func_021FC81C, func_021FC848, func_021FCA38, func_021FCAA0, func_021FCAA8, func_021FCDEC, func_021FCE00, func_021FCE28, func_021FCE44, func_021FCE74, func_021FCEA8, func_021FCEDC, func_021FD14C, func_021FD208, func_021FD218, func_021FD22C, func_021FD2B8, func_021FD328, func_021FD350, func_021FD3D8, func_021FD3F0, func_021FD400, func_021FD470, func_021FD4D0
  * address:  0x021F9E40
  * region:   ov132
  * compiler: dsi/1.1p1
@@ -4307,4 +4307,17 @@ void func_021FD470(int a,int b,int c,const Owner_021FD22C *p)
         } else *(int *)(s+0x64)=0;
     }
     *(int *)((char *)p+0x15c)=1;
+}
+
+
+/* Clears the flag of the four records, clears the word at +0x15C and returns the buffer pointer. */
+typedef struct { char pad0[0x60]; struct Record rec[4]; char pad120[8]; char *buffer; char pad12c[0x30]; u32 tail; } Owner_021FD4D0;
+
+char *func_021FD4D0(int a, Owner_021FD4D0 *p)
+{
+    u8 i;
+    for (i = 0; i < 4; i++)
+        p->rec[i].flag = 0;
+    p->tail = 0;
+    return p->buffer;
 }

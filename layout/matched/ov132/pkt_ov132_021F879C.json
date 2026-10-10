@@ -23,16 +23,6 @@
    ],
    "evidence": {
     "sole-ref": [
-     "code:0x021F6A58",
-     "code:0x021F6F64",
-     "code:0x021F8EA8",
-     "code:0x021F91CC",
-     "code:0x021F94F8",
-     "code:0x021F9794",
-     "code:0x021F9E4C",
-     "code:0x021F9ECC",
-     "code:0x021F9ED4",
-     "code:0x021FA6CC",
      "self:0x021FDE80"
     ]
    }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021DF9D8.c
  * unit:     yes
- * function: func_021DF9D8, func_021DFA3C, func_021DFA6C
+ * function: func_021DF9D8, func_021DFA3C, func_021DFA6C, func_021DFA98
  * address:  0x021DF9D8
  * region:   ov175
  * compiler: dsi/1.1p1
@@ -86,4 +86,10 @@ int func_021DFA6C(int *p)
         return 3;
     func_021E0764(p);
     return 0;
+}
+
+/* Returns the address of the field at +0x5c. */
+char *func_021DFA98(char *p)
+{
+    return p + 0x5c;
 }

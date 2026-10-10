@@ -26,16 +26,15 @@ when those become real code. (Round 5 listed 164 split TUs; the recount finds 16
 at that commit: ov093 unit_021EFC1C was missed.)
 
 Checks at this commit:
-- `python tools/gameverify.py`: about 2615 files, all EXACT or MATCH except
+- `python tools/gameverify.py`: 2617 files, all EXACT or MATCH except
   `arm9/unit_020911D4_p09.c` and `_p11.c` (compiler runtime pieces that are not
   contiguous in the image: every function is EXACT with `match.py one`, the TU
   compare cannot line up).
-- `python tools/gamecheck.py`: 34756 functions present, 0 missing, 0 doubled.
-- 13 files are MATCH (list: `match_files.txt`; was 120 before rounds 6 to 8).
+- `python tools/gamecheck.py`: 35511 functions present, 0 missing, 0 doubled.
+- 7 files are MATCH (list: `match_files.txt`; was 120 before rounds 6 to 8).
   Every function in them is EXACT on its own; no function is MATCH in
-  `layout/matched`. Most of the 13 reference hidden functions that are only in
-  `src/game` (not yet filed in src/matched and the layout), so no member entry
-  backs them.
+  `layout/matched`. What is left references the 13 hidden functions that could
+  not be filed (below) or targets with no outside witness.
 - Header `status:` equals the TU verdict everywhere (EXACT* kept where the
   per-function verdict is EXACT*).
 - `python tools/match.py selftest`: 329 cases, 0 failures.
@@ -110,6 +109,10 @@ Full list in `LANE_BRIEF.md` (the lane instructions, copied from the scratchpad)
 ### 1. Unmatched code (priority)
 `tools/gamegaps.py` (new) lists code bytes that no `src/game` function compiles.
 Current report: `gamegaps.tsv` / `gamegaps_summary.txt` in this folder.
+- 2026-10-10: twl 0x027315E0 (power-off sequence), ov132 0x021FD4D0, ov175
+  0x021DFA98, ov210 0x021C06F8 now EXACT. Still open: ov013 0x021B3084 (6 B
+  off), ov039 0x021F36FC (18 B off, spill order), ov070 0x021B86B8 (4 B short),
+  the twl stand-ins below. Drafts in the session scratchpad r9/uncov/.
 - After round 6: 12 strong hidden pieces, 1948 bytes (was 190 pieces). They are:
   ov009 0x0217EA58/64/70, three plain ARM veneers
   (`ldr ip,[pc]; bx ip`) that gamegaps misclassifies as leaves (veneers are not
@@ -239,7 +242,29 @@ ov135, ov172, ov173, ov210, ov212, arm9 and others). Names are `func_<ADDR>`.
 round 5 already had labels and `src/matched` files, and those files were updated in
 place (shard `twl_sys` re-verified).
 
-**To do.** File them properly: (1) a label per function in
+**Filed (2026-10-10).** 756 hidden functions now have a label in
+`layout/function_starts.txt`, a per-function file in `src/matched/` and their own
+shard `pkt_<region>_<ADDR>` (EXACT 663, EXACT* 95 at filing; arm9 75, twl 13,
+overlays 668, ov093 alone 394). Neighbour entries whose extent shrank were
+re-verified, then the whole manifest twice (`--force`); nothing got worse. One SDK
+entry (ov175 DWC_ScGetConnectionId) needed its symbols row changed from data to
+arm, since its target is now labelled code. 13 were not filed and stay only in
+`src/game`: arm9 func_0202B720..func_0202B7AC (10, MATCH: call target
+func_0202B1FC has no outside witness), ov021 func_021A1298 and ov132
+func_021FBA6C (MATCH), ov093 func_021E5968 (undeclared d_021F2584). The 101 arm9
+functions that have a listing label but no entry of their own are members of
+game_unit entries (implied or under a `sub_` name) and are counted through them;
+two filed duplicates of that kind (0x0202C630, 0x0202C634 in unit_0202C5F0) were
+removed again. 14 src/matched headers had a `packet:` name that differed from
+their tracked shard (every forced verify recreated a duplicate shard); fixed.
+Coverage after filing: overlays 24,513 of 24,514 game functions, 1,886,692 of
+1,887,132 game bytes (99.9767%; the denominator grew by 6,244 bytes that were
+outside every drawn function before); twl 216 bytes moved from game to SDK (SDK
+code inside a game neighbour's extent), still 100%; ARM9 unchanged at 100%. The
+match.py selftest fixtures for sole-ref/self and the map lone case used
+0x02004F94, which is the crt0 helper and code: moved to 0x02005050.
+
+**Original to-do (done above).** File them properly: (1) a label per function in
 `layout/function_starts.txt` (this shrinks the neighbour's extent), (2) a
 per-function file in `src/matched/<region>/` taken from the `src/game` copy,
 (3) re-verify the affected shards twice. Commit `b913cdd40` (319 functions) is the

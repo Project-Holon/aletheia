@@ -1,7 +1,7 @@
 /*
  * function: func_02200B34
  * address:  0x02200B34
- * packet:   pkt_ov135_02200B34
+ * packet:   pkt_02200B34
  * region:   ov135
  * compiler: dsi/1.1p1
  * flags:    -O4,p

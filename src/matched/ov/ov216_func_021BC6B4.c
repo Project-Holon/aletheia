@@ -1,7 +1,7 @@
 /*
  * function: func_021BC6B4
  * address:  0x021BC6B4
- * packet:   pkt_ov216_021BC6B4
+ * packet:   pkt_021BC6B4
  * region:   ov216
  * compiler: 1.1p1
  * flags:    -O4,p

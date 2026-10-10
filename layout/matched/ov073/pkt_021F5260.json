@@ -44,12 +44,7 @@
     "func_021F5374",
     "func_021F5380",
     "func_021F538C"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "code:0x021F5398"
-    ]
-   }
+   ]
   }
  ]
 }

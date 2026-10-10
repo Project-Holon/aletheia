@@ -88,9 +88,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
+     "data:0x021D87F8",
      "data:0x021D93F8",
      "self:0x021D83F8",
-     "self:0x021D87F8",
      "self:0x021D8BF8",
      "self:0x021D8FF8"
     ]

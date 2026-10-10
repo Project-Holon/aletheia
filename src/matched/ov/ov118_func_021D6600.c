@@ -1,7 +1,7 @@
 /*
  * function: func_021D6600
  * address:  0x021D6600
- * packet:   pkt_ov118_021D6600
+ * packet:   pkt_021D6600
  * region:   ov118
  * compiler: 1.1p1
  * flags:    -O4,p

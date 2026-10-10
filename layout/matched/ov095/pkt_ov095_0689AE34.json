@@ -16,27 +16,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0689AF98",
-     "code:0x0689AFA8",
-     "code:0x0689AFB8",
-     "code:0x0689AFC8",
-     "code:0x0689AFD8",
-     "code:0x0689AFE8",
-     "code:0x0689AFF8",
-     "code:0x0689B008",
-     "code:0x0689B018",
-     "code:0x0689B028",
-     "code:0x0689B038",
-     "code:0x0689B048",
-     "code:0x0689B058",
-     "code:0x0689B068",
-     "code:0x0689B078",
-     "code:0x0689B088"
-    ]
-   }
+   "status": "EXACT*"
   }
  ]
 }

@@ -1,7 +1,7 @@
 /*
  * function: func_022005EC
  * address:  0x022005EC
- * packet:   pkt_ov135_022005EC
+ * packet:   pkt_022005EC
  * region:   ov135
  * compiler: dsi/1.1p1
  * flags:    -O4,p

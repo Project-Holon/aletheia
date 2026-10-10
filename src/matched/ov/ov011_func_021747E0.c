@@ -1,0 +1,26 @@
+/*
+ * function: func_021747E0
+ * address: 0x021747E0
+ * packet: pkt_ov011_021747E0
+ * region: ov011
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ *
+ * Function with no listing label, matched inside src/game/ov011/unit_021743B4.c and filed here.
+ *
+ * symbols:
+ *   func_02162008 0x02162008 thumb ov010
+ */
+
+typedef unsigned short u16;
+typedef unsigned char  u8;
+void func_02162008(u8 *p, u16 v);
+void func_021747E0(int a, int b, int c, u8 *p);
+
+void func_021747E0(int a, int b, int c, u8 *p)
+{
+    func_02162008(p + 0x35c, (u16)a);
+}

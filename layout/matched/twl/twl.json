@@ -135,7 +135,8 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT",
+   "status": "EXACT*",
+   "compared_bytes": 220,
    "evidence": {
     "sole-ref": [
      "self:0x027341C8"

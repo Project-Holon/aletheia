@@ -1,7 +1,7 @@
 /*
  * function: func_021BE9D4
  * address:  0x021BE9D4
- * packet:   pkt_ov210_021BE9D4
+ * packet:   pkt_021BE9D4
  * region:   ov210
  * compiler: dsi/1.1p1
  * flags:    -O4,p

@@ -21,12 +21,7 @@
     "func_021BBA14",
     "func_021BBA64",
     "func_021BBA70"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "code:0x021BA760"
-    ]
-   }
+   ]
   }
  ]
 }

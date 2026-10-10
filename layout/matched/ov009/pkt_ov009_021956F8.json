@@ -17,7 +17,6 @@
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
-   "compared_bytes": 88,
    "evidence": {
     "sdk": [
      "0x021977E8"

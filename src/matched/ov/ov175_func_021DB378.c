@@ -1,7 +1,7 @@
 /*
  * function: func_021DB378
  * address:  0x021DB378
- * packet:   pkt_ov175_021DB378
+ * packet:   pkt_021DB378
  * region:   ov175
  * compiler: dsi/1.1p1
  * flags:    -O4,p
