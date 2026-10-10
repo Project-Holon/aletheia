@@ -124,12 +124,10 @@ struct U16Vec;
 struct WordSet;
 struct WinMgr;
 struct Obj_021F9024;
-struct Obj_021F9A88;
-struct Obj_021F8DA4;
-struct Obj;
-typedef unsigned char u8;
-
-typedef unsigned int u32;
+struct Menu;
+struct Menu;
+struct Menu;
+#include "worldtrade_types.h"
 
 typedef struct {
     void *save;
@@ -139,14 +137,6 @@ typedef struct {
     void (*callback)(void);
     void *context;
 } Req;
-
-typedef unsigned short u16;
-
-typedef signed int s32;
-
-typedef signed short s16;
-
-typedef signed char s8;
 
 struct Ov135Menu {
     u32 *win;
@@ -236,14 +226,6 @@ typedef struct {
     u8 y;
 } Cell;
 
-typedef struct {
-    u8 pad0[8];
-    u32 cursor;
-    u8 padC[0x44 - 0xC];
-    int pos;
-    u8 pad48[0x7A - 0x48];
-    u8 last;
-} Obj_021F9A88;
 
 typedef struct {
     int count;
@@ -251,128 +233,9 @@ typedef struct {
 } Layout;
 
 typedef struct {
-    u8 pad0[0x38];
-    s16 layout;
-} Obj_021F9CB0;
-
-typedef struct {
-    u8 pad0[8];
-    u32 cursor;
-    u8 padC[0x38 - 0xC];
-    s16 layout;
-    u8 pad3A[0x44 - 0x3A];
-    int pos;
-    u8 pad48[0x7A - 0x48];
-    u8 last;
-} Obj_021F8DA4;
-
-typedef struct {
-    void *str;
-    int val;
-} Item;
-
-typedef struct {
-    void **wins;
-    u8 pad4[0xC - 4];
-    u32 up;
-    u32 down;
-    u8 pad14[0x18 - 0x14];
-    void *mgr;
-    u8 pad1C[0x30 - 0x1C];
-    Item *items;
-    void *num;
-    u8 pad38[0x56 - 0x38];
-    s16 page;
-    int total;
-    u8 pad5C[0x7C - 0x5C];
-    u8 g[4];
-} Menu_021F9EEC;
-
-typedef struct {
     u8 x;
     u8 y;
 } CurPos;
-
-typedef struct {
-    u8 pad0[8];
-    u32 cursor;
-    u8 padC[0x44 - 0xC];
-    int cur;
-} Menu_021F9FF0;
-
-typedef struct {
-    u8 pad0[8];
-    u32 cursor;
-    u8 padC[0x44 - 0xC];
-    int pos;
-} Obj_021F9FF0;
-
-typedef struct {
-    void **wins;
-    u8 pad4[0xC - 4];
-    u32 up;
-    u32 down;
-    u8 pad14[0x18 - 0x14];
-    void *mgr;
-    u8 pad1C[0x30 - 0x1C];
-    Item *items;
-    void *num;
-    u8 pad38[0x56 - 0x38];
-    s16 page;
-    int total;
-    u8 pad5C[0x7C - 0x5C];
-    u8 g[4];
-} Menu_021FA2B0;
-
-typedef struct {
-    void **wins;
-    u8 pad4[0xC - 4];
-    u32 up;
-    u32 down;
-    u8 pad14[0x18 - 0x14];
-    void *mgr;
-    u8 pad1C[0x30 - 0x1C];
-    Item *items;
-    void *num;
-    u8 pad38[0x56 - 0x38];
-    s16 page;
-    int total;
-    u8 pad5C[0x7C - 0x5C];
-    u8 g[4];
-} Menu;
-
-typedef struct {
-    u8 pad0[8];
-    u32 cursor;
-    u8 padC[0x44 - 0xC];
-    int cur;
-} Menu_021FA394;
-
-typedef struct {
-    u8 pad0[8];
-    u32 cursor;
-    u8 padC[0x44 - 0xC];
-    int pos;
-    u8 pad48[0x7A - 0x48];
-    u8 last;
-} Obj;
-
-typedef struct {
-    void **wins;
-    u8 pad4[0xC - 4];
-    u32 up;
-    u32 down;
-    u8 pad14[0x18 - 0x14];
-    void *mgr;
-    u8 pad1C[0x30 - 0x1C];
-    Item *items;
-    void *num;
-    u8 pad38[0x56 - 0x38];
-    s16 page;
-    int total;
-    u8 pad5C[0x7C - 0x5C];
-    u8 g[4];
-} Menu_021FA514;
 
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 extern u32 func_020307B0(void *p);
@@ -437,9 +300,9 @@ extern void func_020061E4(u32 se);
 extern unsigned int func_0203633C(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_0209C0A4(u8 *p, u32 n, u32 m);
-extern void func_021FB2F0(Menu_021F9EEC *m, int page, int total);
+extern void func_021FB2F0(Menu *m, int page, int total);
 extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
-extern void func_021FA7C4(Menu_021FA514 *m, int dir);
+extern void func_021FA7C4(Menu *m, int dir);
 int func_021F8DA4(u8 *p);
 int func_021F8DE4(u8 *p);
 int func_021F8E58(u8 *p);
@@ -463,20 +326,20 @@ void func_021F9968(u8 *p, int mode);
 void func_021F99D0(u8 *p);
 int func_021F99F0(Obj_021F99F0 *p);
 int func_021F9A1C(void *p, int mode);
-int func_021F9A88(Obj_021F9A88 *p, u8 *enable);
-int func_021F9CB0(Obj_021F9CB0 *p, int v);
-int func_021F9CDC(Obj_021F8DA4 *p, int base);
+int func_021F9A88(Menu *p, u8 *enable);
+int func_021F9CB0(Menu *p, int v);
+int func_021F9CDC(Menu *p, int base);
 u32 func_021F9EEC(u8 *p, u32 n);
-int func_021F9F00(Menu_021F9EEC *m, int key);
-void func_021F9F58(Menu_021F9EEC *m, int dir);
-int func_021F9FF0(Menu_021F9FF0 *m);
-int func_021FA15C(Obj_021F9FF0 *p);
-void func_021FA2B0(Menu_021FA2B0 *m, int dir);
+int func_021F9F00(Menu *m, int key);
+void func_021F9F58(Menu *m, int dir);
+int func_021F9FF0(Menu *m);
+int func_021FA15C(Menu *p);
+void func_021FA2B0(Menu *m, int dir);
 int func_021FA330(Menu *m, int key);
-int func_021FA394(Menu_021FA394 *m);
+int func_021FA394(Menu *m);
 int func_021FA4FC(int unused, int mode);
-int func_021FA514(Obj *p, u8 *enable);
-int func_021FA760(Menu_021FA514 *m, int key);
+int func_021FA514(Menu *p, u8 *enable);
+int func_021FA760(Menu *m, int key);
 extern char str_02203C34[];
 extern u8 tbl_021D654C[];
 extern u8 ov115_id[];
@@ -1253,7 +1116,7 @@ int func_021F9A1C(void *p, int mode)
  * position past 9 under A reports through func_02034714 (raw address
  * 0x02203CEC, a plain constant as in func_02202B20).
  */
-int func_021F9A88(Obj_021F9A88 *p, u8 *enable)
+int func_021F9A88(Menu *p, u8 *enable)
 {
     int old = p->pos;
     int r;
@@ -1263,7 +1126,7 @@ int func_021F9A88(Obj_021F9A88 *p, u8 *enable)
         p->last = old;
     }
     if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj_021F9024 *)((struct Obj_021F9A88 *)p->cursor), 1);
+        func_0204B3DC((struct Obj_021F9024 *)((struct Menu *)p->cursor), 1);
         func_020355D8(0);
         func_020061E4(0x548);
         return -1;
@@ -1294,9 +1157,9 @@ int func_021F9A88(Obj_021F9A88 *p, u8 *enable)
         func_020061E4(0x548);
         func_021F4FF4(p->cursor, (tbl_022032C6[p->pos].x + 0x10) * 8, tbl_022032C6[p->pos].y * 8);
         if (p->pos == 9) {
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9A88 *)p->cursor), 5);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 5);
         } else {
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9A88 *)p->cursor), 0x12);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 0x12);
         }
     }
     ret = -1;
@@ -1304,10 +1167,10 @@ int func_021F9A88(Obj_021F9A88 *p, u8 *enable)
     if (r != ret) {
         func_021F4FF4(p->cursor, (tbl_022032C6[r].x + 0x10) * 8, tbl_022032C6[r].y * 8);
         if (r == 9) {
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9A88 *)p->cursor), 5);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 5);
         } else {
             p->pos = r;
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9A88 *)p->cursor), 0x12);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 0x12);
         }
         if (r == 9) {
             func_020061E4(0x551);
@@ -1317,7 +1180,7 @@ int func_021F9A88(Obj_021F9A88 *p, u8 *enable)
             ret = r;
         }
         if (ret == -1 && func_020355C4() == 0) {
-            func_0204B3DC((struct Obj_021F9024 *)((struct Obj_021F9A88 *)p->cursor), 0);
+            func_0204B3DC((struct Obj_021F9024 *)((struct Menu *)p->cursor), 0);
         }
         func_020355D8(1);
         return ret;
@@ -1336,7 +1199,7 @@ int func_021F9A88(Obj_021F9A88 *p, u8 *enable)
         }
     } else if (func_020362DC() & 2) {
         func_020061E4(0x551);
-        func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9A88 *)p->cursor), 5);
+        func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 5);
         func_021F4FF4(p->cursor, 0xC0, 0x88);
         return -2;
     }
@@ -1354,7 +1217,7 @@ int func_021F9A88(Obj_021F9A88 *p, u8 *enable)
  * an index at or past the layout's entry count (first word of its 8-byte
  * row) maps to -1; anything else is returned unchanged.
  */
-int func_021F9CB0(Obj_021F9CB0 *p, int v)
+int func_021F9CB0(Menu *p, int v)
 {
     if (v != 3) {
         if (p->layout <= 8) {
@@ -1380,7 +1243,7 @@ int func_021F9CB0(Obj_021F9CB0 *p, int v)
  * the selected entry, -2 for cancel (B or the button), -1 for nothing or
  * for an entry the per-layout enable row marks unavailable at `base`.
  */
-int func_021F9CDC(Obj_021F8DA4 *p, int base)
+int func_021F9CDC(Menu *p, int base)
 {
     int old = p->pos;
     int r;
@@ -1389,7 +1252,7 @@ int func_021F9CDC(Obj_021F8DA4 *p, int base)
         p->last = old;
     }
     if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj_021F9024 *)((struct Obj_021F8DA4 *)p->cursor), 1);
+        func_0204B3DC((struct Obj_021F9024 *)((struct Menu *)p->cursor), 1);
         func_020355D8(0);
         func_020061E4(0x548);
         return -1;
@@ -1410,23 +1273,23 @@ int func_021F9CDC(Obj_021F8DA4 *p, int base)
         func_020061E4(0x548);
         if (p->pos == 3) {
             func_021F4FF4(p->cursor, 0xC0, 0x88);
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F8DA4 *)p->cursor), 5);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 5);
         } else {
             func_021F4FF4(p->cursor, (tbl_022032C6[p->pos].x + 0x10) * 8, tbl_022032C6[p->pos].y * 8);
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F8DA4 *)p->cursor), 4);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 4);
         }
     }
     r = func_021F9A1C(p, 5);
     if (r != -1) {
         if (r == 3) {
             func_021F4FF4(p->cursor, 0xC0, 0x88);
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F8DA4 *)p->cursor), 5);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 5);
         } else {
             p->pos = r;
             func_021F4FF4(p->cursor, (tbl_022032C6[r].x + 0x10) * 8, tbl_022032C6[r].y * 8);
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F8DA4 *)p->cursor), 4);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 4);
         }
-        r = func_021F9CB0((Obj_021F9CB0 *)p, r);
+        r = func_021F9CB0((Menu *)p, r);
         if (r == -2) {
             func_020061E4(0x551);
         } else if (base == 0 || tbl_02203324[p->layout][base + r] != 0) {
@@ -1434,14 +1297,14 @@ int func_021F9CDC(Obj_021F8DA4 *p, int base)
         } else {
             r = -1;
             if (func_020355C4() == 0) {
-                func_0204B3DC((struct Obj_021F9024 *)((struct Obj_021F8DA4 *)p->cursor), 0);
+                func_0204B3DC((struct Obj_021F9024 *)((struct Menu *)p->cursor), 0);
             }
         }
         func_020355D8(1);
         return r;
     }
     if (func_020362DC() & 1) {
-        r = func_021F9CB0((Obj_021F9CB0 *)p, p->pos);
+        r = func_021F9CB0((Menu *)p, p->pos);
         if (r == -1) {
             return r;
         }
@@ -1455,7 +1318,7 @@ int func_021F9CDC(Obj_021F8DA4 *p, int base)
         }
     } else if (func_020362DC() & 2) {
         func_020061E4(0x551);
-        func_0204B878((struct Obj_021F9024 *)((struct Obj_021F8DA4 *)p->cursor), 5);
+        func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 5);
         func_021F4FF4(p->cursor, 0xC0, 0x88);
         return -2;
     }
@@ -1486,7 +1349,7 @@ u32 func_021F9EEC(u8 *p, u32 n)
 
 
 
-int func_021F9F00(Menu_021F9EEC *m, int key)
+int func_021F9F00(Menu *m, int key)
 {
     int idx;
 
@@ -1494,10 +1357,10 @@ int func_021F9F00(Menu_021F9EEC *m, int key)
     case 4:
         return -2;
     case 5:
-        func_021F9F58((Menu_021F9EEC *)m, -1);
+        func_021F9F58((Menu *)m, -1);
         return -1;
     case 6:
-        func_021F9F58((Menu_021F9EEC *)m, 1);
+        func_021F9F58((Menu *)m, 1);
         return -1;
     }
     idx = key + m->page * 4;
@@ -1513,7 +1376,7 @@ int func_021F9F00(Menu_021F9EEC *m, int key)
 
 
 
-void func_021F9F58(Menu_021F9EEC *m, int dir)
+void func_021F9F58(Menu *m, int dir)
 {
     int last;
 
@@ -1523,8 +1386,8 @@ void func_021F9F58(Menu_021F9EEC *m, int dir)
     }
     if (dir < 0) {
         func_020061E4(0x548);
-        func_0204B92C((struct Obj_021F9024 *)((struct Obj_021F8DA4 *)m->down), 1);
-        func_0204B878((struct Obj_021F9024 *)((struct Obj_021F8DA4 *)m->down), 0x27);
+        func_0204B92C((struct Obj_021F9024 *)((struct Menu *)m->down), 1);
+        func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->down), 0x27);
         if (m->page != 0) {
             m->page = m->page - 1;
         } else {
@@ -1532,15 +1395,15 @@ void func_021F9F58(Menu_021F9EEC *m, int dir)
         }
     } else {
         func_020061E4(0x548);
-        func_0204B92C((struct Obj_021F9024 *)((struct Obj_021F8DA4 *)m->up), 1);
-        func_0204B878((struct Obj_021F9024 *)((struct Obj_021F8DA4 *)m->up), 0x26);
+        func_0204B92C((struct Obj_021F9024 *)((struct Menu *)m->up), 1);
+        func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->up), 0x26);
         if (m->page < last) {
             m->page = m->page + 1;
         } else {
             m->page = 0;
         }
     }
-    func_021FB2F0((Menu_021F9EEC *)m, m->page, m->total);
+    func_021FB2F0((Menu *)m, m->page, m->total);
     func_021FBF04(m->mgr, m->num, m->wins[4], m->page, func_021F9EEC((u8 *)m->total, 4));
 }
 
@@ -1548,42 +1411,42 @@ void func_021F9F58(Menu_021F9EEC *m, int dir)
 
 
 
-int func_021F9FF0(Menu_021F9FF0 *m)
+int func_021F9FF0(Menu *m)
 {
     int old;
     int r;
 
-    old = m->cur;
+    old = m->pos;
     if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)m->cursor), 1);
+        func_0204B3DC((struct Obj_021F9024 *)((struct Menu *)m->cursor), 1);
         func_020355D8(0);
         func_020061E4(0x548);
         return -1;
     }
     if (func_0203633C() & 0x40) {
-        if (m->cur != 0) {
-            m->cur = m->cur - 1;
+        if (m->pos != 0) {
+            m->pos = m->pos - 1;
         } else {
-            m->cur = 4;
+            m->pos = 4;
         }
     } else if (func_0203633C() & 0x80) {
-        if (m->cur != 4) {
-            m->cur = m->cur + 1;
+        if (m->pos != 4) {
+            m->pos = m->pos + 1;
         } else {
-            m->cur = 0;
+            m->pos = 0;
         }
     } else if (func_0203633C() & 0x20) {
-        func_021F9F58((Menu_021F9EEC *)m, -1);
+        func_021F9F58((Menu *)m, -1);
     } else if (func_0203633C() & 0x10) {
-        func_021F9F58((Menu_021F9EEC *)m, 1);
+        func_021F9F58((Menu *)m, 1);
     }
-    if (old != m->cur) {
+    if (old != m->pos) {
         func_020061E4(0x548);
-        func_021F4FF4(m->cursor, tbl_02203220[m->cur].x, tbl_02203220[m->cur].y);
-        if (m->cur == 4) {
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)m->cursor), 5);
+        func_021F4FF4(m->cursor, tbl_02203220[m->pos].x, tbl_02203220[m->pos].y);
+        if (m->pos == 4) {
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->cursor), 5);
         } else {
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)m->cursor), 6);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->cursor), 6);
         }
     }
     r = func_021F9A1C(m, 0);
@@ -1591,25 +1454,25 @@ int func_021F9FF0(Menu_021F9FF0 *m)
         if ((u32)r < 5) {
             func_021F4FF4(m->cursor, tbl_02203220[r].x, tbl_02203220[r].y);
             if (r == 4) {
-                func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)m->cursor), 5);
+                func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->cursor), 5);
             } else {
-                m->cur = r;
-                func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)m->cursor), 6);
+                m->pos = r;
+                func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->cursor), 6);
             }
         }
-        r = func_021F9F00((Menu_021F9EEC *)m, r);
+        r = func_021F9F00((Menu *)m, r);
         if (r == -1 && func_020355C4() == 0) {
-            func_0204B3DC((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)m->cursor), 0);
+            func_0204B3DC((struct Obj_021F9024 *)((struct Menu *)m->cursor), 0);
         }
         func_020355D8(1);
         return r;
     }
     if (func_020362DC() & 1) {
-        return func_021F9F00((Menu_021F9EEC *)m, m->cur);
+        return func_021F9F00((Menu *)m, m->pos);
     }
     if (func_020362DC() & 2) {
         func_021F4FF4(m->cursor, 0xC0, 0x88);
-        func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)m->cursor), 5);
+        func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->cursor), 5);
         func_020061E4(0x551);
         return -2;
     }
@@ -1620,13 +1483,13 @@ int func_021F9FF0(Menu_021F9FF0 *m)
 
 
 
-int func_021FA15C(Obj_021F9FF0 *p)
+int func_021FA15C(Menu *p)
 {
     int old = p->pos;
     int r;
 
     if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)p->cursor), 1);
+        func_0204B3DC((struct Obj_021F9024 *)((struct Menu *)p->cursor), 1);
         func_020355D8(0);
         func_020061E4(0x548);
         return -1;
@@ -1648,9 +1511,9 @@ int func_021FA15C(Obj_021F9FF0 *p)
         func_020061E4(0x548);
         func_021F4FF4(p->cursor, tbl_0220320E[p->pos].x, tbl_0220320E[p->pos].y);
         if (p->pos == 3) {
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)p->cursor), 5);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 5);
         } else {
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)p->cursor), 6);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 6);
         }
     }
     r = func_021F9A1C(p, 1);
@@ -1658,9 +1521,9 @@ int func_021FA15C(Obj_021F9FF0 *p)
         func_020355D8(1);
         func_021F4FF4(p->cursor, tbl_0220320E[r].x, tbl_0220320E[r].y);
         if (r == 3) {
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)p->cursor), 5);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 5);
         } else {
-            func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)p->cursor), 6);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 6);
         }
         r = tbl_02203250[r];
         if (r == -2) {
@@ -1681,7 +1544,7 @@ int func_021FA15C(Obj_021F9FF0 *p)
     if (func_020362DC() & 2) {
         func_020061E4(0x551);
         func_021F4FF4(p->cursor, 0xC0, 0x88);
-        func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)p->cursor), 5);
+        func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 5);
         return -2;
     }
     return -1;
@@ -1691,12 +1554,12 @@ int func_021FA15C(Obj_021F9FF0 *p)
 
 
 
-void func_021FA2B0(Menu_021FA2B0 *m, int dir)
+void func_021FA2B0(Menu *m, int dir)
 {
     if (dir < 0) {
         func_020061E4(0x548);
-        func_0204B92C((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)m->down), 1);
-        func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)m->down), 0x27);
+        func_0204B92C((struct Obj_021F9024 *)((struct Menu *)m->down), 1);
+        func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->down), 0x27);
         if (m->page != 0) {
             m->page = m->page - 1;
         } else {
@@ -1704,15 +1567,15 @@ void func_021FA2B0(Menu_021FA2B0 *m, int dir)
         }
     } else {
         func_020061E4(0x548);
-        func_0204B92C((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)m->up), 1);
-        func_0204B878((struct Obj_021F9024 *)((struct Obj_021F9FF0 *)m->up), 0x26);
+        func_0204B92C((struct Obj_021F9024 *)((struct Menu *)m->up), 1);
+        func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->up), 0x26);
         if (m->page < 2) {
             m->page = m->page + 1;
         } else {
             m->page = 0;
         }
     }
-    func_021FB2F0((Menu_021F9EEC *)m, m->page, m->total);
+    func_021FB2F0((Menu *)m, m->page, m->total);
     func_021FBF04(m->mgr, m->num, m->wins[4], m->page, func_021F9EEC((u8 *)m->total, 4));
 }
 
@@ -1728,10 +1591,10 @@ int func_021FA330(Menu *m, int key)
         func_020061E4(0x551);
         return -2;
     case 5:
-        func_021FA2B0((Menu_021FA2B0 *)m, -1);
+        func_021FA2B0((Menu *)m, -1);
         return -1;
     case 6:
-        func_021FA2B0((Menu_021FA2B0 *)m, 1);
+        func_021FA2B0((Menu *)m, 1);
         return -1;
     }
     idx = key + m->page * 4;
@@ -1745,42 +1608,42 @@ int func_021FA330(Menu *m, int key)
 
 
 
-int func_021FA394(Menu_021FA394 *m)
+int func_021FA394(Menu *m)
 {
     int old;
     int r;
 
-    old = m->cur;
+    old = m->pos;
     if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj_021F9024 *)((struct Obj *)m->cursor), 1);
+        func_0204B3DC((struct Obj_021F9024 *)((struct Menu *)m->cursor), 1);
         func_020355D8(0);
         func_020061E4(0x548);
         return -1;
     }
     if (func_0203633C() & 0x40) {
-        if (m->cur != 0) {
-            m->cur = m->cur - 1;
+        if (m->pos != 0) {
+            m->pos = m->pos - 1;
         } else {
-            m->cur = 4;
+            m->pos = 4;
         }
     } else if (func_0203633C() & 0x80) {
-        if (m->cur != 4) {
-            m->cur = m->cur + 1;
+        if (m->pos != 4) {
+            m->pos = m->pos + 1;
         } else {
-            m->cur = 0;
+            m->pos = 0;
         }
     } else if (func_0203633C() & 0x20) {
-        func_021FA2B0((Menu_021FA2B0 *)m, -1);
+        func_021FA2B0((Menu *)m, -1);
     } else if (func_0203633C() & 0x10) {
-        func_021FA2B0((Menu_021FA2B0 *)m, 1);
+        func_021FA2B0((Menu *)m, 1);
     }
-    if (old != m->cur) {
+    if (old != m->pos) {
         func_020061E4(0x548);
-        func_021F4FF4(m->cursor, tbl_02203216[m->cur].x, tbl_02203216[m->cur].y);
-        if (m->cur == 4) {
-            func_0204B878((struct Obj_021F9024 *)((struct Obj *)m->cursor), 5);
+        func_021F4FF4(m->cursor, tbl_02203216[m->pos].x, tbl_02203216[m->pos].y);
+        if (m->pos == 4) {
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->cursor), 5);
         } else {
-            func_0204B878((struct Obj_021F9024 *)((struct Obj *)m->cursor), 6);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->cursor), 6);
         }
     }
     r = func_021F9A1C(m, 2);
@@ -1788,25 +1651,25 @@ int func_021FA394(Menu_021FA394 *m)
         if ((u32)r < 5) {
             func_021F4FF4(m->cursor, tbl_02203216[r].x, tbl_02203216[r].y);
             if (r == 4) {
-                func_0204B878((struct Obj_021F9024 *)((struct Obj *)m->cursor), 5);
+                func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->cursor), 5);
             } else {
-                m->cur = r;
-                func_0204B878((struct Obj_021F9024 *)((struct Obj *)m->cursor), 6);
+                m->pos = r;
+                func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->cursor), 6);
             }
         }
         r = func_021FA330((Menu *)m, r);
         if (r == -1 && func_020355C4() == 0) {
-            func_0204B3DC((struct Obj_021F9024 *)((struct Obj *)m->cursor), 0);
+            func_0204B3DC((struct Obj_021F9024 *)((struct Menu *)m->cursor), 0);
         }
         func_020355D8(1);
         return r;
     }
     if (func_020362DC() & 1) {
-        return func_021FA330((Menu *)m, m->cur);
+        return func_021FA330((Menu *)m, m->pos);
     }
     if (func_020362DC() & 2) {
         func_021F4FF4(m->cursor, 0xC0, 0x88);
-        func_0204B878((struct Obj_021F9024 *)((struct Obj *)m->cursor), 5);
+        func_0204B878((struct Obj_021F9024 *)((struct Menu *)m->cursor), 5);
         func_020061E4(0x551);
         return -2;
     }
@@ -1840,7 +1703,7 @@ int func_021FA4FC(int unused, int mode)
  * A touch (func_021F9A1C) or A selects. Returns the entry, -2 for cancel
  * (B or entry 9), -1 for nothing or a grid entry `enable` marks off.
  */
-int func_021FA514(Obj *p, u8 *enable)
+int func_021FA514(Menu *p, u8 *enable)
 {
     int old = p->pos;
     int r;
@@ -1849,7 +1712,7 @@ int func_021FA514(Obj *p, u8 *enable)
         p->last = old;
     }
     if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj_021F9024 *)((struct Obj *)p->cursor), 1);
+        func_0204B3DC((struct Obj_021F9024 *)((struct Menu *)p->cursor), 1);
         func_020355D8(0);
         func_020061E4(0x548);
         return -1;
@@ -1881,13 +1744,13 @@ int func_021FA514(Obj *p, u8 *enable)
         func_021F4FF4(p->cursor, (tbl_02203298[p->pos].x + 0x10) * 8, tbl_02203298[p->pos].y * 8);
         switch (p->pos) {
         case 9:
-            func_0204B878((struct Obj_021F9024 *)((struct Obj *)p->cursor), 5);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 5);
             break;
         case 10:
-            func_0204B878((struct Obj_021F9024 *)((struct Obj *)p->cursor), 6);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 6);
             break;
         default:
-            func_0204B878((struct Obj_021F9024 *)((struct Obj *)p->cursor), 0x12);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 0x12);
             break;
         }
     }
@@ -1896,13 +1759,13 @@ int func_021FA514(Obj *p, u8 *enable)
         func_021F4FF4(p->cursor, (tbl_02203298[r].x + 0x10) * 8, tbl_02203298[r].y * 8);
         switch (r) {
         case 9:
-            func_0204B878((struct Obj_021F9024 *)((struct Obj *)p->cursor), 5);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 5);
             break;
         case 10:
-            func_0204B878((struct Obj_021F9024 *)((struct Obj *)p->cursor), 6);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 6);
             break;
         default:
-            func_0204B878((struct Obj_021F9024 *)((struct Obj *)p->cursor), 0x12);
+            func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 0x12);
             p->pos = r;
             break;
         }
@@ -1915,7 +1778,7 @@ int func_021FA514(Obj *p, u8 *enable)
             r = -1;
         }
         if (r == -1 && func_020355C4() == 0) {
-            func_0204B3DC((struct Obj_021F9024 *)((struct Obj *)p->cursor), 0);
+            func_0204B3DC((struct Obj_021F9024 *)((struct Menu *)p->cursor), 0);
         }
         func_020355D8(1);
         return r;
@@ -1932,7 +1795,7 @@ int func_021FA514(Obj *p, u8 *enable)
         }
     } else if (func_020362DC() & 2) {
         func_021F4FF4(p->cursor, 0xC0, 0x88);
-        func_0204B878((struct Obj_021F9024 *)((struct Obj *)p->cursor), 5);
+        func_0204B878((struct Obj_021F9024 *)((struct Menu *)p->cursor), 5);
         func_020061E4(0x551);
         return -2;
     }
@@ -1942,7 +1805,7 @@ int func_021FA514(Obj *p, u8 *enable)
 
 
 
-int func_021FA760(Menu_021FA514 *m, int key)
+int func_021FA760(Menu *m, int key)
 {
     int idx;
 

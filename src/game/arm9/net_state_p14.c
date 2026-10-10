@@ -1,78 +1,40 @@
 /*
- * file:     net_state_p14.c
- * unit:     yes
- * function: func_0203C238, func_0203C2B0
- * address:  0x0203C238
+ * function: func_0203D0FC
+ * address:  0x0203D0FC
+ * packet:   pkt_0203D0FC
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * PROMOTED from src/pending/.  The `bl` to 0x0203C010 was this file's only
+ * open relocation site; 0x0203C010 is now an EXACT manifest entry, so the
+ * site resolves as `matched` and the file no longer needs its old cap.
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
+ *   func_0203D788  0x0203D788  arm
+ *   func_0203C010  0x0203C010  arm
+ *
+ * Two calls and nothing else: reset the sub-state, then re-enter the state
+ * whose constructor src/matched/func_0203C010.c reproduces.  This function
+ * was parked at MATCH until 0x0203C010 was matched - that call was its only
+ * open relocation site, and the callee's single branch site image-wide is
+ * this one.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D0FC.c \
+ *       --func func_0203D0FC --addr 0x0203D0FC --cc 1.1p1 --arm
  */
-struct NetState;
-typedef signed char   s8;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int  u32;
 
 extern void *func_0203D788(void);
-extern void *func_0203D798(void);
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
-extern void func_02037D78(void);
-extern void func_020398B4(u32 a);
-extern void func_02039834(u32 a);
-extern u32 func_0203778C(u32 p);
-void func_0203C238(s8 *p);
-int func_0203C2B0(int a);
-extern u8 *g_021469DC;
+extern void func_0203C010(void);
 
-
-/*
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C238.c \
- *       --func func_0203C238 --addr 0x0203C238 --cc 1.1p1 --arm
- */
-void func_0203C238(s8 *p)
+void func_0203D0FC(int a)
 {
-    u8 *s = func_0203D788();
-    u8 *q = func_0203D798();
-
-    if ((*(u32 (**)(int, u32, u32))(*(u32 *)(s + 0x340) + 0x50))(p[0x48], q[0x60], 0) != 0)
-        return;
-
-    func_02037D78();
-    func_020398B4((u32)s);
-    func_02039834((u32)s);
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C0F4, 0, 0x5AC);
-}
-
-
-/*
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C2B0.c \
- *       --func func_0203C2B0 --addr 0x0203C2B0 --cc 1.1p1 --arm
- */
-int func_0203C2B0(int a)
-{
-    if (a != -1) {
-        if (func_0203778C((u32)a) == 0)
-            return 0;
-    }
-
-    g_021469DC[0x48] = (u8)a;
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C238, 0, 0x5C4);
-    return 1;
+    func_0203D788();
+    func_0203C010();
 }

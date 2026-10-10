@@ -82,37 +82,7 @@ struct MsgBank;
 struct U16Vec;
 struct Descriptor;
 struct Actor;
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef struct {
-    void *str;
-    int val;
-} Item;
-
-typedef struct {
-    void **wins;
-    u8 pad4[0xC - 4];
-    u32 up;
-    u32 down;
-    u8 pad14[0x18 - 0x14];
-    void *mgr;
-    u8 pad1C[0x30 - 0x1C];
-    Item *items;
-    void *num;
-    u8 pad38[0x56 - 0x38];
-    s16 page;
-    int total;
-    u8 pad5C[0x7C - 0x5C];
-    u8 g[4];
-} Menu_021FA7C4;
+#include "worldtrade_types.h"
 
 typedef struct {
     u8 x;
@@ -120,43 +90,15 @@ typedef struct {
 } CurPos;
 
 typedef struct {
-    u8 pad0[8];
-    u32 cursor;
-    u8 padC[0x44 - 0xC];
-    int cur;
-} Menu_021FA85C;
-
-typedef signed int s32;
-
-typedef struct {
     int first;
     int count;
 } Range;
-
-typedef struct {
-    void **wins;
-    u8 pad4[8 - 4];
-    u32 cursor;
-    u8 padC[0x18 - 0xC];
-    void *mgr;
-    u8 pad1C[0x20 - 0x1C];
-    void *bank;
-    u8 pad24[0x38 - 0x24];
-    s16 page;
-    s16 sel;
-    u8 pad3C[0x44 - 0x3C];
-    int pos;
-    int state;
-    u8 pad4C[0x60 - 0x4C];
-    u8 flags[0x1C];
-    u8 g[4];
-} Menu;
 
 extern u32 func_021F9EEC(u8 *p, u32 n);
 extern void func_020061E4(u32 se);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_021FB364(Menu_021FA7C4 *m, int page, int total);
+extern void func_021FB364(Menu *m, int page, int total);
 extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
 extern u32 func_020362DC(void);
 extern u8 func_020355C4(void);
@@ -165,7 +107,7 @@ extern void func_020355D8(u8 v);
 extern unsigned int func_0203633C(void);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern int func_021F9A1C(void *p, int mode);
-extern int func_021FA760(Menu_021FA85C *m, int key);
+extern int func_021FA760(Menu *m, int key);
 extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
 extern void func_021F9260(void *, u32);
@@ -193,8 +135,8 @@ extern void ov135_func_021F9260(Menu *m, u32 mode);
 extern void func_021FBE84(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g);
 extern int func_021FBF6C(Menu *m, u32 idx);
 extern int func_021F9CDC(void *p, u8 *flags);
-void func_021FA7C4(Menu_021FA7C4 *m, int dir);
-int func_021FA85C(Menu_021FA85C *m);
+void func_021FA7C4(Menu *m, int dir);
+int func_021FA85C(Menu *m);
 void func_021FA9C8(u8 *p, int mode, int pos);
 void func_021FAAD4(u8 *p);
 void func_021FAB70(u8 *p);
@@ -224,7 +166,7 @@ extern const u32 tbl_02203440[];
 
 
 
-void func_021FA7C4(Menu_021FA7C4 *m, int dir)
+void func_021FA7C4(Menu *m, int dir)
 {
     int last;
 
@@ -251,7 +193,7 @@ void func_021FA7C4(Menu_021FA7C4 *m, int dir)
             m->page = 0;
         }
     }
-    func_021FB364((Menu_021FA7C4 *)m, m->page, m->total);
+    func_021FB364((Menu *)m, m->page, m->total);
     func_021FBF04(m->mgr, m->num, m->wins[5], m->page, func_021F9EEC((u8 *)m->total, 5));
 }
 
@@ -259,12 +201,12 @@ void func_021FA7C4(Menu_021FA7C4 *m, int dir)
 
 
 
-int func_021FA85C(Menu_021FA85C *m)
+int func_021FA85C(Menu *m)
 {
     int old;
     int r;
 
-    old = m->cur;
+    old = m->pos;
     if (func_020362DC() != 0 && func_020355C4() == 1) {
         func_0204B3DC((struct Obj *)m->cursor, 1);
         func_020355D8(0);
@@ -272,26 +214,26 @@ int func_021FA85C(Menu_021FA85C *m)
         return -1;
     }
     if (func_0203633C() & 0x40) {
-        if (m->cur != 0) {
-            m->cur = m->cur - 1;
+        if (m->pos != 0) {
+            m->pos = m->pos - 1;
         } else {
-            m->cur = 5;
+            m->pos = 5;
         }
     } else if (func_0203633C() & 0x80) {
-        if (m->cur != 5) {
-            m->cur = m->cur + 1;
+        if (m->pos != 5) {
+            m->pos = m->pos + 1;
         } else {
-            m->cur = 0;
+            m->pos = 0;
         }
     } else if (func_0203633C() & 0x20) {
-        func_021FA7C4((Menu_021FA7C4 *)m, -1);
+        func_021FA7C4((Menu *)m, -1);
     } else if (func_0203633C() & 0x10) {
-        func_021FA7C4((Menu_021FA7C4 *)m, 1);
+        func_021FA7C4((Menu *)m, 1);
     }
-    if (old != m->cur) {
+    if (old != m->pos) {
         func_020061E4(0x548);
-        func_021F4FF4(m->cursor, tbl_02203236[m->cur].x, tbl_02203236[m->cur].y);
-        if (m->cur == 5) {
+        func_021F4FF4(m->cursor, tbl_02203236[m->pos].x, tbl_02203236[m->pos].y);
+        if (m->pos == 5) {
             func_0204B878((struct Obj *)m->cursor, 5);
         } else {
             func_0204B878((struct Obj *)m->cursor, 7);
@@ -304,11 +246,11 @@ int func_021FA85C(Menu_021FA85C *m)
             if (r == 5) {
                 func_0204B878((struct Obj *)m->cursor, 5);
             } else {
-                m->cur = r;
+                m->pos = r;
                 func_0204B878((struct Obj *)m->cursor, 7);
             }
         }
-        r = func_021FA760((Menu_021FA85C *)m, r);
+        r = func_021FA760((Menu *)m, r);
         if (r == -1 && func_020355C4() == 0) {
             func_0204B3DC((struct Obj *)m->cursor, 0);
         }
@@ -316,7 +258,7 @@ int func_021FA85C(Menu_021FA85C *m)
         return r;
     }
     if (func_020362DC() & 1) {
-        return func_021FA760((Menu_021FA85C *)m, m->cur);
+        return func_021FA760((Menu *)m, m->pos);
     }
     if (func_020362DC() & 2) {
         func_020061E4(0x551);
@@ -613,24 +555,24 @@ int func_021FAFF0(Menu *m)
     func_0202CF84(m->mgr, 0);
     ov135_func_021F9260(m, 5);
     func_02082BCC(m->flags, 1, 0x1A);
-    func_021FBE84(m->mgr, m->bank, m->wins[0], m->page + 0x74, 2, 0x3DC2, m->g);
-    for (i = 1; i < tbl_022033F8[m->page].count + 1; i++) {
-        if (func_021FBF6C(m, tbl_02203324[m->page] + i - 1) > 0) {
+    func_021FBE84(m->mgr, m->bank, m->wins[0], m->layout + 0x74, 2, 0x3DC2, m->g);
+    for (i = 1; i < tbl_022033F8[m->layout].count + 1; i++) {
+        if (func_021FBF6C(m, tbl_02203324[m->layout] + i - 1) > 0) {
             color = 0x3DC2;
-            m->flags[tbl_02203324[m->page] + i - 1] = 1;
+            m->flags[tbl_02203324[m->layout] + i - 1] = 1;
         } else {
             color = 0x2122;
-            m->flags[tbl_02203324[m->page] + i - 1] = 0;
+            m->flags[tbl_02203324[m->layout] + i - 1] = 0;
         }
-        func_021FBE84(m->mgr, m->bank, m->wins[i], tbl_02203440[i + tbl_022033F8[m->page].first - 1], 5, color, m->g);
+        func_021FBE84(m->mgr, m->bank, m->wins[i], tbl_02203440[i + tbl_022033F8[m->layout].first - 1], 5, color, m->g);
     }
     func_021FBEB8(m->mgr, m->bank, m->wins[14], 0x4A, m->g);
     func_0202CB4C(m->mgr, 0, 0x10, 0);
     func_0204B878((struct Obj *)m->cursor, 4);
-    if (m->sel < 0) {
+    if (m->start < 0) {
         m->pos = 0;
     } else {
-        m->pos = m->sel;
+        m->pos = m->start;
     }
     func_021F4FF4(m->cursor, (tbl_022032C6[m->pos].x + 0x10) * 8, tbl_022032C6[m->pos].y * 8);
     if (func_020355C4() == 1) {

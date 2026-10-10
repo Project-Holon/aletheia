@@ -1,7 +1,7 @@
 /*
  * file:     unit_02064D70_p01.c
  * unit:     yes
- * function: func_02064D70, func_02064E3C
+ * function: func_02064D70, func_02064E3C, func_02064EDC, func_02065020, func_02065134
  * address:  0x02064D70
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,12 +19,98 @@
  *   g_02147D28   0x02147D28  data
  *   g_02147D2C   0x02147D2C  data
  *   g_02148018   0x02148018  data
+ *   g_020A81F8     0x020A81F8  data  a4
+ *   g_02147C18     0x02147C18  data  a4
+ *   g_02148318     0x02148318  data  a4
+ *   func_02082AC0  0x02082AC0  arm
  */
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
+typedef signed short   s16;
+
 typedef unsigned int   u32;
+
+typedef int            s32;
+
+typedef int            BOOL;
+
+typedef s32            fx32;
+
+typedef struct { fx32 _00, _01, _10, _11; } MtxFx22;
+
+typedef struct { fx32 _00, _01, _10, _11, _20, _21; } MtxFx32;
+
+typedef struct { MtxFx22 m22; u16 affineIndex[4][2]; } NNSG2dRndCore2DMtxCache;
+
+typedef struct MCMMtxState {
+    u16 mtxCacheIdx;
+    u16 groupID;
+    u16 stateType;
+    u16 pad16;
+} MCMMtxState;
+
+typedef struct NNSG2dRenderSurface NNSG2dRenderSurface;
+
+struct NNSG2dRenderSurface {
+    u8   pad_00[0x10];
+    int  f10;
+    int  f14;
+    u8   pad_18[0x10];
+    int  f28;
+    int  f2c;
+    NNSG2dRenderSurface *pNextSurface;
+    int  (*fn34)(void *a, MtxFx32 *m, void *b);
+    void (*fn38)(void *a, void *b, void *c, MtxFx32 *m);
+    void (*fn3c)(void *a, void *b, void *c, MtxFx32 *m);
+    void (*fn40)(void *a, void *b, void *c, void *d, MtxFx32 *m);
+    void (*fn44)(void *a, void *b, void *c, void *d, MtxFx32 *m);
+};
+
+typedef struct NNSG2dRndCoreInstance {
+    u8   pad_00[0x70];
+    NNSG2dRenderSurface *pTargetSurfaceList;
+    NNSG2dRenderSurface *pCurrentTargetSurface;
+    int  unk_78;
+    u32  flag;
+} NNSG2dRndCoreInstance;
+
+typedef struct NNSG2dRendererInstance {
+    NNSG2dRndCoreInstance rendererCore;
+    fx32 spriteZoffsetStep;
+    u32  overwriteEnableFlag;
+    u16  overwritePriority;
+    u16  overwritePlttNo;
+    int  overwriteObjMode;
+    int  overwriteMosaicFlag;
+    u16  overwritePlttNoOffset;
+} NNSG2dRendererInstance;
+
+struct RendererBss {
+    u16 currentMtxCachePos_;
+    u16 groupID_;
+    BOOL bDonotUseSRTransform;
+    NNSG2dRendererInstance *pCurrentInstance_;
+    s32 stackPos_;
+    fx32 fxZStack_[32];
+    MCMMtxState mtxStateStack_[32];
+    MtxFx32 mtxStack_[32];
+    MtxFx32 mtxStackFor2DHW_[32];
+};
+
+struct RendererData {
+    u16 firstSRTransformedMtxIdx_;
+    u32 currenVramTransferHandle_;
+    MtxFx32 mtxI_;
+};
+
+typedef struct MCRenderState {
+    u16 currentCellAnimIdx;
+    u16 pad16_;
+    void *cellAnimMtxCacheTbl[256];
+    BOOL bDrawMC;
+} MCRenderState;
 
 typedef struct {
     u16  count;
@@ -39,30 +125,25 @@ typedef struct {
     u8   *f0c;
 } S;
 
-struct B8802064E3C {
-    u8  pad_00[4];
-    u32 unk_04;
-    u8  pad_08[4];
-    u32 unk_0c;
+struct Host {
+    u8  pad_00[0x30];
+    u32 f30;
 };
 
-struct Blk02064E3C {
-    u32 unk_00;
-    u32 unk_04;
-    u32 unk_08;
-    u32 unk_0c;
-    u32 unk_10;
-    u32 unk_14;
-};
-
+extern void func_02082AC0(u32 data, void *dest, u32 size);
 void func_02064D70(S *p, int (*fn)(void *, void *, void *, int), void *ctx);
 void func_02064E3C(void);
-extern struct B8802064E3C g_02147B88;
-extern u32 g_02147B98[];
-extern struct Blk02064E3C g_02147D18[];
-extern u8 g_02147D28[];
-extern u8 g_02147D2C[];
-extern struct Blk02064E3C g_02148018[];
+void func_02064EDC(void);
+void func_02065020(struct Host *h, void *a1);
+void func_02065134(void *a0, void *a1);
+extern struct RendererBss g_02147B88;
+extern fx32 g_02147B98[];
+extern MtxFx32 g_02147D18[];
+extern MtxFx32 g_02148018[];
+extern struct RendererData g_020A81F8;
+extern NNSG2dRndCore2DMtxCache g_02148318[32];
+extern MCMMtxState g_02147C18[32];
+
 
 
 /*
@@ -126,6 +207,8 @@ void func_02064D70(S *p, int (*fn)(void *, void *, void *, int), void *ctx)
 }
 
 
+
+
 /*
  * Initialises one 0x18-byte slot of the renderer's per-slot tables, selected by
  * g_02147B88's +0xC field: either the two words at 0x02147D28 / 0x02147D2C are
@@ -140,22 +223,278 @@ void func_02064D70(S *p, int (*fn)(void *, void *, void *, int), void *ctx)
  */
 void func_02064E3C(void)
 {
-    u32 i = g_02147B88.unk_0c;
+    u32 i = g_02147B88.stackPos_;
 
-    if (g_02147B88.unk_04 != 0) {
-        *(u32 *)&g_02147D28[i * 0x18] = 0;
-        *(u32 *)&g_02147D2C[i * 0x18] = 0;
+    if (g_02147B88.bDonotUseSRTransform != 0) {
+        g_02147D18[i]._20 = 0;
+        g_02147D18[i]._21 = 0;
     } else {
-        struct Blk02064E3C *s = &g_02147D18[i];
+        MtxFx32 *s = &g_02147D18[i];
 
-        s->unk_00 = 0x1000;
-        s->unk_04 = 0;
-        s->unk_08 = 0;
-        s->unk_0c = 0x1000;
-        s->unk_10 = 0;
-        s->unk_14 = 0;
+        s->_00 = 0x1000;
+        s->_01 = 0;
+        s->_10 = 0;
+        s->_11 = 0x1000;
+        s->_20 = 0;
+        s->_21 = 0;
         g_02148018[i] = *s;
     }
 
     g_02147B98[i] = 0;
+}
+
+
+
+static inline void MI_CpuFillFast(void *dest, u32 data, u32 size)
+{
+    func_02082AC0(data, dest, size);
+}
+
+
+
+static inline void NNS_G2dInitRndCore2DMtxCache(NNSG2dRndCore2DMtxCache *pMtxCache)
+{
+    MI_CpuFillFast(pMtxCache->affineIndex, 0xFFFFFFFF, sizeof(pMtxCache->affineIndex));
+}
+
+
+
+static inline u16 NNSi_G2dGetMtxStackPos(void)
+{
+    return (u16)(g_02147B88.stackPos_);
+}
+
+
+
+static inline const MtxFx32 *NNSi_G2dGetCurrentMtxFor2DHW(void)
+{
+    if (g_02147B88.bDonotUseSRTransform) {
+        g_020A81F8.mtxI_._20 = g_02147B88.mtxStack_[g_02147B88.stackPos_]._20;
+        g_020A81F8.mtxI_._21 = g_02147B88.mtxStack_[g_02147B88.stackPos_]._21;
+        return &g_020A81F8.mtxI_;
+    } else {
+        return &g_02147B88.mtxStackFor2DHW_[g_02147B88.stackPos_];
+    }
+}
+
+
+
+static inline void NNSi_G2dGetMtxRS(const MtxFx32 *m, MtxFx22 *pRet)
+{
+    pRet->_00 = m->_00;
+    pRet->_01 = m->_01;
+    pRet->_10 = m->_10;
+    pRet->_11 = m->_11;
+}
+
+
+
+static inline NNSG2dRndCore2DMtxCache *NNSi_RMCGetMtxCacheByIdx(u16 idx)
+{
+    return &g_02148318[idx];
+}
+
+
+
+static inline u16 NNSi_RMCUseNewMtxCache(void)
+{
+    const u16 ret = g_02147B88.currentMtxCachePos_;
+
+    if (g_02147B88.currentMtxCachePos_ < 32 - 1) {
+        g_02147B88.currentMtxCachePos_++;
+    }
+
+    return ret;
+}
+
+
+
+static inline u16 GetMtxStateMtxCacheIdx_(const MCMMtxState *pMtxState)
+{
+    return pMtxState->mtxCacheIdx;
+}
+
+
+
+static inline void SetMtxStateMtxCacheIdx_(MCMMtxState *pMtxState, u16 cacheIdx)
+{
+    pMtxState->mtxCacheIdx = cacheIdx;
+}
+
+
+
+static inline u16 GetMtxStateGroupID_(const MCMMtxState *pMtxState)
+{
+    return pMtxState->groupID;
+}
+
+
+
+static inline MCMMtxState *GetCuurentMtxState_(void)
+{
+    return &g_02147C18[NNSi_G2dGetMtxStackPos()];
+}
+
+
+
+static inline void SetParentMtxStateLoaded_(u16 mtxCacheIdx, u16 groupID)
+{
+    int i;
+    const u16 currntStackPos = NNSi_G2dGetMtxStackPos();
+
+    for (i = currntStackPos; i >= 0; i--) {
+        if (GetMtxStateGroupID_(&g_02147C18[i]) != groupID) {
+            break;
+        } else {
+            g_02147C18[i].stateType = 3;
+            SetMtxStateMtxCacheIdx_(&g_02147C18[i], mtxCacheIdx);
+        }
+    }
+}
+
+
+
+static inline NNSG2dRndCore2DMtxCache *NNSi_G2dMCMGetCurrentMtxCache(void)
+{
+    return NNSi_RMCGetMtxCacheByIdx(GetMtxStateMtxCacheIdx_(GetCuurentMtxState_()));
+}
+
+
+
+static inline BOOL NNSi_G2dMCMShouldCurrentMtxBeLoadedToMtxCache(void)
+{
+    MCMMtxState *pCurrMtxState = GetCuurentMtxState_();
+
+    return (BOOL)(pCurrMtxState->stateType == 1 ||
+                  pCurrMtxState->stateType == 2);
+}
+
+
+
+void func_02064EDC(void)
+{
+    if (NNSi_G2dMCMShouldCurrentMtxBeLoadedToMtxCache()) {
+        MCMMtxState *pCurrentState = GetCuurentMtxState_();
+        const u16 mtxCacheIdx = NNSi_RMCUseNewMtxCache();
+        const u16 groupID = GetMtxStateGroupID_(pCurrentState);
+
+        SetMtxStateMtxCacheIdx_(pCurrentState, mtxCacheIdx);
+
+        {
+            NNS_G2dInitRndCore2DMtxCache(NNSi_RMCGetMtxCacheByIdx(mtxCacheIdx));
+
+            NNSi_G2dGetMtxRS(NNSi_G2dGetCurrentMtxFor2DHW(),
+                             &NNSi_G2dMCMGetCurrentMtxCache()->m22);
+        }
+
+        SetParentMtxStateLoaded_(mtxCacheIdx, groupID);
+    }
+}
+
+
+static inline MtxFx32 *GetMtx(void)
+{
+    MtxFx32 *m;
+
+    if (g_02147B88.bDonotUseSRTransform == 0) {
+        m = &g_02147D18[g_02147B88.stackPos_];
+    } else {
+        g_020A81F8.mtxI_._20 = g_02147D18[g_02147B88.stackPos_]._20;
+        g_020A81F8.mtxI_._21 = g_02147D18[g_02147B88.stackPos_]._21;
+        m = &g_020A81F8.mtxI_;
+    }
+    return m;
+}
+
+
+static inline MtxFx32 *GetMtxEarly(void)
+{
+    if (g_02147B88.bDonotUseSRTransform != 0) {
+        g_020A81F8.mtxI_._20 = g_02147D18[g_02147B88.stackPos_]._20;
+        g_020A81F8.mtxI_._21 = g_02147D18[g_02147B88.stackPos_]._21;
+        return &g_020A81F8.mtxI_;
+    }
+    return &g_02147D18[g_02147B88.stackPos_];
+}
+
+
+/*
+ * First callback: runs the live actor vtable's +0x34 predicate with the
+ * selected affine matrix, records its verdict in the host's +0x30 word (0
+ * stops there), then dispatches the +0x38 slot with the matrix selected
+ * afresh. The predicate is called (a1, matrix, vtbl). 0x02147D28 and
+ * 0x02147D2C are &g_02147D18[0]._20 / ._21 and 0x020A8200 is the scratch
+ * matrix at g_020A81F8+8.
+ * EXACT under dsi/1.1p1; ../2.0/sp2 is 280 bytes (no predication).
+ */
+/*
+ * The actor object's first in-object callback (func_02065B74 stores it at
+ * +0x18): runs the live actor vtable's +0x34 predicate with the selected
+ * affine matrix, records its verdict in the host's +0x30 word (0 stops
+ * there), then dispatches the +0x38 slot with the matrix selected afresh.
+ * The matrix selection is the PART 2 block of
+ * docs/families/cluster_02064B68.h, written ONCE as an inline helper and
+ * called at both sites.
+ *
+ * What closed it, after docs/notes/pkt_02065020.c.txt stalled at 35 out:
+ *   - The +0x34 predicate is called (a1, matrix, vtbl): the matrix is in r1
+ *     straight out of the selection (mlaeq r1 / ldr r1 = 0x020A8200) and
+ *     the vtbl is moved into r2.  The note's (a1, vtbl, matrix) was the
+ *     whole 35-byte residue.
+ *   - 0x02147D28 / 0x02147D2C are &g_02147D18[0]._20 / ._21 and 0x020A8200 is
+ *     the scratch matrix at g_020A81F8+8; with those declarations and the
+ *     inline helper, the first selection reads the slot inside both arms
+ *     and the second reads it once after the test, exactly as the image
+ *     does, with no volatile casts.
+ * EXACT under dsi/1.1p1; ../2.0/sp2 is 280 bytes (no predication).
+ */
+void func_02065020(struct Host *h, void *a1)
+{
+    NNSG2dRenderSurface *v = g_02147B88.pCurrentInstance_->rendererCore.pCurrentTargetSurface;
+
+    if (v->fn34 != 0) {
+        if (v->fn34(a1, GetMtx(), v) == 0) {
+            h->f30 = 0;
+            return;
+        }
+        h->f30 = 1;
+    }
+
+    if (v->fn38 == 0)
+        return;
+
+    v->fn38(g_02147B88.pCurrentInstance_, v, a1, GetMtx());
+}
+
+
+/*
+ * Second callback: dispatches the live actor vtable's +0x3c slot as
+ * (obj, vtbl, a1, matrix); a null slot returns at once. The eq-first
+ * spelling is a register-allocation tie here (2 bytes out), so the
+ * else-first helper is used.
+ */
+/*
+ * The actor object's second in-object callback (func_02065B74 stores it at
+ * +0x1c): dispatches the live actor vtable's +0x3c slot as
+ * (obj, vtbl, a1, matrix); a null slot returns at once.
+ * The matrix selection is the PART 2 block of
+ * docs/families/cluster_02064B68.h as an inline helper, but written
+ * ELSE-FIRST with early returns: if (f04 != 0) copy tx/ty and return the
+ * scratch matrix, else return &g_02147D18[slot].  The eq-first spelling (the
+ * one func_02065020 matches with) is a register-allocation tie here: 2 bytes
+ * out (lr/r4) on func_02065134 and 31 out on func_020653A4, where whether
+ * the two arms' slot reads land in the same register decides whether they
+ * are merged above the test.  Neither the permuter (hill + anneal 2000, no
+ * single mutation moves it) nor any other compiler build closed the
+ * eq-first form; the else-first form is EXACT on the first compile.
+ */
+void func_02065134(void *a0, void *a1)
+{
+    NNSG2dRendererInstance *o = g_02147B88.pCurrentInstance_;
+    NNSG2dRenderSurface *v = o->rendererCore.pCurrentTargetSurface;
+
+    if (v->fn3c == 0)
+        return;
+
+    v->fn3c(o, v, a1, GetMtxEarly());
 }

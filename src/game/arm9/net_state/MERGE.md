@@ -13,19 +13,33 @@ Done in round 6
 - func_02082BCC is `void *(void *, int, u32)` everywhere.
 - Merged pairs: old p05+p06, p07..p10, p11+p12, p02+p03, p03+p04 etc. (greedy and pair merges, all EXACT).
 
+Done in round 12 (lane w12a): 46 -> 36 parts, all EXACT
+- g_021469DC is one struct NetState (0x64 bytes) in every part that touches it (old p03..p24): f00, f04, f08 (state callback,
+  called with the object), rng (MATHRandContext64 embedded at 0x0c; u64 members are 4-aligned in this compiler), f24,
+  f28 (teardown fn), f2C (callback taking func_0203D650's result), err[4] at 0x30, mac[6] at 0x40, f46 u16, flag s8 at 0x48,
+  f4A, f4B, f4C, f4D, f4E, f4F, f50, f51, f53, f56, addr[6] at 0x57. The views Sys, Card0203C5EC/C600/CB00, Hdr021469DC,
+  B794, B868, Rec, the unk_021469DC alias and the raw (0x21469DC) reads are gone.
+- func_0203AD80 / func_0203AD74 take (struct NetState *, void *, u32 v, int line). Evidence: with u16 v the two sites that pass
+  func_0203B2FC / func_0203B344 results get lsl/lsr; with u32 v (callee wide) every part is EXACT.
+- Stand-ins rewritten as typed C: func_0203B22C (int, returns 1), func_0203B2A8, func_0203B688 (void, takes the object),
+  func_0203B6B4 (int, returns 1), func_0203C464 (void). func_0203B2A8 keeps (void *)0x203B228 for the callback: naming
+  unk_0203B228 there makes the part MATCH.
+- Callbacks stored in f08 now take struct NetState *; func_0203B2FC / func_0203B344 take the object and use rng.
+- Pair merges (all EXACT): old p03+p04, p05..p08, p09+p10+p11 (0203B5D4..), later runs up to old p24. Current parts:
+  p03 = 020377B8..0203AFCC+, p04 = 0203B018.., p05 = 0203B5D4.., p06 = 0203B6EC.. (renumbered).
+
 Still split, and why
-- p01|p02: func_0203675C calls func_02036738 with three arguments while the definition takes two (p01). Give it the third
-  parameter if it stays EXACT, or leave: the original had no prototype in view.
+- p01|p02: func_0203675C calls func_02036738 with three arguments while the definition takes two (p01). Give the definition
+  an unused trailing parameter if it stays EXACT (not tried this round).
 - Veneers (linker, not in any function): 0203D0AC, 0203D0B8, 0203D0C4, 0203D14C, 0203D158, 0203D164, 0203D170, 0203D594,
   0203D5A0, 0203D644, and 12 bytes at 020377AC. Each is a real boundary unless a hidden function is added for it.
-- p03|p04 (0203A118..): g_021469DC is `u8 *` in one part, `u32 *` in the next, and a different local struct (NetState, Sys,
-  Card0203C5EC, Card0203C600, Card0203CB00, Hdr021469DC, B794, B868) in p07..p24. NEXT STEP: one struct NetState (0x64 bytes):
-  f00, f04, f08 (state fn, called with the object), rng[6] at 0x0c (MATHRandContext64, u64 x/mul/add), f24, f28 (teardown fn),
-  f2C, err[4] at 0x30, mac[6] at 0x40, f46 u16, flag s8 at 0x48, f4A, f4B, f4C, f4D, f4F, f50, f51, f53, f56, addr[6] at 0x57.
-  Also unify func_0203AD80 to (struct NetState *, void *, u16, int), replace the raw (0x21469DC) reads and the unk_021469DC
-  alias (p16, p21, p23, p24), and write the raw-address stand-ins (func_0203B22C, func_0203B2A8, func_0203B688, func_0203B6B4,
-  func_0203C464) as typed C.
+- Current p04|p05, p05|p06, p06|p07 .. p12|p13 and everything after 0203D0D0: the next blocker is the func_0203D788 object
+  (views Obj, Owner, Sess, Ctx, Singleton, Vt/Vtbl, NetVtbl, NetSys; vtable at +0x340 reached as `u8 *` + raw offsets or as
+  `void *` arithmetic). The pair compiles stop on "illegal operands void * + int" and "Sess to unsigned int" conversions.
+  NEXT STEP: one struct for the func_0203D788 object with a named vtable struct (offsets seen: 0x0C, 0x10, 0x14, 0x38, 0x54,
+  0x64, 0x6C, 0x70, 0x74, 0x78, 0x7C, 0x80, 0x88, 0x8C, 0xA8, 0xAC, 0xB0, 0xB4), and one struct for the func_0203D798 object
+  (+0x56 u16, +0x60, +0x61, +0x64, +0x65), then re-run the greedy pair merge (scratch r13/w12a/greedy.py).
 - g_021469E0 (Mod, Singleton, u8[], u32[] views) and g_021469F0 (Wrap, Ctx, Ctx_0203DC4C, S0203DC04, G_021469F0, u8 *, int *):
   not started. 0x021469E0 is also written through a raw u16 cast in func_0203CB34.
-- The func_0203D788 object (Owner/Obj/Sess/Singleton/Ctx views, vtable at +0x340) and func_0203D798 object (+0x56, +0x61,
-  +0x64, +0x65): still `u8 *` plus casts in most parts; one canonical struct with a named vtable would remove the raw offsets.
+- Callback arguments still written as raw addresses, e.g. (void *)0x0203C0F4: using the function names changed the pool
+  words in some parts; try per site.

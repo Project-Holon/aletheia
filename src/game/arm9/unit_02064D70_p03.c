@@ -1,172 +1,241 @@
 /*
  * file:     unit_02064D70_p03.c
  * unit:     yes
- * function: func_02065020, func_02065134
- * address:  0x02065020
+ * function: func_0206615C, func_02066380, func_020663D0
+ * address:  0x0206615C
  * region:   arm9
- * compiler: 1.1p1
+ * compiler: dsi/../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Two in-object callbacks of the actor object (func_02065B74 stores them at
- * +0x18 and +0x1c). Both select the affine matrix with the PART 2 block of
- * docs/families/cluster_02064B68.h, written as an inline helper.
+ * Merged by tools/restructure.py from the src/matched files of these functions.
  *
- * The two functions only match with different spellings of that block, so
- * the file keeps two helpers: GetMtx (eq-first with a local) and GetMtxEarly
- * (else-first with early returns). Each is the only EXACT form for its own
- * function; one shared helper gives DIFF. They are most likely two distinct
- * inline helpers in the original source (guess: the names).
- *
+ *   - 0x02147D28 / 0x02147D2C are &g_02147D18[0].tx / .ty (member offset in
  * symbols:
- *   g_02147B88  0x02147B88  data  a4
- *   g_02147D18  0x02147D18  data  a4
- *   g_020A81F8  0x020A81F8  data  a4
+ *   g_02147B88     0x02147B88  data  a4
+ *   g_02147B98     0x02147B98  data  a4
+ *   g_02147D18     0x02147D18  data  a4
+ *   g_02148018     0x02148018  data  a4
+ *   g_02147C18     0x02147C18  data  a4
+ *   g_020A81F8  0x020A81F8  data  a2
+ *   func_02066754  0x02066754  arm
  */
-typedef unsigned char u8;
-typedef unsigned int  u32;
-typedef int fx32;
+typedef unsigned char  u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int   u32;
+
+typedef int            fx32;
 
 typedef struct { fx32 m00, m01, m10, m11, tx, ty; } Mtx;
 
-typedef int  (*Fn34)(void *a, Mtx *m, void *b);
-typedef void (*Fn38)(void *a, void *b, void *c, Mtx *m);
-
-struct Obj74 {
-    u8   pad_00[0x34];
-    Fn34 f34;
-    Fn38 f38;
-    Fn38 f3c;
+struct Actor {
+    u8  pad_00[0x7c];
+    u32 flags;
 };
 
-struct Obj {
-    u8            pad_00[0x74];
-    struct Obj74 *f74;
+struct Manager_0206615C {
+    u16 slotCount;
+    u16 slotLimit;
+    u32 unk_04;
+    struct Actor *obj;
+    int slot;
 };
 
-struct Bank {
-    u8          pad_00[4];
-    int         f04;
-    struct Obj *f08;
-    u32         f0c;
+struct SlotRec {
+    u16 unk_00;
+    u16 unk_02;
+    u16 state;
+    u16 unk_06;
 };
 
-struct Scr {
-    u8  pad_00[8];
-    Mtx mtx;
-};
-
-struct Host {
-    u8  pad_00[0x30];
-    u32 f30;
-};
-
-extern struct Bank g_02147B88;
-extern Mtx         g_02147D18[];
-extern struct Scr  g_020A81F8;
-
-static inline Mtx *GetMtx(void)
+typedef struct
 {
-    Mtx *m;
+    u16 count;
+    u16 limit;
+    int unk_04;
+    void *obj;
+    int slot;
+} Manager_0206615C;
 
-    if (g_02147B88.f04 == 0) {
-        m = &g_02147D18[g_02147B88.f0c];
+struct Manager_020663D0 {
+    u8  pad_00[4];
+    u32 unk_04;
+    u8  pad_08[4];
+    u32 slot;
+};
+
+extern void func_02066754(const Mtx *a, const Mtx *b, Mtx *out);
+void func_0206615C(void);
+void func_02066380(int n);
+void func_020663D0(fx32 x, fx32 y, fx32 z);
+extern struct Manager_0206615C g_02147B88;
+extern fx32 g_02147B98[];
+extern Mtx  g_02147D18[];
+extern Mtx  g_02148018[];
+extern struct SlotRec g_02147C18[];
+extern u16 g_020A81F8;
+
+
+
+static inline void CopySlot(int next)
+{
+    if (g_02147B88.unk_04 != 0) {
+        int cur = ((volatile struct Manager_0206615C *)&g_02147B88)->slot;
+        g_02147D18[next].tx = g_02147D18[cur].tx;
+        g_02147D18[next].ty = g_02147D18[cur].ty;
+        g_02147B98[next] = g_02147B98[cur];
     } else {
-        g_020A81F8.mtx.tx = g_02147D18[g_02147B88.f0c].tx;
-        g_020A81F8.mtx.ty = g_02147D18[g_02147B88.f0c].ty;
-        m = &g_020A81F8.mtx;
+        int cur = ((volatile struct Manager_0206615C *)&g_02147B88)->slot;
+        g_02147D18[next] = g_02147D18[cur];
+        g_02148018[next] = g_02148018[cur];
+        g_02147B98[next] = g_02147B98[cur];
     }
-    return m;
+    g_02147B88.slot = next;
 }
 
-static inline Mtx *GetMtxEarly(void)
-{
-    if (g_02147B88.f04 != 0) {
-        g_020A81F8.mtx.tx = g_02147D18[g_02147B88.f0c].tx;
-        g_020A81F8.mtx.ty = g_02147D18[g_02147B88.f0c].ty;
-        return &g_020A81F8.mtx;
-    }
-    return &g_02147D18[g_02147B88.f0c];
-}
+
 
 /*
- * First callback: runs the live actor vtable's +0x34 predicate with the
- * selected affine matrix, records its verdict in the host's +0x30 word (0
- * stops there), then dispatches the +0x38 slot with the matrix selected
- * afresh. The predicate is called (a1, matrix, vtbl). 0x02147D28 and
- * 0x02147D2C are &g_02147D18[0].tx / .ty and 0x020A8200 is the scratch
- * matrix at g_020A81F8+8.
- * EXACT under dsi/1.1p1; ../2.0/sp2 is 280 bytes (no predication).
- */
-/*
- * The actor object's first in-object callback (func_02065B74 stores it at
- * +0x18): runs the live actor vtable's +0x34 predicate with the selected
- * affine matrix, records its verdict in the host's +0x30 word (0 stops
- * there), then dispatches the +0x38 slot with the matrix selected afresh.
- * The matrix selection is the PART 2 block of
- * docs/families/cluster_02064B68.h, written ONCE as an inline helper and
- * called at both sites.
+ * The matrix-slot PUSH, the counterpart of src/matched/func_02066380.c.
+ * The slot index g_02147B88.slot (+0x0c) is advanced if it stays below 0x20,
+ * copying the current slot of every per-slot table into the next one: in
+ * the translate-only mode (g_02147B88.unk_04 != 0) just tx/ty of g_02147D18
+ * plus the u32 in g_02147B98; otherwise the whole 0x18-byte matrix of
+ * g_02147D18 and g_02148018 plus g_02147B98.  Unless the live actor's +0x7c
+ * bit 0 is set, the 8-byte slot record g_02147C18[(u16)slot] is then
+ * copied from the old slot to the (possibly unchanged) current one with its
+ * state promoted 1 -> 2.  r0 is never read (every caller passes the flag
+ * word it tested), so the parameter is kept, unused.
  *
- * What closed it, after docs/notes/pkt_02065020.c.txt stalled at 35 out:
- *   - The +0x34 predicate is called (a1, matrix, vtbl): the matrix is in r1
- *     straight out of the selection (mlaeq r1 / ldr r1 = 0x020A8200) and
- *     the vtbl is moved into r2.  The note's (a1, vtbl, matrix) was the
- *     whole 35-byte residue.
- *   - 0x02147D28 / 0x02147D2C are &g_02147D18[0].tx / .ty and 0x020A8200 is
- *     the scratch matrix at g_020A81F8+8; with those declarations and the
- *     inline helper, the first selection reads the slot inside both arms
- *     and the second reads it once after the test, exactly as the image
- *     does, with no volatile casts.
- * EXACT under dsi/1.1p1; ../2.0/sp2 is 280 bytes (no predication).
+ * Levers, all needed:
+ *   - Compiler pin ../2.0/sp2 ("kept constants": the image reloads the
+ *     g_02147B88 pool word in each arm and after the store); 1.1p1 is 524
+ *     bytes against 548, 381 out.
+ *   - 0x02147D28 / 0x02147D2C are &g_02147D18[0].tx / .ty (member offset in
+ *     the relocation addend), and 0x02147C1C is &g_02147C18[0].state, the
+ *     same reading for the state reload of the promote step.
+ *   - The flag test is written `(flags & 1) == 0` first: the image falls
+ *     through into the long arm.
+ *   - The copy helper re-reads the slot through a volatile cast in each
+ *     arm (the image reloads it after the unk_04 test; plain, 394 out).
+ *   - Copy order is tx, ty, g_02147B98 in the translate arm and g_02147D18,
+ *     g_02148018, g_02147B98 in the full arm; the other eight orders of the
+ *     two arms measured 30..118 out.
+ *   - The promote is an if/else that stores in both arms (strheq/strhne);
+ *     the ternary costs a second pool word.
  */
-void func_02065020(struct Host *h, void *a1)
+void func_0206615C(void)
 {
-    struct Obj74 *v = g_02147B88.f08->f74;
+    if ((g_02147B88.obj->flags & 1) == 0) {
+        int cur = g_02147B88.slot;
+        u16 old = cur;
+        int next = cur + 1;
+        int r = !(next >= 0x20);
+        u16 nw;
 
-    if (v->f34 != 0) {
-        if (v->f34(a1, GetMtx(), v) == 0) {
-            h->f30 = 0;
+        if (r != 0)
+            CopySlot(next);
+
+        nw = g_02147B88.slot;
+        g_02147C18[nw] = g_02147C18[old];
+        if (g_02147C18[old].state == 1)
+            g_02147C18[nw].state = 2;
+        else
+            g_02147C18[nw].state = g_02147C18[old].state;
+    } else {
+        int next = g_02147B88.slot + 1;
+        int r = !(next >= 0x20);
+        if (r == 0)
             return;
-        }
-        h->f30 = 1;
+        CopySlot(next);
     }
-
-    if (v->f38 == 0)
-        return;
-
-    v->f38(g_02147B88.f08, v, a1, GetMtx());
 }
 
+
+
 /*
- * Second callback: dispatches the live actor vtable's +0x3c slot as
- * (obj, vtbl, a1, matrix); a null slot returns at once. The eq-first
- * spelling is a register-allocation tie here (2 bytes out), so the
- * else-first helper is used.
+ * The matrix-slot POP, the counterpart of func_0206615C.  Returns at once
+ * when the slot index g_02147B88.slot (+0x0c) is already 0; otherwise
+ * decrements it and, if the "first modified slot" halfword g_020A81F8 now
+ * lies above the new index, resets it to the 0xFFFE sentinel.  Every
+ * caller passes 1 in r0 (func_020659D4, func_02065878, func_02066080) and
+ * the body never reads it, so the parameter is kept, unused.
+ *
+ * TWO LEVERS, both needed (EXACT under dsi/1.1p1 and equally under
+ * ../2.0/sp2; the default is kept):
+ *   1. The guard's MATERIALISED boolean (`movle r0, #1` / `movgt r0, #0` /
+ *      `cmp r0, #0` / `bxne lr`) is `int r = !(g_02147B88.slot > 0);`.
+ *      Every spelling of `slot <= 0` (plain, named local, inline helper,
+ *      if/else, ternary) folds to a predicated body 24 bytes short, which is
+ *      why the earlier drafts in docs/notes/pkt_02065D4C.c.txt and
+ *      docs/notes/pkt_02065020.c.txt needed a fake `u16 *` return.  Same
+ *      lever as src/matched/func_02065878.c's `!(x == -1)`.
+ *   2. The image loads g_020A81F8 BETWEEN the slot load and the subtract
+ *      (`ldr r3, [r1, #0xc]` / `ldrh r2, [r0]` / `sub` / `str` / `cmp r2,
+ *      r3`).  Without volatile both compilers sink the ldrh below the store
+ *      (14 bytes out, immovable by permuter hill 80 and anneal 1200).  The
+ *      read-modify-write through `(volatile Manager *)` with the halfword
+ *      read through `*(volatile u16 *)` between them pins the order.
  */
-/*
- * The actor object's second in-object callback (func_02065B74 stores it at
- * +0x1c): dispatches the live actor vtable's +0x3c slot as
- * (obj, vtbl, a1, matrix); a null slot returns at once.
- * The matrix selection is the PART 2 block of
- * docs/families/cluster_02064B68.h as an inline helper, but written
- * ELSE-FIRST with early returns: if (f04 != 0) copy tx/ty and return the
- * scratch matrix, else return &g_02147D18[slot].  The eq-first spelling (the
- * one func_02065020 matches with) is a register-allocation tie here: 2 bytes
- * out (lr/r4) on func_02065134 and 31 out on func_020653A4, where whether
- * the two arms' slot reads land in the same register decides whether they
- * are merged above the test.  Neither the permuter (hill + anneal 2000, no
- * single mutation moves it) nor any other compiler build closed the
- * eq-first form; the else-first form is EXACT on the first compile.
- */
-void func_02065134(void *a0, void *a1)
+void func_02066380(int n)
 {
-    struct Obj *o = g_02147B88.f08;
-    struct Obj74 *v = o->f74;
-
-    if (v->f3c == 0)
+    int r = !(g_02147B88.slot > 0);
+    if (r != 0)
         return;
+    {
+    int s = ((volatile Manager_0206615C *)&g_02147B88)->slot - 1;
+    u16 c = (*(volatile u16 *)&g_020A81F8);
+    ((volatile Manager_0206615C *)&g_02147B88)->slot = s;
+    if (c > s)
+        g_020A81F8 = 0xFFFE;
+    }
+}
 
-    v->f3c(o, v, a1, GetMtxEarly());
+
+/*
+ * Matrix translate.  With the manager's mode word (+0x04) set, the current
+ * slot's tx/ty are bumped in place; otherwise the translate matrix
+ * (1, 0, 0, 1, x, y) is concatenated by func_02066754 into the slot of both
+ * matrix tables, g_02147D18 and g_02148018.  z accumulates into the u32
+ * per-slot table g_02147B98 either way.
+ *
+ * TWO READINGS closed this after four spellings in
+ * docs/notes/pkt_02065D4C.c.txt stalled at 244 bytes:
+ *   - 0x02147D28 and 0x02147D2C are NOT separate tables: they are
+ *     &g_02147D18[0].tx and &g_02147D18[0].ty.  A field of table[i] with a
+ *     run-time i puts the member offset in the relocation addend (register-
+ *     offset ldr has no immediate), so the pool words are g_02147D18+0x10 and
+ *     g_02147D18+0x14.  Written as .tx/.ty of the Mtx array the pool order
+ *     and the load/add/store interleave come out as the image has them.
+ *   - Compiler pin ../2.0/sp2 on the "kept constants" tell of
+ *     docs/families/cluster_02064B68.h: the image reloads the g_02147B88
+ *     pool word after each call and recomputes slot*0x18 for each argument
+ *     (add r1 / add r2 from the same sum), with a four-register push.  Under
+ *     dsi/1.1p1 the same C is 244 bytes, 134 out, push {r3-r7, lr}; under the
+ *     pin it is EXACT on the first compile.
+ */
+void func_020663D0(fx32 x, fx32 y, fx32 z)
+{
+    Mtx m;
+
+    if (g_02147B88.unk_04 != 0) {
+        g_02147D18[g_02147B88.slot].tx += x;
+        g_02147D18[g_02147B88.slot].ty += y;
+        g_02147B98[g_02147B88.slot] += z;
+        return;
+    }
+
+    m.m00 = 0x1000;
+    m.m01 = 0;
+    m.m10 = 0;
+    m.m11 = 0x1000;
+    m.tx = x;
+    m.ty = y;
+    func_02066754(&m, &g_02147D18[g_02147B88.slot], &g_02147D18[g_02147B88.slot]);
+    func_02066754(&m, &g_02148018[g_02147B88.slot], &g_02148018[g_02147B88.slot]);
+    g_02147B98[g_02147B88.slot] += z;
 }

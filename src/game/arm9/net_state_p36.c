@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p36.c
  * unit:     yes
- * function: func_0203D9EC, func_0203DA20, func_0203DA4C
- * address:  0x0203D9EC
+ * function: func_0203E538, func_0203E590, func_0203E5AC
+ * address:  0x0203E538
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,64 +13,58 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021469F0  0x021469F0  data
- *   d_021469F0   0x021469F0  data  a4
+ *   g_021469F0      0x021469F0  data
+ *   g_021469F4      0x021469F4  data
+ *   s_020A7D34      0x020A7D34  data
+ *   s_020A7D4C      0x020A7D4C  data
+ *   s_020A7D68      0x020A7D68  data
+ *   s_020A7D74      0x020A7D74  data
+ *   s_020A7DA0      0x020A7DA0  data
+ *   s_020A7E00      0x020A7E00  data
+ *   d_021469F0 0x021469F0 data a4
  */
 typedef unsigned char u8;
 
-typedef unsigned int  u32;
+typedef unsigned int   u32;
 
-extern void func_02034FB8(u32 v);
-extern u32 func_020307B0(void *p);
-void func_0203D9EC(void);
-void func_0203DA20(void);
-int func_0203DA4C(void);
-extern u8 g_021469F0[];
-extern u32 d_021469F0[];
+extern void func_02034714(const char *expr, u32 line, const char *file);
+void func_0203E538(int a0);
+int func_0203E590(void);
+void func_0203E5AC(int a0);
+extern int *g_021469F0;
+extern int *g_021469F4;
+extern char s_020A7D34[];
+extern char s_020A7D4C[];
+extern char s_020A7D68[];
+extern char s_020A7D74[];
+extern char s_020A7DA0[];
+extern char s_020A7E00[];
+extern unsigned char *d_021469F0;
 
-
-/*
- * Tears down the net_irc_wireless singleton at 0x021469F0: releases it
- * through func_02034FB8(0x20) and the heap release, then clears the slot.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D9EC.c \
- *       --func func_0203D9EC --addr 0x0203D9EC --arm --cc 1.1p1
- */
-void func_0203D9EC(void)
+void func_0203E538(int a0)
 {
-    if (*(u32 *)g_021469F0 == 0) {
-        return;
+    if (g_021469F0 == 0)
+        func_02034714(s_020A7D34, 0x2e4, s_020A7D68);
+    if (g_021469F0 != 0) {
+        *(u8 *)((char *)g_021469F0 + 0x106) = (u8)(a0 + 1);
+        *(u8 *)((char *)g_021469F0 + 0x10a) = 1;
     }
-    func_02034FB8(0x20);
-    func_020307B0(*(void **)g_021469F0);
-    *(u32 *)g_021469F0 = 0;
 }
 
-
 /*
- * Calls func_0203D9EC when the net_irc_wireless singleton exists and its
- * +0x101 byte is clear.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203DA20.c \
- *       --func func_0203DA20 --addr 0x0203DA20 --arm --cc 1.1p1
+ * Reads byte 0x108 of the singleton, or 0 when it is not allocated.
  */
-void func_0203DA20(void)
+int func_0203E590(void)
 {
-    u8 *p = *(u8 **)g_021469F0;
-
-    if (p == 0) {
-        return;
-    }
-    if (p[0x101] != 0) {
-        return;
-    }
-    func_0203D9EC();
+    unsigned char *p = d_021469F0;
+    if (p == 0) return 0;
+    return p[0x108];
 }
 
-
-int func_0203DA4C(void)
+void func_0203E5AC(int a0)
 {
-    return d_021469F0[0] != 0;
+    if (g_021469F0 == 0)
+        func_02034714(s_020A7D34, 0x31a, s_020A7D68);
+    if (g_021469F0 != 0)
+        *(u8 *)((char *)g_021469F0 + 0x10b) = (u8)a0;
 }

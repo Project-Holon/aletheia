@@ -52,73 +52,14 @@ struct Slot;
 struct WinMgr;
 struct CharBuf;
 struct Descriptor;
-struct Obj;
+struct Menu;
 struct Actor;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int s32;
-
-typedef signed short s16;
-
-typedef signed char s8;
-
-typedef struct {
-    void *str;
-    int val;
-} Item;
-
-typedef struct {
-    void **wins;
-    u8 pad4[0xC - 4];
-    u32 up;
-    u32 down;
-    u8 pad14[0x18 - 0x14];
-    void *mgr;
-    u8 pad1C[0x30 - 0x1C];
-    Item *items;
-    void *num;
-    u8 pad38[0x56 - 0x38];
-    s16 page;
-    int total;
-    u8 pad5C[0x7C - 0x5C];
-    u8 g[4];
-} Menu;
+#include "worldtrade_types.h"
 
 typedef struct {
     u8 x;
     u8 y;
 } Cell;
-
-typedef struct {
-    void **strs;
-    u8 pad4[8 - 4];
-    u32 cursor;
-    u32 left;
-    u32 right;
-    u8 pad14[0x18 - 0x14];
-    void *mgr;
-    void *bag;
-    void *bank;
-    void *msg;
-    u8 pad28[0x2C - 0x28];
-    u32 x2c;
-    void *menu;
-    void *list;
-    s16 layout;
-    s16 start;
-    u8 pad3C[0x44 - 0x3C];
-    int pos;
-    int state;
-    u8 pad4C[0x56 - 0x4C];
-    s16 page;
-    int count;
-    u8 pad5C[0x7C - 0x5C];
-    u8 g[4];
-} Obj;
 
 extern u32 func_0200D064(struct Blk37 *p, u16 id);
 extern u16 *func_021F8498(u32 heap, u32 unused, u32 *count);
@@ -133,17 +74,17 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
 extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
-extern void func_021F9260(Obj *p, u32 mode);
+extern void func_021F9260(Menu *p, u32 mode);
 extern u32 func_021F9EEC(u8 *p, u32 n);
 extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
 extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
 extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B878(struct Menu *p, u16 value);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern u16 func_0204B898(struct Obj *p);
+extern void func_0204B3DC(struct Menu *p, unsigned int v);
+extern void func_0204B92C(struct Menu *p, u32 v);
+extern u16 func_0204B898(struct Menu *p);
 extern int func_021F9FF0(void *p);
 extern void func_020061E4(u32 se);
 extern u32 func_0204B98C(struct Actor *a);
@@ -153,10 +94,10 @@ extern void func_021FA9C8(u8 *p, int mode, int pos);
 extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 extern int func_021FA514(void *p, u8 *flags);
 int func_021FB240(u32 unused, u32 item, u32 c, u16 *list, int start, int end);
-int func_021FB26C(void **menu, void *msg, void *bank, u32 x, u32 kind, void *bag);
+int func_021FB26C(Item **menu, void *msg, void *bank, u32 x, u32 kind, void *bag);
 void func_021FB2F0(Menu *m, int page, int total);
 void func_021FB364(Menu *m, int page, int total);
-int func_021FB3D8(Obj *p);
+int func_021FB3D8(Menu *p);
 int func_021FB510(u8 *p);
 int func_021FB588(u8 *p);
 int func_021FB5E4(u8 *p);
@@ -192,7 +133,7 @@ int func_021FB240(u32 unused, u32 item, u32 c, u16 *list, int start, int end)
 
 
 
-int func_021FB26C(void **menu, void *msg, void *bank, u32 x, u32 kind, void *bag)
+int func_021FB26C(Item **menu, void *msg, void *bank, u32 x, u32 kind, void *bag)
 {
     u32 count;
     int start;
@@ -208,7 +149,7 @@ int func_021FB26C(void **menu, void *msg, void *bank, u32 x, u32 kind, void *bag
     *menu = func_0201F81C(n + 1, 0x48);
     for (i = start; i < end; i++) {
         if (func_0200D064(bag, list[i]) != 0) {
-            func_0201F878(*menu, (u32)msg, list[i], list[i], 0x48);
+            func_0201F878((struct Slot *)*menu, (u32)msg, list[i], list[i], 0x48);
         }
     }
     func_020307B0(list);
@@ -254,41 +195,41 @@ void func_021FB364(Menu *m, int page, int total)
 
 
 
-int func_021FB3D8(Obj *p)
+int func_021FB3D8(Menu *p)
 {
     u8 pages;
 
     func_0202CAE4(p->mgr, 0, 0x60, 0x1D, 1);
     func_0202CF84(p->mgr, 0);
     func_021F9260(p, 0);
-    p->count = func_021FB26C(&p->menu, p->msg, p->bank, p->x2c, tbl_02203324[p->layout] + p->start, p->bag);
+    p->total = func_021FB26C(&p->items, p->msg, p->bank, p->x2c, tbl_02203324[p->layout] + p->start, p->bag);
     p->page = 0;
-    func_021FB2F0((Menu *)p, 0, p->count);
-    pages = func_021F9EEC((u8 *)p->count, 4);
-    func_021FBF04(p->mgr, p->list, p->strs[4], p->page, pages);
-    func_021FBEB8(p->mgr, p->bank, p->strs[14], 0x4A, p->g);
+    func_021FB2F0((Menu *)p, 0, p->total);
+    pages = func_021F9EEC((u8 *)p->total, 4);
+    func_021FBF04(p->mgr, p->num, p->wins[4], p->page, pages);
+    func_021FBEB8(p->mgr, p->bank, p->wins[14], 0x4A, p->g);
     func_0202CB4C(p->mgr, 0, 0x10, 0);
-    func_0204B878((struct Obj *)p->cursor, 6);
+    func_0204B878((struct Menu *)p->cursor, 6);
     p->pos = 0;
     func_021F4FF4(p->cursor, tbl_02203220[p->pos].x, tbl_02203220[p->pos].y);
-    func_021F4FF4(p->left, 0xE4, 0x78);
-    func_021F4FF4(p->right, 0x9A, 0x78);
+    func_021F4FF4(p->up, 0xE4, 0x78);
+    func_021F4FF4(p->down, 0x9A, 0x78);
     if (func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)p->cursor, 0);
+        func_0204B3DC((struct Menu *)p->cursor, 0);
     } else {
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        func_0204B3DC((struct Menu *)p->cursor, 1);
     }
     if (pages == 1) {
-        func_0204B878((struct Obj *)p->left, 0x3D);
-        func_0204B878((struct Obj *)p->right, 0x3E);
+        func_0204B878((struct Menu *)p->up, 0x3D);
+        func_0204B878((struct Menu *)p->down, 0x3E);
     } else {
-        func_0204B878((struct Obj *)p->left, 0x26);
-        func_0204B878((struct Obj *)p->right, 0x27);
+        func_0204B878((struct Menu *)p->up, 0x26);
+        func_0204B878((struct Menu *)p->down, 0x27);
     }
-    func_0204B92C((struct Obj *)p->left, 0);
-    func_0204B92C((struct Obj *)p->right, 0);
-    func_0204B3DC((struct Obj *)p->left, 1);
-    func_0204B3DC((struct Obj *)p->right, 1);
+    func_0204B92C((struct Menu *)p->up, 0);
+    func_0204B92C((struct Menu *)p->down, 0);
+    func_0204B3DC((struct Menu *)p->up, 1);
+    func_0204B3DC((struct Menu *)p->down, 1);
     p->state = 0xF;
     return -1;
 }
@@ -302,15 +243,15 @@ int func_021FB510(u8 *p)
     switch (r) {
     case -2:
         func_020061E4(0x551);
-        func_0204B3DC((struct Obj *)((struct Obj02490 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj02490 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj02490 *)p)->f8)) + 9);
+        func_0204B3DC((struct Menu *)((struct Obj02490 *)p)->f8, 1);
+        func_0204B878((struct Menu *)(((struct Obj02490 *)p)->f8), func_0204B898((struct Menu *)(((struct Obj02490 *)p)->f8)) + 9);
         ((struct Obj02490 *)p)->f48 = 16;
         ((struct Obj02490 *)p)->f3C = -1;
         break;
     case -1: break;
     default:
-        func_0204B3DC((struct Obj *)((struct Obj02490 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj02490 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj02490 *)p)->f8)) + 9);
+        func_0204B3DC((struct Menu *)((struct Obj02490 *)p)->f8, 1);
+        func_0204B878((struct Menu *)(((struct Obj02490 *)p)->f8), func_0204B898((struct Menu *)(((struct Obj02490 *)p)->f8)) + 9);
         ((struct Obj02490 *)p)->f48 = 3;
         ((struct Obj02490 *)p)->f4C = 17;
         ((struct Obj02490 *)p)->f3C = r;
@@ -329,9 +270,9 @@ int func_021FB588(u8 *p)
     if (func_0204B98C((struct Actor *)(*(u32 *)&((struct Obj00098 *)p)->f8)) != 0) {
         return -1;
     }
-    func_0204B3DC((struct Obj *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
-    func_0204B3DC((struct Obj *)((struct Obj00098 *)p)->fC, 0);
-    func_0204B3DC((struct Obj *)((struct Obj00098 *)p)->f10, 0);
+    func_0204B3DC((struct Menu *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
+    func_0204B3DC((struct Menu *)((struct Obj00098 *)p)->fC, 0);
+    func_0204B3DC((struct Menu *)((struct Obj00098 *)p)->f10, 0);
     func_021F9660(p, 0x0);
     func_0201F868((void *)(*(u32 *)&((struct Obj00098 *)p)->f30));
     *(u32 *)&((struct Obj00098 *)p)->f48 = (*(s32 *)(g_022033FC + ((struct Obj00098 *)p)->f38 * 8) != 1) ? 0xd : 0x9;
@@ -345,14 +286,14 @@ int func_021FB5E4(u8 *p) { if(func_0204B98C(((struct Obj00098 *)p)->f8))return -
 int func_021FB614(u8 *p)
 {
     func_021FA9C8(p, 6, 0x20);
-    func_0204B878((struct Obj *)(((struct Obj02858 *)p)->f8), 18);
+    func_0204B878((struct Menu *)(((struct Obj02858 *)p)->f8), 18);
     func_0202CD64(((struct Obj02858 *)p)->f18, 0, -4, 0, 4);
     ((struct Obj02858 *)p)->f48 = 1;
     ((struct Obj02858 *)p)->f4C = 19;
     ((struct Obj02858 *)p)->f44 = 10;
     ((struct Obj02858 *)p)->f38 = -1;
     func_021F4FF4(((struct Obj02858 *)p)->f8, (tbl_02203298[((struct Obj02858 *)p)->f44][0] + 16) * 8, tbl_02203298[((struct Obj02858 *)p)->f44][1] * 8);
-    func_0204B878((struct Obj *)(((struct Obj02858 *)p)->f8), 6);
+    func_0204B878((struct Menu *)(((struct Obj02858 *)p)->f8), 6);
     return -1;
 }
 
@@ -363,23 +304,23 @@ int func_021FB674(u8 *p)
     r = func_021FA514(p, p + 0x60);
     switch ((u32)r) {
     case -2:
-        func_0204B3DC((struct Obj *)((struct Obj00195 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj00195 *)p)->f8)) + 9);
+        func_0204B3DC((struct Menu *)((struct Obj00195 *)p)->f8, 1);
+        func_0204B878((struct Menu *)(((struct Obj00195 *)p)->f8), func_0204B898((struct Menu *)(((struct Obj00195 *)p)->f8)) + 9);
         ((struct Obj00195 *)p)->f48 = 3;
         ((struct Obj00195 *)p)->f4C = 20;
         ((struct Obj00195 *)p)->f38 = -1;
         break;
     case 10:
-        func_0204B3DC((struct Obj *)((struct Obj00195 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj00195 *)p)->f8)) + 9);
+        func_0204B3DC((struct Menu *)((struct Obj00195 *)p)->f8, 1);
+        func_0204B878((struct Menu *)(((struct Obj00195 *)p)->f8), func_0204B898((struct Menu *)(((struct Obj00195 *)p)->f8)) + 9);
         ((struct Obj00195 *)p)->f48 = 3;
         ((struct Obj00195 *)p)->f4C = 20;
         ((struct Obj00195 *)p)->f38 = -2;
         break;
     case -1: break;
     default:
-        func_0204B3DC((struct Obj *)((struct Obj00195 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), 19);
+        func_0204B3DC((struct Menu *)((struct Obj00195 *)p)->f8, 1);
+        func_0204B878((struct Menu *)(((struct Obj00195 *)p)->f8), 19);
         ((struct Obj00195 *)p)->f38 = r;
         ((struct Obj00195 *)p)->f48 = 20;
         break;
@@ -391,7 +332,7 @@ int func_021FB674(u8 *p)
 int func_021FB704(u8 *p)
 {
     if (func_0204B98C(((struct Obj00098 *)p)->f8) != 0) return -1;
-    func_0204B3DC((struct Obj *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
+    func_0204B3DC((struct Menu *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
     func_021F9660(p, 6);
     if (((struct Obj00098 *)p)->f38 < 0) {
         if (((struct Obj00098 *)p)->f38 == -1) return -2;
@@ -402,8 +343,8 @@ int func_021FB704(u8 *p)
         } else {
             ((struct Obj00098 *)p)->f3A = 0;
             func_0202CD64(((struct Obj00098 *)p)->f18, 0, -4, 0, 3);
-            if (((struct Obj00098 *)p)->f14 != 0) func_0204B3DC((struct Obj *)((struct Obj00098 *)p)->f14, 0);
-            func_0204B878((struct Obj *)(*(u32 *)&((struct Obj00098 *)p)->f8), 7);
+            if (((struct Obj00098 *)p)->f14 != 0) func_0204B3DC((struct Menu *)((struct Obj00098 *)p)->f14, 0);
+            func_0204B878((struct Menu *)(*(u32 *)&((struct Obj00098 *)p)->f8), 7);
             ((struct Obj00098 *)p)->f48 = 2;
             func_0202CAE4(((struct Obj00098 *)p)->f18, 0, 0x60, 0x18, 1);
             ((struct Obj00098 *)p)->f4C = 26;
@@ -416,12 +357,12 @@ int func_021FB704(u8 *p)
 int func_021FB7A0(u8 *p)
 {
     func_021FA9C8(p, 6, 0x10);
-    func_0204B878((struct Obj *)(((struct Obj02859 *)p)->f8), 18);
-    func_0204B3DC((struct Obj *)((struct Obj02859 *)p)->f8, 1);
+    func_0204B878((struct Menu *)(((struct Obj02859 *)p)->f8), 18);
+    func_0204B3DC((struct Menu *)((struct Obj02859 *)p)->f8, 1);
     ((struct Obj02859 *)p)->f44 = ((struct Obj02859 *)p)->f38;
     func_021F4FF4(((struct Obj02859 *)p)->f8, (tbl_02203298[((struct Obj02859 *)p)->f44][0] + 16) * 8, tbl_02203298[((struct Obj02859 *)p)->f44][1] * 8);
-    if (func_020355C4() == 1) func_0204B3DC((struct Obj *)((struct Obj02859 *)p)->f8, 0);
-    else func_0204B3DC((struct Obj *)((struct Obj02859 *)p)->f8, 1);
+    if (func_020355C4() == 1) func_0204B3DC((struct Menu *)((struct Obj02859 *)p)->f8, 0);
+    else func_0204B3DC((struct Menu *)((struct Obj02859 *)p)->f8, 1);
     ((struct Obj02859 *)p)->f48 = 19;
     return -1;
 }

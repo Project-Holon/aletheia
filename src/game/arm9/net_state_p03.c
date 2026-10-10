@@ -1,7 +1,7 @@
 /*
  * file:     net_state_p03.c
  * unit:     yes
- * function: func_020377B8, func_0203781C, func_02037858, func_02037894, func_02037928, func_020379C8, func_02037A44, func_02037A6C, func_02037B08, func_02037BA4, func_02037BE8, func_02037C10, func_02037D78, func_02037D98, func_02037E60, func_02037F48, func_0203802C, func_020380E4, func_020381D8, func_02038298, func_02038340, func_02038380, func_02038524, func_02038570, func_020385C4, func_020387A0, func_02038924, func_02038A48, func_02038A90, func_02038AE0, func_02038C18, func_02038D30, func_02038D4C, func_02038D68, func_02038DF0, func_02039050, func_020390BC, func_02039160, func_020392B8, func_020392EC, sub_02039338, sub_020393A8, sub_020393D0, func_02039414, func_02039468, func_020394C0, func_020394DC, func_020394F0, func_02039548, sub_02039560, sub_02039578, sub_02039594, func_020395E0, func_020395EC, func_02039658, func_0203971C, func_02039764, func_02039834, func_020398B4, func_0203996C, func_020399A8, func_020399B8, func_020399DC, func_020399EC, func_02039A2C, func_02039A5C, func_02039ACC, func_02039B5C, func_02039C2C, func_02039C3C, func_02039C68, func_02039CA0, func_02039CB4, func_02039CD8, func_02039D94, func_0203A020, func_0203A118, func_0203A150, func_0203A27C, func_0203A28C, func_0203A2F0, func_0203A338, func_0203A388, func_0203A424, func_0203A458, func_0203A494, func_0203A53C, func_0203A574, func_0203A5E4, func_0203A634, func_0203A67C, func_0203A70C, func_0203A730, func_0203A748, func_0203A770, func_0203A7EC, func_0203A804, func_0203A81C, func_0203A858, func_0203A85C, func_0203A958, func_0203AA94, func_0203ABC0, func_0203ACAC, func_0203AD74, func_0203AD8C, func_0203AE20, func_0203AEEC, func_0203AF40
+ * function: func_020377B8, func_0203781C, func_02037858, func_02037894, func_02037928, func_020379C8, func_02037A44, func_02037A6C, func_02037B08, func_02037BA4, func_02037BE8, func_02037C10, func_02037D78, func_02037D98, func_02037E60, func_02037F48, func_0203802C, func_020380E4, func_020381D8, func_02038298, func_02038340, func_02038380, func_02038524, func_02038570, func_020385C4, func_020387A0, func_02038924, func_02038A48, func_02038A90, func_02038AE0, func_02038C18, func_02038D30, func_02038D4C, func_02038D68, func_02038DF0, func_02039050, func_020390BC, func_02039160, func_020392B8, func_020392EC, sub_02039338, sub_020393A8, sub_020393D0, func_02039414, func_02039468, func_020394C0, func_020394DC, func_020394F0, func_02039548, sub_02039560, sub_02039578, sub_02039594, func_020395E0, func_020395EC, func_02039658, func_0203971C, func_02039764, func_02039834, func_020398B4, func_0203996C, func_020399A8, func_020399B8, func_020399DC, func_020399EC, func_02039A2C, func_02039A5C, func_02039ACC, func_02039B5C, func_02039C2C, func_02039C3C, func_02039C68, func_02039CA0, func_02039CB4, func_02039CD8, func_02039D94, func_0203A020, func_0203A118, func_0203A150, func_0203A27C, func_0203A28C, func_0203A2F0, func_0203A338, func_0203A388, func_0203A424, func_0203A458, func_0203A494, func_0203A53C, func_0203A574, func_0203A5E4, func_0203A634, func_0203A67C, func_0203A70C, func_0203A730, func_0203A748, func_0203A770, func_0203A7EC, func_0203A804, func_0203A81C, func_0203A858, func_0203A85C, func_0203A958, func_0203AA94, func_0203ABC0, func_0203ACAC, func_0203AD74, func_0203AD8C, func_0203AE20, func_0203AEEC, func_0203AF40, func_0203AFCC
  * address:  0x020377B8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -104,6 +104,7 @@
  *   g_02FFFC3C        0x02FFFC3C  data
  *   func_020370C8  0x020370C8  arm
  *   unk_0203C00C   0x0203C00C  arm
+ *   func_02034F84  0x02034F84  arm
  */
 #include "../../matched/include/Obj11351.h"
 #include "../../matched/include/Obj15917.h"
@@ -505,14 +506,6 @@ typedef struct {
     u8 hi : 4;
 } Status;
 
-struct NetState {
-    void *unk0;
-    void *unk4;
-    void *unk8;
-    unsigned char pad[0x46 - 0xC];
-    u16 unk46;
-};
-
 typedef unsigned long long u64;
 
 typedef struct {
@@ -520,6 +513,35 @@ typedef struct {
     u64 mul;
     u64 add;
 } MATHRandContext64;
+
+struct NetState {
+    u32  f00;
+    u32  f04;
+    void (*f08)(struct NetState *s);
+    MATHRandContext64 rng;
+    u32  f24;
+    void (*f28)(void);
+    void (*f2C)(u32 a);
+    u32  err[4];
+    u8   mac[6];
+    u16  f46;
+    s8   flag;
+    u8   pad49;
+    u8   f4A;
+    u8   f4B;
+    u8   f4C;
+    u8   f4D;
+    u8   f4E;
+    u8   f4F;
+    u8   f50;
+    u8   f51;
+    u8   pad52;
+    u8   f53;
+    u8   pad54[2];
+    u8   f56;
+    u8   addr[6];
+    u8   pad5D[7];
+};
 
 struct Date { u32 year; u32 mon; u32 day; u32 wday; };
 
@@ -542,11 +564,6 @@ struct Cur {
     u16 f56;
     u8  pad_58[0xd];
     u8  f65;
-};
-
-struct Rec {
-    u8  pad_00[0x2c];
-    void (*f2c)(u32 a);
 };
 
 extern void *func_0203D798(void);
@@ -607,6 +624,7 @@ extern void func_0203F034(u32 seed);
 extern u32 func_0203F0A8(void);
 extern void  func_020370C8(void);
 extern void unk_0203C00C(void);
+extern void func_02034F84(u32 a);
 u32 func_020377B8(u8 arg0);
 void func_0203781C(u32 arg);
 void func_02037858(u32 arg);
@@ -711,12 +729,13 @@ void func_0203A958(int a0, int a1, const u8 *a2, int a3, int a4);
 u32 func_0203AA94(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 u32 func_0203ABC0(void);
 void func_0203ACAC(void);
-void func_0203AD74(struct NetState *s, void *p, u16 v);
-void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+void func_0203AD74(struct NetState *s, void *p, u32 v);
+void func_0203AD80(struct NetState *s, void *p, u32 v, int line);
 void func_0203AD8C(u32 a0);
 void func_0203AE20(MATHRandContext64 *o);
-void func_0203AEEC(u8 *p);
-void func_0203AF40(struct Rec *p);
+void func_0203AEEC(struct NetState *p);
+void func_0203AF40(struct NetState *p);
+void func_0203AFCC(void *a, u32 b);
 extern u8 g_020A7A20[];
 extern struct Net *g_021469D0;
 extern u8 lbl_020A7A20[];
@@ -746,10 +765,11 @@ extern char sNet3730[];
 extern char sNet3733[];
 extern char sNet3734[];
 extern char  g_020A7B78[];
-extern u8  *g_021469DC;
+extern struct NetState *g_021469DC;
 extern char g_020A7BA8[];
 extern char g_020A7BB4[];
 extern u32 g_02FFFC3C;
+
 
 
 
@@ -819,6 +839,7 @@ u32 func_020377B8(u8 arg0)
 
 
 
+
 /*
  * Reset-and-notify hook: two context getters, the per-slot reset for `arg`,
  * and then the hook at +8 of the first context if it is installed, called with
@@ -841,6 +862,7 @@ void func_0203781C(u32 arg)
         return;
     hook(((struct Obj15920 *)b)->f34C, arg);
 }
+
 
 
 
@@ -907,6 +929,7 @@ void func_02037858(u32 arg)
 
 
 
+
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02037894.c \
@@ -943,6 +966,7 @@ void func_02037894(u8 a0, u16 a1, u32 a2, u32 a3)
     f3 = *(void (**)(u32, u32))(*(char * *)&((struct Obj05734 *)b)->f340 + 0x40);
     f3(a2, a3);
 }
+
 
 
 
@@ -1024,6 +1048,7 @@ u32 func_02037928(u32 a0, u16 a1)
 
 
 
+
 /*
  * Context teardown through three vtable slots at +0x3c, +0xbc and +0x68 of the
  * object the context's word at +0x340 names.  The first and third are handed a
@@ -1069,6 +1094,7 @@ int func_020379C8(u32 p)
 
 
 
+
 void func_02037A44(int a)
 {
     int *r = func_0203D788();
@@ -1077,6 +1103,7 @@ void func_02037A44(int a)
         return;
     ((void (*)(int))t[0x30])(a);
 }
+
 
 
 
@@ -1153,6 +1180,7 @@ void func_02037A6C(u32 a0, u32 a1, u16 a2, u32 a3)
 
 
 
+
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02037B08.c \
@@ -1183,6 +1211,7 @@ void func_02037B08(void)
 
     g_021469D0 = 0;
 }
+
 
 
 
@@ -1243,6 +1272,7 @@ void func_02037BA4(void)
 
 
 
+
 /*
  * Guards the eight-slot table behind the global at 0x021469D0: an unarmed
  * global returns through `popeq`, an index past 7 through `popcs` (the compare
@@ -1263,6 +1293,7 @@ void func_02037BE8(u32 a)
         return;
     func_02037680(a);
 }
+
 
 
 
@@ -1361,6 +1392,7 @@ done:
 
 
 
+
 /*
  * Teardown hook for the same global src/matched/func_02037BE8.c guards: the
  * armed pointer goes to func_02037478, an unarmed one is a `popeq`.
@@ -1380,6 +1412,7 @@ void func_02037D78(void)
         return;
     func_02037478();
 }
+
 
 
 
@@ -1440,6 +1473,7 @@ int func_02037D98(int a)
 
 
 
+
 void func_02037E60(void)
 {
     struct Ctx_02037E60 *c = func_0203D788();
@@ -1468,6 +1502,7 @@ void func_02037E60(void)
         g_021469D0->f1B0 = g_021469D0->f1B0 + 1;
     }
 }
+
 
 
 
@@ -1548,6 +1583,7 @@ fail:
 
 
 
+
 /*
  * Fourth entry of this packet's chain, and the one the lane table expected to
  * need two callees filed: it calls func_020381D8, whose own entry is in this
@@ -1591,6 +1627,7 @@ void func_0203802C(void)
     func_020381D8((u32)g_021469D0->f00, v);
     *(u8 *)(d_020A7A20 + 1) = 4;
 }
+
 
 
 
@@ -1670,6 +1707,7 @@ u32 func_020380E4(u32 a0, u8 *rec, u32 len)
 
 
 
+
 /*
  * Second half of this packet's chain: it calls func_020380E4, whose own entry
  * is in this shard, so the call site is attested by `matched` rather than by
@@ -1714,6 +1752,7 @@ void func_020381D8(u32 a0, u32 a1)
     func_020380E4((u16)v, (u8 *)a0, (u16)a1);
     func_02037224(4, 0x40C);
 }
+
 
 
 
@@ -1789,6 +1828,7 @@ void func_02038298(void)
 
 
 
+
 /*
  * Promoted from src/pending/ on lane 1.  All 64 concrete bytes are right; the
  * one open site was the PC24 at +0x0038, the `bl` to func_02037E60, which had
@@ -1823,6 +1863,7 @@ void func_02038340(void)
     func_02037D98(1);
     func_02037E60();
 }
+
 
 
 
@@ -1896,6 +1937,7 @@ last:
 
 
 
+
 int func_02038524(void)
 {
     int i;
@@ -1921,6 +1963,7 @@ int func_02038524(void)
 
 
 
+
 void func_02038570(void)
 {
     int i;
@@ -1932,6 +1975,7 @@ void func_02038570(void)
         }
     }
 }
+
 
 
 
@@ -2023,6 +2067,7 @@ void func_020385C4(void)
 
 
 
+
 /*
  * The indexed twin of src/matched/func_02038924.c (the own-slot variant):
  * same receive/validate/copy shape, but every global offset is scaled by
@@ -2092,6 +2137,7 @@ int func_020387A0(u32 i, u8 *p, s32 n)
 
 
 
+
 int func_02038924(u32 a0, u8 *p, s32 n)
 {
     struct Net *g;
@@ -2131,6 +2177,7 @@ int func_02038924(u32 a0, u8 *p, s32 n)
     g_021469D0->f2C.state = 1;
     return 1;
 }
+
 
 
 
@@ -2188,6 +2235,7 @@ int func_02038A48(int a)
 
 
 
+
 int func_02038A90(u32 a)
 {
     func_0203D6BC();
@@ -2200,6 +2248,7 @@ int func_02038A90(u32 a)
     }
     return 1;
 }
+
 
 
 
@@ -2272,6 +2321,7 @@ body:
 
     return 1;
 }
+
 
 
 
@@ -2369,6 +2419,7 @@ int func_02038C18(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7)
 
 
 
+
 void func_02038D30(int a0, int a1, int a2, int a3)
 {
     func_020365E8((char *)&g_021469D0->f1C);
@@ -2384,10 +2435,12 @@ void func_02038D30(int a0, int a1, int a2, int a3)
 
 
 
+
 void func_02038D4C(int a0, int a1, int a2, int a3)
 {
     func_020365E8((char *)&g_021469D0->f3C);
 }
+
 
 
 
@@ -2423,6 +2476,7 @@ void func_02038D68(int a0, u32 a1, u32 a2, u8 *a3)
 
     func_02037234(a3);
 }
+
 
 
 
@@ -2540,6 +2594,7 @@ void func_02038DF0(struct Src *src, s32 a1, u8 *buf, struct St *st, u32 n)
 
 
 
+
 void func_02039050(void)
 {
     int i;
@@ -2559,6 +2614,7 @@ void func_02039050(void)
                       (struct St *)p->f19C, func_02037258());
     }
 }
+
 
 
 
@@ -2612,6 +2668,7 @@ void func_020390BC(void)
         }
     }
 }
+
 
 
 
@@ -2683,6 +2740,7 @@ int func_02039160(u32 mode)
 
 
 
+
 /*
  * Counts the eight slots whose test function answers non-zero.  The slot
  * number goes in as a `u16` - the `lsl #16` / `lsr #16` pair in the loop is
@@ -2708,6 +2766,7 @@ u32 func_020392B8(void)
     }
     return count;
 }
+
 
 
 
@@ -2752,6 +2811,7 @@ int func_020392EC(void)
 
 
 
+
 u16 sub_02039338(void)
 {
     struct Owner_020377B8 *owner;
@@ -2785,6 +2845,7 @@ none:
 
 
 
+
 int sub_020393A8(void)
 {
     u16 mask;
@@ -2792,6 +2853,7 @@ int sub_020393A8(void)
     mask = ((struct LinkRoot_020377B8 *)func_0203D788())->driver->get_mask();
     return mask & 0xFFFE;
 }
+
 
 
 
@@ -2822,6 +2884,7 @@ int sub_020393D0(void)
     }
     return root->driver->busy() != 0;
 }
+
 
 
 
@@ -2868,6 +2931,7 @@ u32 func_02039414(void)
 
 
 
+
 void func_02039468(u32 a, u32 b)
 {
     u8 *s = (u8 *)func_0203D798();
@@ -2878,6 +2942,7 @@ void func_02039468(u32 a, u32 b)
         func_02036B98((char *)g_021469D0->fCC, a);
     }
 }
+
 
 
 
@@ -2902,6 +2967,7 @@ int func_020394C0(void)
 
 
 
+
 /*
  * A leaf setter on the link state: store the argument byte at +0x1e7.  It
  * saves no registers, so disasm.py gives it no label and it prints as a run
@@ -2915,6 +2981,7 @@ void sub_020394DC(u8 v)
 {
     g_021469D0->f1E7 = v;
 }
+
 
 
 
@@ -2944,6 +3011,7 @@ void func_020394F0(u32 a)
 
 
 
+
 /*
  * Set the +0x1e9 flag on the link state.  sub_02039560 is the clearing half;
  * the two are byte-for-byte the same but for the stored constant.
@@ -2955,6 +3023,7 @@ void sub_02039548(void)
 {
     g_021469D0->f1E9 = 1;
 }
+
 
 
 
@@ -2977,6 +3046,7 @@ void sub_02039560(void)
 
 
 
+
 /*
  * Set the +0x1ea flag, but only when the link state has been constructed.
  * The guard and the store share one `ne` predication rather than a branch,
@@ -2992,6 +3062,7 @@ void sub_02039578(void)
         g_021469D0->f1EA = 1;
     }
 }
+
 
 
 
@@ -3035,6 +3106,7 @@ yes:
 
 
 
+
 /*
  * Clamp a slot index to the sentinel: anything from 8 up becomes 0xff, and
  * everything below passes through untouched.  Twelve bytes, no prologue.
@@ -3049,6 +3121,7 @@ int sub_020395E0(int slot)
     }
     return slot;
 }
+
 
 
 
@@ -3080,6 +3153,7 @@ int func_020395EC(struct Entry *a)
     func_02034714((const char *)str_020A7A68, 0x6e, (const char *)str_020A7A78);
     return -1;
 }
+
 
 
 
@@ -3151,6 +3225,7 @@ void func_02039658(struct Entry *e, u32 idx)
 
 
 
+
 /*
  * Clears the slot's `0x3e` field, refreshes its `0x40` field from the
  * selector, then clears the 0x10-byte record its indexed pointer names.
@@ -3170,6 +3245,7 @@ void func_0203971C(unsigned char *a, u32 b)
         func_02082BCC(p, 0, 0x10);
     }
 }
+
 
 
 
@@ -3254,6 +3330,7 @@ struct Entry *func_02039764(u32 idx)
 
 
 
+
 /*
  * Module bring-up, the twin of func_020398B4's teardown: reset all eight
  * peer slots through func_02039764, reset the own slot (0xFF) too, assert
@@ -3307,6 +3384,7 @@ void func_02039834(void)
     }
     g_021469D4 = func_02030734(((struct Obj15945 *)p)->f56, 0x20, 1, file_020A7A68, 0xe5);
 }
+
 
 
 
@@ -3367,6 +3445,7 @@ void func_020398B4(void)
 
 
 
+
 /*
  * Resolves a slot index to one of the nine 0x50-byte entries at +0x70 of
  * func_0203D788()'s record.  0xff is the "own slot" spelling and names entry
@@ -3402,6 +3481,7 @@ struct Entry *sub_0203996C(s32 idx)
 
 
 
+
 /*
  * A two-call forwarder: the index func_02039338 returns goes straight to
  * func_0203996C through r0, and that entry is returned.
@@ -3413,6 +3493,7 @@ struct Entry *sub_020399A8(void)
 {
     return func_0203996C(func_02039338());
 }
+
 
 
 
@@ -3446,6 +3527,7 @@ u32 func_020399B8(u8 *p)
 
 
 
+
 /*
  * Entry accessor: returns byte 0x4A of a 0x50-byte entry, or 8 for null.
  */
@@ -3454,6 +3536,7 @@ int func_020399DC(struct Entry *p)
     if (p) return p->f4a;
     return 8;
 }
+
 
 
 
@@ -3501,6 +3584,7 @@ int func_020399EC(void)
 
 
 
+
 void func_02039A2C(int a)
 {
     char *q;
@@ -3510,6 +3594,7 @@ void func_02039A2C(int a)
     q[0x2c] = (char)a;
     q[0x2d] = 1;
 }
+
 
 
 
@@ -3571,6 +3656,7 @@ void func_02039A5C(void)
 
 
 
+
 /*
  * Seeds the current record's +0x4a state byte: state 2 re-arms the eight-slot
  * table through func_0203D3A8 with a 3-byte payload built in a 12-byte stack
@@ -3609,6 +3695,7 @@ int func_02039ACC(void)
     }
     return 0;
 }
+
 
 
 
@@ -3686,6 +3773,7 @@ void func_02039B5C(u32 slot, u32 a1, struct Msg_02039B5C *msg, u32 a3, u32 link)
 
 
 
+
 /*
  * A message handler from the dispatch table at 0x020A0870, sharing the
  * five-argument shape of its table neighbour func_02039B5C: the first four
@@ -3697,6 +3785,7 @@ void func_02039C2C(u32 a0, u32 a1, struct Msg_02039C2C *msg, u32 a3, struct Obj_
 {
     obj->tag = msg->tag;
 }
+
 
 
 
@@ -3738,6 +3827,7 @@ void func_02039C3C(struct Rec_0203996C *p, u16 tag)
 
 
 
+
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -3773,10 +3863,12 @@ void sub_02039C68(struct Link *p, u32 lo, u32 hi)
 
 
 
+
 u32 sub_02039CA0(struct Link *p, u32 key)
 {
     return p->unk44 == key;
 }
+
 
 
 
@@ -3788,6 +3880,7 @@ u32 sub_02039CB4(struct Link *p, u32 lo, u32 hi)
     }
     return p->unk44 == lo + (hi << 8);
 }
+
 
 
 
@@ -3825,6 +3918,7 @@ int func_02039CD8(struct Obj_02039C68 *p)
     p->key = 0;
     return 1;
 }
+
 
 
 
@@ -3925,6 +4019,7 @@ void func_02039D94(void)
 
 
 
+
 /*
  * net_handle.c: claim a connection slot for the message a2 (MAC copy,
  * id bytes, OS_GetMacAddress) when this machine owns the table, else mark
@@ -3999,6 +4094,7 @@ void func_0203A020(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base)
 
 
 
+
 /*
  * Conditional state repair: when the context's +0x352 flag is clear the
  * object's +0x4A state is only pushed to 7 if it is not already 5, otherwise
@@ -4021,6 +4117,7 @@ void func_0203A118(u8 *p)
         p[0x4A] = 7;
     }
 }
+
 
 
 
@@ -4085,6 +4182,7 @@ void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
 
 
 
+
 /*
  * A message-table handler that forwards to func_0203A338 with the message's
  * first byte as its only argument.  The five-argument table shape puts the
@@ -4105,6 +4203,7 @@ void func_0203A27C(u32 a0, u32 a1, u8 *msg, u32 a3, u32 a4)
 {
     func_0203A338(*msg);
 }
+
 
 
 
@@ -4157,6 +4256,7 @@ u16 func_0203A28C(u16 mask, u32 idx, u32 set)
 
 
 
+
 /*
  * Tests one bit of a channel mask, the 0xFF argument being a non-fatal
  * report at line 0x3AB (939).  The mask is truncated to a byte before the
@@ -4175,6 +4275,7 @@ u32 func_0203A2F0(u32 a0, u32 a1)
         func_02034714(file_020A7A68, 0x3AB, file_020A7AB0);
     return (a0 & (u8)(1 << a1)) != 0;
 }
+
 
 
 
@@ -4210,6 +4311,7 @@ void func_0203A338(u32 a0)
     func_02039658((struct Entry *)func_0203996C(a0), a0);
     func_0203971C((unsigned char *)(struct Entry *)func_0203996C(0xFF), a0);
 }
+
 
 
 
@@ -4277,6 +4379,7 @@ void func_0203A388(int id, u32 len, const void *src, u32 a3, void *obj)
 
 
 
+
 void func_0203A424(char *p, int a, int b, int c)
 {
     if (p == 0)
@@ -4288,6 +4391,7 @@ void func_0203A424(char *p, int a, int b, int c)
     else
         p[0x49] = 1;
 }
+
 
 
 
@@ -4325,6 +4429,7 @@ void func_0203A458(u8 *a0, u32 a1)
         }
     }
 }
+
 
 
 
@@ -4372,6 +4477,7 @@ void func_0203A494(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
 
 
 
+
 void func_0203A53C(void)
 {
     if (g_021469D8 == 0)
@@ -4380,6 +4486,7 @@ void func_0203A53C(void)
     func_020307B0(g_021469D8);
     g_021469D8 = 0;
 }
+
 
 
 
@@ -4407,6 +4514,7 @@ void func_0203A574(u32 a, u32 b, u32 c, u32 d)
 
 
 
+
 void func_0203A5E4(u32 key)
 {
     struct NetCmdGrp *e = g_021469D8->grp;
@@ -4421,6 +4529,7 @@ void func_0203A5E4(u32 key)
         }
     }
 }
+
 
 
 
@@ -4451,6 +4560,7 @@ u32 func_0203A634(u32 a0)
         return 1;
     return 0;
 }
+
 
 
 
@@ -4517,6 +4627,7 @@ struct NetCmdGrp *func_0203A67C(u32 cmd)
 
 
 
+
 int func_0203A70C(u32 idx)
 {
     int *p = (int *)func_0203A67C(idx);
@@ -4527,6 +4638,7 @@ int func_0203A70C(u32 idx)
     }
     return 0;
 }
+
 
 
 
@@ -4556,6 +4668,7 @@ u32 func_0203A730(u32 cmd)
 
 
 
+
 int func_0203A748(u32 idx)
 {
     int *p = (int *)func_0203A67C(idx);
@@ -4566,6 +4679,7 @@ int func_0203A748(u32 idx)
     }
     return 0;
 }
+
 
 
 
@@ -4601,6 +4715,7 @@ void func_0203A770(u32 a, u32 b, int c, u32 d, u32 e, u32 f)
 
 
 
+
 int func_0203A7EC(unsigned int idx)
 {
     return func_0203A70C(idx) != 0;
@@ -4611,10 +4726,12 @@ int func_0203A7EC(unsigned int idx)
 
 
 
+
 int func_0203A804(unsigned int idx)
 {
     return func_0203A748(idx) != 0;
 }
+
 
 
 
@@ -4647,9 +4764,11 @@ u32 func_0203A81C(u32 a0, u32 a1, u32 a2)
 
 
 
+
 void func_0203A858(void)
 {
 }
+
 
 
 
@@ -4709,6 +4828,7 @@ void func_0203A85C(int a0, u32 a1, void *a2, int a3, volatile int a4)
 
 
 
+
 /*
  * net_command.c: register the command record a2 in slot a0 (0xff -> 8) of
  * the 0x14-stride table at g_021469D8 + 0xb8, asserting the slot was free
@@ -4754,6 +4874,7 @@ void func_0203A958(int a0, int a1, const u8 *a2, int a3, int a4)
   g_021469D8->ent[i].f0E = v6;
   g_021469D8->ent[i].f0C = 0;
 }
+
 
 
 
@@ -4825,6 +4946,7 @@ u32 func_0203AA94(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
 
 
 
+
 u32 func_0203ABC0(void)
 {
     u16 hdr[6];
@@ -4851,6 +4973,7 @@ u32 func_0203ABC0(void)
     }
     return 0;
 }
+
 
 
 
@@ -4892,6 +5015,7 @@ void func_0203ACAC(void)
 
 
 
+
 /*
  * Setter and its tail-call export in net_state.
  *
@@ -4899,20 +5023,22 @@ void func_0203ACAC(void)
  *   python tools/match.py tu --src src/matched/unit_0203AD74.c \
  *       --addr 0x0203AD74 --arm --cc 1.1p1
  */
-void func_0203AD74(struct NetState *s, void *p, u16 v)
+void func_0203AD74(struct NetState *s, void *p, u32 v)
 {
-    s->unk8 = p;
-    s->unk46 = v;
+    s->f08 = p;
+    s->f46 = v;
 }
 
 
 
 
 
-void func_0203AD80(struct NetState *s, void *p, u16 v, int line)
+
+void func_0203AD80(struct NetState *s, void *p, u32 v, int line)
 {
     func_0203AD74(s, p, v);
 }
+
 
 
 
@@ -4949,12 +5075,13 @@ void func_0203AD8C(u32 a0)
     if (g_021469DC != 0) {
         func_02034714(g_020A7BA8, 0xb8, g_020A7BB4);
     }
-    g_021469DC = (u8 *)func_02030734(a0, 0x64, 1, g_020A7BA8, 0xb9);
-    *(u16 *)(g_021469DC + 0x46) = 0x32;
-    *(u8 *)(g_021469DC + 0x4c) = 1;
-    func_0203AE20((MATHRandContext64 *)(g_021469DC + 0xc));
+    g_021469DC = func_02030734(a0, 0x64, 1, g_020A7BA8, 0xb9);
+    g_021469DC->f46 = 0x32;
+    g_021469DC->f4C = 1;
+    func_0203AE20(&g_021469DC->rng);
     func_0203A494(0, 0, 0, 0, a0);
 }
+
 
 
 
@@ -4967,6 +5094,7 @@ static inline void MATH_InitRand64(MATHRandContext64 *context, u64 seed)
     context->mul = 0x5d588b656c078965ULL;
     context->add = 0x269ec3ULL;
 }
+
 
 
 
@@ -5008,6 +5136,7 @@ void func_0203AE20(MATHRandContext64 *o)
 
 
 
+
 /*
  * Shuts the network down when the transport's +0x74 virtual answers non-zero:
  * tears the tables down, saves the completion callback out of +0x28, drops
@@ -5022,7 +5151,7 @@ void func_0203AE20(MATHRandContext64 *o)
  *   python tools/match.py one --src src/matched/func_0203AEEC.c \
  *       --func func_0203AEEC --addr 0x0203AEEC --cc 1.1p1 --arm
  */
-void func_0203AEEC(u8 *p)
+void func_0203AEEC(struct NetState *p)
 {
     void (*f)(void);
 
@@ -5031,12 +5160,13 @@ void func_0203AEEC(u8 *p)
     func_0203A53C();
     func_020370C8();
     func_02037B08();
-    f = (void (*)(void))*(u32 *)(*(u32 *)((char *)(0x21469DC)) + 0x28);
-    func_020307B0((void *)*(u32 *)((char *)(0x21469DC)));
-    *(u32 *)((char *)(0x21469DC)) = 0;
+    f = g_021469DC->f28;
+    func_020307B0(g_021469DC);
+    g_021469DC = 0;
     if (f != 0)
         f();
 }
+
 
 
 
@@ -5058,7 +5188,7 @@ void func_0203AEEC(u8 *p)
  *    does `blx r1`, where the obvious C reloads into r0.  The tell is the
  *    `bl func_0203D650` immediately before it whose result looks discarded.
  *    It is not discarded -- it is the callback's ARGUMENT.  Spelling the
- *    field `void (*f2c)(u32)` and writing `p->f2c(func_0203D650())` pins r0
+ *    field `void (*f2c)(u32)` and writing `p->f2C(func_0203D650())` pins r0
  *    to the argument, so the function pointer has to land in r1.  EXACT.
  *    This is the same shape src/pending/func_0203B52C.c documents for its
  *    own callback ("takes func_0203D650's return value in r0, which is why
@@ -5078,7 +5208,7 @@ void func_0203AEEC(u8 *p)
  * mutation table -- the same class of miss the permuter.md field reports
  * record for `cnt = *p++` and `int weight`.
  */
-void func_0203AF40(struct Rec *p)
+void func_0203AF40(struct NetState *p)
 {
     struct Obj *s = func_0203D788();
     struct Cur *c = func_0203D798();
@@ -5086,9 +5216,18 @@ void func_0203AF40(struct Rec *p)
     if (c->f65 != 1 && c->f65 != 2)
         s->f340->f04(c->f56, s, 0, s->f34c);
     func_02037D78();
-    if (p->f2c != 0) {
-        p->f2c(func_0203D650());
-        p->f2c = 0;
+    if (p->f2C != 0) {
+        p->f2C(func_0203D650());
+        p->f2C = 0;
     }
-    func_0203AD80((struct NetState *)g_021469DC, (void *)unk_0203C00C, 0, 0x12f);
+    func_0203AD80(g_021469DC, (void *)unk_0203C00C, 0, 0x12f);
+}
+
+
+void func_0203AFCC(void *a, u32 b)
+{
+    func_02034F84(4);
+    func_0203AD8C((u32)a);
+    g_021469DC->f2C = (void (*)(u32))b;
+    func_0203AD80(g_021469DC, (void *)func_0203AF40, 0, 0x13F);
 }

@@ -26,7 +26,7 @@ when those become real code. (Round 5 listed 164 split TUs; the recount finds 16
 at that commit: ov093 unit_021EFC1C was missed.)
 
 Checks at this commit:
-- `python tools/gameverify.py`: 2460 files, all EXACT or MATCH except
+- `python tools/gameverify.py`: 2431 files, all EXACT or MATCH except
   `arm9/unit_020911D4_p09.c` and `_p11.c` (compiler runtime pieces that are not
   contiguous in the image: every function is EXACT with `match.py one`, the TU
   compare cannot line up).
@@ -85,6 +85,7 @@ functions written into `src/game` are not counted (see "Coverage caveats").
 | Round 9 | 4 | 92.5%: ov021 field_wfbc, ov013 unit_021B23E0, ov010 fldmmdl, ov102/103/105 unit_021B7560, ov018 intrude_field, intrude_subdisp, ov019 union_oneself, ov121 mystery_util whole |
 | Round 10 | 4 | 92.9%: ov021 weather_task, fldmmdl_blact; arm9 net_err, unit_02083644, unit_020643CC, unit_0206EB7C, unit_0207312C whole; ov021 field_effect 17 -> 2 (p02 is a second entry label inside func_021A8E10, final) |
 | Round 11 | 4 | 92.9% (no TU closed, big ones reduced): arm9 net_state 56 -> 46 (NetCmd, Votes, Entry canonical), button_man 10 -> 5, ov010 eventdata_system 10 -> 8, ov021 fld_trade 3 -> 2 (TradeWork), ov135 worldtrade_box 7 -> 6, ov208 zukan_detail_graphic 14 -> 13 |
+| Round 12 | 4 | 92.9% (no TU closed, structs): arm9 unit_02064D70 15 -> 4 (RendererBss and SDK-style types), net_state 46 -> 36 (NetState 0x64 bytes for g_021469DC), clact 11 -> 6, particle 6 -> 4; ov208 zukan_detail_form 4 -> 3 (Ov208Form); ov135 worldtrade_types.h with one Menu (no part count change) |
 
 Subagents in opencode use `.opencode/agents/lane.md` (model
 `anthropic/claude-sonnet-5-5`, not committed; it is local opencode config).
@@ -167,6 +168,11 @@ unit_02064D70 (15), clact (13). About 80 to 100 of the 164 are real boundaries
 (veneers, ARM/Thumb, compiler, SDK stand-ins), so the ceiling is roughly 93 to 95%.
 
 ### 3. Readability debt (from lane reports)
+- Compiler behaviour worth knowing when converting raw-offset code to fields:
+  `(p + i*stride) + const` (original) vs `p->row[i].x` (hoists `p + base`): the
+  second changes the code; ov208 zukan_detail_form p02/p03 still uses W()/H()
+  macros for this reason (`e = (struct F *)((u8 *)p + i * 0x28); e->row[0].x`
+  closes one function but needs `short x, y` in the row).
 - Calls through `((void *(*)())f)(...)` to get a call with no prototype in view
   (the original had an implicit declaration of a callee defined later with
   narrow parameters; -lang c99 forbids implicit declarations): ov010
