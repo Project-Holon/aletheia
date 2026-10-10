@@ -51,7 +51,6 @@ ov009	unit_0218F9F8	6	0
 ov009	unit_021903B0	2	0
 ov009	unit_0219BA58	3	0
 ov010	comm_player	2	0
-ov010	event_field_proclink	2	0
 ov010	eventdata_system	8	0
 ov010	scrcmd_proc	2	0
 ov010	script_work	2	0

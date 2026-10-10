@@ -11,10 +11,10 @@ TUs that are one file (file counts from `split_tus.tsv`; estimate 1816 TUs):
 | Area | Whole | Percent |
 |---|---|---|
 | ARM9 | 376 / 406 | 92.6% |
-| Overlays | 1231 / 1325 | 92.9% |
+| Overlays | 1232 / 1325 | 93.0% |
 | twl | 80 / 82 | 97.6% |
 | ITCM | 2 / 3 | 66.7% |
-| **Total** | **1689 / 1816** | **93.0%** |
+| **Total** | **1690 / 1816** | **93.1%** |
 
 Denominator change in round 6 (+7 TUs): arm9 `unit_02004F94.c` and `unit_02004FD4.c`
 (crt0 helpers copied to WRAM, data words around them; their own units like the
@@ -86,7 +86,7 @@ functions written into `src/game` are not counted (see "Coverage caveats").
 | Round 10 | 4 | 92.9%: ov021 weather_task, fldmmdl_blact; arm9 net_err, unit_02083644, unit_020643CC, unit_0206EB7C, unit_0207312C whole; ov021 field_effect 17 -> 2 (p02 is a second entry label inside func_021A8E10, final) |
 | Round 11 | 4 | 92.9% (no TU closed, big ones reduced): arm9 net_state 56 -> 46 (NetCmd, Votes, Entry canonical), button_man 10 -> 5, ov010 eventdata_system 10 -> 8, ov021 fld_trade 3 -> 2 (TradeWork), ov135 worldtrade_box 7 -> 6, ov208 zukan_detail_graphic 14 -> 13 |
 | Round 12 | 4 | 92.9% (no TU closed, structs): arm9 unit_02064D70 15 -> 4 (RendererBss and SDK-style types), net_state 46 -> 36 (NetState 0x64 bytes for g_021469DC), clact 11 -> 6, particle 6 -> 4; ov208 zukan_detail_form 4 -> 3 (Ov208Form); ov135 worldtrade_types.h with one Menu (no part count change) |
-| Round 13 | 4 | 93.0%: ov135 worldtrade_enter and ov010 musical_dressup_sys whole; arm9 net_state 36 -> 25 (NetCtx 0x354 bytes with named vtable; func_0203D798 is the same object), ov208 zukan_detail_graphic 13 -> 7 (zukan_detail_types.h: Ov208Mgr, Ov208Scene...), ov010 comm_player 11 -> 2, event_field_proclink 12 -> 2, ov135 worldtrade_box 6 -> 5; ov135 shared Work (0x132C bytes) in worldtrade_types.h applied to all 14 parts |
+| Round 13 | 4 | 93.0%: ov135 worldtrade_enter and ov010 musical_dressup_sys whole; arm9 net_state 36 -> 25 (NetCtx 0x354 bytes with named vtable; func_0203D798 is the same object), ov208 zukan_detail_graphic 13 -> 7 (zukan_detail_types.h: Ov208Mgr, Ov208Scene...), ov010 comm_player 11 -> 2, event_field_proclink 12 -> 2, ov135 worldtrade_box 6 -> 5; ov135 shared Work (0x132C bytes) in worldtrade_types.h applied to all 14 parts; afterwards event_field_proclink 2 -> 1 with a hidden tail-call function (the 8-byte stub was not a veneer): 93.1% |
 
 Subagents in opencode use `.opencode/agents/lane.md` (model
 `anthropic/claude-sonnet-5-5`, not committed; it is local opencode config).
@@ -149,7 +149,7 @@ Current report: `gamegaps.tsv` / `gamegaps_summary.txt` in this folder.
   all 29 of unit_0273042C, func_02701AA0, func_02731AF0, and 3 in unit_0272E9E8
   (`src/matched/twl*`, shard `twl_sys` re-verified).
 
-### 2. TUs still split (127)
+### 2. TUs still split (126)
 List with piece counts: `split_tus.tsv` (columns: region, tu, parts, folder
 members). Each TU folder has a `MERGE.md` with its blockers. Not reached yet:
 ov021 field_effect, field_wfbc, weather_task (30), fldmmdl_blact (14), fld_trade
@@ -169,10 +169,24 @@ unit_02064D70 (15), clact (13). About 80 to 100 of the 164 are real boundaries
 (veneers, ARM/Thumb, compiler, SDK stand-ins), so the ceiling is roughly 93 to 95%.
 
 ### 3. Readability debt (from lane reports)
-- ov010 event_field_proclink p01|p02: the 8-byte Thumb stub at 0x0216171C
-  (`ldr r3,[pc]; bx r3; .word 0x020307B0`) uses r3, so it is compiled code (a
-  tail-call stub), not a 12-byte `ip` linker veneer. gamegaps classes it as a
-  veneer; written as a hidden function it may let the two parts merge.
+- **Mis-classified "veneers" (found 2026-10-11).** `gamegaps` calls every 8-byte
+  Thumb `ldr r3,[pc]; bx r3; .word target` stub and every 12-byte ARM
+  `ldr ip,[pc]; bx ip; .word target` stub a veneer. They are NOT: mwcc emits
+  exactly these for a tail call (Thumb tail call = `ldr r3,=g; bx r3`; the ARM
+  form is already noted in tools/ovstats.py as compiler output, ov009
+  func_0216F008). Only `bx pc; nop; ldr ip,[pc]; bx ip; .word` (Thumb->ARM, 16
+  bytes) and `ldr pc,[pc,#-4]` are linker veneers. ov010 event_field_proclink
+  closed this way: `void func_0216171C(void) { func_020307B0(); }` is EXACT and
+  the two parts merged. gamegaps rows of that shape (28 8-byte Thumb + 71 12-byte
+  ARM, 2026-10-11 list) are hidden functions: write them as `g(...)` tail-call
+  functions (match the argument shuffle the stub does, if any) and re-try the
+  merges they block: arm9 iss_city_sys, iss_road_sys, iss_3ds_sys,
+  unit_02072374, unit_02079304, unit_02059858; ov014 net_whpipe, unit_021771F8;
+  ov015 unit_02179824, unit_02179CAC; ov018 intrude_subdisp area; ov009
+  unit_0215F650, unit_02164D64, unit_02165B80, unit_0216AB20, unit_0217F130
+  (the 3 stubs at 0x0217EA58/64/70 too); ov114 unit_021C2284, ghttpEncryption;
+  ov125 unit_021D7CEC; ov107 unit_021F4560; ov093 unit_021DA624 p01 (check).
+  The tool fix is a class split in tools/gamegaps.py.
 - Compiler behaviour worth knowing when converting raw-offset code to fields:
   `(p + i*stride) + const` (original) vs `p->row[i].x` (hoists `p + base`): the
   second changes the code; ov208 zukan_detail_form p02/p03 still uses W()/H()
@@ -314,7 +328,7 @@ shared strings and data), and lanes adjusted them (1812 became 1809).
 - Evidence not used yet: alignment gaps between each file's data block, one static
   initialiser entry per file with globals, overlay edges as outer bounds.
 
-So "93.0%" means 1689 of the 1816 estimated TUs are one file.
+So "93.1%" means 1690 of the 1816 estimated TUs are one file.
 
 ## Tools
 - `tools/restructure.py` builds/merges; `tools/gamepromote.py` moves one-piece TUs
