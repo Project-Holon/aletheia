@@ -1,10 +1,7 @@
 # event_field_proclink (ov010)
 
-Round 3 (lane r3_ov03): the greedy merge with the call-argument harmonizer was re-run; the parts below are what is left. Every part verifies byte-exact on its own.
+Round 13 (lane w13d): 12 parts -> 2. Shared types unified (Bool, Req, Work, Owner, Ctx opaque casts, S, u32 aliases), stand-in callers rewritten as typed C (func_0215F2A0, func_0215F608 table search), prototypes aligned (func_021BE8D4, func_021BE92C, func_020127A4, func_02197D3C, func_02161938 returns its argument unchanged in the id 0xF1 case, func_02161CDC).
 
-12 parts (was 14). Round 6 (g_misc): hidden functions func_02161280, func_021613A4, func_02161668 written into the gaps; old p07+p08 and p09+p10 merged EXACT. Remaining boundaries: local structs of one object with different member
-names (Entry f04, Rec sub, Req result/next, Callbacks fn0/fn1, Ctx f08/f0c, Node f0c/f18, Holder,
-Tri), prototype views (`int` vs `void *`, `unsigned char[]` vs `const char *`, `struct *` vs `int`),
-and c99=DIFF boundaries (mostly gaps of unmatched functions or shared-literal changes).
+Left: p01|p02 at 0x0216171C. An eight-byte Thumb thunk (`ldr r3, [pc]; bx r3; .word 0x020307B0`) sits between func_021616F0 and func_02161724. It is a linker veneer (gamegaps class `veneer`), so the file boundary is real; merged, the EXACT result breaks at the missing veneer.
 
-Parts: event_field_proclink_p01.c, event_field_proclink_p02.c, event_field_proclink_p03.c, event_field_proclink_p04.c, event_field_proclink_p05.c, event_field_proclink_p06.c, event_field_proclink_p07.c, event_field_proclink_p08.c, event_field_proclink_p09.c, event_field_proclink_p10.c, event_field_proclink_p11.c, event_field_proclink_p12.c
+Parts: event_field_proclink_p01.c, event_field_proclink_p02.c

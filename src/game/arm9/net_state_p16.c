@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p16.c
  * unit:     yes
- * function: func_0203D17C, func_0203D1A4, func_0203D1B4, func_0203D1C0
- * address:  0x0203D17C
+ * function: func_0203DA68, func_0203DA7C
+ * address:  0x0203DA68
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,104 +13,186 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_020395EC  0x020395EC  arm
- *   func_020399EC  0x020399EC  arm
- *   func_0203996C  0x0203996C  arm
- *   func_020399B8  0x020399B8  arm
+ *   d_021469F0 0x021469F0 data a4
+ *   g_021469F0     0x021469F0  data
+ *   func_0203DC04  0x0203DC04  arm
  */
-#include "../../matched/include/Obj15981.h"
-#include "../../matched/include/Obj15982.h"
-
-struct Link;
-struct Entry;
-struct NetEntry;
 typedef unsigned char u8;
 
 typedef unsigned int  u32;
 
-typedef void (*Fn)(u32);
+typedef unsigned short u16;
 
-typedef signed int     s32;
+struct NetCtx;
 
-extern void *func_0203D788(void);
-extern int func_020395EC(struct Entry *a);
-extern int func_020399EC(void);
-extern struct Entry *func_0203996C(s32 idx);
-extern u32 func_020399B8(u8 *p);
-void func_0203D17C(u32 a);
-int func_0203D1B4(void);
-u32 func_0203D1C0(u32 index);
+struct Entry {
+    void *obj;
+    u8    pad_04[4];
+    void *slot[8];
+    u8    pad_28[0x16];
+    u16   key3e;
+    u16   key40;
+    u8    pad_42[2];
+    u16   key44;
+    u16   key46;
+    u8    pad_48;
+    u8    f49;
+    u8    f4a;
+    u8    pad_4b[5];
+};
 
+struct NetVtbl {
+    void (*f00)(u32 a, u32 b);
+    void (*f04)(u16 key, struct NetCtx *ctx, u32 zero, u32 arg);
+    void (*f08)(u32 a);
+    int  (*f0C)(u32 a);
+    u32  (*f10)(u32 a, u32 b);
+    u32  (*f14)(u32 a);
+    u8   pad18[0x28 - 0x18];
+    u32  (*f28)(u32 a);
+    void *(*f2C)(u32 a);
+    u8   pad30[0x38 - 0x30];
+    u32  (*f38)(u32 a);
+    void (*f3C)(void *cb);
+    u32  (*f40)(u32 a, u32 b);
+    u32  (*f44)(u32 a, u32 b);
+    u32  (*f48)(u32 a, u32 b, u32 c, u32 d, u32 e);
+    u8   pad4C[4];
+    u32  (*f50)(int a, u32 b, u32 c);
+    u32  (*f54)(u32 a, u32 b);
+    u32  (*f58)(void);
+    u32  (*f5C)(u32 a);
+    u32  (*f60)(u32 a);
+    u32  (*f64)(u32 a, u32 b, u32 c, void *d);
+    void (*f68)(void *cb);
+    u32  (*f6C)(void);
+    int  (*f70)(void);
+    u32  (*f74)(void);
+    u32  (*f78)(void);
+    u32  (*f7C)(void);
+    int  (*f80)(void);
+    u32  (*f84)(void);
+    int  (*f88)(void);
+    void (*f8C)(u32 a);
+    u32  (*f90)(u32 a);
+    u8   pad94[0x9C - 0x94];
+    void (*f9C)(void);
+    u32  (*fA0)(void);
+    u32  (*fA4)(void);
+    u32  (*fA8)(void);
+    u32  (*fAC)(void);
+    int  (*fB0)(void);
+    void (*fB4)(void);
+    void (*fB8)(void *arg);
+    int  (*fBC)(void);
+    void (*fC0)(int a);
+    void (*fC4)(u32 a);
+    void (*fC8)(u32 a);
+};
+
+struct NetCtx {
+    u8   pad00[0x08];
+    void (*f08)(u32 a, u32 b);
+    void (*f0C)(int a, u32 b);
+    u32  (*f10)(u32 a);
+    u32  (*f14)(u32 a);
+    u8   pad18[0x1C - 0x18];
+    void (*f1C)(void);
+    u8   pad20[0x24 - 0x20];
+    void (*f24)(u32 a, u32 b, u32 c);
+    void (*f28)(u32 a, u32 b, u32 c);
+    void (*f2C)(u32 a);
+    void (*f30)(u32 a);
+    u8   pad34[0x40 - 0x34];
+    u32  (*f40)(u32 a);
+    u32  (*f44)(u32 a);
+    u8   pad48[0x56 - 0x48];
+    u16  f56;
+    u16  f58;
+    u16  f5A;
+    u16  f5C;
+    u16  f5E;
+    u8   f60;
+    u8   f61;
+    u8   pad62[2];
+    u8   f64;
+    u8   f65;
+    u8   f66;
+    u8   f67;
+    u8   pad68[4];
+    u16  f6C;
+    u16  f6E;
+    struct Entry table[9];
+    struct NetVtbl *vt;
+    u32  f344;
+    void (*f348)(u32 a);
+    u32  f34C;
+    u8   pad350[2];
+    u8   f352;
+};
+
+struct NetCtx;
+
+struct NetCtx;
+
+struct NetCtx;
+
+struct NetCtx;
+
+struct NetCtx;
+
+struct Ctx {
+    u8  pad_00[0x84];
+    u32 unk_84;
+    u32 unk_88;
+    u32 unk_8c;
+};
+
+extern void func_0203DC04(void);
+void func_0203DA68(unsigned int value);
+void *func_0203DA7C(void *a0, void *a1, void *a2);
+extern unsigned char *d_021469F0;
+extern struct Ctx *g_021469F0;
+
+/*
+ * Stores a word into the singleton at +0x74.
+ */
+void func_0203DA68(unsigned int value)
+{
+    *(unsigned int *)(d_021469F0 + 0x74) = value;
+}
 
 
 /*
- * Vtable dispatch with the *vtable pointer* null-checked (the state object
- * itself is not): the entry at +0xC4 takes the argument, and the hook's value
- * is dropped.  Two loads separate the two tests, which is what makes this
- * shape distinct from src/matched/func_0203CF10.c and
- * src/matched/func_0203CF3C.c.
+ * Install the three wireless callbacks and hand back the state machine that
+ * drives them.  With no live context (0x021469F0 null) the function returns
+ * its first argument untouched - the image leaves r0 alone on that path, so
+ * the early exit is `bxeq lr`, not a `moveq r0, #0`.  Otherwise each non-null
+ * argument is stored at +0x84, +0x88 and +0x8C of the context, and the
+ * function returns func_0203DC04.
+ *
+ * The context is re-read from the global for the second and third stores
+ * (`ldrne r0, [pc, ...]; ldrne r0, [r0]`), because the first store could
+ * alias the global: the source spells them g_021469F0->unk_88 rather than
+ * reusing a cached local.  The first store uses the value already in r3.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D17C.c \
- *       --func func_0203D17C --addr 0x0203D17C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203DA7C.c \
+ *       --func func_0203DA7C --addr 0x0203DA7C --cc 1.1p1 --arm
  */
-void func_0203D17C(u32 a)
+void *func_0203DA7C(void *a0, void *a1, void *a2)
 {
-    u8  *p;
-    u32 *vt;
-    Fn   f;
+    struct Ctx *p = g_021469F0;
 
-    p = func_0203D788();
-    vt = *(u32 * *)&((struct Obj15981 *)p)->f340;
-    if (vt == 0)
-        return;
-    f = *(Fn *)&((struct Obj15982 *)vt)->fC4;
-    f(a);
-}
-
-
-
-/*
- * Forward to func_020395EC and mask the result to a byte.  func_020395EC is
- * called from func_0203D578 (outside this range), which is what attests the
- * `bl` here as a real function rather than a wildcarded relocation.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D1A4.c \
- *       --func func_0203D1A4 --addr 0x0203D1A4 --cc 1.1p1 --arm
- */
-u32 func_0203D1A4(struct Link *p)
-{
-    return func_020395EC((struct Entry *)p) & 0xff;
-}
-
-
-int func_0203D1B4(void)
-{
-    return func_020399EC();
-}
-
-
-/*
- * TU: net.c (named by the assert site at 0x0203D2EC, which passes the
- * string at 0x020A7CA0, "net.c").
- *
- * Guard on the network singleton, then a two-step query: look the entry
- * `index` up with func_0203996C and ask func_020399B8 about the result.
- * The `moveq r0, #0` is a no-op on the value it guards; it only exists
- * because the source spells the null return out.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D1C0.c \
- *       --func func_0203D1C0 --addr 0x0203D1C0 --cc 1.1p1 --arm
- */
-u32 func_0203D1C0(u32 index)
-{
-    if (func_0203D788() == 0) {
-        return 0;
-    }
-    return func_020399B8((u8 *)func_0203996C(index));
+    if (p == 0)
+        return a0;
+    if (a0 != 0)
+        p->unk_84 = (u32)a0;
+    if (a1 != 0)
+        g_021469F0->unk_88 = (u32)a1;
+    if (a2 != 0)
+        g_021469F0->unk_8c = (u32)a2;
+    return func_0203DC04;
 }

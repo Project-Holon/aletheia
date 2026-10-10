@@ -11,7 +11,7 @@ arm9	ica_anime	3	0
 arm9	iss_3ds_sys	2	0
 arm9	iss_city_sys	2	0
 arm9	iss_road_sys	2	0
-arm9	net_state	36	0
+arm9	net_state	25	0
 arm9	particle	4	0
 arm9	pokeparty	5	0
 arm9	tr_tool	2	0
@@ -50,10 +50,9 @@ ov009	unit_0218E3B0	4	0
 ov009	unit_0218F9F8	6	0
 ov009	unit_021903B0	2	0
 ov009	unit_0219BA58	3	0
-ov010	comm_player	11	0
-ov010	event_field_proclink	12	0
+ov010	comm_player	2	0
+ov010	event_field_proclink	2	0
 ov010	eventdata_system	8	0
-ov010	musical_dressup_sys	8	0
 ov010	scrcmd_proc	2	0
 ov010	script_work	2	0
 ov010	symbol_map	2	0
@@ -112,8 +111,7 @@ ov121	mystery_net	3	0
 ov125	gds_rap	3	0
 ov125	unit_021D7CEC	3	0
 ov135	worldtrade_adapter	4	0
-ov135	worldtrade_box	6	0
-ov135	worldtrade_enter	4	0
+ov135	worldtrade_box	5	0
 ov172	camera_system	31	0
 ov172	ctvt_comm	5	0
 ov172	ctvt_draw	2	0
@@ -123,7 +121,7 @@ ov194	namein_graphic	4	0
 ov198	unit_0220BC70	10	0
 ov204	intro_graphic	2	0
 ov208	zukan_detail_form	3	0
-ov208	zukan_detail_graphic	13	0
+ov208	zukan_detail_graphic	7	0
 ov218	un_select	2	0
 twl	unit_0272E9E8	7	0
 twl	unit_02731718	5	0

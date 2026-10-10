@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p11.c
  * unit:     yes
- * function: func_0203CA98, func_0203CADC, func_0203CB00, func_0203CB34, func_0203CBAC, func_0203CD98
- * address:  0x0203CA98
+ * function: func_0203D650, func_0203D668, func_0203D680, func_0203D6BC, func_0203D6CC, func_0203D700, func_0203D720, func_0203D754
+ * address:  0x0203D650
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,317 +13,301 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034714   0x02034714  arm
- *   unk_021469DC    0x021469DC  data
- *   file_020A7BA8   0x020A7BA8  data
- *   file_020A7C70   0x020A7C70  data
- *   g_020A7BA8     0x020A7BA8  data
- *   g_020A7C7C     0x020A7C7C  data
- *   g_021469DC     0x021469DC  data
- *   g_021469E0     0x021469E0  data
- *   file_020A7CA0  0x020A7CA0  data
- *   str_020A7CA8   0x020A7CA8  data
- *   str_020A7CB8   0x020A7CB8  data
- *   str_020A7CE8   0x020A7CE8  data
- *   func_0203064C  0x0203064C  arm
- *   func_02030734  0x02030734  arm
- *   func_0200F17C  0x0200F17C  thumb
- *   func_0203D8F0  0x0203D8F0  arm
- *   func_02082D44  0x02082D44  arm
- *   func_0203AFCC  0x0203AFCC  arm
- *   func_02039834  0x02039834  arm
- *   func_0203A494  0x0203A494  arm
- *   func_02037010  0x02037010  arm
  *   func_0203D788  0x0203D788  arm
+ *   func_02034714  0x02034714  arm
+ *   file_020A7CA0  0x020A7CA0  data
+ *   file_020A7CF8  0x020A7CF8  data
+ *   file_020A7D2C  0x020A7D2C  data
  */
-struct Base;
-typedef unsigned int u32;
+#include "../../matched/include/Obj15990.h"
+#include "../../matched/include/Obj11379.h"
 
+struct NetCtx;
+struct Entry;
 typedef unsigned char u8;
 
-typedef signed char   s8;
+typedef unsigned int  u32;
 
 typedef unsigned short u16;
 
-typedef unsigned long long u64;
-typedef struct {
-    u64 x;
-    u64 mul;
-    u64 add;
-} MATHRandContext64;
+struct Entry {
+    void *obj;
+    u8    pad_04[4];
+    void *slot[8];
+    u8    pad_28[0x16];
+    u16   key3e;
+    u16   key40;
+    u8    pad_42[2];
+    u16   key44;
+    u16   key46;
+    u8    pad_48;
+    u8    f49;
+    u8    f4a;
+    u8    pad_4b[5];
+};
 
-struct NetState {
-    u32  f00;
-    u32  f04;
-    void (*f08)(struct NetState *s);
-    MATHRandContext64 rng;
-    u32  f24;
-    void (*f28)(void);
+struct NetVtbl {
+    void (*f00)(u32 a, u32 b);
+    void (*f04)(u16 key, struct NetCtx *ctx, u32 zero, u32 arg);
+    void (*f08)(u32 a);
+    int  (*f0C)(u32 a);
+    u32  (*f10)(u32 a, u32 b);
+    u32  (*f14)(u32 a);
+    u8   pad18[0x28 - 0x18];
+    u32  (*f28)(u32 a);
+    void *(*f2C)(u32 a);
+    u8   pad30[0x38 - 0x30];
+    u32  (*f38)(u32 a);
+    void (*f3C)(void *cb);
+    u32  (*f40)(u32 a, u32 b);
+    u32  (*f44)(u32 a, u32 b);
+    u32  (*f48)(u32 a, u32 b, u32 c, u32 d, u32 e);
+    u8   pad4C[4];
+    u32  (*f50)(int a, u32 b, u32 c);
+    u32  (*f54)(u32 a, u32 b);
+    u32  (*f58)(void);
+    u32  (*f5C)(u32 a);
+    u32  (*f60)(u32 a);
+    u32  (*f64)(u32 a, u32 b, u32 c, void *d);
+    void (*f68)(void *cb);
+    u32  (*f6C)(void);
+    int  (*f70)(void);
+    u32  (*f74)(void);
+    u32  (*f78)(void);
+    u32  (*f7C)(void);
+    int  (*f80)(void);
+    u32  (*f84)(void);
+    int  (*f88)(void);
+    void (*f8C)(u32 a);
+    u32  (*f90)(u32 a);
+    u8   pad94[0x9C - 0x94];
+    void (*f9C)(void);
+    u32  (*fA0)(void);
+    u32  (*fA4)(void);
+    u32  (*fA8)(void);
+    u32  (*fAC)(void);
+    int  (*fB0)(void);
+    void (*fB4)(void);
+    void (*fB8)(void *arg);
+    int  (*fBC)(void);
+    void (*fC0)(int a);
+    void (*fC4)(u32 a);
+    void (*fC8)(u32 a);
+};
+
+struct NetCtx {
+    u8   pad00[0x08];
+    void (*f08)(u32 a, u32 b);
+    void (*f0C)(int a, u32 b);
+    u32  (*f10)(u32 a);
+    u32  (*f14)(u32 a);
+    u8   pad18[0x1C - 0x18];
+    void (*f1C)(void);
+    u8   pad20[0x24 - 0x20];
+    void (*f24)(u32 a, u32 b, u32 c);
+    void (*f28)(u32 a, u32 b, u32 c);
     void (*f2C)(u32 a);
-    u32  err[4];
-    u8   mac[6];
-    u16  f46;
-    s8   flag;
-    u8   pad49;
-    u8   f4A;
-    u8   f4B;
-    u8   f4C;
-    u8   f4D;
-    u8   f4E;
-    u8   f4F;
-    u8   f50;
-    u8   f51;
-    u8   pad52;
-    u8   f53;
-    u8   pad54[2];
-    u8   f56;
-    u8   addr[6];
-    u8   pad5D[7];
+    void (*f30)(u32 a);
+    u8   pad34[0x40 - 0x34];
+    u32  (*f40)(u32 a);
+    u32  (*f44)(u32 a);
+    u8   pad48[0x56 - 0x48];
+    u16  f56;
+    u16  f58;
+    u16  f5A;
+    u16  f5C;
+    u16  f5E;
+    u8   f60;
+    u8   f61;
+    u8   pad62[2];
+    u8   f64;
+    u8   f65;
+    u8   f66;
+    u8   f67;
+    u8   pad68[4];
+    u16  f6C;
+    u16  f6E;
+    struct Entry table[9];
+    struct NetVtbl *vt;
+    u32  f344;
+    void (*f348)(u32 a);
+    u32  f34C;
+    u8   pad350[2];
+    u8   f352;
 };
 
-struct Req {
-    u32 f00;
-    u32 f04;
-    u8  pad_08[0x40];
-    u32 f48;
-    u8  pad_4c[8];
-    u16 f54;
-    u16 f56;
-    u16 f58;
-    u16 f5a;
-    u16 f5c;
-    u16 f5e;
-    u8  pad_60[1];
-    u8  f61;
-    u8  pad_62[3];
-    u8  f65;
-    u8  pad_66[1];
-    u8  f67;
-};
-
-struct Sess {
-    u8  pad_000[0x340];
-    u32 (**f340)(void);
-    u8  pad_344[8];
-    u32 f34c;
-    u8  pad_350[2];
-    u8  f352;
-};
-
-struct Mod {
-    u8  pad_00[8];
-    struct Sess *f08;
-};
-
-typedef int (*Fn)(void);
-
-struct Table {
-    unsigned char pad_00[0x6c];
-    Fn            unk_6c;
-};
-
-struct Singleton {
-    unsigned char  pad_00[0x340];
-    struct Table  *unk_340;
-};
-
-extern void func_02034714(const char *file, u32 line, const char *fmt);
-extern void func_0203064C(u32 a, u32 b, u32 c);
-extern void func_020371AC(unsigned short a, unsigned int b);
-extern void func_020370C8(void);
-extern int func_0200F17C(u32 sel);
-extern void func_0200F234(u32 a);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Base *func_0203D8F0(const struct Base *src, u32 a1);
-extern void  func_02082D44(void *dst, void *src, u32 n);
-extern void func_0203AFCC(void *a, u32 b);
-extern void  func_02039834(struct Sess *s);
-extern void  func_0203A494(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void  func_02037010(u32 a, u32 b, u32 c, u32 d);
-extern void *func_0203D788(void);
-u32 func_0203CA98(void);
-void func_0203CADC(void);
-int func_0203CB00(void);
-void func_0203CB34(u32 a, u32 b, u32 c, u32 d);
-int func_0203CD98(void);
-extern const char file_020A7BA8[];
-extern const char file_020A7C70[];
-extern u8  g_020A7BA8[];
-extern u8  g_020A7C7C[];
-extern struct NetState *g_021469DC;
+extern struct NetCtx *func_0203D788(void);
+extern void func_02034714(const char *file, u32 line, const char *msg);
+extern struct Entry *func_020399A8(void);
+u32 func_0203D650(void);
+void func_0203D668(u32 v);
+u32 func_0203D680(void);
+u32 func_0203D6BC(void);
+u32 func_0203D6CC(void);
+void func_0203D700(void);
+void func_0203D720(u32 a);
+void func_0203D754(u32 a);
 extern const char file_020A7CA0[];
-extern const char str_020A7CA8[];
-extern const char str_020A7CB8[];
-extern const char str_020A7CE8[];
-extern struct Mod g_021469E0;
+extern const char file_020A7CF8[];
+extern const char file_020A7D2C[];
+
+
 
 
 /*
- * Returns the object's work area at +0x30, reporting through func_02034714
- * with the source file at 0x020A7BA8 and line 0x8CA (2250) when the object has
- * not been created - the report is not fatal, the address of the null object's
- * field is still what comes back.
+ * Returns the word at +0x34c of the net context, or 0 when there is none.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D650.c \
+ *       --func func_0203D650 --addr 0x0203D650 --arm --cc 1.1p1
+ */
+u32 func_0203D650(void)
+{
+    struct NetCtx *p = func_0203D788();
+
+    return p != 0 ? p->f34C : 0;
+}
+
+
+
+
+/*
+ * Stores the argument at +0x34c of the net context, when there is one.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D668.c \
+ *       --func func_0203D668 --addr 0x0203D668 --arm --cc 1.1p1
+ */
+void func_0203D668(u32 v)
+{
+    struct NetCtx *p = func_0203D788();
+
+    if (p != 0) {
+        p->f34C = v;
+    }
+}
+
+
+
+/*
+ * Returns the net context's +0x60 byte, reporting through func_02034714 with
+ * the source file at 0x020A7CA0 ("net.c") and line 0x593 (1427) when the byte
+ * is past 8.  The guard is unsigned (`bls`), so the comparison is
+ * `> 8` against an unsigned char.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203CA98.c \
- *       --func func_0203CA98 --addr 0x0203CA98 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D680.c \
+ *       --func func_0203D680 --addr 0x0203D680 --cc 1.1p1 --arm
  */
-u32 func_0203CA98(void)
+u32 func_0203D680(void)
 {
-    if (g_021469DC == 0)
-        func_02034714(file_020A7BA8, 0x8CA, file_020A7C70);
-    return (u32)g_021469DC->err;
+    struct NetCtx *p = func_0203D788();
+
+    if (p->f60 > 8)
+        func_02034714(file_020A7CA0, 0x593, file_020A7CF8);
+    return p->f60;
 }
 
 
+
+
 /*
- * Unlabelled ARM assert thunk: tail call func_02034714(g_020A7BA8, 0x8D8, g_020A7C7C), the fall-through failure path after func_0203CA98.
+ * Returns the byte at +0x61 of the net context.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D6BC.c \
+ *       --func func_0203D6BC --addr 0x0203D6BC --arm --cc 1.1p1
  */
-void func_0203CADC(void)
+u32 func_0203D6BC(void)
 {
-    func_02034714((const char *)((u32)g_020A7BA8), 0x8D8, (const char *)((u32)g_020A7C7C));
+    return func_0203D788()->f61;
 }
 
 
-/*
- * Unlabelled ARM predicate: the card task object exists and its callback at +8 is func_0203CADC.
- * MATCH only because 0x0203CADC (func_0203CADC.c, EXACT) is not yet a labelled
- * function start: the pool word has no outside witness until the seed lands.
- */
-int func_0203CB00(void)
-{
-    struct NetState *c = g_021469DC;
-    if (c != 0 && c->f08 == (void *)func_0203CADC) {
-        return 1;
-    }
-    return 0;
-}
 
 
 /*
+ * Halfword getter for the null-test sibling of func_0203D680: reports through
+ * func_02034714 at line 0x5B1 (1457) when func_0203D788 comes back null, then
+ * reads +0x6C from it regardless.  The null test is the `movs r4, r0` /
+ * `bne` pair, so the result is kept in a local that the tail still
+ * dereferences rather than being re-requested.
+ *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203CB34.c \
- *       --func func_0203CB34 --addr 0x0203CB34 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D6CC.c  *       --func func_0203D6CC --addr 0x0203D6CC --cc 1.1p1 --arm
  */
-void func_0203CB34(u32 a, u32 b, u32 c, u32 d)
+u32 func_0203D6CC(void)
 {
-    u32 *p = (u32 *)func_0200F17C(1);
-    u32 v = a;
+    struct NetCtx *p = func_0203D788();
 
-    if (p != 0)
-        ((void (*)(u32, u32))p[0])(a, b);
-
-    func_0200F234(1);
-
-    if (c != d) {
-        *(u16 *)0x021469E0 = (u16)d;
-        func_0203064C(c, d, 0x9E80);
-    }
-
-    func_020371AC(0, 0);
-    func_020370C8();
+    if (p == 0)
+        func_02034714(file_020A7CA0, 0x5B1, file_020A7D2C);
+    return p->f6C;
 }
 
 
-/*
- * note:     net.c: start one network session (0x354-byte record on the
- *           request's +0x56 heap, published into g_021469E0's +8 slot, the
- *           vtable from func_0200F17C for mode +0x65, then a seven-way mode
- *           switch).  Closed in wave 16 after the 80-byte residue of
- *           docs/notes/pkt_0203CBAC.c.txt:
- *           - the id guard at the head and in the beacon arm is a call in
- *             BOTH arms with the non-zero arm written FIRST; the image's
- *             kept `beq; b` pair is the empty (cross-jumped) then-arm, and
- *             the beacon arm's cross-jump into the shared `bl` follows;
- *           - case map per the note's finding 1 (1/2/6 vtable, 3/4 beacon,
- *             0/5 break, default the line-0x8e error), both arms `break`;
- *           - the tail boolean is `f = 0; if (...) f = 1;`, which is the
- *             image's `mov r2, #0` / `movls r2, #1`, and the 3-or-4 exit
- *             test is bound to `int done` (otherwise it folds to a range
- *             check).
- *           func_0203D8F0 and func_0203AFCC resolve as sole-ref/code.
- */
-void func_0203CBAC(struct Req *req, u32 a2, u32 a3)
-{
-    struct Sess *s;
-    u8 m;
-    u32 f;
 
-    if (*(u16 *)&g_021469E0 != 0)
-        func_0203064C(*(u16 *)&g_021469E0, req->f56, 0x7800);
-    else
-        func_0203064C(req->f54, req->f56, 0x7800);
-    s = (struct Sess *)func_02030734(req->f56, 0x354, 1, file_020A7CA0, 0x6a);
-    g_021469E0.f08 = s;
-    s->f352 = 1;
-    s->f340 = (u32 (**)(void))func_0200F17C(req->f65);
-    if (s->f340 == 0)
-        func_02034714(file_020A7CA0, 0x6f, str_020A7CA8);
-    if (req->f65 == 4)
-        req = (struct Req *)func_0203D8F0((const struct Base *)req, a3);
-    func_02082D44(req, s, 0x70);
-    switch (req->f65) {
-    case 1:
-    case 2:
-    case 6:
-        ((void (*)(u32, u32))(*s->f340))(req->f54, 0);
-        func_0203064C(req->f54, (u16)(req->f58 | 0x8000), req->f48);
-        break;
-    case 3:
-    case 4:
-        if (req->f61 > 0x80)
-            func_02034714(file_020A7CA0, 0x84, str_020A7CB8);
-        if (*(u16 *)&g_021469E0 != 0)
-            func_0203064C(*(u16 *)&g_021469E0, req->f5a, 0x1b00);
-        else
-            func_0203064C(req->f54, req->f5a, 0x1b00);
-        break;
-    case 0:
-    case 5:
-        break;
-    default:
-        func_02034714(file_020A7CA0, 0x8e, str_020A7CE8);
+
+/*
+ * Calls the net context's +0x30 callback with its +0x34c argument.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D700.c \
+ *       --func func_0203D700 --addr 0x0203D700 --arm --cc 1.1p1
+ */
+void func_0203D700(void)
+{
+    struct NetCtx *p = func_0203D788();
+
+    if (p->f30 != 0) {
+        ((void (*)(u32)) p->f30)(p->f34C);
+    }
+}
+
+
+
+
+/*
+ * Calls the net context's +0x28 callback with the func_020399A8 result,
+ * the argument and the context's +0x34c value.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D720.c \
+ *       --func func_0203D720 --addr 0x0203D720 --arm --cc 1.1p1
+ */
+void func_0203D720(u32 a)
+{
+    struct NetCtx *p = func_0203D788();
+
+    if (p->f28 == 0) {
         return;
     }
-    s->f34c = a3;
-    func_0203AFCC((void *)req->f56, a2);
-    func_02039834(s);
-    func_0203A494(req->f67 << 8, req->f00, req->f04, s->f34c, req->f56);
-    m = req->f65;
-    {
-        int done = (m == 3) || (m == 4);
-        if (done)
-            return;
-    }
-    f = 0;
-    if ((u8)(m + 0xff) <= 1)
-        f = 1;
-    func_02037010(req->f5c, req->f5e, f, req->f56);
+    ((void (*)(u32, u32, u32)) p->f28)(
+        (u32)func_020399A8(), a, p->f34C);
 }
 
 
+
+
 /*
- * Guarded call through a function-pointer table: fetch the singleton via
- * func_0203D788, bail to 0 if it is null, then chase the pointer at +0x340
- * to a table and call its +0x6c entry through a register (no relocation
- * site there, `blx r0`).  func_0203D788 has many outside callers, so its
- * own call closes on the `label` class.
+ * Calls the net context's +0x24 callback with the func_020399A8 result,
+ * the argument and the context's +0x34c value.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203CD98.c \
- *       --func func_0203CD98 --addr 0x0203CD98 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D754.c \
+ *       --func func_0203D754 --addr 0x0203D754 --arm --cc 1.1p1
  */
-int func_0203CD98(void)
+void func_0203D754(u32 a)
 {
-    struct Singleton *s = func_0203D788();
+    struct NetCtx *p = func_0203D788();
 
-    if (s == 0) {
-        return 0;
+    if (p->f24 == 0) {
+        return;
     }
-
-    return s->unk_340->unk_6c();
+    ((void (*)(u32, u32, u32)) p->f24)(
+        (u32)func_020399A8(), a, p->f34C);
 }

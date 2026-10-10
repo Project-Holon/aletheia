@@ -277,51 +277,50 @@ typedef struct {
     unsigned char b0 : 1;
 } Flag;
 
-typedef struct Obj_02167B44 {
-    u8 pad00[0x1E];
-    u8 b1e[2];
-    u8 pad20[0x668 - 0x20];
-    u16 h668;
-    u16 h66a[2];
-    u16 h66e;
-} Obj_02167B44;
-
-typedef struct Obj_02167B9C {
-    u8 pad00[0x32];
-    u8 b32[0x668 - 0x32];
-    u8 b668[0x1C];
-} Obj_02167B9C;
-
-typedef struct Obj_02167BB4 {
-    u8 pad00[0x0C];
-    u16 h0c_b0 : 3;
-    u16 b3 : 1;
-    u16 h0c_rest : 12;
-    u8 pad0e[0x668 - 0x0E];
-    u16 h668;
-} Obj_02167BB4;
-
-typedef struct Obj_02167BCC {
+typedef struct CommPlayer {
     u8 pad00[9];
     u8 b09;
-    u8 pad0a[0x668 - 0x0A];
-    u32 w668;
-} Obj_02167BCC;
-
-typedef struct Obj_02167BD8 {
-    u8 pad00[0x668];
-    u32 w668;
-} Obj_02167BD8;
-
-typedef struct Obj_02167BE4 {
-    u8 pad00[0x668];
-    u32 w668;
-} Obj_02167BE4;
-
-typedef struct Obj {
-    u8 pad00[0x668];
-    u32 w668;
-} Obj;
+    u8 pad0a[1];
+    u8 b0b;
+    union {
+        struct {
+            u16 low : 3;
+            u16 flag : 1;
+            u16 high : 12;
+        } a;
+        struct {
+            u16 lo : 5;
+            u16 hi : 3;
+            u16 rest : 8;
+        } b;
+    } bits0c;
+    u8 pad0e[4];
+    u16 h12;
+    u8 pad14[4];
+    u16 h18;
+    u16 h1a;
+    u16 h1c;
+    u8 b1e[2];
+    u8 pad20[2];
+    u16 h22;
+    u16 h24;
+    u8 pad26[0x32 - 0x26];
+    u8 b32[0x668 - 0x32];
+    union {
+        u32 w668;
+        struct {
+            u16 h668;
+            u16 h66a[2];
+            u16 h66e;
+        } h;
+        u8 b668[0x20];
+    } v668;
+    u8 pad688[0x724 - 0x688];
+    u8 b724;
+    u8 b725;
+    u8 pad726[2];
+    u16 h728;
+} CommPlayer;
 
 extern void func_0200E06C(char *p);
 extern void func_0200E024(void *p);
@@ -409,13 +408,13 @@ void func_02167B00(u32 a);
 void func_02167B18(void *p);
 int func_02167B24(int a0);
 int func_02167B34(int a0);
-void func_02167B44(Obj_02167B44 *o, void *a1);
-void func_02167B9C(Obj_02167B9C *o);
-void func_02167BB4(Obj_02167BB4 *o, u16 v);
-void func_02167BCC(Obj_02167BCC *o);
-void func_02167BD8(Obj_02167BD8 *o, u32 v);
-void func_02167BE4(Obj_02167BE4 *o, u32 v);
-void func_02167BF0(Obj *o, u32 v);
+void func_02167B44(CommPlayer *o, void *a1);
+void func_02167B9C(CommPlayer *o);
+void func_02167BB4(CommPlayer *o, u16 v);
+void func_02167BCC(CommPlayer *o);
+void func_02167BD8(CommPlayer *o, u32 v);
+void func_02167BE4(CommPlayer *o, u32 v);
+void func_02167BF0(CommPlayer *o, u32 v);
 extern u8 d_02171F5F[];
 extern const u8 d_02171F3C[];
 extern const char d_02172A18[];
@@ -1126,7 +1125,7 @@ loc_02167B42:
 
 
 
-void func_02167B44(Obj_02167B44 *o, void *a1)
+void func_02167B44(CommPlayer *o, void *a1)
 {
     void *t;
     void *list;
@@ -1134,10 +1133,10 @@ void func_02167B44(Obj_02167B44 *o, void *a1)
 
     t = func_02012944(a1);
     list = func_021CA210((u8 *)o);
-    o->h668 = func_02008550(t);
+    o->v668.h.h668 = func_02008550(t);
     for (i = 0; i < 2; i++)
-        o->h66a[i] = func_02017E1C(func_0201AB28(list, o->b1e[i]), 5, 0);
-    o->h66e = func_021CA2CC(func_021CA234((u8 *)o));
+        o->v668.h.h66a[i] = func_02017E1C(func_0201AB28(list, o->b1e[i]), 5, 0);
+    o->v668.h.h66e = func_021CA2CC(func_021CA234((u8 *)o));
 }
 
 
@@ -1148,9 +1147,9 @@ void func_02167B44(Obj_02167B44 *o, void *a1)
 /*
  * Unlabelled Thumb leaf hidden in a word run (no lr saved); callee of ov010 func_02167BFC.
  */
-void func_02167B9C(Obj_02167B9C *o)
+void func_02167B9C(CommPlayer *o)
 {
-    func_02082D44(o->b32, o->b668, 0x1C);
+    func_02082D44(o->b32, o->v668.b668, 0x1C);
 }
 
 
@@ -1158,42 +1157,42 @@ void func_02167B9C(Obj_02167B9C *o)
 
 
 
-void func_02167BB4(Obj_02167BB4 *o, u16 v)
+void func_02167BB4(CommPlayer *o, u16 v)
 {
-    o->b3 = v;
-    o->h668 = v;
+    o->bits0c.a.flag = v;
+    o->v668.h.h668 = v;
 }
 
 
 
 
 
-void func_02167BCC(Obj_02167BCC *o)
+void func_02167BCC(CommPlayer *o)
 {
-    o->w668 = o->b09;
+    o->v668.w668 = o->b09;
 }
 
 
 
 
 
-void func_02167BD8(Obj_02167BD8 *o, u32 v)
+void func_02167BD8(CommPlayer *o, u32 v)
 {
-    o->w668 = v;
+    o->v668.w668 = v;
 }
 
 
 
 
 
-void func_02167BE4(Obj_02167BE4 *o, u32 v)
+void func_02167BE4(CommPlayer *o, u32 v)
 {
-    o->w668 = v;
+    o->v668.w668 = v;
 }
 
 
 
-void func_02167BF0(Obj *o, u32 v)
+void func_02167BF0(CommPlayer *o, u32 v)
 {
-    o->w668 = v;
+    o->v668.w668 = v;
 }

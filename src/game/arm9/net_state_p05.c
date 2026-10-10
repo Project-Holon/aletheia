@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p05.c
  * unit:     yes
- * function: func_0203B5D4, func_0203B688, func_0203B6B4
- * address:  0x0203B5D4
+ * function: func_0203D0D0, func_0203D0DC
+ * address:  0x0203D0D0
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -11,120 +11,141 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
- *
- * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_020393A8  0x020393A8  arm
- *   func_0203D798  0x0203D798  arm
- *   func_0203B2A8  0x0203B2A8  arm
- *   func_0203D700  0x0203D700  arm
- *   func_0203AD80  0x0203AD80  arm
- *   g_021469DC     0x021469DC  data
- *   func_0203B52C  0x0203B52C  arm
- *   str_0203B48C   0x0203B48C  data
- *   func_0203B344  0x0203B344  arm
  */
-struct NetState;
-typedef unsigned char  u8;
+#include "../../matched/include/Obj15979.h"
 
+typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 
-typedef unsigned int   u32;
+struct NetCtx;
 
-typedef signed char s8;
+struct Entry {
+    void *obj;
+    u8    pad_04[4];
+    void *slot[8];
+    u8    pad_28[0x16];
+    u16   key3e;
+    u16   key40;
+    u8    pad_42[2];
+    u16   key44;
+    u16   key46;
+    u8    pad_48;
+    u8    f49;
+    u8    f4a;
+    u8    pad_4b[5];
+};
 
-typedef unsigned long long u64;
+struct NetVtbl {
+    void (*f00)(u32 a, u32 b);
+    void (*f04)(u16 key, struct NetCtx *ctx, u32 zero, u32 arg);
+    void (*f08)(u32 a);
+    int  (*f0C)(u32 a);
+    u32  (*f10)(u32 a, u32 b);
+    u32  (*f14)(u32 a);
+    u8   pad18[0x28 - 0x18];
+    u32  (*f28)(u32 a);
+    void *(*f2C)(u32 a);
+    u8   pad30[0x38 - 0x30];
+    u32  (*f38)(u32 a);
+    void (*f3C)(void *cb);
+    u32  (*f40)(u32 a, u32 b);
+    u32  (*f44)(u32 a, u32 b);
+    u32  (*f48)(u32 a, u32 b, u32 c, u32 d, u32 e);
+    u8   pad4C[4];
+    u32  (*f50)(int a, u32 b, u32 c);
+    u32  (*f54)(u32 a, u32 b);
+    u32  (*f58)(void);
+    u32  (*f5C)(u32 a);
+    u32  (*f60)(u32 a);
+    u32  (*f64)(u32 a, u32 b, u32 c, void *d);
+    void (*f68)(void *cb);
+    u32  (*f6C)(void);
+    int  (*f70)(void);
+    u32  (*f74)(void);
+    u32  (*f78)(void);
+    u32  (*f7C)(void);
+    int  (*f80)(void);
+    u32  (*f84)(void);
+    int  (*f88)(void);
+    void (*f8C)(u32 a);
+    u32  (*f90)(u32 a);
+    u8   pad94[0x9C - 0x94];
+    void (*f9C)(void);
+    u32  (*fA0)(void);
+    u32  (*fA4)(void);
+    u32  (*fA8)(void);
+    u32  (*fAC)(void);
+    int  (*fB0)(void);
+    void (*fB4)(void);
+    void (*fB8)(void *arg);
+    int  (*fBC)(void);
+    void (*fC0)(int a);
+    void (*fC4)(u32 a);
+    void (*fC8)(u32 a);
+};
 
-typedef struct {
-    u64 x;
-    u64 mul;
-    u64 add;
-} MATHRandContext64;
-
-struct NetState {
-    u32  f00;
-    u32  f04;
-    void (*f08)(struct NetState *s);
-    MATHRandContext64 rng;
-    u32  f24;
-    void (*f28)(void);
+struct NetCtx {
+    u8   pad00[0x08];
+    void (*f08)(u32 a, u32 b);
+    void (*f0C)(int a, u32 b);
+    u32  (*f10)(u32 a);
+    u32  (*f14)(u32 a);
+    u8   pad18[0x1C - 0x18];
+    void (*f1C)(void);
+    u8   pad20[0x24 - 0x20];
+    void (*f24)(u32 a, u32 b, u32 c);
+    void (*f28)(u32 a, u32 b, u32 c);
     void (*f2C)(u32 a);
-    u32  err[4];
-    u8   mac[6];
-    u16  f46;
-    s8   flag;
-    u8   pad49;
-    u8   f4A;
-    u8   f4B;
-    u8   f4C;
-    u8   f4D;
-    u8   pad4E;
-    u8   f4F;
-    u8   f50;
-    u8   f51;
-    u8   pad52;
-    u8   f53;
-    u8   pad54[2];
-    u8   f56;
-    u8   addr[6];
-    u8   pad5D[7];
+    void (*f30)(u32 a);
+    u8   pad34[0x40 - 0x34];
+    u32  (*f40)(u32 a);
+    u32  (*f44)(u32 a);
+    u8   pad48[0x56 - 0x48];
+    u16  f56;
+    u16  f58;
+    u16  f5A;
+    u16  f5C;
+    u16  f5E;
+    u8   f60;
+    u8   f61;
+    u8   pad62[2];
+    u8   f64;
+    u8   f65;
+    u8   f66;
+    u8   f67;
+    u8   pad68[4];
+    u16  f6C;
+    u16  f6E;
+    struct Entry table[9];
+    struct NetVtbl *vt;
+    u32  f344;
+    void (*f348)(u32 a);
+    u32  f34C;
+    u8   pad350[2];
+    u8   f352;
 };
 
-struct Vt {
-    u8  pad_00[0x38];
-    u32 (*f38)(u32 a);
-};
+struct NetCtx;
 
-struct Obj {
-    u8         pad_00[0x340];
-    struct Vt *f340;
-};
+struct NetCtx;
 
-extern void func_0203B52C(struct NetState *p);
-extern void *func_0203D788(void);
-extern int func_020393A8(void);
-extern u8   *func_0203D798(void);
-extern void func_0203B2A8(int a0);
-extern void  func_0203D700(void);
-extern void func_0203AD80(struct NetState *s, void *p, u32 v, int line);
-extern u32 func_0203B344(struct NetState *p);
-void func_0203B5D4(struct NetState *p);
-void func_0203B688(struct NetState *a0);
-int func_0203B6B4(void);
-extern struct NetState *g_021469DC;
-extern char str_0203B48C[];
+struct NetCtx;
+
+struct NetCtx;
+
+struct NetCtx;
+
+extern void func_0203D9EC(void);
+void func_0203D0D0(void);
+extern struct NetCtx *func_0203D788(void);
+extern void func_0203BA98(u16 a0, u32 a1, u8 a2);
+void func_0203D0DC(u32 a0);
+
+void func_0203D0D0(void){ func_0203D9EC(); }
 
 
-void func_0203B5D4(struct NetState *p)
+void func_0203D0DC(u32 a0)
 {
-    struct Obj *q = (struct Obj *)func_0203D788();
-
-    if (func_020393A8() != 0) {
-        func_0203B2A8(*(u16 *)(func_0203D798() + 0x56));
-        func_0203D700();
-        func_0203AD80(g_021469DC, (void *)func_0203B52C, 0, 0x2c1);
-        return;
-    }
-    if (p->f56 == 1)
-        return;
-    if (q->f340->f38(0) == 0)
-        return;
-    if (p->f46 != 0) {
-        p->f46--;
-        return;
-    }
-    func_0203AD80(g_021469DC, str_0203B48C, 0, 0x2d3);
-}
-
-
-void func_0203B688(struct NetState *a0)
-{
-    func_0203AD80(g_021469DC, (void *)func_0203B5D4, func_0203B344(a0), 0x2e0);
-}
-
-
-int func_0203B6B4(void)
-{
-    func_0203AD80(g_021469DC, (void *)func_0203B5D4, func_0203B344(g_021469DC), 0x2E6);
-    return 1;
+    func_0203BA98(func_0203D788()->f56, a0, 1);
 }

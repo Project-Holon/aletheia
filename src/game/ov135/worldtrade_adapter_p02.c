@@ -85,22 +85,8 @@ struct U16Vec;
 struct WordSet;
 struct Strbuf;
 struct Obj;
-typedef signed char s8;
+#include "worldtrade_types.h"
 
-typedef signed short s16;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef struct {
-    s16 name;
-    s8 mode;
-    s8 key;
-    s8 val;
-} Rec_vC8CC;
 
 typedef struct {
     void *win0;
@@ -112,49 +98,8 @@ typedef struct {
     void *data;
 } PalFile;
 
-typedef signed int     s32;
-
 typedef volatile unsigned short vu16;
 
-typedef struct {
-    u8 pad0[0xEC];
-    u8 rec[0x110 - 0xEC];
-    u8 name[0x128 - 0x110];
-} Entry;
-
-typedef struct {
-    u8 pad0[0x20];
-    int kind;
-    u8 pad24[4];
-    u32 f28;
-    u8 pad2C[0xD4 - 0x2C];
-    int cur;
-    u8 padD8[0x20C - 0xD8];
-    Entry arr[8];
-    u8 padB4C[0xB68 - 0xB4C];
-    void *words;
-    void *bank;
-    void *names;
-    u8 padB74[0xD3C - 0xB74];
-    int scroll;
-    u8 padD40[0xD50 - 0xD40];
-    void *side[2];
-    u8 padD58[0xD90 - 0xD58];
-    void *win[7];
-    void *pane2[2];
-    void *title;
-    u8 padDB8[0xDC0 - 0xDB8];
-    void *pane3[2];
-    void *hint;
-    u8 padDCC[0xEC0 - 0xDCC];
-    void (*vblank)(void *);
-    u8 padEC4[0xFA0 - 0xEC4];
-    u8 fFA0[4];
-    u8 padFA4[0x12E4 - 0xFA4];
-    u32 f12E4;
-    u8 pad12E8[0x12FC - 0x12E8];
-    u32 flag;
-} Work_vC8CC;
 
 struct DispConfig {
     u32 unk_00;
@@ -204,17 +149,17 @@ extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern int func_021F886C(int key, int val, int which);
 extern void func_021F8290(void *bank, void *names, int unused, u8 *win, u32 index, int mode, int place, void *g);
-extern void func_021FD270(Work_vC8CC *p);
+extern void func_021FD270(Work *p);
 extern int func_0207D55C(vu16 *reg);
 extern void func_021FFFE8(u8 *p, u32 a, u32 b);
 extern void func_021FCFD8(u8 *p);
-extern void func_021FD104(Work_vC8CC *p);
-extern void func_021FD08C(Work_vC8CC *p);
+extern void func_021FD104(Work *p);
+extern void func_021FD08C(Work *p);
 extern void *func_020185F4(void *mon);
 extern void func_021FD760(void *bank, void *pane, u32 index, void *g, u16 color);
 extern void func_021FD790(void *bank, void *pane, u32 index, void *g);
-extern void func_021FD5F0(Work_vC8CC *p);
-extern void func_021FFD1C(Work_vC8CC *p, int i, int dy);
+extern void func_021FD5F0(Work *p);
+extern void func_021FFD1C(Work *p, int i, int dy);
 extern void func_021FD8BC(void *p);
 extern void func_0203D34C(u32 a, u32 b);
 extern int func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
@@ -235,11 +180,11 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void sub_020403F4(u32 i);
-void func_021FC8CC(void *bank, void *names, void *words, void **win, void *mon, Rec_vC8CC *rec, void *g);
+void func_021FC8CC(void *bank, void *names, void *words, void **win, void *mon, Rec *rec, void *g);
 void func_021FCA8C(void *bank, Pane2 *pane, void *name, void *mon, Pane2 *pane2, void *g);
 void func_021FCB54(void *mon);
 void func_021FCBF0(char *p);
-int func_021FCC40(Work_vC8CC *p);
+int func_021FCC40(Work *p);
 int func_021FCE64(char *p);
 int func_021FCED4(unsigned char *p);
 void func_021FCF28(int y);
@@ -250,10 +195,7 @@ extern struct BgTemplate g_02203628;
 extern struct BgTemplate g_02203648;
 
 
-
-
-
-void func_021FC8CC(void *bank, void *names, void *words, void **win, void *mon, Rec_vC8CC *rec, void *g)
+void func_021FC8CC(void *bank, void *names, void *words, void **win, void *mon, Rec *rec, void *g)
 {
     u32 lv;
     void *sname;
@@ -310,9 +252,6 @@ void func_021FC8CC(void *bank, void *names, void *words, void **win, void *mon, 
 }
 
 
-
-
-
 void func_021FCA8C(void *bank, Pane2 *pane, void *name, void *mon, Pane2 *pane2, void *g)
 {
     void *s0;
@@ -335,9 +274,6 @@ void func_021FCA8C(void *bank, Pane2 *pane, void *name, void *mon, Pane2 *pane2,
     func_02045808(t1);
     func_02045808(s1);
 }
-
-
-
 
 
 void func_021FCB54(void *mon)
@@ -363,8 +299,6 @@ void func_021FCB54(void *mon)
 }
 
 
-
-
 void func_021FCBF0(char *p)
 {
     int n;
@@ -373,9 +307,7 @@ void func_021FCBF0(char *p)
 }
 
 
-
-
-int func_021FCC40(Work_vC8CC *p)
+int func_021FCC40(Work *p)
 {
     func_021FD270(p);
     func_021FCF28(-32 - p->scroll);
@@ -387,14 +319,14 @@ int func_021FCC40(Work_vC8CC *p)
     func_021FCFD8((u8 *)p);
     func_021FD104(p);
     func_021FD08C(p);
-    func_021FC8CC(p->bank, p->names, p->words, p->win, func_020185F4(&p->arr[p->cur]), (Rec_vC8CC *)(p->arr[p->cur].rec), p->fFA0);
-    func_021FCA8C(p->bank, (Pane2 *)(&p->win[7]), p->arr[p->cur].name, &p->arr[p->cur], (Pane2 *)p->pane3, p->fFA0);
+    func_021FC8CC(p->bank, p->names, p->words, p->win_p7, func_020185F4(&p->arr[p->cur]), (Rec *)(p->arr[p->cur].rec), p->fFA0);
+    func_021FCA8C(p->bank, (Pane2 *)(&p->win_p7[7]), p->arr[p->cur].name, &p->arr[p->cur], (Pane2 *)p->pane3, p->fFA0);
     func_021FCB54(&p->arr[p->cur]);
     func_021FD760(p->bank, &p->pane3[2], 0x53, p->fFA0, 0x440);
     func_021FD760(p->bank, &p->title, 0x57, p->fFA0, 0x3C40);
     if (p->flag == 0) {
-        func_021FD790(p->bank, &p->side[0], 0x5E, p->fFA0);
-        func_021FD790(p->bank, &p->side[1], 0x73, p->fFA0);
+        func_021FD790(p->bank, &p->side_p2[0], 0x5E, p->fFA0);
+        func_021FD790(p->bank, &p->side_p2[1], 0x73, p->fFA0);
     }
     func_021FD5F0(p);
     func_021FFD1C(p, p->cur, -p->scroll);
@@ -410,7 +342,7 @@ int func_021FCC40(Work_vC8CC *p)
             func_0202208C(0, 1, 1, 0, 6, 1, 0x48);
         }
     }
-    p->f28 = 0;
+    p->state = 0;
     p->f12E4 = 0;
     p->flag = 0;
     return 1;
@@ -429,7 +361,7 @@ int func_021FCE64(char *p)
         func_021F4EA0(*(void **)(p + i * 4 + 0xd0c), *(s16 *)(p + i * 4 + 0xec4), *(s16 *)(p + i * 4 + 0xec6) + ((struct Obj06515 *)p)->fD3C + 0x20);
     }
     func_021F4FF4(((struct Obj06515 *)p)->fD08, 0xd0, 0x3a - ((struct Obj06515 *)p)->fD3C);
-    func_021FFD1C((Work_vC8CC *)p, ((struct Obj06515 *)p)->fD4, ((struct Obj06515 *)p)->fD3C);
+    func_021FFD1C((Work *)p, ((struct Obj06515 *)p)->fD4, ((struct Obj06515 *)p)->fD3C);
     return r;
 }
 
@@ -448,7 +380,6 @@ int func_021FCED4(unsigned char *p)
         func_0203D34C(0, 0x48);
     return 0;
 }
-
 
 
 /*
@@ -478,7 +409,6 @@ void func_021FCF28(int y)
     func_02040B94(2, 0x20, 0, 0x48);
     func_020434DC(8, 0);
 }
-
 
 
 /*

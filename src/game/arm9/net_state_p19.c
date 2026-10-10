@@ -1,112 +1,167 @@
 /*
- * file:     net_state_p19.c
- * unit:     yes
- * function: func_0203D5AC, func_0203D5D4, func_0203D5EC, func_0203D610
- * address:  0x0203D5AC
+ * function: func_0203DC04
+ * address:  0x0203DC04
+ * packet:   pkt_0203DAC4
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Verified EXACT* - every byte compares equal; the extent runs long only
+ * because the follower at 0x0203DC48 carries no `func_` label (it saves no
+ * lr and disasm.py does not auto-label it).  That follower is for the
+ * integrator's layout/function_starts.txt, not for this file.
+ *
+ * symbols:
+ *   g_021469F0     0x021469F0  data
+ *   func_02039338  0x02039338  arm
  */
-#include "../../matched/include/Obj11374.h"
-#include "../../matched/include/Obj11375.h"
 
-struct Entry;
 typedef unsigned char u8;
-
 typedef unsigned int  u32;
 
-typedef signed int     s32;
+struct S0203DC04 {
+    u8 pad00[0x102];
+    u8 f102;
+    u8 pad103;
+    u8 pad104;
+    u8 f105;
+    u8 f106;
+};
 
-extern void *func_0203D788(void);
-extern void *func_0203D798(void);
-extern struct Entry *func_0203996C(s32 idx);
-extern void func_0203A458(u8 *a0, u32 a1);
-void func_0203D5AC(int a, int b);
-u32 func_0203D5D4(void);
-u32 func_0203D5EC(void);
-u32 func_0203D610(void);
+extern struct S0203DC04 *g_021469F0;
+typedef unsigned short u16;
 
+struct NetCtx;
 
-/*
- * PROMOTED from src/pending/.  The `bl` to 0x0203A458 was this file's last
- * open site; it now resolves as `matched` against that function's own EXACT
- * shard entry, so the cap is gone.
- *
- * Sets the net context's +0x67 byte to the argument (after forcing the
- * context through func_0203D788), then updates the channel with
- * func_0203996C(0xff) and func_0203A458.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D5AC.c \
- *       --func func_0203D5AC --addr 0x0203D5AC --arm --cc 1.1p1
- */
-void func_0203D5AC(int a, int b)
+struct Entry {
+    void *obj;
+    u8    pad_04[4];
+    void *slot[8];
+    u8    pad_28[0x16];
+    u16   key3e;
+    u16   key40;
+    u8    pad_42[2];
+    u16   key44;
+    u16   key46;
+    u8    pad_48;
+    u8    f49;
+    u8    f4a;
+    u8    pad_4b[5];
+};
+
+struct NetVtbl {
+    void (*f00)(u32 a, u32 b);
+    void (*f04)(u16 key, struct NetCtx *ctx, u32 zero, u32 arg);
+    void (*f08)(u32 a);
+    int  (*f0C)(u32 a);
+    u32  (*f10)(u32 a, u32 b);
+    u32  (*f14)(u32 a);
+    u8   pad18[0x28 - 0x18];
+    u32  (*f28)(u32 a);
+    void *(*f2C)(u32 a);
+    u8   pad30[0x38 - 0x30];
+    u32  (*f38)(u32 a);
+    void (*f3C)(void *cb);
+    u32  (*f40)(u32 a, u32 b);
+    u32  (*f44)(u32 a, u32 b);
+    u32  (*f48)(u32 a, u32 b, u32 c, u32 d, u32 e);
+    u8   pad4C[4];
+    u32  (*f50)(int a, u32 b, u32 c);
+    u32  (*f54)(u32 a, u32 b);
+    u32  (*f58)(void);
+    u32  (*f5C)(u32 a);
+    u32  (*f60)(u32 a);
+    u32  (*f64)(u32 a, u32 b, u32 c, void *d);
+    void (*f68)(void *cb);
+    u32  (*f6C)(void);
+    int  (*f70)(void);
+    u32  (*f74)(void);
+    u32  (*f78)(void);
+    u32  (*f7C)(void);
+    int  (*f80)(void);
+    u32  (*f84)(void);
+    int  (*f88)(void);
+    void (*f8C)(u32 a);
+    u32  (*f90)(u32 a);
+    u8   pad94[0x9C - 0x94];
+    void (*f9C)(void);
+    u32  (*fA0)(void);
+    u32  (*fA4)(void);
+    u32  (*fA8)(void);
+    u32  (*fAC)(void);
+    int  (*fB0)(void);
+    void (*fB4)(void);
+    void (*fB8)(void *arg);
+    int  (*fBC)(void);
+    void (*fC0)(int a);
+    void (*fC4)(u32 a);
+    void (*fC8)(u32 a);
+};
+
+struct NetCtx {
+    u8   pad00[0x08];
+    void (*f08)(u32 a, u32 b);
+    void (*f0C)(int a, u32 b);
+    u32  (*f10)(u32 a);
+    u32  (*f14)(u32 a);
+    u8   pad18[0x1C - 0x18];
+    void (*f1C)(void);
+    u8   pad20[0x24 - 0x20];
+    void (*f24)(u32 a, u32 b, u32 c);
+    void (*f28)(u32 a, u32 b, u32 c);
+    void (*f2C)(u32 a);
+    void (*f30)(u32 a);
+    u8   pad34[0x40 - 0x34];
+    u32  (*f40)(u32 a);
+    u32  (*f44)(u32 a);
+    u8   pad48[0x56 - 0x48];
+    u16  f56;
+    u16  f58;
+    u16  f5A;
+    u16  f5C;
+    u16  f5E;
+    u8   f60;
+    u8   f61;
+    u8   pad62[2];
+    u8   f64;
+    u8   f65;
+    u8   f66;
+    u8   f67;
+    u8   pad68[4];
+    u16  f6C;
+    u16  f6E;
+    struct Entry table[9];
+    struct NetVtbl *vt;
+    u32  f344;
+    void (*f348)(u32 a);
+    u32  f34C;
+    u8   pad350[2];
+    u8   f352;
+};
+
+struct NetCtx;
+
+struct NetCtx;
+
+struct NetCtx;
+
+struct NetCtx;
+
+struct NetCtx;
+
+extern u16 func_02039338(void);
+
+void func_0203DC04(void)
 {
-    u8 *p;
-
-    func_0203D788();
-    p = func_0203D798();
-    p[0x67] = (u8)a;
-    func_0203A458((u8 *)func_0203996C(0xff), a);
-}
-
-
-
-/*
- * Returns the byte at +0x67 of the net context, or 0 when there is none.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D5D4.c \
- *       --func func_0203D5D4 --addr 0x0203D5D4 --arm --cc 1.1p1
- */
-u32 func_0203D5D4(void)
-{
-    u8 *p = func_0203D798();
-
-    return p != 0 ? p[0x67] : 0;
-}
-
-
-
-/*
- * Calls the net context's +0x44 callback with its +0x34c argument, or
- * returns 0 when no callback is installed.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D5EC.c \
- *       --func func_0203D5EC --addr 0x0203D5EC --arm --cc 1.1p1
- */
-u32 func_0203D5EC(void)
-{
-    u8 *p = func_0203D788();
-
-    if (((struct Obj11374 *)p)->f44 == 0) {
-        return 0;
+    if (g_021469F0 == 0)
+        return;
+    g_021469F0->f102 = 1;
+    if (g_021469F0->f106 != 0) {
+        g_021469F0->f105 = g_021469F0->f106 - 1;
+    } else {
+        g_021469F0->f105 = func_02039338();
     }
-    return ((u32 (*)(u32)) * (u32 *)(p + 0x44))(((struct Obj11374 *)p)->f34C);
-}
-
-
-
-/*
- * Calls the net context's +0x40 callback with its +0x34c argument, or
- * returns 0 when no callback is installed.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D610.c \
- *       --func func_0203D610 --addr 0x0203D610 --arm --cc 1.1p1
- */
-u32 func_0203D610(void)
-{
-    u8 *p = func_0203D788();
-
-    if (((struct Obj11375 *)p)->f40 == 0) {
-        return 0;
-    }
-    return ((u32 (*)(u32)) * (u32 *)(p + 0x40))(((struct Obj11375 *)p)->f34C);
 }

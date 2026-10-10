@@ -1,7 +1,7 @@
 /*
  * file:     net_state_p03.c
  * unit:     yes
- * function: func_020377B8, func_0203781C, func_02037858, func_02037894, func_02037928, func_020379C8, func_02037A44, func_02037A6C, func_02037B08, func_02037BA4, func_02037BE8, func_02037C10, func_02037D78, func_02037D98, func_02037E60, func_02037F48, func_0203802C, func_020380E4, func_020381D8, func_02038298, func_02038340, func_02038380, func_02038524, func_02038570, func_020385C4, func_020387A0, func_02038924, func_02038A48, func_02038A90, func_02038AE0, func_02038C18, func_02038D30, func_02038D4C, func_02038D68, func_02038DF0, func_02039050, func_020390BC, func_02039160, func_020392B8, func_020392EC, sub_02039338, sub_020393A8, sub_020393D0, func_02039414, func_02039468, func_020394C0, func_020394DC, func_020394F0, func_02039548, sub_02039560, sub_02039578, sub_02039594, func_020395E0, func_020395EC, func_02039658, func_0203971C, func_02039764, func_02039834, func_020398B4, func_0203996C, func_020399A8, func_020399B8, func_020399DC, func_020399EC, func_02039A2C, func_02039A5C, func_02039ACC, func_02039B5C, func_02039C2C, func_02039C3C, func_02039C68, func_02039CA0, func_02039CB4, func_02039CD8, func_02039D94, func_0203A020, func_0203A118, func_0203A150, func_0203A27C, func_0203A28C, func_0203A2F0, func_0203A338, func_0203A388, func_0203A424, func_0203A458, func_0203A494, func_0203A53C, func_0203A574, func_0203A5E4, func_0203A634, func_0203A67C, func_0203A70C, func_0203A730, func_0203A748, func_0203A770, func_0203A7EC, func_0203A804, func_0203A81C, func_0203A858, func_0203A85C, func_0203A958, func_0203AA94, func_0203ABC0, func_0203ACAC, func_0203AD74, func_0203AD8C, func_0203AE20, func_0203AEEC, func_0203AF40, func_0203AFCC
+ * function: func_020377B8, func_0203781C, func_02037858, func_02037894, func_02037928, func_020379C8, func_02037A44, func_02037A6C, func_02037B08, func_02037BA4, func_02037BE8, func_02037C10, func_02037D78, func_02037D98, func_02037E60, func_02037F48, func_0203802C, func_020380E4, func_020381D8, func_02038298, func_02038340, func_02038380, func_02038524, func_02038570, func_020385C4, func_020387A0, func_02038924, func_02038A48, func_02038A90, func_02038AE0, func_02038C18, func_02038D30, func_02038D4C, func_02038D68, func_02038DF0, func_02039050, func_020390BC, func_02039160, func_020392B8, func_020392EC, sub_02039338, sub_020393A8, sub_020393D0, func_02039414, func_02039468, func_020394C0, func_020394DC, func_020394F0, func_02039548, sub_02039560, sub_02039578, sub_02039594, func_020395E0, func_020395EC, func_02039658, func_0203971C, func_02039764, func_02039834, func_020398B4, func_0203996C, func_020399A8, func_020399B8, func_020399DC, func_020399EC, func_02039A2C, func_02039A5C, func_02039ACC, func_02039B5C, func_02039C2C, func_02039C3C, func_02039C68, func_02039CA0, func_02039CB4, func_02039CD8, func_02039D94, func_0203A020, func_0203A118, func_0203A150, func_0203A27C, func_0203A28C, func_0203A2F0, func_0203A338, func_0203A388, func_0203A424, func_0203A458, func_0203A494, func_0203A53C, func_0203A574, func_0203A5E4, func_0203A634, func_0203A67C, func_0203A70C, func_0203A730, func_0203A748, func_0203A770, func_0203A7EC, func_0203A804, func_0203A81C, func_0203A858, func_0203A85C, func_0203A958, func_0203AA94, func_0203ABC0, func_0203ACAC, func_0203AD74, func_0203AD8C, func_0203AE20, func_0203AEEC, func_0203AF40, func_0203AFCC, func_0203B018, func_0203B01C, func_0203B038, func_0203B084, func_0203B0C4, func_0203B16C, func_0203B170, func_0203B1B0, func_0203B1D8, func_0203B224, func_0203B228, func_0203B22C, func_0203B258, func_0203B2A8, func_0203B2D0, func_0203B2FC, func_0203B344, func_0203B390, func_0203B448, func_0203B48C, func_0203B4DC, func_0203B52C, func_0203B5D4, func_0203B688, func_0203B6B4, func_0203B6EC, func_0203B758, func_0203B794, func_0203B7F8, func_0203B868, func_0203B90C, func_0203B950, func_0203B9D4, func_0203BA98, func_0203BBB0, func_0203BC58, func_0203BCE0, func_0203BD30, func_0203BDEC, func_0203BE5C, func_0203BEAC, func_0203BEC8, func_0203BF4C, func_0203BF9C, func_0203BFF0, func_0203C00C, func_0203C010, func_0203C044, func_0203C05C, func_0203C060, func_0203C064, func_0203C068, func_0203C0B4, func_0203C0DC, func_0203C0F4, func_0203C238, func_0203C2B0, func_0203C304, func_0203C35C, func_0203C3B4, func_0203C3EC, func_0203C464, func_0203C494, func_0203C554, func_0203C5C8, func_0203C5EC, func_0203C600, func_0203C628, func_0203C65C, func_0203C710, func_0203C774, func_0203C7E0, func_0203C864, func_0203C8A8, func_0203C8E8, func_0203C900, func_0203C934, func_0203C938, func_0203C968, func_0203C990, func_0203C9AC, func_0203CA04, func_0203CA98, func_0203CADC, func_0203CB00, func_0203CB34, func_0203CBAC, func_0203CD98
  * address:  0x020377B8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -44,14 +44,11 @@
  *   str_020A7A24   0x020A7A24  data
  *   str_020A7A54   0x020A7A54  data
  *   func_02039548  0x02039548  arm
- *   func_0203CA98  0x0203CA98  arm
- *   func_0203C9AC  0x0203C9AC  arm
  *   g_020A7A24     0x020A7A24  data
  *   g_020A7A50     0x020A7A50  data
  *   str_020A7A50   0x020A7A50  data
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02036A50  0x02036A50  arm
- *   func_0203C990  0x0203C990  arm
  *   func_02039594  0x02039594  arm
  *   func_020368C0  0x020368C0  arm
  *   func_0203996C   0x0203996C  arm
@@ -105,12 +102,35 @@
  *   func_020370C8  0x020370C8  arm
  *   unk_0203C00C   0x0203C00C  arm
  *   func_02034F84  0x02034F84  arm
+ *   unk_0203B018   0x0203B018  arm
+ *   unk_0203B01C   0x0203B01C  arm
+ *   s_020A7BA8     0x020A7BA8  data
+ *   s_020A7BC8     0x020A7BC8  data
+ *   unk_0203B228   0x0203B228  data
+ *   unk_0203B22C   0x0203B22C  arm
+ *   str_0203B950   0x0203B950  data
+ *   func_0203D700  0x0203D700  arm
+ *   str_0203B48C   0x0203B48C  data
+ *   func_0203DA4C   0x0203DA4C  arm
+ *   func_0203CEAC  0x0203CEAC  arm
+ *   unk_021469DC   0x021469DC  data
+ *   str_0203C238   0x0203C238  data
+ *   func_02039578  0x02039578  arm
+ *   func_02039560  0x02039560  arm
+ *   g_020A7BEC      0x020A7BEC  data
+ *   file_020A7BA8   0x020A7BA8  data
+ *   file_020A7C70   0x020A7C70  data
+ *   g_020A7C7C     0x020A7C7C  data
+ *   g_021469E0     0x021469E0  data
+ *   file_020A7CA0  0x020A7CA0  data
+ *   str_020A7CA8   0x020A7CA8  data
+ *   str_020A7CB8   0x020A7CB8  data
+ *   str_020A7CE8   0x020A7CE8  data
+ *   func_0203064C  0x0203064C  arm
+ *   func_0200F17C  0x0200F17C  thumb
+ *   func_0203D8F0  0x0203D8F0  arm
+ *   func_02037010  0x02037010  arm
  */
-#include "../../matched/include/Obj11351.h"
-#include "../../matched/include/Obj15917.h"
-#include "../../matched/include/Obj15920.h"
-#include "../../matched/include/Obj15922.h"
-#include "../../matched/include/Obj05734.h"
 #include "../../matched/include/Obj11352.h"
 #include "../../matched/include/Obj05735.h"
 #include "../../matched/include/Obj15929.h"
@@ -132,10 +152,17 @@
 #include "../../matched/include/Obj15952.h"
 #include "../../matched/include/Obj15954.h"
 #include "../../matched/include/Obj06942.h"
+#include "../../matched/include/Obj15960.h"
+#include "../../matched/include/Obj15961.h"
+#include "../../matched/include/Obj11369.h"
 
+struct NetCtx;
+struct Entry;
+
+struct NetCtx;
+struct Entry;
 struct Conn;
 struct Hdr;
-struct Entry;
 struct Src;
 struct St;
 struct NetEntry;
@@ -143,6 +170,8 @@ struct Obj_02039C68;
 struct RTCDate;
 struct RTCTime;
 struct NetState;
+struct Slot;
+struct Base;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
@@ -154,6 +183,114 @@ struct Votes {
 };
 
 typedef unsigned int   u32;
+
+struct NetCtx;
+
+struct Entry {
+    void *obj;
+    u8    pad_04[4];
+    void *slot[8];
+    u8    pad_28[0x16];
+    u16   key3e;
+    u16   key40;
+    u8    pad_42[2];
+    u16   key44;
+    u16   key46;
+    u8    pad_48;
+    u8    f49;
+    u8    f4a;
+    u8    pad_4b[5];
+};
+
+struct NetVtbl {
+    void (*f00)(u32 a, u32 b);
+    void (*f04)(u16 key, struct NetCtx *ctx, u32 zero, u32 arg);
+    void (*f08)(u32 a);
+    int  (*f0C)(u32 a);
+    u32  (*f10)(u32 a, u32 b);
+    u32  (*f14)(u32 a);
+    u8   pad18[0x28 - 0x18];
+    u32  (*f28)(u32 a);
+    void *(*f2C)(u32 a);
+    u8   pad30[0x38 - 0x30];
+    u32  (*f38)(u32 a);
+    void (*f3C)(void *cb);
+    u32  (*f40)(u32 a, u32 b);
+    u32  (*f44)(u32 a, u32 b);
+    u32  (*f48)(u32 a, u32 b, u32 c, u32 d, u32 e);
+    u8   pad4C[4];
+    u32  (*f50)(int a, u32 b, u32 c);
+    u32  (*f54)(u32 a, u32 b);
+    u32  (*f58)(void);
+    u32  (*f5C)(u32 a);
+    u32  (*f60)(u32 a);
+    u32  (*f64)(u32 a, u32 b, u32 c, void *d);
+    void (*f68)(void *cb);
+    u32  (*f6C)(void);
+    int  (*f70)(void);
+    u32  (*f74)(void);
+    u32  (*f78)(void);
+    u32  (*f7C)(void);
+    int  (*f80)(void);
+    u32  (*f84)(void);
+    int  (*f88)(void);
+    void (*f8C)(u32 a);
+    u32  (*f90)(u32 a);
+    u8   pad94[0x9C - 0x94];
+    void (*f9C)(void);
+    u32  (*fA0)(void);
+    u32  (*fA4)(void);
+    u32  (*fA8)(void);
+    u32  (*fAC)(void);
+    int  (*fB0)(void);
+    void (*fB4)(void);
+    void (*fB8)(void *arg);
+    int  (*fBC)(void);
+    void (*fC0)(int a);
+    void (*fC4)(u32 a);
+    void (*fC8)(u32 a);
+};
+
+struct NetCtx {
+    u8   pad00[0x08];
+    void (*f08)(u32 a, u32 b);
+    void (*f0C)(int a, u32 b);
+    u32  (*f10)(u32 a);
+    u32  (*f14)(u32 a);
+    u8   pad18[0x1C - 0x18];
+    void (*f1C)(void);
+    u8   pad20[0x24 - 0x20];
+    void (*f24)(u32 a, u32 b, u32 c);
+    void (*f28)(u32 a, u32 b, u32 c);
+    void (*f2C)(u32 a);
+    void (*f30)(u32 a);
+    u8   pad34[0x40 - 0x34];
+    u32  (*f40)(u32 a);
+    u32  (*f44)(u32 a);
+    u8   pad48[0x56 - 0x48];
+    u16  f56;
+    u16  f58;
+    u16  f5A;
+    u16  f5C;
+    u16  f5E;
+    u8   f60;
+    u8   f61;
+    u8   pad62[2];
+    u8   f64;
+    u8   f65;
+    u8   f66;
+    u8   f67;
+    u8   pad68[4];
+    u16  f6C;
+    u16  f6E;
+    struct Entry table[9];
+    struct NetVtbl *vt;
+    u32  f344;
+    void (*f348)(u32 a);
+    u32  f34C;
+    u8   pad350[2];
+    u8   f352;
+};
 
 typedef signed int     s32;
 
@@ -201,45 +338,6 @@ struct Net {
     u8  pad1EE[2];
 };
 
-struct Ctx_020377B8 {
-    u8   pad00[0x340];
-    u32 *f340;
-};
-
-struct Oth_020377B8 {
-    u8 pad00[0x64];
-    u8 f64;
-    u8 f65;
-};
-
-struct Vtbl {
-    u8   pad00[0x64];
-    u32 (*f64)(u32, u32, u32, void *);   /* 0x64 */
-    u8   pad68[0x70 - 0x68];
-    u32 (*f70)(void);                    /* 0x70 */
-};
-
-struct Ctx_02037E60 {
-    u8           pad00[0x340];
-    struct Vtbl *f340;                   /* 0x340 */
-};
-
-struct Ctx {
-    u8   pad00[0x340];
-    u32 *f340;
-};
-
-struct Oth_02038380 {
-    u8 pad00[0x65];
-    u8 f65;
-};
-
-struct Oth {
-    u8 pad00[0x64];
-    u8 f64;
-    u8 f65;
-};
-
 struct Hdr
 {
     u8 f00;
@@ -284,11 +382,6 @@ struct Buf
     u16 len;
 };
 
-struct Rec_020377B8 {
-    u8  pad_00[0x64];
-    u8  f64;
-};
-
 struct Err {
     u32 f00;
     u32 f04;
@@ -319,72 +412,10 @@ typedef int           s32_020390BC;
 
 typedef signed int     s32_020392B8;
 
-struct Slots {
-    u8 pad_00[0x80];
-    s32 (*unk80)(void);
-};
-
-struct Owner_020377B8 {
-    u8 pad_00[0x340];
-    struct Slots *unk340;
-};
-
-struct Mode {
-    u8 pad_00[0x65];
-    u8 unk65;
-};
-
-struct LinkDriver_020377B8 {
-    unsigned char pad00[0x7c];
-    u32 (*get_mask)(void);
-};
-
-struct LinkRoot_020377B8 {
-    unsigned char pad000[0x340];
-    struct LinkDriver_020377B8 *driver;
-};
-
-struct LinkDriver_020393D0 {
-    u8 pad00[0x88];
-    int (*busy)(void);
-};
-
-struct LinkRoot_020393D0 {
-    u8 pad000[0x340];
-    struct LinkDriver_020393D0 *driver;
-};
-
 typedef struct {
     u8 pad_000[0x65];
     u8 f065;
 } T_0203D798;
-
-struct Session {
-    u8 pad00[0x64];
-    u8 unk_64;
-    u8 state;
-};
-
-struct Entry {
-    void *obj;
-    u8    pad_04[4];
-    void *slot[8];
-    u8    pad_28[0x16];
-    u16   key3e;
-    u16   key40;
-    u8    pad_42[2];
-    u16   key44;
-    u16   key46;
-    u8    pad_48;
-    u8    f49;
-    u8    f4a;
-    u8    pad_4b[5];
-};
-
-struct Owner_0203996C {
-    u8 pad_00[0x70];
-    struct Entry table[9];
-};
 
 struct Msg_02039B5C {
     u16 tag;
@@ -494,13 +525,6 @@ struct NetCmd {
     u8 pad229[3];
 };
 
-struct HugeRecv {
-    u32 a;
-    int count;
-    u32 c;
-    u32 key;
-};
-
 typedef struct {
     u8 lo : 4;
     u8 hi : 4;
@@ -547,27 +571,35 @@ struct Date { u32 year; u32 mon; u32 day; u32 wday; };
 
 struct Time { u32 hour; u32 min; u32 sec; };
 
-struct Vt_0203A118 {
-    u8  pad_00[4];
-    void (*f04)(u16 key, void *obj, u32 zero, u32 arg);
-};
-
-struct Obj {
-    u8         pad_00[0x340];
-    struct Vt_0203A118 *f340;
-    u8         pad_344[8];
-    u32        f34c;
-};
-
-struct Cur {
-    u8  pad_00[0x56];
+struct Req {
+    u32 f00;
+    u32 f04;
+    u8  pad_08[0x40];
+    u32 f48;
+    u8  pad_4c[8];
+    u16 f54;
     u16 f56;
-    u8  pad_58[0xd];
+    u16 f58;
+    u16 f5a;
+    u16 f5c;
+    u16 f5e;
+    u8  pad_60[1];
+    u8  f61;
+    u8  pad_62[3];
     u8  f65;
+    u8  pad_66[1];
+    u8  f67;
 };
 
-extern void *func_0203D798(void);
-extern void *func_0203D788(void);
+struct Mod {
+    u8  pad_00[8];
+    struct NetCtx *f08;
+};
+
+typedef int (*Fn)(void);
+
+extern struct NetCtx *func_0203D798(void);
+extern struct NetCtx *func_0203D788(void);
 extern int func_02037288(u32 a0, u32 heap, u32 c);
 extern void func_02037680(int i);
 extern void  func_020377AC(void);
@@ -589,11 +621,8 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02037224(u8 v, int b);
 extern u32  func_02037258(void);
 extern void func_02039548(void);
-extern u32 func_0203CA98(void);
-extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 extern void MI_CpuFill8(void *, u8, u32);
 extern int func_02036A50(u32 list, u16 *info);
-extern u32 func_0203C990(void);
 extern int    func_02039594(void);
 extern int    func_020368C0(void *tbl, u32 a, u32 b, u32 c, u32 d, u32 e,
                             u32 f);
@@ -625,14 +654,30 @@ extern u32 func_0203F0A8(void);
 extern void  func_020370C8(void);
 extern void unk_0203C00C(void);
 extern void func_02034F84(u32 a);
+extern void  func_0203D700(void);
+extern int func_0203DA4C(void);
+int func_0203CEAC(void (*a0)(u32));
+extern void func_020394DC(u8 v);
+extern u32 func_0203778C(u32 p);
+extern int func_020351A0(u32 v);
+extern int func_02037700(u32 a0, u32 a1);
+extern void func_0203516C(u32 a);
+extern void func_02039578(void);
+extern void func_02039560(void);
+extern void func_0203064C(u32 a, u32 b, u32 c);
+extern void func_020371AC(unsigned short a, unsigned int b);
+extern int func_0200F17C(u32 sel);
+extern void func_0200F234(u32 a);
+extern struct Base *func_0203D8F0(const struct Base *src, u32 a1);
+extern void  func_02037010(u32 a, u32 b, u32 c, u32 d);
 u32 func_020377B8(u8 arg0);
 void func_0203781C(u32 arg);
 void func_02037858(u32 arg);
-void func_02037894(u8 a0, u16 a1, u32 a2, u32 a3);
+u32 func_02037894(u8 a0, u16 a1, u32 a2, u32 a3);
 u32 func_02037928(u32 a0, u16 a1);
 int func_020379C8(u32 p);
 void func_02037A44(int a);
-void func_02037A6C(u32 a0, u32 a1, u16 a2, u32 a3);
+u32 func_02037A6C(u32 a0, u32 a1, u16 a2, u32 a3);
 void func_02037B08(void);
 void func_02037BA4(void);
 void func_02037BE8(u32 a);
@@ -682,8 +727,8 @@ int func_020395EC(struct Entry *a);
 void func_02039658(struct Entry *e, u32 idx);
 void func_0203971C(unsigned char *a, u32 b);
 struct Entry *func_02039764(u32 idx);
-void func_02039834(void);
-void func_020398B4(void);
+void func_02039834(struct NetCtx *unused);
+void func_020398B4(struct NetCtx *unused);
 struct Entry *sub_0203996C(s32 idx);
 struct Entry *sub_020399A8(void);
 u32 func_020399B8(u8 *p);
@@ -736,6 +781,94 @@ void func_0203AE20(MATHRandContext64 *o);
 void func_0203AEEC(struct NetState *p);
 void func_0203AF40(struct NetState *p);
 void func_0203AFCC(void *a, u32 b);
+void func_0203B018(void);
+void func_0203B01C(void);
+void func_0203B038(struct NetState *a0);
+void func_0203B084(void);
+void func_0203B0C4(int a0, int a1);
+void func_0203B16C(void);
+void func_0203B170(void);
+void func_0203B1B0(void);
+u32 func_0203B1D8(void);
+void func_0203B224(void);
+void func_0203B228(void);
+int func_0203B22C(void);
+void func_0203B258(void);
+void func_0203B2A8(int a0);
+void func_0203B2D0(u32 val);
+u32 func_0203B2FC(struct NetState *p);
+u32 func_0203B344(struct NetState *p);
+void func_0203B390(struct NetState *p);
+void func_0203B448(void);
+void func_0203B48C(void);
+void func_0203B4DC(void);
+void func_0203B52C(struct NetState *p);
+void func_0203B5D4(struct NetState *p);
+void func_0203B688(struct NetState *a0);
+int func_0203B6B4(void);
+void func_0203B6EC(struct NetState *p);
+void func_0203B758(void);
+void func_0203B794(struct NetState *p);
+void func_0203B7F8(struct NetState *p);
+void func_0203B868(struct NetState *p);
+void func_0203B90C(void);
+void func_0203B950(struct NetState *p);
+void func_0203B9D4(struct NetState *p);
+void func_0203BA98(u16 a0, u32 a1, u8 a2);
+void func_0203BBB0(struct NetState *a);
+void func_0203BC58(u8 v56, u8 v53, const void *src);
+void func_0203BCE0(struct NetState *p);
+void func_0203BD30(u32 a0, u32 a1, u8 *a2);
+void func_0203BDEC(void);
+void func_0203BE5C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+u32 func_0203BEAC(void);
+void func_0203BEC8(struct NetState *p);
+void func_0203BF4C(void);
+void func_0203BF9C(u32 v);
+void func_0203BFF0(void);
+void func_0203C00C(void);
+void func_0203C010(void);
+struct NetCtx *func_0203C044(int a0, int a1, u8 *a2, int a3);
+void func_0203C05C(void);
+void func_0203C060(void);
+void func_0203C064(void);
+void func_0203C068(void);
+void func_0203C0B4(void);
+void func_0203C0DC(struct NetState *p, u32 v);
+void func_0203C0F4(struct NetState *p);
+void func_0203C238(struct NetState *p);
+int func_0203C2B0(int a);
+u32 func_0203C304(void);
+u32 func_0203C35C(void);
+void func_0203C3B4(void);
+int func_0203C3EC(void);
+void func_0203C464(void);
+void func_0203C494(struct NetState *p);
+void func_0203C554(u32 a);
+void func_0203C5C8(void);
+int func_0203C5EC(void);
+int func_0203C600(void);
+int func_0203C628(void);
+void func_0203C65C(struct NetState *p);
+void func_0203C710(void);
+void func_0203C774(u32 v);
+void func_0203C7E0(struct NetState *p);
+void func_0203C864(void);
+void func_0203C8A8(void);
+void func_0203C8E8(u8 v);
+void func_0203C900(u8 v);
+void func_0203C934(void);
+u32 func_0203C938(u8 mode);
+void func_0203C968(void);
+u32 func_0203C990(void);
+void func_0203C9AC(int a, u32 b, u32 c, u32 d);
+void func_0203CA04(void);
+u32 func_0203CA98(void);
+void func_0203CADC(void);
+int func_0203CB00(void);
+void func_0203CB34(u32 a, u32 b, u32 c, u32 d);
+void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
+int func_0203CD98(void);
 extern u8 g_020A7A20[];
 extern struct Net *g_021469D0;
 extern u8 lbl_020A7A20[];
@@ -769,6 +902,29 @@ extern struct NetState *g_021469DC;
 extern char g_020A7BA8[];
 extern char g_020A7BB4[];
 extern u32 g_02FFFC3C;
+extern char unk_0203B018[];
+extern char unk_0203B01C[];
+extern char s_020A7BA8[];
+extern char s_020A7BC8[];
+extern char  unk_0203B228[];
+extern char  unk_0203B22C[];
+extern char str_0203B950[];
+extern char str_0203B48C[];
+extern const char str_0203C238[];
+extern u8  g_020A7BEC[];
+extern const char file_020A7BA8[];
+extern const char file_020A7C70[];
+extern u8  g_020A7C7C[];
+extern const char file_020A7CA0[];
+extern const char str_020A7CA8[];
+extern const char str_020A7CB8[];
+extern const char str_020A7CE8[];
+extern struct Mod g_021469E0;
+
+
+
+
+
 
 
 
@@ -799,17 +955,17 @@ extern u32 g_02FFFC3C;
 u32 func_020377B8(u8 arg0)
 {
     u32 zero;
-    char *a = func_0203D798();
-    char *b = func_0203D788();
+    struct NetCtx *a = func_0203D798();
+    struct NetCtx *b = func_0203D788();
     u16 val;
     void (*f)(void *);
 
-    ((struct Obj11351 *)a)->f66 = arg0;
-    f = *(void (**)(void *))(*(char * *)&((struct Obj15917 *)b)->f340 + 0x68);
+    a->f66 = arg0;
+    f = b->vt->f68;
     f(func_020377AC);
 
     zero = 0;
-    val = ((struct Obj11351 *)a)->f56;
+    val = a->f56;
     func_02037288(0x80, val, zero);
 
     func_02037680(zero);
@@ -818,6 +974,11 @@ u32 func_020377B8(u8 arg0)
 
     return 1;
 }
+
+
+
+
+
 
 
 
@@ -851,17 +1012,22 @@ u32 func_020377B8(u8 arg0)
  */
 void func_0203781C(u32 arg)
 {
-    char *a = func_0203D798();
-    char *b = func_0203D788();
+    struct NetCtx *a = func_0203D798();
+    struct NetCtx *b = func_0203D788();
     void (*hook)(u32, u32);
 
     func_02037680(arg);
 
-    hook = *(void (**)(u32, u32))(a + 8);
+    hook = a->f08;
     if (hook == 0)
         return;
-    hook(((struct Obj15920 *)b)->f34C, arg);
+    hook(b->f34C, arg);
 }
+
+
+
+
+
 
 
 
@@ -898,17 +1064,22 @@ void func_0203781C(u32 arg)
  */
 void func_02037858(u32 arg)
 {
-    char *a = func_0203D798();
-    char *b = func_0203D788();
+    struct NetCtx *a = func_0203D798();
+    struct NetCtx *b = func_0203D788();
     void (*hook)(u32, u32);
 
     func_02037680(arg);
 
-    hook = *(void (**)(u32, u32))(a + 8);
+    hook = a->f08;
     if (hook == 0)
         return;
-    hook(((struct Obj15922 *)b)->f34C, arg);
+    hook(b->f34C, arg);
 }
+
+
+
+
+
 
 
 
@@ -935,37 +1106,42 @@ void func_02037858(u32 arg)
  *   python tools/match.py one --src src/matched/func_02037894.c \
  *       --func func_02037894 --addr 0x02037894 --cc 1.1p1 --arm
  */
-void func_02037894(u8 a0, u16 a1, u32 a2, u32 a3)
+u32 func_02037894(u8 a0, u16 a1, u32 a2, u32 a3)
 {
-    char *a = func_0203D798();
-    char *b = func_0203D788();
+    struct NetCtx *a = func_0203D798();
+    struct NetCtx *b = func_0203D788();
     u32 flag;
     u16 val;
     void (*f1)(void *);
     void (*f2)(void *);
-    void (*f3)(u32, u32);
+    u32 (*f3)(u32, u32);
 
-    ((struct Obj11352 *)a)->f66 = a0;
+    a->f66 = a0;
 
-    f1 = *(void (**)(void *))(*(char * *)&((struct Obj05734 *)b)->f340 + 0x3C);
+    f1 = b->vt->f3C;
     f1(func_0203781C);
 
-    f2 = *(void (**)(void *))(*(char * *)&((struct Obj05734 *)b)->f340 + 0x68);
+    f2 = b->vt->f68;
     f2(func_020387A0);
 
-    if (((struct Obj05734 *)b)->f64 != 0 && ((struct Obj05734 *)b)->f6C != 0) {
+    if (b->f64 != 0 && b->f6C != 0) {
         flag = 1;
     } else {
         flag = 0;
     }
 
     a = func_0203D798();
-    val = ((struct Obj11352 *)a)->f56;
+    val = a->f56;
     func_02037288(a1, val, flag);
 
-    f3 = *(void (**)(u32, u32))(*(char * *)&((struct Obj05734 *)b)->f340 + 0x40);
-    f3(a2, a3);
+    f3 = b->vt->f40;
+    return f3(a2, a3);
 }
+
+
+
+
+
 
 
 
@@ -994,33 +1170,33 @@ void func_02037894(u8 a0, u16 a1, u32 a2, u32 a3)
  */
 u32 func_02037928(u32 a0, u16 a1)
 {
-    char *b = func_0203D788();
+    struct NetCtx *b = func_0203D788();
     void (*f1)(void *);
     u32 (*f2)(u32, u32);
     void (*f3)(void *);
     u32 res;
     u32 flag;
-    char *a;
+    struct NetCtx *a;
     u16 val;
 
-    f1 = *(void (**)(void *))(*(char * *)&((struct Obj05735 *)b)->f340 + 0x3C);
+    f1 = b->vt->f3C;
     f1(func_02037858);
 
-    f2 = *(u32 (**)(u32, u32))(*(char * *)&((struct Obj05735 *)b)->f340 + 0x44);
+    f2 = b->vt->f44;
     res = f2(a0, 0);
 
     if (res == 1) {
-        f3 = *(void (**)(void *))(*(char * *)&((struct Obj05735 *)b)->f340 + 0x68);
+        f3 = b->vt->f68;
         f3(func_02038924);
 
-        if (((struct Obj05735 *)b)->f64 != 0 && ((struct Obj05735 *)b)->f6C != 0) {
+        if (b->f64 != 0 && b->f6C != 0) {
             flag = 1;
         } else {
             flag = 0;
         }
 
         a = func_0203D798();
-        val = ((struct Obj15929 *)a)->f56;
+        val = a->f56;
         func_02037288(a1, val, flag);
 
         g_020A7A20[1] = 4;
@@ -1028,6 +1204,11 @@ u32 func_02037928(u32 a0, u16 a1)
 
     return res;
 }
+
+
+
+
+
 
 
 
@@ -1063,13 +1244,13 @@ u32 func_02037928(u32 a0, u16 a1)
 int func_020379C8(u32 p)
 {
     int   r;
-    char *c = func_0203D788();
+    struct NetCtx *c = func_0203D788();
 
-    (*(void (**)(u32))(*(char **)(c + 0x340) + 0x3C))((u32)func_02037858);
-    r = (*(int (**)(void))(*(char **)(c + 0x340) + 0xBC))();
+    c->vt->f3C(func_02037858);
+    r = c->vt->fBC();
     if (r == 1) {
-        (*(void (**)(u32))(*(char **)(c + 0x340) + 0x68))((u32)func_02038924);
-        func_02037288(p, *(u16 *)((char *)func_0203D798() + 0x56), 0);
+        c->vt->f68(func_02038924);
+        func_02037288(p, func_0203D798()->f56, 0);
         g_020A7A20[1] = 4;
     }
     return r;
@@ -1095,14 +1276,24 @@ int func_020379C8(u32 p)
 
 
 
+
+
+
+
+
 void func_02037A44(int a)
 {
-    int *r = func_0203D788();
-    int *t = *(int * *)&((struct Obj15930 *)r)->f340;
+    struct NetCtx *r = func_0203D788();
+    struct NetVtbl *t = r->vt;
     if (t == 0)
         return;
-    ((void (*)(int))t[0x30])(a);
+    t->fC0(a);
 }
+
+
+
+
+
 
 
 
@@ -1130,35 +1321,40 @@ void func_02037A44(int a)
  *   python tools/match.py one --src src/matched/func_02037A6C.c \
  *       --func func_02037A6C --addr 0x02037A6C --cc 1.1p1 --arm
  */
-void func_02037A6C(u32 a0, u32 a1, u16 a2, u32 a3)
+u32 func_02037A6C(u32 a0, u32 a1, u16 a2, u32 a3)
 {
-    char *b = func_0203D788();
-    char *a = func_0203D798();
+    struct NetCtx *b = func_0203D788();
+    struct NetCtx *a = func_0203D798();
     void (*f1)(void *);
     u32 flag;
     u16 val;
-    void (*f2)(u32, u32, u32, u32, u32);
+    u32 (*f2)(u32, u32, u32, u32, u32);
 
-    f1 = *(void (**)(void *))(*(char * *)&((struct Obj06938 *)b)->f340 + 0x68);
+    f1 = b->vt->f68;
     f1(func_02038924);
 
     if (a0 != 0) {
-        if (((struct Obj06938 *)b)->f64 != 0 && ((struct Obj06938 *)b)->f6C != 0) {
+        if (b->f64 != 0 && b->f6C != 0) {
             flag = 1;
         } else {
             flag = 0;
         }
 
         a = func_0203D798();
-        val = ((struct Obj15931 *)a)->f56;
+        val = a->f56;
         func_02037288(a2, val, flag);
 
         g_020A7A20[1] = 4;
     }
 
-    f2 = *(void (**)(u32, u32, u32, u32, u32))(*(char * *)&((struct Obj06938 *)b)->f340 + 0x48);
-    f2(a0, a1, 0, 0, a3);
+    f2 = b->vt->f48;
+    return f2(a0, a1, 0, 0, a3);
 }
+
+
+
+
+
 
 
 
@@ -1231,6 +1427,11 @@ void func_02037B08(void)
 
 
 
+
+
+
+
+
 /*
  * 64 bytes gated on the byte at +0x1EC of the object the global pointer names:
  * when it is set, the first getter's non-zero answer runs func_02037B08 and
@@ -1253,6 +1454,11 @@ void func_02037BA4(void)
     }
     func_02037B08();
 }
+
+
+
+
+
 
 
 
@@ -1313,6 +1519,11 @@ void func_02037BE8(u32 a)
 
 
 
+
+
+
+
+
 /*
  * The net tick dispatcher.  Two shapes are load-bearing: the f1EA/0x393D0
  * early exit is an out-of-line `goto bail` block placed AFTER the main body,
@@ -1322,17 +1533,17 @@ void func_02037BE8(u32 a)
  */
 int func_02037C10(void)
 {
-    struct Ctx_020377B8 *c = func_0203D788();
-    struct Oth_020377B8 *o = func_0203D798();
+    struct NetCtx *c = func_0203D788();
+    struct NetCtx *o = func_0203D798();
 
     if (g_021469D0 == 0) {
         if (c != 0)
-            ((void (*)(u32))c->f340[0xc / 4])(0);
+            c->vt->f0C(0);
         return 1;
     }
 
     {
-        u32 (*h)(void) = (u32 (*)(void))c->f340[0x84 / 4];
+        u32 (*h)(void) = c->vt->f84;
         if (h != 0) {
             func_020370F4(h());
         }
@@ -1362,7 +1573,7 @@ int func_02037C10(void)
     func_020390BC();
 skip:
     if (o->f65 != 1 && o->f65 != 2) {
-        ((void (*)(u16))c->f340[0xc / 4])(
+        c->vt->f0C(
             g_021469D0->f1E4);
     }
     func_0203ACAC();
@@ -1370,10 +1581,15 @@ skip:
     goto done;
 
 bail:
-    ((void (*)(u32))c->f340[0xc / 4])(0);
+    c->vt->f0C(0);
 done:
     return 1;
 }
+
+
+
+
+
 
 
 
@@ -1412,6 +1628,11 @@ void func_02037D78(void)
         return;
     func_02037478();
 }
+
+
+
+
+
 
 
 
@@ -1474,13 +1695,18 @@ int func_02037D98(int a)
 
 
 
+
+
+
+
+
 void func_02037E60(void)
 {
-    struct Ctx_02037E60 *c = func_0203D788();
+    struct NetCtx *c = func_0203D788();
     u32 v = func_0203D6BC();
     u32 r;
 
-    r = c->f340->f70();
+    r = c->vt->f70();
     if (r == 0)
         return;
     r = func_02039338();
@@ -1490,7 +1716,7 @@ void func_02037E60(void)
     if (g_020A7A20[1] != 0)
         return;
     if (func_02039338() != 0) {
-        r = c->f340->f64((u32)g_021469D0->f00, v, 0, func_02038A48);
+        r = c->vt->f64((u32)g_021469D0->f00, v, 0, func_02038A48);
         if (r == 0)
             return;
         g_020A7A20[1] = 2;
@@ -1502,6 +1728,11 @@ void func_02037E60(void)
         g_021469D0->f1B0 = g_021469D0->f1B0 + 1;
     }
 }
+
+
+
+
+
 
 
 
@@ -1533,17 +1764,17 @@ void func_02037F48(void)
     s32 i;
     s32 n;
     u32 v;
-    u8 *p;
+    struct NetCtx *p;
 
     p = func_0203D788();
 
-    if (((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0x58))() == 0)
+    if (p->vt->f58() == 0)
         return;
 
     if (g_021469D0->f1EB != 0)
         func_02037D98(1);
 
-    if (((u32 (*)(u32)) * (u32 *)(*(u32 *)(p + 0x340) + 0x5C))((u32)g_021469D0->f00) != 1)
+    if (p->vt->f5C((u32)g_021469D0->f00) != 1)
         goto fail;
 
     *(u8 *)(d_020A7A20 + 1) = 4;
@@ -1556,8 +1787,7 @@ void func_02037F48(void)
         v = (unsigned short)v;
         do {
         func_020387A0((unsigned short)i,
-                      (u8 *)(((u32 (*)(u32))
-                           * (u32 *)(*(u32 *)(p + 0x340) + 0x60))(i)), v);
+                      (u8 *)(p->vt->f60(i)), v);
             i++;
         } while (i < n);
     }
@@ -1566,6 +1796,11 @@ void func_02037F48(void)
 fail:
     g_021469D0->f1EB = 0;
 }
+
+
+
+
+
 
 
 
@@ -1604,7 +1839,7 @@ fail:
  */
 void func_0203802C(void)
 {
-    u8 *p;
+    struct NetCtx *p;
     u32 v;
 
     p = func_0203D788();
@@ -1612,14 +1847,14 @@ void func_0203802C(void)
     if (func_020366A8((struct Conn *)g_021469D0->fCC) != 0)
         func_0203D3A8(func_020399A8(), 0x10, 0, 0);
 
-    v = *(u32 *)(((struct Obj15934 *)p)->f340 + 0x9C);
+    v = (u32)p->vt->f9C;
     if (v != 0)
         ((void (*)(void))v)();
-    if (((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0x6C))() != 1)
+    if (p->vt->f6C() != 1)
         return;
 
     v = func_0203D6BC();
-    if (((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0xA0))() != 1)
+    if (p->vt->fA0() != 1)
         return;
     if (func_02037D98(0) == 0)
         return;
@@ -1627,6 +1862,11 @@ void func_0203802C(void)
     func_020381D8((u32)g_021469D0->f00, v);
     *(u8 *)(d_020A7A20 + 1) = 4;
 }
+
+
+
+
+
 
 
 
@@ -1708,6 +1948,11 @@ u32 func_020380E4(u32 a0, u8 *rec, u32 len)
 
 
 
+
+
+
+
+
 /*
  * Second half of this packet's chain: it calls func_020380E4, whose own entry
  * is in this shard, so the call site is attested by `matched` rather than by
@@ -1732,26 +1977,30 @@ u32 func_020380E4(u32 a0, u8 *rec, u32 len)
  */
 void func_020381D8(u32 a0, u32 a1)
 {
-    u8 *p;
+    struct NetCtx *p;
     u32 v;
 
     func_0203D798();
     p = func_0203D788();
 
-    if (((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0xA4))() == 0 ||
-        ((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0xAC))() == 0) {
+    if (p->vt->fA4() == 0 ||
+        p->vt->fAC() == 0) {
         func_02034714((const char *)d_020A7A24, 0x400, (const char *)d_020A7A50);
         return;
     }
 
     if (*(u8 *)(d_020A7A20 + 1) != 0)
         return;
-    ((void (*)(u32, u32, u32, u32))
-         * (u32 *)(*(u32 *)(p + 0x340) + 0x64))(a0, a1, 0, 0);
-    v = ((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0x80))();
+    p->vt->f64(a0, a1, 0, 0);
+    v = p->vt->f80();
     func_020380E4((u16)v, (u8 *)a0, (u16)a1);
     func_02037224(4, 0x40C);
 }
+
+
+
+
+
 
 
 
@@ -1788,7 +2037,7 @@ void func_020381D8(u32 a0, u32 a1)
  */
 void func_02038298(void)
 {
-    u8 *p;
+    struct NetCtx *p;
     u32 v;
 
     func_0203D798();
@@ -1806,12 +2055,16 @@ void func_02038298(void)
 
     if (g_021469D0->f1ED != 1)
         return;
-    if (((u32 (*)(u32, u32, u32, u32))
-             * (u32 *)(*(u32 *)(p + 0x340) + 0x64))((u32)g_021469D0->f00, v,
+    if (p->vt->f64((u32)g_021469D0->f00, v,
                                                     0, 0) == 0)
         return;
     g_021469D0->f1ED = 0;
 }
+
+
+
+
+
 
 
 
@@ -1852,11 +2105,11 @@ void func_02038298(void)
  */
 void func_02038340(void)
 {
-    void *p;
+    struct NetCtx *p;
 
     func_0203D798();
     p = func_0203D788();
-    if (((int (*)(void))*(unsigned int *)(*(unsigned int *)((char *)p + 0x340) + 0x70))() == 0)
+    if (p->vt->f70() == 0)
         return;
     if (func_02039160(func_02039338()) == 0)
         return;
@@ -1878,25 +2131,30 @@ void func_02038340(void)
 
 
 
+
+
+
+
+
 void func_02038380(void)
 {
-    struct Ctx *c = func_0203D788();
+    struct NetCtx *c = func_0203D788();
 
     func_0203D680();
     if (g_020A7A20[0] == 1) {
         if ((int)func_020392B8() > 1) {
             func_02037224(2, 0x46a);
-            if (((int (*)(void))c->f340[0x70 / 4])() != 0) {
+            if (c->vt->f70() != 0) {
                 u32 t = func_02037258();
-                if (((int (*)(u32, u32, u32, u32))c->f340[0x64 / 4])(
-                        (u32)g_021469D0->f08, t, 0, (u32)func_02038A90) != 0)
+                if (c->vt->f64(
+                        (u32)g_021469D0->f08, t, 0, func_02038A90) != 0)
                     goto tail;
                 func_02037224(1, 0x46a + 4);
                 goto tail;
             }
-            if (((struct Oth_02038380 *)func_0203D798())->f65 != 3 && ((struct Oth_02038380 *)func_0203D798())->f65 != 4)
+            if ((func_0203D798())->f65 != 3 && (func_0203D798())->f65 != 4)
                 goto tail;
-            if (((int (*)(void))c->f340[0xa0 / 4])() == 0) {
+            if (c->vt->fA0() == 0) {
                 func_02037224(1, 0x475);
                 goto tail;
             }
@@ -1904,7 +2162,7 @@ void func_02038380(void)
                 return;
             {
                 u32 t = func_0203D6BC();
-                ((void (*)(u32, u32, u32, u32))c->f340[0x64 / 4])(
+                c->vt->f64(
                     (u32)g_021469D0->f08, t, 0x64, 0);
             }
         }
@@ -1915,15 +2173,20 @@ tail:
         func_02038924(0, g_021469D0->f08, (u16)func_02037258());
         func_02037224(3, 0x490 - 3);
     }
-    if (((int (*)(void))c->f340[0x70 / 4])() == 0)
+    if (c->vt->f70() == 0)
         goto last;
-    if (((struct Oth_02038380 *)func_0203D798())->f65 == 3)
+    if ((func_0203D798())->f65 == 3)
         goto last;
-    if (((struct Oth_02038380 *)func_0203D798())->f65 != 4)
+    if ((func_0203D798())->f65 != 4)
         return;
 last:
     func_02037224(4, 0x492);
 }
+
+
+
+
+
 
 
 
@@ -1949,6 +2212,11 @@ int func_02038524(void)
     }
     return 1;
 }
+
+
+
+
+
 
 
 
@@ -1990,6 +2258,11 @@ void func_02038570(void)
 
 
 
+
+
+
+
+
 /*
  * net_system.c.  The outer per-frame entry: it dispatches on the link-state
  * byte at +0x65 of the 0x0203D798 object, in two two-wide bands written as
@@ -2001,8 +2274,8 @@ void func_02038570(void)
  */
 void func_020385C4(void)
 {
-    struct Ctx *c = func_0203D788();
-    struct Oth *o = func_0203D798();
+    struct NetCtx *c = func_0203D788();
+    struct NetCtx *o = func_0203D798();
     u8 s = o->f65;
 
     if ((u8)(s + 0xff) <= 1) {
@@ -2017,7 +2290,7 @@ void func_020385C4(void)
             return;
         {
             u32 t = func_02037258();
-            if (((int (*)(u32, u32, u32, u32))c->f340[0x64 / 4])(
+            if (c->vt->f64(
                     (u32)g_021469D0->f08, t, 0, 0) == 0)
                 return;
         }
@@ -2038,7 +2311,7 @@ void func_020385C4(void)
         func_02038380();
         return;
     }
-    if (((int (*)(void))c->f340[0x70 / 4])() == 0)
+    if (c->vt->f70() == 0)
         return;
     if (func_02038524() == 0)
         return;
@@ -2053,6 +2326,11 @@ void func_020385C4(void)
     }
     func_02038380();
 }
+
+
+
+
+
 
 
 
@@ -2138,6 +2416,11 @@ int func_020387A0(u32 i, u8 *p, s32 n)
 
 
 
+
+
+
+
+
 int func_02038924(u32 a0, u8 *p, s32 n)
 {
     struct Net *g;
@@ -2177,6 +2460,11 @@ int func_02038924(u32 a0, u8 *p, s32 n)
     g_021469D0->f2C.state = 1;
     return 1;
 }
+
+
+
+
+
 
 
 
@@ -2236,6 +2524,11 @@ int func_02038A48(int a)
 
 
 
+
+
+
+
+
 int func_02038A90(u32 a)
 {
     func_0203D6BC();
@@ -2262,10 +2555,15 @@ int func_02038A90(u32 a)
 
 
 
+
+
+
+
+
 s32 func_02038AE0(struct Hdr *h, struct Conn *c, s32 len, u8 a3)
 {
-    struct Glob_020377B8 *g;
-    struct Sys *sys;
+    struct NetCtx *g;
+    struct NetCtx *sys;
     struct Buf buf;
     s32 n;
     u16 v;
@@ -2281,13 +2579,13 @@ s32 func_02038AE0(struct Hdr *h, struct Conn *c, s32 len, u8 a3)
         h->f04 = 2;
     c->f24 = 0;
 
-    h->f03 = sys->f340->f7c();
+    h->f03 = sys->vt->f7C();
 
     if (func_020366A8(c) == 0)
     {
         if ((u8)(g->f65 + 0xfd) > 1)
             goto body;
-        if (sys->f340->fb0() != 1)
+        if (sys->vt->fB0() != 1)
             goto body;
     }
     h->f04 = 0xff;
@@ -2321,6 +2619,11 @@ body:
 
     return 1;
 }
+
+
+
+
+
 
 
 
@@ -2372,7 +2675,7 @@ body:
  */
 int func_02038C18(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7)
 {
-    struct Rec_020377B8 *rec;
+    struct NetCtx *rec;
     struct Net *h;
     struct Err *err;
     void *tbl;
@@ -2420,6 +2723,11 @@ int func_02038C18(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7)
 
 
 
+
+
+
+
+
 void func_02038D30(int a0, int a1, int a2, int a3)
 {
     func_020365E8((char *)&g_021469D0->f1C);
@@ -2436,10 +2744,20 @@ void func_02038D30(int a0, int a1, int a2, int a3)
 
 
 
+
+
+
+
+
 void func_02038D4C(int a0, int a1, int a2, int a3)
 {
     func_020365E8((char *)&g_021469D0->f3C);
 }
+
+
+
+
+
 
 
 
@@ -2476,6 +2794,11 @@ void func_02038D68(int a0, u32 a1, u32 a2, u8 *a3)
 
     func_02037234(a3);
 }
+
+
+
+
+
 
 
 
@@ -2595,6 +2918,11 @@ void func_02038DF0(struct Src *src, s32 a1, u8 *buf, struct St *st, u32 n)
 
 
 
+
+
+
+
+
 void func_02039050(void)
 {
     int i;
@@ -2614,6 +2942,11 @@ void func_02039050(void)
                       (struct St *)p->f19C, func_02037258());
     }
 }
+
+
+
+
+
 
 
 
@@ -2680,23 +3013,28 @@ void func_020390BC(void)
 
 
 
+
+
+
+
+
 int func_02039160(u32 mode)
 {
-    u8 *p5;
-    u8 *p4;
+    struct NetCtx *p5;
+    struct NetCtx *p4;
     struct Net *g;
     u32 v;
     u16 m;
 
-    p5 = (u8 *)func_0203D788();
-    p4 = (u8 *)func_0203D798();
+    p5 = func_0203D788();
+    p4 = func_0203D798();
     g = g_021469D0;
     if (g == 0)
         return 0;
-    v = (u8)(p4[0x65] + 0xff);
+    v = (u8)(p4->f65 + 0xff);
     if (v <= 1) {
         if (g->f1E7 != 0) {
-            if (((int (*)(void))(*(u32 *)(*(u32 *)(p5 + 0x340) + 0x80)))() != -1) {
+            if (p5->vt->f80() != -1) {
                 if (mode == 0)
                     return 1;
                 if (mode == 1)
@@ -2705,22 +3043,22 @@ int func_02039160(u32 mode)
         }
         return 0;
     }
-    v = (u8)(p4[0x65] + 0xfd);
+    v = (u8)(p4->f65 + 0xfd);
     if (v <= 1) {
         if (mode < 2 || mode == 0xff) {
-            if (((int (*)(void))(*(u32 *)(*(u32 *)(p5 + 0x340) + 0x70)))() != 0)
+            if (p5->vt->f70() != 0)
                 return 1;
         }
         return 0;
     }
     if (func_020392EC() == 0)
         return 0;
-    if (((int (*)(void))(*(u32 *)(*(u32 *)(p5 + 0x340) + 0x70)))() == 0)
+    if (p5->vt->f70() == 0)
         return 0;
     if (mode == (u32)func_02039338())
         return 1;
-    if (func_02039338() == 0 || p4[0x64] == 0) {
-        m = (u16)((int (*)(void))(*(u32 *)(*(u32 *)(p5 + 0x340) + 0x7c)))();
+    if (func_02039338() == 0 || p4->f64 == 0) {
+        m = (u16)p5->vt->f7C();
         if (((1 << mode) & m) != 0)
             return 1;
     } else {
@@ -2729,6 +3067,11 @@ int func_02039160(u32 mode)
     }
     return 0;
 }
+
+
+
+
+
 
 
 
@@ -2778,6 +3121,11 @@ u32 func_020392B8(void)
 
 
 
+
+
+
+
+
 /*
  * Returns 1 while the state byte at +0x65 is one to four, but only while the
  * global at 0x021469D0 is live; otherwise it dispatches through the vtable at
@@ -2795,14 +3143,19 @@ u32 func_020392B8(void)
  */
 int func_020392EC(void)
 {
-    u8 *s = (void *)func_0203D788();
-    u8 *p = (void *)func_0203D798();
+    struct NetCtx *s = func_0203D788();
+    struct NetCtx *p = func_0203D798();
 
-    if (g_021469D0 != 0 && (u8)(p[0x65] + 0xFF) <= 3)
+    if (g_021469D0 != 0 && (u8)(p->f65 + 0xFF) <= 3)
         return 1;
 
-    return (*(int (**)(void))(*(u32 *)(s + 0x340) + 0x6C))();
+    return s->vt->f6C();
 }
+
+
+
+
+
 
 
 
@@ -2814,7 +3167,7 @@ int func_020392EC(void)
 
 u16 sub_02039338(void)
 {
-    struct Owner_020377B8 *owner;
+    struct NetCtx *owner;
     u8 sel;
     s32 v;
 
@@ -2823,17 +3176,17 @@ u16 sub_02039338(void)
     }
 
     owner = func_0203D788();
-    sel = ((struct Mode *)func_0203D798())->unk65 + 0xff;
+    sel = (func_0203D798())->f65 + 0xff;
 
     if (sel <= 1) {
-        v = owner->unk340->unk80();
+        v = owner->vt->f80();
         if (v == -1) {
             goto none;
         }
         return (u16)v;
     }
 
-    return (u16)owner->unk340->unk80();
+    return (u16)owner->vt->f80();
 
 none:
     return 0;
@@ -2846,13 +3199,23 @@ none:
 
 
 
+
+
+
+
+
 int sub_020393A8(void)
 {
     u16 mask;
 
-    mask = ((struct LinkRoot_020377B8 *)func_0203D788())->driver->get_mask();
+    mask = func_0203D788()->vt->f7C();
     return mask & 0xFFFE;
 }
+
+
+
+
+
 
 
 
@@ -2875,15 +3238,20 @@ int sub_020393A8(void)
  */
 int sub_020393D0(void)
 {
-    struct LinkRoot_020393D0 *root;
+    struct NetCtx *root;
 
     root = func_0203D788();
 
     if (g_021469D0 != 0 && g_021469D0->f1E9 != 0) {
         return 1;
     }
-    return root->driver->busy() != 0;
+    return root->vt->f88() != 0;
 }
+
+
+
+
+
 
 
 
@@ -2910,11 +3278,11 @@ int sub_020393D0(void)
  */
 u32 func_02039414(void)
 {
-    u8 *p = func_0203D788();
+    struct NetCtx *p = func_0203D788();
     u32 r = 0;
 
-    if (p != 0 && ((struct Obj15941 *)p)->f340 != 0)
-        r = ((u32 (*)(void))*(u32 *)(*(u32 *)(p + 0x340) + 0x88))();
+    if (p != 0 && p->vt != 0)
+        r = p->vt->f88();
     if (r == 0) {
         struct Net *q = g_021469D0;
 
@@ -2932,16 +3300,26 @@ u32 func_02039414(void)
 
 
 
+
+
+
+
+
 void func_02039468(u32 a, u32 b)
 {
-    u8 *s = (u8 *)func_0203D798();
+    struct NetCtx *s = func_0203D798();
 
-    if (s[0x64] != 0 && b == 0xff) {
+    if (s->f64 != 0 && b == 0xff) {
         func_02036B98((char *)g_021469D0->fF4, a);
     } else {
         func_02036B98((char *)g_021469D0->fCC, a);
     }
 }
+
+
+
+
+
 
 
 
@@ -2968,6 +3346,11 @@ int func_020394C0(void)
 
 
 
+
+
+
+
+
 /*
  * A leaf setter on the link state: store the argument byte at +0x1e7.  It
  * saves no registers, so disasm.py gives it no label and it prints as a run
@@ -2981,6 +3364,11 @@ void sub_020394DC(u8 v)
 {
     g_021469D0->f1E7 = v;
 }
+
+
+
+
+
 
 
 
@@ -3012,6 +3400,11 @@ void func_020394F0(u32 a)
 
 
 
+
+
+
+
+
 /*
  * Set the +0x1e9 flag on the link state.  sub_02039560 is the clearing half;
  * the two are byte-for-byte the same but for the stored constant.
@@ -3030,6 +3423,11 @@ void sub_02039548(void)
 
 
 
+
+
+
+
+
 /*
  * Clear the +0x1e9 flag sub_02039548 sets.
  *
@@ -3040,6 +3438,11 @@ void sub_02039560(void)
 {
     g_021469D0->f1E9 = 0;
 }
+
+
+
+
+
 
 
 
@@ -3069,6 +3472,11 @@ void sub_02039578(void)
 
 
 
+
+
+
+
+
 /*
  * May the caller proceed?  With no link state, or with the +0x64 byte of the
  * session record set, the answer is an unconditional yes; in the two session
@@ -3084,22 +3492,27 @@ void sub_02039578(void)
  */
 int sub_02039594(void)
 {
-    struct Session *s;
+    struct NetCtx *s;
 
     if (g_021469D0 == 0) {
         goto yes;
     }
 
     s = func_0203D798();
-    if (s->unk_64 != 0) {
+    if (s->f64 != 0) {
         goto yes;
     }
-    if (s->state == 0 || s->state == 5) {
+    if (s->f65 == 0 || s->f65 == 5) {
         return g_021469D0->f1EB;
     }
 yes:
     return 1;
 }
+
+
+
+
+
 
 
 
@@ -3121,6 +3534,11 @@ int sub_020395E0(int slot)
     }
     return slot;
 }
+
+
+
+
+
 
 
 
@@ -3153,6 +3571,11 @@ int func_020395EC(struct Entry *a)
     func_02034714((const char *)str_020A7A68, 0x6e, (const char *)str_020A7A78);
     return -1;
 }
+
+
+
+
+
 
 
 
@@ -3226,6 +3649,11 @@ void func_02039658(struct Entry *e, u32 idx)
 
 
 
+
+
+
+
+
 /*
  * Clears the slot's `0x3e` field, refreshes its `0x40` field from the
  * selector, then clears the 0x10-byte record its indexed pointer names.
@@ -3245,6 +3673,11 @@ void func_0203971C(unsigned char *a, u32 b)
         func_02082BCC(p, 0, 0x10);
     }
 }
+
+
+
+
+
 
 
 
@@ -3296,7 +3729,7 @@ void func_0203971C(unsigned char *a, u32 b)
 struct Entry *func_02039764(u32 idx)
 {
     struct Entry *e;
-    u8 *g;
+    struct NetCtx *g;
     int i;
 
     g = func_0203D798();
@@ -3315,7 +3748,7 @@ struct Entry *func_02039764(u32 idx)
 
     if (idx == 0xff) {
         for (; i < 8; i++)
-            e->slot[i] = func_02030734(((struct Obj15944 *)g)->f56, 0x10, 1, file_020A7A68, 0xc7);
+            e->slot[i] = func_02030734(g->f56, 0x10, 1, file_020A7A68, 0xc7);
     }
 
     e->f4a = 0;
@@ -3324,6 +3757,11 @@ struct Entry *func_02039764(u32 idx)
     e->f49 = 0;
     return e;
 }
+
+
+
+
+
 
 
 
@@ -3368,10 +3806,10 @@ struct Entry *func_02039764(u32 idx)
  *   python tools/match.py one --src src/matched/func_02039834.c \
  *       --func func_02039834 --addr 0x02039834 --cc 1.1p1 --arm
  */
-void func_02039834(void)
+void func_02039834(struct NetCtx *unused)
 {
     int i;
-    u8 *p;
+    struct NetCtx *p;
 
     p = func_0203D798();
     for (i = 0; i < 8; i++) {
@@ -3382,8 +3820,13 @@ void func_02039834(void)
     if (g_021469D4 != 0) {
         func_02034714(file_020A7A68, 0xe3, msg_020A7A7C);
     }
-    g_021469D4 = func_02030734(((struct Obj15945 *)p)->f56, 0x20, 1, file_020A7A68, 0xe5);
+    g_021469D4 = func_02030734(p->f56, 0x20, 1, file_020A7A68, 0xe5);
 }
+
+
+
+
+
 
 
 
@@ -3410,7 +3853,7 @@ void func_02039834(void)
  *   python tools/match.py one --src src/matched/func_020398B4.c \
  *       --func func_020398B4 --addr 0x020398B4 --cc 1.1p1 --arm
  */
-void func_020398B4(void)
+void func_020398B4(struct NetCtx *unused)
 {
     struct Entry *own;
     int i;
@@ -3446,6 +3889,11 @@ void func_020398B4(void)
 
 
 
+
+
+
+
+
 /*
  * Resolves a slot index to one of the nine 0x50-byte entries at +0x70 of
  * func_0203D788()'s record.  0xff is the "own slot" spelling and names entry
@@ -3462,7 +3910,7 @@ void func_020398B4(void)
  */
 struct Entry *sub_0203996C(s32 idx)
 {
-    struct Owner_0203996C *owner = func_0203D788();
+    struct NetCtx *owner = func_0203D788();
 
     if (owner != 0) {
         if (idx == 0xff) {
@@ -3482,6 +3930,11 @@ struct Entry *sub_0203996C(s32 idx)
 
 
 
+
+
+
+
+
 /*
  * A two-call forwarder: the index func_02039338 returns goes straight to
  * func_0203996C through r0, and that entry is returned.
@@ -3493,6 +3946,11 @@ struct Entry *sub_020399A8(void)
 {
     return func_0203996C(func_02039338());
 }
+
+
+
+
+
 
 
 
@@ -3528,6 +3986,11 @@ u32 func_020399B8(u8 *p)
 
 
 
+
+
+
+
+
 /*
  * Entry accessor: returns byte 0x4A of a 0x50-byte entry, or 8 for null.
  */
@@ -3536,6 +3999,11 @@ int func_020399DC(struct Entry *p)
     if (p) return p->f4a;
     return 8;
 }
+
+
+
+
+
 
 
 
@@ -3585,6 +4053,11 @@ int func_020399EC(void)
 
 
 
+
+
+
+
+
 void func_02039A2C(int a)
 {
     char *q;
@@ -3594,6 +4067,11 @@ void func_02039A2C(int a)
     q[0x2c] = (char)a;
     q[0x2d] = 1;
 }
+
+
+
+
+
 
 
 
@@ -3657,6 +4135,11 @@ void func_02039A5C(void)
 
 
 
+
+
+
+
+
 /*
  * Seeds the current record's +0x4a state byte: state 2 re-arms the eight-slot
  * table through func_0203D3A8 with a 3-byte payload built in a 12-byte stack
@@ -3674,7 +4157,7 @@ int func_02039ACC(void)
     u8 buf[12];
     u8 *p;
     u8 v;
-    u8 *q;
+    struct NetCtx *q;
     u32 f;
 
     p = (u8 *)func_020399A8();
@@ -3686,8 +4169,8 @@ int func_02039ACC(void)
         if (f == 2) {
             func_02087C6C(buf);
             buf[6] = v;
-            buf[7] = ((struct Obj11358 *)q)->f67;
-            buf[8] = ((struct Obj11358 *)q)->f6E;
+            buf[7] = q->f67;
+            buf[8] = q->f6E;
             return func_0203D3A8((struct Entry *)p, 3, 9, (u32)buf);
         }
         if (f < 2)
@@ -3695,6 +4178,11 @@ int func_02039ACC(void)
     }
     return 0;
 }
+
+
+
+
+
 
 
 
@@ -3774,6 +4262,11 @@ void func_02039B5C(u32 slot, u32 a1, struct Msg_02039B5C *msg, u32 a3, u32 link)
 
 
 
+
+
+
+
+
 /*
  * A message handler from the dispatch table at 0x020A0870, sharing the
  * five-argument shape of its table neighbour func_02039B5C: the first four
@@ -3785,6 +4278,11 @@ void func_02039C2C(u32 a0, u32 a1, struct Msg_02039C2C *msg, u32 a3, struct Obj_
 {
     obj->tag = msg->tag;
 }
+
+
+
+
+
 
 
 
@@ -3828,6 +4326,11 @@ void func_02039C3C(struct Rec_0203996C *p, u16 tag)
 
 
 
+
+
+
+
+
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -3864,10 +4367,20 @@ void sub_02039C68(struct Link *p, u32 lo, u32 hi)
 
 
 
+
+
+
+
+
 u32 sub_02039CA0(struct Link *p, u32 key)
 {
     return p->unk44 == key;
 }
+
+
+
+
+
 
 
 
@@ -3880,6 +4393,11 @@ u32 sub_02039CB4(struct Link *p, u32 lo, u32 hi)
     }
     return p->unk44 == lo + (hi << 8);
 }
+
+
+
+
+
 
 
 
@@ -3924,6 +4442,11 @@ int func_02039CD8(struct Obj_02039C68 *p)
 
 
 
+
+
+
+
+
 /*
  * The net_handle.c tick (docs/families/net_handle.h).  Closed from the
  * 652-byte / 14-out source of docs/notes/pkt_02039D94.c.txt with two
@@ -3941,7 +4464,7 @@ int func_02039CD8(struct Obj_02039C68 *p)
 void func_02039D94(void)
 {
     u8 *e;
-    u8 *g;
+    struct NetCtx *g;
     int i;
 
     for (i = 0; i < 8; i++) {
@@ -3997,24 +4520,29 @@ void func_02039D94(void)
     }
 
     g = func_0203D798();
-    if (g[0x65] == 4)
+    if (g->f65 == 4)
         return;
 
     e = (u8 *)func_020399A8();
     if (e[0x4e] != 1)
         return;
 
-    if (((struct Obj08835 *)g)->f10 != 0 && ((struct Obj08835 *)g)->f14 != 0) {
+    if (g->f10 != 0 && g->f14 != 0) {
         u32 a;
         u32 b;
-        a = (*(u32 (**)(u32))(g + 0x14))(func_0203D650());
-        b = (*(u32 (**)(u32))(g + 0x10))(func_0203D650());
+        a = (g->f14)(func_0203D650());
+        b = (g->f10)(func_0203D650());
         if (func_0203D3A8((struct Entry *)e, (u16)0xa, (u16)a, (u32)((void *)b)) != 0)
             e[0x4e] = 0;
     } else {
         e[0x4e] = 0;
     }
 }
+
+
+
+
+
 
 
 
@@ -4038,7 +4566,7 @@ void func_02039D94(void)
  */
 void func_0203A020(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base)
 {
-  volatile u8 *r4 = func_0203D798();
+  struct NetCtx *r4 = func_0203D798();
   u8 *p;
   u8 *own;
   own = (u8 *) func_0203996C(0xff);
@@ -4053,19 +4581,19 @@ void func_0203A020(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base)
   func_02087C6C(p);
   if (a2[8] == 0)
     goto zero;
-  if ((a2[6] != 0) && (a2[7] != r4[0x67]))
+  if ((a2[6] != 0) && (a2[7] != *(volatile u8 *)&r4->f67))
   {
-    if ((*((u16 *) (r4 + 0x6e))) == a2[8])
+    if (r4->f6E == a2[8])
     {
-      p[0xf] = *((u16 *) (r4 + 0x6e));
-      p[0xe] = *((u16 *) (r4 + 0x6e));
+      p[0xf] = r4->f6E;
+      p[0xe] = r4->f6E;
       return;
     }
   }
-  if (((a2[6] == 0) && (a2[7] == r4[0x67])) && ((*((u16 *) (r4 + 0x6e))) == a2[8]))
+  if (((a2[6] == 0) && (a2[7] == *(volatile u8 *)&r4->f67)) && (r4->f6E == a2[8]))
   {
-    p[0xf] = *((u16 *) (r4 + 0x6e));
-    p[0xe] = *((u16 *) (r4 + 0x6e));
+    p[0xf] = r4->f6E;
+    p[0xe] = r4->f6E;
   }
   else
   {
@@ -4075,7 +4603,7 @@ void func_0203A020(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base)
   return;
   zero:
   {
-    u8 hi = r4[0x67];
+    u8 hi = *(volatile u8 *)&r4->f67;
     u8 lo = a2[7];
     p[0xf] = hi;
     p[0xe] = lo;
@@ -4086,6 +4614,11 @@ void func_0203A020(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base)
   base[0x4e] = 1;
 
 }
+
+
+
+
+
 
 
 
@@ -4110,7 +4643,7 @@ void func_0203A020(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base)
  */
 void func_0203A118(u8 *p)
 {
-    if (((struct Obj15952 *)((char *)func_0203D788()))->f352 == 0) {
+    if (((struct Obj15952 *)(func_0203D788()))->f352 == 0) {
         if (p[0x4A] != 5)
             p[0x4A] = 7;
     } else {
@@ -4126,9 +4659,14 @@ void func_0203A118(u8 *p)
 
 
 
+
+
+
+
+
 void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
 {
-    struct Glob_0203A118 *g;
+    struct NetCtx *g;
     u8 mac[8];
     u32 id;
 
@@ -4140,11 +4678,11 @@ void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
         return;
     }
 
-    if (g->f6e != 0)
+    if (g->f6E != 0)
     {
-        if (g->f6e != msg->f0f)
+        if (g->f6E != msg->f0f)
             func_0203A118((u8 *)peer);
-        if (g->f6e != msg->f0e)
+        if (g->f6E != msg->f0e)
             func_0203A118((u8 *)peer);
     }
     else
@@ -4167,12 +4705,17 @@ void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
 
     func_0203996C(msg->f0c)->f4a = 5;
 
-    if (g->f0c != 0)
-        g->f0c(a3, msg->f0c);
+    if (g->f0C != 0)
+        g->f0C(a3, msg->f0c);
 
     func_0203DAC4(msg->mac);
     func_0203DAC4((const u8 *)msg);
 }
+
+
+
+
+
 
 
 
@@ -4203,6 +4746,11 @@ void func_0203A27C(u32 a0, u32 a1, u8 *msg, u32 a3, u32 a4)
 {
     func_0203A338(*msg);
 }
+
+
+
+
+
 
 
 
@@ -4257,6 +4805,11 @@ u16 func_0203A28C(u16 mask, u32 idx, u32 set)
 
 
 
+
+
+
+
+
 /*
  * Tests one bit of a channel mask, the 0xFF argument being a non-fatal
  * report at line 0x3AB (939).  The mask is truncated to a byte before the
@@ -4275,6 +4828,11 @@ u32 func_0203A2F0(u32 a0, u32 a1)
         func_02034714(file_020A7A68, 0x3AB, file_020A7AB0);
     return (a0 & (u8)(1 << a1)) != 0;
 }
+
+
+
+
+
 
 
 
@@ -4321,6 +4879,11 @@ void func_0203A338(u32 a0)
 
 
 
+
+
+
+
+
 /*
  * Install a payload into slot `id`: bail out when the receiver is the own
  * link (func_020395EC returning 0xFF), report at line 0x3D1 (977) when the
@@ -4356,7 +4919,7 @@ void func_0203A338(u32 a0)
  */
 void func_0203A388(int id, u32 len, const void *src, u32 a3, void *obj)
 {
-    u8 *g;
+    struct NetCtx *g;
     struct Slot *s;
 
     g = func_0203D798();
@@ -4367,10 +4930,15 @@ void func_0203A388(int id, u32 len, const void *src, u32 a3, void *obj)
     s = (struct Slot *)(struct Entry *)func_0203996C(id);
     if (s->buf != 0)
         func_020307B0(s->buf);
-    s->buf = func_02030734(((struct Obj15954 *)g)->f56, len, 1, file_020A7A68, 0x3D8);
+    s->buf = func_02030734(g->f56, len, 1, file_020A7A68, 0x3D8);
     s->len = len;
     MI_CpuCopy8(src, s->buf, len);
 }
+
+
+
+
+
 
 
 
@@ -4391,6 +4959,11 @@ void func_0203A424(char *p, int a, int b, int c)
     else
         p[0x49] = 1;
 }
+
+
+
+
+
 
 
 
@@ -4429,6 +5002,11 @@ void func_0203A458(u8 *a0, u32 a1)
         }
     }
 }
+
+
+
+
+
 
 
 
@@ -4478,6 +5056,11 @@ void func_0203A494(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
 
 
 
+
+
+
+
+
 void func_0203A53C(void)
 {
     if (g_021469D8 == 0)
@@ -4486,6 +5069,11 @@ void func_0203A53C(void)
     func_020307B0(g_021469D8);
     g_021469D8 = 0;
 }
+
+
+
+
+
 
 
 
@@ -4515,6 +5103,11 @@ void func_0203A574(u32 a, u32 b, u32 c, u32 d)
 
 
 
+
+
+
+
+
 void func_0203A5E4(u32 key)
 {
     struct NetCmdGrp *e = g_021469D8->grp;
@@ -4529,6 +5122,11 @@ void func_0203A5E4(u32 key)
         }
     }
 }
+
+
+
+
+
 
 
 
@@ -4560,6 +5158,11 @@ u32 func_0203A634(u32 a0)
         return 1;
     return 0;
 }
+
+
+
+
+
 
 
 
@@ -4628,6 +5231,11 @@ struct NetCmdGrp *func_0203A67C(u32 cmd)
 
 
 
+
+
+
+
+
 int func_0203A70C(u32 idx)
 {
     int *p = (int *)func_0203A67C(idx);
@@ -4638,6 +5246,11 @@ int func_0203A70C(u32 idx)
     }
     return 0;
 }
+
+
+
+
+
 
 
 
@@ -4669,6 +5282,11 @@ u32 func_0203A730(u32 cmd)
 
 
 
+
+
+
+
+
 int func_0203A748(u32 idx)
 {
     int *p = (int *)func_0203A67C(idx);
@@ -4679,6 +5297,11 @@ int func_0203A748(u32 idx)
     }
     return 0;
 }
+
+
+
+
+
 
 
 
@@ -4716,6 +5339,11 @@ void func_0203A770(u32 a, u32 b, int c, u32 d, u32 e, u32 f)
 
 
 
+
+
+
+
+
 int func_0203A7EC(unsigned int idx)
 {
     return func_0203A70C(idx) != 0;
@@ -4727,10 +5355,20 @@ int func_0203A7EC(unsigned int idx)
 
 
 
+
+
+
+
+
 int func_0203A804(unsigned int idx)
 {
     return func_0203A748(idx) != 0;
 }
+
+
+
+
+
 
 
 
@@ -4765,9 +5403,19 @@ u32 func_0203A81C(u32 a0, u32 a1, u32 a2)
 
 
 
+
+
+
+
+
 void func_0203A858(void)
 {
 }
+
+
+
+
+
 
 
 
@@ -4829,6 +5477,11 @@ void func_0203A85C(int a0, u32 a1, void *a2, int a3, volatile int a4)
 
 
 
+
+
+
+
+
 /*
  * net_command.c: register the command record a2 in slot a0 (0xff -> 8) of
  * the 0x14-stride table at g_021469D8 + 0xb8, asserting the slot was free
@@ -4882,6 +5535,11 @@ void func_0203A958(int a0, int a1, const u8 *a2, int a3, int a4)
 
 
 
+
+
+
+
+
 /*
  * The net_command.c command-queue trio, 0x0203AA94..0x0203AD6C, folded into
  * one translation unit: the enqueue (func_0203AA94), the header pump
@@ -4898,7 +5556,7 @@ void func_0203A958(int a0, int a1, const u8 *a2, int a3, int a4)
  */
 u32 func_0203AA94(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
 {
-    u8 *cfg;
+    struct NetCtx *cfg;
     struct NetCmd *t;
     u8 *st57;
     struct NetCmdSlot *s;
@@ -4922,10 +5580,10 @@ u32 func_0203AA94(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
 
     s = &t->slot[i];
     s->f4 = a3;
-    mtu = cfg[0x61] - 0xc;
+    mtu = cfg->f61 - 0xc;
     if (mtu <= 0)
         func_02034714(g_020A7AF8, 0x22b, g_020A7B78);
-    s->fE = cfg[0x61] - 0xc;
+    s->fE = cfg->f61 - 0xc;
     s->f14 = a3 / s->fE;
     s->f10 = a3 % s->fE;
     if (s->f10 != 0)
@@ -4939,6 +5597,11 @@ u32 func_0203AA94(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
     st->hi = 1;
     return st->hi;
 }
+
+
+
+
+
 
 
 
@@ -4973,6 +5636,11 @@ u32 func_0203ABC0(void)
     }
     return 0;
 }
+
+
+
+
+
 
 
 
@@ -5016,6 +5684,11 @@ void func_0203ACAC(void)
 
 
 
+
+
+
+
+
 /*
  * Setter and its tail-call export in net_state.
  *
@@ -5034,10 +5707,20 @@ void func_0203AD74(struct NetState *s, void *p, u32 v)
 
 
 
+
+
+
+
+
 void func_0203AD80(struct NetState *s, void *p, u32 v, int line)
 {
     func_0203AD74(s, p, v);
 }
+
+
+
+
+
 
 
 
@@ -5088,12 +5771,22 @@ void func_0203AD8C(u32 a0)
 
 
 
+
+
+
+
+
 static inline void MATH_InitRand64(MATHRandContext64 *context, u64 seed)
 {
     context->x = seed;
     context->mul = 0x5d588b656c078965ULL;
     context->add = 0x269ec3ULL;
 }
+
+
+
+
+
 
 
 
@@ -5137,6 +5830,11 @@ void func_0203AE20(MATHRandContext64 *o)
 
 
 
+
+
+
+
+
 /*
  * Shuts the network down when the transport's +0x74 virtual answers non-zero:
  * tears the tables down, saves the completion callback out of +0x28, drops
@@ -5155,7 +5853,7 @@ void func_0203AEEC(struct NetState *p)
 {
     void (*f)(void);
 
-    if (((u32 (*)(void))*(u32 *)(*(u32 *)((char *)func_0203D788() + 0x340) + 0x74))() == 0)
+    if (func_0203D788()->vt->f74() == 0)
         return;
     func_0203A53C();
     func_020370C8();
@@ -5166,6 +5864,11 @@ void func_0203AEEC(struct NetState *p)
     if (f != 0)
         f();
 }
+
+
+
+
+
 
 
 
@@ -5210,11 +5913,11 @@ void func_0203AEEC(struct NetState *p)
  */
 void func_0203AF40(struct NetState *p)
 {
-    struct Obj *s = func_0203D788();
-    struct Cur *c = func_0203D798();
+    struct NetCtx *s = func_0203D788();
+    struct NetCtx *c = func_0203D798();
 
     if (c->f65 != 1 && c->f65 != 2)
-        s->f340->f04(c->f56, s, 0, s->f34c);
+        s->vt->f04(c->f56, s, 0, s->f34C);
     func_02037D78();
     if (p->f2C != 0) {
         p->f2C(func_0203D650());
@@ -5224,10 +5927,2255 @@ void func_0203AF40(struct NetState *p)
 }
 
 
+
+
+
+
+
 void func_0203AFCC(void *a, u32 b)
 {
     func_02034F84(4);
     func_0203AD8C((u32)a);
     g_021469DC->f2C = (void (*)(u32))b;
     func_0203AD80(g_021469DC, (void *)func_0203AF40, 0, 0x13F);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0203B018.c \
+ *       --addr 0x0203B018 --arm
+ *
+ * net_state.c.  func_0203B018 is the 4-byte `bx lr` no-op that
+ * func_0203B038 hands to func_02037A6C as its completion callback (the
+ * pool word at 0x0203B080 is its only referrer).  func_0203B01C is the
+ * unlabelled leaf that bumps the state record's +0x46 countdown by 0x3C;
+ * func_0203B390 names it through a pool word.  Filing both here gives the
+ * `matched` class a witness for each (docs/families/net_state.h, THE REPORT
+ * TAG RULE, "the two genuine exceptions").
+ *
+ * Integrator: seed 0x0203B01C arm (member of this unit, no label).
+ */
+void func_0203B018(void)
+{
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void func_0203B01C(void)
+{
+    g_021469DC->f46 += 0x3c;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ *           resolved.  Adding the symbols: block (it had none) let
+ *           0x0203B01C resolve as `literal x8, e.g. 0203B43C`; previously it
+ *           reported "no address for 'unk_0203B01C'".  The ONE remaining
+ *           site is 0x0203B018.
+ * PARKED AT MATCH.  Every concrete byte is right (76 of 76) and the file is
+ * the right size; the one open site is the ABS32 to 0x0203B018, the bare
+ * `bx lr` filler word that sits between func_0203AFCC's literal pool and the
+ * unlabelled leaf at 0x0203B01C.  That address has no label (a prologue that
+ * saves no `lr` is never auto-labelled) and the word appears in exactly one
+ * literal pool image-wide - this function's own - so neither `label` nor
+ * `literal` can attest it.
+ *           referenced by exactly ONE word image-wide, the pool word at
+ *           0x0203B080 (grep of asm/ finds it in main.s and the four unit
+ *           listings, all the same address), and 0x0203B080 lies inside this
+ *           function's own compared range 0203B038..0203B084.  `label`
+ *           refuses (a `bx lr` saves no lr so disasm.py never labels it),
+ *           `literal` refuses (no second occurrence outside the range) and
+ *           `sole-ref/code` refuses (not a traced function start).  Blocking
+ *           class: none available, own-pool-only code.  It would unstick if a
+ *           future EXACT entry covered 0x0203B018 itself, but that address is
+ *           outside pkt_0203B038's range (0x0203B038..0x0203B084).
+ *
+ * Both 0x0203B018 and 0x0203B01C must be declared in the symbols: block:
+ * written as plain integer literals the pair folds into one pool word plus a
+ * `sub r1, r4, #4`, which is four bytes short of the original's two words.
+ * 0x0203B01C resolves as `literal x10`; only the no-op word does not.
+ *
+ * The call's completion callback is the leaf at 0x0203B01C (bumps the +0x46
+ * halfword by 0x3C); the report's identifier is the no-op at 0x0203B018.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_0203B038.c \
+ *       --func func_0203B038 --addr 0x0203B038 --cc 1.1p1 --arm
+ */
+void func_0203B038(struct NetState *a0)
+{
+    if (func_02037A6C(0, (u32)a0->mac, 0x200, (u32)unk_0203B01C) != 0)
+        func_0203AD80(g_021469DC, (void *)unk_0203B018, 0xA, 0x169);
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Starts a 0x200-byte transfer over channel 1 and reports at line 0x17C
+ * (380) when it answers zero.  The report site names func_0203B038, the
+ * sibling entry that put the read in flight.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B084.c \
+ *       --func func_0203B084 --addr 0x0203B084 --cc 1.1p1 --arm
+ */
+void func_0203B084(void)
+{
+    func_0203D798();
+    if (func_02037928(1, 0x200) != 0)
+        func_0203AD80(g_021469DC, (void *)0x203B038, 0, (int)0x17C);
+}
+
+
+
+
+
+
+
+
+
+
+
+void func_0203B0C4(int a0, int a1)
+{
+    if ((int)g_021469DC->mac & 1) {
+        func_02034714(s_020A7BA8, 395, s_020A7BC8);
+    }
+    if (a0 != 0) {
+        func_02082D44((void *)a0, g_021469DC->mac, 6);
+    }
+    if (a1 != 0) {
+        func_0203AD80(g_021469DC, (void *)func_0203B084, 0, 400);
+    } else {
+        func_0203AD80(g_021469DC, (void *)func_0203B038, 0, 403);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+void func_0203B16C(void)
+{
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * The same 0x200-byte channel-1 start as func_0203B084 with no context
+ * refresh, reporting at line 0x1AE (430).  0x1AE is not ARM-encodable, so the
+ * constant is materialised off the 0x200 argument register as
+ * `sub r3, r4, #0x52`.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B170.c \
+ *       --func func_0203B170 --addr 0x0203B170 --cc 1.1p1 --arm
+ */
+void func_0203B170(void)
+{
+    if (func_02037928(1, 0x200) != 0)
+        func_0203AD80(g_021469DC, (void *)0x203B16C, 0, 0x1AE);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Tail-call wrapper over func_0203AD80 (the object at 0x021469DC, the
+ * callback func_0203B170, 0, 0x1BC).  An unlabelled ARM leaf, filed as the
+ * witness chain for func_0203D010 (state 10 of func_0203DC70).
+ */
+void func_0203B1B0(void)
+{
+    func_0203AD80(g_021469DC, func_0203B170, 0, 0x1BC);
+}
+
+
+
+
+
+
+
+
+
+
+u32 func_0203B1D8(void)
+{
+    struct NetState *s = g_021469DC;
+
+    if (s == 0)
+        return 1;
+    if (s->f08 != 0)
+        s->f08(s);
+    if (g_021469DC == 0)
+        return 1;
+    func_0203C934();
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+void func_0203B224(void)
+{
+}
+
+
+
+
+
+
+
+
+
+
+void func_0203B228(void)
+{
+}
+
+
+
+
+
+
+
+
+
+int func_0203B22C(void)
+{
+    func_0203AD80(g_021469DC, func_0203B224, 0, 0x1f4);
+    return 1;
+}
+
+
+
+
+
+
+
+
+
+/*
+ * Starts a 0x200-entry transfer over channel 1 and reports through
+ * func_0203AD80 at line 517 when the start call answers zero.  The line comes
+ * out as `add r3, r4, #5` because r4 already holds the 0x200 argument, the
+ * same constant-rematerialisation the consecutive-`__LINE__` idiom records.
+ *
+ * Both callback addresses (0x0203B22C and 0x0203B228, the two `bx lr` filler
+ * words in the pool of func_0203B1D8) are declared as symbols: written as
+ * plain integer literals this compiler folds the pair into one pool word plus
+ * a `sub r1, r4, #4`, which is four bytes short of the original's two pool
+ * words.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B258.c \
+ *       --func func_0203B258 --addr 0x0203B258 --cc 1.1p1 --arm
+ */
+void func_0203B258(void)
+{
+    func_0203D798();
+    if (func_02037894(1, 0x200, 1, (u32)unk_0203B22C) != 0)
+        func_0203AD80(g_021469DC, (void *)unk_0203B228, 0, 0x205);
+}
+
+
+
+
+
+
+
+
+void func_0203B2A8(int a0)
+{
+    func_0203AD80(g_021469DC, (void *)0x203B228, 0, 0x214);
+}
+
+
+
+
+
+
+
+
+
+void func_0203B2D0(u32 val)
+{
+    func_0203AD80(g_021469DC, func_0203B258, 0, 0x222);
+}
+
+
+
+
+
+
+
+
+
+u32 func_0203B2FC(struct NetState *p)
+{
+    u32 hi;
+    u64 acc = p->rng.mul * p->rng.x + p->rng.add;
+    p->rng.x = acc;
+    hi = (u32)(acc >> 32);
+    return (u32)(((u64)hi * 40) >> 32) + 0x3c;
+}
+
+
+
+
+
+
+
+
+
+u32 func_0203B344(struct NetState *p)
+{
+    u32 hi;
+    u64 acc = p->rng.mul * p->rng.x + p->rng.add;
+    p->rng.x = acc;
+    hi = (u32)(acc >> 32);
+    return (u32)(((u64)hi * 32) >> 32) + 0xb4;
+}
+
+
+
+
+
+
+
+
+
+/*
+ * Closes the residue docs/notes/pkt_0203B390.c.txt recorded ("DIFF, one
+ * instruction": `mov r0, #1` hoisted above the `beq` in the original but
+ * left inside the alt block in every spelling that note tried).  The note
+ * was looking at the wrong constant.  What the original hoists is not the
+ * `1`, it is the 0x200 -- `mov r4, #0x200` at +0x24, before the compare
+ * chain -- and r4 then serves FOUR uses: the length argument of
+ * func_02037A6C, the second argument of func_02037928 on the alt path, and
+ * the base of both line numbers (`add r3, r4, #0x45` = 0x245 and
+ * `add r3, r4, #0x4a` = 0x24A).  Binding it to ONE local `u32 n = 0x200;`
+ * declared before the guards gives it a live range that spans both arms,
+ * which is what pins it in r4 and frees r0 for the literal `1` to be
+ * materialised in the pre-branch block.  The note's experiment of making
+ * `one` a local was the right technique applied to the wrong value.
+ *
+ * EXACT on the first compile with that change; no permuter search needed.
+ */
+void func_0203B390(struct NetState *p)
+{
+    struct NetCtx *q = func_0203D788();
+    u32 n = 0x200;
+
+    if (q->vt->f78() == 0)
+        return;
+    if (p->f53 == 0 || p->f56 == 1)
+        goto alt;
+
+    if (func_02037A6C(1, (u32)p->addr, n, (u32)func_0203B01C) == 0)
+        return;
+    func_0203AD80(g_021469DC, str_0203B950, func_0203B2FC(p), n + 0x45);
+    return;
+
+alt:
+    if (func_02037928(1, n) == 0)
+        return;
+    func_0203AD80(g_021469DC, str_0203B950, func_0203B344(p), n + 0x4a);
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * Reports at line 0x25D (605) when the transport's +0x78 virtual answers
+ * non-zero.  The condition is the negated guard - the `pop` is on the equal
+ * arm - so the C is the report inside a `!= 0` if, not a return.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B448.c \
+ *       --func func_0203B448 --addr 0x0203B448 --cc 1.1p1 --arm
+ */
+void func_0203B448(void)
+{
+    if (func_0203D788()->vt->f78() != 0)
+        func_0203AD80(g_021469DC, (void *)0x203B390, 0, (int)0x25D);
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * The same +0x10 virtual call as func_0203B4DC, reporting at line 0x265
+ * (613).  Both the first call argument and the reported line derive from the
+ * single 1 that the function materialises, which is what makes the line come
+ * out as `add r3, r5, #0x264`.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B48C.c \
+ *       --func func_0203B48C --addr 0x0203B48C --cc 1.1p1 --arm
+ */
+void func_0203B48C(void)
+{
+    if (func_0203D788()->vt->f10(1, 0) != 0)
+        func_0203AD80(g_021469DC, (void *)0x203B448, 0, 0x265);
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * Calls the transport's +0x10 virtual with (1, 0) and reports at line 0x282
+ * (642) when it answers non-zero.  The zero argument and the report's third
+ * argument are the same `mov r4, #0` local, which is what puts the two
+ * together in one register.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B4DC.c \
+ *       --func func_0203B4DC --addr 0x0203B4DC --cc 1.1p1 --arm
+ */
+void func_0203B4DC(void)
+{
+    if (func_0203D788()->vt->f10(1, 0) != 0)
+        func_0203AD80(g_021469DC, (void *)0x203B390, 0, (int)0x282);
+}
+
+
+
+
+
+
+
+
+
+/*
+ * Wave 14: the "unresolvable" second tag site was a misread.  The pool word
+ * at 0x0203B5CC (+0xA0) is 0x0203C00C (bytes 0c c0 03 02), not 0x0203B40C;
+ * 0x0203C00C is the same tag func_0203AF40 passes and resolves `literal`.
+ * The first tag, 0x0203B4DC, resolves `matched` (src/matched/func_0203B4DC.c).
+ * The callback takes func_0203D650's result in r0, which is why the
+ * function pointer is loaded into r1 (docs/families/net_state.h, THE
+ * CALLBACK ARITY RULE).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B52C.c \
+ *       --func func_0203B52C --addr 0x0203B52C --cc 1.1p1 --arm
+ */
+void func_0203B52C(struct NetState *p)
+{
+    func_0203D798();
+    if (func_020393D0() != 0)
+        return;
+    if (func_020393A8() == 0) {
+        func_0203AD80(g_021469DC, (void *)func_0203B4DC, 0, 0x297);
+        return;
+    }
+    if (func_020399EC() == 0)
+        return;
+    if (func_02039ACC() == 0)
+        return;
+    if (p->f2C != 0) {
+        p->f2C(func_0203D650());
+        p->f2C = 0;
+    }
+    func_0203AD80(g_021469DC, (void *)func_0203C00C, 0, 0x2a6);
+}
+
+
+
+
+
+
+void func_0203B5D4(struct NetState *p)
+{
+    struct NetCtx *q = func_0203D788();
+
+    if (func_020393A8() != 0) {
+        func_0203B2A8(func_0203D798()->f56);
+        func_0203D700();
+        func_0203AD80(g_021469DC, (void *)func_0203B52C, 0, 0x2c1);
+        return;
+    }
+    if (p->f56 == 1)
+        return;
+    if (q->vt->f38(0) == 0)
+        return;
+    if (p->f46 != 0) {
+        p->f46--;
+        return;
+    }
+    func_0203AD80(g_021469DC, str_0203B48C, 0, 0x2d3);
+}
+
+
+
+
+
+
+void func_0203B688(struct NetState *a0)
+{
+    func_0203AD80(g_021469DC, (void *)func_0203B5D4, func_0203B344(a0), 0x2e0);
+}
+
+
+
+
+
+
+int func_0203B6B4(void)
+{
+    func_0203AD80(g_021469DC, (void *)func_0203B5D4, func_0203B344(g_021469DC), 0x2E6);
+    return 1;
+}
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B6EC.c \
+ *       --func func_0203B6EC --addr 0x0203B6EC --cc 1.1p1 --arm
+ */
+void func_0203B6EC(struct NetState *p)
+{
+    if (func_0203D788()->vt->f78() == 0)
+        return;
+    if (func_02037894(0, 0x200, 0, (u32)func_0203B6B4) == 0)
+        return;
+
+    p->f4C = 0;
+    func_0203AD80(g_021469DC, (void *)func_0203B688, 0x1E, 0x2FC);
+}
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B758.c \
+ *       --func func_0203B758 --addr 0x0203B758 --cc 1.1p1 --arm
+ */
+void func_0203B758(void)
+{
+    func_0203D798();
+    if (func_02039ACC() == 0)
+        return;
+
+    func_0203AD80(g_021469DC, (void *)0x0203B794, 0, 0x30E);
+}
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B794.c \
+ *       --func func_0203B794 --addr 0x0203B794 --cc 1.1p1 --arm
+ */
+void func_0203B794(struct NetState *p)
+{
+    struct NetCtx *s = func_0203D798();
+
+    if (func_020399B8((u8 *)((u32)func_020399A8())) == 0)
+        return;
+
+    if (p->f2C != 0) {
+        p->f2C(func_0203D650());
+        p->f2C = 0;
+    }
+
+    func_0203AD80(g_021469DC, (void *)0x0203C00C, 0, 0x325);
+}
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B7F8.c \
+ *       --func func_0203B7F8 --addr 0x0203B7F8 --cc 1.1p1 --arm
+ */
+void func_0203B7F8(struct NetState *p)
+{
+    func_0203D798();
+
+    func_0203996C(0xFF);
+    func_020399A8();
+    if (func_020399EC() < 2)
+        return;
+
+    func_02039338();
+
+    if (p->f2C != 0) {
+        p->f2C(func_0203D650());
+        p->f2C = 0;
+    }
+
+    func_0203AD80(g_021469DC, (void *)0x0203C00C, 0, 0x33F);
+}
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B868.c \
+ *       --func func_0203B868 --addr 0x0203B868 --cc 1.1p1 --arm
+ */
+void func_0203B868(struct NetState *p)
+{
+    func_0203D798();
+
+    if (func_0203D788()->vt->fA8() != 1)
+        return;
+    if (func_02039ACC() == 0)
+        return;
+
+    if (func_0203DA4C() == 1) {
+        func_0203AD80(g_021469DC, (void *)0x0203B7F8, 0, 0x354);
+        return;
+    }
+
+    if (p->f2C != 0) {
+        p->f2C(func_0203D650());
+        p->f2C = 0;
+    }
+
+    func_0203AD80(g_021469DC, (void *)0x0203C00C, 0, 0x35B);
+}
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B90C.c \
+ *       --func func_0203B90C --addr 0x0203B90C --cc 1.1p1 --arm
+ */
+void func_0203B90C(void)
+{
+    if (func_0203D788()->vt->f78() == 0)
+        return;
+
+    func_0203AD80(g_021469DC, (void *)0x0203B6EC, 0, 0x371);
+}
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B950.c \
+ *       --func func_0203B950 --addr 0x0203B950 --cc 1.1p1 --arm
+ */
+void func_0203B950(struct NetState *p)
+{
+    if (func_02039338() != 0) {
+        func_0203AD80(g_021469DC, (void *)0x0203B758, 0, 0x383);
+        return;
+    }
+
+    if (p->f56 == 2)
+        return;
+
+    if (p->f46 != 0) {
+        p->f46--;
+        return;
+    }
+
+    func_0203AD80(g_021469DC, (void *)0x0203BCE0, 0, 0x390);
+    func_0203BCE0(p);
+}
+
+
+
+
+
+
+/*
+ * A frame's 64-bit accumulator advanced by a 64-bit multiply: the pair at
+ * +0x0c (little-endian u64) is multiplied by the pair at +0x14, the pair at
+ * +0x1c is added in, both halves are stored back, and the new high half is
+ * re-scaled by 30/2^32 into the u16 countdown at +0x46.
+ *
+ * Two spellings are load-bearing.  The multiply has to be written `y * x`
+ * with x at +0x0c and y at +0x14: the other order loads +0x0c first and
+ * swaps two `ldr`s.  And the addend has to stay inline in the multiply's own
+ * statement (`r = y * x + *(u64 *)(p + 0x1c);`) with the low half stored by
+ * a single 64-bit store: with a named addend and two u32 stores mwcc puts
+ * the sum's low half in `ip` and the high half in `r2`, a five-instruction
+ * difference in register choice alone.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B9D4.c \
+ *       --func func_0203B9D4 --addr 0x0203B9D4 --cc 1.1p1 --arm
+ */
+void func_0203B9D4(struct NetState *p)
+{
+    struct NetCtx *s = func_0203D788();
+    u64 x, y, r;
+
+    if (s->vt->fAC() == 1) {
+        s->vt->fB4();
+        func_0203AD80(g_021469DC, (void *)0x0203B868, 0, 0x3A5);
+        return;
+    }
+
+    if (p->f46 != 0) {
+        p->f46 = p->f46 - 1;
+        return;
+    }
+
+    x = p->rng.x;
+    y = p->rng.mul;
+    r = y * x + p->rng.add;
+
+    p->f46 = (u16)((u32)(((u64)(u32)(r >> 32) * 30) >> 32) + 15);
+    p->rng.x = r;
+
+    s->vt->f08(0);
+}
+
+
+
+
+
+
+void func_0203BA98(u16 a0, u32 a1, u8 a2)
+{
+    struct NetCtx *s = func_0203D798();
+    struct NetState *p;
+    u64 x, y, r;
+    u32 delay = 30;
+
+    func_0203D788();
+    func_0203BC58(0, a2, 0);
+
+    if (s->f65 == 3 || s->f65 == 4) {
+        func_020377B8(0);
+        g_021469DC->f2C = (void (*)(u32))a1;
+        p = g_021469DC;
+        x = p->rng.x;
+        y = p->rng.mul;
+        r = y * x + p->rng.add;
+        p->rng.x = r;
+        func_0203AD80(p, (void *)func_0203B9D4, (u32)(((u64)(u32)(r >> 32) * delay) >> 32), delay + 0x3A8);
+    } else {
+        p = g_021469DC;
+        if (p->f53 != 0 && p->f56 != 1) {
+            func_02037A6C(1, (u32)p->addr, 0x200, (u32)func_0203B01C);
+        } else {
+            func_02037928(1, 0x200);
+        }
+        g_021469DC->f2C = (void (*)(u32))a1;
+        p = g_021469DC;
+        func_0203AD80(p, (void *)func_0203B950, delay, delay + 0x3B4);
+    }
+}
+
+
+
+
+
+
+
+/*
+ * Two presets that differ only in the state byte they match and the handler
+ * they advertise.  Each test is a conjunction of the state byte and the
+ * eight-byte pointer stored beside it, and the first arm also refuses when
+ * the vtable's +0x10 hook answers zero.
+ *
+ * The four code addresses are declared as the functions they are: written as
+ * integer literals the front end folds two nearby ones into one pool word plus
+ * a `sub`, which is four bytes shorter than the original.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BBB0.c \
+ *       --func func_0203BBB0 --addr 0x0203BBB0 --cc 1.1p1 --arm
+ */
+void func_0203BBB0(struct NetState *a)
+{
+    struct NetCtx *s = func_0203D788();
+    struct NetState *g;
+
+    g = g_021469DC;
+    if (g->f56 == 2 && g->f08 == func_0203B950) {
+        if (s->vt->f10(1, 0) != 0) {
+            func_0203AD80(g_021469DC, ((void *)func_0203B90C), 0, 0x3E0);
+        }
+    }
+
+    g = g_021469DC;
+    if (g->f56 == 1 && g->f08 == func_0203B5D4) {
+        func_0203AD80(g, ((void *)func_0203B48C), 0, 0x3E9);
+    }
+}
+
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BC58.c \
+ *       --func func_0203BC58 --addr 0x0203BC58 --cc 1.1p1 --arm
+ */
+void func_0203BC58(u8 v56, u8 v53, const void *src)
+{
+    func_0203D788();
+    g_021469DC->f53 = v53;
+    g_021469DC->f56 = v56;
+
+    if (src != 0) {
+        MI_CpuCopy8(src, g_021469DC->addr, 6);
+    } else {
+        MI_CpuFill8(g_021469DC->addr, 0xFF, 6);
+    }
+
+    func_0203AD80(g_021469DC, ((void *)0x0203BBB0), 0, 0x406);
+    func_0203BBB0(g_021469DC);
+}
+
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BCE0.c \
+ *       --func func_0203BCE0 --addr 0x0203BCE0 --cc 1.1p1 --arm
+ */
+void func_0203BCE0(struct NetState *p)
+{
+    struct NetCtx *s = func_0203D788();
+
+    if (s->vt->f10(1, 0) == 0)
+        return;
+
+    func_0203AD80(g_021469DC, ((void *)0x0203B90C), 0, 0x411);
+}
+
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BD30.c \
+ *       --func func_0203BD30 --addr 0x0203BD30 --cc 1.1p1 --arm
+ */
+void func_0203BD30(u32 a0, u32 a1, u8 *a2)
+{
+    func_0203D788();
+
+    g_021469DC->f53 = (u8)a1;
+    g_021469DC->f56 = (u8)a0;
+
+    if (a2 != 0)
+        MI_CpuCopy8(a2, g_021469DC->addr, 6);
+    else
+        MI_CpuFill8(g_021469DC->addr, 0xFF, 6);
+
+    if (g_021469DC->f56 == 2)
+        func_0203AD80(g_021469DC, ((void *)0x0203B48C), 0, 0x430);
+
+    if (g_021469DC->f56 == 1) {
+        func_0203AD80(g_021469DC, ((void *)0x0203BCE0), 0, 0x438);
+        func_0203BCE0(g_021469DC);
+    }
+}
+
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BDEC.c \
+ *       --func func_0203BDEC --addr 0x0203BDEC --cc 1.1p1 --arm
+ */
+void func_0203BDEC(void)
+{
+    struct NetCtx *p = func_0203D798();
+    struct NetCtx *s = func_0203D788();
+
+    if ((u8)(p->f65 + 0xFD) <= 1) {
+        if (s->vt->fAC() != 0)
+            return;
+        func_0203CEAC(0);
+    } else {
+        struct NetCtx *s2 = func_0203D788();
+
+        if ((s2->vt->f7C() & 0xFFFE) != 0)
+            return;
+        func_0203CEAC(0);
+    }
+}
+
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BE5C.c \
+ *       --func func_0203BE5C --addr 0x0203BE5C --cc 1.1p1 --arm
+ */
+void func_0203BE5C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
+{
+    func_0203D3A8((void *)a4, 2, 0, 0);
+
+    if (func_02039338() != 0)
+        return;
+
+    func_0203AD80(g_021469DC, ((void *)0x0203BDEC), 0, 0x46C);
+}
+
+
+
+
+
+
+
+
+/*
+ * "If the state is non-zero, park the card interface."  The result of the
+ * test is kept in a local and returned, so the zero path is the `popeq` that
+ * gives back r0 == 0 and the busy path returns whatever func_0203CEAC leaves
+ * in r0 - no second `mov r0, #0` anywhere.
+ *
+ * The local is load-bearing: spelling it `if (func_02039338() == 0) return 0;
+ * return func_0203CEAC(0);` hoists the `mov r0, #0` that sets up the call's
+ * argument above the conditional return and lands two instructions late.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BEAC.c \
+ *       --func func_0203BEAC --addr 0x0203BEAC --cc 1.1p1 --arm
+ */
+u32 func_0203BEAC(void)
+{
+    u32 r;
+
+    r = func_02039338();
+    if (r != 0)
+        r = func_0203CEAC(0);
+    return r;
+}
+
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BEC8.c \
+ *       --func func_0203BEC8 --addr 0x0203BEC8 --cc 1.1p1 --arm
+ */
+void func_0203BEC8(struct NetState *p)
+{
+    struct NetCtx *s;
+
+    func_0203D798();
+    s = func_0203D788();
+
+    if (s->vt->f78() != 0) {
+        if (s->vt->f14(0) == 0)
+            return;
+        func_0203AEEC(p);
+        return;
+    }
+
+    if (s->vt->f6C() != 0)
+        return;
+    if (s->vt->f14(0) == 0)
+        return;
+    func_0203AEEC(p);
+}
+
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BF4C.c \
+ *       --func func_0203BF4C --addr 0x0203BF4C --cc 1.1p1 --arm
+ */
+void func_0203BF4C(void)
+{
+    struct NetCtx *s = func_0203D788();
+
+    if (s->vt->f10(1, 0) == 0)
+        return;
+
+    func_0203AD80(g_021469DC, ((void *)0x0203BEC8), 0, 0x4A4);
+}
+
+
+
+
+
+
+
+
+/*
+ * 116 bytes, three functions: the setter, the 28-byte leaf that clears the
+ * same flag, and the four-byte `bx lr` stub the card task is handed as a
+ * callback (src/pending/func_0203C010.c passes it at 0x0203C00C).
+ *
+ * The two leaves carry no label in the generated listing - neither saves `lr`
+ * - so this range used to stop at 0x0203BF9C with an `EXACT*`, the inferred
+ * extent running on to the next labelled function at 0x0203C010.  Writing
+ * them as the unit's own functions is what closes the range.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0203BF9C.c \
+ *       --addr 0x0203BF9C --arm --cc 1.1p1
+ */
+void func_0203BF9C(u32 v)
+{
+    struct NetState *p = g_021469DC;
+
+    if (p != 0 && p->f51 != 0)
+        return;
+
+    p->f28 = (void (*)(void))v;
+    g_021469DC->f51 = 1;
+    func_0203AD80(g_021469DC, ((void *)func_0203BF4C), 5, 0x4B7);
+}
+
+
+
+
+
+
+
+
+void func_0203BFF0(void)
+{
+    if (g_021469DC != 0)
+        g_021469DC->f51 = 0;
+}
+
+
+
+
+
+
+
+
+void func_0203C00C(void)
+{
+}
+
+
+
+
+
+/*
+ * PROMOTED FROM src/pending/ AT THE END OF WAVE 4 LANE 0x02038000..0x02040000.
+ * It was parked at MATCH with every concrete byte right, held there only by
+ * the `bl` to 0x020379C8, which nothing outside this range witnessed.  That
+ * address has since been matched, so the site now resolves on the `matched`
+ * class and the whole 52 bytes are EXACT with no change to the C at all.
+ *
+ * The callback stub this file passes, 0x0203C00C, is matched as well now, as
+ * the last function of src/matched/unit_0203BF9C.c.
+ *
+ * Allocates 0x200 bytes, then starts the card task on the object at
+ * 0x021469DC with the four-byte `bx lr` stub at 0x0203C00C as its callback and
+ * 0x4DA (1242) as the fourth argument - the source file/line pair of an assert
+ * style entry point.  The stub is a real 4-byte ARM function in the listing, so
+ * its address is declared as the function it is and passed as a function
+ * pointer; the pool word for it is attested by a dozen other pools elsewhere
+ * in the image, and unk_021469DC likewise.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_0203C010.c \
+ *       --func func_0203C010 --addr 0x0203C010 --cc 1.1p1 --arm
+ */
+void func_0203C010(void)
+{
+    func_020379C8(0x200);
+    func_0203AD80(g_021469DC, func_0203C00C, 0, 0x4DA);
+}
+
+
+
+
+
+struct NetCtx *func_0203C044(int a0, int a1, u8 *a2, int a3)
+{
+    struct NetCtx *t0 = func_0203D798();
+
+    t0->f64 = *a2;
+    return t0;
+}
+
+
+
+
+/*
+ * Empty callback (a lone bx lr), one of three adjacent stubs at
+ * 0x0203C05C/60/64 whose addresses func_0203C0F4, func_0203C3EC,
+ * func_0203C494 and func_0203C7E0 pass or compare as handler pointers.
+ */
+void func_0203C05C(void)
+{
+}
+
+
+
+
+void func_0203C060(void)
+{
+}
+
+
+
+
+void func_0203C064(void)
+{
+}
+
+
+
+
+
+/*
+ * Calls the virtual at +0xC of the object at *(net context + 0x340) with a
+ * zero argument and reports through func_0203AD80 when it answers a negative
+ * result.  The `mov r4, #0` local is what feeds both the call's r0 and the
+ * report's r2, hence its placement; the `popge` is the `>= 0` half of the
+ * signed comparison.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C068.c  *       --func func_0203C068 --addr 0x0203C068 --cc 1.1p1 --arm
+ */
+void func_0203C068(void)
+{
+    if (func_0203D788()->vt->f0C(0) < 0)
+        func_0203AD80(g_021469DC, (void *)0x203C05C, 0, (int)0x52C);
+}
+
+
+
+
+void func_0203C0B4(void)
+{
+    struct NetCtx *r = func_0203D788();
+    func_020394DC(1);
+    r->vt->f0C(0);
+}
+
+
+
+
+
+/*
+ * Stores one byte at +0x4E, negating it first unless it is 1005 or 1006.  The
+ * threshold is written `v - 1005 > 1`, and 1005 is not encodable as an ARM
+ * immediate in a `sub`, so mwcc builds it the other way round: `mvn r2, #1004`
+ * is -1005 and one `add` finishes the subtraction.  The comparison is
+ * unsigned (`rsbhi`), and the negation is `rsb r1, r1, #0`.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C0DC.c \
+ *       --func func_0203C0DC --addr 0x0203C0DC --cc 1.1p1 --arm
+ */
+void func_0203C0DC(struct NetState *p, u32 v)
+{
+    if (v - 1005 > 1)
+        v = -v;
+    p->f4E = (u8)v;
+}
+
+
+
+
+void func_0203C0F4(struct NetState *p)
+{
+    struct NetCtx *net = func_0203D788();
+    struct NetVtbl *obj = net->vt;
+    s32 res = obj->f0C(0);
+
+    if (res == 1000) {
+        func_0203AD80(g_021469DC, (void *)func_0203C0B4, 0, 1403);
+        return;
+    }
+
+    obj = net->vt;
+    if (obj->fAC() != 0) {
+        func_0203AD80(g_021469DC, (void *)func_0203C0B4, 0, 1407);
+        return;
+    }
+
+    if (res == 1007) {
+        return;
+    }
+
+    if (res == 1001) {
+        func_0203AD80(g_021469DC, (void *)func_0203C060, 0, 1413);
+        return;
+    }
+
+    if (res == 1002) {
+        func_0203AD80(g_021469DC, (void *)func_0203C064, 0, 1416);
+        return;
+    }
+
+    if (res >= 10) {
+        func_0203AD80(g_021469DC, (void *)func_0203C064, 0, 1420);
+        return;
+    }
+
+    if (res >= 0) {
+        return;
+    }
+
+    func_0203C0DC(p, res);
+    func_0203AD80(g_021469DC, (void *)func_0203C05C, 0, 1424);
+}
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C238.c \
+ *       --func func_0203C238 --addr 0x0203C238 --cc 1.1p1 --arm
+ */
+void func_0203C238(struct NetState *p)
+{
+    struct NetCtx *s = func_0203D788();
+    struct NetCtx *q = func_0203D798();
+
+    if (s->vt->f50(p->flag, q->f60, 0) != 0)
+        return;
+
+    func_02037D78();
+    func_020398B4(s);
+    func_02039834(s);
+    func_0203AD80(g_021469DC, (void *)0x0203C0F4, 0, 0x5AC);
+}
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C2B0.c \
+ *       --func func_0203C2B0 --addr 0x0203C2B0 --cc 1.1p1 --arm
+ */
+int func_0203C2B0(int a)
+{
+    if (a != -1) {
+        if (func_0203778C((u32)a) == 0)
+            return 0;
+    }
+
+    g_021469DC->flag = a;
+    func_0203AD80(g_021469DC, (void *)0x0203C238, 0, 0x5C4);
+    return 1;
+}
+
+
+
+
+
+
+
+
+/*
+ * Teardown of one half of the net context: flags the +0x48 sentinel as -2
+ * (`mvn r1, #1`, which is only reachable when the field is a signed char -
+ * an unsigned one would narrow to `mov r1, #0xfe`), tears the two handles
+ * down and reports at line 0x5D9, returning success.  The twin at 0x0203C35C is
+ * byte-identical apart from its own line literal.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C304.c  *       --func func_0203C304 --addr 0x0203C304 --cc 1.1p1 --arm
+ */
+u32 func_0203C304(void)
+{
+    struct NetCtx *h = func_0203D788();
+
+    g_021469DC->flag = -2;
+    func_02037D78();
+    func_020398B4(h);
+    func_02039834(h);
+    func_0203AD80(g_021469DC, (void *)0x203C0F4, 0, (int)0x5D9);
+    return 1;
+}
+
+
+
+
+
+
+
+
+/*
+ * Teardown of one half of the net context: flags the +0x48 sentinel as -2
+ * (`mvn r1, #1`, which is only reachable when the field is a signed char -
+ * an unsigned one would narrow to `mov r1, #0xfe`), tears the two handles
+ * down and reports at line 0x5FD, returning success.  The twin at 0x0203C304 is
+ * byte-identical apart from its own line literal.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C35C.c  *       --func func_0203C35C --addr 0x0203C35C --cc 1.1p1 --arm
+ */
+u32 func_0203C35C(void)
+{
+    struct NetCtx *h = func_0203D788();
+
+    g_021469DC->flag = -2;
+    func_02037D78();
+    func_020398B4(h);
+    func_02039834(h);
+    func_0203AD80(g_021469DC, (void *)0x203C0F4, 0, (int)0x5FD);
+    return 1;
+}
+
+
+
+
+
+
+
+
+void func_0203C3B4(void)
+{
+    g_021469DC->flag = -1;
+    func_0203AD80(g_021469DC, (void *)str_0203C238, 0, 0x60d);
+}
+
+
+
+
+
+
+
+/*
+ * Unlabelled ARM leaf (saves no register, so disasm.py gives it no func_
+ * label): a channel-id classifier that reads the pointer at g_021469DC, then
+ * the u32 at +8 of the record, and maps five distinct table addresses to
+ * 0/1/3/4/5 (anything else returns 2).
+ *
+ * The five constants sit in their own pool words at 0x0203C450..0x0203C460
+ * and are each loaded with `ldr` from pc, so they are link-time absolute
+ * (R_ARM_ABS32) values that the compiler cannot fold against one another.
+ * They are spelled as the addresses of the matched arm9 functions that live
+ * at those addresses, taken as integers, so each becomes its own relocation
+ * and no `sub`/constant-fold is possible.
+ */
+int func_0203C3EC(void)
+{
+    void *v = g_021469DC->f08;
+
+    if (v == func_0203C0F4) {
+        return 0;
+    }
+    if (v == func_0203C0B4) {
+        return 1;
+    }
+    if (v == func_0203C068) {
+        return 3;
+    }
+    if (v == func_0203C060) {
+        return 4;
+    }
+    if (v == func_0203C064) {
+        return 5;
+    }
+    return 2;
+}
+
+
+
+
+
+
+void func_0203C464(void)
+{
+    func_0203D788();
+    func_0203AD80(g_021469DC, (void *)0x203C0F4, 0, 0x637);
+}
+
+
+
+
+
+
+
+
+/*
+ * The other half of the connect/disconnect pair whose partner is
+ * src/matched/func_0203C554.c: it turns the state byte at +0x4B into the
+ * vtable's +0x54 hook, then either starts the link layer or, when the +0x0C
+ * hook reports a negative result, files line 0x655.
+ *
+ * `v` is materialised as 0 before the first call and raised to 1 by
+ * `moveq` on the state byte's own compare, so the hook's first argument
+ * shares a register with the loop's zero rather than being rematerialised.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C494.c \
+ *       --func func_0203C494 --addr 0x0203C494 --cc 1.1p1 --arm
+ */
+void func_0203C494(struct NetState *p)
+{
+    struct NetCtx *s = func_0203D788();
+    u32 v = 0;
+
+    func_020394DC(0);
+
+    if (p->f4B == 0)
+        v = 1;
+
+    if (s->vt->f54(v, 0) != 0) {
+        func_02037D78();
+        func_020398B4(s);
+        func_02039834(s);
+        func_0203AD80(g_021469DC, (void *)func_0203C464, 0, 0x64F);
+    } else if (s->vt->f0C(0) < 0) {
+        func_0203AD80(g_021469DC, (void *)func_0203C05C, 0, 0x655);
+    }
+}
+
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C554.c \
+ *       --func func_0203C554 --addr 0x0203C554 --cc 1.1p1 --arm
+ */
+void func_0203C554(u32 a)
+{
+    struct NetState *p = g_021469DC;
+
+    if (p == 0)
+        return;
+
+    if (a != 0) {
+        if (func_02039338() == 0)
+            g_021469DC->f4B = 0;
+        else
+            g_021469DC->f4B = 1;
+    } else {
+        p->f4B = 0;
+    }
+
+    func_0203AD80(g_021469DC, (void *)0x0203C494, 0, 0x671);
+    func_0203C494(g_021469DC);
+}
+
+
+
+
+
+
+
+
+/*
+ * Arms the sequence: the slot call with a literal 1, then the same 1 into the
+ * object's byte at +0x4A.  The 1 lives in r4 across the call, which is why the
+ * function pushes r4 at all.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C5C8.c \
+ *       --func func_0203C5C8 --addr 0x0203C5C8 --cc 1.1p1 --arm
+ */
+void func_0203C5C8(void)
+{
+    func_0203C554(1);
+    g_021469DC->f4A = 1;
+}
+
+
+
+
+
+
+
+
+/*
+ * Unlabelled ARM leaf: byte at +0x4a of the card task object.
+ */
+int func_0203C5EC(void)
+{
+    return g_021469DC->f4A;
+}
+
+
+
+
+
+
+
+/*
+ * Unlabelled ARM predicate: the callback at +8 of the card task object is func_0203C0F4.
+ */
+int func_0203C600(void)
+{
+    return g_021469DC->f08 == (void *)func_0203C0F4;
+}
+
+
+
+
+
+
+
+/*
+ * Unlabelled ARM predicate: the callback at +8 of the card task object is func_0203C0F4 or func_0203C464.
+ */
+int func_0203C628(void)
+{
+    void *cb = g_021469DC->f08;
+    return cb == (void *)func_0203C0F4 || cb == (void *)func_0203C464;
+}
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C65C.c \
+ *       --func func_0203C65C --addr 0x0203C65C --cc 1.1p1 --arm
+ */
+void func_0203C65C(struct NetState *p)
+{
+    struct NetCtx *s;
+
+    func_0203D798();
+    s = func_0203D788();
+
+    s->vt->f0C(1);
+
+    if (s->vt->f78() != 0) {
+        s->vt->f14(0);
+        func_0203AEEC(p);
+        return;
+    }
+
+    if (s->vt->f6C() == 0) {
+        s->vt->f14(0);
+        func_0203AEEC(p);
+        return;
+    }
+
+    if (s->vt->f74() == 0)
+        return;
+
+    s->vt->f14(0);
+    func_0203AEEC(p);
+}
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C710.c \
+ *       --func func_0203C710 --addr 0x0203C710 --cc 1.1p1 --arm
+ */
+void func_0203C710(void)
+{
+    struct NetCtx *s = func_0203D788();
+
+    s->vt->f0C(0);
+    if (s->vt->f10(1, 0) == 0)
+        return;
+
+    func_0203AD80(g_021469DC, (void *)0x0203C65C, 0, 0x702);
+}
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C774.c \
+ *       --func func_0203C774 --addr 0x0203C774 --cc 1.1p1 --arm
+ */
+void func_0203C774(u32 v)
+{
+    struct NetCtx *s;
+
+    if (g_021469DC == 0)
+        return;
+
+    s = func_0203D788();
+    func_020351A0(1);
+    g_021469DC->f28 = (void (*)(void))v;
+    s->vt->f54(1, 0);
+
+    func_0203AD80(g_021469DC, (void *)0x0203C710, 5, 0x719);
+}
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C7E0.c \
+ *       --func func_0203C7E0 --addr 0x0203C7E0 --cc 1.1p1 --arm
+ */
+void func_0203C7E0(struct NetState *p)
+{
+    struct NetCtx *s = func_0203D788();
+    int r = s->vt->f0C(0);
+
+    if (r < 0) {
+        func_0203C0DC(p, (u32)r);
+        func_0203AD80(g_021469DC, (void *)0x0203C05C, 0, 0x72E);
+    } else if (r > 0) {
+        func_0203AD80(g_021469DC, (void *)0x0203C464, 0, 0x737);
+    }
+}
+
+
+
+
+
+
+
+/*
+ * Promoted from src/pending/ on lane 1.  Every concrete byte is right; the one
+ * open site was the `bl` to 0x02037700, whose only branch anywhere in the
+ * image is this one, so `label` had no outside witness.  With
+ * src/matched/func_02037700.c filed EXACT the site resolves through the
+ * `matched` class and the file prints EXACT with no change to its C.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C864.c \
+ *       --func func_0203C864 --addr 0x0203C864 --cc 1.1p1 --arm
+ */
+void func_0203C864(void)
+{
+    struct NetCtx *p = func_0203D798();
+
+    if (func_02037700(0x200, p->f56) == 0)
+        return;
+
+    func_0203AD80(g_021469DC, (void *)0x0203C7E0, 0, 0x74A);
+}
+
+
+
+
+
+
+
+/*
+ * 140 bytes, three functions.  The middle one, 0x0203C8E8, is a 16-byte leaf
+ * that saves nothing and so carries no label in the generated listing; the
+ * per-function file for 0x0203C8A8 therefore reported an `EXACT*`.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0203C8A8.c \
+ *       --addr 0x0203C8A8 --arm --cc 1.1p1
+ */
+void func_0203C8A8(void)
+{
+    if (func_020392EC() != 0)
+        return;
+
+    func_0203D798();
+    func_0203516C(1);
+    func_0203AD80(g_021469DC, (void *)0x0203C864, 0, 0x760);
+}
+
+
+
+
+
+
+
+void func_0203C8E8(u8 v)
+{
+    if (g_021469DC != 0)
+        g_021469DC->f4F = v;
+}
+
+
+
+
+
+
+
+void func_0203C900(u8 v)
+{
+    struct NetCtx *s = func_0203D788();
+
+    if (g_021469DC != 0)
+        g_021469DC->f50 = v;
+
+    s->vt->f8C(v);
+}
+
+
+
+
+
+
+void func_0203C934(void){ }
+
+
+
+
+
+
+
+/*
+ * Opens the state: with no live object the answer is 0, otherwise the mode
+ * byte at +0x4D is written, the two setup calls run and the answer is 1.
+ * src/matched/func_0203C968.c is the matching close.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C938.c \
+ *       --func func_0203C938 --addr 0x0203C938 --cc 1.1p1 --arm
+ */
+u32 func_0203C938(u8 mode)
+{
+    struct NetState *p;
+
+    p = g_021469DC;
+    if (p == 0)
+        return 0;
+    p->f4D = mode;
+    func_02039548();
+    func_02039578();
+    return 1;
+}
+
+
+
+
+
+
+
+/*
+ * Closes the state src/matched/func_0203C938.c opens: clears the mode byte and
+ * runs the teardown call.  With no live object it is a bare `popeq`.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C968.c \
+ *       --func func_0203C968 --addr 0x0203C968 --cc 1.1p1 --arm
+ */
+void func_0203C968(void)
+{
+    struct NetState *p;
+
+    p = g_021469DC;
+    if (p == 0)
+        return;
+    p->f4D = 0;
+    func_02039560();
+}
+
+
+
+
+
+
+
+/*
+ * The mode byte src/matched/func_0203C938.c writes, read back - 0 when there
+ * is no object.  Both loads are conditional, so the function is two
+ * instructions plus the two pool words.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C990.c \
+ *       --func func_0203C990 --addr 0x0203C990 --cc 1.1p1 --arm
+ */
+u32 func_0203C990(void)
+{
+    struct NetState *p;
+
+    p = g_021469DC;
+    return p ? p->f4D : 0;
+}
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C9AC.c \
+ *       --func func_0203C9AC --addr 0x0203C9AC --cc 1.1p1 --arm
+ */
+void func_0203C9AC(int a, u32 b, u32 c, u32 d)
+{
+    if (g_021469DC == 0)
+        return;
+
+    if ((u32)(a - 0x3ED) > 1)
+        a = -a;
+
+    g_021469DC->err[0] = a;
+    g_021469DC->err[1] = b;
+    g_021469DC->err[2] = c;
+    g_021469DC->err[3] = d;
+
+    if (d != 0)
+        func_02039548();
+}
+
+
+
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203CA04.c \
+ *       --func func_0203CA04 --addr 0x0203CA04 --cc 1.1p1 --arm
+ */
+void func_0203CA04(void)
+{
+    struct NetCtx *q;
+    u32 t;
+
+    if (g_021469DC == 0)
+        return;
+
+    q = func_0203D798();
+
+    t = 0;
+    if ((u8)(q->f65 + 0xFF) <= 5) {
+        if (((1 << (u8)(q->f65 + 0xFF)) & 0x23) != 0)
+            t = 1;
+    }
+
+    if (t == 0)
+        func_02034714((const char *)((u32)g_020A7BA8), 0x8B7, (const char *)((u32)g_020A7BEC));
+
+    g_021469DC->err[0] = 0;
+    g_021469DC->err[1] = 0;
+    g_021469DC->err[2] = 0;
+    g_021469DC->err[3] = 0;
+}
+
+
+
+
+/*
+ * Returns the object's work area at +0x30, reporting through func_02034714
+ * with the source file at 0x020A7BA8 and line 0x8CA (2250) when the object has
+ * not been created - the report is not fatal, the address of the null object's
+ * field is still what comes back.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203CA98.c \
+ *       --func func_0203CA98 --addr 0x0203CA98 --cc 1.1p1 --arm
+ */
+u32 func_0203CA98(void)
+{
+    if (g_021469DC == 0)
+        func_02034714(file_020A7BA8, 0x8CA, file_020A7C70);
+    return (u32)g_021469DC->err;
+}
+
+
+
+
+/*
+ * Unlabelled ARM assert thunk: tail call func_02034714(g_020A7BA8, 0x8D8, g_020A7C7C), the fall-through failure path after func_0203CA98.
+ */
+void func_0203CADC(void)
+{
+    func_02034714((const char *)((u32)g_020A7BA8), 0x8D8, (const char *)((u32)g_020A7C7C));
+}
+
+
+
+
+/*
+ * Unlabelled ARM predicate: the card task object exists and its callback at +8 is func_0203CADC.
+ * MATCH only because 0x0203CADC (func_0203CADC.c, EXACT) is not yet a labelled
+ * function start: the pool word has no outside witness until the seed lands.
+ */
+int func_0203CB00(void)
+{
+    struct NetState *c = g_021469DC;
+    if (c != 0 && c->f08 == (void *)func_0203CADC) {
+        return 1;
+    }
+    return 0;
+}
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203CB34.c \
+ *       --func func_0203CB34 --addr 0x0203CB34 --cc 1.1p1 --arm
+ */
+void func_0203CB34(u32 a, u32 b, u32 c, u32 d)
+{
+    u32 *p = (u32 *)func_0200F17C(1);
+    u32 v = a;
+
+    if (p != 0)
+        ((void (*)(u32, u32))p[0])(a, b);
+
+    func_0200F234(1);
+
+    if (c != d) {
+        *(u16 *)0x021469E0 = (u16)d;
+        func_0203064C(c, d, 0x9E80);
+    }
+
+    func_020371AC(0, 0);
+    func_020370C8();
+}
+
+
+
+
+/*
+ * note:     net.c: start one network session (0x354-byte record on the
+ *           request's +0x56 heap, published into g_021469E0's +8 slot, the
+ *           vtable from func_0200F17C for mode +0x65, then a seven-way mode
+ *           switch).  Closed in wave 16 after the 80-byte residue of
+ *           docs/notes/pkt_0203CBAC.c.txt:
+ *           - the id guard at the head and in the beacon arm is a call in
+ *             BOTH arms with the non-zero arm written FIRST; the image's
+ *             kept `beq; b` pair is the empty (cross-jumped) then-arm, and
+ *             the beacon arm's cross-jump into the shared `bl` follows;
+ *           - case map per the note's finding 1 (1/2/6 vtable, 3/4 beacon,
+ *             0/5 break, default the line-0x8e error), both arms `break`;
+ *           - the tail boolean is `f = 0; if (...) f = 1;`, which is the
+ *             image's `mov r2, #0` / `movls r2, #1`, and the 3-or-4 exit
+ *             test is bound to `int done` (otherwise it folds to a range
+ *             check).
+ *           func_0203D8F0 and func_0203AFCC resolve as sole-ref/code.
+ */
+void func_0203CBAC(struct Req *req, u32 a2, u32 a3)
+{
+    struct NetCtx *s;
+    u8 m;
+    u32 f;
+
+    if (*(u16 *)&g_021469E0 != 0)
+        func_0203064C(*(u16 *)&g_021469E0, req->f56, 0x7800);
+    else
+        func_0203064C(req->f54, req->f56, 0x7800);
+    s = (struct NetCtx *)func_02030734(req->f56, 0x354, 1, file_020A7CA0, 0x6a);
+    g_021469E0.f08 = s;
+    s->f352 = 1;
+    s->vt = (struct NetVtbl *)func_0200F17C(req->f65);
+    if (s->vt == 0)
+        func_02034714(file_020A7CA0, 0x6f, str_020A7CA8);
+    if (req->f65 == 4)
+        req = (struct Req *)func_0203D8F0((const struct Base *)req, a3);
+    func_02082D44(req, s, 0x70);
+    switch (req->f65) {
+    case 1:
+    case 2:
+    case 6:
+        s->vt->f00(req->f54, 0);
+        func_0203064C(req->f54, (u16)(req->f58 | 0x8000), req->f48);
+        break;
+    case 3:
+    case 4:
+        if (req->f61 > 0x80)
+            func_02034714(file_020A7CA0, 0x84, str_020A7CB8);
+        if (*(u16 *)&g_021469E0 != 0)
+            func_0203064C(*(u16 *)&g_021469E0, req->f5a, 0x1b00);
+        else
+            func_0203064C(req->f54, req->f5a, 0x1b00);
+        break;
+    case 0:
+    case 5:
+        break;
+    default:
+        func_02034714(file_020A7CA0, 0x8e, str_020A7CE8);
+        return;
+    }
+    s->f34C = a3;
+    func_0203AFCC((void *)req->f56, a2);
+    func_02039834(s);
+    func_0203A494(req->f67 << 8, req->f00, req->f04, s->f34C, req->f56);
+    m = req->f65;
+    {
+        int done = (m == 3) || (m == 4);
+        if (done)
+            return;
+    }
+    f = 0;
+    if ((u8)(m + 0xff) <= 1)
+        f = 1;
+    func_02037010(req->f5c, req->f5e, f, req->f56);
+}
+
+
+
+
+/*
+ * Guarded call through a function-pointer table: fetch the singleton via
+ * func_0203D788, bail to 0 if it is null, then chase the pointer at +0x340
+ * to a table and call its +0x6c entry through a register (no relocation
+ * site there, `blx r0`).  func_0203D788 has many outside callers, so its
+ * own call closes on the `label` class.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203CD98.c \
+ *       --func func_0203CD98 --addr 0x0203CD98 --cc 1.1p1 --arm
+ */
+int func_0203CD98(void)
+{
+    struct NetCtx *s = func_0203D788();
+
+    if (s == 0) {
+        return 0;
+    }
+
+    return s->vt->f6C();
 }

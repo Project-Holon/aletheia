@@ -1,12 +1,12 @@
-# worldtrade_box (ov135): 6 parts (was 7)
+# worldtrade_box (ov135): 5 parts (was 6)
 
-w11d (2026-10-10): old p02+p03 merged (greedy driver with the harmonizer, EXACT). Boundaries left, none proven real:
-- p01 | p02: typedef Menu (and Ctx_021F4D50) differ between the parts; func_020120F4 uses an undeclared struct in a
-  parameter list; one `struct [3]` array passed where a struct pointer is declared.
-- p02 | p03: `Work` is declared with different layouts (Work_021F5CD4 / Work_021F5E44 views of one object);
-  func_021F68A4 takes a struct pointer, the caller passes a different view.
-- p03 | p04: `Work` redeclared with a different layout again (`void *win` at 0xD40, `wins[6]` at 0xD90).
-- p04 | p05: u8 * passed where a local struct pointer is expected (func_021F8358, func_021F875C); g_02203C00 declared two
-  ways; func_021F91A0 prototype differs.
-- p05 | p06: tbl_02202FC4 / tbl_0220301C declared as arrays of two different row structs.
-Next step: one canonical Work (same object as worldtrade_adapter and worldtrade_enter, offsets 0xB6C, 0xD40, 0xFA0 seen in all three).
+w13b (2026-10-10): one canonical Work (and canonical Entry, Ctx, State, Rec, Req, Res, Sub, IconRec, Info, ...)
+now lives in worldtrade_types.h, shared with worldtrade_adapter and worldtrade_enter; every part includes it.
+Old p01+p02 merged (EXACT; BoxItem/BoxMenu/BoxItems2/BoxItems3 replace the two Item/Menu copies).
+Next boundary, p01 | p02 (old p03): the merge compiles after these edits and is DIFF by 11 bytes, all inside
+func_021F68A4 (icon loader); the edits were: opaque tags struct Obj_021F68A4 -> struct Obj and
+struct Ctx_021F6E58 -> struct Ctx, Info_p02 / IconRec_p02 / IconRec_021F5E44 -> canonical Info / IconRec,
+`(u8 *)p` removed from three func_021F68A4 calls, `(Deposit *)p->ent` cast, `(u32)arc` cast. One of them
+changes code; bisect them one at a time.
+Later boundaries (not tried since the older notes): p04 | p05 and the u8 * vs struct pointer arguments of
+func_021F8358 / func_021F875C, g_02203C00 declared two ways, tbl_02202FC4 / tbl_0220301C row structs.

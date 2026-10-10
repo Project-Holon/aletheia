@@ -176,17 +176,7 @@ struct CharBuf;
 struct Cfg;
 struct Slot;
 struct WordSet;
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int s32;
+#include "worldtrade_types.h"
 
 typedef struct {
     u8 x;
@@ -255,14 +245,6 @@ typedef struct { u16 x, y, z; u8 pri, f7; } ObjPos;
 
 typedef struct {u32 x,y,w,h;} WinDef;
 
-typedef struct {
-    u8 pad0[0xD40];
-    u32 frame;
-    u8 padD44[12];
-    u32 side;
-    u8 padD54[0x3C];
-    u32 item[14];
-} Menu_021FC2C0;
 
 extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
@@ -408,7 +390,7 @@ void func_021FC2A4(void);
 void func_021FC2C0(void *p);
 void func_021FC360(char *p);
 void func_021FC3D0(u8 *p);
-void func_021FC3E0(Menu_021FC2C0 *p);
+void func_021FC3E0(Work *p);
 void func_021FC4E4(char *p);
 void func_021FC528(char *p);
 void func_021FC568(char *p);
@@ -439,11 +421,6 @@ extern struct BgTemplate g_022034DC;
 extern struct BgTemplate g_022034BC;
 extern struct BgTemplate g_022034FC;
 extern const WinDef tbl_0220351C[];
-
-
-
-
-
 
 
 int func_021FB800(Obj_vB800 *p)
@@ -488,10 +465,6 @@ int func_021FB800(Obj_vB800 *p)
 }
 
 
-
-
-
-
 int func_021FB964(u8 *p)
 {
     int r;
@@ -512,10 +485,6 @@ int func_021FB964(u8 *p)
     }
     return -1;
 }
-
-
-
-
 
 
 /*
@@ -540,11 +509,6 @@ int func_021FB9E4(u8 *p)
 }
 
 
-
-
-
-
-
 /*
  * State select before the notify call.
  */
@@ -565,10 +529,6 @@ int func_021FBA5C(u8 *p)
     func_0204B3DC((struct Obj *)v, n);
     return -1;
 }
-
-
-
-
 
 
 int func_021FBA84(u8 *p)
@@ -607,10 +567,6 @@ int func_021FBA84(u8 *p)
 }
 
 
-
-
-
-
 int func_021FBBA0(u8 *p)
 {
     int r;
@@ -636,11 +592,6 @@ int func_021FBBA0(u8 *p)
 }
 
 
-
-
-
-
-
 /*
  * If the buffer is still live return -1; otherwise release the three pointers and pick the 0x19/0x15 code from the table.
  */
@@ -659,10 +610,6 @@ int func_021FBC1C(u8 *p)
 }
 
 
-
-
-
-
 int func_021FBC78(u8 *p)
 {
     if (func_0204B98C(((struct Obj00098 *)p)->f8) != 0) return -1;
@@ -673,10 +620,6 @@ int func_021FBC78(u8 *p)
     func_0201F868(((struct Obj00098 *)p)->f30);
     return ((struct Obj00098 *)p)->f3E;
 }
-
-
-
-
 
 
 /*
@@ -695,9 +638,6 @@ int func_021FBCB8(u8 *p)
     ((struct Obj04906 *)p)->f4C = 0x1f;
     return -1;
 }
-
-
-
 
 
 int func_021FBCF4(u8 *p)
@@ -725,17 +665,10 @@ int func_021FBCF4(u8 *p)
 }
 
 
-
-
-
 /*
  * Extent remainder: 2-byte zero alignment padding.
  */
 int func_021FBD68(u8 *p) { if(func_0204B98C(((struct Obj00098 *)p)->f8))return -1;func_0204B3DC(((struct Obj00098 *)p)->f8,0);func_021F9660(p,1);return ((struct Obj00098 *)p)->f40; }
-
-
-
-
 
 
 int func_021FBD94(u8 *p)
@@ -751,9 +684,6 @@ int func_021FBD94(u8 *p)
     ((struct Obj00474 *)p)->f4C = 0x22;
     return -1;
 }
-
-
-
 
 
 int func_021FBDD0(u8 *p)
@@ -781,14 +711,7 @@ int func_021FBDD0(u8 *p)
 }
 
 
-
-
-
 int func_021FBE54(u8 *p) { if(func_0204B98C(((struct Obj00098 *)p)->f8))return -1;func_0204B3DC(((struct Obj00098 *)p)->f8,0);func_021F9660(p,2);func_0201F868(((struct Obj00098 *)p)->f30);return ((struct Obj00098 *)p)->f41; }
-
-
-
-
 
 
 void func_021FBE84(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g)
@@ -798,10 +721,6 @@ void func_021FBE84(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color
     func_021FAC50(mgr, win, str, x, color, g);
     func_02045808(str);
 }
-
-
-
-
 
 
 void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g)
@@ -815,10 +734,6 @@ void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g)
 }
 
 
-
-
-
-
 void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages)
 {
     func_02043B5C(func_02045770(win), 8);
@@ -828,9 +743,6 @@ void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages)
     func_02045334(win);
     func_0202CEBC(mgr, 0, win);
 }
-
-
-
 
 
 int func_021FBF6C(Menu_021FB800 *m, u32 idx)
@@ -850,8 +762,6 @@ int func_021FBF6C(Menu_021FB800 *m, u32 idx)
 }
 
 
-
-
 int func_021FBFB0(void *p, int idx)
 {
     int base;
@@ -868,9 +778,6 @@ int func_021FBFB0(void *p, int idx)
 }
 
 
-
-
-
 /*
  * Hand the second argument to func_021F88D8 with a scratch word.
  */
@@ -880,8 +787,6 @@ int func_021FC008(void *p, u32 a)
 
     return func_021F88D8(a, &tmp);
 }
-
-
 
 
 int func_021FC014(void *p, int idx)
@@ -900,8 +805,6 @@ int func_021FC014(void *p, int idx)
 }
 
 
-
-
 /*
  * note: 2026-10-05 recoup: func_0202208C declared with an int return (first-check lever). With void the
  *   literal 1 stayed in r4 for the stack store, r1, r2 and the return (4 B differ); with int the
@@ -916,7 +819,7 @@ int func_021FC06C(u8 *p)
     func_021FC1C0();
     func_021FFFE8(p,0,0);
     func_021FC2C0(p);
-    func_021FC3E0((Menu_021FC2C0 *)p);
+    func_021FC3E0((Work *)p);
     func_021FC360((char *)p);
     func_021FC8CC(*(void **)(p+0xB6C),*(void **)(p+0xB70),*(void **)(p+0xB68),(void **)(p+0xD90),func_020185F0(mon),p+0x1D0,p+0xFA0);
     func_021FCA8C(*(void **)(p+0xB6C),p+0xDAC,func_020084F4(*(void **)(*(u8 **)p+0x1C)),mon,p+0xDC0,p+0xFA0);
@@ -930,9 +833,6 @@ int func_021FC06C(u8 *p)
 }
 
 
-
-
-
 /*
  * State-table dispatch through the table at 0x02203CF0.
  */
@@ -942,12 +842,7 @@ void func_021FC174(u8 *p)
 }
 
 
-
-
 int func_021FC188(u8 *p) {func_021FC3D0(p);func_021FC568((char *)p);func_021FC4E4((char *)p);func_021FC2A4();func_022000E4((char *)p);func_0204B3DC(((struct Obj00287 *)p)->fD38,0);func_021F4EC8(p);return 0;}
-
-
-
 
 
 /*
@@ -984,9 +879,6 @@ void func_021FC1C0(void)
 }
 
 
-
-
-
 /*
  * Poke the channel-selection helper with 0, 1, 2, 3 in turn.
  */
@@ -997,7 +889,6 @@ void func_021FC2A4(void)
     sub_020403F4(2);
     sub_020403F4(3);
 }
-
 
 
 void func_021FC2C0(void *p)
@@ -1016,7 +907,6 @@ void func_021FC2C0(void *p)
 }
 
 
-
 void func_021FC360(char *p)
 {
     ObjPos pos;
@@ -1032,8 +922,6 @@ void func_021FC360(char *p)
 }
 
 
-
-
 /*
  * Tail call into func_0204B3B4 with the pointer held at +0xd08.
  */
@@ -1043,8 +931,7 @@ void func_021FC3D0(u8 *p)
 }
 
 
-
-void func_021FC3E0(Menu_021FC2C0 *p)
+void func_021FC3E0(Work *p)
 {
     int i;
     u32 w;
@@ -1060,16 +947,15 @@ void func_021FC3E0(Menu_021FC2C0 *p)
     func_02045374((struct Cfg *)w);
     func_020409B4(func_02045730((struct Descriptor *)w));
     for(i=0;i<14;i++) {
-        p->item[i]=func_020450F0(3,(u8)tbl_0220351C[i].x,(u8)tbl_0220351C[i].y,(u8)tbl_0220351C[i].w,tbl_0220351C[i].h,13,(u16)1);
-        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->item[i])),0);
-        w=p->item[i];
+        p->item_u14[i]=func_020450F0(3,(u8)tbl_0220351C[i].x,(u8)tbl_0220351C[i].y,(u8)tbl_0220351C[i].w,tbl_0220351C[i].h,13,(u16)1);
+        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->item_u14[i])),0);
+        w=p->item_u14[i];
         func_02045334((struct Descriptor *)w);
         func_02045374((struct Cfg *)w);
         func_020409B4(func_02045730((struct Descriptor *)w));
     }
     func_02200BAC((u8 *)p,2);
 }
-
 
 
 /*
@@ -1088,7 +974,6 @@ void func_021FC4E4(char *p)
 }
 
 
-
 void func_021FC528(char *p)
 {
     int i;
@@ -1100,13 +985,10 @@ void func_021FC528(char *p)
 }
 
 
-
 void func_021FC568(char *p) {int i;for(i=0;i<10;i++) func_02045808(*(struct U16Vec **)((unsigned)p+i*4+0xb90));func_02045808(*(struct U16Vec * *)&((struct Obj14170 *)p)->fB88);func_02045808(*(struct U16Vec * *)&((struct Obj14170 *)p)->fB8C);}
 
 
-
 int func_021FC598(char *p) {((struct Obj23406 *)p)->f28=1;return 2;}
-
 
 
 int func_021FC5A0(char *p)
@@ -1126,15 +1008,12 @@ int func_021FC5A0(char *p)
 }
 
 
-
-
 int func_021FC610(u8 *p, int a1)
 {
     func_0202208C((void *)3, 0, 0, 0, 6, 1, 0x48);
     ((struct Obj18569 *)p)->f28 = 0;
     return 3;
 }
-
 
 
 /*
@@ -1213,7 +1092,6 @@ int func_021FC70C(char *p)
 }
 
 
-
 int func_021FC7C4(u8 *p)
 {
     if (func_02202840(p + 0xfa0) == 0) {
@@ -1221,7 +1099,6 @@ int func_021FC7C4(u8 *p)
     }
     return 2;
 }
-
 
 
 /*
@@ -1237,7 +1114,6 @@ int func_021FC7E0(u8 *p)
     }
     return 2;
 }
-
 
 
 /*
@@ -1262,7 +1138,6 @@ void func_021FC810(u8 *p, u32 b, u32 c, u32 d, u32 e, void *sel)
     func_02202858((void *)(((struct Obj00018 *)p)->fD40), 0, (void *)(((struct Obj00018 *)p)->fB88), 0, 0, p + 0xfa0);
     sub_02045808((struct U16Vec *)v);
 }
-
 
 
 /*

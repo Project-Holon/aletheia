@@ -336,7 +336,7 @@ extern void func_02035428(u32 status);
 extern void func_02035284(struct Sys *p);
 extern struct Sys *sub_02035224(void);
 extern void GXx_SetMasterBrightness_(u32 reg, int brightness);
-extern int func_0203CEAC(int a0);
+int func_0203CEAC(void (*a0)(u32));
 extern u32 func_0203D210(void);
 extern u32 func_02076B8C(void);
 extern void OS_ResetSystem(u32 param);

@@ -1,12 +1,16 @@
-# zukan_detail_graphic (ov208): 13 parts (was 14)
+# zukan_detail_graphic (ov208): 7 parts (was 13)
 
-w11d (2026-10-10): old p07+p08 merged (greedy driver with the harmonizer, EXACT). Remaining boundaries, none proven real:
-- p01|p02: func_021BD0AC is called with char * where the declaration takes unsigned int **.
-- p02|p03: Ov208Mgr_021BD03C against Ov208Mgr_021BD404 (same object, two views); func_021BD404 and func_02082BCC prototypes.
-- p03|p04: void * passed to an unsigned int parameter (func_0204AC18, func_0204A6C8).
-- p04|p05, p05|p06: struct Ov208ActList and Ov208ActDesc_* views differ per part (needs one canonical struct).
-- p06|p07: func_021BE9C8 is defined without parameters in one part and called with the manager in the other.
-- p07|p08 (old 8|9), p08|p09, p09|p10: func_021BF63C, func_021BC3C0, func_021BDC48 prototypes (void * against int).
-- p10|p11, p11|p12 (old 11|12, 12|13): func_0204B878 takes struct Obj * in one part and unsigned int in the other.
-- p12|p13 (old 13|14): s16_/s32_ alias typedefs differ; func_0207D63C takes volatile void * against void *.
-Next step: one canonical Ov208Mgr and Ov208Scene by offset (r209/canon195.py), then setproto.py for the shared externs.
+w13c (2026-10-10): merged old p01+p02+p03, p04..p07, p12+p13 (all EXACT). Shared layouts
+(Ov208Mgr, Ov208Rec, Ov208Bg, Ov208ActDesc/List/Src, Ov208Slot, Ov208Scene) now live in
+zukan_detail_types.h. Remaining boundaries (new numbering), none proven real:
+- p01|p02: ov208_func_021BD574 is defined with u16 heap but called from func_021BD444 with an
+  unnarrowed u32 heap (implicit call in the original; removing the extern and a K&R definition
+  both give DIFF). Needs a way to model an undeclared call.
+- p02|p03: func_0204B294 prototype (p03 has u32 form; casting at its call gives DIFF);
+  func_021BF4FC / func_021BC3A4 key is int in p03 vs int * in p02 (ov208_ alias names with two
+  prototypes); func_021BF664 now typed as Ov208Scn.
+- p03|p04: func_021C06A0 is called with 3 arguments (void *, char *, void *) in p03, defined as
+  (int, S *) in p04: needs a shared S type and unused trailing parameter.
+- p04|p05, p05|p06, p06|p07: func_0204B878 is (struct Obj *, u16) in p04/p06 but (u32, u32) in
+  p05/p07 (callers pass unnarrowed u32; a prototyped u16 gives DIFF).
+- Ov208Main / Ov208Scn (p02) are two views of one object, not yet one struct.
