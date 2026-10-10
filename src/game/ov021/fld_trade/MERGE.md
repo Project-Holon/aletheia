@@ -1,14 +1,15 @@
-# fld_trade (ov021): 3 parts (was 5)
+# fld_trade (ov021): 2 parts (was 3)
 
-Round 7: old p01|p02 merged. Round 10 (w10b): old p03|p04 merged (p04 struct views S_021CE934 / S_021CE984 now used by
-the callers in p03 via casts); p01|p02 prototypes reconciled except one (below).
+w11d (2026-10-10): old p02|p03 merged and EXACT. The trade work object is now one struct `TradeWork` (0x580 bytes)
+defined by offset in the merged part: u32 words f0..f2C (f4 word set, f8 message bank, f14 window set, fc/f10 windows),
+f30 data, TradeEnt ent[4] at 0x50 (0x2C bytes each: data, state, flag, mac), busy at 0x100, ent req at 0x104, TradeHq hq
+at 0x130, TradeSub sub at 0x13C (busy/result/state/prev/timer at +0x2C8), f414 request bytes, callbacks f48C/f490,
+TradeBuf buf at 0x494 (four 0x20-byte copies plus a mask), state byte x51E, flags x519..x526, macs[4] at 0x55A, x574,
+x578. All u8 *p / u32 *p views and the U32() macro are gone. Notes on shape: func_021CE8F4 must index with
+`(u8 *)p->macs + i * 6` for the first use (a local Mac pointer or a plain p->macs[i] is CSEd and grows); func_021CE6F0
+takes `int i` (a u8 parameter adds a narrowing at the call in func_021CD6D0); TradeEnt starts with u32 data[8] so the
+0x2C-byte struct copy in func_021CE3E8 is a word copy.
 
-Remaining boundaries:
-- p01|p02 (0x021CD050): fixed this round: func_021CD1AC (now void, takes Work_021CCBE0 *, rewritten as typed C),
-  func_021CD004 / func_021CD038 / func_021CCE48 (void), func_02049238 (void *), func_020124E8 (Obj_021CC390 *).
-  Left: func_02030734. Functions in p01 (func_021CBFB0 ...) need the call to narrow the heap argument (prototype
-  u16 heap; the explicit (u16) cast and a u16 parameter both change scheduling), while func_021CD48C in p02 loads
-  heap from the stack with ldr and passes it unnarrowed (u16 parameter gives ldrh twice; u32 prototype adds nothing
-  to p01 that stays EXACT). Tested both ways. Possibly a real source boundary.
-- p02|p03 (0x021CE3E8): many struct-view conflicts (Work_021CD6D0 against the other work views, func_021CE73C,
-  func_02082D44, func_020399A8 prototypes). Needs one canonical struct for the trade work object.
+Remaining boundary p01 | p02 (0x021CD050): func_02030734. The p01 callers need the heap argument narrowed (prototype
+u16 heap); func_021CD48C in p02 loads heap from the stack with ldr and passes it unnarrowed (a u16 parameter gives ldrh
+twice, a u32 prototype adds nothing to p01 that stays EXACT). Tested both ways in w10b; looks like a real source boundary.

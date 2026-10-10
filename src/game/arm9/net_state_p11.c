@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p11.c
  * unit:     yes
- * function: func_0203A634, func_0203A67C, func_0203A70C, func_0203A730, func_0203A748, func_0203A770, func_0203A7EC, func_0203A804, func_0203A81C, func_0203A858
- * address:  0x0203A634
+ * function: func_0203B6EC, func_0203B758, func_0203B794, func_0203B7F8, func_0203B868, func_0203B90C, func_0203B950, func_0203B9D4
+ * address:  0x0203B6EC
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,250 +13,265 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02039338  0x02039338  arm
- *   g_020A7AE8     0x020A7AE8  data
- *   g_020A7AE8_arr 0x020A7AE8  data
- *   g_020A7AF8     0x020A7AF8  data
- *   g_020A7B08     0x020A7B08  data
- *   g_021469D8     0x021469D8  data
- *   func_02034714  0x02034714  arm
- *   func_020399B8 0x020399B8  arm
+ *   g_021469DC     0x021469DC  data
+ *   func_0203D788   0x0203D788  arm
+ *   func_0203D798   0x0203D798  arm
+ *   func_02039ACC   0x02039ACC  arm
+ *   func_0203DA4C   0x0203DA4C  arm
+ *   func_0203D650   0x0203D650  arm
+ *   func_0203AD80   0x0203AD80  arm
  */
-struct BaseTable;
-typedef unsigned int u32;
+#include "../../matched/include/Obj08841.h"
+#include "../../matched/include/Obj03451.h"
+
+struct NetState;
+struct Entry;
+typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-struct BaseTable {
-    void *list;
-    int   listNum;
+typedef unsigned int  u32;
+
+struct B794 {
+    u8     pad_00[0x2C];
+    void (*unk_2C)(u32);
 };
 
-struct HugeRecv {
-    u32 a;
-    int count;
-    u32 c;
-    u32 key;
+typedef signed int     s32;
+
+struct B868 {
+    u8     pad_00[0x2C];
+    void (*unk_2C)(u32);
 };
 
-typedef unsigned char u8;
+typedef unsigned long long u64;
 
-extern u16 func_02039338(void);
-extern void func_02034714(const char *expr, u32 line, const char *file);
+extern u8 *func_0203D788(void);
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern u32 func_02037894(u32 a, u32 b, u32 c, u32 d);
+extern int func_0203B6B4(int a0, int a1, int a2, int a3);
+extern int func_0203B688(int a0, int a1, int a2, int a3);
+extern void *func_0203D798(void);
+extern int func_02039ACC(void);
+extern struct Entry *func_020399A8(void);
 extern u32 func_020399B8(u8 *p);
-u32 func_0203A634(u32 a0);
-struct BaseTable *func_0203A67C(u32 cmd);
-int func_0203A70C(u32 idx);
-u32 func_0203A730(u32 cmd);
-int func_0203A748(u32 idx);
-void func_0203A770(u32 a, u32 b, int c, u32 d, u32 e, u32 f);
-int func_0203A7EC(unsigned int idx);
-int func_0203A804(unsigned int idx);
-u32 func_0203A81C(u32 a0, u32 a1, u32 a2);
-extern struct BaseTable g_020A7AE8;
-extern void  *g_020A7AE8_arr[];
-extern char   g_020A7AF8[];
-extern char   g_020A7B08[];
-extern struct HugeRecv *g_021469D8;
+extern u32 func_0203D650(void);
+extern struct Entry *func_0203996C(s32 idx);
+extern u32 func_020399EC(u32 a);
+extern u16 func_02039338(void);
+extern int func_0203DA4C(void);
+extern void func_0203BCE0(u8 *p);
+void func_0203B90C(void);
+void func_0203B950(u8 *p);
+void func_0203B6EC(u8 *p);
+void func_0203B758(void);
+void func_0203B9D4(u8 *p);
+extern u8 *g_021469DC;
 
 
 
 /*
- * Bit test against a channel mask: 0xFF is always live, otherwise the bit of
- * the argument named by the index func_02039338() reports decides, and a zero
- * index falls back to the 0x80 bit.  `1 << f()` is emitted as the shifted
- * register of a `tst`, and each success path is the conditional
- * `movne r0, #1` / `popne` pair, so the source is the return chain above a
- * final plain `return 0;`.
- *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A634.c \
- *       --func func_0203A634 --addr 0x0203A634 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203B6EC.c \
+ *       --func func_0203B6EC --addr 0x0203B6EC --cc 1.1p1 --arm
  */
-u32 func_0203A634(u32 a0)
+void func_0203B6EC(u8 *p)
 {
-    if (a0 == 0xFF)
-        return 1;
-    if (a0 & (1 << func_02039338()))
-        return 1;
-    if (func_02039338() == 0 && (a0 & 0x80) != 0)
-        return 1;
-    return 0;
+    if ((*(u32 (**)(void))(*(u32 *)(func_0203D788() + 0x340) + 0x78))() == 0)
+        return;
+    if (func_02037894(0, 0x200, 0, (u32)func_0203B6B4) == 0)
+        return;
+
+    p[0x4C] = 0;
+    func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B688, 0x1E, 0x2FC);
 }
 
 
 
 /*
- * net_command.c's command-record lookup.  The 16-bit command is split into
- * a group (the high byte, kept unshifted throughout: the original compares
- * the masked value, never a shifted one) and an index (the low byte).
- *
- * Group 0 is the static base table at 0x020A7AE8 -- a { void *list; int
- * listNum; } pair whose strings name it "_BaseTable" (the assert text at
- * 0x020A7B08 reads "_BaseTable.listNum > co...", 0x020A7AF8 is
- * "net_command.c", and the line number is 0x10D).  listNum is SIGNED: the
- * guard is `bgt`, not `bhi`.
- *
- * Any other group scans the four 0x10-byte records behind the pointer at
- * 0x021469D8, the _pCommandWork context src/matched/func_0203A494.c
- * allocates; the second assert string at 0x020A7B20 names those records
- * "_pCommandWork->aNetHugeRecv[index].used".
- *
- * TWO POOL WORDS FOR ONE ADDRESS.  The original spends two separate pool
- * entries on 0x020A7AE8 (at +0x78 and +0x88).  It is one object reached by
- * two declarations: the `.listNum` guard reads the struct, while the
- * returned pointer is the list base spelled as an array.  Collapsing them
- * into a single `&g_020A7AE8` makes the file 140 bytes, four short.
- *
- * DECLARATION ORDER.  `int i` must be declared BEFORE the two masks, and
- * the index must be `int`, not `u32`.  With the masks first the 3-register
- * rotation r2 -> ip -> r3 -> r2 appears and nothing else moves it (found by
- * tools/permuter.py: decl-order(lo<->i) ; decl-order(hi<->i)).
- *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A67C.c \
- *       --func func_0203A67C --addr 0x0203A67C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203B758.c \
+ *       --func func_0203B758 --addr 0x0203B758 --cc 1.1p1 --arm
  */
-struct BaseTable *func_0203A67C(u32 cmd)
+void func_0203B758(void)
 {
-    int i;
-    u32 hi = cmd & 0xff00;
-    int lo = (int)(cmd & 0xff);
+    func_0203D798();
+    if (func_02039ACC() == 0)
+        return;
 
-    if (hi == 0) {
-        if (g_020A7AE8.listNum <= lo)
-            func_02034714(g_020A7AF8, 0x10D, g_020A7B08);
-        return (struct BaseTable *)g_020A7AE8_arr;
-    }
-    for (i = 0; i < 4; i++) {
-        struct HugeRecv *r = g_021469D8 + i;
-        if (hi == r->key) {
-            if (r->count <= lo)
-                return 0;
-            return (struct BaseTable *)r;
-        }
-    }
-    return 0;
-}
-
-
-
-int func_0203A70C(u32 idx)
-{
-    int *p = (int *)func_0203A67C(idx);
-    if (p != 0) {
-        char *base = (char *)*p;
-        u32 off = ((idx << 24) >> 21);
-        return *(int *)(base + off);
-    }
-    return 0;
+    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B794, 0, 0x30E);
 }
 
 
 
 /*
- * The null-tolerant third word of the object func_0203A67C caches: the
- * conditional `ldrne` / `moveq` pair is exactly the `? :` form, not an
- * if/return, which would have needed a second epilogue.
- *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A730.c \
- *       --func func_0203A730 --addr 0x0203A730 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203B794.c \
+ *       --func func_0203B794 --addr 0x0203B794 --cc 1.1p1 --arm
  */
-u32 func_0203A730(u32 cmd)
+void func_0203B794(struct B794 *p)
 {
-    u32 *p = (u32 *)func_0203A67C(cmd);
+    u8 *s = func_0203D798();
 
-    return p != 0 ? p[2] : 0;
-}
+    if (func_020399B8((u8 *)((u32)func_020399A8())) == 0)
+        return;
 
-
-
-int func_0203A748(u32 idx)
-{
-    int *p = (int *)func_0203A67C(idx);
-    if (p != 0) {
-        char *base = (char *)*p;
-        u32 off = ((idx << 24) >> 21);
-        return *(int *)(base + off + 4);
+    if (p->unk_2C != 0) {
+        p->unk_2C(func_0203D650());
+        p->unk_2C = 0;
     }
-    return 0;
+
+    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C00C, 0, 0x325);
 }
 
 
-
-void func_0203A770(u32 a, u32 b, int c, u32 d, u32 e, u32 f)
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B7F8.c \
+ *       --func func_0203B7F8 --addr 0x0203B7F8 --cc 1.1p1 --arm
+ */
+void func_0203B7F8(struct B794 *p)
 {
-    u32 ok;
-    u32 fn;
+    func_0203D798();
 
-    if (func_0203A634(b) == 0) {
+    func_0203996C(0xFF);
+    if ((int)func_020399EC((u32)func_020399A8()) < 2)
+        return;
+
+    func_02039338();
+
+    if (p->unk_2C != 0) {
+        p->unk_2C(func_0203D650());
+        p->unk_2C = 0;
+    }
+
+    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C00C, 0, 0x33F);
+}
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B868.c \
+ *       --func func_0203B868 --addr 0x0203B868 --cc 1.1p1 --arm
+ */
+void func_0203B868(struct B868 *p)
+{
+    func_0203D798();
+
+    if ((*(u32 (**)(void))(*(u32 *)(func_0203D788() + 0x340) + 0xA8))() != 1)
+        return;
+    if (func_02039ACC() == 0)
+        return;
+
+    if (func_0203DA4C() == 1) {
+        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B7F8, 0, 0x354);
         return;
     }
-    ok = 1;
-    if (func_020399B8((u8 *)f) == 0) {
-        if (c >= 0x11) {
-            ok = 0;
-        }
+
+    if (p->unk_2C != 0) {
+        p->unk_2C(func_0203D650());
+        p->unk_2C = 0;
     }
-    if (ok == 0) {
-        return;
-    }
-    fn = func_0203A70C(c);
-    if (fn == 0) {
-        return;
-    }
-    ((void (*)(u32, u32, u32, u32, u32))fn)(a, d, e, func_0203A730(c), f);
+
+    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C00C, 0, 0x35B);
 }
-
-
-
-int func_0203A7EC(unsigned int idx)
-{
-    return func_0203A70C(idx) != 0;
-}
-
-
-
-int func_0203A804(unsigned int idx)
-{
-    return func_0203A748(idx) != 0;
-}
-
 
 
 /*
- * Indirect dispatch: the first argument names a slot whose function pointer
- * comes back from func_0203A748; a null slot answers 0 with the conditional
- * `moveq`/`popeq` pair, and otherwise the pointer is called with the second
- * argument, the current value func_0203A730 reports and the third argument.
- * func_0203A730's own body ignores its parameter, but the caller still loads
- * one, so the source declares it with a parameter.
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B90C.c \
+ *       --func func_0203B90C --addr 0x0203B90C --cc 1.1p1 --arm
+ */
+void func_0203B90C(void)
+{
+    if ((*(u32 (**)(void))(*(u32 *)(func_0203D788() + 0x340) + 0x78))() == 0)
+        return;
+
+    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B6EC, 0, 0x371);
+}
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203B950.c \
+ *       --func func_0203B950 --addr 0x0203B950 --cc 1.1p1 --arm
+ */
+void func_0203B950(u8 *p)
+{
+    if (func_02039338() != 0) {
+        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B758, 0, 0x383);
+        return;
+    }
+
+    if (p[0x56] == 2)
+        return;
+
+    if (((struct Obj08841 *)p)->f46 != 0) {
+        (((struct Obj08841 *)p)->f46)--;
+        return;
+    }
+
+    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203BCE0, 0, 0x390);
+    func_0203BCE0(p);
+}
+
+
+/*
+ * A frame's 64-bit accumulator advanced by a 64-bit multiply: the pair at
+ * +0x0c (little-endian u64) is multiplied by the pair at +0x14, the pair at
+ * +0x1c is added in, both halves are stored back, and the new high half is
+ * re-scaled by 30/2^32 into the u16 countdown at +0x46.
+ *
+ * Two spellings are load-bearing.  The multiply has to be written `y * x`
+ * with x at +0x0c and y at +0x14: the other order loads +0x0c first and
+ * swaps two `ldr`s.  And the addend has to stay inline in the multiply's own
+ * statement (`r = y * x + *(u64 *)(p + 0x1c);`) with the low half stored by
+ * a single 64-bit store: with a named addend and two u32 stores mwcc puts
+ * the sum's low half in `ip` and the high half in `r2`, a five-instruction
+ * difference in register choice alone.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A81C.c \
- *       --func func_0203A81C --addr 0x0203A81C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203B9D4.c \
+ *       --func func_0203B9D4 --addr 0x0203B9D4 --cc 1.1p1 --arm
  */
-u32 func_0203A81C(u32 a0, u32 a1, u32 a2)
+void func_0203B9D4(u8 *p)
 {
-    u32 (*f)(u32, u32, u32) = (u32 (*)(u32, u32, u32))func_0203A748(a0);
+    u8 *s = func_0203D788();
+    u64 x, y, r;
 
-    if (f == 0)
-        return 0;
-    return f(a1, func_0203A730(a0), a2);
-}
+    if ((*(u32 (**)(void))(*(u32 *)(s + 0x340) + 0xAC))() == 1) {
+        (*(void (**)(void))(*(u32 *)(s + 0x340) + 0xB4))();
+        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B868, 0, 0x3A5);
+        return;
+    }
 
+    if (((struct Obj03451 *)p)->f46 != 0) {
+        ((struct Obj03451 *)p)->f46 = ((struct Obj03451 *)p)->f46 - 1;
+        return;
+    }
 
-void func_0203A858(void);
+    x = *(u64 *)(p + 0x0C);
+    y = *(u64 *)(p + 0x14);
+    r = y * x + *(u64 *)(p + 0x1C);
 
-void func_0203A858(void)
-{
+    ((struct Obj03451 *)p)->f46 = (u16)((u32)(((u64)(u32)(r >> 32) * 30) >> 32) + 15);
+    *(u64 *)(p + 0x0C) = r;
+
+    (*(void (**)(u32))(*(u32 *)(s + 0x340) + 0x08))(0);
 }

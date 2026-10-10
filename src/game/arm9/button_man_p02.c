@@ -65,7 +65,7 @@ struct Obj;
 struct Vec3;
 typedef unsigned char u8;
 
-typedef unsigned int  u32;
+typedef unsigned int u32;
 
 typedef struct {
     u8  pad0[0x40];

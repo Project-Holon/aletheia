@@ -1,280 +1,445 @@
 /*
  * file:     button_man_p04.c
- * function: func_0205429C
- * address:  0x0205429C
- * packet:   pkt_0205429C
+ * unit:     yes
+ * function: func_02057EF8, func_02057F8C, func_020580A8, func_02058180, func_02058204, func_020582CC, func_02058300, func_02058380, func_020583CC
+ * address:  0x02057EF8
  * region:   arm9
- * compiler: ../1.2/sp2
- * flags:    -O4,p -proc arm946e
+ * compiler: dsi/../1.2/sp2
+ * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
  * symbols:
- *   func_0205429C_Verts  0x020A1B38  data
- *   func_0205429C_Hooks  0x020A7FE4  data
- *   func_0205429C_Hooks2 0x020A7FDC  data
- *   func_0207B598        0x0207B598  arm
- *   func_0207B5F4        0x0207B5F4  thumb
- *   func_0207B9F0        0x0207B9F0  arm
- *   func_0207CA68        0x0207CA68  arm
- *   func_0207CAE8        0x0207CAE8  arm
- *   func_0207CCA4        0x0207CCA4  arm
- *   func_0207D8E0        0x0207D8E0  arm
- *   func_0207D918        0x0207D918  arm
- *
- * Member of the 1.2-pinned 3D rig family (docs/FRONTEND-PINS.md): register
- * `blx rN` at 0x02054344 and 0x020546E4 beside ARMv4T-style returns at
- * 0x020542F4 and 0x020546EC.
- *
- * -proc is arm946e, from the bytes: layout/proc_hints.txt infers arm7tdmi
- * for pkt_0205429C from its pop-lr epilogues, but arm7tdmi cannot emit the
- * register `blx rN` these bytes contain.  EXACT at 1148/1148 under
- * `compiler: ../1.2/sp2`, `flags: -O4,p -proc arm946e`.
- *
- * The largest of the packet's four rows and the only one that builds an
- * orthonormal basis; same source shape as func_02053E1C
- * (docs/notes/pkt_02053218.c.txt) with the hook selector and the final hook
- * of func_02054A68.
- *
- * The same four source shapes that close func_02054718 close this row; see
- * its header for the measurements (the 0x040004A4 `|` chain order, the
- * `(s64)a * res->f30` operand order, `x` before `y` in case 0, and the three
- * 0x04000470 stores through locals loaded in reverse field order).
- *
- * Addresses are Black-image addresses.
+ *   g_020A1B38     0x020A1B38  data
+ *   func_0207AF00  0x0207AF00  thumb
+ *   func_0207AF1C  0x0207AF1C  thumb
+ *   func_0207AF38  0x0207AF38  thumb
+ *   func_0207B51C  0x0207B51C  arm
+ *   _s32_div_f     0x0209C0A4  arm
+ *   g_02146A8C     0x02146A8C  data
  */
-typedef signed int s32;
-typedef unsigned int u32;
-typedef unsigned short u16;
+struct Node;
+struct List {
+    volatile struct Node *head;
+    int count;
+    volatile struct Node *tail;
+};
+
+struct Node {
+    volatile struct Node *next;
+    volatile struct Node *prev;
+};
+
+struct Node_02058380 {
+    struct Node_02058380 * volatile next;
+    struct Node_02058380 *prev;
+};
+
+struct List_02058380 {
+    struct Node_02058380 * volatile head;
+    volatile int count;
+    struct Node_02058380 * volatile tail;
+};
+
+struct Node_02057EF8 {
+    struct Node_02057EF8 *next;
+    struct Node_02057EF8 *prev;
+};
+
+struct List_02057EF8 {
+    struct Node_02057EF8 * volatile head;
+    int count;
+    struct Node_02057EF8 *tail;
+};
+
 typedef signed short s16;
-typedef signed long long s64;
-typedef unsigned char u8;
-
-struct VecFx32 { s32 x, y, z; };
-struct MtxFx43 { s32 m[12]; };
-
-struct Bf16 {
-    u16 b0 : 5;
-    u16 b5 : 5;
-    u16 b10 : 6;
-};
-
-struct BfSel {
-    u32 lo : 6;
-    u32 sel : 1;
-    u32 hi : 25;
-};
-
-struct BfZero {
-    u32 f0 : 17;
-    u32 sel2 : 2;
-    u32 sel1 : 1;
-    u32 f20 : 3;
-    u32 flag : 1;
-    u32 f24 : 8;
-};
-
-struct Bf28 {
-    u32 lo : 28;
-    u32 sel : 3;
-    u32 hi : 1;
-};
-
-struct SubD {
-    struct Bf16 hw;
-    u8 pad02[0x0e];
-    struct BfSel f10;
-};
-
-struct SubC {
-    struct BfZero f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u8 pad10[0x20];
-    s16 f30;
-    u8 pad32[0x16];
-    struct Bf28 f48;
-    u8 pad4c[0x04];
-    s16 f50;
-    s16 f52;
-};
-
-struct SubX {
-    struct SubC *f00;
-    u8 pad04[0x10];
-    struct SubD *f14;
-};
-
-struct SubB {
-    u8 pad00[0x20];
-    struct SubX *f20;
-    u8 pad24[0x4e];
-    u16 f72;
-    u8 pad74[0x04];
-    s16 f78;
-    s16 f7a;
-};
 
 struct Obj {
-    u8 pad00[0x3c];
-    u32 f3c;
-    struct SubB *f40;
-    struct MtxFx43 *f44;
+    s16 v0;
+    s16 v1;
+    s16 v2;
+};
+
+typedef unsigned short u16;
+
+typedef unsigned int u32;
+
+struct Obj_02058204 {
+    s16 v0;
+    s16 v1;
+    s16 v2;
+    u16 f06;
+};
+
+struct Src {
+    char _00[0x26];
+    u16 f26;
+};
+
+struct A {
+    int x;
+    int y;
+    int z;
+    s16 scale;
+};
+
+struct B_02058180 {
+    int pad_00[2];
+    int f08;
+    int f0c;
+    int f10;
+    int f14;
+    int f18;
+    int f1c;
+};
+
+typedef unsigned char u8;
+
+struct Obj_02057EF8 {
+    u16 f00;
+    u16 f02;
+};
+
+struct A_02057F8C {
+    int target;
+    s16 f04;
+    u16 mode : 2;
+    u16 rest : 14;
+};
+
+struct C {
+    char _00[0x74];
+    int f74;
 };
 
 struct S {
-    u8 pad00[0x08];
-    struct VecFx32 p1;
-    struct VecFx32 p2;
-    u16 f20;
-    u8 pad22[0x0c];
-    struct Bf16 w;
-    s32 f30;
-    s16 f34;
-    u16 f36;
-    u32 f38;
-    u32 f3c;
-    u32 f40;
+    char _00[0xc];
+    int c;
+    char _10[8];
+    int f18;
+    char _1c[8];
+    u16 f24;
+    u16 f26;
+    char _28[0x14];
+    int f3c;
 };
 
-struct Frame {
-    struct MtxFx43 m1;
-    struct MtxFx43 m2;
-    struct MtxFx43 m3;
-    struct VecFx32 v0;
-    struct VecFx32 v1;
-    struct VecFx32 v2;
-    struct VecFx32 v3;
-    struct MtxFx43 m4;
+typedef int fx32;
+
+typedef long long fx64;
+
+struct A_02057EF8 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+    short w;
 };
 
-extern const s16 func_0205429C_Verts[];
-extern u32 (*const func_0205429C_Hooks[])(s32, s32, void *);
-extern u32 (*const func_0205429C_Hooks2[])(s32, s32, s32, s32);
+struct B_02057EF8 {
+    fx32 _00;
+    fx32 _04;
+    fx32 _08;
+    fx32 _0C;
+    fx32 _10;
+};
 
-extern void func_0207B598(void *);
-extern u32 func_0207B5F4(void *, s32, s32, s32);
-extern void func_0207B9F0(const void *, const void *, void *);
-extern s32 func_0207CA68(const void *, const void *);
-extern void func_0207CAE8(const void *, const void *, void *);
-extern void func_0207CCA4(const void *, void *);
-extern void func_0207D8E0(const void *);
-extern void func_0207D918(const void *);
+extern void func_0207AF00(u8 *buf, int a, int b);
+extern void func_0207AF1C(u8 *buf, int a, int b);
+extern void func_0207AF38(u8 *buf, int a, int b);
+extern void func_0207B51C(u8 *a, u8 *b, u8 *c);
+void func_020583CC(volatile struct List *list, volatile struct Node *node);
+struct Node_02058380 *func_02058380(struct List_02058380 *list);
+struct Node_02057EF8 *func_02058300(struct List_02057EF8 *list, struct Node_02057EF8 *node);
+void func_020582CC(struct Obj *o, void *s, int *dst);
+void func_02058204(struct Obj_02058204 *o, struct Src *s, int *dst);
+void func_02058180(struct A *a, struct B_02058180 *b, volatile int *c);
+void func_020580A8(struct Obj_02057EF8 *o, u8 *dst);
+void func_02057F8C(struct A_02057F8C *a, struct S *s, int unused, struct C *c);
+void func_02057EF8(struct A_02057EF8 *a, struct B_02057EF8 *b);
+extern s16 g_020A1B38[];
 
-void func_0205429C(struct Obj *obj, struct S *s)
+
+void func_020583CC(volatile struct List *list, volatile struct Node *node)
 {
-    struct Frame f;
-    struct SubC *p;
-    s32 n;
-    s32 i;
-    s32 a;
-    s32 x;
-    s32 y;
-    s64 a64;
-    u32 v;
-    s32 c1;
-    u32 q4, q8, qc;
-    s32 c2;
+    volatile struct Node *head;
 
-    n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
-    v = ((u32)s->w.b10 << 24) | (obj->f3c | 0xc0) | ((u32)(n >> 5) << 16);
-    *(volatile u32 *)0x040004A4 = v;
-    v = *(volatile u32 *)0x040004A4;
-    if ((n >> 5) == 0)
-        return;
-
-    i = (s32)s->f20 >> 4;
-    func_0205429C_Hooks[obj->f40->f20->f00->f00.sel2]
-        (func_0205429C_Verts[2 * i], func_0205429C_Verts[2 * i + 1], &f.m2);
-
-    func_0207B598(&f.m4);
-    if (obj->f40->f20->f00->f48.hi == 0) {
-        func_0207CCA4(&s->p2, &f.v0);
+    head = list->head;
+    if (head == 0) {
+        list->head = node;
+        list->tail = node;
+        node->next = 0;
+        node->prev = node->next;
     } else {
-        func_0207CCA4(&s->p1, &f.v0);
-        f.v0.x = -f.v0.x;
-        f.v0.y = -f.v0.y;
-        f.v0.z = -f.v0.z;
+        node->next = head;
+        node->prev = 0;
+        list->head->prev = node;
+        list->head = node;
+    }
+    list->count++;
+}
+
+
+
+struct Node_02058380 *func_02058380(struct List_02058380 *list)
+{
+    struct Node_02058380 *ret;
+    struct Node_02058380 *head;
+
+    ret = 0;
+    head = list->head;
+    if (head != 0) {
+        ret = head;
+        list->head = head->next;
+        if (list->head != 0) {
+            head->next->prev = 0;
+        } else {
+            list->head = 0;
+            list->tail = 0;
+        }
+        list->count--;
+    }
+    return ret;
+}
+
+
+
+
+struct Node_02057EF8 *func_02058300(struct List_02057EF8 *list, struct Node_02057EF8 *node)
+{
+    struct Node_02057EF8 *next;
+
+    next = node->next;
+    if (next == 0) {
+        if (list->head == node) {
+            list->head = 0;
+            list->tail = 0;
+        } else {
+            node->prev->next = 0;
+            list->tail = list->tail->prev;
+        }
+    } else {
+        if (list->head == node) {
+            list->head = next;
+            list->head->prev = 0;
+        } else {
+            next->prev = node->prev;
+            node->prev->next = node->next;
+        }
+    }
+    list->count--;
+    return node;
+}
+
+
+
+
+
+/*
+ * Handler row 0 of the 3D-rig table searched by func_020518AC: adds the three
+ * s16 components of o to dst[0..2].  Same compiler as its sibling
+ * func_02058204 (1.1p1 merges the first two loads into an ldm).  The middle
+ * argument is unused but kept for the handler signature func_02058204 has.
+ */
+void func_020582CC(struct Obj *o, void *s, int *dst)
+{
+    dst[0] = dst[0] + o->v0;
+    dst[1] = dst[1] + o->v1;
+    dst[2] = dst[2] + o->v2;
+}
+
+
+
+
+
+
+u32 g_02146A8C;
+
+
+
+
+
+
+/*
+ * note:     EXACT* because the follower at 0x020582C0 is an unlabelled leaf run
+ *           (its own literal pool); every byte of the 188-byte function plus the
+ *           pool at 0x020582C0 compares identical.
+ */
+void func_02058204(struct Obj_02058204 *o, struct Src *s, int *dst)
+{
+    int r;
+
+    if (s->f26 % o->f06 != 0) {
+        return;
     }
 
-    f.v3.x = 0;
-    f.v3.y = 0x1000;
-    f.v3.z = 0;
-    i = func_0207CA68(&f.v0, &f.v3);
-    if (i > 0xCCD || i < -0xCCD) {
-        f.v3.x = 0x1000;
-        f.v3.y = 0;
-        f.v3.z = 0;
-    }
+    g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
+    r = g_02146A8C >> 23;
+    dst[0] = dst[0] + ((o->v0 * r - (o->v0 << 8)) >> 8);
 
-    func_0207CAE8(&f.v0, &f.v3, &f.v1);
-    func_0207CAE8(&f.v0, &f.v1, &f.v2);
+    g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
+    r = g_02146A8C >> 23;
+    dst[1] = dst[1] + ((o->v1 * r - (o->v1 << 8)) >> 8);
 
-    f.m4.m[0] = f.v1.x;
-    f.m4.m[1] = f.v1.y;
-    f.m4.m[2] = f.v1.z;
-    f.m4.m[3] = f.v0.x;
-    f.m4.m[4] = f.v0.y;
-    f.m4.m[5] = f.v0.z;
-    f.m4.m[6] = f.v2.x;
-    f.m4.m[7] = f.v2.y;
-    f.m4.m[8] = f.v2.z;
+    g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
+    r = g_02146A8C >> 23;
+    dst[2] = dst[2] + ((o->v2 * r - (o->v2 << 8)) >> 8);
+}
 
-    func_0207B9F0(&f.m2, &f.m4, &f.m2);
 
-    a = s->f30;
-    n = (s32)(((s64)a * obj->f40->f20->f00->f30 + 0x800) >> 12);
-    x = n;
-    y = a;
-    a64 = (s64)(s32)a;
-    switch (obj->f40->f20->f00->f48.sel) {
+
+
+
+
+
+void func_02058180(struct A *a, struct B_02058180 *b, volatile int *c)
+{
+    c[0] = c[0] + (a->scale * (a->x - b->f08 - b->f14) >> 12);
+    c[1] = c[1] + (a->scale * (a->y - b->f0c - b->f18) >> 12);
+    c[2] = c[2] + (a->scale * (a->z - b->f10 - b->f1c) >> 12);
+}
+
+
+
+
+
+
+
+
+/*
+ * wave r8 lane rigD: first compile, EXACT under ../1.2/sp2 -proc arm946e.
+ * The r6 note called this row "untouched" and predicted five label-class
+ * relocation sites; all five resolve (four branch, one literal), and the
+ * shared table is one symbol for all three cases.
+ *
+ * The two spellings that matter:
+ *  - the three cases are identical apart from the callee, so each arm
+ *    re-reads `idx = o->f00 >> 4;` (hoisting it above the switch costs the
+ *    asr slot).
+ *  - the subscripts are `idx * 2` and `idx * 2 + 1`, not `idx`/`idx + 1`:
+ *    both address the same halfwords, but the image forms the byte offsets
+ *    from `lsl r2, r1, #1` + `add r1, r2, #1` + two `lsl #1`s, which is the
+ *    `idx * 2` spelling (the `idx`/`idx + 1` spelling is 12 bytes short).
+ */
+void func_020580A8(struct Obj_02057EF8 *o, u8 *dst)
+{
+    u8 buf[0x28];
+    int idx;
+
+    switch (o->f02) {
     case 0:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+        idx = o->f00 >> 4;
+        func_0207AF00(buf, g_020A1B38[idx * 2], g_020A1B38[idx * 2 + 1]);
         break;
     case 1:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
+        idx = o->f00 >> 4;
+        func_0207AF1C(buf, g_020A1B38[idx * 2], g_020A1B38[idx * 2 + 1]);
         break;
     case 2:
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
-        break;
-    default:
+        idx = o->f00 >> 4;
+        func_0207AF38(buf, g_020A1B38[idx * 2], g_020A1B38[idx * 2 + 1]);
         break;
     }
 
-    func_0207B5F4(&f.m3, x, y, y);
-    func_0207B9F0(&f.m3, &f.m2, &f.m1);
+    func_0207B51C(dst + 8, buf, dst + 8);
+}
 
-    if (obj->f40->f20->f00->f00.flag == 0) {
-        f.m1.m[9] = s->p1.x + s->f38;
-        f.m1.m[10] = s->p1.y + s->f3c;
-        f.m1.m[11] = s->p1.z + s->f40;
-        func_0207D8E0(obj->f44);
-        func_0207D918(&f.m1);
-    } else {
-        f.m1.m[9] = s->p1.x + s->f38 - obj->f40->f20->f00->f04;
-        f.m1.m[10] = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
-        f.m1.m[11] = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
-        *(volatile u32 *)0x04000454 = 0;
-        p = obj->f40->f20->f00;
-        qc = p->f0c;  q8 = p->f08;  q4 = p->f04;
-        *(volatile u32 *)0x04000470 = q4;
-        *(volatile u32 *)0x04000470 = q8;
-        *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(obj->f44);
-        func_0207D918(&f.m1);
+
+
+
+
+
+
+
+
+/*
+ * wave r8 lane rigD: the wave r6 DIFF at this address is closed.  The two
+ * levers the r6 note asked for are both real and both necessary:
+ *
+ *  - the mode dispatch is a `switch` on a 2-bit bitfield member, not an
+ *    if/else-if chain: `sw` puts BOTH case tests before the default `bx lr`
+ *    and the two bodies after it, which is the 284-byte layout (the
+ *    if/else-if spelling hoists case 0's body to the first test and comes
+ *    out 260 bytes).
+ *  - the mode-1 clamp is the 64-bit `(s64)x * y + 0x800 >> 12` form, not the
+ *    32-bit one: 32-bit gives `mul/add/asr` (4 instructions, 260 bytes),
+ *    the `long long` form gives the image's `smull/adc/lsr/orr` quartet with
+ *    the pooled `mov r0, #0x800` in the middle.
+ *
+ * The arm shape the r6 note arrived at is also exact as written: the inner
+ * `return` sits INSIDE the inner `if` (predicated `bxgt lr` in mode 0, a
+ * `ble <tail>` out-of-line clamp in mode 1), and the redundant
+ * `if (v < target) return;` after it is what makes the shared tail block
+ * exist at all.
+ */
+void func_02057F8C(struct A_02057F8C *a, struct S *s, int unused, struct C *c)
+{
+    int target;
+    int v;
+
+    target = a->target;
+    if (c->f74 != 0x80000000) target = c->f74;
+
+    switch (a->mode) {
+    case 0:
+        v = s->f3c;
+        if (v < target) {
+            if (v + s->c > target) {
+                s->c = target - v;
+                s->f26 = s->f24;
+                return;
+            }
+        }
+        if (v < target) return;
+        if (v + s->c < target) {
+            s->c = target - v;
+            s->f26 = s->f24;
+        }
+        return;
+    case 1:
+        v = s->f3c;
+        if (v < target) {
+            if (v + s->c > target) {
+                s->c = target - v;
+                s->f18 = -(int)(((long long)s->f18 * a->f04 + 0x800) >> 12);
+                return;
+            }
+        }
+        if (v < target) return;
+        if (v + s->c < target) {
+            s->c = target - v;
+            s->f18 = -(int)(((long long)s->f18 * a->f04 + 0x800) >> 12);
+        }
+        return;
     }
+}
 
-    c1 = s->f36;
-    c2 = obj->f40->f72;
-    v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
-      | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
-      | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
-    *(volatile u32 *)0x04000480 = (u16)v;
 
-    p = obj->f40->f20->f00;
-    func_0205429C_Hooks2[p->f00.sel1]
-        (obj->f40->f78, obj->f40->f7a, p->f50, p->f52);
+
+
+
+
+
+
+
+static inline fx32 FX_Mul(fx32 v1, fx32 v2)
+{
+    return (fx32)(((fx64)v1 * v2 + 0x800) >> 12);
+}
+
+
+
+
+
+
+
+
+
+void func_02057EF8(struct A_02057EF8 *a, struct B_02057EF8 *b)
+{
+    b->_08 = b->_08 + FX_Mul(a->w, a->x - b->_08);
+    b->_0C = b->_0C + FX_Mul(a->w, a->y - b->_0C);
+    b->_10 = b->_10 + FX_Mul(a->w, a->z - b->_10);
 }

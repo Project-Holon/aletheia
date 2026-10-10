@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p36.c
  * unit:     yes
- * function: func_0203D17C, func_0203D1A4, func_0203D1B4, func_0203D1C0
- * address:  0x0203D17C
+ * function: func_0203D9EC, func_0203DA20, func_0203DA4C
+ * address:  0x0203D9EC
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,104 +13,64 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_020395EC  0x020395EC  arm
- *   func_020399EC  0x020399EC  arm
- *   func_0203996C  0x0203996C  arm
- *   func_020399B8  0x020399B8  arm
+ *   g_021469F0  0x021469F0  data
+ *   d_021469F0   0x021469F0  data  a4
  */
-#include "../../matched/include/Obj15981.h"
-#include "../../matched/include/Obj15982.h"
-
-struct Link;
-struct Entry;
-struct NetEntry;
 typedef unsigned char u8;
 
 typedef unsigned int  u32;
 
-typedef void (*Fn)(u32);
-
-typedef signed int     s32;
-
-extern void *func_0203D788(void);
-extern int func_020395EC(struct Entry *a);
-extern int func_020399EC(void);
-extern struct Entry *func_0203996C(s32 idx);
-extern u32 func_020399B8(u8 *p);
-void func_0203D17C(u32 a);
-int func_0203D1B4(void);
-u32 func_0203D1C0(u32 index);
-
+extern void func_02034FB8(u32 v);
+extern u32 func_020307B0(void *p);
+void func_0203D9EC(void);
+void func_0203DA20(void);
+int func_0203DA4C(void);
+extern u8 g_021469F0[];
+extern u32 d_021469F0[];
 
 
 /*
- * Vtable dispatch with the *vtable pointer* null-checked (the state object
- * itself is not): the entry at +0xC4 takes the argument, and the hook's value
- * is dropped.  Two loads separate the two tests, which is what makes this
- * shape distinct from src/matched/func_0203CF10.c and
- * src/matched/func_0203CF3C.c.
- *
- * Addresses are Black-image addresses.
+ * Tears down the net_irc_wireless singleton at 0x021469F0: releases it
+ * through func_02034FB8(0x20) and the heap release, then clears the slot.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D17C.c \
- *       --func func_0203D17C --addr 0x0203D17C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D9EC.c \
+ *       --func func_0203D9EC --addr 0x0203D9EC --arm --cc 1.1p1
  */
-void func_0203D17C(u32 a)
+void func_0203D9EC(void)
 {
-    u8  *p;
-    u32 *vt;
-    Fn   f;
-
-    p = func_0203D788();
-    vt = *(u32 * *)&((struct Obj15981 *)p)->f340;
-    if (vt == 0)
+    if (*(u32 *)g_021469F0 == 0) {
         return;
-    f = *(Fn *)&((struct Obj15982 *)vt)->fC4;
-    f(a);
-}
-
-
-
-/*
- * Forward to func_020395EC and mask the result to a byte.  func_020395EC is
- * called from func_0203D578 (outside this range), which is what attests the
- * `bl` here as a real function rather than a wildcarded relocation.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D1A4.c \
- *       --func func_0203D1A4 --addr 0x0203D1A4 --cc 1.1p1 --arm
- */
-u32 func_0203D1A4(struct Link *p)
-{
-    return func_020395EC((struct Entry *)p) & 0xff;
-}
-
-
-int func_0203D1B4(void)
-{
-    return func_020399EC();
-}
-
-
-/*
- * TU: net.c (named by the assert site at 0x0203D2EC, which passes the
- * string at 0x020A7CA0, "net.c").
- *
- * Guard on the network singleton, then a two-step query: look the entry
- * `index` up with func_0203996C and ask func_020399B8 about the result.
- * The `moveq r0, #0` is a no-op on the value it guards; it only exists
- * because the source spells the null return out.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D1C0.c \
- *       --func func_0203D1C0 --addr 0x0203D1C0 --cc 1.1p1 --arm
- */
-u32 func_0203D1C0(u32 index)
-{
-    if (func_0203D788() == 0) {
-        return 0;
     }
-    return func_020399B8((u8 *)func_0203996C(index));
+    func_02034FB8(0x20);
+    func_020307B0(*(void **)g_021469F0);
+    *(u32 *)g_021469F0 = 0;
+}
+
+
+/*
+ * Calls func_0203D9EC when the net_irc_wireless singleton exists and its
+ * +0x101 byte is clear.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203DA20.c \
+ *       --func func_0203DA20 --addr 0x0203DA20 --arm --cc 1.1p1
+ */
+void func_0203DA20(void)
+{
+    u8 *p = *(u8 **)g_021469F0;
+
+    if (p == 0) {
+        return;
+    }
+    if (p[0x101] != 0) {
+        return;
+    }
+    func_0203D9EC();
+}
+
+
+int func_0203DA4C(void)
+{
+    return d_021469F0[0] != 0;
 }

@@ -52,7 +52,6 @@
 
 struct Grid;
 struct Actor;
-struct VecFx32_02163994;
 struct Obj;
 typedef unsigned char u8;
 
@@ -66,18 +65,16 @@ typedef int s32;
 
 typedef s32 fx32;
 
-typedef struct VecFx32_021638CC {
+typedef struct VecFx32 {
     fx32 x;
     fx32 y;
     fx32 z;
-} VecFx32_021638CC;
+} VecFx32;
 
 typedef struct Obj {
     u32 f00;
     fx32 f04;           /* 0x04 */
 } Obj;
-
-typedef struct { int x, y, z; } VecFx32_02163994;
 
 extern int func_021636A8(int a0, int a1);
 extern int func_021636C8();
@@ -106,12 +103,12 @@ extern void func_021BBFB8(u32 a, u32 b, u32 c, u32 d);
 extern int func_021AB3EC();
 extern int func_021C8F7C();
 extern int func_02163C9C(int a, int b, int c);
-extern int func_02163D04(void *m, u32 kind, VecFx32_021638CC pos);
-extern int func_02163E58(void *m, VecFx32_021638CC *pos, fx32 *y);
-extern int func_02163BAC(int a, int b, int c, int d);
+extern int func_02163D04(void *m, u32 kind, VecFx32 pos);
+extern int func_02163E58(void *m, VecFx32 *pos, fx32 *y);
+extern int func_02163BAC(int a, int b, int c, s16 d);
 extern u32 func_0216D52C(void *p);
-extern int func_0218DC04(struct Grid *g, struct VecFx32_021638CC *pos);
-extern void func_0216D88C(const struct Actor *p, struct VecFx32_02163994 *out);
+extern int func_0218DC04(struct Grid *g, VecFx32 *pos);
+extern void func_0216D88C(const struct Actor *p, VecFx32 *out);
 void func_021636F0(int a0, int a1);
 void func_0216372C(int a0, int a1);
 void func_0216375C(void *p, u8 *q);
@@ -385,7 +382,7 @@ int func_021638C8(int a0)
 u32 func_021638CC(void *m, Obj *o, s16 x, s16 y, int z, u16 kind)
 {
     u32 flags = 0;
-    VecFx32_021638CC pos;
+    VecFx32 pos;
     fx32 h;
 
     pos.x = (x << 16) + 0x8000;
@@ -418,7 +415,7 @@ u32 func_021638CC(void *m, Obj *o, s16 x, s16 y, int z, u16 kind)
  */
 u32 func_02163994(void *p, s16 x, s16 y, int z, u16 kind)
 {
-    VecFx32_02163994 pos;
-    func_0216D88C((const struct Actor *)p, (struct VecFx32_02163994 *)&pos);
+    VecFx32 pos;
+    func_0216D88C((const struct Actor *)p, &pos);
     return func_021638CC(p, (struct Obj *)(&pos), x, y, z, kind);
 }

@@ -1,8 +1,8 @@
 /*
  * file:     worldtrade_box_p03.c
  * unit:     yes
- * function: func_021F5E44, func_021F5F60, func_021F5F9C, func_021F5FC0, func_021F601C, func_021F6178, func_021F61D4, func_021F632C, func_021F6384, func_021F63A8, func_021F63EC, func_021F6418, func_021F643C, func_021F6474, func_021F651C, func_021F6548, func_021F656C, func_021F65C8, func_021F65E8, func_021F6604, func_021F663C, func_021F66C8, func_021F66F0, func_021F6748, func_021F6754, func_021F67A8
- * address:  0x021F5E44
+ * function: func_021F68A4, func_021F6B34, func_021F6B40, func_021F6B80, func_021F6BA4, func_021F6BC4, func_021F6BFC, func_021F6C28, func_021F6C48, func_021F6C80, func_021F6CDC, func_021F6D14, func_021F6DB4, func_021F6DE8, func_021F6E08, func_021F6E58, func_021F6FD4, func_021F7268, func_021F72C4, func_021F7338
+ * address:  0x021F68A4
  * region:   ov135
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,80 +13,81 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   tbl_02202DA4  0x02202DA4  data  a1
- *   func_021F68A4  0x021F68A4  thumb
- *   tbl_02202D24  0x02202D24  data
- *   func_021F4FF4  0x021F4FF4  thumb
- *   func_021F4D50  0x021F4D50  thumb  ov135
- *   func_021F4E30  0x021F4E30  thumb
- *   func_021F4E64  0x021F4E64  thumb
- *   func_021F4EC0  0x021F4EC0  thumb
- *   func_021F6B40  0x021F6B40  thumb
- *   func_021F6BC4  0x021F6BC4  thumb
- *   func_021F4E98  0x021F4E98  thumb
- *   func_021F6BFC  0x021F6BFC  thumb
- *   func_021F6C28  0x021F6C28  thumb
- *   func_021F6B34  0x021F6B34  thumb
- *   func_021F4BE0  0x021F4BE0  thumb  ov135
- *   func_021F4D14 0x021F4D14 thumb ov135
- *   func_021F4CE4 0x021F4CE4 thumb ov135
- *   func_02034714 0x02034714 arm
- *   d_02203B68 0x02203B68 data a4
- *   func_021F6DE8  0x021F6DE8  thumb
- *   func_021F6D14  0x021F6D14  thumb
- *   func_021F5CD4  0x021F5CD4  thumb  ov135
- *   func_02202840  0x02202840  thumb  ov135
- *   sub_02045EC0   0x02045EC0  arm
- *   func_0201F250  0x0201F250  thumb
- *   sub_02045770   0x02045770  arm
- *   sub_02043B5C   0x02043B5C  arm
- *   sub_02045334   0x02045334  arm
- *   sub_02045374   0x02045374  arm
- *   unit_02045730  0x02045730  arm
- *   sub_020409B4   0x020409B4  arm
- *   func_0201F73C  0x0201F73C  thumb
- *   sub_02045808   0x02045808  arm
- *   func_02202858  0x02202858  thumb  ov135
- *   func_0201BABC  0x0201BABC  thumb
- *   func_02082B0C  0x02082B0C  arm
- *   func_0201BB5C  0x0201BB5C  thumb
- *   func_020307B0  0x020307B0  arm
- *   DC_FlushRange  0x020862F0  arm
- *   GX_LoadOBJ     0x0207E780  arm
- *   func_0204B6F4  0x0204B6F4  arm
- *   func_02017DBC  0x02017DBC  thumb
- *   func_02017E88  0x02017E88  thumb
- *   func_02017DE4  0x02017DE4  thumb
+ *   func_02030734  0x02030734  arm
+ *   func_020490F4  0x020490F4  arm
+ *   func_02007A18  0x02007A18  thumb
+ *   func_021F6748  0x021F6748  thumb
+ *   func_021F67A8  0x021F67A8  thumb
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0202136C  0x0202136C  thumb
- *   func_0204B878  0x0204B878  arm
+ *   func_0200785C  0x0200785C  thumb
+ *   func_0201AA18  0x0201AA18  thumb
+ *   func_0201AB28  0x0201AB28  thumb
+ *   func_020185F4  0x020185F4  thumb
+ *   func_02045CAC  0x02045CAC  arm
+ *   func_02034714  0x02034714  arm
+ *   func_02049238  0x02049238  arm
+ *   func_02045770  0x02045770  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_021F91A0  0x021F91A0  thumb
+ *   func_021F6754  0x021F6754  thumb
+ *   str_02203B54   0x02203B54  data  a1
+ *   tbl_02202C58  0x02202C58  data  a4
+ *   func_021F8554  0x021F8554  thumb
+ *   func_021F50EC  0x021F50EC  thumb
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_02202608  0x02202608  thumb
+ *   func_020120F4  0x020120F4  thumb
+ *   func_0200ADB4  0x0200ADB4  thumb
+ *   func_0200AD9C  0x0200AD9C  thumb
+ *   func_02019CE0  0x02019CE0  thumb
+ *   func_02031348  0x02031348  arm
+ *   str_02203B6C   0x02203B6C  data  a1
+ *   d_021E75B4     0x021E75B4  data  ov119
+ *   d_021E75CC     0x021E75CC  data  ov119
+ *   d_021E75FC     0x021E75FC  data  ov119
+ *   ov119_id       0x00000077  data
+ *   func_021F7374  0x021F7374  thumb
+ *   func_021F4EC0  0x021F4EC0  thumb
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_02012984  0x02012984  thumb
+ *   func_0201B2B0  0x0201B2B0  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   func_0201A920  0x0201A920  thumb
+ *   func_0201A98C  0x0201A98C  thumb
+ *   func_02034A5C  0x02034A5C  arm
+ *   func_02034AC4  0x02034AC4  arm
+ *   d_02208C40     0x02208C40  data  ov195
+ *   ov067_id       0x00000043  data
+ *   ov195_id       0x000000C3  data
+ *   func_021F5074 0x021F5074 thumb ov135
+ *   func_021F4EC8 0x021F4EC8 thumb ov135
+ *   func_0200846C  0x0200846C  thumb
+ *   func_020084A0  0x020084A0  thumb
+ *   func_020084D4  0x020084D4  thumb
+ *   func_02008560  0x02008560  thumb
+ *   func_02008568  0x02008568  thumb
+ *   func_0200854C  0x0200854C  thumb
+ *   func_02008558  0x02008558  thumb
+ *   func_02008574  0x02008574  thumb
  */
-#include "../../matched/include/Obj00448.h"
-#include "../../matched/include/Obj06507.h"
-#include "../../matched/include/Obj18540.h"
-#include "../../matched/include/Obj00045.h"
-#include "../../matched/include/Obj18541.h"
-#include "../../matched/include/Obj18542.h"
-#include "../../matched/include/Obj12196.h"
-#include "../../matched/include/Obj12197.h"
-#include "../../matched/include/Obj09227.h"
-#include "../../matched/include/Obj00018.h"
+#include "../../matched/include/Obj07243.h"
+#include "../../matched/include/Obj07244.h"
+#include "../../matched/include/Obj03829.h"
 
-struct Obj;
-struct Slot;
-struct Actor;
-struct Cfg;
 struct CharBuf;
-struct MsgBank;
-struct U16Vec;
-struct WordSet;
 struct Descriptor;
-struct ArcFile;
-struct NitroFileHeader;
+struct MsgBank;
+struct Sub020079BCEntry;
+struct Obj_021F68A4;
 struct Sav;
+struct Ctx_021F6E58;
+struct RecDC;
+struct BigObj;
+struct Ctx_021F6FD4;
+struct Party;
+struct PartyMon;
+struct Sub0200852CObj;
 typedef signed char s8;
-
-typedef signed short s16;
 
 typedef unsigned char u8;
 
@@ -94,296 +95,411 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef signed int s32;
-
 typedef struct {
-    u8 pad0[0xC4];
-    u16 box;
-    u16 slot;
-    int boxes;
-    u8 padCC[0xBF4 - 0xCC];
-    u32 cursor;
-    u8 padBF8[0xD2C - 0xBF8];
-    u32 arrows[2];
-} Work_021F5E44;
-
-typedef struct {
-    u16 x;
-    u16 y;
-} Pos;
-
-typedef struct {
-    u8 pad0[8];
-    void *party;
-    void *save;
-} Ctx;
-
-typedef struct {
-    Ctx *ctx;
-    u8 pad4[0x28 - 4];
-    u32 state;
-    u8 pad2C[0xC4 - 0x2C];
-    u16 box;
-    u16 slot;
-    u8 padC8[0xCC - 0xC8];
-    void *mon;
-    u8 padD0[0xD40 - 0xD0];
-    void *d40;
-    u8 padD44[0xDE8 - 0xD44];
-    void *de8;
-} Work_021F5FC0;
-
-typedef struct {
-    u8 pad0[8];
-    void *party;
-    void *save;
-} Ctx_021F6474;
-
-typedef struct {
-    Ctx_021F6474 *ctx;
-    u8 pad4[0x28 - 4];
-    u32 state;
-    u8 pad2C[0xC4 - 0x2C];
-    u16 box;
-    u16 slot;
-    u8 padC8[0xCC - 0xC8];
-    void *mon;
-    u32 d0;
-    int sel;
-    u8 padD8[0xE4 - 0xD8];
-    u8 deposit[0x20C - 0xE4];
-    u8 list[1][0x128];
-    u8 pad334[0xEB4 - 0x334];
-    u32 eb4;
-} Work_021F6474;
-
-typedef struct { u8 pad[8]; void *party; void *save; } Ctx_021F656C;
-
-typedef struct { Ctx_021F656C *ctx; u8 pad4[0x28-4]; unsigned state; u8 pad2c[0xC4-0x2C]; u16 box, slot; unsigned count; void *mon; u8 padD0[0xDD0-0xD0]; void *dd0; } Work_021F656C;
-
-typedef void (*Fn)(void);
-
-typedef struct {
-    u8 pad0[0x14];
-    void *pixels;
-} CharData;
-
-typedef struct {
-    u32 vram;
-    u32 pal;
-    u32 f8;
-    u8 pixels[0x200];
-} IconRec_021F5E44;
+    u16 species;
+    s8 f2;
+    u8 f3;
+} Info_021F68A4;
 
 typedef struct {
     u32 vram;
     u32 pal;
     u32 spr;
     u8 pixels[0x200];
-} IconRec_021F6748;
+} IconRec;
 
 typedef struct {
-    u8 pad0[0xEB8];
-    IconRec_021F6748 *icons;
+    u8 pad0[0xF0];
+    u8 key[0x128 - 0xF0];
+} Entry;
+
+typedef struct {
+    u8 pad0[8];
+    void *party;
+    void *storage;
+} Ctx_021F68A4;
+
+typedef struct {
+    Ctx_021F68A4 *ctx;
+    u8 pad4[0x20 - 4];
+    int kind;
+    u8 pad24[0xC8 - 0x24];
+    u32 nbox;
+    u8 padCC[0xD4 - 0xCC];
+    int cur;
+    u8 padD8[0x20C - 0xD8];
+    Entry arr[8];
+    u8 padB4C[0xB6C - 0xB4C];
+    void *fB6C;
+    u8 padB70[0xB80 - 0xB70];
+    void *fB80;
+    u8 padB84[0xC00 - 0xB84];
+    u32 icon[30];
+    u32 item[30];
+    u32 mark[6];
+    u8 padD08[0xD4C - 0xD08];
+    void *fD4C;
+    u8 padD50[0xEAC - 0xD50];
+    Info_021F68A4 *info;
+    u8 padEB0[0xEB8 - 0xEB0];
+    IconRec *icons;
+    void (*vblank)(void *);
+    u8 padEC0[0xFA0 - 0xEC0];
+    u8 fFA0[4];
 } Work;
+
+typedef signed short s16;
+
+typedef signed int s32;
 
 typedef struct {
     u16 species;
-    s8 f2;
-    u8 f3;
-} Info;
+    u8 form;
+    u8 gender;
+} MonTag;
+
+typedef struct {
+    u16 species;
+    u8 form;
+    u8 b3;
+    u8 b4;
+} WantTag;
+
+typedef struct {
+    u8 pad0[0xCC];
+    void *mon;
+    u8 padD0[0xD4 - 0xD0];
+    int sel;
+    u8 padD8[0x20C - 0xD8];
+    u8 list[1][0x128];
+} Work_021F6D14;
+
+typedef struct {
+    u8 pad0[0xEC];
+    MonTag have;
+    WantTag want;
+} Deposit;
+
+typedef struct {
+    s16 a;
+    s16 b;
+} Rec;
 
 typedef struct {
     u32 f0;
-    u32 f4;
-    u32 f8;
-} IconRec;
+    int f4;
+    u8 pad8[0x20C - 8];
+} Entry_021F6DB4;
 
-extern u32 func_020362DC(void);
-extern u8 func_020355C4(void);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_020355D8(u8 v);
-extern void func_020061E4(u32 se);
-extern void func_0204B92C(struct Obj *obj, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_021F68A4(Work_021F5E44 *p, int box);
-extern void func_021F4FF4(u32 a, u32 b, u32 c);
-extern void func_0204B84C(u32 obj, int k);
-extern u32 func_0201F81C(u32 a, u32 b);
-extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern void func_021F4D50(u8 *p, u16 a, int count, int b);
-extern u32 func_021F4E30(u8 *p);
-extern void func_021F4E64(u8 *p);
-extern u32 func_0201F868(void *p);
-extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_021F4EC0(u8 *p, u32 a, u32 b);
-extern void *func_021F6B40(void *party, void *save, int box, int slot);
-extern u32 func_021F6BC4(void *mon);
-extern void func_021F4E98(u8 *p, u32 a, u32 b);
-extern int func_021F6BFC(u32 handle);
-extern int func_021F6C28(u32 handle);
-extern int func_021F6B34(int v);
-extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern int func_020179B8(int a0, int a1);
-extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
-extern void func_021F4BE0(u32 a, u32 b, u32 c, u32 d, u8 e);
-extern int func_021F4D14(char *p);
-extern void func_021F4CE4(char *p);
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern int func_021F6DE8(u32 handle);
+typedef struct { u8 pad[12]; void *save; } Ctx_021F6E08;
+
+typedef struct { Ctx_021F6E08 *ctx; u8 pad[0xC8-4]; unsigned count; } Work_021F6E08;
+
+typedef struct {
+    u8 pad0[0x30];
+    void *f30;
+    void *f34;
+    void *f38;
+    u32 f3C;
+    void *f40;
+} Req_021F68A4;
+
+typedef struct {
+    void *sys;
+    u8 pad4[0x1C - 4];
+    u32 f1C;
+    u8 pad20[0x40 - 0x20];
+    void *f40;
+} Ctx_021F6E58;
+
+typedef struct {
+    u8 data[0x128];
+} Entry_021F6E58;
+
+typedef struct {
+    Ctx_021F6E58 *ctx;
+    u8 pad4[0x20 - 4];
+    int kind;
+    u8 pad24[0xB8 - 0x24];
+    u32 fB8;
+    u8 padBC[0xD4 - 0xBC];
+    int cur;
+    void *info;
+    u8 padDC[0xE4 - 0xDC];
+    u8 mon[0x207 - 0xE4];
+    s8 f207;
+    u8 pad208[0x20C - 0x208];
+    Entry_021F6E58 arr[8];
+    u8 padB4C[0xEA4 - 0xB4C];
+    void *saveMon;
+    void *fEA8;
+    u8 padEAC[0x10DC - 0xEAC];
+    Req_021F68A4 *req;
+    u8 pad10E0[0x12E4 - 0x10E0];
+    u32 f12E4;
+    u8 pad12E8[0x12F0 - 0x12E8];
+    void *f12F0;
+} Work_021F6E58;
+
+typedef struct {
+    void *f0;
+    void *list;
+    u16 f8;
+    u8 fA;
+    u8 fB;
+    u32 fC;
+    u32 f10;
+} Req_021F6FD4;
+
+typedef struct {
+    void *save;
+    u8 pad4[0x40 - 4];
+    void *f40;
+} Ctx_021F6FD4;
+
+typedef struct {
+    Ctx_021F6FD4 *ctx;
+    u8 pad4[0x20 - 4];
+    int kind;
+    u8 pad24[0x28 - 0x24];
+    int state;
+    u8 pad2C[0xEA4 - 0x2C];
+    void *fEA4;
+    u8 padEA8[0x10DC - 0xEA8];
+    Req_021F6FD4 *req;
+    u8 pad10E0[0x12F0 - 0x10E0];
+    void *f12F0;
+    u32 busy;
+    u32 f12F8;
+} Obj_021F68A4;
+
+typedef struct {
+    u8 pad0[0x10];
+    u32 f10;
+    u32 f14;
+} Info_021F72C4;
+
+typedef struct {
+    u8 pad0[0xF6];
+    u8 fF6;
+    u8 padF7[0x108 - 0xF7];
+    u32 f108;
+    u32 f10C;
+    u8 name[0x120 - 0x110];
+    u8 f120;
+    u8 f121;
+    u8 f122;
+    u8 pad123;
+    u8 f124;
+    u8 f125;
+} Entry_021F72C4;
+
+typedef struct {
+    u8 data[0x128];
+} Entry_021F7338;
+
+typedef struct {
+    u8 pad0[0xD4];
+    int cur;
+    u8 padD8[0xE4 - 0xD8];
+    Entry_021F7338 single;
+    Entry_021F7338 arr[1];
+} Obj_021F72C4;
+
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_020490F4(u32 id, u32 heap);
+extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
+extern void func_021F6748(u32 a, u8 *q);
+extern void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, void *arc, Info_021F68A4 *info, IconRec *rec);
+extern void func_0204B3DC(struct Obj_021F68A4 *, unsigned int);
+extern void func_0200785C(void *save, u32 box, void *dest);
 extern u32 func_0201AA18(void *p);
-extern void func_021F6D14(void *dst, Work_021F6474 *p);
-extern u32 func_0204B98C(struct Actor *a);
-extern void func_021F5CD4(u8 *p, u32 k);
-extern u32 func_02202840(u8 *p);
-extern int func_02035C60(void);
-extern void *sub_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void *sub_02045770(struct Descriptor *p);
-extern void sub_02043B5C(struct CharBuf *buf, u8 value);
-extern void sub_02045334(struct Descriptor *a);
-extern void sub_02045374(struct Cfg *cfg);
-extern u8 unit_02045730(u32 a);
-extern void sub_020409B4(u32 index);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern void sub_02045808(struct U16Vec *vec);
-extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-extern u32 func_020307B0(void *p);
-extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
-extern void func_02082B0C(const void *src, void *dst, u32 n);
-extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
-extern u32 func_02018438(void *p);
-extern void DC_FlushRange(void *p, u32 size);
-extern void GX_LoadOBJ(const void *src, u32 offset, u32 size);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void *func_0201AB28(void *list, u32 i);
+extern void *func_020185F4(void *a);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_02049238(void *h);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
+extern void func_021F6754(Work *p);
+extern int func_020078C4(void *save, u32 box);
 extern u32 func_02017DBC(struct Sav *p);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 func_02018438(void *p);
+extern void func_021F8554(Deposit *dst, Work_021F6D14 *p);
+extern u32 func_02017E1C(void *a, u32 b, u32 c);
 extern u32 func_0202136C(u16 v);
-void func_021F5E44(Work_021F5E44 *p);
-void func_021F5F60(u32 cursor, int i);
-int func_021F5F9C(int a, int b, int c);
-int func_021F5FC0(u8 *p);
-int func_021F601C(Work_021F5FC0 *p);
-int func_021F6178(u8 *p);
-int func_021F61D4(Work_021F5FC0 *p);
-int func_021F632C(u8 *p);
-int func_021F6384(u8 *p);
-int func_021F63A8(u8 *p);
-int func_021F63EC(u8 *p);
-int func_021F6418(u8 *p);
-int func_021F643C(u8 *p);
-int func_021F6474(Work_021F6474 *p);
-int func_021F651C(u8 *p);
-int func_021F6548(u8 *p);
-int func_021F656C(Work_021F656C *p);
-int func_021F65C8(u8 *p);
-int func_021F65E8(u8 *p);
-int func_021F6604(u8 *p);
-void func_021F663C(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
-u32 func_021F66C8(u32 a, u32 b, u32 c, u32 d);
-void func_021F66F0(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f8, u32 arc, IconRec_021F5E44 *rec);
-void func_021F6748(u32 a, u8 *q);
-void func_021F6754(Work *p);
-void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, u32 arc, Info *info, IconRec *rec);
-extern const u8 tbl_02202DA4[][4];
-extern const Pos tbl_02202D24[];
-extern const char d_02203B68[];
-
-
-
-
-
-
-
-void func_021F5E44(Work_021F5E44 *p)
-{
-    int moved = 0;
-    int dir = 0;
-    u8 k;
-
-    if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)p->cursor, 1);
-        func_020355D8(moved);
-        func_020061E4(0x548);
-        return;
-    }
-    if (func_020362DC() & 0x40) {
-        dir = 1;
-    } else if (func_020362DC() & 0x80) {
-        dir = 2;
-    } else if (func_020362DC() & 0x20) {
-        dir = 3;
-    } else if (func_020362DC() & 0x10) {
-        dir = 4;
-    }
-    if (dir != 0) {
-        dir = tbl_02202DA4[p->slot][dir - 1];
-        if (dir != p->slot) {
-            if (dir == 0x63 || dir == 0x65) {
-                k = dir == 0x65 ? 0 : 1;
-                func_0204B92C((struct Obj *)p->arrows[k], 1);
-                func_0204B878((struct Obj *)p->arrows[k], k + 0x26);
-                p->box = func_021F5F9C(p->box, p->boxes, dir - 0x64);
-                func_021F68A4((Work_021F5E44 *)p, p->box);
-                func_020061E4(0x548);
-            } else {
-                moved = 1;
-                p->slot = dir;
-            }
-        }
-    }
-    if (moved) {
-        func_020061E4(0x548);
-    }
-    func_021F5F60(p->cursor, p->slot);
-}
-
-
-
-
-
-
-
-void func_021F5F60(u32 cursor, int i)
-{
-    func_021F4FF4(cursor, tbl_02202D24[i].x, tbl_02202D24[i].y);
-    if (i == 0x1F || (i >= 0 && i <= 5)) {
-        func_0204B84C(cursor, 0);
-    } else {
-        func_0204B84C(cursor, 1);
-    }
-}
-
+extern u8 func_020076A4(void *save);
+extern u8 func_020076B4(void *save);
+extern void func_021F50EC(u8 *p);
+extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void *func_02202608(u32 heap);
+extern void *func_020120F4(const struct Ctx_021F6E58 *p);
+extern void *func_0200ADB4(void *sys);
+extern void func_0200AD9C(void *sys, void *mon);
+extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
+extern void func_02031348(void *h, u32 id, void *a, void *b);
+extern void func_021F7374(Obj_021F68A4 *p);
+extern void func_021F4EC0(u8 *p, u32 a, u32 b);
+extern u8 func_02012984(const struct BigObj *p);
+extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
+extern u32 func_020307B0(void *p);
+extern struct Party *func_0201A920(u32 heap);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern void func_02034A5C(s32 handle);
+extern int func_02034AC4(s32 handle);
+extern void func_021F5074(void *p);
+extern void func_021F4EC8(u8 *p);
+extern void *func_0200846C(int a0);
+extern void func_020084A0(struct Sub0200852CObj *p);
+extern u32 func_020084D4(u32 value, void *dst);
+extern void func_02008560(struct Sub0200852CObj *obj, u8 value);
+extern void func_02008568(struct Sub0200852CObj *obj, u8 value);
+extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
+extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
+extern void func_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
+void func_021F68A4(Work *p, int box);
+int func_021F6B34(int v);
+void *func_021F6B40(void *party, void *save, int box, int slot);
+u32 func_021F6B80(u8 *p, u32 b, u32 c);
+int func_021F6BA4(void *party, void *save, int box, int slot);
+u32 func_021F6BC4(void *sav);
+int func_021F6BFC(u32 handle);
+int func_021F6C28(u32 handle);
+int func_021F6C48(void *party, void *save, int box, int slot);
+int func_021F6C80(void *pa, void *pb);
+int func_021F6CDC(void *mon, void *want);
+void func_021F6D14(Deposit *dst, Work_021F6D14 *p);
+void func_021F6DB4(Rec *recs, u32 unused, void *key, Entry_021F6DB4 *ent);
+int func_021F6DE8(u32 handle);
+void func_021F6E08(Work_021F6E08 *p);
+int func_021F6E58(Work_021F6E58 *p);
+int func_021F6FD4(Obj_021F68A4 *p);
+int func_021F7268(u8 *p);
+Info_021F72C4 *func_021F72C4(Entry_021F72C4 *e);
+Entry_021F7338 *func_021F7338(Obj_021F72C4 *p, int kind);
+extern char str_02203B54[];
+extern const u32 tbl_02202C58[];
+extern char str_02203B6C[];
+extern u8 d_021E75B4[];
+extern u8 d_021E75CC[];
+extern u8 d_021E75FC[];
+extern u8 ov119_id[];
+extern u8 d_02208C40[];
+extern u8 ov067_id[];
+extern u8 ov195_id[];
 
 
 
 
 
 /*
- * Byte-index arithmetic with 0xff as the out-of-range marker.
+ * Build the 30 Pokemon icon slots of the screen from box `box` of the
+ * storage (+0xC of the context) or, for box 0xFF, from the party (+8),
+ * blanking the slots past the party size. Icon records (0x3D68 bytes,
+ * +0xEB8) are uploaded later by func_021F6754, installed at +0xEBC.
+ * Any other box reports through func_02034714 (raw 0x02203B68). Kind 6
+ * then runs func_021F6DB4 against the current entry's key.
  */
-int func_021F5F9C(int a, int b, int c)
+void func_021F68A4(Work *p, int box)
 {
-    if (a == 0xff) {
-        if (c > 0) {
+    void *storage = p->ctx->storage;
+    u16 species[30];
+    void *arc;
+    IconRec *icons;
+    u16 i;
+
+    icons = func_02030734(0x8001, 0x3D68, 0, str_02203B54, 0x892);
+    p->icons = icons;
+    arc = func_020490F4(7, 0x48);
+    if (box >= 0 && box < p->nbox) {
+        for (i = 0; i < 30; i++) {
+            func_021F6748((u32)func_02007A18(storage, box, i), (u8 *)(&p->info[i]));
+        }
+        for (i = 0; i < 30; i++) {
+            p->info[i].species = 0;
+            func_021F67A8(func_02007A18(storage, box, i), p->icon[i], p->item[i], &species[i], i, arc, (Info_021F68A4 *)(&p->info[i]), &icons[i]);
+            if (i < 6) {
+                func_0204B3DC((struct Obj_021F68A4 *)p->mark[i], 0);
+            }
+        }
+        func_0200785C(storage, box, p->fB80);
+    } else if (box == 0xff) {
+        int n = func_0201AA18(p->ctx->party);
+
+        for (i = 0; i < n; i++) {
+            void *mon = func_020185F4(func_0201AB28(p->ctx->party, i));
+
+            func_021F6748((u32)mon, (u8 *)(&p->info[i]));
+            func_021F67A8(mon, p->icon[i], p->item[i], &species[i], i, arc, (Info_021F68A4 *)(&p->info[i]), &icons[i]);
+            func_0204B3DC((struct Obj_021F68A4 *)p->mark[i], 0);
+        }
+        for (; i < 30; i++) {
+            p->info[i].species = 0;
+            func_0204B3DC((struct Obj_021F68A4 *)p->icon[i], 0);
+            func_0204B3DC((struct Obj_021F68A4 *)p->item[i], 0);
+            icons[i].spr = 0;
+            if (i < 6) {
+                func_0204B3DC((struct Obj_021F68A4 *)p->mark[i], 0);
+            }
+        }
+        func_02045CAC(p->fB6C, 0x62, p->fB80);
+    } else {
+        func_02034714((void *)0x02203B68, 0, (void *)0x02203B68);
+    }
+    func_02049238(arc);
+    func_02043B5C(func_02045770(p->fD4C), 0);
+    func_021F91A0(p->fD4C, (u32)p->fB80, 0, 5, 1, 0x440, (u32)p->fFA0);
+    if (p->kind == 6) {
+        func_021F6DB4((Rec *)p->info, (u32)p->icon, p->arr[p->cur].key, (Entry_021F6DB4 *)icons);
+    }
+    p->vblank = (void (*)(void *))func_021F6754;
+}
+
+
+
+
+
+/*
+ * True only for the 0xff sentinel.
+ */
+int func_021F6B34(int v)
+{
+    if (v == 0xff) {
+        return 1;
+    }
+    return 0;
+}
+
+
+
+
+
+
+void *func_021F6B40(void *party, void *save, int box, int slot)
+{
+    if (func_021F6B34(box) != 0) {
+        if (slot > (int)func_0201AA18(party) - 1) {
             return 0;
         }
-        if (c < 0) {
-            return b - 1;
-        }
-        return a;
+        return func_020185F4(func_0201AB28(party, slot));
     }
-    a += c;
-    if (a < 0) {
-        return 0xff;
+    return func_02007A18(save, box, slot);
+}
+
+
+
+
+
+
+u32 func_021F6B80(u8 *p, u32 b, u32 c)
+{
+    if (func_021F6B34(c) != 0) {
+        return func_0201AA18(p);
     }
-    if (a == b) {
-        return 0xff;
-    }
-    return a;
+    return func_020078C4((void *)b, c);
 }
 
 
@@ -391,274 +507,11 @@ int func_021F5F9C(int a, int b, int c)
 
 
 
-
-/*
- * Create the resource, register the three 68/69/6a entries and latch state 0x8.
- */
-int func_021F5FC0(u8 *p)
+int func_021F6BA4(void *party, void *save, int box, int slot)
 {
-    *(u32 *)&((struct Obj00448 *)p)->fDE8 = func_0201F81C(3, 0x48);
-    func_0201F878((struct Slot *)(*(u32 *)&((struct Obj00448 *)p)->fDE8), *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x68, 1, 0x48);
-    func_0201F878((struct Slot *)(*(u32 *)&((struct Obj00448 *)p)->fDE8), *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x69, 2, 0x48);
-    func_0201F878((struct Slot *)(*(u32 *)&((struct Obj00448 *)p)->fDE8), *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x6a, 3, 0x48);
-    func_021F4D50(p, 0, 3, 0x14);
-    ((struct Obj00448 *)p)->f28 = 0x8;
-    return 2;
-}
-
-
-
-
-
-
-
-int func_021F601C(Work_021F5FC0 *p)
-{
-    void *mon;
-
-    switch (func_021F4E30((u8 *)p)) {
-    case 1:
-        func_021F4E64((u8 *)p);
-        func_0201F868(p->de8);
-        func_0201F7A8(p->d40, 0);
-        p->state = 2;
-        func_021F4EC0((u8 *)p, 8, 5);
-        break;
-    case 2:
-        func_021F4E64((u8 *)p);
-        func_0201F868(p->de8);
-        mon = func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot);
-        if (func_021F6BC4(mon) != 0) {
-            func_021F663C((u8 *)p, 0x2B, 1, 0, 0xF0F, 1);
-            func_021F4E98((u8 *)p, 4, 1);
-        } else if (func_021F6BFC((u32)mon) != 0) {
-            if (func_021F6BFC((u32)mon) == 1) {
-                func_021F663C((u8 *)p, 0xBF, 1, 0, 0xF0F, 1);
-            } else {
-                func_021F663C((u8 *)p, 0xC0, 1, 0, 0xF0F, 1);
-            }
-            func_021F4E98((u8 *)p, 4, 1);
-        } else if (func_021F6C28((u32)mon) != 0) {
-            func_021F663C((u8 *)p, 0xC1, 1, 0, 0xF0F, 1);
-            func_021F4E98((u8 *)p, 4, 1);
-        } else {
-            if (func_021F6B34(p->box) != 0) {
-                func_0201AB28(p->ctx->party, p->slot);
-            }
-            p->mon = func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot);
-            p->state = 2;
-            func_021F4EC0((u8 *)p, 6, 0);
-        }
-        break;
-    case 3:
-    case (u32)-2:
-        func_021F4E64((u8 *)p);
-        func_0201F868(p->de8);
-        func_0201F7A8(p->d40, 0);
-        p->state = 0;
-        break;
-    }
-    return 2;
-}
-
-
-
-
-
-
-
-/*
- * Create the resource, register the three 5d/5e/5f entries and latch state 0xa.
- */
-int func_021F6178(u8 *p)
-{
-    *(u32 *)&((struct Obj00448 *)p)->fDE8 = func_0201F81C(3, 0x48);
-    func_0201F878((struct Slot *)(*(u32 *)&((struct Obj00448 *)p)->fDE8), *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x5d, 1, 0x48);
-    func_0201F878((struct Slot *)(*(u32 *)&((struct Obj00448 *)p)->fDE8), *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x5e, 2, 0x48);
-    func_0201F878((struct Slot *)(*(u32 *)&((struct Obj00448 *)p)->fDE8), *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x5f, 3, 0x48);
-    func_021F4D50(p, 0, 3, 0x14);
-    ((struct Obj00448 *)p)->f28 = 0xa;
-    return 2;
-}
-
-
-
-
-
-
-
-int func_021F61D4(Work_021F5FC0 *p)
-{
-    void *mon;
-
-    switch (func_021F4E30((u8 *)p)) {
-    case 1:
-        func_021F4E64((u8 *)p);
-        func_0201F868(p->de8);
-        p->state = 2;
-        func_021F4EC0((u8 *)p, 8, 6);
-        break;
-    case 2:
-        func_021F4E64((u8 *)p);
-        func_0201F868(p->de8);
-        func_0201F7A8(p->d40, 0);
-        mon = func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot);
-        if (func_021F6BC4(mon) != 0) {
-            func_021F663C((u8 *)p, 0x2B, 1, 0, 0xF0F, 1);
-            func_021F4E98((u8 *)p, 4, 1);
-        } else if (func_021F6BFC((u32)mon) != 0) {
-            if (func_021F6BFC((u32)mon) == 1) {
-                func_021F663C((u8 *)p, 0xBF, 1, 0, 0xF0F, 1);
-            } else {
-                func_021F663C((u8 *)p, 0xC0, 1, 0, 0xF0F, 1);
-            }
-            func_021F4E98((u8 *)p, 4, 1);
-        } else if (func_021F6C28((u32)mon) != 0) {
-            func_021F663C((u8 *)p, 0xC1, 1, 0, 0xF0F, 1);
-            func_021F4E98((u8 *)p, 4, 1);
-        } else {
-            if (func_021F6B34(p->box) != 0) {
-                func_0201AB28(p->ctx->party, p->slot);
-            }
-            if (func_02017E88(mon, 5, 0) == 0x1EC) {
-                func_020179B8((int)mon, 0);
-            }
-            func_021F6474((Work_021F6474 *)((Work_021F5FC0 *)p));
-        }
-        break;
-    case 3:
-    case (u32)-2:
-        func_021F4E64((u8 *)p);
-        func_0201F868(p->de8);
-        func_0201F7A8(p->d40, 0);
-        p->state = 0;
-        break;
-    }
-    return 2;
-}
-
-
-
-
-
-
-int func_021F632C(u8 *p)
-{
-    if (((struct Obj06507 *)p)->f14 == 0 || ((struct Obj06507 *)p)->f14 == 8 || ((struct Obj06507 *)p)->f14 == 3) {
-        func_0202208C(0, 0, 0, 0, 6, 1, 0x48);
-        ((struct Obj06507 *)p)->fEB4 = 1;
-    } else {
-        func_0202208C((void *)3, 0, 0, 0, 6, 1, 0x48);
-    }
-    ((struct Obj06507 *)p)->f28 = 0;
-    return 3;
-}
-
-
-
-
-
-
-/*
- * State setter: build with the fixed 0x14/0x1ad/0x8/0x1 argument pair and latch state 0x6.
- */
-int func_021F6384(u8 *p)
-{
-    func_021F4BE0((u32)p, 0x14, 0x1ad, 0x8, 0x1);
-    ((struct Obj18540 *)p)->f28 = 0x6;
-    return 2;
-}
-
-
-
-
-
-int func_021F63A8(u8 *p)
-{
-    unsigned result = func_021F4D14((char *)p);
-    func_02034714(d_02203B68, 0, d_02203B68);
-    if (result == 1) {
-        func_021F4CE4((char *)p);
-        ((struct Obj00045 *)p)->f28 = 2;
-        func_021F4EC0(p, 0, 0);
-    } else if (result == 2) {
-        func_021F4CE4((char *)p);
-        ((struct Obj00045 *)p)->f28 = 0;
-    }
-    return 2;
-}
-
-
-
-
-
-
-/*
- * Build through func_021F663C and publish the 3/0xc pair.
- */
-int func_021F63EC(u8 *p)
-{
-    func_021F663C(p, 0x19, 1, 0, 0xf0f, 1);
-    func_021F4E98(p, 3, 0xc);
-    return 2;
-}
-
-
-
-
-
-
-/*
- * State setter: build with the fixed 0x12/0x1ad/0x8/0x1 argument pair and latch state 0xd.
- */
-int func_021F6418(u8 *p)
-{
-    func_021F4BE0((u32)p, 0x12, 0x1ad, 0x8, 0x1);
-    ((struct Obj18541 *)p)->f28 = 0xd;
-    return 2;
-}
-
-
-
-
-
-
-/*
- * Two-way mode dispatch: mode 1 clears and runs the sub-step, mode 2 clears, releases the +0xdd0 word and latches state 1.
- */
-int func_021F643C(u8 *p)
-{
-    u32 k = func_021F4D14((char *)p);
-
-    if (k == 1) {
-        func_021F4CE4((char *)p);
-        func_021F6474((Work_021F6474 *)((Work_021F5FC0 *)p));
-    } else if (k == 2) {
-        func_021F4CE4((char *)p);
-        func_0201F7A8((void *)(*(u32 *)&((struct Obj00045 *)p)->fDD0), 0);
-        ((struct Obj00045 *)p)->f28 = 1;
-    }
-    return 2;
-}
-
-
-
-
-
-int func_021F6474(Work_021F6474 *p)
-{
-    if (func_021F6DE8((u32)p->list[p->sel]) != 0 && p->box != 0xFF
-        && func_0201AA18(p->ctx->party) == 6) {
-        func_021F663C((u8 *)p, 0x29, 1, 0, 0xF0F, 1);
-        func_021F4E98((u8 *)p, 4, 1);
+    if (func_021F6B34(box) != 0 && (int)func_0201AA18(party) < 2) {
         return 0;
     }
-    p->mon = func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot);
-    p->state = 2;
-    p->eb4 = 1;
-    func_021F4EC0((u8 *)p, 7, 9);
-    func_021F6D14(p->deposit, p);
-    p->d0 = 0;
     return 1;
 }
 
@@ -666,92 +519,21 @@ int func_021F6474(Work_021F6474 *p)
 
 
 
-int func_021F651C(u8 *p)
+
+u32 func_021F6BC4(void *sav)
 {
-    func_021F663C(p, 0x19, 1, 0, 0xf0f, 1);
-    func_021F4E98(p, 3, 0xf);
-    return 2;
-}
+    u32 f = func_02017DBC(sav);
+    u32 i;
+    u32 r;
 
-
-
-
-
-/*
- * State setter: build with the fixed 0x12/0x1ad/0x8/0x1 argument pair and latch state 0x10.
- */
-int func_021F6548(u8 *p)
-{
-    func_021F4BE0((u32)p, 0x12, 0x1ad, 0x8, 0x1);
-    ((struct Obj18542 *)p)->f28 = 0x10;
-    return 2;
-}
-
-
-
-
-int func_021F656C(Work_021F656C *p)
-{
-    unsigned result = func_021F4D14((char *)p);
-    if (result == 1) {
-        func_021F4CE4((char *)p);
-        p->mon = func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot);
-        p->state = 2;
-        func_021F4EC0((u8 *)p, 6, 0);
-    } else if (result == 2) {
-        func_021F4CE4((char *)p);
-        func_0201F7A8(p->dd0, 0);
-        p->state = 1;
-    }
-    return 2;
-}
-
-
-
-
-
-/*
- * While the +0xbfc buffer is free, feed the mode word at +0x20 to the dispatch.
- */
-int func_021F65C8(u8 *p)
-{
-    if (func_0204B98C((struct Actor *)(((struct Obj12196 *)p)->fBFC)) == 0) {
-        func_021F5CD4(p, ((struct Obj12196 *)p)->f20);
-    }
-    return 2;
-}
-
-
-
-
-
-/*
- * When the sub-object at +0xfa0 is idle, re-arm the state word from +0x2c.
- */
-int func_021F65E8(u8 *p)
-{
-    if (func_02202840(p + 0xfa0) == 0) {
-        ((struct Obj12197 *)p)->f28 = ((struct Obj12197 *)p)->f2C;
-    }
-    return 2;
-}
-
-
-
-
-
-/*
- * When the build query answers 0 and either probe is set, release the +0xdd0 word and roll the state.
- */
-int func_021F6604(u8 *p)
-{
-    if (func_02202840(p + 0xfa0) == 0) {
-        if (func_020362DC() != 0 || func_02035C60() != 0) {
-            func_0201F7A8((void *)(((struct Obj09227 *)p)->fDD0), 0);
-            ((struct Obj09227 *)p)->f28 = ((struct Obj09227 *)p)->f2C;
+    for (i = 0; i < 15; i++) {
+        r = func_02017E88(sav, tbl_02202C58[i], 0);
+        if (r == 1) {
+            break;
         }
     }
-    return 2;
+    func_02017DE4(sav, f);
+    return r;
 }
 
 
@@ -759,142 +541,415 @@ int func_021F6604(u8 *p)
 
 
 /*
- * Window teardown: the handle is the 0xd40 or 0xdd0 window selected by the
- * sixth argument, and that one handle is used by every call in the body.
+ * Restart the channel: stamp, force ports 5 and 0x6f to zero, hand the stamp over.
  */
-void func_021F663C(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel)
+int func_021F6BFC(u32 handle)
 {
-    u32 v = (u32)sub_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00018 *)p)->fB6C), b);
-    u32 h;
+    u32 stamp = func_02017DBC((struct Sav *)handle);
 
-    func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00018 *)p)->fB68), (void *)(((struct Obj00018 *)p)->fB88), (void *)v);
-    h = *(u32 *)(p + (sel == 0 ? 0xd40 : 0xdd0));
-    sub_02043B5C((struct CharBuf *)((u32)sub_02045770((struct Descriptor *)h)), 0xf);
-    sub_02045334((struct Descriptor *)h);
-    sub_02045374((struct Cfg *)h);
-    sub_020409B4(unit_02045730(h));
-    func_0201F73C((void *)h, 0, 1, 0xe);
-    func_02202858((void *)h, 0, (void *)(((struct Obj00018 *)p)->fB88), 0, 0, p + 0xfa0);
-    sub_02045808((struct U16Vec *)v);
+    func_02017E88((void *)handle, 5, 0);
+    func_02017E88((void *)handle, 0x6f, 0);
+    func_02017DE4((struct Sav *)handle, stamp);
+    return 0;
 }
 
 
 
 
 
-u32 func_021F66C8(u32 a, u32 b, u32 c, u32 d)
+/*
+ * Restart the channel: take a stamp, force port 6 to zero and hand the handle over.
+ */
+int func_021F6C28(u32 handle)
 {
-    u32 blk = (u32)func_02049250((struct ArcFile *)a, b, (u16)d);
+    u32 stamp = func_02017DBC((struct Sav *)handle);
 
-    if (blk != 0 && func_02062A4C((struct NitroFileHeader *)blk, (void **)c) == 0) {
-        func_020307B0((void *)blk);
+    func_02017E88((void *)handle, 6, 0);
+    func_02017DE4((struct Sav *)handle, stamp);
+    return 0;
+}
+
+
+
+
+
+int func_021F6C48(void *party, void *save, int box, int slot)
+{
+    void *mon = func_021F6B40(party, save, box, slot);
+
+    if (mon == 0) {
         return 0;
     }
-    return blk;
+    if (func_02017E88(mon, 0xA9, 0) == 0) {
+        return 0;
+    }
+    if (func_02017E88(mon, 0xAA, 0) != 0) {
+        return 2;
+    }
+    return 1;
 }
 
 
 
 
 
-/*
- * Load the icon graphics of a Pokemon (species, form, gender/half, egg)
- * from the archive handle and copy its 0x200 bytes into the sprite
- * record: +0 gets the VRAM offset of slot `slot`, +4 the icon palette
- * (func_0201BB5C + 5), +8 `pal`, the pixels go to +0xC.
- */
-void func_021F66F0(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f8, u32 arc, IconRec_021F5E44 *rec)
+int func_021F6C80(void *pa, void *pb)
 {
-    CharData *cd;
-    void *buf = (void *)func_021F66C8(arc, func_0201BABC(species, form, gender, isEgg), (u32)(&cd), 0x48);
+    signed char a3;
+    signed char b3;
+    signed char b4;
+    signed char b2;
 
-    func_02082B0C(cd->pixels, rec->pixels, 0x200);
-    rec->vram = (slot * 16 + 0x1c) * 32;
-    rec->f8 = f8;
-    rec->pal = func_0201BB5C(species, form, gender, isEgg) + 5;
-    func_020307B0(buf);
+    if (((struct Obj07243 *)pa)->f0 != ((struct Obj07244 *)pb)->f0)
+        return 0;
+    b2 = ((struct Obj07244 *)pb)->f2;
+    if (b2 != 3 && b2 != ((struct Obj07243 *)pa)->f2)
+        return 0;
+    a3 = ((struct Obj07243 *)pa)->f3;
+    if (a3 == 0)
+        return 0;
+    b3 = ((struct Obj07244 *)pb)->f3;
+    if (b3 != 0 && b3 > a3)
+        return 0;
+    b4 = ((struct Obj07244 *)pb)->f4;
+    if (b4 != 0 && b4 < a3)
+        return 0;
+    return 1;
 }
 
 
 
 
-/*
- * Store the query byte at +3 of the second argument.
- */
-void func_021F6748(u32 a, u8 *q)
+
+int func_021F6CDC(void *mon, void *want)
 {
-    q[3] = func_02018438((void *)a);
+    MonTag t;
+
+    t.species = func_02017E88(mon, 5, 0);
+    t.form = func_02017E88(mon, 0x6E, 0) + 1;
+    t.gender = func_02018438(mon);
+    return func_021F6C80(&t, want);
 }
 
 
 
 
-/*
- * Deferred icon upload (installed at +0xEBC by func_021F68A4): for each
- * of the 30 icon records at +0xEB8 that has a sprite (+8), flush and
- * load its 0x200 pixel bytes to its OBJ VRAM offset and set the sprite's
- * palette; then free the record block.
- */
-void func_021F6754(Work *p)
+
+void func_021F6D14(Deposit *dst, Work_021F6D14 *p)
+{
+    MonTag m;
+    WantTag w;
+    void *e;
+
+    m.species = func_02017E88(p->mon, 5, 0);
+    m.form = func_02017E88(p->mon, 0x6E, 0) + 1;
+    m.gender = func_02018438(p->mon);
+    dst->have = m;
+    func_021F8554(dst, p);
+    e = func_020185F4(p->list[p->sel]);
+    w.species = func_02017E88(e, 5, 0);
+    w.form = func_02017E88(e, 0x6E, 0) + 1;
+    w.b3 = 0;
+    w.b4 = 0;
+    dst->want = w;
+}
+
+
+
+
+
+void func_021F6DB4(Rec *recs, u32 unused, void *key, Entry_021F6DB4 *ent)
 {
     int i;
-    IconRec_021F6748 *e;
 
-    e = p->icons;
-    for (i = 0; i < 30; i++, e++) {
-        if (e->spr != 0) {
-            DC_FlushRange(e->pixels, 0x200);
-            GX_LoadOBJ(e->pixels, e->vram, 0x200);
-            func_0204B6F4((struct Obj *)e->spr, (u8)e->pal, 1);
+    for (i = 0; i < 30; i++) {
+        if (recs[i].a != 0 && func_021F6C80(&recs[i], key) == 0) {
+            ent[i].f4 += 3;
         }
     }
-    func_020307B0(p->icons);
 }
 
 
-/*
- * Read one Pokemon's display parameters (presence 0xA9, species 5, form
- * 0x6F, egg 0x4C, held item 6, parameter 0x6E + 1) into the info record,
- * clearing its +3 byte for an egg. A present Pokemon gets its icon loaded
- * (func_021F66F0) and shown; the item sprite is shown with animation 0x29
- * or 0x28 by func_0202136C, or hidden when there is no item. An empty
- * slot hides both sprites and clears the icon record's +8 word.
- */
-void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, u32 arc, Info *info, IconRec *rec)
-{
-    u32 present;
-    u32 item;
-    u32 egg;
-    u32 form;
 
-    func_02017DBC(mon);
-    present = func_02017E88(mon, 0xa9, 0);
-    *species = func_02017E88(mon, 5, 0);
-    form = func_02017E88(mon, 0x6f, 0);
-    egg = func_02017E88(mon, 0x4c, 0);
-    item = func_02017E88(mon, 6, 0);
-    info->species = *species;
-    info->f2 = func_02017E88(mon, 0x6e, 0) + 1;
-    if (egg != 0) {
-        info->f3 = 0;
+
+
+/*
+ * Read port 6 and report whether the follow-up check accepted it.
+ */
+int func_021F6DE8(u32 handle)
+{
+    int ok = 0;
+    u16 v = (u16)func_02017E1C((void *)handle, 6, 0);
+
+    if (func_0202136C(v) != 0) {
+        ok = 1;
     }
-    func_02017DE4(mon, 1);
-    if (present != 0) {
-        func_021F66F0(*species, form, info->f2 - 1, egg, slot, icon, arc, (IconRec_021F5E44 *)rec);
-        func_0204B3DC((struct Obj *)icon, 1);
-        if (item != 0) {
-            func_0204B3DC((struct Obj *)item_spr, 1);
-            if (func_0202136C(item) != 0) {
-                func_0204B878((struct Obj *)item_spr, 0x29);
-            } else {
-                func_0204B878((struct Obj *)item_spr, 0x28);
-            }
-        } else {
-            func_0204B3DC((struct Obj *)item_spr, 0);
+    return ok;
+}
+
+
+
+
+void func_021F6E08(Work_021F6E08 *p)
+{
+    unsigned i;
+    p->count = func_020076A4(p->ctx->save);
+    if (p->count < 24) {
+        for (i = 0; i < p->count; i++) {
+            if (func_020078C4(p->ctx->save, i) == 0) break;
         }
-    } else {
-        func_0204B3DC((struct Obj *)icon, 0);
-        func_0204B3DC((struct Obj *)item_spr, 0);
-        rec->f8 = 0;
+        if (i == p->count) p->count = func_020076B4(p->ctx->save);
     }
+}
+
+
+
+
+
+int func_021F6E58(Work_021F6E58 *p)
+{
+    Req_021F68A4 *d;
+    void *tmpl;
+
+    func_021F50EC((u8 *)p);
+    p->req = func_02030734(0x48, 0x44, 0, str_02203B6C, 0x5E);
+    func_02082BCC(p->req, 0, 0x44);
+    d = p->req;
+    p->saveMon = func_02202608(0x48);
+    d->f30 = func_020120F4(p->ctx->f40);
+    d->f3C = p->ctx->f1C;
+    switch (p->kind) {
+    case 7:
+        d->f38 = d->f34 = func_0200ADB4(p->ctx->sys);
+        d->f40 = p->info = (void *)func_021F72C4((Entry_021F72C4 *)p->mon);
+        tmpl = d_021E75FC;
+        break;
+    case 8:
+        if (p->f207 != 0) {
+            d->f38 = p->mon;
+        } else {
+            d->f38 = func_0200ADB4(p->ctx->sys);
+        }
+        d->f34 = d->f38;
+        d->f40 = p->info = (void *)func_021F72C4((Entry_021F72C4 *)p->mon);
+        tmpl = d_021E75B4;
+        break;
+    case 10:
+        if (p->f207 != 0) {
+            d->f38 = p->mon;
+        } else {
+            d->f38 = func_0200ADB4(p->ctx->sys);
+        }
+        func_0200AD9C(p->ctx->sys, p->saveMon);
+        d->f34 = p->saveMon;
+        d->f40 = p->info = (void *)func_021F72C4((Entry_021F72C4 *)p->mon);
+        tmpl = d_021E75CC;
+        break;
+    case 9:
+        func_02019CE0(p->fEA8, p->saveMon);
+        d->f34 = p->fEA8;
+        d->f38 = &p->arr[p->cur];
+        d->f40 = p->info = (void *)func_021F72C4((Entry_021F72C4 *)(&p->arr[p->cur]));
+        tmpl = d_021E75CC;
+        break;
+    default:
+        func_02034714((void *)0x02203B80, 0, (void *)0x02203B80);
+        break;
+    }
+    func_02031348(p->f12F0, (u32)ov119_id, tmpl, p->req);
+    p->fB8 = 1;
+    p->f12E4 = 0;
+    return 1;
+}
+
+
+
+
+/*
+ * Two-state step. State 0, once the +0x12F4 busy word clears: for kind 9
+ * (or kinds 8/10 when the stored entry differs from the one rebuilt from
+ * the save data by func_02202608/func_0200AD9C) build a 0x14-byte request
+ * (func_0201B2B0 result, list holding the entry, out byte) at +0x10DC,
+ * load overlay 67 and start the overlay-195 task (d_02208C40, hinted to
+ * ov195 because this function names ov195_id), then go to state 1; any
+ * failure calls func_021F4EC0(p, 1, 0) and returns 3. State 1 copies the
+ * result back into the entry, frees the request, refreshes the record
+ * (func_021F7374), clears the DISPCNT window bits, unloads overlay 67 and
+ * calls func_021F4EC0(p, 7, 0xC). Returns 2 while waiting, else 3.
+ */
+int func_021F6FD4(Obj_021F68A4 *p)
+{
+    int ret = 2;
+
+    switch (p->state) {
+    case 0:
+        if (p->busy != 0) {
+            break;
+        }
+        if (p->kind == 9) {
+            void *e = (void *)func_021F7338((Obj_021F72C4 *)p, p->kind);
+            u32 out;
+            u32 r;
+
+            func_02017E1C(e, 6, 0);
+            r = func_0201B2B0(0, e, 1, (u32)p->fEA4, func_02012984(func_020120F4((const struct Ctx_021F6E58 *)p->ctx->f40)), &out, 0x48);
+            if (r != 0) {
+                Req_021F6FD4 *w;
+
+                if (p->req != 0) {
+                    func_020307B0(p->req);
+                    p->req = 0;
+                }
+                p->req = func_02030734(0x48, 0x14, 0, str_02203B6C, 0xEB);
+                func_02082BCC(p->req, 0, 0x14);
+                w = p->req;
+                w->f0 = func_020120F4((const struct Ctx_021F6E58 *)p->ctx->f40);
+                w->list = func_0201A920(0x48);
+                func_0201A98C(w->list, e);
+                w->f8 = r;
+                w->fA = 0;
+                w->fB = out;
+                w->fC = 1;
+                w->f10 = 0;
+                func_02034A5C((u32)ov067_id);
+                func_02031348(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
+                p->state = 1;
+            } else {
+                func_021F4EC0((u8 *)p, 1, 0);
+                ret = 3;
+            }
+        } else if (p->kind == 8 || p->kind == 10) {
+            void *e = (void *)func_021F7338((Obj_021F72C4 *)p, p->kind);
+            void *mon = func_02202608(0x48);
+            u32 out;
+            u32 r;
+
+            func_0200AD9C(p->ctx->save, mon);
+            if (func_02017E1C(e, 5, 0) != func_02017E1C(mon, 5, 0)
+                || func_02017E1C(e, 0, 0) != func_02017E1C(mon, 0, 0)) {
+                func_02017E1C(e, 6, 0);
+                r = 0;
+                if (p->f12F8 != 0) {
+                    p->f12F8 = 0;
+                    r = func_0201B2B0(0, e, 1, (u32)mon, func_02012984(func_020120F4((const struct Ctx_021F6E58 *)p->ctx->f40)), &out, 0x48);
+                }
+                if (r != 0) {
+                    Req_021F6FD4 *w;
+
+                    if (p->req != 0) {
+                        func_020307B0(p->req);
+                        p->req = 0;
+                    }
+                    p->req = func_02030734(0x48, 0x14, 0, str_02203B6C, 0x130);
+                    func_02082BCC(p->req, 0, 0x14);
+                    w = p->req;
+                    w->f0 = func_020120F4((const struct Ctx_021F6E58 *)p->ctx->f40);
+                    w->list = func_0201A920(0x48);
+                    func_0201A98C(w->list, e);
+                    w->f8 = r;
+                    w->fA = 0;
+                    w->fB = out;
+                    w->fC = 1;
+                    w->f10 = 0;
+                    func_02034A5C((u32)ov067_id);
+                    func_02031348(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
+                    p->state = 1;
+                } else {
+                    func_021F4EC0((u8 *)p, 1, 0);
+                    ret = 3;
+                }
+            } else {
+                func_021F4EC0((u8 *)p, 1, 0);
+                ret = 3;
+            }
+            func_020307B0(mon);
+        } else {
+            func_021F4EC0((u8 *)p, 1, 0);
+            ret = 3;
+        }
+        break;
+    case 1:
+        if (p->busy != 0) {
+            break;
+        }
+        if (p->req != 0) {
+            Req_021F6FD4 *w = p->req;
+            void *e = (void *)func_021F7338((Obj_021F72C4 *)p, p->kind);
+
+            func_02019CE0(func_0201AB28(w->list, 0), e);
+            func_020307B0(w->list);
+            func_020307B0(p->req);
+            p->req = 0;
+        }
+        func_021F7374((Obj_021F68A4 *)p);
+        *(volatile u32 *)0x04000000 &= ~0xE000;
+        func_02034AC4((u32)ov067_id);
+        func_021F4EC0((u8 *)p, 7, 0xC);
+        ret = 3;
+        break;
+    }
+    return ret;
+}
+
+
+
+/*
+ * volatile: 0x021F72AC writes hardware halfword 0x04000050.
+ */
+int func_021F7268(u8 *p)
+{
+    if (((struct Obj03829 *)p)->fD8) {
+        func_020307B0(((struct Obj03829 *)p)->fD8);
+        ((struct Obj03829 *)p)->fD8 = 0;
+    }
+    func_020307B0(((struct Obj03829 *)p)->fEA4);
+    if (((struct Obj03829 *)p)->f10DC) {
+        func_020307B0(((struct Obj03829 *)p)->f10DC);
+        ((struct Obj03829 *)p)->f10DC = 0;
+    }
+    ((struct Obj03829 *)p)->f12F8 = 0;
+    func_021F5074(p);
+    func_021F4EC8(p);
+    *(volatile unsigned short *)0x04000050 = 0;
+    return 0;
+}
+
+
+
+Info_021F72C4 *func_021F72C4(Entry_021F72C4 *e)
+{
+    Info_021F72C4 *info;
+
+    info = func_0200846C(0x48);
+    func_020084A0((struct Sub0200852CObj *)info);
+    func_020084D4((u32)info, e->name);
+    func_02008560((struct Sub0200852CObj *)info, e->f124);
+    func_02008568((struct Sub0200852CObj *)info, e->f125);
+    func_0200854C((struct Sub0200852CObj *)info, e->fF6);
+    func_02008558((struct Sub0200852CObj *)info, e->f122);
+    func_02008574((struct Sub0200852CObj *)info, e->f120, e->f121);
+    info->f10 = e->f10C;
+    info->f14 = e->f108;
+    return info;
+}
+
+
+
+/*
+ * Return the slot record for a kind: kind 9 is the current 0x128-byte
+ * entry of the +0x20C array (index at +0xD4), kinds 10 and 8 share the
+ * record at +0xE4. Any other kind reports through func_02034714 (raw
+ * address 0x02203B80, a plain constant as in func_02202B20) and yields 0.
+ */
+Entry_021F7338 *func_021F7338(Obj_021F72C4 *p, int kind)
+{
+    if (kind == 9) {
+        return &p->arr[p->cur];
+    } else if (kind == 10) {
+        return &p->single;
+    } else if (kind == 8) {
+        return &p->single;
+    }
+    func_02034714((void *)0x02203B80, 0, (void *)0x02203B80);
+    return 0;
 }
