@@ -82,7 +82,6 @@ typedef struct DWCWDSWork {
     int selectedIndex;
 } DWCWDSWork;
 
-typedef struct DWCWDSWork_0205DC58 DWCWDSWork_0205DC58;
 
 typedef struct NSpotState {
     DWCWDSWork *gDwcWdsWork;
@@ -252,11 +251,9 @@ asm void DWC_AC_CancelGetWDSInfo(void)
 
 
 
-static DWCWDSWork_0205DC58 *gDwcWdsWork = NULL;
 
 
 
-static void *wdsSysBuf = NULL;
 
 
 
@@ -266,13 +263,13 @@ static void *wdsSysBuf = NULL;
  */
 void func_0205DC74(void)
 {
-    if (wdsSysBuf != NULL) {
-        DWC_Free(1, wdsSysBuf, 0);
-        wdsSysBuf = NULL;
+    if (s_nspot.wdsSysBuf != NULL) {
+        DWC_Free(1, s_nspot.wdsSysBuf, 0);
+        s_nspot.wdsSysBuf = NULL;
     }
-    if (gDwcWdsWork != NULL) {
-        DWC_Free(1, gDwcWdsWork, 0);
-        gDwcWdsWork = NULL;
+    if (s_nspot.gDwcWdsWork != NULL) {
+        DWC_Free(1, s_nspot.gDwcWdsWork, 0);
+        s_nspot.gDwcWdsWork = NULL;
     }
 }
 
