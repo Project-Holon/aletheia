@@ -1,4 +1,4 @@
-# Restructure report (2026-10-11, after round 14)
+# Restructure report (2026-10-11, after round 15)
 
 Handoff for the next session. Goal of this phase: rebuild `src/game/` as the
 original source files (one `.c` per translation unit, TU). `src/matched/` stays the
@@ -14,7 +14,7 @@ TUs that are one file (file counts from `split_tus.tsv`; estimate 1816 TUs):
 | Overlays | 1243 / 1325 | 93.8% |
 | twl | 80 / 82 | 97.6% |
 | ITCM | 2 / 3 | 66.7% |
-| **Total** | **1709 / 1816** | **94.1%** |
+| **Total** | **1714 / 1816** | **94.4%** |
 
 Denominator change in round 6 (+7 TUs): arm9 `unit_02004F94.c` and `unit_02004FD4.c`
 (crt0 helpers copied to WRAM, data words around them; their own units like the
@@ -88,6 +88,7 @@ functions written into `src/game` are not counted (see "Coverage caveats").
 | Round 12 | 4 | 92.9% (no TU closed, structs): arm9 unit_02064D70 15 -> 4 (RendererBss and SDK-style types), net_state 46 -> 36 (NetState 0x64 bytes for g_021469DC), clact 11 -> 6, particle 6 -> 4; ov208 zukan_detail_form 4 -> 3 (Ov208Form); ov135 worldtrade_types.h with one Menu (no part count change) |
 | Round 13 | 4 | 93.0%: ov135 worldtrade_enter and ov010 musical_dressup_sys whole; arm9 net_state 36 -> 25 (NetCtx 0x354 bytes with named vtable; func_0203D798 is the same object), ov208 zukan_detail_graphic 13 -> 7 (zukan_detail_types.h: Ov208Mgr, Ov208Scene...), ov010 comm_player 11 -> 2, event_field_proclink 12 -> 2, ov135 worldtrade_box 6 -> 5; ov135 shared Work (0x132C bytes) in worldtrade_types.h applied to all 14 parts; afterwards event_field_proclink 2 -> 1 with a hidden tail-call function (the 8-byte stub was not a veneer): 93.1% |
 | Round 14 | 4 | 94.1% (19 TUs): the tail-call stubs (8-byte Thumb `ldr r3,[pc]; bx r3`, 12-byte ARM `ldr ip,[pc]; bx ip`) are compiled code, not veneers: about 100 written as hidden functions; arm9 iss_city_sys, iss_road_sys, iss_3ds_sys, backup_system, unit_02059108, unit_02059858, unit_02072374, unit_02079304; ov009 unit_0215F650, unit_02164D64, unit_02165B80, unit_0217F130; ov014 net_whpipe; ov015 unit_02179824, unit_02179CAC; ov114 ghttpEncryption, unit_021C2284; ov125 unit_021D7CEC; ov093 unit_021DA624 whole; net_state 25 -> 20 |
+| Round 15 | 5 | 94.4%: ov135 worldtrade_box and worldtrade_adapter, ov208 zukan_detail_form, arm9 net_state (20 -> 1) and g3d_system whole; 48 more hidden functions filed (35559 functions); the table figures above (ARM9/Overlays rows) were not recomputed per area. Not done: 16 overlay tail stubs are labelled but not in the 24,513-function count (decision pending); ov095/ov039/ov070/twl matches still open |
 
 Subagents in opencode use `.opencode/agents/lane.md` (model
 `anthropic/claude-sonnet-5-5`, not committed; it is local opencode config).
@@ -150,7 +151,7 @@ Current report: `gamegaps.tsv` / `gamegaps_summary.txt` in this folder.
   all 29 of unit_0273042C, func_02701AA0, func_02731AF0, and 3 in unit_0272E9E8
   (`src/matched/twl*`, shard `twl_sys` re-verified).
 
-### 2. TUs still split (107)
+### 2. TUs still split (102)
 List with piece counts: `split_tus.tsv` (columns: region, tu, parts, folder
 members). Each TU folder has a `MERGE.md` with its blockers. Not reached yet:
 ov021 field_effect, field_wfbc, weather_task (30), fldmmdl_blact (14), fld_trade
@@ -306,6 +307,8 @@ code inside a game neighbour's extent), still 100%; ARM9 unchanged at 100%. The
 match.py selftest fixtures for sole-ref/self and the map lone case used
 0x02004F94, which is the crt0 helper and code: moved to 0x02005050.
 
+**Filed again (2026-10-11).** 48 more hidden functions got a label, a per-function file and a shard `pkt_<region>_<ADDR>` (arm9 15, ov009 3, ov010 1, ov014 6, ov015 13, ov018 2, ov021 4, ov093 2, twl 2; all EXACT). This includes the 12 of the 13 left over last time: func_0202B720..func_0202B7AC and func_021A1298 and func_021E5968 needed `symbols:` rows or an `extern` that the merged file did not carry for their callee (the callee has a matched entry, which is a valid witness). Not filed: ov132 func_021FBA6C (a 0x4C0-byte function, stays MATCH: the function-pointer and data pool words have no witness). The 71 arm9 and 16 overlay tail-call stubs of round 14 already have a listing label (ovstats counts the overlay ones as veneers); they are not hidden and were not filed. 19 neighbour shards re-verified, whole manifest twice with `--force`: 0 rewritten, `manifest --check` clean. Coverage did not move (the bytes were already counted). The src/game header of iss_3ds_sys.c got four witnessed `symbols:` rows and verifies EXACT now.
+
 **Original to-do (done above).** File them properly: (1) a label per function in
 `layout/function_starts.txt` (this shrinks the neighbour's extent), (2) a
 per-function file in `src/matched/<region>/` taken from the `src/game` copy,
@@ -333,7 +336,7 @@ shared strings and data), and lanes adjusted them (1812 became 1809).
 - Evidence not used yet: alignment gaps between each file's data block, one static
   initialiser entry per file with globals, overlay edges as outer bounds.
 
-So "94.1%" means 1709 of the 1816 estimated TUs are one file.
+So "94.4%" means 1714 of the 1816 estimated TUs are one file.
 
 ## Tools
 - `tools/restructure.py` builds/merges; `tools/gamepromote.py` moves one-piece TUs

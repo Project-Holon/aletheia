@@ -4,10 +4,8 @@ arm9	bmp_menulist	3	0
 arm9	btl_setup	2	0
 arm9	button_man	5	0
 arm9	clact	6	0
-arm9	g3d_system	3	0
 arm9	gfl_use	9	0
 arm9	ica_anime	3	0
-arm9	net_state	20	0
 arm9	particle	4	0
 arm9	pokeparty	5	0
 arm9	tr_tool	2	0
@@ -90,8 +88,6 @@ ov107	unit_021F4560	3	0
 ov114	nhttp_rap	2	0
 ov121	mystery_net	3	0
 ov125	gds_rap	3	0
-ov135	worldtrade_adapter	4	0
-ov135	worldtrade_box	5	0
 ov172	camera_system	31	0
 ov172	ctvt_comm	5	0
 ov172	ctvt_draw	2	0
@@ -100,7 +96,6 @@ ov183	br_codein	6	0
 ov194	namein_graphic	4	0
 ov198	unit_0220BC70	10	0
 ov204	intro_graphic	2	0
-ov208	zukan_detail_form	3	0
 ov208	zukan_detail_graphic	7	0
 ov218	un_select	2	0
 twl	unit_0272E9E8	7	0

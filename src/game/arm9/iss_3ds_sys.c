@@ -30,6 +30,10 @@
  *   Data_0209FF88  0x0209FF88  data
  *   func_0202BB40  0x0202BB40  thumb
  *   func_0202BB48  0x0202BB48  thumb
+ *   func_0202B424  0x0202B424  thumb
+ *   func_0202C0B8  0x0202C0B8  thumb
+ *   func_0202BEE4  0x0202BEE4  thumb
+ *   func_0202C0C0  0x0202C0C0  thumb
  */
 #include "../../matched/include/Obj02010.h"
 #include "../../matched/include/Obj17265.h"
