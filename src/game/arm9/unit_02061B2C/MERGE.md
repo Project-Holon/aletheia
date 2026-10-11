@@ -11,3 +11,6 @@ one struct HeapB for g_02146BB0, func_02061FF8 takes (u32 *, u32 *) everywhere.
 
 Boundaries left: p01|p02 and p02|p03 change compiler (2.0 / 1.1p1). Re-tested in w10d: p01+p02 is DIFF in
 both orders. Real.
+
+Round 17 (L04): each part retagged to the other compiler (p01 and p03 under 1.1p1, p02 under 2.0/sp2): all DIFF.
+The boundaries stay (compiler change, DWC objects).

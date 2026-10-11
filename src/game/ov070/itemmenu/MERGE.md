@@ -19,3 +19,14 @@ text (it silently ended the symbol block in the merge), the two different local
 ## Round 5 note (r5 g01)
 
 Not decoded this round (ran out of budget on ov039). Callees of 0x021B86B8: blx 0x203064C, 0x203159C, 0x2082BCC, 0x2036370, bl 0x200816C, 0x2008284, 0x2008270, 0x2007FA0, 0x2008288 (a loop, blo back to 0x21B8730), blx 0x2045B38, 0x20457B0 x3, bl 0x201EC64, 0x201C450, 0x2028590, 0x201D7EC. Two data loops with blt/blo exits. Still one uncovered function, still the boundary p01 | p02.
+
+## Round 17 (2026-10-12): func 0x021B86B8, best 44 bytes off (parked)
+Drafts in the session scratchpad r18/L18b/Q1.c (46) and r18/L18h/d2.c (44).
+With the fixed tools/mwccdbg regalloc replay:
+- Loop: the original needs the CSE temps for v[0]/v[1] created after loop
+  hoisting (late vreg numbers); ours names them in CSE run 1. Declaration
+  order, structs and separate locals do not move them.
+- Struct copy: the original computes q = &a2[5] early, uses it only for the
+  w0c store, and loads the last two words a2-relative; IRO forward-substitutes
+  a single-use q into the store, which moves the mov/add late.
+No human-plausible source found yet for either.

@@ -21,3 +21,7 @@ file, so the macros are gone and the code uses `step_bss.file` and
 `step_bss.memStep` directly.
 
 Round 3 (r3_ov04): re-tried the p01+p02 merge: still DIFF (taskEnd0), same function-static reason as above.
+
+Round 18 (L17): merged p01+p02 with file-scope statics File and MemStep (func_021D0684 as `MemStep->task != 0`):
+everything else matches except that an unused file static File is dropped by the compiler, so MemStep lands at +0
+instead of +4 (one word differs at each use). A function-scope unused static is kept. Boundary unchanged.

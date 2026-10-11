@@ -12,3 +12,7 @@ All parts verify EXACT on their own. Both boundaries are likely real file bounda
   prototype p02 is DIFF (581 bytes differ from func_021F3B3C: narrowing added at every call);
   with p02's prototype and (u16)i casts p03 is DIFF too (the narrowing is hoisted out of the
   loop). One prototype cannot serve both files.
+Round 18 (L17): tested u16 k with k = k + 1 in p02 (func_021F3B3C) and int prototypes in p01 with u16 loop locals.
+The u16 local folds 0+1 to `movs #1`; the original keeps `adds #1; lsls #24; lsrs #24` unfolded, which only the enum
+spelling gives. p01 with int prototypes and u16 locals changes register allocation (the loop variable i lives in
+a stack slot in the original). Boundary unchanged.

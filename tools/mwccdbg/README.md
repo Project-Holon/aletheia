@@ -100,6 +100,11 @@ the compiler take the decision by itself.
 - The model in `regalloc.py` reproduces the stack and every colour of each capture it was
   checked on (ARM and Thumb). Pair and even rules (flags 0x200, 0x1000, 0x2000) are not
   modelled.
+- Spill cost (node +0xC) and the nospill/inf flags are computed lazily, just before the first
+  spill pick of a round (call 0x5B0420 at 0x526756); at the SimplifyGraph entry every cost is
+  0 and those flags are clear. Capture reads them at the first spill pick, so the spill-pick
+  model sees the real scores (a node with the nospill flag scores as float max, even with a
+  negative cost).
 
 ### Scheduler (Scheduler.c, SchedulerARM9.c)
 

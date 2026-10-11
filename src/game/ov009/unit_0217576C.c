@@ -779,7 +779,7 @@ int func_021767E4(void)
  */
 int func_021767F4(void)
 {
-    if (func_02175F3C()->f_7D4 == 0) {
+    if (func_02175F3C()->flag7d4 == 0) {
         return 0;
     }
     if (func_0216BA08() != 0 &&

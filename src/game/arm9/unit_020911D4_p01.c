@@ -1,18 +1,16 @@
 /*
  * file:     unit_020911D4_p01.c
  * unit:     yes
- * function: func_020911D4, func_020911D8, func_02091200, func_02091230, func_0209125C, func_0209128C, func_020912A8, func_02091374, func_0209138C, func_020913A4, func_020913BC, func_020913D0, func_020913E8, func_020913FC, func_0209146C, func_0209149C, func_02091524, func_02091588, func_02091594, func_02091598, func_0209159C, func_020915C4, func_02091650, func_020916D4, func_020917D4, func_02091AE8, func_02091B5C, func_02091C40, func_02091CBC, func_02091D38, func_02091E44, func_02092004, func_02092120, func_02092144, func_020921D8, func_020921F4, func_02092264, func_0209229C, func_020922B0, func_020922CC, func_02092344, func_02092364, func_020923B0, func_020923C4, func_020923F0, func_02092430, func_020924DC, func_020929E8, func_02092C38, func_02092F0C, func_020933B8, func_020934CC, func_02093BDC, func_02094488, func_020944CC, func_02094530, func_0209455C, func_02094694, func_020946C8, func_020946D8, func_02094750, func_02094778, func_0209477C, func_02094798, func_02094860, func_020948B0, func_020948E0, func_020949F4, func_02094A28, func_02094A60, func_02094B20, func_02094B8C, func_02095AA4, func_02095B2C, func_02095B3C, func_02095EAC, func_02095F40, func_02096004, func_020963F8, func_020964E0, func_020964F4, func_02096508, func_02096578, func_02096594, func_020965B4, func_02096620, func_02096670, func_020966B0, func_02096774, func_020968F4, func_02096990, func_02096D10, func_02096DF0, func_02096ED0, func_02097170, func_020972F0, func_0209739C, func_02097990
+ * function: func_020911D4, func_020911D8, func_02091200, func_02091230, func_0209125C, func_0209128C, func_020912A8, func_02091374, func_0209138C, func_020913A4, func_020913BC, func_020913D0, func_020913E8, func_020913FC, func_0209146C, func_0209149C, func_02091524, func_02091588, func_02091594, func_02091598, func_0209159C, func_020915C4, func_02091650, func_020916D4, func_020917D4, func_02091AE8, func_02091B5C, func_02091C40, func_02091CBC, func_02091D38, func_02091E44, func_02092004, func_02092120, func_02092144, func_020921D8, func_020921F4, func_02092264, func_0209229C, func_020922B0, func_020922CC, func_02092344, func_02092364, func_020923B0, func_020923C4, func_020923F0, func_02092430, func_020924DC, func_020929E8, func_02092C38, func_02092F0C, func_020933B8, func_020934CC, func_02093BDC, func_02094488, func_020944CC, func_02094530, func_0209455C, func_02094694, func_020946C8, func_020946D8, func_02094750, func_02094778, func_0209477C, func_02094798, func_02094860, func_020948B0, func_020948E0, func_020949F4, func_02094A28, func_02094A60, func_02094B20, func_02094B8C, func_02095AA4, func_02095B2C, func_02095B3C, func_02095EAC, func_02095F40, func_02096004, func_020963F8, func_020964E0, func_020964F4, func_02096508, func_02096578, func_02096594, func_020965B4, func_02096620, func_02096670, func_020966B0, func_02096774, func_020968F4, func_02096990, func_02096D10, func_02096DF0, func_02096ED0, func_02097170, func_020972F0, func_0209739C, func_02097990, func_020979C0, func_02098B48, func_02099228
  * address:  0x020911D4
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: dsi/1.2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
- * The four Thumb wrappers and their 16-byte veneers (0x020911D8..0x02091283) sit
- * between ARM code: `#pragma thumb on` ... `#pragma thumb reset`.
  *
  * symbols:
  *   func_02704364  0x02704364  arm
@@ -109,6 +107,18 @@
  *   s_020A8B88     0x020A8B88  data  a1
  *   s_020A8B8C     0x020A8B8C  data  a1
  *   s_020A8B90     0x020A8B90  data  a1
+ *   _dleq  0x0209B8FC  arm
+ *   func_0209C5E0  0x0209C5E0  arm
+ *   scalbn  0x02097990  arm
+ *   bp  0x020A6300  data
+ *   dp_h  0x020A62F0  data
+ *   dp_l  0x020A6310  data
+ *   __float_nan  0x020A8818  data
+ *   errno  0x02153FAC  data
+ *   _dfix  0x0209C508  arm
+ *   func_0209953C  0x0209953C  arm
+ *   npio2_hw  0x020A6320  data
+ *   two_over_pi  0x020A63A0  data
  */
 #include "../../matched/include/Obj00481.h"
 #include "../../matched/include/Obj16696.h"
@@ -151,6 +161,8 @@
 #define unfetch(c) (*ReadProc)(ReadProcArg, c, 1)
 #define FP_INFINITE 2
 #define isinf(x) (func_020921F4(x) == FP_INFINITE)
+#define HI(x) (((i32 *)&(x))[1])
+#define LO(x) (((i32 *)&(x))[0])
 struct P02091B5C;
 struct S0209159C;
 struct FILE;
@@ -474,6 +486,14 @@ typedef struct {
     u8  buf[33];
 } DB;
 
+/* Matched units compiled in this file, entered 4 bytes before their function:
+ * unit_020979BC (0x020979BC) holds func_020979C0
+ * unit_02098B44 (0x02098B44) holds func_02098B48
+ * unit_02099224 (0x02099224) holds func_02099228
+ */
+
+typedef int i32;
+
 extern int func_02085D88(void);
 extern void func_02088234(void);
 extern void func_02086028(void *a0);
@@ -495,15 +515,18 @@ extern double func_0209A7A8(double x, int n);
 extern u64 func_0209C554(double x);
 extern double func_0209A368(double x, double y);                        /* copysign */
 extern double func_0209AB80(double x, double y);                        /* pow */
+void func_02731754(u32 a);
+void func_02731760(u32 a, u32 b, u32 c);
+void func_02731764(u32 a, u32 b);
+void func_02731920(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern double func_0209C5E0(double x);
+extern double scalbn(double x, int n);
+extern int func_0209953C(double *x, double *y, int e0, int nx, int prec, const i32 *ipio2);
 void func_020911D4(void);
 void func_020911D8(u32 a);
-void func_02731754(u32 a);
 void func_02091200(u32 a, u32 b, u32 c);
-void func_02731760(u32 a, u32 b, u32 c);
 void func_02091230(u32 a, u32 b);
-void func_02731764(u32 a, u32 b);
 void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e);
-void func_02731920(u32 a, u32 b, u32 c, u32 d, u32 e);
 void func_0209128C(int x);
 u32 func_020912A8(u32 a0);
 double func_02091374(const char *tagp);
@@ -597,6 +620,9 @@ void func_02097170(DB *r, double x);
 void func_020972F0(const decform *f, double x, decimal *p);
 double func_0209739C(const decimal2 *d);
 double func_02097990(double x, int n);
+double func_020979C0(double x, double y);
+int func_02098B48(double x, double *y);
+double func_02099228(double x, double y);
 extern u8 g_02153B88;
 extern struct H g_02150FEC;
 extern u32 g_02153B8C;
@@ -652,6 +678,14 @@ extern const char s_020A8B88[];
 extern const char s_020A8B8C[];
 extern const double pow_10[8];
 extern const char s_020A8B90[];     /* "179769313486231580793728714053034151" */
+extern int errno;
+extern const float __float_nan;
+extern const double bp[];
+extern const double dp_h[];
+extern const double dp_l[];
+extern const i32 npio2_hw[];
+extern const i32 two_over_pi[];
+
 
 
 void func_020911D4(void)
@@ -660,7 +694,9 @@ void func_020911D4(void)
 }
 
 
+
 #pragma thumb on
+
 
 
 /*
@@ -680,6 +716,7 @@ void func_020911D8(u32 a)
 }
 
 
+
 /*
  * Three-argument flavour of func_020911D8.
  *
@@ -696,6 +733,7 @@ void func_02091200(u32 a, u32 b, u32 c)
 }
 
 
+
 /*
  * Two-argument flavour of func_020911D8.
  *
@@ -710,6 +748,7 @@ void func_02091230(u32 a, u32 b)
     }
     func_02731764(a, b);
 }
+
 
 
 /*
@@ -729,7 +768,9 @@ void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e)
 }
 
 
+
 #pragma thumb reset
+
 
 
 /*
@@ -752,6 +793,7 @@ void func_0209128C(int x)
     }
     g_02153B88 = v;
 }
+
 
 
 /*
@@ -793,10 +835,12 @@ u32 func_020912A8(u32 a0)
 }
 
 
+
 double func_02091374(const char *tagp)
 {
     return func_0209BD38(g_020A8818);
 }
+
 
 
 void *func_0209138C(u32 heap)
@@ -805,10 +849,12 @@ void *func_0209138C(u32 heap)
 }
 
 
+
 void func_020913A4(u32 heap)
 {
     OS_FreeToHeap(0, (u32)-1, heap);
 }
+
 
 
 /*
@@ -820,12 +866,14 @@ u32 func_020913BC(void *resSet)
 }
 
 
+
 void *func_020913D0(u32 heap)
 {
     if (heap == 0)
         return 0;
     return func_0209138C(heap);
 }
+
 
 
 asm void ghiFreeTempBuffer(void)
@@ -836,6 +884,7 @@ asm void ghiFreeTempBuffer(void)
     bl func_020913A4
     ldmfd sp!, {r3, pc}
 }
+
 
 
 /*
@@ -869,6 +918,7 @@ void *func_020913FC(u32 a0, u32 a1)
 }
 
 
+
 void *func_0209146C(u32 a0, u32 a1)
 {
     u32 size = a1;
@@ -880,6 +930,7 @@ void *func_0209146C(u32 a0, u32 a1)
         func_020923B0(p, 0, size);
     return p;
 }
+
 
 
 /*
@@ -927,6 +978,7 @@ int func_0209149C(void)
 }
 
 
+
 /*
  * Walks the three 0x4C-byte records of g_020A8730 and asks func_02091B5C
  * about every record whose +4 bitfield 3..5 is set, returning -1 as soon as
@@ -969,13 +1021,17 @@ int func_02091524(void)
 }
 
 
+
 int func_02091588(int x){ return x < 0 ? -x : x; }
+
 
 
 void func_02091594(int a, void *b){ }
 
 
+
 void func_02091598(int a, void *b){ }
+
 
 
 /*
@@ -1001,6 +1057,7 @@ void func_0209159C(struct S0209159C *p)
     p->f28 = p->f20 - (p->f18 & p->f2c);
     p->f34 = p->f18;
 }
+
 
 
 /*
@@ -1047,6 +1104,7 @@ int func_020915C4(struct S020915C4 *p, u32 *a1, int a2)
 }
 
 
+
 /*
  * The commit half of the pair whose prepare half is func_020915C4: work out
  * the amount still to apply (f24 - f1c), and if there is one, publish it to
@@ -1085,6 +1143,7 @@ int func_02091650(struct S02091650 *p, u32 *a1)
     func_0209159C((struct S0209159C *)p);
     return 0;
 }
+
 
 
 /*
@@ -1138,10 +1197,13 @@ s32_020911D4 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3)
 }
 
 
+
 enum { __neutral, __writing, __reading, __rereading };
 
 
+
 enum { __no_io_error, __io_error, __io_EOF };
+
 
 
 /*
@@ -1282,6 +1344,7 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
 }
 
 
+
 int func_02091AE8(u8 *p)
 {
     u32 mode;
@@ -1301,6 +1364,7 @@ int func_02091AE8(u8 *p)
         return -1;
     return (r != 0 || x != 0) ? -1 : 0;
 }
+
 
 
 /*
@@ -1360,6 +1424,7 @@ int func_02091B5C(struct P02091B5C *p)
     p->f28 = 0;
     return 0;
 }
+
 
 
 /*
@@ -1434,6 +1499,7 @@ int func_02091C40(const u8 *s1, const u8 *s2, int n)
 }
 
 
+
 /*
  * Reads back the amount a record still owes: reject the record when its +4
  * bits 7..9 mode is neither 0 nor 1 or when its +0xd byte is set (leaving
@@ -1479,6 +1545,7 @@ int func_02091CBC(struct P02091CBC *p)
         v -= m - 2;
     return v;
 }
+
 
 
 /*
@@ -1541,6 +1608,7 @@ s32_02091D38 func_02091D38(u32 a0)
     if (arr_02153BB0[idx] == 0) func_02086078(blk);
     return r;
 }
+
 
 
 /*
@@ -1611,6 +1679,7 @@ s32_02091E44 func_02091E44(struct File *p, u32 pos, u32 whence)
 }
 
 
+
 /*
  * note:     re-verified 2026-09-20: MATCH; see verify output
  * blocking: label, no outside witness -- the one wildcard site is +0x00D4
@@ -1650,7 +1719,9 @@ s32_020911D4 func_02092004(u32 a0, u32 a1, u32 a2)
 }
 
 
+
 int func_02092120(void *a0){ int t0; ((struct Obj11692 *)((char *)(a0)))->fD = (unsigned char)0; t0 = func_02092004((int)a0, (int)0, (int)0); ((struct Obj11692 *)((char *)(a0)))->fD = (unsigned char)0; return t0; }
+
 
 
 /*
@@ -1690,12 +1761,14 @@ u32 func_02092144(u64 x)
 }
 
 
+
 int func_020921D8(double v)
 {
     u32 *w = (u32 *)&v;
 
     return (w[1] & 0x80000000u) ? 1 : 0;
 }
+
 
 
 /*
@@ -1718,6 +1791,7 @@ int func_020921F4(double v)
 }
 
 
+
 int func_02092264(unsigned short *pwc, const unsigned char *s, unsigned int n)
 {
     if (s == 0) {
@@ -1736,6 +1810,7 @@ int func_02092264(unsigned short *pwc, const unsigned char *s, unsigned int n)
 }
 
 
+
 int func_0209229C(char *s, unsigned short wc)
 {
     if (s == 0) {
@@ -1746,10 +1821,12 @@ int func_0209229C(char *s, unsigned short wc)
 }
 
 
+
 u32 func_020922B0(u32 *dst, u32 c)
 {
     return ((Holder *)g_020A8878)->table->fn(dst, c);
 }
+
 
 
 u32 func_020922CC(u8 *dst, const u16 *src, u32 max)
@@ -1778,6 +1855,7 @@ u32 func_020922CC(u8 *dst, const u16 *src, u32 max)
 }
 
 
+
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -1802,6 +1880,7 @@ void *func_02092344(void *dest, const void *src, size_t n)
 
     return dest;
 }
+
 
 
 void *func_02092364(void *dest, const void *src, size_t n)
@@ -1836,6 +1915,7 @@ void *func_02092364(void *dest, const void *src, size_t n)
 }
 
 
+
 /*
  * String / memory utilities:
  *   func_020923B0 (20 B)  wraps func_02092430 (memset) and returns ptr
@@ -1853,6 +1933,7 @@ void *func_020923B0(void *p, int c, u32 n)
 }
 
 
+
 u8 *func_020923C4(u8 *s, u32 c, u32 n)
 {
     u8 val = (u8)c;
@@ -1866,6 +1947,7 @@ u8 *func_020923C4(u8 *s, u32 c, u32 n)
     }
     return 0;
 }
+
 
 
 int func_020923F0(const u8 *s1, const u8 *s2, u32 n)
@@ -1886,6 +1968,7 @@ int func_020923F0(const u8 *s1, const u8 *s2, u32 n)
     }
     return 0;
 }
+
 
 
 void func_02092430(u8 *dest, u32 val, u32 count)
@@ -1946,7 +2029,9 @@ void func_02092430(u8 *dest, u32 val, u32 count)
 }
 
 
+
 #define isdigit(c) ((unsigned int)(c) < 0x80 ? (__ctype_map[c] & 8) : 0)
+
 
 
 /*
@@ -2175,6 +2260,7 @@ const uchar *func_020924DC(const uchar *format_string, va_list *arg, print_forma
 }
 
 
+
 /*
  * note:     MSL printf.c `long2str`: the 32-bit integer conversion of the
  *           printf back end, written as the MSL source has it.  The format
@@ -2279,6 +2365,7 @@ unsigned char *func_020929E8(long num, unsigned char *buff, print_format format)
 
     return p;
 }
+
 
 
 /*
@@ -2386,6 +2473,7 @@ unsigned char *func_02092C38(long long num, unsigned char *buff, print_format fo
 
     return p;
 }
+
 
 
 /*
@@ -2543,6 +2631,7 @@ unsigned char *func_02092F0C(double num, unsigned char *buff, print_format forma
 }
 
 
+
 /*
  * MSL printf back end: the decimal rounding / odometer carry on the digit
  * buffer `__num2dec`-style control block.  Rounds the ASCII digit string in
@@ -2641,7 +2730,9 @@ void func_020933B8(Ctr *b, s32_020922B0 idx)
 }
 
 
+
 static inline int isupper(int c) { return ((c < 0 || c >= 0x80) ? 0 : (__ctype_map[c] & 0x200)); }
+
 
 
 /*
@@ -2842,6 +2933,7 @@ unsigned char *func_020934CC(double num, unsigned char *buff, print_format forma
 
     return p;
 }
+
 
 
 /*
@@ -3099,6 +3191,7 @@ int func_02093BDC(void *(*WriteProc)(void *, const uchar *, size_t), void *Write
 }
 
 
+
 u32 func_02094488(u8 *p, const void *src, u32 n)
 {
     u32 pos = ((struct Obj07071 *)p)->f8;
@@ -3110,6 +3203,7 @@ u32 func_02094488(u8 *p, const void *src, u32 n)
     ((struct Obj07071 *)p)->f8 += n;
     return 1;
 }
+
 
 
 /*
@@ -3141,6 +3235,7 @@ u32 func_020944CC(u8 *dst, u32 n, const u8 *format, u8 *ap)
 }
 
 
+
 /*
  * note:     this is the REAL start of the function the worklist and the
  *           listing label at 0x02094534: the first instruction is the
@@ -3159,6 +3254,7 @@ u32 func_02094530(char *dst, u32 n, ...)
 
     return func_020944CC((u8 *)dst, 0xFFFFFFFFu, (const u8 *)n, (u8 *)(p + 1));
 }
+
 
 
 /*
@@ -3235,6 +3331,7 @@ void func_0209455C(void *table_base, size_t num_members, size_t member_size,
 }
 
 
+
 u32 func_02094694(void)
 {
     g_020A8A78 = g_020A8A78 * 0x41C64E6Du + 0x3039u;
@@ -3242,10 +3339,12 @@ u32 func_02094694(void)
 }
 
 
+
 void func_020946C8(u32 v)
 {
     g_020A8A78 = v;
 }
+
 
 
 int func_020946D8(u32 *p, u32 a1, u32 a2)
@@ -3276,6 +3375,7 @@ int func_020946D8(u32 *p, u32 a1, u32 a2)
 }
 
 
+
 /*
  * Calls the hook stored at 0x02153FB0 when it is set, otherwise falls through
  * to the default handler at 0x02094778.
@@ -3300,7 +3400,9 @@ void func_02094750(u32 a, u32 b, u32 c)
 }
 
 
+
 void func_02094778(void){ }
+
 
 
 /*
@@ -3322,6 +3424,7 @@ int func_0209477C(const u8 *s)
 
     return n;
 }
+
 
 
 /*
@@ -3404,6 +3507,7 @@ bytecopy:
 }
 
 
+
 /*
  * strncpy and strcat implementations in standard string utility module.
  *
@@ -3439,6 +3543,7 @@ u8 *func_02094860(u8 *dest, const u8 *src, u32 n)
 }
 
 
+
 u8 *func_020948B0(u8 *dest, const u8 *src)
 {
     u8 *d = dest;
@@ -3451,6 +3556,7 @@ u8 *func_020948B0(u8 *dest, const u8 *src)
 
     return dest;
 }
+
 
 
 /*
@@ -3578,6 +3684,7 @@ byte_loop:
 }
 
 
+
 /*
  * strncmp and strchr implementations in standard string utility module.
  *
@@ -3604,6 +3711,7 @@ int func_020949F4(const u8 *s1, const u8 *s2, u32 n)
 }
 
 
+
 u8 *func_02094A28(const u8 *s, int c)
 {
     u8 m = (u8)c;
@@ -3617,6 +3725,7 @@ u8 *func_02094A28(const u8 *s, int c)
     }
     return m ? 0 : (u8 *)s - 1;
 }
+
 
 
 /*
@@ -3697,6 +3806,7 @@ int func_02094A60(const u8 *s, const u8 *reject)
 }
 
 
+
 /*
  * strstr implementation in standard string utility module.
  *
@@ -3744,16 +3854,23 @@ u8 *func_02094B20(const u8 *s1, const u8 *s2)
 }
 
 
+
+#undef isdigit
+
+
 #undef isdigit
 
 #undef isdigit
 #define isdigit(c)  (((c) < 0 || (c) >= 0x80) ? 0 : (__ctype_map[c] & 0x8))
 
 
+
 #define final_state(s) ((s) & (finished | failure))
+
 
 #define success(s) ((s) & (leading_sig_zeroes | int_digit_loop | frac_digit_loop | \
                            leading_exp_zeroes | exp_digit_loop | finished))
+
 
 
 /*
@@ -4307,6 +4424,7 @@ double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *Rea
 }
 
 
+
 /*
  * PROMOTED from src/pending/ with no change to the C (lane r5c, 2026-09-19):
  * the park's only blocker was the PC24 at +0x34, and 0x02094B8C is now a
@@ -4341,6 +4459,7 @@ u64 func_02095AA4(u32 a0, u32 *a1)
 }
 
 
+
 /*
  * sdk:      FATFS_FormatDrive (libfatfs.TWL.HYB.a fatfs_api.o)
  */
@@ -4349,13 +4468,21 @@ int func_02095B2C(char *path)
     return func_02095AA4((u32)path, 0);
 }
 
+
+#undef isdigit
+
 #undef isdigit
 
 #define isdigit(c) (((c) < 0 || (c) >= 0x80) ? 0 : (__ctype_map[c] & 0x8))
 
 
+
 enum { dec_start = 1, check_for_zero = 2, leading_zero = 4, need_digit = 8,
        digit_loop = 16, dec_finished = 32, dec_failure = 64 };
+
+
+
+#undef final_state
 
 
 #undef final_state
@@ -4364,10 +4491,15 @@ enum { dec_start = 1, check_for_zero = 2, leading_zero = 4, need_digit = 8,
 #define final_state(s) ((s) & (dec_finished | dec_failure))
 
 
+
+#undef success
+
+
 #undef success
 
 #undef success
 #define success(s)     ((s) & (leading_zero | digit_loop | dec_finished))
+
 
 
 /*
@@ -4495,6 +4627,7 @@ u32 func_02095B3C(int base, int max_width, int (*ReadProc)(void *, int, int),
 }
 
 
+
 /*
  * MSL strtoul: the unsigned member of the strtoX wrapper family over the
  * scanner core at 0x02095B3C.  Four lanes and twenty-five spellings left this
@@ -4537,6 +4670,7 @@ u32 func_02095EAC(u32 a0, u32 *a1, u32 mode)
         r = -r;
     return r;
 }
+
 
 
 /*
@@ -4592,9 +4726,13 @@ s32_020922B0 func_02095F40(u32 a0, u32 *a1, u32 a2)
     return r;
 }
 
+
+#undef isdigit
+
 #undef isdigit
 
 #define isdigit(c) (((c) < 0 || (c) >= 0x80) ? 0 : (__ctype_map[c] & 0x8))
+
 
 
 /*
@@ -4717,6 +4855,7 @@ u64 func_02096004(int base, int max_width, int (*ReadProc)(void *, int, int),
 }
 
 
+
 /*
  *           range: the only branch to it anywhere in the image is the bl in
  *           this function (it has a func_ label, but the label class needs a
@@ -4780,6 +4919,7 @@ s64 func_020963F8(u32 a0, u32 *a1, u32 a2)
 }
 
 
+
 /*
  * Argument-defaulting thunk: call the s32_020922B0 decimal parser func_02095F40 with
  * a null out-pointer and radix 10.  It is the `atoi` entry point the overlay
@@ -4792,6 +4932,7 @@ int func_020964E0(u32 a0)
 }
 
 
+
 /*
  * Argument-defaulting thunk: call the s64 decimal parser func_020963F8 with
  * a null out-pointer and radix 10.  Reproducible from C as an ordinary tail
@@ -4801,6 +4942,7 @@ long long func_020964F4(u32 a0)
 {
     return func_020963F8(a0, 0, 10);
 }
+
 
 
 /*
@@ -4836,6 +4978,7 @@ int func_02096508(u8 *p, int v)
 }
 
 
+
 int func_02096578(const u16 *s)
 {
     int n = -1;
@@ -4847,6 +4990,7 @@ int func_02096578(const u16 *s)
     } while (c != 0);
     return n;
 }
+
 
 
 /*
@@ -4873,6 +5017,7 @@ u16 *func_02096594(u16 *d, const u16 *s)
 }
 
 
+
 int sub_020965B4(u8 *p, int i)
 {
     u8 *q = p + 5 + i;
@@ -4884,6 +5029,7 @@ int sub_020965B4(u8 *p, int i)
     }
     return ((p + 5)[i - 1] & 1) ? 1 : -1;
 }
+
 
 
 void func_02096620(u8 *p, int idx)
@@ -4905,6 +5051,7 @@ void func_02096620(u8 *p, int idx)
         cur--;
     }
 }
+
 
 
 /*
@@ -4934,6 +5081,7 @@ void func_02096670(Obj02096670 *p, int v)
     }
     func_02096620((u8 *)p, v);
 }
+
 
 
 /*
@@ -4984,6 +5132,7 @@ void func_020966B0(decimal2 *result, u64 val)
 
     result->exp = result->sig.length - 1;
 }
+
 
 
 /*
@@ -5069,6 +5218,7 @@ void func_02096774(decimal2 *result, const decimal2 *x, const decimal2 *y)
 }
 
 
+
 /*
  * Decimal string to the packed digit record the bcd family shares: clear the
  * flag byte, store the caller's halfword parameter at +2, convert up to 32
@@ -5130,6 +5280,7 @@ last:
 tail:
     func_02096620((u8 *)p, p->f04);
 }
+
 
 
 /*
@@ -5238,6 +5389,7 @@ void func_02096990(decimal2 *result, long exp)
 }
 
 
+
 /*
  * String comparison over the length-prefixed string object used by the
  * 0x02096D10 family: byte +5 is a terminator flag, +2 is an s16 key, +4 is
@@ -5292,6 +5444,7 @@ int func_02096D10(Str *a, Str *b)
 fail:
     return 0;
 }
+
 
 
 /*
@@ -5353,6 +5506,7 @@ int func_02096DF0(Str *a, Str *b)
 keycmp:
     return a->f02 < b->f02;
 }
+
 
 
 /*
@@ -5478,6 +5632,7 @@ done:
 }
 
 
+
 /*
  * MSL `__num2dec` -- convert a double to the 38-byte packed decimal record
  * (DB) that this family's other functions add, subtract, multiply and print.
@@ -5567,6 +5722,7 @@ void func_02097170(DB *r, double x)
 }
 
 
+
 void func_020972F0(const decform *f, double x, decimal *p)
 {
     int n = f->digits;
@@ -5584,6 +5740,7 @@ void func_020972F0(const decform *f, double x, decimal *p)
     for (i = 0; i < p->sig.length; i++)
         p->sig.text[i] += 0x30;
 }
+
 
 
 /*
@@ -5729,10 +5886,432 @@ done:
 }
 
 
+
 double func_02097990(double x, int n)
 {
     int t;
     double v = func_0209A6E8(x, &t);
     t += n;
     return func_0209A7A8(v, t);
+}
+
+
+
+static const double
+zero    =  0.0,
+one	=  1.0,
+two	=  2.0,
+two53	=  9007199254740992.0,
+huge	=  1.0e300,
+tiny    =  1.0e-300,
+L1  =  5.99999999999994648725e-01,
+L2  =  4.28571428578550184252e-01,
+L3  =  3.33333329818377432918e-01,
+L4  =  2.72728123808534006489e-01,
+L5  =  2.30660745775561754067e-01,
+L6  =  2.06975017800338417784e-01,
+P1   =  1.66666666666666019037e-01,
+P2   = -2.77777777770155933842e-03,
+P3   =  6.61375632143793436117e-05,
+P4   = -1.65339022054652515390e-06,
+P5   =  4.13813679705723846039e-08,
+lg2  =  6.93147180559945286227e-01,
+lg2_h  =  6.93147182464599609375e-01,
+lg2_l  = -1.90465429995776804525e-09,
+ovt =  8.0085662595372944372e-0017,
+cp    =  9.61796693925975554329e-01,
+cp_h  =  9.61796700954437255859e-01,
+cp_l  = -7.02846165095275826516e-09,
+ivln2    =  1.44269504088896338700e+00,
+ivln2_h  =  1.44269502162933349609e+00,
+ivln2_l  =  1.92596299112661746887e-08;
+
+
+
+/*
+ * MSL __ieee754_pow(x, y): fdlibm e_pow.c with the MSL edits listed in
+ * docs/notes/pkt_020979C0.c.txt.  fabs = func_0209A504, sqrt = func_0209C5E0.
+ * The machine entry is 0x020979BC (push {r0-r3} home for the register-passed
+ * doubles), four bytes before the disasm body label func_020979C0.
+ *
+ * Front end dsi/1.2 (1.2p2 identical): kept &bp base across its three uses
+ * and the push {r3-fp,lr} / sub sp,#0x78 frame; 1.1p1 splits the loads and
+ * builds a different frame.
+ *
+ * The self-assignment `s = s;` after `p_h = y1*t1` emits no code; it is what
+ * settles the r6/r7/r8 coloring of t2 (hi), s and the final exponent n over
+ * 0x0BC8..0x1170 (without it the three rotate, 25 bytes out).  Found by the
+ * permuter (wave 18, seed 1902) and reduced by hand to this one line.
+ */
+double func_020979C0(double x, double y)
+{
+	double z,ax,z_h,z_l,p_h,p_l;
+	double y1,t1,t2,r,s,t,u,v,w;
+	i32 i,j,k,yisint,n,n0;
+	i32 hx,hy,ix,iy;
+	u32 lx,ly;
+
+	hx = HI(x); lx = LO(x);
+	hy = HI(y); ly = LO(y);
+	ix = hx&0x7fffffff;  iy = hy&0x7fffffff;
+
+	if((iy|ly)==0) return one;
+
+	if(ix > 0x7ff00000 || ((ix==0x7ff00000)&&(lx!=0)) ||
+	   iy > 0x7ff00000 || ((iy==0x7ff00000)&&(ly!=0)))
+		return x+y;
+
+	yisint  = 0;
+	if(hx<0) {
+	    if(iy>=0x43400000) yisint = 2;
+	    else if(iy>=0x3ff00000) {
+		k = (iy>>20)-0x3ff;
+		if(k>20) {
+		    j = ly>>(52-k);
+		    if((j<<(52-k))==ly) yisint = 2-(j&1);
+		} else if(ly==0) {
+		    j = iy>>(20-k);
+		    if((j<<(20-k))==iy) yisint = 2-(j&1);
+		}
+	    }
+	}
+
+	if(ly==0) {
+	    if (iy==0x7ff00000) {
+	        if(((ix-0x3ff00000)|lx)==0)
+		    return  y - y;
+	        else if (ix >= 0x3ff00000)
+		    return (hy>=0)? y: zero;
+	        else
+		    return (hy<0)?-y: zero;
+	    }
+	    if(iy==0x3ff00000) {
+		if(hy<0) return one/x; else return x;
+	    }
+	    if(hy==0x40000000) return x*x;
+	    if(hy==0x3fe00000) {
+		if(hx>=0)
+		return func_0209C5E0(x);
+	    }
+	}
+
+	ax   = func_0209A504(x);
+	if(lx==0) {
+	    if(ix==0x7ff00000||ix==0||ix==0x3ff00000){
+		z = ax;
+		if(hy<0) z = one/z;
+		if(hx<0) {
+		    if(((ix-0x3ff00000)|yisint)==0) {
+			z = (z-z)/(z-z);
+		    } else if(yisint==1)
+			z = -z;
+		}
+		return z;
+	    }
+	}
+
+	n0 = (hx>>31)+1;
+
+	if((n0|yisint)==0) {
+	    errno = 33;
+	    return __float_nan;
+	}
+
+	if(iy>0x41e00000) {
+	    if(iy>0x43f00000){
+		if(ix<=0x3fefffff) return (hy<0)? huge*huge:tiny*tiny;
+		if(ix>=0x3ff00000) return (hy>0)? huge*huge:tiny*tiny;
+	    }
+	    if(ix<0x3fefffff) return (hy<0)? huge*huge:tiny*tiny;
+	    if(ix>0x3ff00000) return (hy>0)? huge*huge:tiny*tiny;
+	    t = x-one;
+	    w = (t*t)*(0.5-t*(0.3333333333333333333333-t*0.25));
+	    u = ivln2_h*t;
+	    v = t*ivln2_l-w*ivln2;
+	    t1 = u+v;
+	    LO(t1) = 0;
+	    t2 = v-(t1-u);
+	} else {
+	    double ss,s2,s_h,s_l,t_h,t_l;
+	    n = 0;
+	    if(ix<0x00100000)
+		{ax *= two53; n -= 53; ix = HI(ax); }
+	    n  += ((ix)>>20)-0x3ff;
+	    j  = ix&0x000fffff;
+	    ix = j|0x3ff00000;
+	    if(j<=0x3988E) k=0;
+	    else if(j<0xBB67A) k=1;
+	    else {k=0;n+=1;ix -= 0x00100000;}
+	    HI(ax) = ix;
+
+	    u = ax-bp[k];
+	    v = one/(ax+bp[k]);
+	    ss = u*v;
+	    s_h = ss;
+	    LO(s_h) = 0;
+	    t_h = zero;
+	    HI(t_h)=((ix>>1)|0x20000000)+0x00080000+(k<<18);
+	    t_l = ax - (t_h-bp[k]);
+	    s_l = v*((u-s_h*t_h)-s_h*t_l);
+	    s2 = ss*ss;
+	    r = s2*s2*(L1+s2*(L2+s2*(L3+s2*(L4+s2*(L5+s2*L6)))));
+	    r += s_l*(s_h+ss);
+	    s2  = s_h*s_h;
+	    t_h = 3.0+s2+r;
+	    LO(t_h) = 0;
+	    t_l = r-((t_h-3.0)-s2);
+	    u = s_h*t_h;
+	    v = s_l*t_h+t_l*ss;
+	    p_h = u+v;
+	    LO(p_h) = 0;
+	    p_l = v-(p_h-u);
+	    z_h = cp_h*p_h;
+	    z_l = cp_l*p_h+p_l*cp+dp_l[k];
+	    t = (double)n;
+	    t1 = (((z_h+z_l)+dp_h[k])+t);
+	    LO(t1) = 0;
+	    t2 = z_l-(((t1-t)-dp_h[k])-z_h);
+	}
+
+	s = one;
+	if((n0|(yisint-1))==0) s = -one;
+
+	y1  = y;
+	LO(y1) = 0;
+	p_l = (y-y1)*t1+y*t2;
+	p_h = y1*t1;
+	s = s;		/* no code; pins the t2/s/n register coloring */
+	z = p_l+p_h;
+	j = HI(z);
+	i = LO(z);
+	if (j>=0x40900000) {
+	    if(((j-0x40900000)|i)!=0)
+		return s*huge*huge;
+	    else {
+		if(p_l+ovt>z-p_h) return s*huge*huge;
+	    }
+	} else if((j&0x7fffffff)>=0x4090cc00 ) {
+	    if(((j-0xc090cc00)|i)!=0)
+		return s*tiny*tiny;
+	    else {
+		if(p_l<=z-p_h) return s*tiny*tiny;
+	    }
+	}
+	i = j&0x7fffffff;
+	k = (i>>20)-0x3ff;
+	n = 0;
+	if(i>0x3fe00000) {
+	    n = j+(0x00100000>>(k+1));
+	    k = ((n&0x7fffffff)>>20)-0x3ff;
+	    t = zero;
+	    HI(t) = (n&~(0x000fffff>>k));
+	    n = ((n&0x000fffff)|0x00100000)>>(20-k);
+	    if(j<0) n = -n;
+	    p_h -= t;
+	}
+	t = p_l+p_h;
+	LO(t) = 0;
+	u = t*lg2_h;
+	v = (p_l-(t-p_h))*lg2+t*lg2_l;
+	z = u+v;
+	w = v-(z-u);
+	t  = z*z;
+	t1  = z - t*(P1+t*(P2+t*(P3+t*(P4+t*P5))));
+	r  = (z*t1)/(t1-two)-(w+z*w);
+	z  = one-(r-z);
+	j  = HI(z);
+	j += (n<<20);
+	if((j>>20)<=0) z = scalbn(z,n);
+	else HI(z) += (n<<20);
+	return s*z;
+}
+
+
+
+static const double
+half =  5.00000000000000000000e-01,
+two24 =  1.67772160000000000000e+07,
+invpio2 =  6.36619772367581382433e-01,
+pio2_1  =  1.57079632673412561417e+00,
+pio2_1t =  6.07710050650619224932e-11,
+pio2_2  =  6.07710050630396597660e-11,
+pio2_2t =  2.02226624879595063154e-21,
+pio2_3  =  2.02226624871116645580e-21,
+pio2_3t =  8.47842766036889956997e-32;
+
+
+
+/*
+ * fdlibm __ieee754_rem_pio2(x, y), e_rem_pio2.c transcribed unchanged.  The
+ * machine entry is 0x02098B44, four bytes before the disasm body label
+ * func_02098B48: the compiler's push {r0-r3} spilling the register-passed
+ * double, because HI(x) takes the address of x.  The body is MSL runtime
+ * (layout/runtime_arm9.txt, _msl_double_fn_1); the unit exists so the 4-byte
+ * worklist row at the stub is reproduced as part of its function.
+ *
+ * Front end dsi/1.2 (wave 17): the loop store tx[i] = (double)(int)z is two
+ * str (1.1p1 merges them into stm), the same pin that fits __ieee754_pow at
+ * 0x020979BC.  Fabs = func_0209A504, __kernel_rem_pio2 = func_0209953C;
+ * npio2_hw and two_over_pi resolve through the sole-ref/data class.
+ */
+int func_02098B48(double x, double *y)
+{
+    double z, w, t, r, fn;
+    double tx[3];
+    int e0, i, j, nx, n, ix, hx;
+
+    hx = HI(x);
+    ix = hx & 0x7fffffff;
+    if (ix <= 0x3fe921fb)
+    {
+        y[0] = x;
+        y[1] = 0;
+        return 0;
+    }
+    if (ix < 0x4002d97c)
+    {
+        if (hx > 0)
+        {
+            z = x - pio2_1;
+            if (ix != 0x3ff921fb)
+            {
+                y[0] = z - pio2_1t;
+                y[1] = (z - y[0]) - pio2_1t;
+            }
+            else
+            {
+                z -= pio2_2;
+                y[0] = z - pio2_2t;
+                y[1] = (z - y[0]) - pio2_2t;
+            }
+            return 1;
+        }
+        else
+        {
+            z = x + pio2_1;
+            if (ix != 0x3ff921fb)
+            {
+                y[0] = z + pio2_1t;
+                y[1] = (z - y[0]) + pio2_1t;
+            }
+            else
+            {
+                z += pio2_2;
+                y[0] = z + pio2_2t;
+                y[1] = (z - y[0]) + pio2_2t;
+            }
+            return -1;
+        }
+    }
+    if (ix <= 0x413921fb)
+    {
+        t = func_0209A504(x);
+        n = (int)(t * invpio2 + half);
+        fn = (double)n;
+        r = t - fn * pio2_1;
+        w = fn * pio2_1t;
+        if (n < 32 && ix != npio2_hw[n - 1])
+        {
+            y[0] = r - w;
+        }
+        else
+        {
+            j = ix >> 20;
+            y[0] = r - w;
+            i = j - (((HI(y[0])) >> 20) & 0x7ff);
+            if (i > 16)
+            {
+                t = r;
+                w = fn * pio2_2;
+                r = t - w;
+                w = fn * pio2_2t - ((t - r) - w);
+                y[0] = r - w;
+                i = j - (((HI(y[0])) >> 20) & 0x7ff);
+                if (i > 49)
+                {
+                    t = r;
+                    w = fn * pio2_3;
+                    r = t - w;
+                    w = fn * pio2_3t - ((t - r) - w);
+                    y[0] = r - w;
+                }
+            }
+        }
+        y[1] = (r - y[0]) - w;
+        if (hx < 0)
+        {
+            y[0] = -y[0];
+            y[1] = -y[1];
+            return -n;
+        }
+        else
+            return n;
+    }
+    if (ix >= 0x7ff00000)
+    {
+        y[0] = y[1] = x - x;
+        return 0;
+    }
+    LO(z) = LO(x);
+    e0 = (ix >> 20) - 1046;
+    HI(z) = ix - (e0 << 20);
+    for (i = 0; i < 2; i++)
+    {
+        tx[i] = (double)((int)(z));
+        z = (z - tx[i]) * two24;
+    }
+    tx[2] = z;
+    nx = 3;
+    while (tx[nx - 1] == zero)
+        nx--;
+    n = func_0209953C(tx, y, e0, nx, 2, two_over_pi);
+    if (hx < 0)
+    {
+        y[0] = -y[0];
+        y[1] = -y[1];
+        return -n;
+    }
+    return n;
+}
+
+
+
+double func_02099228(double x, double y)
+{
+    static const double one = 1.00000000000000000000e+00;
+    static const double C1 = 4.16666666666666019037e-02;
+    static const double C2 = -1.38888888888741095749e-03;
+    static const double C3 = 2.48015872894767294178e-05;
+    static const double C4 = -2.75573143513906633035e-07;
+    static const double C5 = 2.08757232129817482790e-09;
+    static const double C6 = -1.13596475577881948265e-11;
+
+    double a, hz, z, r, qx;
+    int ix;
+
+    ix = HI(x) & 0x7fffffff;
+    if (ix < 0x3e400000)
+    {
+        if ((int)x == 0)
+            return one;
+    }
+    z = x * x;
+    r = z * (C1 + z * (C2 + z * (C3 + z * (C4 + z * (C5 + z * C6)))));
+    if (ix < 0x3FD33333)
+        return one - (0.5 * z - (z * r - x * y));
+    else
+    {
+        if (ix > 0x3fe90000)
+        {
+            qx = 0.28125;
+        }
+        else
+        {
+            HI(qx) = ix - 0x00200000;
+            LO(qx) = 0;
+        }
+        hz = 0.5 * z - qx;
+        a = one - qx;
+        return a - (hz - (z * r - x * y));
+    }
 }

@@ -25,6 +25,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   site 0x021BB668 data ov214
  *   config 0x021BB588 data ov214
+ *   config2 0x021BB53C data ov214
  *   func_02030EAC 0x02030EAC arm
  *   func_0201DD68 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
@@ -145,6 +146,7 @@ void func_021BB448(int *p);
 void func_021BB458(unsigned int *p);
 extern const char site[];
 extern const u32 config[];
+extern const u32 config2[];
 extern const struct Record records[];
 extern const char dims[];
 extern struct Vec3 vec1,vec2,vec3;
@@ -236,7 +238,7 @@ void func_021BB2C8(void *p,u32 heap)
     func_02082BCC(p,0,4);
     func_0203F8F4(heap);
     func_02045088(heap);
-    func_0203FC28((struct DispConfig *)config);
+    func_0203FC28((struct DispConfig *)config2);
     for(i=0;i<3;i++) {
         const struct Record *r=&records[i];
         u32 id=r->id;

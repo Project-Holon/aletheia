@@ -169,7 +169,190 @@
  *   DWCi_GetMathRand32               0x021685CC arm
  *   DWCi_SendTypeMatchAck            0x021735A4 arm
  */
-#include "dwc_match_types.h"
+#include "../../matched/arm9_sdk/libc/string.h"
+#include "../../matched/include/G_MatchAnchorA.h"
+#include "../../matched/include/G_Magic6.h"
+#include "dwc_match_ctl_types.h"
+
+struct SOCSockAddrIn;
+
+extern DWCstGameMatchKeyData g_021AAA40[154];
+extern struct NNThinkGlobal g_021AAA20;
+extern struct MatchAnchorA s_anybodyServerSearchRatio;
+extern struct Magic6 g_021A5A7C;
+extern char g_021A2044[];
+extern char g_021A204C[];
+extern char g_021A2058[];
+extern char g_021A2064[];
+extern char g_021A207C[];
+
+extern DWCstMatchControl *DWCi_GetMatchCnt(void);
+
+/* callees */
+extern void DWCi_DoCancelMatch(void);
+extern int DWCi_IsError(void);
+extern int DWC_GetState(void);
+extern int func_020948E0(const char *s1, const char *s2);
+extern u8 func_02173AD8(void);
+extern void func_0205A1B0(int name, void *ptr, u32 size);
+extern int func_0209477C(const u8 *s);
+extern void *func_0205A16C(int name, u32 size);
+extern char *func_02094798(char *dst, const char *src);
+extern void func_0219D158(int keyid, char *key);
+extern int func_02059F38(void);
+extern unsigned char func_02175FB8(void);
+extern int func_0216B908(void);
+extern int func_02175EB4(void);
+extern unsigned char func_0216B838(void);
+extern void func_02175F1C(int a0);
+extern void func_02175F4C(int a0);
+extern void func_0217601C(void);
+extern void func_0217653C(void);
+extern void func_02173B18(void);
+extern int func_0216F388(int a0);
+extern int func_02195E60(const int *p);
+extern unsigned short func_02195E40(const unsigned short *p);
+extern int func_02173E30(int error);
+extern void func_0219B1AC(void *qrec, void *cb);
+extern void func_0219B134(void *qrec, void *cb);
+extern void func_0219B170(void *qrec, void *cb);
+extern void func_02176ABC(void);
+extern void func_02174AA0(int keyid, void *outbuf);
+extern void func_02174C2C();
+extern void func_02174C30();
+extern void func_02174C34(int keytype, void *keybuffer);
+extern int func_02174CF0();
+extern void func_02174CF8();
+extern void func_02174D04();
+extern void func_02174D28(int cookie);
+extern void func_02174ED0(char *data, int len);
+extern void DWC_Free(int name, void *ptr, unsigned long size);
+extern int func_0216FAD4(char *filter, int profileID, unsigned char numEntry, unsigned char matchType, unsigned char hostState);
+extern void *DWC_Alloc(int name, unsigned long size);
+extern void func_02175560(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
+extern int func_0216F20C(int status);
+extern int func_0216F770(int profileID);
+extern void func_02174058(void *sb, int reason, void *server);
+extern int func_02173D28(void);
+extern void func_02175F84(int a0);
+extern int func_02175530(void);
+extern void func_021719D0(int a0, int a1);
+extern void func_021719A4(void);
+extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
+extern u64 OS_GetTick(void);
+extern void DWCi_StopMatch(int error, int errorCode);
+extern int DWCi_RetryReserving(int resendPid);
+extern int DWCi_StopMeshMaking(void);
+extern void DWCi_SetMatchStatus(int state);
+extern int DWCi_SendResvCommand(int profileID, int delay);
+extern int DWCi_HandleMatchCommandError(int error);
+extern void DWCi_TempNewNodeInfo_Clear(void);
+extern int DWCi_SBUpdateAsync(int profileID);
+extern int DWCi_HandleSBError(int error);
+extern int DWCi_CancelPreConnectedClientProcess(int clientPid);
+extern void DWCi_StopResendingMatchCommand(void);
+extern int DWCi_SendMatchCommand(u8 command, int profileID, u32 ip, u16 port, u32 *data, int len);
+extern int DWCi_CancelPreConnectedServerProcess(int clientPid);
+extern int DWCi_IsBackupMine(void);
+extern DWCstNodeInfo *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
+extern void *DWCi_GetGT2Connection(u8 aid);
+extern u8 DWCi_GetAIDFromProfileID(int profileID, int idxOnly);
+extern int DWCi_IsServerChangeEnabled(void);
+extern int DWCi_SendServerDownQuery(void);
+extern void qr2_send_statechanged(void *qrec);
+extern void DWCi_InitClWaitTimeout(void);
+extern int DWCi_NodeInfoList_GetCount(void);
+extern int DWCi_CloseConnectionHard(u8 aid);
+extern void DWCi_SetupGameServer_InterChange(int init);
+extern void DWCi_ResetLastSomeDataRecvTimeByAidAll(void);
+extern void DWCi_AutoSuspendComplete(void);
+extern void DWCi_NNCompletedCallback(int result, int gamesocket, void *remoteaddr, void *userdata);
+extern int DWCi_GetTopologyType(void);
+extern DWCstNodeInfo *DWCi_NodeInfoList_GetMyNodeInfo(void);
+extern u64 DWCi_GetNextMeshMakeTryTick(void);
+extern void DWCi_ClearMeshMakingTempInfo(void);
+extern int ServerBrowserThink(void *sb);
+extern void ServerBrowserFree(void *sb);
+extern int ServerBrowserState(void *sb);
+extern void NNThink(void);
+extern void NNFreeNegotiateList(void);
+extern int DWCi_ResumeMatch(void);
+extern int DWCi_RequestSuspendMatchProcess(void);
+extern int DWCi_SendServerPolling(int immediate);
+extern int DWCi_ProcessMatchSynTimeout(void);
+extern int DWCi_ProcessCancelMatchSynTimeout(void);
+extern void MIi_CpuClear32(int v, void *p, int size);
+extern int func_020923F0(const u8 *a, const u8 *b, int n);
+extern void gt2Reject(void * connection, void * message, int code);
+extern unsigned long strtoul(const char * s, char ** end, int base);
+extern int DWCi_GT2GetConnectionListIdx(void);
+extern int gt2Accept(void * connection, void * flag);
+extern void ** DWCi_GetGT2ConnectionByIdx(int index);
+extern struct DWCstConnectionInfo * DWCi_GetConnectionInfoByIdx(int index);
+extern void DWCi_ResetLastSomeDataRecvTimeByAid(u8 aid);
+extern void gt2SetConnectionData(void * connection, void * data);
+extern void DWCi_PostProcessConnection(int type);
+extern int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
+extern char * gt2AddressToString(u32 ip, u16 port, char * string);
+extern int gt2Connect(void * socket, void ** connection, char * remoteAddress, u8 * message, int len, int timeout, void * callbacks, int blocking);
+extern int DWCi_HandleGT2Error(int result);
+extern int func_02059CBC(const char *src, int srclen, void *dst, int dstlen);
+extern void func_02172E7C(void);
+extern void DWCi_SetError(int error, int errorCode);
+extern int func_02169038(int pid);
+extern void func_0216F6C0(void);
+extern int DWCi_IsFullMesh(void);
+extern void DWCi_ProcessMatchSynPacketSub_FullMesh(unsigned char aid, unsigned short type, unsigned char *data);
+extern void DWCi_ProcessMatchSynPacketSub_Hybrid(unsigned char aid, unsigned short type, unsigned char *data);
+extern void DWCi_SendMatchSynPacket(unsigned char aid, unsigned short type);
+extern unsigned long DWCi_GetAIDBitmask(int valid);
+extern unsigned long DWCi_GetMathRand32(unsigned long max);
+extern void DWCi_SendTypeMatchAck(void);
+
+extern void func_02082BCC(void *p, int v, int n);
+extern void func_0216F5FC(u8 matchType, u8 numEntry, void *callback, void *param);
+extern int func_02173D9C(int error);
+extern void func_0219B490(void *qrec);
+extern void *func_0219EC74(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, void *callback, void *instance);
+extern void DWCi_SendStateChanged(qr2_implementation_s *qr2Obj);
+extern void qr2_think(qr2_implementation_s *qr2Obj);
+extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
+extern struct SBServer *func_0219F058(struct SBServer *sb, int index);
+extern int func_0219E120(struct SBServer *server, char *key, int idefault);
+extern void func_0219B540(qr2_implementation_s *qrec);
+extern void func_0219C7C0(qr2_implementation_s *qr2, unsigned char *message, int len, SOCSockAddrIn *saddr);
+extern void func_0219AB8C(char *data, int len, SOCSockAddrIn *fromaddr);
+extern int func_0217604C(DWCstNodeInfo *newNode);
+extern DWCstNodeInfo *func_02176344(void);
+extern int DWCi_NodeInfoList_InsertToTop(DWCstNodeInfo *newNode);
+extern void gt2Think(void *socket);
+extern int func_0219AEB4(qr2_implementation_s **qrec, int s, int boundport, char *gamename, char *secret_key, int ispublic, int natnegotiate, void *server_key_callback, void *player_key_callback, void *team_key_callback, void *key_list_callback, void *playerteam_count_callback, void *adderror_callback, void *userdata);
+extern void func_0216EAB8(int unused, int profileID, char *message);
+extern void func_0216EB48(void);
+extern void func_021702A0(int type, int profileID, int a2, int a3, u32 *data, int len);
+extern void DWCi_DoCancelMatch(void);
+
+/* this unit */
+int DWC_CancelMatch(void);
+int DWC_IsValidCancelMatch(void);
+u8 func_0216C8DC(u8 keyID, char *keyString, int *valueSrc);
+u8 func_0216CA04(u8 keyID, char *keyString, char *valueSrc);
+int func_0216CB30(int index, char *key, int idefault);
+int func_0216CB90(void);
+int func_0216CC28(int a0, void **pGpObj, void **pGt2Socket, void *gt2Callbacks, char *gameName, char *secretKey, int a6, int a7);
+int func_0216CD8C(int profileID);
+void DWCi_ConnectToAnybodyAsync(int topology, u8 numEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, u8 *connectionUserData, void *attemptParam);
+void func_0216D138(int topology, u8 numEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, u8 *connectionUserData, void *attemptParam);
+void func_0216D27C(int topology, int serverPid, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, u8 *connectionUserData, void *attemptParam);
+void DWCi_MatchProcess(int fullSpec);
+int func_0216E4C0(int unused, unsigned int ip, unsigned short port, unsigned char *message, int len);
+void DWCi_GT2ConnectAttemptCallback(void *userdata, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len);
+void DWCi_MakeGT2ConnectString(char *buf, int bufLen);
+void DWCi_GT2ConnectedCallback(void *connection, int result);
+void func_0216EB68(int error, int errorCode);
+void DWCi_ClearQR2Key(void);
+void DWCi_ProcessMatchSynPacket(unsigned char aid, unsigned short type, unsigned char *data);
+void func_0216EC84(unsigned char aid, unsigned short type, unsigned char *data);
 
 #define KEYID(i)  (g_021AAA40[i].keyID)
 #define KEYF1(i)  (g_021AAA40[i].isStr)
@@ -639,7 +822,7 @@ int func_0216CC28(int a0, void **pGpObj, void **pGt2Socket, void *gt2Callbacks, 
     DWCi_GetMatchCnt()->profileID = 0;
     DWCi_GetMatchCnt()->gameName = gameName;
     DWCi_GetMatchCnt()->secretKey = secretKey;
-    DWCi_GetMatchCnt()->param68c = a6;
+    DWCi_GetMatchCnt()->param68c = (u8 *)a6;
     DWCi_GetMatchCnt()->param690 = a7;
     func_02082BCC(DWCi_GetMatchCnt()->buf694, 0, 0x40);
     DWCi_GetMatchCnt()->flag6d4 = 0;
@@ -1190,7 +1373,7 @@ void DWCi_MatchProcess(int fullSpec)
     if (DWCi_GetMatchCnt()->state == 14 || DWCi_GetMatchCnt()->state == 5) {
         if (DWCi_GetMatchCnt()->nnFailedTime &&
             TICK_MS(OS_GetTick() - DWCi_GetMatchCnt()->nnFailedTime) > 10000) {
-            DWCi_NNCompletedCallback(1, 0, 0, DWCi_GetMatchCnt()->nnInfo);
+            DWCi_NNCompletedCallback(1, 0, 0, &DWCi_GetMatchCnt()->nnInfo);
         }
     }
 

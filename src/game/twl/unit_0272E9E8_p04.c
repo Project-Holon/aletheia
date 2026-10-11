@@ -1,8 +1,8 @@
 /*
  * file:     unit_0272E9E8_p04.c
  * unit:     yes
- * function: func_0272EFB0, func_0272F0BC, func_0272F368, func_0272F570, func_0272F740
- * address:  0x0272EFB0
+ * function: func_0272FB10, func_0272FB28, func_0272FB78, func_0272FBD0, func_0272FC2C, func_0272FC90, func_0272FCB0, func_0272FCE0, func_0272FD18
+ * address:  0x0272FB10
  * region:   twl
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,123 +13,108 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02088234 0x02088234 arm
- *   func_0209C2B0 0x0209C2B0 arm
+ *   func_0272FD5C 0x0272FD5C arm twl
+ *   func_0272FD7C 0x0272FD7C arm twl
+ *   data_02732EFC 0x02732EFC data twl
+ *   func_0272F8A8 0x0272F8A8 arm twl
+ *   func_0272F9C4 0x0272F9C4 arm twl
  *   func_02087988 0x02087988 arm
  *   func_0208799C 0x0208799C arm
- *   func_0272EE98 0x0272EE98 arm twl
- *   func_0272ED4C 0x0272ED4C arm twl
  */
-typedef unsigned int u32;
-struct Node {
-    struct Node *next;
-    u32 f4;
-    u32 f8;
-    u32 fc;
-    u32 f10;
-};
+#include "../../matched/include/G_twl_data_02732EFC.h"
 
-struct Obj {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u32 fc;
-    u32 f10;
-    char pad0b[0xc];
-    u32 f20;
-    u32 f24;
-    char pad1[8];
-    u32 f30;
-    int (*f34)(u32, u32, u32, u32);
-    int (*f38)(u32, u32, u32, u32);
-    u32 id;
-    struct Node *cur;
-    struct Node *free_a;
-    struct Node *used_a;
-    struct Node *cache_a;
-    struct Node *free_b;
-    struct Node *used_b;
-    struct Node *cache_b;
-};
-extern void func_02088234(void);
-extern u32 func_0209C2B0(u32, u32);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
-extern struct Node *func_0272EE98(struct Obj *, u32);
-extern void func_0272ED4C(struct Obj *);
+void func_0272FD5C(unsigned int, unsigned int);
+void func_0272FD7C(void);
+void func_0272F8A8(int a0, int a1, int a2, int a3, int a4, int a5, void *a6, int a7, unsigned int a8);
+void func_0272F9C4(int mode, int ch, unsigned int src, unsigned int dst, unsigned int fill, unsigned int size, void (*cb)(), unsigned int arg, void *cfg, int words, unsigned int flags);
+int func_02087988(void);
+void func_0208799C(int);
+void func_0272FB10(void);
+void func_0272FB28(int a0, int a1, int a2, int a3);
+void func_0272FB78(int a0, int a1, int a2, int a3);
+void func_0272FBD0(int ch, unsigned int a1, unsigned int a2, unsigned int size, void (*cb)(), unsigned int arg);
+void func_0272FC2C(int ch, unsigned int a1, unsigned int a2, unsigned int size, void (*cb)(), unsigned int arg);
+asm unsigned int func_0272FC90(int ch);
+void func_0272FCB0(int ch);
+void func_0272FCE0(int ch);
+void func_0272FD18(void);
+extern struct G_twl_data_02732EFC data_02732EFC;
 
-u32 func_0272EFB0(struct Obj *obj, u32 addr);
-asm void func_0272F0BC(void);
-asm void func_0272F368(void);
-asm void func_0272F570(void);
-asm void func_0272F740(void);
 
-u32 func_0272EFB0(struct Obj *obj, u32 addr)
+void func_0272FB10(void) {
+    func_0272FD5C(0x80000000, 0x60000);
+    func_0272FD7C();
+}
+
+
+
+void func_0272FB28(int a0, int a1, int a2, int a3)
 {
-    u32 res = 0;
-    u32 off = addr;
-    u32 size;
-    u32 key;
-    struct Node **pp;
+    func_0272F8A8(0, a0, 0, a1, a2, a3, (void *)(((char *)&data_02732EFC) + (a0 << 4)), -1, 0x80000000);
+}
 
-    off -= obj->f0;
-    size = obj->f4;
-    if (off >= size) {
-        off += obj->f0 - obj->f8;
-        if (off < obj->fc) {
-            off += size;
-        } else {
-            func_02088234();
-        }
+
+
+void func_0272FB78(int a0, int a1, int a2, int a3)
+{
+    func_0272F8A8(1, a0, a1, a2, 0, a3, (void *)(((char *)&data_02732EFC) + (a0 << 4)), -1, 0x80000000);
+}
+
+
+
+void func_0272FBD0(int ch, unsigned int a1, unsigned int a2, unsigned int size, void (*cb)(), unsigned int arg)
+{
+    func_0272F9C4(0, ch, 0, a1, a2, size, cb, arg, (void *)(((char *)&data_02732EFC) + (ch << 4)), -1, 0x80000000);
+}
+
+
+
+void func_0272FC2C(int ch, unsigned int a1, unsigned int a2, unsigned int size, void (*cb)(), unsigned int arg)
+{
+    func_0272F9C4(1, ch, a1, a2, 0, size, cb, arg, (void *)(((char *)&data_02732EFC) + (ch << 4)), -1, 0x80000000);
+}
+
+
+asm unsigned int func_0272FC90(int ch)
+{
+    mov r1, #0x1c
+    mul r1, r0, r1
+    add r0, r1, #0x4000000
+    add r0, r0, #0x4000
+    ldr r0, [r0, #0x11c]
+    and r0, r0, #0x80000000
+    mov r0, r0, lsr #0x1f
+    bx lr
+}
+
+
+
+void func_0272FCB0(int ch)
+{
+    int irq = func_02087988();
+    volatile unsigned int *reg = (volatile unsigned int *)(0x0400411C + ch * 0x1C);
+    while (*reg & 0x80000000) {
     }
-    key = func_0209C2B0(off, obj->f20);
-    pp = &obj->cache_a;
-    for (;;) {
-        struct Node *n = *pp;
-        if (n->f4 == key) {
-            *pp = n->next;
-            n->next = obj->cache_a;
-            obj->cache_a = n;
-            res = n->fc;
-            break;
-        }
-        if (n->next == 0) {
-            u32 irq = func_02087988();
-            struct Node *t = *pp;
-            struct Node *l;
-            struct Node *q;
-            *pp = 0;
-            q = obj->free_a;
-            l = (struct Node *)&obj->free_a;
-            while (q != 0) {
-                l = q;
-                q = q->next;
-            }
-            l->next = t;
-            t->f4 = key;
-            t->f8 = addr & ~(obj->f20 - 1);
-            func_0208799C(irq);
-            func_0272EE98(obj, key);
-            func_0272ED4C(obj);
-            break;
-        }
-        pp = (struct Node **)n;
-    }
-    return res;
+    func_0208799C(irq);
 }
 
-asm void func_0272F0BC(void)
+
+
+void func_0272FCE0(int ch)
 {
+    int irq = func_02087988();
+    volatile unsigned int *reg = (volatile unsigned int *)(0x04004000 + 0x11C + ch * 0x1C);
+    *reg &= ~0x80000000;
+    (void)*reg;
+    (void)*reg;
+    func_0208799C(irq);
 }
 
-asm void func_0272F368(void)
-{
-}
 
-asm void func_0272F570(void)
-{
-}
 
-asm void func_0272F740(void)
-{
+void func_0272FD18(void) {
+    func_0272FCE0(0);
+    func_0272FCE0(1);
+    func_0272FCE0(2);
+    func_0272FCE0(3);
 }

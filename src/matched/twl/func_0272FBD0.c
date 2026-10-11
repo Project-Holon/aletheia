@@ -16,9 +16,9 @@
 #include "../include/G_twl_data_02732EFC.h"
 
 extern struct G_twl_data_02732EFC data_02732EFC;
-void func_0272F9C4(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, void *a8, int a9, unsigned int a10);
+void func_0272F9C4(int mode, int ch, unsigned int src, unsigned int dst, unsigned int fill, unsigned int size, void (*cb)(), unsigned int arg, void *cfg, int words, unsigned int flags);
 
-void func_0272FBD0(int a0, int a1, int a2, int a3, int a4, int a5)
+void func_0272FBD0(int ch, unsigned int a1, unsigned int a2, unsigned int size, void (*cb)(), unsigned int arg)
 {
-    func_0272F9C4(0, a0, 0, a1, a2, a3, a4, a5, (void *)(((char *)&data_02732EFC) + (a0 << 4)), -1, 0x80000000);
+    func_0272F9C4(0, ch, 0, a1, a2, size, cb, arg, (void *)(((char *)&data_02732EFC) + (ch << 4)), -1, 0x80000000);
 }

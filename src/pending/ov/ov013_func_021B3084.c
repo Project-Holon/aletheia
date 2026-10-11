@@ -318,3 +318,38 @@ u32 func_021B3084(u32 x, u32 sq, u8 *out)
     return ret;
 }
 #pragma opt_propagation reset
+
+/*
+ * Pass 8 (2026-10-12, lane L18c, tools/mwccdbg alias + edit):
+ * - A direct `d_021B4C2C.f4` store gets alias object "exact, whole object" and
+ *   aliases the f0 store (str thr -> str f4 edge, latency 1); `p->f4` gets
+ *   "obj+off" and has no edge.
+ * - Proof: this file with `p->f4 = 0` written `d_021B4C2C.f4 = 0` plus the
+ *   forced alias `edit --force-alias pre:16:7:10` (f4 store vs 3C50 store) is
+ *   byte-exact. The only missing piece is an alias between the f4 store and the
+ *   3C50 store; the compiler gives one only if a store is in the
+ *   unknown-memory set.
+ * - Routes that put a store there (absolute address, 8-byte object view,
+ *   pointer local) change the join block's register colours (late vs early
+ *   `lda` vreg numbers) or add a pool word. No human form found yet.
+ */
+
+/*
+ * Pass 10 (2026-10-12, lane L18i, fresh captures with the lazy-spill-cost tool, about 15 compiles):
+ * - Re-check of pass 8 holds. 8-byte head (VadHead {f0, f4}) for the success stores plus a pointer
+ *   local in an inline ring push: schedule exact, 41 B; `regalloc-replay --renumber 74,75,76,77,72`
+ *   on that capture gives the original join colours (lda 4C2C must be the highest of the join vregs).
+ * - A pointer local always gets its vreg before code generation (named local or inline temp), so the
+ *   lda is low. Every spelling of the join access that is a plain cast of &d_021B4C2C
+ *   (((VadState *)&o)->f4, ((u32 *)&o)[1], (&o.f4)[0]) is folded to a direct access: late lda, but on
+ *   the 8-byte head the f4 access is in the unknown set G, so the ring store gets an edge to the f4
+ *   store, str ring wins the cycle-5 pick over `and` on desc (store 1 < alu 2) and the order is
+ *   add, str, and, str (38 to 53 B). Reordering the source (next computed before the ring store) does
+ *   not change that pick.
+ * - 12-byte object, all direct: join exact (late lda, no ring edge), success block lacks the
+ *   str f4 -> str 3C50 edge (15 B). Absolute 0x021B3C50 for the cfg (G member) fixes the block but the
+ *   compiler emits separate pool words for 3C54 and 3C58 (468 B). Volatile f4 217 B. `asm { }` as a
+ *   barrier does nothing. Block-scope `extern` with a second type is rejected (redeclared).
+ * - Blocker unchanged: a statement that puts only the success-block f4 store (or the 3C50 store) in
+ *   G while the join f4 accesses stay out of G and on the lda-pass vreg numbers.
+ */

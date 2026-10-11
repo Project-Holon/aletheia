@@ -15,9 +15,9 @@
  */
 typedef unsigned int u32;
 extern void func_0272FDC0(u32, void *);
-extern void func_0272F9C4(u32, u32, u32, u32, u32, u32, u32, u32, void *, u32, u32);
+extern void func_0272F9C4(u32, u32, u32, u32, u32, u32, void (*)(), u32, void *, u32, u32);
 
-void func_0272FE54(u32 a0, u32 a1, u32 a2, u32 a3, int s0, u32 s1, u32 s2)
+void func_0272FE54(u32 a0, u32 a1, u32 a2, u32 a3, int s0, void (*s1)(), u32 s2)
 {
     u32 buf[4];
     u32 n = 10;

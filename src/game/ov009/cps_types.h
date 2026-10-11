@@ -115,7 +115,26 @@ struct CPSNetVars {
     u64 rand_inc;                   /* 0x88 */
 };
 
+#ifndef ALETHEIA_G_CPSFRAGTABLE_H
+#define ALETHEIA_G_CPSFRAGTABLE_H
+/* g_021A8A64: IP reassembly table, 8 slots */
+struct CPSFragTable {
+    u32 ipfrom;
+    u16 count;
+    u16 id;
+    u16 last;
+    u16 size;
+    u16 from[8];
+    u16 end[8];
+    u32 time;
+    u8 *data;
+    u8 *buf;
+};
+#endif
+typedef struct CPSFragTable CPSFragTable;
+
 extern struct CPSNetVars g_021A826C;
+extern struct CPSFragTable g_021A8A64[8];
 extern struct _OSThread g_021A8524;
 extern struct _OSThread g_021A85E4;
 extern struct _OSThread g_021A86A4;

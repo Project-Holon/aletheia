@@ -13,3 +13,7 @@ takes `int i` (a u8 parameter adds a narrowing at the call in func_021CD6D0); Tr
 Remaining boundary p01 | p02 (0x021CD050): func_02030734. The p01 callers need the heap argument narrowed (prototype
 u16 heap); func_021CD48C in p02 loads heap from the stack with ldr and passes it unnarrowed (a u16 parameter gives ldrh
 twice, a u32 prototype adds nothing to p01 that stays EXACT). Tested both ways in w10b; looks like a real source boundary.
+
+Round 18 (L17): retested. With a u32 prototype p01 loses its repeated per-use narrowing of `(u16)a`; with a u16 heap
+parameter func_021CD48C loads heap with ldrh at each use (the original has one ldr into r6). func_021CD1C8 would
+need u16 heap too. Boundary unchanged.

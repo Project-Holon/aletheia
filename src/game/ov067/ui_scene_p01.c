@@ -86,7 +86,7 @@ typedef struct {
 
 typedef int (*cb_t)(struct S_021B6144 *s, void *arg);
 
-struct Entry {
+struct CbEntry {
     cb_t cb0;
     cb_t cb1;
     cb_t cb2;
@@ -95,7 +95,7 @@ struct Entry {
 };
 
 struct S_021B6144 {
-    struct Entry *arr;
+    struct CbEntry *arr;
     void *f4;
     u16 idx;
     u16 fA;
@@ -159,16 +159,25 @@ typedef struct {
     u8 elem[1];
 } R;
 
-typedef struct Ent {
-    u8 b[0x38];
-} Ent;
+typedef struct S_021B66FC {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    void (*f0c)(struct S_021B66FC *);
+    u8 pad10[0x1c - 0x10];
+    short f1c;
+    short f1e;
+    u8 pad20[0x30 - 0x20];
+    u32 f30;
+    u8 pad34[4];
+} S_021B66FC;
 
 typedef struct S_021B63D0 {
     u32 f00;
     u32 f04;
     u32 f08;
     u8 pad0c[0x20 - 0x0c];
-    Ent ent[1];
+    S_021B66FC ent[1];
 } S_021B63D0;
 
 typedef struct {
@@ -196,7 +205,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021B67F8(void *a, u32 b, void *c, void *d, u32 e, u16 f);
 extern void func_021B691C(void **p);
 extern void func_021B66FC(u32 *p);
-extern int func_021B6934(struct S_021B63D0 *p);
+extern int func_021B6934(S_021B66FC *p);
 extern int func_021B69A4(void **p);
 extern int func_021B69B8(void *e);
 extern int func_021B69C8(void *p, int a);
@@ -279,7 +288,7 @@ void func_021B613C(void *p)
 
 int func_021B6144(struct S_021B6144 *s)
 {
-    struct Entry *e = (struct Entry *)((u8 *)s->arr + s->idx * 0x14);
+    struct CbEntry *e = (struct CbEntry *)((u8 *)s->arr + s->idx * 0x14);
 
     switch (s->d) {
     case 0:
@@ -449,7 +458,7 @@ void func_021B63D0(S_021B63D0 *p)
     case 0:
         p->f00 = -1;
         for (i = 0; i < p->f04; i++) {
-            if (func_021B6934((struct S_021B63D0 *)(&p->ent[i]))) {
+            if (func_021B6934(&p->ent[i])) {
                 p->f00 = i;
                 p->f08 = 1;
                 return;

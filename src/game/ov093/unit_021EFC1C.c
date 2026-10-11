@@ -1,7 +1,7 @@
 /*
  * file:     unit_021EFC1C.c
  * unit:     yes
- * function: func_021EFC1C, func_021EFC78
+ * function: func_021EFC1C, func_021EFC78, func_021EFCE4
  * address:  0x021EFC1C
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -42,7 +42,7 @@ extern u8 func_021D5440(u8 *p);
 extern int func_021B9A24(u8 a, u8 b);
 extern u8 *func_021B9940(char *p, u8 i);
 extern int func_021D5750(u8 *p, u16 id);
-extern void *func_021EFCE4(char *a, int b);
+void *func_021EFCE4(char *a, int b);
 extern u8 func_021E8AFC(Slot s);
 extern void func_06898080(u32 a);
 extern void func_021EF83C(char *a, u32 b);
@@ -100,4 +100,9 @@ void func_021EFC78(char *a, void (*cb)(u32, u32), u32 arg)
         if (cb != 0)
             cb(k, arg);
     }
+}
+
+void *func_021EFCE4(char *arg0, int arg1)
+{
+    return *(void **)(arg0 + arg1 * 4 + 0x148);
 }

@@ -280,17 +280,6 @@ typedef struct DWCstBinaryMessage {
     unsigned long data[32];
 } DWCstBinaryMessage;
 
-typedef struct SOCInAddr {
-    u32 addr;
-} SOCInAddr;
-
-typedef struct SOCSockAddrIn {
-    u8 len;
-    u8 family;
-    u16 port;
-    SOCInAddr addr;
-} SOCSockAddrIn;
-
 struct GPBuddyStatus
 {
     int f0;
@@ -2602,7 +2591,7 @@ send:
     senddata[5] = pMyNodeInfo->hasPrivateAddress;
     senddata[6] = DWCi_GetMatchCnt()->connectGroupID;
     senddata[7] = DWCi_GetMatchCnt()->topologyType;
-    senddata[8] = DWCi_GetMatchCnt()->f_7BC;
+    senddata[8] = *(u32 *)DWCi_GetMatchCnt()->connUserData;
     DWCi_GetMatchCnt()->f_634 = DWCi_GetMathRand32((u32)-2) + 1;
     senddata[9] = DWCi_GetMatchCnt()->f_634;
     senddata[10] = DWCi_GetMatchCnt()->inMeshMaking != 0;
@@ -2647,12 +2636,12 @@ int DWCi_SendResvCommandToFriend(int delay, int init, int resendPid)
         do {
             profileID = DWC_GetGsProfileId(
                 DWCi_GetUserData(),
-                DWCi_GetMatchCnt()->f_68C +
+                DWCi_GetMatchCnt()->param68c +
                     DWCi_GetMatchCnt()->buf694[DWCi_GetMatchCnt()->f_621] * 12);
             if (profileID == 0 || profileID == -1)
                 goto next;
             if (DWCi_Acc_IsValidFriendData(
-                    DWCi_GetMatchCnt()->f_68C +
+                    DWCi_GetMatchCnt()->param68c +
                     DWCi_GetMatchCnt()->buf694[DWCi_GetMatchCnt()->f_621] * 12) == 0)
                 goto next;
             if (DWCi_NodeInfoList_GetNodeInfoForProfileID(profileID) != 0)
@@ -3967,8 +3956,8 @@ void func_02173B18(void)
     int i;
 
     for (i = 0; i < 0x9a; i++) {
-        if (g_021AAA40[i].value != 0) {
-            DWC_Free(4, g_021AAA40[i].value, 0);
+        if (g_021AAA40[i].keyString != 0) {
+            DWC_Free(4, g_021AAA40[i].keyString, 0);
         }
     }
     MIi_CpuClear32(0, g_021AAA40, sizeof(DWCstGameMatchKeyData) * 0x9a);
@@ -4345,7 +4334,7 @@ void func_02174058(void *sb, int reason, void *server)
                 tmpNodeInfo.privateInetAddress = SBServerGetPrivateInetAddress(server);
                 tmpNodeInfo.privateQueryPort = SBServerGetPrivateQueryPort(server);
                 tmpNodeInfo.hasPrivateAddress = SBServerHasPrivateAddress(server);
-                MI_CpuCopy8(&MC()->f_7BC, &tmpNodeInfo.connUserData, 4);
+                MI_CpuCopy8(MC()->connUserData, &tmpNodeInfo.connUserData, 4);
                 if (MC()->qr2MatchTypeExt == 0) {
                     DWCi_NodeInfoList_InsertToTop(&tmpNodeInfo);
                     DWCi_StartMatch();
@@ -4455,7 +4444,7 @@ void func_02174058(void *sb, int reason, void *server)
                     DWCi_ConnectToGameServerAsync(topology, profileID,
                         (void *)MC()->matchedCallback, (void *)MC()->matchedParam,
                         (void *)MC()->newClientCallback, (void *)MC()->newClientParam,
-                        (void *)MC()->f_7B8, &MC()->f_7BC,
+                        (void *)MC()->f_7B8, MC()->connUserData,
                         (void *)MC()->f_7C0);
                 }
                 goto end;

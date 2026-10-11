@@ -10,3 +10,6 @@ Boundaries:
 
 Round 17 (L12): not retried. SDK NitroSystem fnd code (list, heap common, expheap are separate objects in the
 library), so the p01|p02 boundary is probably a real object boundary.
+
+Round 17 (L04): greedy merge p01+p02 retried: DIFF at func_02060814. No __FILE__ anchor and no SDK member name in
+layout for this range. Kept as two NitroSystem fnd objects (heapcommon / expheap).

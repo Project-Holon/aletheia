@@ -3887,3 +3887,4 @@ overlay_093  0x021DAEA4  thumb  # matched EXACT in src/matched/ov/ov093_func_021
 overlay_093  0x021E5968  thumb  # matched EXACT in src/matched/ov/ov093_func_021E5968.c
 twl          0x02702A8C  arm    # matched EXACT in src/matched/twl/func_02702A8C.c
 twl          0x02705320  arm    # matched EXACT in src/matched/twl/func_02705320.c
+overlay_039 0x021F36FC  thumb  # matched EXACT in src/matched/ov/ov039_func_021F36FC.c

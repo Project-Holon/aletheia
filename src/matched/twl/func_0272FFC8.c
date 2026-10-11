@@ -25,13 +25,13 @@ extern struct E data_02732EFC[];
 extern void func_02084998(u32);
 extern void func_020849C8(u32);
 extern void func_02730090(void);
-extern void func_0272F9C4(u32, u32, u32, u32, u32, u32, u32, u32, void *, u32, u32);
+extern void func_0272F9C4(u32, u32, u32, u32, u32, u32, void (*)(), u32, void *, u32, u32);
 
 void func_0272FFC8(void)
 {
     u32 pos;
     u32 n = data_02732F3C.fc;
-    u32 cb;
+    void (*cb)();
     u32 rem;
     u32 idx;
     if (n == 0) {
@@ -48,7 +48,7 @@ void func_0272FFC8(void)
     }
     func_020849C8(0x200000);
     rem = data_02732F3C.fc;
-    cb = (u32)func_02730090;
+    cb = func_02730090;
     if (rem != 0) {
         cb = 0;
     }

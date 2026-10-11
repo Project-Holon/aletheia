@@ -13,19 +13,17 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021B9A40  0x021B9A40  thumb
+ *   func_021C7CF4  0x021C7CF4  thumb
+ *   func_021C8234  0x021C8234  thumb
+ *   func_021C88A4  0x021C88A4  thumb
+ *   func_021C88C8  0x021C88C8  thumb
+ *   func_021D5814  0x021D5814  thumb
+ *   func_021D775C  0x021D775C  thumb
+ *   func_021E89C0  0x021E89C0  thumb
+ *   func_021E8A58  0x021E8A58  thumb
  *   data_0689D708 0x0689D708 data a4
  *   func_06898DE0  0x06898DE0  thumb
- *   func_06899780  0x06899780  thumb
- *   func_06899790  0x06899790  thumb
- *   func_068997A0  0x068997A0  thumb
- *   func_068997B0  0x068997B0  thumb
- *   func_068997C0  0x068997C0  thumb
- *   func_068997D0  0x068997D0  thumb
- *   func_068997E0  0x068997E0  thumb
- *   func_068997F0  0x068997F0  thumb
- *   func_06899800  0x06899800  thumb
- *   func_06899810  0x06899810  thumb
- *   func_06899820  0x06899820  thumb
  */
 typedef unsigned int u32;
 
@@ -36,17 +34,15 @@ typedef unsigned short u16;
 typedef struct { int v; } Id;
 
 extern int func_06898DE0(int a, u32 b);
-extern int func_06899780(int a);
-extern int func_06899790(int a);
-extern int func_068997A0(void *a, int b);
-extern int func_068997B0(void *a, int b);
-extern int func_068997C0(int a, int b);
-extern u8 *func_068997D0(void *a, int b, int c);
-extern void func_068997E0(void *a, void *t);
-extern u32 *func_068997F0(void *a, int b, int c);
-extern u32 func_06899800(void);
-extern u32 func_06899810(void);
-extern void func_06899820(void *a, void *q);
+extern int func_021D775C(int a);
+extern int func_021B9A40(int a);
+extern int func_021C8234(void *a, int b);
+extern int func_021C7CF4(void *a, int b);
+extern int func_021D5814(int a, int b);
+extern void *func_021C88A4();
+extern void func_021C88C8();
+extern u32 func_021E8A58(void);
+extern u32 func_021E89C0(void);
 void *func_068996C8(u32 *p);
 void func_068996D4(int a, void *p, int x);
 extern unsigned char data_0689D708[];
@@ -80,26 +76,26 @@ void func_068996D4(int a, void *p, int x)
     u8 *t;
     u32 *q;
 
-    v = func_06899780(2);
-    if (x == func_06899790(v) && func_068997A0(p, v) == 0) {
-        if (func_068997C0(func_068997B0(p, v), 3) != 0) {
-            t = func_068997D0(p, 0x1a, v);
+    v = func_021D775C(2);
+    if (x == func_021B9A40(v) && func_021C8234(p, v) == 0) {
+        if (func_021D5814(func_021C7CF4(p, v), 3) != 0) {
+            t = func_021C88A4(p, 0x1a, v);
             t[7] = x;
             t[4] = 3;
             for (i = 1; i < 3; i++)
                 t[i + 4] = 0;
             if (t[4] > 1)
                 t[5] |= 0x80;
-            func_068997E0(p, t);
+            func_021C88C8(p, t);
         } else {
-            q = func_068997F0(p, 0xc, 0x1f);
+            q = func_021C88A4(p, 0xc, 0x1f);
             q[1] = 5;
             if ((u32)cmpid(a, x).v > 1)
-                q[2] = func_06899800();
+                q[2] = func_021E8A58();
             else
-                q[2] = func_06899810();
+                q[2] = func_021E89C0();
             *((u8 *)q + 0xf) = v;
-            func_06899820(p, q);
+            func_021C88C8(p, q);
         }
     }
 }

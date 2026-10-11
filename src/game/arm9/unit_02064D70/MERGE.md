@@ -14,3 +14,8 @@ stand-in for whatever declaration the original had in view (probably the origina
 head differently); only func_020663D0 uses the alias.
 
 Boundary left: p01 | p02 is a compiler change (1.1p1 / 2.0), tested both ways in round 5 and w10d.
+
+Round 18 (L19): p01 under 2.0/sp2 and p02 under 1.1p1 are both DIFF again, so the compiler boundary stands (two
+different libraries' objects). func_020663D0 still needs the g_02147B88_head view (marked stand-in in p02); tried a
+static inline stackPos_ accessor and plain fields of the full struct: both leave the same 44 bytes (the 2.0
+scheduler hoists the stackPos_ load above the stores to the local matrix).

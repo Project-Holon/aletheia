@@ -211,6 +211,16 @@ class Tracer:
         deg = d.s16(ptr + 0x30)
         ent = {"vreg": self.node_index(d, ptr), "why": why, "degree": deg}
         if why == "spill-pick":
+            if not self.rnd.get("costs_read"):
+                # spill costs and the nospill/inf flags are filled in lazily, just before
+                # the first spill pick (call at 0x526756); the node dump at entry still
+                # holds zeros.  The simplified bit (2) is not part of that state.
+                self.rnd["costs_read"] = True
+                base = d.u32(G_NODES)
+                for nd in self.rnd["nodes"]:
+                    a = base + nd["vreg"] * NODE_SZ
+                    nd["cost"] = d.s32(a + 0xC)
+                    nd["flags"] = (d.u16(a + 0x2E) & ~2) | (nd["flags"] & 2)
             cost = d.s32(ptr + 0xC)
             ent["cost"] = cost
             ent["score"] = (cost / deg) if deg else None
@@ -374,7 +384,12 @@ def simplify(nodes, nphys, K):
     push every node with degree < K (degree counts precoloured neighbours; a
     pair node removes 2).  When a sweep pushes nothing, the spill pick takes
     the lowest cost/degree, scanning ids in descending order with strict <
-    (ties keep the highest id); nospill and inf nodes score as huge."""
+    (ties keep the highest id); nospill and inf nodes score as huge.
+
+    Costs and the nospill/inf flags are not set when the graph is complete:
+    the allocator fills them in just before its first spill pick, and capture
+    reads them then.  A capture made before that fix holds cost 0 and no
+    flags, and the spill picks of such a capture do not replay."""
     deg = {v: len(n["neighbors"]) for v, n in nodes.items()}
     cand = [v for v in sorted(nodes) if v >= nphys and not nodes[v]["flags"] & 4]
     done, stack = set(), []

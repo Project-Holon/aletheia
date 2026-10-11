@@ -1,8 +1,8 @@
 /*
  * file:     unit_020911D4_p02.c
  * unit:     yes
- * function: func_020979C0, func_02098B48, func_02099228
- * address:  0x020979BC
+ * function: func_0209953C, func_0209A0F0, func_0209A368, func_0209A394, func_0209A504, func_0209A524, func_0209A6E8, func_0209A7A8, func_0209AA0C, func_0209AB80, func_0209AB8C, func_0209ABEC, func_0209ABF8, _double_arith_prelude, __dadd_dsub, func_0209B2E8, func_0209B64C
+ * address:  0x0209953C
  * region:   arm9
  * compiler: dsi/1.2
  * flags:    -O4,p
@@ -13,467 +13,1473 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   _dadd  0x0209AC04  arm
- *   _dsub  0x0209AF34  arm
- *   _dmul  0x0209B2E8  arm
- *   _ddiv  0x0209D1E0  arm
- *   _dflt  0x0209B750  arm
+ *   _dsub        0x0209AF34  arm
+ *   _dmul        0x0209B2E8  arm
+ *   _dadd        0x0209AC04  arm
+ *   _dfix        0x0209C508  arm
+ *   _dflt        0x0209B750  arm
+ *   _deq         0x0209BA3C  arm
+ *   _dgeq        0x0209B7CC  arm
+ *   func_02097990  0x02097990  arm
+ *   init_jk      0x020A64A8  data
+ *   PIo2         0x020A64B8  data
  *   _dgr  0x0209B864  arm
- *   _dleq  0x0209B8FC  arm
- *   _f2d  0x0209BD38  arm
- *   func_0209A504  0x0209A504  arm
- *   func_0209C5E0  0x0209C5E0  arm
- *   scalbn  0x02097990  arm
- *   bp  0x020A6300  data
- *   dp_h  0x020A62F0  data
- *   dp_l  0x020A6310  data
- *   __float_nan  0x020A8818  data
- *   errno  0x02153FAC  data
- *   _dfix  0x0209C508  arm
- *   _deq  0x0209BA3C  arm
- *   func_0209953C  0x0209953C  arm
- *   npio2_hw  0x020A6320  data
- *   two_over_pi  0x020A63A0  data
+ *   func_020921F4  0x020921F4  arm
+ *   func_020979BC  0x020979BC  arm
+ *   g_020A60DC  0x020A60DC  data
+ *   func_02091C40  0x02091C40  arm
  */
 #define HI(x) (((i32 *)&(x))[1])
 #define LO(x) (((i32 *)&(x))[0])
 /* Matched units compiled in this file, entered 4 bytes before their function:
- * unit_020979BC (0x020979BC) holds func_020979C0
- * unit_02098B44 (0x02098B44) holds func_02098B48
- * unit_02099224 (0x02099224) holds func_02099228
+ * unit_0209A0EC (0x0209A0EC) holds func_0209A0F0
+ * unit_0209A390 (0x0209A390) holds func_0209A394
+ * unit_0209AA08 (0x0209AA08) holds func_0209AA0C
  */
 
 typedef int i32;
 
 typedef unsigned int u32;
 
-extern double func_0209A504(double x);
-extern double func_0209C5E0(double x);
-extern double scalbn(double x, int n);
-extern int func_0209953C(double *x, double *y, int e0, int nx, int prec, const i32 *ipio2);
-double func_020979C0(double x, double y);
-int func_02098B48(double x, double *y);
-double func_02099228(double x, double y);
-extern int errno;
-extern const float __float_nan;
-extern const double bp[];
-extern const double dp_h[];
-extern const double dp_l[];
-extern const i32 npio2_hw[];
-extern const i32 two_over_pi[];
+typedef unsigned char u8;
+
+extern double func_02097990(double x, int n);
+extern double func_0209B2E8(double x, double y);
+extern double func_0209AC04(double x, double y);
+extern double func_0209AF34(double x, double y);
+extern int func_0209C508(double x);
+extern double func_02099224(double x, double y);
+extern double func_0209A0EC(double x, double y, int iy);
+extern int func_02098B44(double x, double *y);
+extern int func_020921F4(double x);
+extern double func_020979BC(double x, double y);
+extern int func_02091C40(const u8 *s1, const u8 *s2, int n);
+int func_0209953C(double *x, double *y, int e0, int nx, int prec, const int *ipio2);
+double func_0209A0F0(double x, double y, int iy);
+double func_0209A368(double x, double y);
+double func_0209A394(double x);
+double func_0209A504(double x);
+double func_0209A524(double x);
+double func_0209A6E8(double x, int *eptr);
+double func_0209A7A8(double x, int n);
+double func_0209AA0C(double x);
+double func_0209AB80(double x, double y);
+int func_0209AB8C(const u8 *s1, const u8 *s2);
+int func_0209ABEC(const u8 *s1, const u8 *s2, int n);
+int func_0209ABF8(const u8 *s1, const u8 *s2);
+asm void _double_arith_prelude(void);
+asm void __dmul(void);
+asm void _d2f(void);
+extern const int init_jk[];
+extern const double PIo2[];
+extern const u8 g_020A60DC[];
+
 
 
 static const double
-zero    =  0.0,
-one	=  1.0,
-two	=  2.0,
-two53	=  9007199254740992.0,
-huge	=  1.0e300,
-tiny    =  1.0e-300,
-L1  =  5.99999999999994648725e-01,
-L2  =  4.28571428578550184252e-01,
-L3  =  3.33333329818377432918e-01,
-L4  =  2.72728123808534006489e-01,
-L5  =  2.30660745775561754067e-01,
-L6  =  2.06975017800338417784e-01,
-P1   =  1.66666666666666019037e-01,
-P2   = -2.77777777770155933842e-03,
-P3   =  6.61375632143793436117e-05,
-P4   = -1.65339022054652515390e-06,
-P5   =  4.13813679705723846039e-08,
-lg2  =  6.93147180559945286227e-01,
-lg2_h  =  6.93147182464599609375e-01,
-lg2_l  = -1.90465429995776804525e-09,
-ovt =  8.0085662595372944372e-0017,
-cp    =  9.61796693925975554329e-01,
-cp_h  =  9.61796700954437255859e-01,
-cp_l  = -7.02846165095275826516e-09,
-ivln2    =  1.44269504088896338700e+00,
-ivln2_h  =  1.44269502162933349609e+00,
-ivln2_l  =  1.92596299112661746887e-08;
+zero   = 0.0,
+one    = 1.0,
+two24  = 1.67772160000000000000e+07,
+twon24 = 5.96046447753906250000e-08;
 
 
-/*
- * MSL __ieee754_pow(x, y): fdlibm e_pow.c with the MSL edits listed in
- * docs/notes/pkt_020979C0.c.txt.  fabs = func_0209A504, sqrt = func_0209C5E0.
- * The machine entry is 0x020979BC (push {r0-r3} home for the register-passed
- * doubles), four bytes before the disasm body label func_020979C0.
- *
- * Front end dsi/1.2 (1.2p2 identical): kept &bp base across its three uses
- * and the push {r3-fp,lr} / sub sp,#0x78 frame; 1.1p1 splits the loads and
- * builds a different frame.
- *
- * The self-assignment `s = s;` after `p_h = y1*t1` emits no code; it is what
- * settles the r6/r7/r8 coloring of t2 (hi), s and the final exponent n over
- * 0x0BC8..0x1170 (without it the three rotate, 25 bytes out).  Found by the
- * permuter (wave 18, seed 1902) and reduced by hand to this one line.
- */
-double func_020979C0(double x, double y)
+
+int func_0209953C(double *x, double *y, int e0, int nx, int prec, const int *ipio2)
 {
-	double z,ax,z_h,z_l,p_h,p_l;
-	double y1,t1,t2,r,s,t,u,v,w;
-	i32 i,j,k,yisint,n,n0;
-	i32 hx,hy,ix,iy;
-	u32 lx,ly;
+	int jz,jx,jv,jp,jk,carry,n,iq[20],i,j,k,m,q0,ih;
+	double z,fw,f[20],fq[20],q[20];
 
-	hx = HI(x); lx = LO(x);
-	hy = HI(y); ly = LO(y);
-	ix = hx&0x7fffffff;  iy = hy&0x7fffffff;
+	jk = init_jk[prec];
+	jp = jk;
 
-	if((iy|ly)==0) return one;
+	jx =  nx-1;
+	jv = (e0-3)/24; if(jv<0) jv=0;
+	q0 =  e0-24*(jv+1);
 
-	if(ix > 0x7ff00000 || ((ix==0x7ff00000)&&(lx!=0)) ||
-	   iy > 0x7ff00000 || ((iy==0x7ff00000)&&(ly!=0)))
-		return x+y;
+	j = jv-jx; m = jx+jk; i = 0;
+	if(m>=0) for(;i<=m;i++,j++) f[i] = (j<0)? zero : (double) ipio2[j];
 
-	yisint  = 0;
-	if(hx<0) {
-	    if(iy>=0x43400000) yisint = 2;
-	    else if(iy>=0x3ff00000) {
-		k = (iy>>20)-0x3ff;
-		if(k>20) {
-		    j = ly>>(52-k);
-		    if((j<<(52-k))==ly) yisint = 2-(j&1);
-		} else if(ly==0) {
-		    j = iy>>(20-k);
-		    if((j<<(20-k))==iy) yisint = 2-(j&1);
+	for (i=0;i<=jk;i++) {
+	    for(j=0,fw=0.0;j<=jx;j++) fw += x[j]*f[jx+i-j]; q[i] = fw;
+	}
+
+	jz = jk;
+recompute:
+	i=0; j=jz; z=q[jz]; if(j>0) for(;j>0;i++,j--) {
+	    fw    =  (double)((int)(twon24* z));
+	    iq[i] =  (int)(z-two24*fw);
+	    z     =  q[j-1]+fw;
+	}
+
+	z  = func_02097990(z,q0);
+	z -= 8.0*func_0209A524(z*0.125);
+	n  = (int) z;
+	z -= (double)n;
+	ih = 0;
+	if(q0>0) {
+	    i  = (iq[jz-1]>>(24-q0)); n += i;
+	    iq[jz-1] -= i<<(24-q0);
+	    ih = iq[jz-1]>>(23-q0);
+	}
+	else if(q0==0) ih = iq[jz-1]>>23;
+	else if(z>=0.5) ih=2;
+
+	if(ih>0) {
+	    n += 1; carry = 0;
+	    for(i=0;i<jz ;i++) {
+		j = iq[i];
+		if(carry==0) {
+		    if(j!=0) {
+			carry = 1; iq[i] = 0x1000000- j;
+		    }
+		} else  iq[i] = 0xffffff - j;
+	    }
+	    if(q0>0) {
+	        switch(q0) {
+	        case 1:
+	    	   iq[jz-1] &= 0x7fffff; break;
+	    	case 2:
+	    	   iq[jz-1] &= 0x3fffff; break;
+	        }
+	    }
+	    if(ih==2) {
+		z = one - z;
+		if(carry!=0) z -= func_02097990(one,q0);
+	    }
+	}
+
+	if(z==zero) {
+	    j = 0;
+	    for (i=jz-1;i>=jk;i--) j |= iq[i];
+	    if(j==0) {
+		for(k=1;iq[jk-k]==0;k++);
+
+		for(i=jz+1;i<=jz+k;i++) {
+		    f[jx+i] = (double) ipio2[jv+i];
+		    for(j=0,fw=0.0;j<=jx;j++) fw += x[j]*f[jx+i-j];
+		    q[i] = fw;
 		}
+		jz += k;
+		goto recompute;
 	    }
 	}
 
-	if(ly==0) {
-	    if (iy==0x7ff00000) {
-	        if(((ix-0x3ff00000)|lx)==0)
-		    return  y - y;
-	        else if (ix >= 0x3ff00000)
-		    return (hy>=0)? y: zero;
-	        else
-		    return (hy<0)?-y: zero;
-	    }
-	    if(iy==0x3ff00000) {
-		if(hy<0) return one/x; else return x;
-	    }
-	    if(hy==0x40000000) return x*x;
-	    if(hy==0x3fe00000) {
-		if(hx>=0)
-		return func_0209C5E0(x);
-	    }
-	}
-
-	ax   = func_0209A504(x);
-	if(lx==0) {
-	    if(ix==0x7ff00000||ix==0||ix==0x3ff00000){
-		z = ax;
-		if(hy<0) z = one/z;
-		if(hx<0) {
-		    if(((ix-0x3ff00000)|yisint)==0) {
-			z = (z-z)/(z-z);
-		    } else if(yisint==1)
-			z = -z;
-		}
-		return z;
-	    }
-	}
-
-	n0 = (hx>>31)+1;
-
-	if((n0|yisint)==0) {
-	    errno = 33;
-	    return __float_nan;
-	}
-
-	if(iy>0x41e00000) {
-	    if(iy>0x43f00000){
-		if(ix<=0x3fefffff) return (hy<0)? huge*huge:tiny*tiny;
-		if(ix>=0x3ff00000) return (hy>0)? huge*huge:tiny*tiny;
-	    }
-	    if(ix<0x3fefffff) return (hy<0)? huge*huge:tiny*tiny;
-	    if(ix>0x3ff00000) return (hy>0)? huge*huge:tiny*tiny;
-	    t = x-one;
-	    w = (t*t)*(0.5-t*(0.3333333333333333333333-t*0.25));
-	    u = ivln2_h*t;
-	    v = t*ivln2_l-w*ivln2;
-	    t1 = u+v;
-	    LO(t1) = 0;
-	    t2 = v-(t1-u);
+	if(z==0.0) {
+	    jz -= 1; q0 -= 24;
+	    while(iq[jz]==0) { jz--; q0-=24;}
 	} else {
-	    double ss,s2,s_h,s_l,t_h,t_l;
-	    n = 0;
-	    if(ix<0x00100000)
-		{ax *= two53; n -= 53; ix = HI(ax); }
-	    n  += ((ix)>>20)-0x3ff;
-	    j  = ix&0x000fffff;
-	    ix = j|0x3ff00000;
-	    if(j<=0x3988E) k=0;
-	    else if(j<0xBB67A) k=1;
-	    else {k=0;n+=1;ix -= 0x00100000;}
-	    HI(ax) = ix;
-
-	    u = ax-bp[k];
-	    v = one/(ax+bp[k]);
-	    ss = u*v;
-	    s_h = ss;
-	    LO(s_h) = 0;
-	    t_h = zero;
-	    HI(t_h)=((ix>>1)|0x20000000)+0x00080000+(k<<18);
-	    t_l = ax - (t_h-bp[k]);
-	    s_l = v*((u-s_h*t_h)-s_h*t_l);
-	    s2 = ss*ss;
-	    r = s2*s2*(L1+s2*(L2+s2*(L3+s2*(L4+s2*(L5+s2*L6)))));
-	    r += s_l*(s_h+ss);
-	    s2  = s_h*s_h;
-	    t_h = 3.0+s2+r;
-	    LO(t_h) = 0;
-	    t_l = r-((t_h-3.0)-s2);
-	    u = s_h*t_h;
-	    v = s_l*t_h+t_l*ss;
-	    p_h = u+v;
-	    LO(p_h) = 0;
-	    p_l = v-(p_h-u);
-	    z_h = cp_h*p_h;
-	    z_l = cp_l*p_h+p_l*cp+dp_l[k];
-	    t = (double)n;
-	    t1 = (((z_h+z_l)+dp_h[k])+t);
-	    LO(t1) = 0;
-	    t2 = z_l-(((t1-t)-dp_h[k])-z_h);
+	    z = func_02097990(z,-q0);
+	    if(z>=two24) {
+		fw = (double)((int)(twon24*z));
+		iq[jz] = (int)(z-two24*fw);
+		jz += 1; q0 += 24;
+		iq[jz] = (int) fw;
+	    } else iq[jz] = (int) z ;
 	}
 
-	s = one;
-	if((n0|(yisint-1))==0) s = -one;
+	fw = func_02097990(one,q0);
+	for(i=jz;i>=0;i--) {
+	    q[i] = fw*(double)iq[i]; fw*=twon24;
+	}
 
-	y1  = y;
-	LO(y1) = 0;
-	p_l = (y-y1)*t1+y*t2;
-	p_h = y1*t1;
-	s = s;		/* no code; pins the t2/s/n register coloring */
-	z = p_l+p_h;
-	j = HI(z);
-	i = LO(z);
-	if (j>=0x40900000) {
-	    if(((j-0x40900000)|i)!=0)
-		return s*huge*huge;
-	    else {
-		if(p_l+ovt>z-p_h) return s*huge*huge;
-	    }
-	} else if((j&0x7fffffff)>=0x4090cc00 ) {
-	    if(((j-0xc090cc00)|i)!=0)
-		return s*tiny*tiny;
-	    else {
-		if(p_l<=z-p_h) return s*tiny*tiny;
-	    }
+	for(i=jz;i>=0;i--) {
+	    for(fw=0.0,k=0;k<=jp&&k<=jz-i;k++) fw += PIo2[k]*q[i+k];
+	    fq[jz-i] = fw;
 	}
-	i = j&0x7fffffff;
-	k = (i>>20)-0x3ff;
-	n = 0;
-	if(i>0x3fe00000) {
-	    n = j+(0x00100000>>(k+1));
-	    k = ((n&0x7fffffff)>>20)-0x3ff;
-	    t = zero;
-	    HI(t) = (n&~(0x000fffff>>k));
-	    n = ((n&0x000fffff)|0x00100000)>>(20-k);
-	    if(j<0) n = -n;
-	    p_h -= t;
+
+	switch(prec) {
+	    case 0:
+		fw = 0.0;
+		for (i=jz;i>=0;i--) fw += fq[i];
+		y[0] = (ih==0)? fw: -fw;
+		break;
+	    case 1:
+	    case 2:
+		fw = 0.0;
+		for (i=jz;i>=0;i--) fw += fq[i];
+		y[0] = (ih==0)? fw: -fw;
+		fw = fq[0]-fw;
+		for (i=1;i<=jz;i++) fw += fq[i];
+		y[1] = (ih==0)? fw: -fw;
+		break;
+	    case 3:
+		for (i=jz;i>0;i--) {
+		    fw      = fq[i-1]+fq[i];
+		    fq[i]  += fq[i-1]-fw;
+		    fq[i-1] = fw;
+		}
+		for (i=jz;i>1;i--) {
+		    fw      = fq[i-1]+fq[i];
+		    fq[i]  += fq[i-1]-fw;
+		    fq[i-1] = fw;
+		}
+		for (fw=0.0,i=jz;i>=2;i--) fw += fq[i];
+		if(ih==0) {
+		    y[0] =  fq[0]; y[1] =  fq[1]; y[2] =  fw;
+		} else {
+		    y[0] = -fq[0]; y[1] = -fq[1]; y[2] = -fw;
+		}
 	}
-	t = p_l+p_h;
-	LO(t) = 0;
-	u = t*lg2_h;
-	v = (p_l-(t-p_h))*lg2+t*lg2_l;
-	z = u+v;
-	w = v-(z-u);
-	t  = z*z;
-	t1  = z - t*(P1+t*(P2+t*(P3+t*(P4+t*P5))));
-	r  = (z*t1)/(t1-two)-(w+z*w);
-	z  = one-(r-z);
-	j  = HI(z);
-	j += (n<<20);
-	if((j>>20)<=0) z = scalbn(z,n);
-	else HI(z) += (n<<20);
-	return s*z;
+	return n&7;
 }
 
-
-static const double
-half =  5.00000000000000000000e-01,
-two24 =  1.67772160000000000000e+07,
-invpio2 =  6.36619772367581382433e-01,
-pio2_1  =  1.57079632673412561417e+00,
-pio2_1t =  6.07710050650619224932e-11,
-pio2_2  =  6.07710050630396597660e-11,
-pio2_2t =  2.02226624879595063154e-21,
-pio2_3  =  2.02226624871116645580e-21,
-pio2_3t =  8.47842766036889956997e-32;
 
 
 /*
- * fdlibm __ieee754_rem_pio2(x, y), e_rem_pio2.c transcribed unchanged.  The
- * machine entry is 0x02098B44, four bytes before the disasm body label
- * func_02098B48: the compiler's push {r0-r3} spilling the register-passed
- * double, because HI(x) takes the address of x.  The body is MSL runtime
- * (layout/runtime_arm9.txt, _msl_double_fn_1); the unit exists so the 4-byte
- * worklist row at the stub is reproduced as part of its function.
+ * fdlibm __kernel_sin().  The machine entry is 0x0209A0EC, four bytes before
+ * the disasm body label func_0209A0F0: 0x0209A0EC is the compiler's
+ * `push {r0-r3}` spilling the double arguments x (r0:r1) and y (r2:r3), so
+ * the body reads them from the stack and pops 16 bytes on every return.
+ * Both the stub address and the body label are worklist entries, so the unit
+ * is anchored at the stub and the function list records the body label.
  *
- * Front end dsi/1.2 (wave 17): the loop store tx[i] = (double)(int)z is two
- * str (1.1p1 merges them into stm), the same pin that fits __ieee754_pow at
- * 0x020979BC.  Fabs = func_0209A504, __kernel_rem_pio2 = func_0209953C;
- * npio2_hw and two_over_pi resolve through the sole-ref/data class.
+ * Callees by address:
+ *   func_0209B2E8  __dmul(double, double)
+ *   func_0209AC04  __dadd(double, double)
+ *   func_0209AF34  __dsub(double, double)
+ *   func_0209C508  __d2s (double -> int)
  */
-int func_02098B48(double x, double *y)
+double func_0209A0F0(double x, double y, int iy)
 {
-    double z, w, t, r, fn;
-    double tx[3];
-    int e0, i, j, nx, n, ix, hx;
+    static const double half = 5.00000000000000000000e-01;
+    static const double S1 = -1.66666666666666324348e-01;
+    static const double S2 = 8.33333333332248946124e-03;
+    static const double S3 = -1.98412698298579493134e-04;
+    static const double S4 = 2.75573137070700676789e-06;
+    static const double S5 = -2.50507602534068634195e-08;
+    static const double S6 = 1.58969099521155010221e-10;
 
-    hx = HI(x);
-    ix = hx & 0x7fffffff;
-    if (ix <= 0x3fe921fb)
-    {
-        y[0] = x;
-        y[1] = 0;
-        return 0;
-    }
-    if (ix < 0x4002d97c)
-    {
-        if (hx > 0)
-        {
-            z = x - pio2_1;
-            if (ix != 0x3ff921fb)
-            {
-                y[0] = z - pio2_1t;
-                y[1] = (z - y[0]) - pio2_1t;
-            }
-            else
-            {
-                z -= pio2_2;
-                y[0] = z - pio2_2t;
-                y[1] = (z - y[0]) - pio2_2t;
-            }
-            return 1;
-        }
-        else
-        {
-            z = x + pio2_1;
-            if (ix != 0x3ff921fb)
-            {
-                y[0] = z + pio2_1t;
-                y[1] = (z - y[0]) + pio2_1t;
-            }
-            else
-            {
-                z += pio2_2;
-                y[0] = z + pio2_2t;
-                y[1] = (z - y[0]) + pio2_2t;
-            }
-            return -1;
-        }
-    }
-    if (ix <= 0x413921fb)
-    {
-        t = func_0209A504(x);
-        n = (int)(t * invpio2 + half);
-        fn = (double)n;
-        r = t - fn * pio2_1;
-        w = fn * pio2_1t;
-        if (n < 32 && ix != npio2_hw[n - 1])
-        {
-            y[0] = r - w;
-        }
-        else
-        {
-            j = ix >> 20;
-            y[0] = r - w;
-            i = j - (((HI(y[0])) >> 20) & 0x7ff);
-            if (i > 16)
-            {
-                t = r;
-                w = fn * pio2_2;
-                r = t - w;
-                w = fn * pio2_2t - ((t - r) - w);
-                y[0] = r - w;
-                i = j - (((HI(y[0])) >> 20) & 0x7ff);
-                if (i > 49)
-                {
-                    t = r;
-                    w = fn * pio2_3;
-                    r = t - w;
-                    w = fn * pio2_3t - ((t - r) - w);
-                    y[0] = r - w;
-                }
-            }
-        }
-        y[1] = (r - y[0]) - w;
-        if (hx < 0)
-        {
-            y[0] = -y[0];
-            y[1] = -y[1];
-            return -n;
-        }
-        else
-            return n;
-    }
-    if (ix >= 0x7ff00000)
-    {
-        y[0] = y[1] = x - x;
-        return 0;
-    }
-    LO(z) = LO(x);
-    e0 = (ix >> 20) - 1046;
-    HI(z) = ix - (e0 << 20);
-    for (i = 0; i < 2; i++)
-    {
-        tx[i] = (double)((int)(z));
-        z = (z - tx[i]) * two24;
-    }
-    tx[2] = z;
-    nx = 3;
-    while (tx[nx - 1] == zero)
-        nx--;
-    n = func_0209953C(tx, y, e0, nx, 2, two_over_pi);
-    if (hx < 0)
-    {
-        y[0] = -y[0];
-        y[1] = -y[1];
-        return -n;
-    }
-    return n;
-}
-
-
-double func_02099228(double x, double y)
-{
-    static const double one = 1.00000000000000000000e+00;
-    static const double C1 = 4.16666666666666019037e-02;
-    static const double C2 = -1.38888888888741095749e-03;
-    static const double C3 = 2.48015872894767294178e-05;
-    static const double C4 = -2.75573143513906633035e-07;
-    static const double C5 = 2.08757232129817482790e-09;
-    static const double C6 = -1.13596475577881948265e-11;
-
-    double a, hz, z, r, qx;
+    double z, r, v;
     int ix;
 
     ix = HI(x) & 0x7fffffff;
     if (ix < 0x3e400000)
     {
         if ((int)x == 0)
-            return one;
+            return x;
     }
     z = x * x;
-    r = z * (C1 + z * (C2 + z * (C3 + z * (C4 + z * (C5 + z * C6)))));
-    if (ix < 0x3FD33333)
-        return one - (0.5 * z - (z * r - x * y));
+    v = z * x;
+    r = S2 + z * (S3 + z * (S4 + z * (S5 + z * S6)));
+    if (iy == 0)
+        return x + v * (S1 + z * r);
+    else
+        return x - ((z * (half * y - v * r) - y) - v * S1);
+}
+
+
+
+/*
+ * note:     EXACT* not EXACT: scan_listing puts the next label 4 bytes past
+ *           this function's real end (0x0209A390, a pool-adjacent follower),
+ *           so the printed extent is 44 against a compiled 40.  Bytes all
+ *           match and there are no relocation sites.
+ *
+ * MSL copysign(): combines the magnitude of the first double with the sign
+ * of the second, reading both hi words off the stack after `push {r0-r3}`
+ * (the address-of-a-register-parameter idiom, doubled for two doubles).
+ */
+double func_0209A368(double x, double y)
+{
+    ((u32 *)&x)[1] = (((u32 *)&x)[1] & 0x7fffffff) | (((u32 *)&y)[1] & 0x80000000);
+    return x;
+}
+
+
+
+/*
+ * fdlibm cos().  The machine entry is 0x0209A390, four bytes before the
+ * disasm label func_0209A394: the disassembler never saw the real entry
+ * because nothing calls cos by name, so it labelled the body and left the
+ * prologue stub as an unlabelled word.  That stub is the compiler's
+ * `push {r0-r3}` for the register-passed double argument, which is why the
+ * body reads x from [sp, #0x20]/[sp, #0x24] and why every return ends
+ * `add sp, sp, #0x10` to pop the spilled pair.  Comparing from the label
+ * alone starts after the stub and cannot line up; anchored here the whole
+ * 372-byte function matches, and the header's function list records the
+ * body label so the worklist entry at 0x0209A394 is covered too.
+ *
+ * |x| <= pi/4 short-circuits to __kernel_cos(x, 0.0); the general path
+ * reduces with __ieee754_rem_pio2 and selects a kernel on n & 3.  Unary
+ * minus and x-x lower to the MSL soft-float subtract helper _dsub (the
+ * table entry `__dadd_dsub` at 0x0209AF34 is its subtract entry).
+ *
+ * Callees by address:
+ *   func_02099224  __kernel_cos(double, double)
+ *   func_0209A0EC  __kernel_sin(double, double, int)
+ *   func_02098B44  __ieee754_rem_pio2(double, double *)
+ */
+double func_0209A394(double x)
+{
+    double y[2];
+    double z = 0.0;
+    int n;
+    int ix;
+
+    ix = HI(x) & 0x7fffffff;
+    if (ix <= 0x3fe921fb)
+        return func_02099224(x, z);
+    else if (ix >= 0x7ff00000)
+        return x - x;
     else
     {
-        if (ix > 0x3fe90000)
+        n = func_02098B44(x, y);
+        switch (n & 3)
         {
-            qx = 0.28125;
+        case 0:
+            return func_02099224(y[0], y[1]);
+        case 1:
+            return -func_0209A0EC(y[0], y[1], 1);
+        case 2:
+            return -func_02099224(y[0], y[1]);
+        default:
+            return func_0209A0EC(y[0], y[1], 1);
+        }
+    }
+}
+
+
+
+/*
+ * MSL fabs(): the hi word of the double is cleared via `&x`, which is the
+ * address-of-a-register-parameter idiom and produces `push {r0-r3}`; the
+ * mask folds to `bic r1, r1, #0x80000000`.
+ */
+double func_0209A504(double x)
+{
+    ((u32 *)&x)[1] &= 0x7fffffff;
+    return x;
+}
+
+
+
+static const double huge = 1.0e300;
+
+
+
+/*
+ * fdlibm floor().  Identified by its two pool constants: huge = 1.0e300
+ * (0x7E37E43C_8800759C, the classic fdlibm inexact-raising addend) and
+ * 0xBFF00000, the high word of -1.0 that the |x| < 1, x < 0 arm returns.
+ * The `huge + x > 0.0` guard is a soft-float __dadd followed by __dcmp_2,
+ * which is why every arm of the function calls out twice.
+ *
+ * The leading `push {r0, r1, r2, r3}` at 0x0209A524 is the home area for the
+ * register-passed double: the body reads x's words from [sp, #0x20]/[sp,
+ * #0x24] through &x, and every return pops 16 bytes.  See the cluster header
+ * docs/families/cluster_02098B44.h.
+ */
+double func_0209A524(double x)
+{
+    i32 i0, i1, j0;
+    u32 i, j;
+
+    i0 = HI(x);
+    i1 = LO(x);
+    j0 = ((i0 >> 20) & 0x7ff) - 0x3ff;
+    if (j0 < 20)
+    {
+        if (j0 < 0)
+        {
+            if (huge + x > 0.0)
+            {
+                if (i0 >= 0)
+                {
+                    i0 = i1 = 0;
+                }
+                else if (((i0 & 0x7fffffff) | i1) != 0)
+                {
+                    i0 = 0xbff00000;
+                    i1 = 0;
+                }
+            }
         }
         else
         {
-            HI(qx) = ix - 0x00200000;
-            LO(qx) = 0;
+            i = (0x000fffff) >> j0;
+            if (((i0 & i) | i1) == 0)
+                return x;
+            if (huge + x > 0.0)
+            {
+                if (i0 < 0)
+                    i0 += (0x00100000) >> j0;
+                i0 &= (~i);
+                i1 = 0;
+            }
         }
-        hz = 0.5 * z - qx;
-        a = one - qx;
-        return a - (hz - (z * r - x * y));
     }
+    else if (j0 > 51)
+    {
+        if (j0 == 0x400)
+            return x + x;
+        else
+            return x;
+    }
+    else
+    {
+        i = ((u32)(0xffffffff)) >> (j0 - 20);
+        if ((i1 & i) == 0)
+            return x;
+        if (huge + x > 0.0)
+        {
+            if (i0 < 0)
+            {
+                if (j0 == 20)
+                    i0 += 1;
+                else
+                {
+                    j = i1 + (1 << (52 - j0));
+                    if (j < (u32)i1)
+                        i0 += 1;
+                    i1 = j;
+                }
+            }
+            i1 &= (~i);
+        }
+    }
+    HI(x) = i0;
+    LO(x) = i1;
+    return x;
+}
+
+
+
+static const double two54 = 1.80143985094819840000e+16;
+
+
+
+/*
+ * fdlibm frexp().  Word access goes through the address of the register
+ * parameter `x`, which is why the prologue preserves r0-r3 even though this
+ * is not a call that needs them.  Scaled subnormals are multiplied by the
+ * inline double constant two54; the compiler keeps its zero low word in r5
+ * and only pools the 0x43500000 high half.
+ */
+double func_0209A6E8(double x, int *eptr)
+{
+    int hx;
+    int ix;
+    int lx;
+
+    hx = HI(x);
+    lx = LO(x);
+    ix = 0x7fffffff & hx;
+    *eptr = 0;
+    if (ix >= 0x7ff00000 || ((ix | lx) == 0))
+        return x;
+    if (ix < 0x00100000)
+    {
+        x *= two54;
+        hx = HI(x);
+        ix = hx & 0x7fffffff;
+        *eptr = -54;
+    }
+    *eptr += (ix >> 20) - 1022;
+    hx = (hx & 0x800fffff) | 0x3fe00000;
+    HI(x) = hx;
+    return x;
+}
+
+
+
+static const double twom54  = 5.55111512312578270212e-17;
+
+
+
+static const double tiny    = 1.0e-300;
+
+
+
+/*
+ * note:     EXACT* not EXACT: the next function's own home-area push
+ *           (0x0209AA08, sin's `push {r0, r1, r2, r3}`, already covered by
+ *           src/matched/unit_0209AA08.c) carries no label of its own, so the
+ *           printed extent is 612 against a compiled 608.  All 608 compared
+ *           bytes match and all 12 relocations resolve.
+ * MSL ldexp(double, int), with fdlibm scalbn() inlined into it.
+ *
+ * The wrapper is the first eight instructions: __fpclassify(x) (0x020921F4)
+ * and, only when that says the value is finite-and-not-one-of-the-low-classes,
+ * an equality test against 0.0 that lowers to the soft-float __dcmp_5 at
+ * 0x0209BA3C.  Either test failing returns x untouched; everything after
+ * 0x0209A7F8 is scalbn's own body.
+ *
+ * Identified by the full fdlibm scalbn constant set in the pool at 0x0209A9DC:
+ * two54 (0x43500000), twom54 (0x3C900000), huge = 1.0e300
+ * (0x7E37E43C_8800759C), tiny = 1.0e-300 (0x01A56E1F_C2F8F359) and the
+ * +-50000 exponent clamps (0x0000C350 / 0xFFFF3CB0).
+ *
+ * The leading `push {r0, r1, r2, r3}` at 0x0209A7A8 is the home area for the
+ * register-passed double: the body reads and writes x's words from
+ * [sp, #0x10]/[sp, #0x14] through &x, and every return pops 16 bytes.
+ * See the cluster header docs/families/cluster_02098B44.h.
+ */
+double func_0209A7A8(double x, int n)
+{
+    i32 k, hx, lx;
+
+    if (func_020921F4(x) <= 2 || x == 0.0)
+        return x;
+
+    hx = HI(x);
+    lx = LO(x);
+    k = (hx & 0x7ff00000) >> 20;
+    if (k == 0)
+    {
+        if ((lx | (hx & 0x7fffffff)) == 0)
+            return x;
+        x *= two54;
+        hx = HI(x);
+        k = ((hx & 0x7ff00000) >> 20) - 54;
+        if (n < -50000)
+            return tiny * x;
+    }
+    if (k == 0x7ff)
+        return x + x;
+    k = k + n;
+    if (k > 0x7fe)
+        return huge * func_0209A368(huge, x);
+    if (k > 0)
+    {
+        HI(x) = (hx & 0x800fffff) | (k << 20);
+        return x;
+    }
+    if (k <= -54)
+    {
+        if (n > 50000)
+            return huge * func_0209A368(huge, x);
+        else
+            return tiny * func_0209A368(tiny, x);
+    }
+    k += 54;
+    HI(x) = (hx & 0x800fffff) | (k << 20);
+    return x * twom54;
+}
+
+
+
+/*
+ * fdlibm sin().  The machine entry is 0x0209AA08, four bytes before the
+ * disasm body label func_0209AA0C: the stub is the compiler's `push {r0-r3}`
+ * spilling the register-passed double argument, so the body reads x from the
+ * stack and pops 16 bytes on every return.  The unit is anchored at the stub
+ * and the function list records the body label the worklist names.
+ *
+ * |x| <= pi/4 short-circuits to __kernel_sin(x, 0.0, 0); the general path
+ * reduces with __ieee754_rem_pio2 and selects a kernel on n & 3.  Negation
+ * and x-x lower to the MSL soft-float subtract helper _dsub.
+ *
+ * Callees by address:
+ *   func_0209A0EC  __kernel_sin(double, double, int)
+ *   func_02099224  __kernel_cos(double, double)
+ *   func_02098B44  __ieee754_rem_pio2(double, double *)
+ *   func_0209AF34  __dsub(double, double)
+ */
+double func_0209AA0C(double x)
+{
+    double y[2];
+    double z = 0.0;
+    int n;
+    int ix;
+
+    ix = HI(x) & 0x7fffffff;
+    if (ix <= 0x3fe921fb)
+        return func_0209A0EC(x, z, 0);
+    else if (ix >= 0x7ff00000)
+        return x - x;
+    else
+    {
+        n = func_02098B44(x, y);
+        switch (n & 3)
+        {
+        case 0:
+            return func_0209A0EC(y[0], y[1], 1);
+        case 1:
+            return func_02099224(y[0], y[1]);
+        case 2:
+            return -func_0209A0EC(y[0], y[1], 1);
+        default:
+            return -func_02099224(y[0], y[1]);
+        }
+    }
+}
+
+
+
+double func_0209AB80(double x, double y)
+{
+    return func_020979BC(x, y);
+}
+
+
+
+/*
+ * note:     EXACT* not EXACT: the label following this function in the
+ *           listing is the veneer block at 0x0209AC04 (0x0209ABEC/0x0209ABF8
+ *           are unlabelled), so the printed extent is 120 against a compiled
+ *           96.  All 96 compared bytes (code + literal pool) match and the
+ *           single relocation resolves via `literal`.
+ * Case-insensitive string compare: each byte is mapped through the 256-byte
+ * table at 0x020A60DC when it is below 0x80, then compared as unsigned.
+ * The `>= 0` half of the guard is what emits the `cmp #0; blt` before the
+ * `cmp #0x80; ldrblt`, even though the byte load is unsigned.
+ *
+ * The interleaved declarations (`int c1; u8 m1; int c2; u8 m2;`) matter:
+ * they make mwccarm color the c1 mask into ip and the raw c2 into lr, which
+ * is what the original does.  Declaring the two mask temps together instead
+ * swaps those two scratch registers (9-byte DIFF).
+ */
+int func_0209AB8C(const u8 *s1, const u8 *s2)
+{
+    const u8 *tab = g_020A60DC;
+    int c1;
+    u8 m1;
+    int c2;
+    u8 m2;
+
+    for (;;)
+    {
+        c1 = *s1++;
+        if (c1 >= 0 && c1 < 0x80)
+            c1 = tab[c1];
+        m1 = (u8)c1;
+
+        c2 = *s2++;
+        if (c2 >= 0 && c2 < 0x80)
+            c2 = tab[c2];
+        m2 = (u8)c2;
+
+        if (m1 < m2)
+            return -1;
+        if (m1 > m2)
+            return 1;
+        if (m1 == 0)
+            return 0;
+    }
+}
+
+
+int func_0209ABEC(const u8 *s1, const u8 *s2, int n)
+{
+    return func_02091C40(s1, s2, n);
+}
+
+
+int func_0209ABF8(const u8 *s1, const u8 *s2)
+{
+    return func_0209AB8C(s1, s2);
+}
+
+
+asm void _double_arith_prelude(void)
+{
+    stmdb sp!, {r4, lr}
+    eors ip, r1, r3
+    eormi r3, r3, #0x80000000
+    bmi L_0209AF44
+L_0209AC14:
+    subs ip, r0, r2
+    sbcs lr, r1, r3
+    bhs L_0209AC30
+    adds r2, r2, ip
+    adc r3, r3, lr
+    subs r0, r0, ip
+    sbc r1, r1, lr
+L_0209AC30:
+    mov lr, #0x80000000
+    mov ip, r1, lsr #0x14
+    orr r1, lr, r1, lsl #11
+    orr r1, r1, r0, lsr #21
+    mov r0, r0, lsl #0xb
+    movs r4, ip, lsl #0x15
+    cmnne r4, #0x200000
+    beq L_0209AD2C
+    mov r4, r3, lsr #0x14
+    orr r3, lr, r3, lsl #11
+    orr r3, r3, r2, lsr #21
+    mov r2, r2, lsl #0xb
+    movs lr, r4, lsl #0x15
+    beq L_0209AD74
+L_0209AC68:
+    subs r4, ip, r4
+    beq L_0209ACC0
+    cmp r4, #0x20
+    ble L_0209ACA4
+    cmp r4, #0x38
+    movge r4, #0x3f
+    sub r4, r4, #0x20
+    rsb lr, r4, #0x20
+    orrs lr, r2, r3, lsl lr
+    mov r2, r3, lsr r4
+    orrne r2, r2, #1
+    adds r0, r0, r2
+    adcs r1, r1, #0
+    blo L_0209ACE8
+    b L_0209ACCC
+L_0209ACA4:
+    rsb lr, r4, #0x20
+    movs lr, r2, lsl lr
+    rsb lr, r4, #0x20
+    mov r2, r2, lsr r4
+    orr r2, r2, r3, lsl lr
+    mov r3, r3, lsr r4
+    orrne r2, r2, #1
+L_0209ACC0:
+    adds r0, r0, r2
+    adcs r1, r1, r3
+    blo L_0209ACE8
+L_0209ACCC:
+    add ip, ip, #1
+    and r4, r0, #1
+    movs r1, r1, rrx
+    orr r0, r4, r0, rrx
+    mov lr, ip, lsl #0x15
+    cmn lr, #0x200000
+    beq L_0209AEF8
+L_0209ACE8:
+    movs r2, r0, lsl #0x15
+    mov r0, r0, lsr #0xb
+    orr r0, r0, r1, lsl #21
+    add r1, r1, r1
+    mov r1, r1, lsr #0xc
+    orr r1, r1, ip, lsl #20
+    tst r2, #0x80000000
+    ldmeqia sp!, {r4, lr}
+    bxeq lr
+    movs r2, r2, lsl #1
+    andeqs r2, r0, #1
+    ldmeqia sp!, {r4, lr}
+    bxeq lr
+    adds r0, r0, #1
+    adc r1, r1, #0
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209AD2C:
+    cmp ip, #0x800
+    movge lr, #0x80000000
+    movlt lr, #0
+    bics ip, ip, #0x800
+    beq L_0209AD98
+    orrs r4, r0, r1, lsl #1
+    bne L_0209AED4
+    mov r4, r3, lsr #0x14
+    mov r3, r3, lsl #0xb
+    orr r3, r3, r2, lsr #21
+    mov r2, r2, lsl #0xb
+    movs r4, r4, lsl #0x15
+    beq L_0209AEC0
+    cmn r4, #0x200000
+    bne L_0209AEC0
+    orrs r4, r2, r3, lsl #1
+    beq L_0209AEC0
+    b L_0209AED4
+L_0209AD74:
+    cmp r4, #0x800
+    movge lr, #0x80000000
+    movlt lr, #0
+    bic ip, ip, #0x800
+    bics r4, r4, #0x800
+    beq L_0209AE04
+    orrs r4, r2, r3, lsl #1
+    bne L_0209AED4
+    b L_0209AEC0
+L_0209AD98:
+    orrs r4, r0, r1, lsl #1
+    beq L_0209ADD8
+    mov ip, #1
+    bic r1, r1, #0x80000000
+    mov r4, r3, lsr #0x14
+    mov r3, r3, lsl #0xb
+    orr r3, r3, r2, lsr #21
+    mov r2, r2, lsl #0xb
+    movs r4, r4, lsl #0x15
+    cmnne r4, #0x200000
+    mov r4, r4, lsr #0x15
+    orr r4, r4, lr, lsr #20
+    beq L_0209AD74
+    orr r3, r3, #0x80000000
+    orr ip, ip, lr, lsr #20
+    b L_0209AC68
+L_0209ADD8:
+    mov ip, r3, lsr #0x14
+    mov r1, r3, lsl #0xb
+    orr r1, r1, r2, lsr #21
+    mov r0, r2, lsl #0xb
+    movs r4, ip, lsl #0x15
+    beq L_0209AE8C
+    cmn r4, #0x200000
+    bne L_0209AE8C
+    orrs r4, r0, r1, lsl #1
+    beq L_0209AEC0
+    b L_0209AED8
+L_0209AE04:
+    orrs r4, r2, r3, lsl #1
+    beq L_0209AE9C
+    mov r4, #1
+    bic r3, r3, #0x80000000
+    cmp r1, #0
+    bpl L_0209AE28
+    orr ip, ip, lr, lsr #20
+    orr r4, r4, lr, lsr #20
+    b L_0209AC68
+L_0209AE28:
+    adds r0, r0, r2
+    adcs r1, r1, r3
+    blo L_0209AE48
+    add ip, ip, #1
+    and r4, r0, #1
+    movs r1, r1, rrx
+    mov r0, r0, rrx
+    orr r0, r0, r4
+L_0209AE48:
+    cmp r1, #0
+    subges ip, ip, #1
+    movs r2, r0, lsl #0x15
+    mov r0, r0, lsr #0xb
+    orr r0, r0, r1, lsl #21
+    add r1, r1, r1
+    orr r1, lr, r1, lsr #12
+    orr r1, r1, ip, lsl #20
+    ldmeqia sp!, {r4, lr}
+    bxeq lr
+    tst r2, #0x80000000
+    ldmeqia sp!, {r4, lr}
+    bxeq lr
+    movs r2, r2, lsl #1
+    andeqs r2, r0, #1
+    ldmeqia sp!, {r4, lr}
+    bxeq lr
+L_0209AE8C:
+    mov r1, r3
+    mov r0, r2
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209AE9C:
+    cmp r1, #0
+    subges ip, ip, #1
+    mov r0, r0, lsr #0xb
+    orr r0, r0, r1, lsl #21
+    add r1, r1, r1
+    orr r1, lr, r1, lsr #12
+    orr r1, r1, ip, lsl #20
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209AEC0:
+    ldr r1, [pc, #0x50]
+    orr r1, lr, r1
+    mov r0, #0
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209AED4:
+    mov r1, r3
+L_0209AED8:
+    mvn r0, #0
+    bic r1, r0, #0x80000000
+    ldmia sp!, {r4, lr}
+    bx lr
+    mvn r0, #0
+    bic r1, r0, #0x80000000
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209AEF8:
+    cmp ip, #0x800
+    movge lr, #0x80000000
+    movlt lr, #0
+    ldr r1, [pc, #0xc]
+    orr r1, lr, r1
+    mov r0, #0
+    ldmia sp!, {r4, lr}
+    bx lr
+    dcd 0x7FF00000
+    eor r1, r1, r3
+    eor r3, r1, r3
+    eor r1, r1, r3
+    eor r0, r0, r2
+    eor r2, r0, r2
+    eor r0, r0, r2
+__dadd_dsub:
+    stmdb sp!, {r4, lr}
+    eors ip, r1, r3
+    eormi r3, r3, #0x80000000
+    bmi L_0209AC14
+L_0209AF44:
+    subs ip, r0, r2
+    sbcs lr, r1, r3
+    bhs L_0209AF64
+    eor lr, lr, #0x80000000
+    adds r2, r2, ip
+    adc r3, r3, lr
+    subs r0, r0, ip
+    sbc r1, r1, lr
+L_0209AF64:
+    mov lr, #0x80000000
+    mov ip, r1, lsr #0x14
+    orr r1, lr, r1, lsl #11
+    orr r1, r1, r0, lsr #21
+    mov r0, r0, lsl #0xb
+    movs r4, ip, lsl #0x15
+    cmnne r4, #0x200000
+    beq L_0209B168
+    mov r4, r3, lsr #0x14
+    orr r3, lr, r3, lsl #11
+    orr r3, r3, r2, lsr #21
+    mov r2, r2, lsl #0xb
+    movs lr, r4, lsl #0x15
+    beq L_0209B1B0
+L_0209AF9C:
+    subs r4, ip, r4
+    beq L_0209B044
+    cmp r4, #0x20
+    ble L_0209AFD8
+    cmp r4, #0x38
+    movge r4, #0x3f
+    sub r4, r4, #0x20
+    rsb lr, r4, #0x20
+    orrs lr, r2, r3, lsl lr
+    mov r2, r3, lsr r4
+    orrne r2, r2, #1
+    subs r0, r0, r2
+    sbcs r1, r1, #0
+    bmi L_0209B000
+    b L_0209B0F0
+L_0209AFD8:
+    rsb lr, r4, #0x20
+    movs lr, r2, lsl lr
+    rsb lr, r4, #0x20
+    mov r2, r2, lsr r4
+    orr r2, r2, r3, lsl lr
+    mov r3, r3, lsr r4
+    orrne r2, r2, #1
+    subs r0, r0, r2
+    sbcs r1, r1, r3
+    bpl L_0209B0F0
+L_0209B000:
+    movs r2, r0, lsl #0x15
+    mov r0, r0, lsr #0xb
+    orr r0, r0, r1, lsl #21
+    add r1, r1, r1
+    mov r1, r1, lsr #0xc
+    orr r1, r1, ip, lsl #20
+    tst r2, #0x80000000
+    ldmeqia sp!, {r4, lr}
+    bxeq lr
+    movs r2, r2, lsl #1
+    andeqs r2, r0, #1
+    ldmeqia sp!, {r4, lr}
+    bxeq lr
+    adds r0, r0, #1
+    adc r1, r1, #0
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209B044:
+    subs r0, r0, r2
+    sbc r1, r1, r3
+    orrs lr, r1, r0
+    beq L_0209B2D4
+    mov lr, ip, lsl #0x14
+    and lr, lr, #0x80000000
+    bic ip, ip, #0x800
+    cmp r1, #0
+    bmi L_0209B0CC
+    bne L_0209B07C
+    sub ip, ip, #0x20
+    movs r1, r0
+    mov r0, #0
+    bmi L_0209B098
+L_0209B07C:
+    clz r4, r1
+    movs r1, r1, lsl r4
+    rsb r4, r4, #0x20
+    orr r1, r1, r0, lsr r4
+    rsb r4, r4, #0x20
+    mov r0, r0, lsl r4
+    sub ip, ip, r4
+L_0209B098:
+    cmp ip, #0
+    bgt L_0209B0D4
+    rsb ip, ip, #0xc
+    cmp ip, #0x20
+    movge r0, r1
+    movge r1, #0
+    subge ip, ip, #0x20
+    rsb r4, ip, #0x20
+    mov r0, r0, lsr ip
+    orr r0, r0, r1, lsl r4
+    orr r1, lr, r1, lsr ip
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209B0CC:
+    cmp r1, #0
+    subges ip, ip, #1
+L_0209B0D4:
+    mov r0, r0, lsr #0xb
+    orr r0, r0, r1, lsl #21
+    add r1, r1, r1
+    orr r1, lr, r1, lsr #12
+    orr r1, r1, ip, lsl #20
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209B0F0:
+    mov lr, ip, lsl #0x14
+    and lr, lr, #0x80000000
+    bic ip, ip, #0x800
+    cmp r1, #0
+    bne L_0209B114
+    sub ip, ip, #0x20
+    movs r1, r0
+    mov r0, #0
+    bmi L_0209B130
+L_0209B114:
+    clz r4, r1
+    movs r1, r1, lsl r4
+    rsb r4, r4, #0x20
+    orr r1, r1, r0, lsr r4
+    rsb r4, r4, #0x20
+    mov r0, r0, lsl r4
+    sub ip, ip, r4
+L_0209B130:
+    cmp ip, #0
+    orrgt ip, ip, lr, lsr #20
+    bgt L_0209B000
+    rsb ip, ip, #0xc
+    cmp ip, #0x20
+    movge r0, r1
+    movge r1, #0
+    subge ip, ip, #0x20
+    rsb r4, ip, #0x20
+    mov r0, r0, lsr ip
+    orr r0, r0, r1, lsl r4
+    orr r1, lr, r1, lsr ip
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209B168:
+    cmp ip, #0x800
+    movge lr, #0x80000000
+    movlt lr, #0
+    bics ip, ip, #0x800
+    beq L_0209B1D4
+    orrs r4, r0, r1, lsl #1
+    bne L_0209B2B0
+    mov r4, r3, lsr #0x14
+    mov r3, r3, lsl #0xb
+    orr r3, r3, r2, lsr #21
+    mov r2, r2, lsl #0xb
+    movs r4, r4, lsl #0x15
+    beq L_0209B29C
+    cmn r4, #0x200000
+    bne L_0209B29C
+    orrs r4, r2, r3, lsl #1
+    beq L_0209B2C4
+    b L_0209B2B0
+L_0209B1B0:
+    cmp r4, #0x800
+    movge lr, #0x80000000
+    movlt lr, #0
+    bic ip, ip, #0x800
+    bics r4, r4, #0x800
+    beq L_0209B24C
+    orrs r4, r2, r3, lsl #1
+    bne L_0209B2B0
+    b L_0209B29C
+L_0209B1D4:
+    orrs r4, r0, r1, lsl #1
+    beq L_0209B214
+    mov ip, #1
+    bic r1, r1, #0x80000000
+    mov r4, r3, lsr #0x14
+    mov r3, r3, lsl #0xb
+    orr r3, r3, r2, lsr #21
+    mov r2, r2, lsl #0xb
+    movs r4, r4, lsl #0x15
+    cmnne r4, #0x200000
+    mov r4, r4, lsr #0x15
+    orr r4, r4, lr, lsr #20
+    beq L_0209B1B0
+    orr r3, r3, #0x80000000
+    orr ip, ip, lr, lsr #20
+    b L_0209AF9C
+L_0209B214:
+    mov ip, r3, lsr #0x14
+    mov r1, r3, lsl #0xb
+    orr r1, r1, r2, lsr #21
+    mov r0, r2, lsl #0xb
+    movs r4, ip, lsl #0x15
+    beq L_0209B240
+    cmn r4, #0x200000
+    bne L_0209B268
+    orrs r4, r0, r1, lsl #1
+    bne L_0209B2B4
+    b L_0209B29C
+L_0209B240:
+    orrs r4, r0, r1, lsl #1
+    beq L_0209B2D4
+    b L_0209B268
+L_0209B24C:
+    orrs r4, r2, r3, lsl #1
+    beq L_0209B278
+    mov r4, #1
+    bic r3, r3, #0x80000000
+    orr ip, ip, lr, lsr #20
+    orr r4, r4, lr, lsr #20
+    b L_0209AF9C
+L_0209B268:
+    mov r1, r3
+    mov r0, r2
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209B278:
+    cmp r1, #0
+    subges ip, ip, #1
+    mov r0, r0, lsr #0xb
+    orr r0, r0, r1, lsl #21
+    add r1, r1, r1
+    orr r1, lr, r1, lsr #12
+    orr r1, r1, ip, lsl #20
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209B29C:
+    ldr r1, [pc, #0x40]
+    orr r1, lr, r1
+    mov r0, #0
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209B2B0:
+    mov r1, r3
+L_0209B2B4:
+    mvn r0, #0
+    bic r1, r0, #0x80000000
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209B2C4:
+    mvn r0, #0
+    bic r1, r0, #0x80000000
+    ldmia sp!, {r4, lr}
+    bx lr
+L_0209B2D4:
+    mov r1, #0
+    mov r0, #0
+    ldmia sp!, {r4, lr}
+    bx lr
+    dcd 0x7FF00000
+}
+
+
+
+asm void __dmul(void)
+{
+    stmdb sp!, {r4, r5, r6, r7, lr}
+    eor lr, r1, r3
+    and lr, lr, #0x80000000
+    mov ip, r1, lsr #0x14
+    mov r1, r1, lsl #0xb
+    orr r1, r1, r0, lsr #21
+    mov r0, r0, lsl #0xb
+    movs r6, ip, lsl #0x15
+    cmnne r6, #0x200000
+    beq L_0209B3F0
+    orr r1, r1, #0x80000000
+    bic ip, ip, #0x800
+    mov r4, r3, lsr #0x14
+    mov r3, r3, lsl #0xb
+    orr r3, r3, r2, lsr #21
+    mov r2, r2, lsl #0xb
+    movs r5, r4, lsl #0x15
+    cmnne r5, #0x200000
+    beq L_0209B438
+    orr r3, r3, #0x80000000
+    bic r4, r4, #0x800
+L_0209B33C:
+    add ip, r4, ip
+    umull r5, r4, r0, r2
+    umull r7, r6, r0, r3
+    adds r4, r7, r4
+    adc r6, r6, #0
+    umull r7, r0, r1, r2
+    adds r4, r7, r4
+    adcs r0, r0, r6
+    umull r7, r2, r1, r3
+    adc r1, r2, #0
+    adds r0, r0, r7
+    adc r1, r1, #0
+    orrs r4, r4, r5
+    orrne r0, r0, #1
+    cmp r1, #0
+    blt L_0209B388
+    sub ip, ip, #1
+    adds r0, r0, r0
+    adc r1, r1, r1
+L_0209B388:
+    add ip, ip, #2
+    subs ip, ip, #0x400
+    bmi L_0209B524
+    beq L_0209B524
+    mov r6, ip, lsl #0x14
+    cmn r6, #0x100000
+    bmi L_0209B624
+    movs r2, r0, lsl #0x15
+    mov r0, r0, lsr #0xb
+    orr r0, r0, r1, lsl #21
+    add r1, r1, r1
+    orr r1, lr, r1, lsr #12
+    orr r1, r1, ip, lsl #20
+    ldmeqia sp!, {r4, r5, r6, r7, lr}
+    bxeq lr
+    tst r2, #0x80000000
+    ldmeqia sp!, {r4, r5, r6, r7, lr}
+    bxeq lr
+    movs r2, r2, lsl #1
+    andeqs r2, r0, #1
+    ldmeqia sp!, {r4, r5, r6, r7, lr}
+    bxeq lr
+    adds r0, r0, #1
+    adc r1, r1, #0
+    ldmia sp!, {r4, r5, r6, r7, lr}
+    bx lr
+L_0209B3F0:
+    bics ip, ip, #0x800
+    beq L_0209B44C
+    orrs r6, r0, r1, lsl #1
+    bne L_0209B5D8
+    mov r4, r3, lsr #0x14
+    mov r3, r3, lsl #0xb
+    orr r3, r3, r2, lsr #21
+    mov r2, r2, lsl #0xb
+    movs r5, r4, lsl #0x15
+    beq L_0209B42C
+    cmn r5, #0x200000
+    bne L_0209B5C4
+    orrs r5, r2, r3, lsl #1
+    beq L_0209B5C4
+    b L_0209B5D8
+L_0209B42C:
+    orrs r5, r3, r2
+    beq L_0209B5EC
+    b L_0209B5C4
+L_0209B438:
+    bics r4, r4, #0x800
+    beq L_0209B4E0
+    orrs r6, r2, r3, lsl #1
+    bne L_0209B5D8
+    b L_0209B5C4
+L_0209B44C:
+    orrs r6, r0, r1, lsl #1
+    beq L_0209B4B4
+    mov ip, #1
+    cmp r1, #0
+    bne L_0209B470
+    sub ip, ip, #0x20
+    movs r1, r0
+    mov r0, #0
+    bmi L_0209B48C
+L_0209B470:
+    clz r6, r1
+    movs r1, r1, lsl r6
+    rsb r6, r6, #0x20
+    orr r1, r1, r0, lsr r6
+    rsb r6, r6, #0x20
+    mov r0, r0, lsl r6
+    sub ip, ip, r6
+L_0209B48C:
+    mov r4, r3, lsr #0x14
+    mov r3, r3, lsl #0xb
+    orr r3, r3, r2, lsr #21
+    mov r2, r2, lsl #0xb
+    movs r5, r4, lsl #0x15
+    cmnne r5, #0x200000
+    beq L_0209B438
+    orr r3, r3, #0x80000000
+    bic r4, r4, #0x800
+    b L_0209B33C
+L_0209B4B4:
+    mov r4, r3, lsr #0x14
+    mov r3, r3, lsl #0xb
+    orr r3, r3, r2, lsr #21
+    mov r2, r2, lsl #0xb
+    movs r5, r4, lsl #0x15
+    beq L_0209B638
+    cmn r5, #0x200000
+    bne L_0209B638
+    orrs r6, r2, r3, lsl #1
+    beq L_0209B5EC
+    b L_0209B5D8
+L_0209B4E0:
+    orrs r5, r2, r3, lsl #1
+    beq L_0209B638
+    mov r4, #1
+    cmp r3, #0
+    bne L_0209B504
+    sub r4, r4, #0x20
+    movs r3, r2
+    mov r2, #0
+    bmi L_0209B33C
+L_0209B504:
+    clz r6, r3
+    movs r3, r3, lsl r6
+    rsb r6, r6, #0x20
+    orr r3, r3, r2, lsr r6
+    rsb r6, r6, #0x20
+    mov r2, r2, lsl r6
+    sub r4, r4, r6
+    b L_0209B33C
+L_0209B524:
+    cmn ip, #0x34
+    beq L_0209B5BC
+    bmi L_0209B614
+    mov r2, r1
+    mov r3, r0
+    add r4, ip, #0x34
+    cmp r4, #0x20
+    movge r2, r3
+    movge r3, #0
+    subge r4, r4, #0x20
+    rsb r5, r4, #0x20
+    mov r2, r2, lsl r4
+    orr r2, r2, r3, lsr r5
+    movs r3, r3, lsl r4
+    orrne r2, r2, #1
+    rsb ip, ip, #0xc
+    cmp ip, #0x20
+    movge r0, r1
+    movge r1, #0
+    subge ip, ip, #0x20
+    rsb r4, ip, #0x20
+    mov r0, r0, lsr ip
+    orr r0, r0, r1, lsl r4
+    orr r1, lr, r1, lsr ip
+    cmp r2, #0
+    ldmeqia sp!, {r4, r5, r6, r7, lr}
+    bxeq lr
+    tst r2, #0x80000000
+    ldmeqia sp!, {r4, r5, r6, r7, lr}
+    bxeq lr
+    movs r2, r2, lsl #1
+    andeqs r2, r0, #1
+    ldmeqia sp!, {r4, r5, r6, r7, lr}
+    bxeq lr
+    adds r0, r0, #1
+    adc r1, r1, #0
+    ldmia sp!, {r4, r5, r6, r7, lr}
+    bx lr
+L_0209B5BC:
+    orr r0, r0, r1, lsl #1
+    b L_0209B5FC
+L_0209B5C4:
+    ldr r1, [pc, #0x7c]
+    orr r1, lr, r1
+    mov r0, #0
+    ldmia sp!, {r4, r5, r6, r7, lr}
+    bx lr
+L_0209B5D8:
+    mov r1, r3
+    mvn r0, #0
+    bic r1, r0, #0x80000000
+    ldmia sp!, {r4, r5, r6, r7, lr}
+    bx lr
+L_0209B5EC:
+    mvn r0, #0
+    bic r1, r0, #0x80000000
+    ldmia sp!, {r4, r5, r6, r7, lr}
+    bx lr
+L_0209B5FC:
+    movs r2, r0
+    mov r1, lr
+    mov r0, #0
+    addne r0, r0, #1
+    ldmia sp!, {r4, r5, r6, r7, lr}
+    bx lr
+L_0209B614:
+    mov r1, lr
+    mov r0, #0
+    ldmia sp!, {r4, r5, r6, r7, lr}
+    bx lr
+L_0209B624:
+    ldr r1, [pc, #0x1c]
+    orr r1, lr, r1
+    mov r0, #0
+    ldmia sp!, {r4, r5, r6, r7, lr}
+    bx lr
+L_0209B638:
+    mov r1, lr
+    mov r0, #0
+    ldmia sp!, {r4, r5, r6, r7, lr}
+    bx lr
+    dcd 0x7FF00000
+}
+
+
+
+asm void _d2f(void)
+{
+    and r2, r1, #0x80000000
+    mov ip, r1, lsr #0x14
+    bics ip, ip, #0x800
+    beq L_0209B6C4
+    mov r3, ip, lsl #0x15
+    cmn r3, #0x200000
+    bhs L_0209B6A8
+    subs ip, ip, #0x380
+    bls L_0209B6D4
+    cmp ip, #0xff
+    bge L_0209B744
+    mov r1, r1, lsl #0xc
+    orr r3, r2, r1, lsr #9
+    orr r3, r3, r0, lsr #29
+    movs r1, r0, lsl #3
+    orr r0, r3, ip, lsl #23
+    bxeq lr
+    tst r1, #0x80000000
+    bxeq lr
+    movs r1, r1, lsl #1
+    andeqs r1, r0, #1
+    addne r0, r0, #1
+    bx lr
+L_0209B6A8:
+    orrs r3, r0, r1, lsl #12
+    bne L_0209B6BC
+    mov r0, #0xff000000
+    orr r0, r2, r0, lsr #1
+    bx lr
+L_0209B6BC:
+    mvn r0, #0x80000000
+    bx lr
+L_0209B6C4:
+    orrs r3, r0, r1, lsl #12
+    bne L_0209B73C
+    mov r0, r2
+    bx lr
+L_0209B6D4:
+    cmn ip, #0x17
+    beq L_0209B728
+    bmi L_0209B73C
+    mov r1, r1, lsl #0xb
+    orr r1, r1, #0x80000000
+    mov r3, r1, lsr #8
+    orr r3, r3, r0, lsr #29
+    rsb ip, ip, #1
+    movs r1, r0, lsl #3
+    orr r0, r2, r3, lsr ip
+    rsb ip, ip, #0x20
+    mov r3, r3, lsl ip
+    orrne r3, r3, #1
+    movs r1, r3
+    bxeq lr
+    tst r1, #0x80000000
+    bxeq lr
+    movs r1, r1, lsl #1
+    andeqs r1, r0, #1
+    addne r0, r0, #1
+    bx lr
+L_0209B728:
+    orr r0, r0, r1, lsl #12
+    movs r1, r0
+    mov r0, r2
+    addne r0, r0, #1
+    bx lr
+L_0209B73C:
+    mov r0, r2
+    bx lr
+L_0209B744:
+    mov r0, #0xff000000
+    orr r0, r2, r0, lsr #1
+    bx lr
 }

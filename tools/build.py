@@ -683,6 +683,21 @@ def main(argv=None):
                     help="do not compile or splice the matched C sources; "
                          "build the regions from asm/ alone. For debugging an "
                          "assembly problem without the compiler in the way")
+    ap.add_argument("--game", action="store_true",
+                    help="take the code of the chosen regions from the "
+                         "src/game translation units (tools/gamebuild.py) "
+                         "instead of the per-function src/matched splices. "
+                         "Data and any range no src/game file covers still "
+                         "come from asm/. A MATCH file (unresolved "
+                         "relocations) is not spliced, its range stays asm/")
+    ap.add_argument("--game-skip", nargs="+", metavar="STEM", default=[],
+                    help="with --game: leave src/game files whose name starts "
+                         "with one of these stems (unit_020911D4 also skips "
+                         "unit_020911D4_p03.c) to asm/, e.g. files an "
+                         "editing lane has open")
+    ap.add_argument("--game-strict", action="store_true",
+                    help="with --game: a refused file (MATCH included) fails "
+                         "the build instead of leaving its range to asm/")
     ap.add_argument("--c-manifest", default=None,
                     help="one manifest shard file instead of every shard "
                          "under layout/matched/")
@@ -740,7 +755,27 @@ def main(argv=None):
     print("[*] %d region(s)%s" % (len(specs),
                                   " (translation units)" if args.split else ""))
 
-    if not args.no_c:
+    if args.game:
+        import gamebuild
+        try:
+            gst = gamebuild.attach_game_sources(specs, jobs=args.jobs,
+                                                  skip=args.game_skip)
+        except csrc.CSourceError as exc:
+            print("error: src/game: %s" % exc, file=sys.stderr)
+            return 1
+        print("[*] src/game: %d file(s) in the chosen regions, %d spliced "
+              "(0x%X bytes), %d refused" % (gst.files, gst.spliced, gst.bytes,
+                                           len(gst.refused)))
+        print("[*]   veneers from image: %d (%d bytes), see gamebuild.py"
+              % (gst.veneer_count, gst.veneer_bytes))
+        hard = [(f, w) for f, w in gst.refused if not w.startswith("MATCH")]
+        for f, w in gst.refused:
+            print("    refused %s: %s" % (f, w))
+        if hard or (args.game_strict and gst.refused):
+            print("[*] src/game file(s) failed; the build does not fall back "
+                  "to asm/ for them", file=sys.stderr)
+            return 1
+    elif not args.no_c:
         try:
             nspliced, nbytes = attach_c_sources(specs, args.c_manifest,
                                                 jobs=args.jobs)

@@ -30,8 +30,8 @@ struct Obj {
     u32 f24;
     char pad1[8];
     u32 f30;
-    int (*f34)(u32, u32, u32, u32);
-    int (*f38)(u32, u32, u32, u32);
+    int (*f34)(u32, void *, u32, u32);
+    int (*f38)(u32, void *, u32, u32);
     u32 id;
     struct Node *cur;
     struct Node *free_a;
@@ -47,9 +47,9 @@ extern void func_0272EE2C(struct Obj *);
 
 void func_0272ED4C(struct Obj *p)
 {
-    u32 a = 0;
-    u32 b = a;
-    u32 c = a;
+    void *a = 0;
+    u32 b = 0;
+    u32 c = 0;
     u32 irq = func_02087988();
 
     if (p->cur == 0) {
@@ -61,12 +61,12 @@ void func_0272ED4C(struct Obj *p)
             p->cur = q;
             b = v - sz;
             c = (p->f24 * 20 + sz + 0x1FF) & ~0x1FF;
-            a = q->f10;
+            a = (void *)q->f10;
         } else {
             q = p->free_a;
             if (q != 0) {
                 p->cur = q;
-                a = q->fc;
+                a = (void *)q->fc;
                 b = q->f8;
                 c = p->f20;
             }

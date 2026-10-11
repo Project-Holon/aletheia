@@ -307,6 +307,7 @@ int func_02066740(int *p);
 void func_02066748(int *a0, int a1, int a2);
 void func_02066754(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
 extern struct RendererBss g_02147B88;
+/* stand-in: second name for g_02147B88, used by func_020663D0 only; with the full struct the 2.0 scheduler hoists the stackPos_ load (44 bytes off) */
 extern struct RendererBssHead g_02147B88_head;
 extern MtxFx32 g_02147D18[];
 extern struct RendererData g_020A81F8;
