@@ -1,8 +1,8 @@
 /*
  * file:     g3d_system_p02.c
  * unit:     yes
- * function: func_02046C94, sub_02046C9C, func_02046CE0, func_02046DB8, func_02046E24, func_02046E90, func_02046EFC, func_02046F48, func_02046F50, func_02046FCC, func_02046FF8, func_020470A8, func_020470D0, func_02047180, func_02047204, DWCi_LSTlPopFront, func_02047260, func_020472F8, func_02047348, func_02047388, func_020473B8, func_020473D8, func_020473EC, func_02047400, func_02047504, func_0204754C, func_02047554, func_0204755C, func_02047564, func_0204762C, func_02047674, func_0204767C, func_02047738, func_02047788, func_02047790, func_0204779C, func_020477A4, func_020477D4, func_02047804, func_02047828, func_0204784C, func_02047888, func_020478B8, func_02047910
- * address:  0x02046C94
+ * function: func_02047970, func_02047990, func_020479D8, func_02047A60, func_02047AC8, func_02047B4C, func_02047C04, func_02047C8C, func_02047CE4, func_02047CFC, func_02047E54, func_02047E88, func_02047F4C, func_02048010, func_020480E4, func_02048120, func_02048258, func_020482B4, func_02048330, func_02048744, func_02048918, sub_020489F4, sub_02048A00, sub_02048A0C, sub_02048A18, func_02048A24, func_02048AC4, func_02048AD0, func_02048AE8, func_02048AFC, func_02048B0C, func_02048B20, func_02048B30, func_02048B44, func_02048B54, func_02048B60, func_02048B6C, func_02048B78, func_02048B80, func_02048B88, func_02048B94, func_02048B9C, func_02048BA8, func_02048BB0, func_02048BBC, func_02048BC4, func_02048C4C
+ * address:  0x02047970
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,1381 +13,434 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0206E964      0x0206E964  arm
- *   g_02146A5C      0x02146A5C  data
- *   sG3dSystemFile  0x020A7EA8  data
- *   func_02030734   0x02030734  arm
- *   func_02048F60  0x02048F60  arm
- *   func_02049250  0x02049250  arm
- *   func_02048F9C  0x02048F9C  arm
- *   func_020307B0  0x020307B0  arm
- *   func_020307E0  0x020307E0  arm
- *   func_02069FF8  0x02069FF8  arm
- *   func_0206A124  0x0206A124  arm
- *   func_020862F0  0x020862F0  arm
- *   func_0206A00C  0x0206A00C  arm
- *   func_0206A12C  0x0206A12C  arm
- *   DC_FlushRange  0x020862F0  arm
- *   func_02069FD0  0x02069FD0  arm
- *   func_02069FE4  0x02069FE4  arm
- *   g_020A8140     0x020A8140  data
- *   g_020A8148     0x020A8148  data
- *   func_0206A110  0x0206A110  arm
- *   g_szG3DSystem   0x020A7EA8  data
- *   func_0206E954   0x0206E954  arm
- *   func_0206E348   0x0206E348  arm
- *   func_0206A2CC   0x0206A2CC  arm
- *   func_0206A4AC   0x0206A4AC  arm
- *   func_02069D14   0x02069D14  arm
- *   func_0206E358   0x0206E358  arm
- *   g_020A7EA8     0x020A7EA8  data
- *   func_0206E9A4  0x0206E9A4  arm
- *   func_0206E364  0x0206E364  arm
- *   func_02069C74  0x02069C74  arm
- *   func_0206E388   0x0206E388  arm
- *   str_020A7EA8   0x020A7EA8  data
- *   func_02069E88  0x02069E88  arm
- *   func_02069F7C   0x02069F7C  arm
+ *   g_02146A5C     0x02146A5C  data
+ *   func_0206DB80  0x0206DB80  arm
+ *   NNS_G3dGlb     0x02148B4C  data
+ *   MTX_LookAt     0x0207BCA0  arm
+ *   g_02148B4C      0x02148B4C  data
+ *   g_02148C08      0x02148C08  data
+ *   func_02047788   0x02047788  arm
+ *   func_0204755C   0x0204755C  arm
+ *   func_0206A9DC   0x0206A9DC  arm
+ *   func_0206AA0C   0x0206AA0C  arm
+ *   MI_Copy36B      0x02082B60  arm
+ *   func_0206DDA4  0x0206DDA4  arm
+ *   func_0207DEA4  0x0207DEA4  arm
+ *   func_0206B6A4 0x0206B6A4  arm
+ *   g3d_util_file  0x020A7EB8  data
+ *   func_02030734  0x02030734  arm
+ *   func_020307B0   0x020307B0  arm
+ *   func_02046DB8       0x02046DB8  arm
+ *   func_02046E90       0x02046E90  arm
+ *   func_02046C94       0x02046C94  arm
+ *   func_02046CE0       0x02046CE0  arm
+ *   func_02048F60       0x02048F60  arm
+ *   func_02048F9C       0x02048F9C  arm
+ *   func_02046E24   0x02046E24  arm
+ *   func_02046F50   0x02046F50  arm
+ *   func_020470D0   0x020470D0  arm
+ *   func_02046EFC   0x02046EFC  arm
+ *   func_02046FF8  0x02046FF8  arm
+ *   func_02047348  0x02047348  arm
+ *   func_02047400  0x02047400  arm
+ *   func_02047564  0x02047564  arm
+ *   func_0204767C  0x0204767C  arm
+ *   func_0204779C  0x0204779C  arm
+ *   func_02047790  0x02047790  arm
+ *   func_0204762C  0x0204762C  arm
+ *   func_02047554  0x02047554  arm
+ *   func_0204754C  0x0204754C  arm
+ *   func_02047504  0x02047504  arm
+ *   func_02047738  0x02047738  arm
+ *   g_020A7EC4     0x020A7EC4  data
+ *   func_02046858  0x02046858  arm
+ *   func_02046B40  0x02046B40  arm
+ *   func_02048BC4_File  0x020A7ED4  data
  */
-#include "../../matched/include/Obj04802.h"
-#include "../../matched/include/Obj03459.h"
-#include "../../matched/include/Obj16033.h"
-#include "../../matched/include/Obj16034.h"
-#include "../../matched/include/Obj04073.h"
-#include "../../matched/include/Obj09057.h"
-#include "../../matched/include/Obj11417.h"
-#include "../../matched/include/Obj16035.h"
-#include "../../matched/include/Obj16042.h"
-#include "../../matched/include/Obj16046.h"
-#include "../../matched/include/Obj06972.h"
-#include "../../matched/include/Obj16059.h"
-#include "../../matched/include/Obj16062.h"
+#include "../../matched/include/Obj17329.h"
+#include "../../matched/include/Obj17330.h"
 
+struct P02047C8C;
+struct Obj0206B6A4;
+struct Holder;
+struct Owner;
 struct S02046CE0;
-struct ArcFile;
-struct Up;
-struct Layer_020472F8;
 struct Tagged;
-struct Tex;
-struct Obj02061330;
-typedef unsigned short u16;
+struct G3dOwner;
+struct G3dRec;
+struct Layer;
+struct Rec;
+typedef unsigned char u8;
 
-typedef unsigned int   u32;
+typedef unsigned int  u32;
 
-struct Rec {
-    u16 tag;
-    u16 unk_02;
-    u32 unk_04;
-    void *unk_08;
+typedef int fx32;
+
+typedef struct { fx32 x, y, z; } VecFx32_020479D8;
+
+struct Ctx {
+    u8  pad_00[0x5C];
+    VecFx32_020479D8 view0;
+    VecFx32_020479D8 view1;
+    VecFx32_020479D8 view2;
+    u32 sortMode;
+    u32 bufferMode;
+    void (*f88)(void);
+    u8  pad_8c[0x94 - 0x8c];
+    u32 unk_94;
+    void (*f98)(void *p, u32 v);
+    u32 f9c;
 };
 
-struct S02046CE0 {
-    u16 unk00;
-    u16 result;
-    u32 *tag;
+struct G3dSys {
+    void *obj;
+    u32 f4;
+    u32 f8;
 };
 
-typedef unsigned char  u8;
+typedef struct { fx32 m[4][3]; } MtxFx43;
 
-struct G3dSys_0 {
-    u8  pad00[0x18];
-    u16 h18;            /* +0x18 */
+typedef struct { fx32 m[4][4]; } MtxFx44;
+
+typedef struct { fx32 m[3][3]; } MtxFx33_020479D8;
+
+typedef struct {
+    u32 cmd0;
+    u32 mtxmode_proj;
+    MtxFx44 projMtx;
+    u32 mtxmode_posvec;
+    MtxFx43 cameraMtx;
+    u32 cmd1;
+    u32 lightVec[4];
+    u32 cmd2;
+    u32 prmMatColor0;
+    u32 prmMatColor1;
+    u32 prmPolygonAttr;
+    u32 prmViewPort;
+    u32 cmd3;
+    u32 lightColor[4];
+    u32 cmd4;
+    MtxFx33_020479D8 prmBaseRot;
+    VecFx32_020479D8 prmBaseTrans;
+    VecFx32_020479D8 prmBaseScale;
+    u32 prmTexImageParam;
+    u32 flag;
+    MtxFx43 invCameraMtx;
+    MtxFx43 srtCameraMtx;
+    MtxFx43 invSrtCameraMtx;
+    MtxFx43 invBaseMtx;
+    MtxFx44 invProjMtx;
+    MtxFx44 invCameraProjMtx;
+    VecFx32_020479D8 camPos;
+    VecFx32_020479D8 camUp;
+    VecFx32_020479D8 camTarget;
+} NNSG3dGlb;
+
+typedef struct { u32 x, y, z; } VecFx32_02047A60;
+
+typedef struct { u32 m[9]; } MtxFx33_02047A60;
+
+struct Arg {
+    u8      pad_00[0x0C];
+    VecFx32_02047A60 v0c;
+    MtxFx33_02047A60 m18;
 };
 
-struct Tagged {
-    u16   tag;
-    u16   pad02;
-    void *buf;
-};
+typedef struct { u32 x, y, z; } VecFx32_02047AC8;
 
-struct Tagged_02046F50 {
-    u16 tag;
-    u16 kind;
-};
-
-struct Tagged_02046FCC {
-    u16   tag;
-    u16   pad02;
-    void *buf;
-};
-
-struct Record {
-    u8  pad00[0x14];
-    u32 size;
-};
-
-struct BufHdr {
-    u32 unk00;
-    u32 unk04;
-    u32 size;
-};
-
-struct Layer_020472F8 {
-    u8  pad_00[0x1c];
-    u16 pad_1c;
-    u16 unk_1e;
-    u16 unk_20;
-};
-
-struct Layer_02047348 {
-    u8    pad_00[4];
-    void *unk_04;
-};
-
-struct Ctl {
-    u8  pad_00[8];
-    u32 unk_08;
-    u8  pad_0c[4];
-    u16 unk_10;
-    u8  pad_12[6];
-    u32 unk_18;
-    u8  pad_1c[4];
-    u16 unk_20;
-    u8  pad_22[0xa];
-    u32 unk_2c;
-    u8  pad_30[2];
-    u16 unk_32;
-};
-
-typedef int s32_0;
+typedef struct { u32 m[9]; } MtxFx33_02047AC8;
 
 typedef signed short   s16;
 
-struct G3dCtx {
-    u8  pad_00[0x18];
-    u16 heap_id;
-};
-
-struct G3dSub {
-    u32 pad_00;
-    u32 handle;
-};
-
-struct G3dOwner {
-    u32            pad_00;
-    struct G3dSub *f04;
-    u32            pad_08;
-    struct G3dSub *f0c;
-};
-
-struct G3dRec {
-    u16 tag;
-    u16 unk_02;
-    u32 unk_04;
-    const struct G3dOwner *unk_08;
-};
-
-struct Mod {
-    u8  pad_00[0x18];
-    u16 f18;
-};
-
-struct Desc {
-    u16 tag;
-    u8  pad_02[2];
-    u32 key;
-    u32 array;
-    u16 count;
-};
-
-struct G3dSlot {
-    u32   unk_00;
-    void *unk_04;
-};
-
-struct G3dInner {
-    u32   unk_00;
-    void *unk_04;
-};
-
-struct G3dSys_1 {
-    u32               unk_00;
-    struct G3dInner  *unk_04;
-    struct G3dSlot  **slots;
-};
-
-struct Sub {
-    u32 pad_00;
-    u32 unk_04;
-};
-
-struct Mid {
-    u32 pad_00;
-    u32 unk_04;
+struct Rec_0 {
+    u32 pad_00[6];
+    s16 f18;
+    s16 f1a;
+    s16 f1c;
+    s16 f1e;
+    s16 f20;
+    s16 f22;
+    u32 f24;
 };
 
 struct Owner {
-    u32      pad_00;
-    struct Mid *unk_04;
-    struct Sub **unk_08;
+    u32  unk_00;
+    u8  *unk_04;
 };
 
-typedef signed int     s32_1;
-
-struct AnmRes {
-    u32 f0;
-    u16 numFrame;       /* +4 */
+struct Block {
+    s16 f00;
+    s16 f02;
+    s16 f04;
+    s16 f06;
+    s16 f08;
+    s16 f0a;
 };
 
-struct AnmObj {
-    s32_1 frame;          /* +0, fx32 */
-    u32 f4;
-    struct AnmRes *res; /* +8 */
+typedef signed int     s32;
+
+typedef unsigned short u16;
+
+struct P02047C8C {
+    u8        pad00[0x04];
+    struct Ov *f4;      /* +0x04 */
 };
 
-struct AnmSlot {
-    u32 f0;
-    struct AnmObj *obj; /* +4 */
+struct Ov {
+    u8  pad00[0x24];
+    u16 h24;            /* +0x24 */
+    u16 h26;            /* +0x26 */
 };
 
-struct AnmCtl {
-    u32 f0;
-    u32 f4;
-    struct AnmSlot **slots; /* +8 */
+typedef struct {
+    u16 resIdx;
+    u16 resCount;
+    u16 objIdx;
+    u16 objCount;
+} Unit;
+
+typedef struct {
+    void **res;
+    u8    *resStat;
+    u16    resCount;
+    void **obj;
+    u8    *objStat;
+    u16    objCount;
+    Unit   unit[0x40];
+    u16    heapID;
+} Util;
+
+typedef struct {
+    u16 anmResIdx;
+    u16 anmDatIdx;
+} AnmSetup;
+
+typedef struct {
+    u16       mdlResIdx;
+    u16       mdlDatIdx;
+    u16       texResIdx;
+    u16       pad_06;
+    AnmSetup *anmTbl;
+    u16       anmCount;
+} ObjSetup;
+
+typedef struct {
+    u32 arc;
+    u16 dat;
+    u16 pad_06;
+    u32 type;
+} ResSetup;
+
+typedef struct {
+    ResSetup *resTbl;
+    u16       resCount;
+    ObjSetup *objTbl;
+    u16       objCount;
+} Setup;
+
+struct Rec_1 {
+    void *unk_00;
+    void *unk_04;
+    void *unk_08;
+    void *unk_0c;
+    void *unk_10;
 };
 
-struct Run {
-    u32 cur;
-    u32 pad_04;
-    u8 *desc;
+struct Slot {
+    u8  pad_00[0x16];
+    u16 unk_16;
+    u16 unk_18;
 };
 
-struct Obj {
-    u32 pad_00;
-    struct Run *run;
+struct Rec_02048120 {
+    u32 unk_00;
+    u16 unk_04;
+    u8  pad_06[2];
+    u32 unk_08;
 };
 
-extern unsigned char *func_0206E964(unsigned char *p);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern void *func_02048F9C(const char *path, u32 a, u32 heap);
-extern u32 func_020307B0(void *p);
-extern void func_020307E0(void *p, u32 size);
-extern void func_02069FF8(char *p, int a, int b);
-extern void func_0206A124(int *p, int v);
-extern void func_020862F0(int a, int b);
-extern void func_0206A00C(struct Up *u, u32 wrap);
-extern void func_0206A12C(int a, int b);
-extern void func_0206A0C4(struct Tex *t, u32 *a, u32 *b);
-extern u32   func_0206A17C(u8 *p);
-extern void  DC_FlushRange(void *addr, u32 size);
-extern int func_02069FD0(int p);
-extern int func_02069FE4(int p);
-extern int func_0206A110(int p);
-extern int func_0206E954(int p0);
-extern void *func_0206E348(void *);
-extern void func_0206A2CC(void *, void *);
-extern void func_0206A4AC(void *, void *);
-extern void func_02069D14(void *, void *);
-extern void func_0206E358(struct Obj02061330 *ctx, int field);
-extern u8 *func_0206E9A4(u8 *p, u32 idx);
-extern u32  func_0206E364(struct G3dCtx *a0, int a1, u32 a2);
-extern void func_02069C74(u32 a0, int a1, u32 a2, int a3);
-extern void func_0206E388(struct Obj02061330 *ctx, int field);
-extern void func_02069E88(void *a, void *b);
-extern void func_02069F7C(u32 a, u32 b);
-int func_02046C94(void);
-void sub_02046C9C(struct Rec *rec, u32 mode, u32 value);
-void func_02046CE0(struct S02046CE0 *out, u32 *tag);
-void *func_02046DB8(u32 a0, u32 a1);
-void *func_02046E24(u32 a0, u32 a1);
-void *func_02046E90(u32 a0, u32 a1);
-void func_02046EFC(struct Tagged *p);
-void *func_02046F48(struct Tagged *p);
-u32 func_02046F50(struct Tagged_02046F50 *p, u32 sel);
-void func_02046FCC(struct Tagged_02046FCC *p);
-int func_02046FF8(int *self);
-u32 func_020470A8(void *p);
-int func_020470D0(u32 *p);
-int func_02047180(u32 *p);
-u32 func_02047204(struct Tagged *p);
-asm void DWCi_LSTlPopFront(void);
-int func_02047260(u32 a0, u32 *a1, u32 *a2);
-int func_020472F8(struct Layer_020472F8 *layer, u32 *out);
-int func_02047348(struct Layer_02047348 *layer);
-u32 func_02047388(struct Layer_02047348 *layer);
-u32 func_020473B8(struct Layer_02047348 *layer);
-int func_020473D8(int a0);
-int func_020473EC(int a0);
-void *func_02047400(void *a0, u32 n, void *a2);
-void func_02047504(struct Rec *p);
-int func_0204754C(int *p);
-int func_02047554(int *p);
-int func_0204755C(int *p);
-struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-void func_0204762C(struct Rec *p);
-int func_02047674(int p);
-void *func_0204767C(u32 a0, u32 *a1, int a2);
-void func_02047738(struct Rec *p);
-int func_02047788(int *p);
-int func_02047790(int *p, int i);
-int func_0204779C(int *p);
-u32 func_020477A4(struct G3dSys_1 *sys, u32 idx);
-int func_020477D4(struct Owner *owner, u32 index);
-u32 func_02047804(struct AnmCtl *c, u16 idx);
-u32 func_02047828(struct AnmCtl *c, u32 idx, s32_1 *frame);
-u32 func_0204784C(struct AnmCtl *c, u16 idx, s32_1 *frame);
-int func_02047888(int *a, int idx, int *out);
-int func_020478B8(void *a, int idx, int amount);
-int func_02047910(void *a, int idx, int amount);
-extern void *g_02146A5C;
-extern u8 sG3dSystemFile;
-extern char g_szG3DSystem[];
-extern char g_020A7EA8[];
-extern char        str_020A7EA8[];
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_02046C94(void){ return 8; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Initialise a counted record: the mode picks the halfword written at +2
- * (2, 3 and 4 for modes 1, 2 and 3), then the caller's value goes into the
- * word at +4 and the constant 0x48BF into the halfword at +0.  Modes other
- * than one to three leave the +2 field alone entirely, which is why the
- * last arm stores inside its own arm and the first two meet at a shared
- * store: the comparison chain tests 1, 2 and 3 in that order and falls
- * through to the tail for everything else.
- *
- * The function saves no lr because it calls nothing, so disasm.py gives it
- * no label; 0x48BF is too wide for a `mov` and is the pool word at the end.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02046C9C.c \
- *       --func sub_02046C9C --addr 0x02046C9C --cc 1.1p1 --arm
- */
-void sub_02046C9C(struct Rec *rec, u32 mode, u32 value)
-{
-    switch (mode) {
-    case 1:
-        rec->unk_02 = 2;
-        break;
-    case 2:
-        rec->unk_02 = 3;
-        break;
-    case 3:
-        rec->unk_02 = 4;
-        break;
-    }
-
-    rec->unk_04 = value;
-    rec->tag = 0x48BF;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Classify a 4-byte archive/container tag and record the result.
- *
- * `out` is a three-field record: a u16 at +00 (constant 0x48BF), a u16
- * result code at +02, and the tag pointer itself at +04.  The tag is one
- * of the little-endian ASCII magics; the five audio-ish containers
- * (BVA0/BMA0/BCA0/BTA0/BTP0) all report 4, BMD0 reports 1 or 2 depending
- * on func_0206E964, BTX0 reports 3, anything else 0.
- *
- * Shape notes:
- *  - The case bodies are laid out in *source* order, not value order.  The
- *    comparison tree is value-ordered either way, but writing BMD0 first,
- *    BTX0 second, then the five 4-reporting cases puts the BMD0 arm at
- *    +0x80 and the shared `result = 4` arm at +0xA8, which is what the
- *    original does; the natural ascending order puts the 4-arm right after
- *    the tree and moves all four branch targets.
- *  - The five 4-reporting cases share one store because the arms are
- *    identical; only the value in r0 differs.
- *  - BMD0's two stores are the if/else written out (`= 2` in one arm,
- *    `= 1` in the other), which mwcc predicates rather than folds into a
- *    select.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02046CE0.c \
- *       --func func_02046CE0 --addr 0x02046CE0 --cc 1.1p1 --arm
- */
-void func_02046CE0(struct S02046CE0 *out, u32 *tag)
-{
-    switch (*tag) {
-    case 0x30444D42:
-        if (func_0206E964((unsigned char *)tag) == 0) {
-            out->result = 2;
-        } else {
-            out->result = 1;
-        }
-        break;
-    case 0x30585442:
-        out->result = 3;
-        break;
-    case 0x30415642:
-    case 0x30414D42:
-    case 0x30414342:
-    case 0x30415442:
-    case 0x30505442:
-        out->result = 4;
-        break;
-    default:
-        out->result = 0;
-        break;
-    }
-    out->tag = tag;
-    out->unk00 = 0x48BF;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * g3d_system.c's eight-byte-node allocators.  Three siblings, identical but
- * for the loader they call and the source line: read the size from the
- * global's +0x18 halfword, allocate eight bytes with file name and line, run
- * the loader for (arg0, arg1, that same halfword) and hand its result to
- * func_02046CE0 together with the new node.  The global is re-read after the
- * allocator call - the callee may have replaced it - which is why the second
- * `ldr r1, [r4]` is there.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02046DB8.c \
- *       --func func_02046DB8 --addr 0x02046DB8 --cc 1.1p1 --arm
- */
-void *func_02046DB8(u32 a0, u32 a1)
-{
-    u8 *node = func_02030734(((struct G3dSys_0 *)g_02146A5C)->h18, 8, 0,
-                             (const char *)&sG3dSystemFile, 0x2b4);
-
-    func_02046CE0((struct S02046CE0 *)node, func_02048F60(a0, a1, ((struct G3dSys_0 *)g_02146A5C)->h18));
-    return node;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * g3d_system.c's eight-byte-node allocators.  Three siblings, identical but
- * for the loader they call and the source line: read the size from the
- * global's +0x18 halfword, allocate eight bytes with file name and line, run
- * the loader for (arg0, arg1, that same halfword) and hand its result to
- * func_02046CE0 together with the new node.  The global is re-read after the
- * allocator call - the callee may have replaced it - which is why the second
- * `ldr r1, [r4]` is there.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02046E24.c \
- *       --func func_02046E24 --addr 0x02046E24 --cc 1.1p1 --arm
- */
-void *func_02046E24(u32 a0, u32 a1)
-{
-    u8 *node = func_02030734(((struct G3dSys_0 *)g_02146A5C)->h18, 8, 0,
-                             (const char *)&sG3dSystemFile, 0x2c8);
-
-    func_02046CE0((struct S02046CE0 *)node, func_02049250((struct ArcFile *)a0, a1, ((struct G3dSys_0 *)g_02146A5C)->h18));
-    return node;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * g3d_system.c's eight-byte-node allocators.  Three siblings, identical but
- * for the loader they call and the source line: read the size from the
- * global's +0x18 halfword, allocate eight bytes with file name and line, run
- * the loader for (arg0, arg1, that same halfword) and hand its result to
- * func_02046CE0 together with the new node.  The global is re-read after the
- * allocator call - the callee may have replaced it - which is why the second
- * `ldr r1, [r4]` is there.
- *
- * Promoted by parks lane 2: the loader 0x02048F9C was filed first as an
- * EXACT entry (src/matched/func_02048F9C.c, shard pkt_02048F9C) and the call
- * at +0x48 now resolves through the `matched` class.  No change to the C.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02046E90.c \
- *       --func func_02046E90 --addr 0x02046E90 --cc 1.1p1 --arm
- */
-void *func_02046E90(u32 a0, u32 a1)
-{
-    u8 *node = func_02030734(((struct G3dSys_0 *)g_02146A5C)->h18, 8, 0,
-                             (const char *)&sG3dSystemFile, 0x2dc);
-
-    func_02046CE0((struct S02046CE0 *)node, func_02048F9C((const char *)a0, a1, ((struct G3dSys_0 *)g_02146A5C)->h18));
-    return node;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * The guarded destructor of the 0x48BF-tagged object, 0x02046EFC-0x02046F48
- * including its one pool word.  A NULL handle is a no-op, and so is a handle
- * whose tag halfword is not 0x48BF; otherwise the tag is stamped down to
- * 0x48BE ("freed"), the owned buffer at +4 is released and nulled, and the
- * object itself is released.
- *
- * The two tags are one pool word and a `sub r1, r1, #1`: 0x48BF is not an
- * ARM rotated immediate so it costs a pool word, and 0x48BE is then derived
- * from it rather than pooled a second time, the same accounting as
- * docs/idioms/consecutive-line-numbers-are-one-pool-word-and-adds.md.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02046EFC.c \
- *       --addr 0x02046EFC --cc 1.1p1 --arm
- */
-void func_02046EFC(struct Tagged *p)
-{
-    if (p == 0) {
-        return;
-    }
-    if (p->tag != 0x48BF) {
-        return;
-    }
-    p->tag = 0x48BE;
-    if (p->buf != 0) {
-        func_020307B0(p->buf);
-        p->buf = 0;
-    }
-    func_020307B0(p);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * The buffer accessor of the 0x48BF-tagged object whose destructor is
- * src/matched/unit_02046EFC.c: the pointer at +4, returned by value.  No
- * relocation, two instructions, no label of its own in the listing
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02046F48.c \
- *       --func func_02046F48 --addr 0x02046F48 --cc 1.1p1 --arm
- */
-void *func_02046F48(struct Tagged *p)
-{
-    return p->buf;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * A five-way predicate over the halfword at +2: the second argument picks
- * which set of values counts as a hit.  The dispatch is the ARM dense-switch
- * form, `addls pc, pc, r1, lsl #2` over four `b`s with the default reached by
- * the `b` that falls out of the bounds test, so the cases really are 0 to 3
- * with nothing missing (docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * is the Thumb form of the same tell).
- *
- * Case 1 is a range test written as one in the source, not a disjunction:
- * this front end does not fold `v == 1 || v == 2` into a range, it emits the
- * `cmp`/`cmpne` pair that cases 2 and 3 show.  The `lsl #16`/`lsr #16`
- * narrowing and the unsigned `cmp #1` are likewise spelled in the C.
- *
- * The bias is written `+ 0xFFFF`, not `- 1`.  Both mean the same thing after
- * the halfword narrowing, but `- 1` compiles to a single `sub r0, r0, #1`
- * and `+ 0xFFFF` to the pair `add r0, r0, #0xff` / `add r0, r0, #0xff00`,
- * because 0xFFFF is not an ARM rotated immediate and splits into two that
- * are.  Four bytes, and the only thing that separates the two readings.  See
- * docs/idioms/a-plus-0xffff-bias-is-two-adds-and-a-minus-one-is-one-sub.md.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02046F50.c \
- *       --func func_02046F50 --addr 0x02046F50 --cc 1.1p1 --arm
- */
-u32 func_02046F50(struct Tagged_02046F50 *p, u32 sel)
-{
-    u16 v = p->kind;
-
-    switch (sel) {
-    case 0:
-        return v == 0;
-    case 1:
-        return (u16)(v + 0xFFFF) <= 1;
-    case 2:
-        return v == 1 || v == 3;
-    case 3:
-        return v == 4;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Shrink the 0x48BF-tagged object's buffer to exactly what it holds:
- * 0x0206E964 walks the buffer and returns the address of its last record,
- * that record's own length lives at +0x14, and the new size handed to the
- * heap trimmer at 0x020307E0 is the distance from the buffer's base to the
- * end of that record.
- *
- * The returned pointer is copied out of r0 into r2 before it is used, which
- * is the tell that it is a named local and not an inline call argument
- * (docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02046FCC.c \
- *       --func func_02046FCC --addr 0x02046FCC --cc 1.1p1 --arm
- */
-void func_02046FCC(struct Tagged_02046FCC *p)
-{
-    void          *buf = p->buf;
-    struct Record *last = (struct Record *)func_0206E964(buf);
-
-    func_020307E0(buf, (u32)((u8 *)last + last->size - (u8 *)buf));
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * First guard exits through the shared epilogue at the end of the function
- * (a plain `return 0` there is if-converted and loses the branch).
- */
-int func_02046FF8(int *self)
-{
-    int v8;
-    int v4;
-    int v0;
-    int h;
-    int p;
-
-    h = self[1];
-    p = (int)func_0206E964((unsigned char *)h);
-    if (p == 0)
-        goto fail;
-    if (func_02047260(p, (u32 *)(&v8), (u32 *)(&v4)) == 0)
-        return 0;
-    if (func_020472F8((struct Layer_020472F8 *)p, (u32 *)(&v0)) == 0)
-        return 0;
-    func_02069FF8((char *)p, v8, v4);
-    func_0206A124((int *)p, v0);
-    func_020862F0(h, *(int *)&((struct Obj04802 *)h)->f8);
-    func_0206A00C((struct Up *)p, 1);
-    func_0206A12C(p, 1);
-    return 1;
-fail:
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * "Build, then trim": run the builder at 0x02046FF8 over the tagged object
- * and, only if it reports success, shrink the buffer with 0x02046FCC.  The
- * zero return is predicated (`moveq`/`popeq`) rather than branched, which is
- * the whole body being two statements long.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_020470A8.c \
- *       --func func_020470A8 --addr 0x020470A8 --cc 1.1p1 --arm
- */
-u32 func_020470A8(void *p)
-{
-    if (func_02046FF8(p) == 0) {
-        return 0;
-    }
-    func_02046FCC(p);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
- * 176 bytes, 0x020470D0..0x02047180, one function, every concrete byte
- * reproduced (0 differing bytes of 176) -- the diff is empty apart from the
- * two wildcarded call fields.
- *
- * Blocked on the `label` class at two addresses, both of which are in
- * ANOTHER PACKET (the pair lives in pkt_0206A12C and above, which this lane
- * does not own):
- *
- *   +0x40  bl func_0206A0C4   the reader, called (p, &x, &y)
- *   +0x8C  bl func_0206A17C   reached only through the callback below
- *
- * Neither address is matched, parked or labelled outside this range, so both
- * sites stay wildcarded.  Nothing in this C changes when they are filed.
- *
- * Two spellings in here are worth keeping:
- *
- *  - The two "is this bit set" locals are spelled as an int initialised to 0
- *    and set to 1 in the body, NOT as `f = (x & 1) != 0`.  The boolean form
- *    makes mwcc emit a movne/moveq pair per local and loses the original's
- *    `movs r5, #0 / movs r6, r5` up front; the explicit init keeps them.
- *  - The closing callback takes func_0206A17C's RETURN value as its
- *    argument: `(*(void (**)(u32))0x020A814C)(func_0206A17C(r))`.  Spelled as
- *    a bare `(...)()` call mwcc uses r0 for the loaded pointer and blx r0;
- *    the original loads into r1 and blx r1 precisely because r0 is already
- *    holding the argument.  Passing the call's result is what forces r1.
- *
- * The three callbacks are called through globals at 0x020A8144 and
- * 0x020A814C, written as numeric casts so the pool word stays a plain
- * literal rather than a relocation.
- */
-int func_020470D0(u32 *p)
-{
-    u8  *r;
-    int  f1;
-    int  f2;
-    u32  x;
-    u32  y;
-
-    r = func_0206E964((unsigned char *)p[1]);
-    f1 = 0;
-    f2 = 0;
-    if (((struct Obj03459 *)r)->f10 & 1)
-        f1 = 1;
-    if (((struct Obj03459 *)r)->f20 & 1)
-        f2 = 1;
-    func_0206A0C4((struct Tex *)r, &x, &y);
-    if (f1)
-        (*(void (**)(u32))0x020A8144)(x);
-    if (f2)
-        (*(void (**)(u32))0x020A8144)(y);
-    if ((((struct Obj03459 *)r)->f32 & 1) != 0 && ((struct Obj03459 *)r)->f30 != 0)
-        (*(void (**)(u32))0x020A814C)(func_0206A17C(r));
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02047180(u32 *p)
-{
-    u32 h;
-    u32 a;
-    u32 b;
-    u32 c;
-
-    h = (u32)func_0206E964((unsigned char *)p[1]);
-    if (h == 0)
-        goto fail;
-    if (func_02047260(h, &a, &b) == 0)
-        return 0;
-    if (func_020472F8((struct Layer_020472F8 *)h, &c) == 0)
-        return 0;
-    func_02069FF8((char *)h, a, b);
-    func_0206A124((int *)h, c);
-    return 1;
-fail:
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Publish the built buffer: locate its last record with 0x0206E964, bail out
- * if there is none, flush the buffer's own byte length (the word at +8 of
- * the buffer header) out of the data cache, then hand the record to the two
- * upload routines and report success.
- *
- * The literal 1 is materialised once into r4 and serves as both upload
- * calls' second argument and the return value
- * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md,
- * read in the direction where the argument does share it).
- *
- * `movs r5, r0` doing the NULL test on the way into the callee-saved
- * register is what a named local assigned from the call and then tested
- * looks like.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02047204.c \
- *       --func func_02047204 --addr 0x02047204 --cc 1.1p1 --arm
- */
-u32 func_02047204(struct Tagged *p)
-{
-    struct BufHdr *buf = p->buf;
-    void          *last = func_0206E964((unsigned char *)buf);
-
-    if (last == 0) {
-        return 0;
-    }
-    DC_FlushRange(buf, buf->size);
-    func_0206A00C(last, 1);
-    func_0206A12C((int)last, 1);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-asm void DWCi_LSTlPopFront(void)
-{
-    ldr r0, [r0, #4]
-    ldr ip, =func_0206E964
-    bx ip
-}
-
-
-
-
-
-
-
-
-
-
-extern u32 (*g_020A8140)(void *p, u32 mode, u32 a2);
-
-
-
-
-
-
-
-
-
-
-/*
- * The two probes are looked up independently; the same dispatcher is called
- * for each, once in mode 0 and once in mode 1, with the first probe's handle
- * (which is necessarily null in the second branch) in r0.  Either failure
- * report is a bare zero.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02047260.c \
- *       --func func_02047260 --addr 0x02047260 --cc 1.1p1 --arm
- */
-int func_02047260(u32 a0, u32 *a1, u32 *a2)
-{
-    void *p = (void *)func_02069FD0(a0);
-    void *q = (void *)func_02069FE4(a0);
-
-    if (p != 0) {
-        *a1 = g_020A8140(p, 0, 0);
-        if (*a1 == 0)
-            return 0;
-    }
-    if (q != 0) {
-        *a2 = g_020A8140(p, 1, 0);
-        if (*a2 == 0)
-            return 0;
-    }
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-extern u32 (*g_020A8148)(u32 handle, u32 flags, u32 zero);
-
-
-
-
-
-
-
-
-
-
-/*
- * Open one layer: ask func_0206A110 for the layer's handle (a zero handle
- * is the failure path and answers 1), then call the current handler out of
- * the function pointer at 0x020A8148 with the handle, the layer's bit
- * 0x8000 of the halfword at +0x20 and a zero, and store what it returns
- * through the caller's out pointer.
- *
- * `h != 0` is spelled as two statements, not as a comparison: the zero is
- * already live in r4 (it was r2 for the indirect call), so the failure path
- * is a predicated `moveq r0, r4` plus `popeq`, and the success path is the
- * plain `mov r0, #1`.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020472F8.c \
- *       --func func_020472F8 --addr 0x020472F8 --cc 1.1p1 --arm
- */
-int func_020472F8(struct Layer_020472F8 *layer, u32 *out)
-{
-    u32 h;
-
-    h = func_0206A110((int)layer);
-    if (h == 0)
-        goto ret1;
-
-    h = g_020A8148(h, layer->unk_20 & 0x8000, 0);
-    *out = h;
-    if (h == 0)
-        return 0;
-ret1:
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Three consecutive accessors on the object a layer record points at
- * through +4, 64 + 48 + 32 bytes with no padding between them.  The object
- * carries three "ready" bits, one per halfword at +0x10, +0x20 and +0x32,
- * and each bit guards the word at +8, +0x18 and +0x2c respectively.
- *
- * func_02047348 asks whether any of the three is set: the first two tests
- * are early `return 1`s, which is why they branch forward to a shared
- * one-exit and the third is written as the inverted guard (`if (!bit)
- * return 0;`) whose fall-through carries the `return 1`.
- *
- * func_02047388 and func_020473B8 return the guarded word itself, so their
- * arms are single instructions and the compiler if-converts them into
- * predicated `ldrne` / `moveq` on the entry compare; the third test in
- * func_02047388 is the one that stays a real branch pair.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02047348.c \
- *       --addr 0x02047348 --arm
- */
-int func_02047348(struct Layer_02047348 *layer)
-{
-    struct Ctl *p = (struct Ctl *)func_0206E964(layer->unk_04);
-
-    if ((p->unk_10 & 1) || (p->unk_20 & 1) || (p->unk_32 & 1))
-        return 1;
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-u32 func_02047388(struct Layer_02047348 *layer)
-{
-    struct Ctl *p = (struct Ctl *)func_0206E964(layer->unk_04);
-
-    if (p->unk_10 & 1)
-        return p->unk_08;
-    if (p->unk_20 & 1)
-        return p->unk_18;
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-u32 func_020473B8(struct Layer_02047348 *layer)
-{
-    struct Ctl *p = (struct Ctl *)func_0206E964(layer->unk_04);
-
-    if (p->unk_32 & 1)
-        return p->unk_2c;
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-int func_020473D8(int a0){ int t0 = func_02047250(); return (t0 + ((struct Obj16033 *)((char *)(t0)))->f14); }
-
-
-
-
-
-
-
-
-
-int func_020473EC(int a0){ int t0 = func_02047250(); return (t0 + ((struct Obj16034 *)((char *)(t0)))->f38); }
-
-
-
-
-
-
-
-
-
-/*
- * Construct a 0x7A14-tagged record (the sibling of func_02047564's 0x59D1
- * one): look the owner's +4 handle up through func_0206E954, index its
- * table by `n` to a byte offset, turn that into a pointer, optionally take
- * a second handle from a2, allocate 0x10 bytes out of the context's heap
- * with `g3d_system.c:1544` as the __FILE__/__LINE__ pair, fill the tag and
- * the two owner slots, and register it.
- *
- * WHY THE GOTOS.  Two earlier waves (see docs/notes/pkt_02047400.c.txt)
- * landed three instructions (12 bytes) short with the structured
- * `if (p) { b = p + 8; if (b) { if (n < p[9]) { ... } } }` plus a ternary
- * for q, in five spellings.  The residue was a front-end if-conversion:
- * mwcc predicated the five-instruction `ofs` body (`ldrhlo`/`addlo`/
- * `mlalo`) and therefore hoisted `ofs = 0` before the guards as
- * `mov r2, r4`, and it predicated the q selection as `moveq r5, #0`.
- *
- * The image does neither.  It gives `ofs = 0` its own out-of-line block at
- * +0x50 with TWO predecessors (the `b == 0` and the `n >= p[9]` guards) and
- * an unconditional `b` over it from the body, and it sends the `p == 0`
- * test straight to an out-of-line `q = 0` at +0x64.  Writing those two
- * join blocks as explicit `goto` targets is what reproduces them: with the
- * body no longer the only path into its successor, the front end has no
- * single-block region left to predicate, so the five instructions come out
- * bare and the missing `b` and `bne` appear.  This is the general form of
- * docs/idioms/guards-separated-by-statements-share-an-exit-only-through-goto.md
- * applied to a join rather than to an exit.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02047400.c \
- *       --func func_02047400 --addr 0x02047400 --cc 1.1p1 --arm
- */
-void *func_02047400(void *a0, u32 n, void *a2)
-{
-    u32 z;
-    u8 *p;
-    u8 *b;
-    void *q;
-    void *obj;
-    u8 *ofs;
-    u32 idx;
-    u32 cnt;
-
-    z = 0;
-    p = (u8 *)func_0206E954((int)(((struct Obj09057 *)a0)->f4));
-    if (p == 0) goto qzero;
-    b = p + 8;
-    if (b == 0) goto ozero;
-    if (n >= p[9]) goto ozero;
-    idx = ((struct Obj11417 *)p)->fE;
-    cnt = *(u16 *)(b + idx);
-    ofs = (u8 *)(cnt * n + (s32_0)(b + idx + 4));
-    goto join;
-ozero:
-    ofs = 0;
-join:
-    if (ofs != 0) { q = (void *)(p + ((struct Obj16035 *)ofs)->f0); goto have; }
-qzero:
-    q = 0;
-have:
-    ;
-
-    if (a2 != 0) z = (u32)func_0206E964(((struct Obj09057 *)a2)->f4);
-
-    obj = func_02030734(*(u16 *)((u8 *)g_02146A5C + 0x18),
-                        0x10, 0, g_szG3DSystem, 0x608);
-    ((struct Obj04073 *)obj)->f0 = 0x7A14;
-    ((struct Obj04073 *)obj)->f8 = a0;
-    ((struct Obj04073 *)obj)->fC = a2;
-    ((struct Obj04073 *)obj)->f4 = func_0206E348(g_02146A5C);
-    if (z != 0) {
-        func_0206A2CC(q, (void *)z);
-        func_0206A4AC(q, (void *)z);
-    }
-    func_02069D14(((struct Obj04073 *)obj)->f4, q);
-    return obj;
-}
-
-
-
-
-
-
-
-
-
-/*
- * Release one tagged record: nothing at all for a null pointer, and nothing
- * for a record whose halfword tag at +0 is not 0x7A14.  Otherwise hand the
- * pointer's +4 field to func_0206E358, drop the tag to one below its own
- * value and free the record.
- *
- * The tag is pooled once (0x7A14 is past a `mov` immediate) and reused for
- * the decrement, which is why the new value arrives as `sub r1, r4, #1`
- * rather than as a second literal; the `mov r0, r5` before the store is the
- * free call's argument being set up early.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02047504.c \
- *       --func func_02047504 --addr 0x02047504 --cc 1.1p1 --arm
- */
-void func_02047504(struct Rec *p)
-{
-    if (p == 0)
-        return;
-    if (p->tag != 0x7A14)
-        return;
-
-    func_0206E358((struct Obj02061330 *)g_02146A5C, p->unk_04);
-    p->tag = 0x7A14 - 1;
-    func_020307B0(p);
-}
-
-
-
-
-
-
-
-int func_0204754C(int *p){ return p[2]; }
-
-
-
-
-
-
-
-int func_02047554(int *p){ return p[3]; }
-
-
-
-
-
-
-
-int func_0204755C(int *p){ return p[1]; }
-
-
-
-
-
-
-
-
-/*
- * g3d_system.c.  Allocate a 12-byte record from the context heap (tag
- * 0x59D1, owner a1), fetch animation a2 from a1's resource
- * (func_0206E9A4), allocate the animation object against a0's model
- * (func_0206E364) and initialise it with a0's texture when a0 has one
- * (func_02047554 / func_0206E964, then func_02069C74).
- *
- * The lever (wave 16) is `const` on the read-only owner parameter a1 (and
- * the record field that keeps it): with a1 const the a1->f04 load may move
- * above the tag store, and the scheduler then issues the tag's pool load
- * first exactly as the image does.  Without const every spelling left the
- * four instructions after the allocation in the other order (11 bytes out,
- * docs/notes/pkt_02047564.c.txt).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02047564.c  *       --func func_02047564 --addr 0x02047564 --arm
- */
-struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2)
-{
-    struct G3dRec *r;
-    int x;
+struct Rig {
+    u32 unk_00;
+};
+
+struct Desc {
+    struct Rec_02048120 *unk_00;
+};
+
+struct Rec_02048258 {
+    u8  pad_00[4];
+    u16 unk_04;
+    u8  pad_06[6];
+};
+
+struct Holder {
+    struct Rec_02048258 *unk_00;
+};
+
+typedef struct {
+    void *resTbl;
+    u16   resCount;
+    void *objTbl;
+    u16   objCount;
+} Setup_02048918;
+
+typedef struct {
+    u32 x;
     u32 y;
-    int z = 0;
+    u32 z;
+} Vec3;
 
-    r = func_02030734(((struct G3dCtx *)g_02146A5C)->heap_id, 0xC, 0, g_020A7EA8, 0x6D2);
-    r->tag = 0x59D1;
-    r->unk_08 = a1;
-    x = (int)func_0206E9A4((u8 *)a1->f04, a2);
-    y = a0->f04->handle;
-    if (func_02047554((int *)a0) != 0)
-        z = (int)func_0206E964((unsigned char *)a0->f0c->handle);
-    r->unk_04 = func_0206E364(((struct G3dCtx *)g_02146A5C), x, y);
-    func_02069C74(r->unk_04, x, y, z);
-    return r;
-}
+typedef struct {
+    int x;
+    int y;
+    int z;
+} VecFx32;
+
+struct Light {
+    u32     unk00;
+    u32     unk04;
+    u32     unk08;
+    u8      pad0C[8];
+    u32     unk14;
+    u32     unk18;
+    u8      pad1C[4];
+    VecFx32 unk20;
+    VecFx32 unk2C;
+    VecFx32 unk38;
+};
+
+struct LightSlot {
+    u16 unk00;
+    u16 unk02;
+    u16 unk04;
+    u16 unk06;
+};
+
+struct LightRec {
+    u8               slot;
+    u8               pad01;
+    struct LightSlot val;
+};
+
+struct LightSet {
+    struct LightRec *recs;
+    u8               count;
+};
+
+extern void func_0206DB80(void);
+extern void MTX_LookAt(const VecFx32_020479D8 *camPos, const VecFx32_020479D8 *camUp,
+                       const VecFx32_020479D8 *target, MtxFx43 *mtx);
+extern int func_02047788(int *p);
+extern int func_0204755C(int *p);
+extern void  func_0206A9DC(void *p);
+extern void  func_0206AA0C(VecFx32_02047A60 *p);
+extern void  MI_Copy36B(const void *src, void *dst);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern int func_0207DEA4(s32 *in);
+extern void func_0206B6A4(struct Obj0206B6A4 *p);
+extern void *func_02030734(u16 heapID, u32 size, int clear, const char *file, int line);
+extern u32 func_020307B0(void *p);
+extern void *func_02046DB8(u32 a0, u32 a1);
+extern void *func_02046E90(u32 a0, u32 a1);
+extern int func_02046C94(void);
+extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void *func_02048F9C(const char *path, u32 a, u32 heap);
+extern void *func_02046E24(u32 a0, u32 a1);
+extern u32 func_02046F50(struct Tagged *p, u32 sel);
+extern int func_020470D0(u32 *p);
+extern void func_02046EFC(struct Tagged *p);
+extern int func_02046FF8(int *self);
+extern int func_02047348(struct Layer *layer);
+extern void *func_02047400(void *a0, u32 n, void *a2);
+extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
+extern u16   func_0204779C(void *obj);
+extern int func_02047790(int *p, int i);
+extern void func_0204762C(struct Rec *p);
+extern int func_02047554(int *p);
+extern int func_0204754C(int *p);
+extern void func_02047504(struct Rec *p);
+extern void func_02047738(struct Rec *p);
+extern void func_02046858(const u32 *src);
+extern void func_02046B40(u8 *a0);
+void func_02047970(void);
+void func_02047990(void);
+void func_020479D8(void);
+void func_02047A60(void *a0, struct Arg *a1);
+int func_02047AC8(void *a0, struct Arg *a1);
+int func_02047B4C(void *a0);
+int func_02047C04(void *obj);
+void func_02047C8C(struct P02047C8C *p);
+void func_02047CE4(void);
+Util *func_02047CFC(u16 resCount, u16 objCount, u16 heapID);
+void func_02047E54(struct Rec_1 *p);
+u16 func_02047E88(Util *util, const Setup *setup);
+u16 func_02047F4C(Util *util, const Setup *setup);
+u16 func_02048010(Util *util, const Setup *setup, u32 extra);
+void func_020480E4(Util *util, u32 i);
+void func_02048120(Util *util, u16 index, const Setup *setup, u16 heapID);
+void func_02048258(struct Owner *owner, u16 index, struct Holder *p, u32 a4, u32 a5);
+void func_020482B4(struct Owner *owner, u32 index);
+void func_02048330(Util *util, u16 unitIdx, const Setup *setup, u16 heapID);
+void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID);
+void func_02048918(Util *util, u32 unitIdx);
+u32 sub_020489F4(u8 *a0, int i);
+u32 sub_02048A00(u8 *a0, int i);
+u32 sub_02048A0C(u8 *a0, int i);
+u32 sub_02048A18(u8 *a0, int i);
+u32 *func_02048A24(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8, Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap);
+u32 func_02048AC4(void *ptr);
+void func_02048AD0(struct Light *l);
+void func_02048AE8(struct Light *l, VecFx32 *out);
+void func_02048AFC(struct Light *l, const VecFx32 *in);
+void func_02048B0C(struct Light *l, VecFx32 *out);
+void func_02048B20(struct Light *l, const VecFx32 *in);
+void func_02048B30(struct Light *l, VecFx32 *out);
+void func_02048B44(struct Light *l, const VecFx32 *in);
+void func_02048B54(struct Light *l, u32 *out);
+void func_02048B60(struct Light *l, const u32 *in);
+void func_02048B6C(struct Light *l, const u32 *in);
+int func_02048B78(struct Light *l);
+void func_02048B80(struct Light *l, u32 v);
+void func_02048B88(struct Light *l, u32 *out);
+void func_02048B94(struct Light *l, u32 v);
+void func_02048B9C(struct Light *l, u32 *out);
+void func_02048BA8(struct Light *l, u32 v);
+void func_02048BB0(struct Light *l, u32 *out);
+void func_02048BBC(struct Light *l, u32 v);
+struct LightSlot *func_02048BC4(const struct LightSet *s, u16 heap);
+u32 func_02048C4C(void *p);
+extern struct G3dSys g_02146A5C;
+extern NNSG3dGlb NNS_G3dGlb;
+extern u32 g_02148B4C[];
+extern u32 g_02148C08[];
+extern const char g3d_util_file[];
+extern char  g_020A7EC4[];
+extern const char func_02048BC4_File[];
+
+
+
+
+
 
 
 
 
 
 /*
- * The sibling of func_02047504 for the other record tag: 0x59D1 instead of
- * 0x7A14 and func_0206E388 instead of func_0206E358.  Everything else,
- * including the register allocation and the reuse of the pooled tag for the
- * decrement, is identical.
+ * Set the context's +0x94 word to one, after letting func_0206DB80 run
+ * first; the context pointer is read from its slot after the call, so it is
+ * a fresh `ldr` and not a saved one.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204762C.c \
- *       --func func_0204762C --addr 0x0204762C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_02047970.c \
+ *       --func func_02047970 --addr 0x02047970 --cc 1.1p1 --arm
  */
-void func_0204762C(struct Rec *p)
+void func_02047970(void)
 {
-    if (p == 0)
-        return;
-    if (p->tag != 0x59D1)
-        return;
-
-    func_0206E388((struct Obj02061330 *)g_02146A5C, p->unk_04);
-    p->tag = 0x59D1 - 1;
-    func_020307B0(p);
+    func_0206DB80();
+    ((struct Ctx *)g_02146A5C.obj)->unk_94 = 1;
 }
 
 
@@ -1396,15 +449,36 @@ void func_0204762C(struct Rec *p)
 
 
 
+
+
+
+#define reg_G3_SWAP_BUFFERS (*(volatile u32 *)0x04000540)
+
+
+
+
+
+
+
+
+
 /*
- * Unlabelled ARM leaf getter: return the word at +4.  disasm.py never
- * traced a func_ start here (the listing emits these bytes as data words),
- * so the caller func_021BE748 in ov021 had no witness for its bl; this
- * entry supplies the `matched` class.
+ * The 3D buffer-swap flush, called once per frame from NitroMain (blx at
+ * 0x02005176).  When the swap requested by func_02047970 is pending (+0x94
+ * set to 1), it writes G3_SWAP_BUFFERS with the sort mode (+0x80) and the
+ * buffer mode (+0x84) and clears the request.  The listing carried it as raw
+ * words until NitroMain was seeded in layout/function_starts.txt.
  */
-int func_02047674(int p)
+void func_02047990(void)
 {
-    return ((struct Obj16042 *)p)->f4;
+    struct Ctx *c = ((struct Ctx *)g_02146A5C.obj);
+
+    if (c == 0)
+        return;
+    if (c->unk_94 != 1)
+        return;
+    reg_G3_SWAP_BUFFERS = (c->bufferMode << 1) | c->sortMode;
+    ((struct Ctx *)g_02146A5C.obj)->unk_94 = 0;
 }
 
 
@@ -1412,38 +486,318 @@ int func_02047674(int p)
 
 
 
+
+
+
+
+static inline void NNS_G3dGlbLookAt(const VecFx32_020479D8 *camPos, const VecFx32_020479D8 *camUp,
+                                    const VecFx32_020479D8 *target)
+{
+    NNS_G3dGlb.camPos = *camPos;
+    NNS_G3dGlb.camUp = *camUp;
+    NNS_G3dGlb.camTarget = *target;
+    MTX_LookAt(camPos, camUp, target, &NNS_G3dGlb.cameraMtx);
+    NNS_G3dGlb.flag &= ~(0x08 | 0x80 | 0x20 | 0x40);
+}
+
+
+
+
+
+
+
+
+
+
 /*
- * Allocate a 0x10-byte descriptor from the module heap: a 0x2185 tag, the
- * caller's key, the count, and -- only when the count is non-zero -- a second
- * allocation of count*4 bytes holding a copy of the caller's array.  Both
- * allocations pass the same module name and differ only in their line
- * constant (0x75b and 0x765).
+ * g3d_system.c.  Re-apply the context's camera (position, up and target at
+ * +0x5C/+0x68/+0x74) through NitroSystem's NNS_G3dGlbLookAt inline, then run
+ * the context's +0x88 callback.
+ *
+ * The lever (wave 15) is the library shape: the three destination blocks
+ * 0x02148D8C/0x02148D98/0x02148DA4, the camera matrix 0x02148B98 and the flag
+ * word 0x02148B4C+0xFC are all fields of ONE object, NNS_G3dGlb (camPos,
+ * camUp, camTarget at +0x240/+0x24C/+0x258, cameraMtx at +0x4C, flag at
+ * +0xFC), and the copies plus MTX_LookAt plus the flag clear are the
+ * NitroSystem inline NNS_G3dGlbLookAt(const VecFx32 *, const VecFx32 *,
+ * const VecFx32 *) (glbstate_inline.h, NitroSystem-071126).  The inline's
+ * three pointer parameters are what keep the three addresses in lr/ip/r5
+ * for the call; every hand spelling with separate externs came out one
+ * callee-saved register wider (22 to 31 bytes out,
+ * docs/notes/pkt_020479D8.c.txt).  0xE8 is INVCAMERA | INVBASECAMERA |
+ * INVCAMERAPROJ | BASECAMERA.  The layout below reproduces the NitroSystem
+ * struct up to camTarget; the offsets are fixed by the image's pool words.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204767C.c \
- *       --func func_0204767C --addr 0x0204767C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_020479D8.c \
+ *       --func func_020479D8 --addr 0x020479D8 --arm
  */
-void *func_0204767C(u32 a0, u32 *a1, int a2)
+void func_020479D8(void)
 {
-    struct Desc *d;
+    NNS_G3dGlbLookAt(&((struct Ctx *)g_02146A5C.obj)->view0, &((struct Ctx *)g_02146A5C.obj)->view1, &((struct Ctx *)g_02146A5C.obj)->view2);
+    ((struct Ctx *)g_02146A5C.obj)->f88();
+}
+
+
+
+
+
+
+
+
+
+
+void func_02047A60(void *a0, struct Arg *a1)
+{
+    void *r;
+
+    r = (void *)func_0204755C((int *)func_02047788(a0));
+    func_0206A9DC(a1);
+    MI_Copy36B(&a1->m18, g_02148C08);
+    g_02148B4C[63] = g_02148B4C[63] & ~0xa4u;
+    func_0206AA0C(&a1->v0c);
+    ((struct Ctx *)g_02146A5C.obj)->f88();
+    func_02047C8C(r);
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * The sibling of func_02047A60 with a result: the same bring-up (the two
+ * sub-objects of the argument at +0xC and +0x18, the `bic 0xa4` on word 63
+ * of 0x02148B4C, the context's +0x88 callback) and then func_02047B4C,
+ * whose value is returned and whose `== 1` gates the func_02047C8C release.
+ *
+ * NOTE ON func_02047B4C's ARITY.  src/matched/func_02047B4C.c declares it
+ * `int func_02047B4C(void)` and is EXACT that way; here it must be declared
+ * as taking one pointer, because the original saves this function's own
+ * first argument in r5 across the whole body purely to set r0 before the
+ * call (+0x0008 `mov r5, r0`, +0x0054 `mov r0, r5`).  A `void` declaration
+ * drops those two instructions and the function comes out eight bytes
+ * short.  The callee ignoring r0 is consistent with both files being exact:
+ * the argument is passed and unused.
+ */
+int func_02047AC8(void *a0, struct Arg *a1)
+{
+    void *r;
+    int   s;
+
+    r = (void *)func_0204755C((int *)func_02047788(a0));
+    func_0206A9DC(a1);
+    MI_Copy36B(&a1->m18, g_02148C08);
+    g_02148B4C[63] = g_02148B4C[63] & ~0xa4u;
+    func_0206AA0C(&a1->v0c);
+    ((struct Ctx *)g_02146A5C.obj)->f88();
+    s = func_02047B4C(a0);
+    if (s == 1)
+        func_02047C8C(r);
+    return s;
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * Copy the six s16 of the sub-record at +0x18..0x22 into a local, register
+ * it via func_0206DDA4 (the three-argument command/buffer/count shape of
+ * src/matched/func_0206A884.c), broadcast the +0x24 word into a three-word
+ * buffer, hand the halfword block to func_02047C04, and report failure as
+ * zero.  The `+ 0x14` is folded with a null test on the owning pointer, so
+ * a null owner leaves the base at zero rather than at 0x14.
+ *
+ * Addresses are Black-image addresses.
+ */
+int func_02047B4C(void *a0)
+{
+    struct Block blk;
+    u32 buf[3];
+    int one;
+    struct Rec_0 *r;
+    char *p;
+    int ret;
+
+    ret = 1;
+    p = (char *)((struct Owner *)func_0204755C((int *)func_02047788(a0)))->unk_04;
+    r = (struct Rec_0 *)(p != 0 ? p + 0x14 : 0);
+
+    blk.f00 = r->f18;
+    blk.f02 = r->f1a;
+    blk.f04 = r->f1c;
+    blk.f06 = r->f1e;
+    blk.f08 = r->f20;
+    blk.f0a = r->f22;
+    func_0206DDA4(0x11, 0, 0);
+
+    buf[0] = r->f24;
+    buf[1] = buf[0];
+    buf[2] = buf[0];
+    func_0206DDA4(0x1B, buf, 3);
+
+    if (func_02047C04(&blk) == 0) {
+        ret = 0;
+    }
+
+    one = 1;
+    func_0206DDA4(0x12, &one, 1);
+    return ret;
+}
+
+
+
+
+
+
+
+
+
+/*
+ * Four registrations through func_0206DDA4 (same three-argument shape as
+ * src/matched/func_0206A884.c: command, buffer, count), then func_0206DB80
+ * and a spin on func_0207DEA4 over the first slot until it reports zero.
+ * The value returned is that slot, still holding the 1 it was seeded with.
+ *
+ * Addresses are Black-image addresses.
+ */
+int func_02047C04(void *obj)
+{
+    int done;
+    int arg;
+    int zero;
+
+    done = 1;
+    arg  = 0x30C1;
+    func_0206DDA4(0x29, &arg, 1);
+    zero = 0;
+    func_0206DDA4(0x40, &zero, 1);
+    func_0206DDA4(0x41, 0, 0);
+    func_0206DDA4(0x70, obj, 3);
+    func_0206DB80();
+    while (func_0207DEA4(&done) != 0) {
+        ;
+    }
+    return done;
+}
+
+
+
+
+
+
+
+
+
+/*
+ * Add two halfwords of the object's +4 pointer into the global's two
+ * counters (0x26 first, then 0x24), then run the global context's +0x98
+ * callback if it is set - passing the object itself, which is still in r0,
+ * and the +0x9c argument - and finally hand the object to func_0206B6A4.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02047C8C.c \
+ *       --func func_02047C8C --addr 0x02047C8C --cc 1.1p1 --arm
+ */
+void func_02047C8C(struct P02047C8C *p)
+{
+    g_02146A5C.f4 += p->f4->h26;
+    g_02146A5C.f8 += p->f4->h24;
+    if (((struct Ctx *)g_02146A5C.obj)->f98 != 0)
+        ((struct Ctx *)g_02146A5C.obj)->f98(p, ((struct Ctx *)g_02146A5C.obj)->f9c);
+    func_0206B6A4((struct Obj0206B6A4 *)p);
+}
+
+
+
+
+
+
+
+
+
+/*
+ * An unlabelled ARM leaf that follows func_02047C8C's pool word: it clears
+ * the two counters at +4 and +8 of the global at 0x02146A5C (the same global
+ * func_02046A94 indexes through, whose first word is the context pointer).
+ * One `mov r1, #0` feeds both stores.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02047CE4.c \
+ *       --func func_02047CE4 --addr 0x02047CE4 --cc 1.1p1 --arm
+ */
+void func_02047CE4(void)
+{
+    g_02146A5C.f4 = 0;
+    g_02146A5C.f8 = 0;
+}
+
+
+
+
+
+
+
+
+
+/*
+ * g3d_util.c (the __FILE__ word 0x020A7EB8 of this family).  The utility
+ * object is 0x218 bytes: resource handle table and status bytes at +0x00 /
+ * +0x04 with a u16 count at +0x08, object table and status bytes at +0x0c /
+ * +0x10 with a u16 count at +0x14, 0x40 eight-byte unit records from +0x16
+ * {resIdx, resCount, objIdx, objCount}, and the u16 heap id at +0x216.  See
+ * docs/families/g3d_util.h.
+ *
+ * Create the utility object: allocate it, the two handle tables and the two
+ * status arrays (__LINE__ 92, 97, 98, 105, 106), clear the status bytes and
+ * mark all 0x40 unit records free with 0xffff.  The three parameters are
+ * u16 (resource count, object count, heap id); with s32 parameters the
+ * compiler CSEs the second half's constants and the frame loses a register.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02047CFC.c --func func_02047CFC --addr 0x02047CFC --cc 1.1p1 --arm
+ */
+Util *func_02047CFC(u16 resCount, u16 objCount, u16 heapID)
+{
+    Util *util;
     int i;
 
-    d = (struct Desc *)func_02030734(((struct Mod *)g_02146A5C)->f18, 0x10, 0, str_020A7EA8,
-                                     0x75b);
-    d->tag = 0x2185;
-    d->key = a0;
-    d->count = (u16)a2;
-    if (a2 == 0) {
-        d->array = 0;
-    } else {
-        d->array = (u32)func_02030734(((struct Mod *)g_02146A5C)->f18, a2 * 4, 1, str_020A7EA8,
-                                 0x765);
-        if (a1 != 0 && (int)a2 > 0) {
-            for (i = 0; i < a2; i++)
-                ((u32 *)d->array)[i] = a1[i];
-        }
+    util = func_02030734(heapID, sizeof(Util), 1, g3d_util_file, 92);
+    util->heapID = heapID;
+
+    util->res = func_02030734(heapID, resCount * 4, 1, g3d_util_file, 97);
+    util->resStat = func_02030734(heapID, resCount, 1, g3d_util_file, 98);
+    util->resCount = resCount;
+    for (i = 0; i < resCount; i++)
+        util->resStat[i] = 0;
+
+    util->obj = func_02030734(heapID, objCount * 4, 1, g3d_util_file, 105);
+    util->objStat = func_02030734(heapID, objCount, 1, g3d_util_file, 106);
+    util->objCount = objCount;
+    for (i = 0; i < objCount; i++)
+        util->objStat[i] = 0;
+
+    for (i = 0; i < 0x40; i++) {
+        util->unit[i].resIdx = 0xffff;
+        util->unit[i].resCount = 0xffff;
+        util->unit[i].objIdx = 0xffff;
+        util->unit[i].objCount = 0xffff;
     }
-    return d;
+    return util;
 }
 
 
@@ -1451,267 +805,943 @@ void *func_0204767C(u32 a0, u32 *a1, int a2)
 
 
 
+
+
 /*
- * Retire one record: a null pointer and a mismatched tag 0x2185 are both
- * passed over by predicated returns, then the owned pointer at +8 is freed
- * and cleared (only if it was set) before the tag is left at 0x2184 and the
- * record itself is freed.  Both tags are past a `mov` immediate and so are
- * two pool words at the end of the function.
+ * Free the four pointers of one record, in decreasing address order, and
+ * then the record itself.  The object pointer is the only callee-saved
+ * value, which is why the frame is two words.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02047738.c \
- *       --func func_02047738 --addr 0x02047738 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_02047E54.c \
+ *       --func func_02047E54 --addr 0x02047E54 --cc 1.1p1 --arm
  */
-void func_02047738(struct Rec *p)
+void func_02047E54(struct Rec_1 *p)
 {
-    if (p == 0)
-        return;
-    if (p->tag != 0x2185)
-        return;
-
-    if (p->unk_08 != 0) {
-        func_020307B0(p->unk_08);
-        p->unk_08 = 0;
-    }
-
-    p->tag = 0x2184;
+    func_020307B0(p->unk_10);
+    func_020307B0(p->unk_0c);
+    func_020307B0(p->unk_04);
+    func_020307B0(p->unk_00);
     func_020307B0(p);
 }
 
 
 
 
-int func_02047788(int *p){ return p[1]; }
-
-
-
-
-int func_02047790(int *p, int i){ return ((int *)p[2])[i]; }
-
-
-
-
-
-int func_0204779C(int *p){ return ((struct Obj16046 *)p)->fC; }
-
 
 
 
 
 /*
- * Dispatch one slot of the G3D system's object table, reporting whether the
- * slot was occupied.  The empty case is the conditional early return
- * `moveq r0, #0 / popeq {r3, pc}`, so the two exits carry different constants
- * and neither arm is shared.
+ * g3d_util.c (the __FILE__ word 0x020A7EB8 of this family).  The utility
+ * object is 0x218 bytes: resource handle table and status bytes at +0x00 /
+ * +0x04 with a u16 count at +0x08, object table and status bytes at +0x0c /
+ * +0x10 with a u16 count at +0x14, 0x40 eight-byte unit records from +0x16
+ * {resIdx, resCount, objIdx, objCount}, and the u16 heap id at +0x216.  See
+ * docs/families/g3d_util.h.
  *
- * The three `ldr ..., #4` loads interleave two independent chains, the
- * system's own +0x04 -> +0x04 pointer walk and the slot's +0x04 payload;
- * scheduling them together is what puts the slot's load in the middle.
+ * Add one unit: take the first free record (resIdx == 0xffff), place its
+ * resource and object runs right after the previous record's, then load the
+ * resources (func_02048120) and build the objects (func_02048330).  The lever
+ * that closed it is the prototypes: the unit index and heap id are u16
+ * parameters of both callees, so each call site truncates `i` on its own
+ * (the lsl/lsr pair appears twice plus once for the u16 return), which an
+ * explicit (u16) cast does not reproduce.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020477A4.c \
- *       --func func_020477A4 --addr 0x020477A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_02047E88.c --func func_02047E88 --addr 0x02047E88 --cc 1.1p1 --arm
  */
-u32 func_020477A4(struct G3dSys_1 *sys, u32 idx)
+u16 func_02047E88(Util *util, const Setup *setup)
 {
-    struct G3dSlot *slot = sys->slots[idx];
+    u16 resIdx = 0;
+    u16 objIdx = 0;
+    int i;
 
-    if (slot == 0) {
-        return 0;
+    for (i = 0; i < 0x40; i++) {
+        if (util->unit[i].resIdx == 0xffff) {
+            util->unit[i].resIdx = resIdx;
+            util->unit[i].resCount = setup->resCount;
+            util->unit[i].objIdx = objIdx;
+            util->unit[i].objCount = setup->objCount;
+            func_02048120(util, i, setup, util->heapID);
+            func_02048330(util, i, setup, util->heapID);
+            return i;
+        }
+        resIdx = util->unit[i].resIdx + util->unit[i].resCount;
+        objIdx = util->unit[i].objIdx + util->unit[i].objCount;
     }
-
-    func_02069E88(sys->unk_04->unk_04, slot->unk_04);
-    return 1;
+    return 0xffff;
 }
+
+
+
+
 
 
 
 
 /*
- * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
+ * g3d_util.c (the __FILE__ word 0x020A7EB8 of this family).  The utility
+ * object is 0x218 bytes: resource handle table and status bytes at +0x00 /
+ * +0x04 with a u16 count at +0x08, object table and status bytes at +0x0c /
+ * +0x10 with a u16 count at +0x14, 0x40 eight-byte unit records from +0x16
+ * {resIdx, resCount, objIdx, objCount}, and the u16 heap id at +0x216.  See
+ * docs/families/g3d_util.h.
  *
- * Hand the indexed sub-record's +4 word to func_02069F7C, along with the
- * owner's own +4 record's +4 word: the pointer chain is two `ldr`s deep on
- * the owner side and one on the sub-record side, and nothing is loaded until
- * the null test has passed, because the failure path is a predicated
- * `moveq`/`popeq` off the compare.
+ * Twin of func_02047E88 with the second callee func_02048744 (the object
+ * builder that binds textures itself); same u16 prototype lever.
  *
- * Every concrete byte is right.  The single PC24 stays wildcarded: 0x02069F7C
- * is called from this site and nowhere else the harness can see, it is not in
- * the manifest, and a one-function range admits no cut (--suggest-split cannot
- * help).  Blocking evidence class: label/matched, no witness.  It unsticks the
- * moment 0x02069F7C is itself EXACT (`matched` class) or a second caller of it
- * turns up in an overlay.
- *
- * The `*` is the unlabelled follower at 0x02047804 (a leaf with no lr-saving
- * prologue) making disasm.py's extent for the original run to 0x02047970.
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02047F4C.c --func func_02047F4C --addr 0x02047F4C --cc 1.1p1 --arm
  */
-int func_020477D4(struct Owner *owner, u32 index)
+u16 func_02047F4C(Util *util, const Setup *setup)
 {
-    struct Sub *sub = owner->unk_08[index];
+    u16 resIdx = 0;
+    u16 objIdx = 0;
+    int i;
 
-    if (sub == 0)
-        return 0;
-
-    func_02069F7C(owner->unk_04->unk_04, sub->unk_04);
-    return 1;
+    for (i = 0; i < 0x40; i++) {
+        if (util->unit[i].resIdx == 0xffff) {
+            util->unit[i].resIdx = resIdx;
+            util->unit[i].resCount = setup->resCount;
+            util->unit[i].objIdx = objIdx;
+            util->unit[i].objCount = setup->objCount;
+            func_02048120(util, i, setup, util->heapID);
+            func_02048744(util, i, setup, util->heapID);
+            return i;
+        }
+        resIdx = util->unit[i].resIdx + util->unit[i].resCount;
+        objIdx = util->unit[i].objIdx + util->unit[i].objCount;
+    }
+    return 0xffff;
 }
+
+
+
 
 
 
 
 /*
- * Two siblings of func_0204784C over the same slot table at +8: a null slot
- * returns 0; otherwise the first clears the slot object's frame and the
- * second stores it to *frame, and both return 1.  Seeded from ov021
- * 0x0218C064 and 0x0218C486 (blx).
+ * g3d_util.c (the __FILE__ word 0x020A7EB8 of this family).  The utility
+ * object is 0x218 bytes: resource handle table and status bytes at +0x00 /
+ * +0x04 with a u16 count at +0x08, object table and status bytes at +0x0c /
+ * +0x10 with a u16 count at +0x14, 0x40 eight-byte unit records from +0x16
+ * {resIdx, resCount, objIdx, objCount}, and the u16 heap id at +0x216.  See
+ * docs/families/g3d_util.h.
  *
- * Addresses are Black-image addresses.
+ * Third twin: the resource loader is func_02048258, which takes a fifth
+ * argument forwarded from this function's third parameter.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02048010.c --func func_02048010 --addr 0x02048010 --cc 1.1p1 --arm
  */
-u32 func_02047804(struct AnmCtl *c, u16 idx)
+u16 func_02048010(Util *util, const Setup *setup, u32 extra)
 {
-    struct AnmSlot *s = c->slots[idx];
+    u16 resIdx = 0;
+    u16 objIdx = 0;
+    int i;
 
-    if (s == 0) {
-        return 0;
+    for (i = 0; i < 0x40; i++) {
+        if (util->unit[i].resIdx == 0xffff) {
+            util->unit[i].resIdx = resIdx;
+            util->unit[i].resCount = setup->resCount;
+            util->unit[i].objIdx = objIdx;
+            util->unit[i].objCount = setup->objCount;
+            func_02048258((struct Owner *)util, i, (struct Holder *)setup, util->heapID, extra);
+            func_02048744(util, i, setup, util->heapID);
+            return i;
+        }
+        resIdx = util->unit[i].resIdx + util->unit[i].resCount;
+        objIdx = util->unit[i].objIdx + util->unit[i].objCount;
     }
-    s->obj->frame = 0;
-    return 1;
+    return 0xffff;
 }
 
 
 
-u32 func_02047828(struct AnmCtl *c, u32 idx, s32_1 *frame)
-{
-    struct AnmSlot *s = c->slots[idx];
-
-    if (s == 0) {
-        return 0;
-    }
-    *frame = s->obj->frame;
-    return 1;
-}
 
 
 
 
 /*
- * ARM leaf, seeded 2026-09-27 from the ov195 call sites 0x02208B3E and
- * 0x02208B48 (func_02208AB0). Looks up slot idx of the table at +8; a
- * null slot returns 0. Otherwise it sets the slot object's frame to
- * *frame, clamped from above to numFrame << 12 (the u16 at +4 of the
- * object's resource), with a signed compare (strge/strlt), and returns 1.
- * Siblings at 0x02047804, 0x02047828, 0x020478B8 and 0x02047910 share the
- * slot lookup and are still unlabelled.
+ * PARKED AT MATCH.  Every one of the 60 concrete bytes is right; the PC24 at
+ * +0x000C is wildcarded because 0x02048918 has exactly one branch reference
+ * image wide and it is that call, so no cut of a one-function range frees it.
+ * Blocking evidence class: label/matched, no outside witness.  The site
+ * unsticks the moment 0x02048918 (220 bytes, packet pkt_02048330) is itself
+ * EXACT -- the `matched` class then resolves it with no change to this C.
+ * The sibling site, the call to 0x020482B4 at +0x0018, resolves today
+ * (`matched`, src/matched/func_020482B4.c).
  *
- * Addresses are Black-image addresses.
+ * Seed one OAM slot of a cell actor and stamp four -1 halfwords into the
+ * 8-byte record the actor keeps for it: the two calls initialise the slot and
+ * the four stores write the record at +0x16 of the indexed base, which is why
+ * the index scales by 8 (`lsl #3`) while the displacement 0x16 rides the
+ * stores.  The -1 cannot be encoded as a halfword immediate, so it takes the
+ * pool word 0x0000ffff and is loaded once for all four stores.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_020480E4.c \
+ *       --func func_020480E4 --addr 0x020480E4 --cc 1.1p1 --arm
  */
-u32 func_0204784C(struct AnmCtl *c, u16 idx, s32_1 *frame)
+void func_020480E4(Util *util, u32 i)
 {
-    struct AnmSlot *s = c->slots[idx];
-    struct AnmObj *a;
+    func_02048918(util, i);
+    func_020482B4((struct Owner *)util, i);
+    util->unit[i].resIdx = -1;
+    util->unit[i].resCount = -1;
+    util->unit[i].objIdx = -1;
+    util->unit[i].objCount = -1;
+}
 
-    if (s == 0) {
-        return 0;
+
+
+
+
+
+
+static inline struct Slot *rig_cfg(struct Rig *rig)
+{
+    return (struct Slot *)((u8 *)rig + 0x200);
+}
+
+
+
+
+
+
+
+/*
+ * Load one row of resources for the 3D utility rig.  The 8-byte slot at
+ * `rig + index * 8` names a run of the handle array at `rig->f00`: the u16 at
+ * +0x18 is the count and the u16 at +0x16 is the first index.  Each element is
+ * described by a 0xc-byte record in `desc->f00`, whose +8 word selects the
+ * source:
+ *
+ *   0  a plain archive member by id            (func_02046DB8)
+ *   1  the same id through the second table    (func_02046E90)
+ *   2  a heap-allocated node wrapping a member read by archive id
+ *   3  the same, with the member read by path
+ *
+ * The heap id is the u16 at `rig + 0x200 + 0x16`, re-read at every use, and
+ * `rig->f00` is re-read once per iteration because func_02046CE0 may store
+ * through it.  The __FILE__ argument is "g3d_util.c" at 0x020A7EB8.
+ *
+ * The two __LINE__ values are 342 and 355; the image hoists 355 out of the
+ * loop as one pool word and derives 342 from it with `sub r0, r0, #0xd`,
+ * spilling the result once
+ * (docs/idioms/consecutive-line-numbers-are-one-pool-word-and-adds.md).
+ *
+ * The rig's config base (`rig + 0x200`) must NOT be a named local: binding it
+ * to one schedules `add r8, fp, #0x200` ahead of the empty-row guard, where
+ * the image computes it after the `pople`.  Spelled as a re-evaluated inline
+ * accessor the compiler sinks it below the guard and the whole 312 bytes
+ * match.  Declaration order of the remaining locals is slotno/out/i/rec,
+ * which is what puts them in r4/r5/r6/r7
+ * (docs/idioms/declaration-order-decides-which-register-a-local-gets.md).
+ * Probed once under `../2.0/sp2` on the one-instruction scheduling residue:
+ * 340 bytes, 290 out -- not a pinned file, the fix is the C.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02048120.c \
+ *       --func func_02048120 --addr 0x02048120 --cc 1.1p1 --arm
+ */
+void func_02048120(Util *util, u16 index, const Setup *setup, u16 heapID)
+{
+    struct Rig *rig = (struct Rig *)util;
+    struct Desc *desc = (struct Desc *)setup;
+    struct Slot *slot = (struct Slot *)((u8 *)rig + index * 8);
+    int count = slot->unk_18;
+    u32 base = slot->unk_16;
+    u32 slotno;
+    u32 *out;
+    int i;
+    struct Rec_02048120 *rec;
+    void *node;
+
+    for (i = 0; i < count; i++) {
+        out = (u32 *)rig->unk_00;
+        slotno = base + i;
+        rec = &desc->unk_00[i];
+
+        switch (rec->unk_08) {
+        case 0:
+            out[slotno] = (u32)func_02046DB8(rec->unk_00, rec->unk_04);
+            break;
+        case 1:
+            out[slotno] = (u32)func_02046E90(rec->unk_00, rec->unk_04);
+            break;
+        case 2:
+            node = func_02030734(rig_cfg(rig)->unk_16, func_02046C94(), 0,
+                                 g3d_util_file, 342);
+            func_02046CE0(node,
+                          (u32 *)((u32)func_02048F60(rec->unk_00, rec->unk_04,
+                                             rig_cfg(rig)->unk_16)));
+            out[slotno] = (u32)node;
+            break;
+        case 3:
+            node = func_02030734(rig_cfg(rig)->unk_16, func_02046C94(), 0,
+                                 g3d_util_file, 355);
+            func_02046CE0(node,
+                          (u32 *)((u32)func_02048F9C((const char *)rec->unk_00, rec->unk_04,
+                                             rig_cfg(rig)->unk_16)));
+            out[slotno] = (u32)node;
+            break;
+        }
     }
-    a = s->obj;
-    if (*frame >= (s32_1)(a->res->numFrame << 12)) {
-        a->frame = a->res->numFrame << 12;
+}
+
+
+
+
+
+
+
+/*
+ * Build one row of the array the slot record at `owner + index * 8`
+ * describes: the u16 at +0x18 is the element count and the u16 at +0x16 is
+ * the row's first index, and each element is the result of func_02046E24
+ * on the corresponding 0xc-byte record's +4 halfword, with the caller's
+ * fifth argument forwarded as its first.
+ *
+ * The count is signed in the original (`cmp` plus `pople` for the empty
+ * row, `blt` on the back edge), and the destination is written through the
+ * owner's own +0 pointer, re-read once per iteration because the callee may
+ * store it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02048258.c \
+ *       --func func_02048258 --addr 0x02048258 --cc 1.1p1 --arm
+ */
+void func_02048258(struct Owner *owner, u16 index, struct Holder *p, u32 a4,
+                   u32 a5)
+{
+    struct Slot *slot = (struct Slot *)((u8 *)owner + index * 8);
+    u16 count = slot->unk_18;
+    u16 base = slot->unk_16;
+    int i;
+
+    for (i = 0; i < count; i++) {
+        ((u32 *)owner->unk_00)[base + i] =
+            (u32)func_02046E24(a5, p->unk_00[i].unk_04);
+    }
+}
+
+
+
+
+
+
+/*
+ * Tear down one row of the array: for each of the slot record's +0x18
+ * elements (starting at the +0x16 index) that is not null, clear the
+ * matching byte of the owner's second array (base + index), then run
+ * func_02046F50 with mode 2 and, only when it answers exactly one,
+ * func_020470D0, and finally func_02046EFC on the element either way.
+ *
+ * The same signed count and `blt` back edge as func_02048258, and the same
+ * re-read of the owner's element pointer per iteration.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020482B4.c \
+ *       --func func_020482B4 --addr 0x020482B4 --cc 1.1p1 --arm
+ */
+void func_020482B4(struct Owner *owner, u32 index)
+{
+    struct Slot *slot = (struct Slot *)((u8 *)owner + index * 8);
+    u16 count = slot->unk_18;
+    u16 base = slot->unk_16;
+    int i;
+
+    for (i = 0; i < count; i++) {
+        u32 v = ((u32 *)owner->unk_00)[base + i];
+
+        if (v != 0) {
+            owner->unk_04[base + i] = 0;
+
+            if (func_02046F50((struct Tagged *)v, 2) == 1)
+                func_020470D0((u32 *)v);
+
+            func_02046EFC((struct Tagged *)v);
+        }
+    }
+}
+
+
+
+
+
+
+static inline void createRes(Util *util, const ResSetup *rs, void **out)
+{
+    switch (rs->type) {
+    case 0:
+        *out = func_02046DB8(rs->arc, rs->dat);
+        break;
+    case 1:
+        *out = func_02046E90(rs->arc, rs->dat);
+        break;
+    case 2:
+        *out = func_02030734(util->heapID, func_02046C94(), 0, g3d_util_file, 342);
+        func_02046CE0(*out, func_02048F60(rs->arc, rs->dat, util->heapID));
+        break;
+    case 3:
+        *out = func_02030734(util->heapID, func_02046C94(), 0, g3d_util_file, 355);
+        func_02046CE0(*out, func_02048F9C((const char *)rs->arc, rs->dat, util->heapID));
+        break;
+    }
+}
+
+
+
+
+
+
+static inline int getRes(Util *util, u16 resIdx, u16 idx, const Setup *setup, void **out)
+{
+    if (util->resStat[resIdx + idx] == 1) {
+        createRes(util, &setup->resTbl[idx], out);
+        return 1;
     } else {
-        a->frame = *frame;
+        util->resStat[resIdx + idx] = 1;
+        *out = util->res[resIdx + idx];
+        return 0;
     }
-    return 1;
+}
+
+
+
+
+
+
+/*
+ * g3d_util.c (the __FILE__ word 0x020A7EB8 of this family).  The utility
+ * object is 0x218 bytes: resource handle table and status bytes at +0x00 /
+ * +0x04 with a u16 count at +0x08, object table and status bytes at +0x0c /
+ * +0x10 with a u16 count at +0x14, 0x40 eight-byte unit records from +0x16
+ * {resIdx, resCount, objIdx, objCount}, and the u16 heap id at +0x216.  See
+ * docs/families/g3d_util.h.
+ *
+ * Build the objects of one unit, loading any model or texture resource the
+ * unit's resource status says is still pending.  Per object: resolve the
+ * model through getRes (load it by its setup record's type when its status
+ * byte is 1, else mark it and take the loaded handle), set bit 0 of the
+ * object status when it had to be loaded; resolve the texture the same way
+ * when it is a separate resource that answers func_02046F50(res, 1) == 1
+ * (bit 1, then func_02046FF8), bind them with func_02047400, build the
+ * animation array in a low-heap scratch block (__LINE__ 534) and create the
+ * object with func_0204767C.
+ *
+ * The two inline helpers are the lever: createRes writes its result
+ * through the caller's out pointer in every case (no local result), which
+ * is what keeps the model handle in its stack home [sp,#0x14] and the
+ * texture handle in fp without a copy.  With a helper that returns the
+ * handle the compiler adds a register copy after each inlined switch
+ * (1048 bytes).  The switch is the one func_02048120 carries, __LINE__ 342
+ * and 355 (the second copy derives 355 from the live constant 1 with rsb).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02048330.c --func func_02048330 --addr 0x02048330 --cc 1.1p1 --arm
+ */
+void func_02048330(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
+{
+    u16 resIdx = util->unit[unitIdx].resIdx;
+    u16 objIdx = util->unit[unitIdx].objIdx;
+    u16 objCount = util->unit[unitIdx].objCount;
+    void *mdl;
+    void *tex;
+    void *rnd;
+    void **anm;
+    const ObjSetup *os;
+    void *a;
+    int i, j;
+
+    for (i = 0; i < objCount; i++) {
+        os = &setup->objTbl[i];
+        if (getRes(util, resIdx, setup->objTbl[i].mdlResIdx, setup, &mdl) == 1)
+            util->objStat[objIdx + i] |= 1;
+        if (os->texResIdx != os->mdlResIdx) {
+            if (func_02046F50(util->res[resIdx + os->texResIdx], 1) == 1) {
+                if (getRes(util, resIdx, os->texResIdx, setup, &tex) == 1) {
+                    util->objStat[objIdx + i] |= 2;
+                    func_02046FF8(tex);
+                }
+            } else {
+                tex = util->res[resIdx + os->texResIdx];
+                func_02046FF8(tex);
+            }
+        } else {
+            tex = mdl;
+            if (func_02047348(mdl) == 0)
+                func_02046FF8(mdl);
+        }
+        rnd = func_02047400(mdl, os->mdlDatIdx, tex);
+        anm = func_02030734((heapID & 0x7fff) | 0x8000, os->anmCount * 4, 1,
+                            g3d_util_file, 534);
+        for (j = 0; j < os->anmCount; j++) {
+            if (os->anmTbl[j].anmResIdx == 0xff)
+                a = 0;
+            else
+                a = func_02047564(rnd, util->res[resIdx + os->anmTbl[j].anmResIdx],
+                                  os->anmTbl[j].anmDatIdx);
+            anm[j] = a;
+        }
+        util->obj[objIdx + i] = func_0204767C((u32)rnd, (u32 *)anm, os->anmCount);
+        func_020307B0(anm);
+    }
+}
+
+
+
+
+
+static inline void *getResSlot(Util *util, u16 resIdx, u16 idx)
+{
+    return util->res[resIdx + idx];
+}
+
+
+
+
+
+static inline void *useRes(Util *util, u16 resIdx, u16 idx)
+{
+    util->resStat[resIdx + idx] = 1;
+    return util->res[resIdx + idx];
+}
+
+
+
+
+
+/*
+ * g3d_util.c, same utility object as func_02048330 (see that file and
+ * docs/families/g3d_util.h).  Build the render objects of one unit whose
+ * resources are already loaded: per object, mark the model resource used,
+ * resolve the texture resource (mark it used when func_02046F50 reports type
+ * 1, else release it through func_02046FF8; a shared model/texture resource is
+ * released when func_02047348 reports 0), create the render object, allocate
+ * and fill its animation array (0xff = no animation), bind them into the
+ * object slot, and free the array.
+ *
+ * Register lever (waves 16-21, 14 bytes out at best): with plain `int i, j`
+ * the outer counter colours before the inner counter (i r8, objTbl/j sb, the
+ * image has i sb, objTbl/j r8); `long i, j` swaps resIdx and i instead.  The
+ * increment spelled as a null-based pointer step,
+ * `i = (int)((char *)0 + i + 1)`, emits the same `add sb, sb, #1` but moves
+ * i's loop-carried web to the end of the colouring order, exactly as a
+ * sign-extending `short i` did at the cost of 8 bytes.  `(u8 *)0` is equally
+ * EXACT; `(int)((char *)i + 1)`, `(int)((u8 *)0 + (i + 1))` and
+ * `(int)&((u8 *)0)[i + 1]` stay at 18 (wave 21, lane D4).
+ */
+void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
+{
+    u16 resIdx = util->unit[unitIdx].resIdx;
+    u16 objIdx = util->unit[unitIdx].objIdx;
+    u16 objCount = util->unit[unitIdx].objCount;
+    void *mdl;
+    void *tex;
+    void *rnd;
+    void **anm;
+    const ObjSetup *os;
+    void *a;
+    int i, j;
+
+    for (i = 0; i < objCount; i = (int)((char *)0 + i + 1)) {
+        os = &setup->objTbl[i];
+        mdl = useRes(util, resIdx, setup->objTbl[i].mdlResIdx);
+        if (os->texResIdx != setup->objTbl[i].mdlResIdx) {
+            if (func_02046F50(getResSlot(util, resIdx, os->texResIdx), 1) == 1) {
+                tex = useRes(util, resIdx, os->texResIdx);
+            } else {
+                tex = getResSlot(util, resIdx, os->texResIdx);
+                func_02046FF8(tex);
+            }
+        } else {
+            tex = mdl;
+            if (func_02047348(mdl) == 0)
+                func_02046FF8(mdl);
+        }
+        rnd = func_02047400(mdl, os->mdlDatIdx, tex);
+        anm = func_02030734((heapID & 0x7fff) | 0x8000, os->anmCount * 4, 1,
+                            g3d_util_file, 609);
+        for (j = 0; j < os->anmCount; j++) {
+            if (os->anmTbl[j].anmResIdx == 0xff)
+                a = 0;
+            else
+                a = func_02047564(rnd, getResSlot(util, resIdx, os->anmTbl[j].anmResIdx),
+                                  os->anmTbl[j].anmDatIdx);
+            anm[j] = a;
+        }
+        util->obj[objIdx + i] = func_0204767C((u32)rnd, (u32 *)anm, os->anmCount);
+        func_020307B0(anm);
+    }
+}
+
+
+
+
+
+/*
+ * g3d_util.c (the __FILE__ word 0x020A7EB8 of this family).  The utility
+ * object is 0x218 bytes: resource handle table and status bytes at +0x00 /
+ * +0x04 with a u16 count at +0x08, object table and status bytes at +0x0c /
+ * +0x10 with a u16 count at +0x14, 0x40 eight-byte unit records from +0x16
+ * {resIdx, resCount, objIdx, objCount}, and the u16 heap id at +0x216.  See
+ * docs/families/g3d_util.h.
+ *
+ * Delete the objects of one unit: per object take the render object
+ * (0x02047788) and the animation count (0x0204779C), delete every animation
+ * (0x0204762C on 0x02047790's result), release the texture paths chosen by
+ * the status byte, then delete the render object and the object.  The
+ * listing extent (268) runs into the unlabelled accessors of
+ * src/matched/unit_020489F4.c, hence EXACT* until 0x020489F4 is seeded.
+ * The one register tie documented in docs/notes/pkt_02048330.c.txt closed
+ * with the library shape plus `rnd` declared before `obj`.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02048918.c --func func_02048918 --addr 0x02048918 --cc 1.1p1 --arm
+ */
+void func_02048918(Util *util, u32 unitIdx)
+{
+    u16 objIdx = util->unit[unitIdx].objIdx;
+    u16 objCount = util->unit[unitIdx].objCount;
+    void *rnd;
+    void *obj;
+    u16 anmCount;
+    int i, j;
+
+    for (i = 0; i < objCount; i++) {
+        obj = util->obj[objIdx + i];
+        rnd = (void *)func_02047788(obj);
+        anmCount = func_0204779C(obj);
+        for (j = 0; j < anmCount; j++)
+            func_0204762C((struct Rec *)func_02047790(obj, (u16)j));
+        if (util->objStat[objIdx + i] & 0xfd) {
+            void *tex = (void *)func_02047554(rnd);
+            func_020470D0(tex);
+            func_02046EFC(tex);
+        }
+        if (util->objStat[objIdx + i] & 0xfe)
+            func_02046EFC((struct Tagged *)func_0204754C(rnd));
+        func_02047504(rnd);
+        func_02047738(obj);
+    }
 }
 
 
 
 
 /*
- * Looks up entry idx of the table at a[2]; on a hit stores the u16 at
- * entry->f4->f8->f4 shifted to 20.12 fixed point and returns 1.  Filed as the
- * witness for ov021 func_021D0750.
+ * Four twelve-byte accessors on the 8-byte record array that func_02048918
+ * walks: two halfword getters at +0x1a and +0x1c of record `i`, and two word
+ * getters through the pointers at +0 and +0xc of a different object.
+ *
+ * None of them carries a label in the generated listing: they are leaves whose
+ * prologue saves nothing, and `disasm.py` only auto-labels a function whose
+ * prologue saves `lr`
+ * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  They were
+ * read out of the bytes.  The worklist's own function list for pkt_02048330
+ * stops at the labelled bodies, so these four are the 48-byte hole between
+ * func_02048918 and func_02048A24 - the range is contiguous and this unit
+ * reproduces all of it.
+ *
+ * Three of the four instructions in the first pair are the same in both:
+ * `add r0, r0, r1, lsl #3` is the record stride of 8 folded into the add, and
+ * the halfword offset rides in the load.
  */
-int func_02047888(int *a, int idx, int *out)
+u32 sub_020489F4(u8 *a0, int i)
 {
-    int *p = ((int **)a[2])[idx];
-    if (p == 0) {
-        return 0;
-    }
-    *out = ((u16 *)((int *)p[1])[2])[2] << 12;
-    return 1;
+    return *(u16 *)(a0 + i * 8 + 0x1a);
 }
 
 
 
-/*
- * Unlabelled ARM leaf: advance a clamped counter.  a is a table base whose
- * slot [idx] holds an object; the object's word at +4 points at a run state
- * (counter at +0, descriptor pointer at +8) whose descriptor's u16 at +4 is a
- * limit in units of 0x1000.  Adds amount to the counter; if it reaches the
- * limit it rewinds by one 0x1000 and returns 0, if it goes negative it pins to
- * zero and returns 0, otherwise returns 1.
- */
-int func_020478B8(void *a, int idx, int amount)
+
+u32 sub_02048A00(u8 *a0, int i)
 {
-    struct Obj **tbl = *(struct Obj ** *)&((struct Obj06972 *)a)->f8;
-    struct Obj *e = tbl[idx];
-    struct Run *r;
-    int nv;
-    u32 lim;
-
-    if (e == 0) {
-        return 0;
-    }
-
-    r = e->run;
-    nv = (int)r->cur + amount;
-    r->cur = (u32)nv;
-
-    lim = (u32)((struct Obj16059 *)(r->desc))->f4 << 12;
-    if (nv >= (int)lim) {
-        r->cur = lim - 0x1000;
-        return 0;
-    }
-    if (nv < 0) {
-        r->cur = 0;
-        return 0;
-    }
-    return 1;
+    return *(u16 *)(a0 + i * 8 + 0x1c);
 }
 
 
 
-/*
- * Unlabelled ARM leaf: the sibling of func_020478B8 with a different clamp
- * policy.  Advance the counter of the run state reached through a's table slot
- * [idx]; if it reaches the descriptor limit it pins the counter to zero and
- * returns 0, if it goes negative it pins it to the limit and returns 0,
- * otherwise returns 1.
- */
-int func_02047910(void *a, int idx, int amount)
+
+u32 sub_02048A0C(u8 *a0, int i)
 {
-    struct Obj **tbl = *(struct Obj ** *)&((struct Obj06972 *)a)->f8;
-    struct Obj *e = tbl[idx];
-    struct Run *r;
-    int nv;
-    u32 lim;
+    return *(u32 *)((u8 *)((struct Obj17329 *)a0)->f0 + i * 4);
+}
 
-    if (e == 0) {
-        return 0;
-    }
 
-    r = e->run;
-    nv = (int)r->cur + amount;
-    r->cur = (u32)nv;
 
-    lim = (u32)((struct Obj16062 *)(r->desc))->f4 << 12;
-    if (nv >= (int)lim) {
-        r->cur = 0;
-        return 0;
+
+u32 sub_02048A18(u8 *a0, int i)
+{
+    return *(u32 *)((u8 *)((struct Obj17330 *)a0)->fC + i * 4);
+}
+
+
+
+
+/*
+ * Constructor for a 0x44-byte record: eight words straight from the
+ * parameters, then three 12-byte (three-word) aggregates at +0x20, +0x2C and
+ * +0x38, each copied with `ldm`/`stm` because a three-word aggregate is above
+ * the point where the compiler moves them word by word.  The last parameter
+ * is a `u16` heap id -- it arrives at [sp+0x34] and is read with `ldrh`, and
+ * it is forwarded widened to the allocator, which is the same
+ * func_02030734(heap, size, 0, file, line) debug allocator every other site
+ * in src/matched/ spells the same way (the pool word is this translation
+ * unit's allocation-site string, 0x020A7EC4).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02048A24.c \
+ *       --func func_02048A24 --addr 0x02048A24 --cc 1.1p1 --arm
+ */
+u32 *func_02048A24(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
+                   Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap)
+{
+    u32 *p = (u32 *)func_02030734(heap, 0x44, 0, g_020A7EC4, 0x38);
+
+    p[0] = a1;
+    p[1] = a2;
+    p[2] = a3;
+    p[3] = a4;
+    p[4] = a5;
+    p[5] = a6;
+    p[6] = a7;
+    p[7] = a8;
+    *(Vec3 *)(p + 8) = *a9;
+    *(Vec3 *)(p + 11) = *a10;
+    *(Vec3 *)(p + 14) = *a11;
+    return p;
+}
+
+
+
+
+u32 func_02048AC4(void *ptr)
+{
+    return func_020307B0(ptr);
+}
+
+
+
+
+/*
+ * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
+ * fifteen of them `bx lr` leaves that save no lr and therefore carry no
+ * disasm.py label of their own (see
+ * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
+ * is one translation unit.
+ *
+ *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
+ *               then 0x02046B40 over the vector block at +0x20
+ *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
+ *   0x02048AFC  write it
+ *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
+ *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
+ *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
+ *   0x02048B6C  write +0x18 through a pointer
+ *   0x02048B78  return +0x00 by value
+ *   0x02048B80  store +0x04 by value
+ *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
+ *               value
+ *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
+ *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
+ *
+ * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
+ * 0x02048B88: the same three offsets accessed twice over, which is what a
+ * second object type sharing the first three words looks like in source.
+ * They are written out here as separate functions over a second struct tag
+ * rather than folded, because the image has six separate entry points.
+ *
+ * The twelve-byte vector moves are plain aggregate assignments; the paired
+ * `ldm`/`stm` is the inlined struct copy, not a loop
+ * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
+ *       --addr 0x02048AD0 --cc 1.1p1 --arm
+ */
+void func_02048AD0(struct Light *l)
+{
+    func_02046858((const u32 *)l);
+    func_02046B40((u8 *)(&l->unk20));
+}
+
+
+
+void func_02048AE8(struct Light *l, VecFx32 *out)
+{
+    *out = l->unk20;
+}
+
+
+
+void func_02048AFC(struct Light *l, const VecFx32 *in)
+{
+    l->unk20 = *in;
+}
+
+
+
+void func_02048B0C(struct Light *l, VecFx32 *out)
+{
+    *out = l->unk2C;
+}
+
+
+
+void func_02048B20(struct Light *l, const VecFx32 *in)
+{
+    l->unk2C = *in;
+}
+
+
+
+void func_02048B30(struct Light *l, VecFx32 *out)
+{
+    *out = l->unk38;
+}
+
+
+
+void func_02048B44(struct Light *l, const VecFx32 *in)
+{
+    l->unk38 = *in;
+}
+
+
+
+void func_02048B54(struct Light *l, u32 *out)
+{
+    *out = l->unk14;
+}
+
+
+
+void func_02048B60(struct Light *l, const u32 *in)
+{
+    l->unk14 = *in;
+}
+
+
+
+void func_02048B6C(struct Light *l, const u32 *in)
+{
+    l->unk18 = *in;
+}
+
+
+
+int func_02048B78(struct Light *l)
+{
+    return l->unk00;
+}
+
+
+
+void func_02048B80(struct Light *l, u32 v)
+{
+    l->unk04 = v;
+}
+
+
+
+void func_02048B88(struct Light *l, u32 *out)
+{
+    *out = l->unk08;
+}
+
+
+
+void func_02048B94(struct Light *l, u32 v)
+{
+    l->unk08 = v;
+}
+
+
+
+void func_02048B9C(struct Light *l, u32 *out)
+{
+    *out = l->unk04;
+}
+
+
+
+void func_02048BA8(struct Light *l, u32 v)
+{
+    l->unk04 = v;
+}
+
+
+
+void func_02048BB0(struct Light *l, u32 *out)
+{
+    *out = l->unk08;
+}
+
+
+
+void func_02048BBC(struct Light *l, u32 v)
+{
+    l->unk08 = v;
+}
+
+
+/*
+ * g3d_light.c's light-set builder, 0x02048BC4-0x02048C48 plus its one pool
+ * word.  It allocates a 0x20-byte table of four eight-byte slots through the
+ * debug allocator at 0x02030734 (file 0x020A7ED4, which spells "g3d_light.c",
+ * line 43) and scatters a packed ten-byte record array into it: each record
+ * names its destination slot in its first byte and carries four halfwords.
+ *
+ * The record stride is a `mov r2, #0xa` and a `mul`, not a shift chain, so
+ * the record really is ten bytes wide and the index really is an `int`.
+ *
+ * The loop bound is an unsigned char compared signed (`ble` on the rotation
+ * test, `blt` on the back edge), which is the plain `int i; i < s->count`
+ * shape after integer promotion, not an unsigned loop.
+ *
+ * The header pointer is `const`, and that is the whole difference between
+ * this file and a sixteen-byte-longer near miss: both `s->recs` and
+ * `s->count` are still reloaded on every iteration, but with `const` the
+ * closing test's `ldrb r3, [r4, #4]` schedules at the *top* of the body,
+ * above the halfword stores, which costs one more callee-saved register and
+ * turns the five-register push into the six-register one that carries the
+ * outgoing fifth argument without a `sub sp, sp, #4`.  See
+ * docs/idioms/const-hoists-the-loop-test-load-above-the-body-stores.md.
+ *
+ * The next thing in the image after this function's pool is the eight-byte
+ * ARM long-branch veneer at 0x02048C4C, so no unit may run past 0x02048C4C
+ * (docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md).
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_02048BC4.c \
+ *       --addr 0x02048BC4 --cc 1.1p1 --arm
+ */
+struct LightSlot *func_02048BC4(const struct LightSet *s, u16 heap)
+{
+    struct LightSlot *out;
+    int i;
+
+    out = (struct LightSlot *)func_02030734(heap, 0x20, 1,
+                                            func_02048BC4_File, 43);
+    for (i = 0; i < s->count; i++) {
+        struct LightRec *r = &s->recs[i];
+        u32 slot = r->slot;
+
+        out[slot] = r->val;
     }
-    if (nv < 0) {
-        r->cur = lim;
-        return 0;
-    }
-    return 1;
+    return out;
+}
+
+u32 func_02048C4C(void *p)
+{
+    return func_020307B0(p);
 }

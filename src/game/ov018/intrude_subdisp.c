@@ -1,7 +1,7 @@
 /*
  * file:     intrude_subdisp.c
  * unit:     yes
- * function: func_0217C758, func_0217C820, func_0217C914, func_0217CA1C, func_0217CA40, func_0217CA84, func_0217CAFC, func_0217CDBC, func_0217CDD0, func_0217CE08, func_0217CE6C, func_0217CEE8, func_0217CF0C, func_0217CF68, func_0217CF88, func_0217CFE4, func_0217D160, func_0217D1C0, func_0217D3AC, func_0217D4DC, func_0217D5AC, func_0217D624, func_0217D6C8, func_0217D720, func_0217D870, func_0217D890, func_0217D904, func_0217D918, func_0217DA18, func_0217DA54, func_0217DA90, func_0217DAA8, func_0217DB4C, func_0217DBAC, func_0217DC14, func_0217DC9C, func_0217DCFC, func_0217DD48, func_0217DE44, func_0217DE68, func_0217E014, func_0217E0F4, func_0217E2E0, func_0217E3D0, func_0217E4D0, func_0217E524, func_0217E638, func_0217E714, func_0217EBD8, func_0217EC08, func_0217EC44, func_0217EC5C, func_0217EC7C, func_0217EEB4, func_0217EF44, func_0217EF70, func_0217EFCC, func_0217F008, func_0217F0C4, func_0217F0FC, func_0217F118, func_0217F174, func_0217F194, func_0217F1E8, func_0217F214, func_0217F240, func_0217F284, func_0217F2B4, func_0217F318, func_0217F36C, func_0217F390, func_0217F3A4, func_0217F3C4, func_0217F3E4, func_0217F40C, func_0217F420, func_0217F434, func_0217F45C, func_0217F470, func_0217F4A0, func_0217F4C4, func_0217F4D8, func_0217F508, func_0217F528, func_0217F574, func_0217F58C, func_0217F5A0, func_0217F5F0, func_0217F648, func_0217F67C, func_0217F6A0, func_0217F8A0, func_0217F8D0, func_0217F914, func_0217F938, func_0217F95C, func_0217FA1C, func_0217FA24, func_0217FA38, func_0217FAE0, func_0217FB2C, func_0217FB5C, func_0217FB94, func_0217FC08, func_0217FC6C, func_0217FCAC, func_0217FD34, func_0217FDA0, func_0217FE38, func_0217FE6C, func_021800A4, func_021802A8, func_0218034C, func_021803F0, func_021804F8, func_02180538, func_021808C4, func_021808E8, func_02180978, func_02180980, func_021809A4, func_02180B14, func_02180B38, func_02180BDC, func_02180C00, func_02180CA4, func_02180CC8, func_02180DE8, func_02180E0C, func_02180EB0, func_02180ED4, func_02180FA8, func_02180FCC, func_0218111C, func_02181140, func_021811E4, func_0218123C, func_0218152C, func_02181584, func_0218186C, func_021818C4, func_0218191C, func_02181940, func_021819D0, func_021819F4, func_02181A74, func_02181A98, func_02181B44, func_02181B68, func_02181BE8, func_02181C0C, func_02181D8C, func_02181DD4, func_02181E6C, func_02181E90, func_02181F10, func_02181F34, func_02181FB4, func_02181FD8, func_02182080, func_021820A4, func_02182124, func_02182150, func_021821B0, func_02182214, func_0218236C, func_021823A8, func_021825F8, func_0218261C
+ * function: func_0217C758, func_0217C820, func_0217C914, func_0217CA1C, func_0217CA40, func_0217CA84, func_0217CAFC, func_0217CDBC, func_0217CDD0, func_0217CE08, func_0217CE6C, func_0217CEE8, func_0217CF0C, func_0217CF68, func_0217CF88, func_0217CFE4, func_0217D160, func_0217D1C0, func_0217D3AC, func_0217D4DC, func_0217D5AC, func_0217D624, func_0217D6C8, func_0217D720, func_0217D870, func_0217D890, func_0217D904, func_0217D918, func_0217DA18, func_0217DA54, func_0217DA90, func_0217DAA8, func_0217DB4C, func_0217DBAC, func_0217DC14, func_0217DC9C, func_0217DCFC, func_0217DD48, func_0217DE44, func_0217DE68, func_0217E014, func_0217E0F4, func_0217E2E0, func_0217E3D0, func_0217E4D0, func_0217E524, func_0217E638, func_0217E714, func_0217EBD8, func_0217EC08, func_0217EC44, func_0217EC5C, func_0217EC7C, func_0217EEB4, func_0217EF44, func_0217EF70, func_0217EFCC, func_0217F008, func_0217F0C4, func_0217F0FC, func_0217F118, func_0217F174, func_0217F194, func_0217F1E8, func_0217F214, func_0217F240, func_0217F284, func_0217F2B4, func_0217F318, func_0217F36C, func_0217F390, func_0217F3A4, func_0217F3C4, func_0217F3E4, func_0217F40C, func_0217F420, func_0217F434, func_0217F45C, func_0217F470, func_0217F4A0, func_0217F4C4, func_0217F4D8, func_0217F508, func_0217F528, func_0217F574, func_0217F58C, func_0217F5A0, func_0217F5F0, func_0217F648, func_0217F67C, func_0217F6A0, func_0217F8A0, func_0217F8D0, func_0217F914, func_0217F938, func_0217F95C, func_0217FA1C, func_0217FA24, func_0217FA38, func_0217FAE0, func_0217FB2C, func_0217FB5C, func_0217FB94, func_0217FC08, func_0217FC6C, func_0217FCAC, func_0217FD34, func_0217FDA0, func_0217FE38, func_0217FE6C, func_021800A4, func_021802A8, func_0218034C, func_021803F0, func_021804F8, func_02180538, func_021808C4, func_021808E8, func_02180978, func_02180980, func_021809A4, func_02180B14, func_02180B38, func_02180BDC, func_02180C00, func_02180CA4, func_02180CC8, func_02180DE8, func_02180E0C, func_02180EB0, func_02180ED4, func_02180FA8, func_02180FCC, func_0218111C, func_02181140, func_021811E4, func_0218123C, func_0218152C, func_02181584, func_0218186C, func_021818C4, func_0218191C, func_02181940, func_021819D0, func_021819F4, func_02181A74, func_02181A98, func_02181B44, func_02181B68, func_02181BE8, func_02181C0C, func_02181D8C, func_02181DD4, func_02181E6C, func_02181E90, func_02181F10, func_02181F34, func_02181FB4, func_02181FD8, func_02182080, func_021820A4, func_02182124, func_02182150, func_021821B0, func_02182214, func_0218236C, func_021823A8, func_021825F8, func_0218261C, func_021828A8, func_021828B0
  * address:  0x0217C758
  * region:   ov018
  * compiler: dsi/1.1p1
@@ -386,6 +386,8 @@
  *   func_0200C29C  0x0200C29C  thumb
  *   func_02007E3C  0x02007E3C  thumb
  *   d_021839A4     0x021839A4  data  a2
+ *   func_0218236C  0x0218236C  thumb  ov018
+ *   func_021825F8  0x021825F8  thumb  ov018
  */
 #include "../../matched/include/G_Tmpl.h"
 #include "../../matched/include/Obj02674.h"
@@ -1835,6 +1837,8 @@ void func_0217C758(Rec *r, void *a1, void *a2, void *a3, u16 id, u8 kind,
         func_0216DAC8(r->f14, 0);
     }
 }
+void func_021828A8(void *a, void *b);
+void func_021828B0(void *a, void *b);
 
 
 
@@ -8145,4 +8149,14 @@ int func_0218261C(void *a, int *state, Outer_021825F8 *c)
         return 1;
     }
     return 0;
+}
+
+void func_021828A8(void *a, void *b)
+{
+    func_0218236C(a, b);
+}
+
+void func_021828B0(void *a, void *b)
+{
+    func_021825F8(a, b);
 }

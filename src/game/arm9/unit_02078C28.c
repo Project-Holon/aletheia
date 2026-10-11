@@ -1,6 +1,6 @@
 /*
  * file:     unit_02078C28.c
- * function: func_02078C28
+ * function: func_02078C28, func_02078C34
  * address:  0x02078C28
  * packet:   pkt_02078C28
  * region:   arm9
@@ -9,9 +9,17 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *   func_02077F44  0x02077F44  arm
  */
 
 typedef unsigned int   u32;
 struct FSFile;
 extern u32 func_02078A94(struct FSFile *file);
+extern int func_02077F44(const char *path);
+int func_02078C34(const char *path);
 u32 func_02078C28(struct FSFile *a0){ return func_02078A94(a0); }
+
+int func_02078C34(const char *path)
+{
+    return func_02077F44(path);
+}

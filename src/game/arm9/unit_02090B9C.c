@@ -1,6 +1,6 @@
 /*
  * file:     unit_02090B9C.c
- * function: WM_StartKeySharing
+ * function: WM_StartKeySharing, func_02090BB8
  * address:  0x02090B9C
  * packet:   pkt_02090B9C
  * region:   arm9
@@ -12,10 +12,13 @@
  *
  * symbols:
  *   func_0209004C 0x0209004C arm
+ *   func_0209028C  0x0209028C  arm
  */
 
 extern void func_0209004C(void);
 
+extern void func_0209028C(void);
+void func_02090BB8(void);
 asm void WM_StartKeySharing(void)
 {
     stmfd sp!, {r3, lr}
@@ -25,4 +28,9 @@ asm void WM_StartKeySharing(void)
     str	ip, [sp]
     bl	func_0209004C
     ldmfd sp!, {r3, pc}
+}
+
+void func_02090BB8(void)
+{
+    func_0209028C();
 }

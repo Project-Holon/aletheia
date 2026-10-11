@@ -1,6 +1,6 @@
 # unit_0216AB20 (ov009)
 
-Merged as far as the greedy pass allows: 7 part files remain (unit_0216AB20_pNN.c, address order),
+Merged as far as the greedy pass allows: 5 part files remain (unit_0216AB20_pNN.c, address order),
 each byte-exact. Adjacent parts do not merge because of:
 
 - the same global or struct seen through different local views (DWC structs such as
@@ -11,5 +11,10 @@ each byte-exact. Adjacent parts do not merge because of:
   change the bytes;
 - prototypes that differ between members (void * vs typed parameters).
 
-Offset-compatible views were already unified by scratchpad tool un3.py. A later struct
+Boundaries p05|p06|p07 of the old numbering closed in wave 14 (tail-call stubs at 0x0216C224 and 0x0216C79C are plain C functions; p06 now uses struct DwcGlobal). Offset-compatible views were already unified by scratchpad tool un3.py. A later struct
 pass has to settle the conflicting offsets.
+- `unit_0216AB20_p01.c`
+- `unit_0216AB20_p02.c`
+- `unit_0216AB20_p03.c`
+- `unit_0216AB20_p04.c`
+- `unit_0216AB20_p05.c`

@@ -1,7 +1,7 @@
 /*
  * file:     net_state_p02.c
  * unit:     yes
- * function: func_0203675C, func_020367C4, func_020368C0, func_020369C8, func_020369F8, func_02036A50, func_02036AF4, func_02036B4C, func_02036B88, func_02036B98, func_02036BD4, func_02036CA8, func_02036D64, func_02036DC8, func_02036E74, func_02036E80, func_02036EC8, func_02036F04, func_02036F24, func_02036FD8, func_02037010, func_020370C8, func_020370F4, func_02037118, func_02037154, func_02037174, func_02037190, func_020371AC, func_020371D8, func_02037200, func_02037224, func_02037234, func_02037258, func_02037288, func_02037478, func_02037680, func_02037700, func_0203778C
+ * function: func_0203675C, func_020367C4, func_020368C0, func_020369C8, func_020369F8, func_02036A50, func_02036AF4, func_02036B4C, func_02036B88, func_02036B98, func_02036BD4, func_02036CA8, func_02036D64, func_02036DC8, func_02036E74, func_02036E80, func_02036EC8, func_02036F04, func_02036F24, func_02036FD8, func_02037010, func_020370C8, func_020370F4, func_02037118, func_02037154, func_02037174, func_02037190, func_020371AC, func_020371D8, func_02037200, func_02037224, func_02037234, func_02037258, func_02037288, func_02037478, func_02037680, func_02037700, func_0203778C, func_020377AC
  * address:  0x0203675C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -51,6 +51,7 @@
  *   str_020A7A34   0x020A7A34  data
  *   func_0203D798  0x0203D798  arm
  *   g_020387A0     0x020387A0  data
+ *   func_020380E4  0x020380E4  arm
  */
 #include "../../matched/include/Obj04748.h"
 #include "../../matched/include/Obj11349.h"
@@ -285,6 +286,8 @@ void func_02037478(void);
 void func_02037680(int i);
 int func_02037700(u32 a0, u32 a1);
 u32 func_0203778C(u32 p);
+extern u32 func_020380E4(u32 a0, u8 *rec, u32 len);
+u32 func_020377AC(u32 a0, u8 *rec, u32 len);
 extern char g_020A79C4[];
 extern char g_020A79D0[];
 extern char g_020A79D4[];
@@ -1361,4 +1364,9 @@ u32 func_0203778C(u32 p)
     u32 (*f)(u32) = *(u32 (**)(u32))(*(char * *)&((struct Obj15915 *)c)->f340 + 0x90);
 
     return f(p);
+}
+
+u32 func_020377AC(u32 a0, u8 *rec, u32 len)
+{
+    return func_020380E4(a0, rec, len);
 }

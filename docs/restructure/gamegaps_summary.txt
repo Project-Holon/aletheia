@@ -1,62 +1,54 @@
 count/bytes of uncovered pieces per region and class
 region                        pad       veneer         leaf         func         frag         data   src fns  code range
-arm9                            -       60/700       11/140            -         6/24      17/2982      6762  0x02004000-0x0209D86C
+arm9                            -            -         9/72            -         8/84      15/2922      6824  0x02004000-0x0209D86C
 arm9_autoload0_ITCM          1/32            -            -            -            -            -        11  0x01FF8000-0x01FF8804
-twl                             -            -         2/56        1/312        2/112     4/159142       331  0x02700000-0x02732D54
-ov009                           -         7/84         3/36            -            -            -      1656  0x02155160-0x021A1974
-ov010                           -          1/8         4/16         1/40            -         2/56      1730  0x02155160-0x0216FED8
+twl                             -            -         2/56            -        2/112     4/159142       332  0x02700000-0x02732D54
+ov010                           -            -         4/16            -            -         2/56      1732  0x02155160-0x0216FED8
 ov012                           -            -         1/12            -            -            -       151  0x02172BC0-0x02175380
 ov013                           -            -            -        1/460            -            -       114  0x021AEB20-0x021B39F8
-ov014                           -         6/48            -            -            -            -       163  0x02177020-0x02179670
-ov015                           -       13/104            -            -            -            -        61  0x021797C0-0x0217A9B0
-ov016                           -         1/12         1/12            -            -            -       888  0x021B6100-0x021D77A8
-ov018                           -         2/16            -            -            -          1/4       224  0x0217AE20-0x02182B4C
+ov016                           -            -         1/12            -            -            -       889  0x021B6100-0x021D77A8
+ov018                           -            -            -            -            -          1/4       226  0x0217AE20-0x02182B4C
 ov019                           -            -            -            -            -          1/8       193  0x0217AE20-0x0217FFE4
 ov020                           -            -            -            -            -         2/24       178  0x02183B60-0x02187DA4
-ov021                           -          1/8         4/72        6/216            -         5/32      4369  0x02187F00-0x021D3594
+ov021                           -            -          1/4            -            -         5/32      4379  0x02187F00-0x021D3594
 ov039                           -            -            -        1/824            -            -        26  0x021F36C0-0x021F4BB8
 ov055                           -            -         1/16            -            -            -        34  0x021F39C0-0x021F45C0
 ov070                           -            -            -        1/588            -            -       154  0x021B6100-0x021BB944
-ov093                           -     387/6184            -            -            -         4/16      3271  0x021B6100-0x021EFCF0
+ov093                           -     386/6176            -            -            -         4/16      3272  0x021B6100-0x021EFCF0
 ov094                           -            -            -            -            -         1/76       576  0x021F6560-0x02209CE8
 ov095                           -     512/8192        2/132            -            -            -       240  0x06898020-0x0689D608
 ov099                           -            -            -            -            -          1/4       442  0x021B95A0-0x021C2878
-ov107                           -         1/12            -            -            -            -       200  0x021EE740-0x021F6AF4
-ov114                           -         4/48            -            -            -            -       487  0x021B95A0-0x021CDBDC
 ov121                           -            -            -            -            -         1/24       237  0x021D6660-0x021DF4E4
-ov125                           -         2/24            -            -            -            -        95  0x021D6660-0x021D8C80
-ov132                           -            -         4/72            -            -            -       248  0x021F8480-0x021FDA78
+ov132                           -            -         3/32            -            -            -       249  0x021F8480-0x021FDA78
 ov135                           -            -            -            -            -          1/4       532  0x021F4580-0x02202BA4
 ov136                           -            -            -            -            -          1/4       169  0x021C3CC0-0x021C7750
 ov137                           -            -            -            -            -         2/16       292  0x021DC860-0x021E1A28
 ov170                           -            -            -            -            -         4/40       580  0x021DC860-0x021EF78C
-ov175                           -         1/12          1/8            -            -          2/8       369  0x021D4240-0x021E2C30
+ov175                           -            -            -            -            -          2/8       371  0x021D4240-0x021E2C30
 ov197                           -            -            -            -            -          1/4        99  0x0220B120-0x0220DA08
 ov198                           -            -            -            -            -         6/72       187  0x0220B120-0x02211A54
 ov207                           -            -            -            -            -          1/4        31  0x0220AF40-0x0220BAA8
-ov210                           -            -          1/4            -            -         4/32       189  0x021BC240-0x021C0714
-ov213                           -            -            -         1/36            -            -        81  0x021B95A0-0x021BAE68
+ov210                           -            -            -            -            -         4/32       190  0x021BC240-0x021C0714
 ov230                           -       18/648          1/4      10/1492            -      24/4224         4  0x02187F00-0x02189958
-TOTAL                        1/32   1016/16100       36/580      22/3968        8/136    85/166776
+TOTAL                        1/32    916/15016       25/356      13/3364       10/196    83/166716
 
 by kind (hidden = no listing label, labeled = starts at a listing function label)
-hidden                       1/32     128/1824       35/568       3/1724        2/112    85/166776
-labeled                         -    888/14276         1/12      19/2244         6/24            -
+hidden                       1/32     100/1600       24/344       2/1412        4/172    83/166716
+labeled                         -    816/13416         1/12      11/1952         6/24            -
 
-code pieces (leaf+func+frag): 66, 4684 bytes: strong 42, weak 24; hidden 40, labeled 26
-code pieces whose start is a matched (EXACT/EXACT*) function in layout/matched but is not defined in src/game: 15, 328 bytes
-code pieces of 100 bytes or more: 9
+code pieces (leaf+func+frag): 48, 3916 bytes: strong 30, weak 18; hidden 30, labeled 18
+code pieces whose start is a matched (EXACT/EXACT*) function in layout/matched but is not defined in src/game: 7, 36 bytes
+code pieces of 100 bytes or more: 8
   ov039 0x021F36FC   824 func  hidden  
   ov070 0x021B86B8   588 func  hidden  
   ov013 0x021B3084   460 func  labeled 
   ov230 0x021896D0   392 func  labeled 
-  twl 0x027315E0   312 func  hidden  
   ov230 0x021895B8   280 func  labeled 
   ov230 0x02188BD0   144 func  labeled 
   ov230 0x0218949C   140 func  labeled 
   ov230 0x02188B48   136 func  labeled 
 
-src/game functions: 35265 defined; extent from listing trace 33679, from decode only 1586, grown by decode 670, untraceable (covered to the next label) 1
-header function: entries with no definition in the .c files and no SDK/runtime shard: 9
-definitions whose name resolves to no address (helpers, ignored): 1088
+src/game functions: 35385 defined; extent from listing trace 34446, from decode only 939, grown by decode 670, untraceable (covered to the next label) 1
+header function: entries with no definition in the .c files and no SDK/runtime shard: 0
+definitions whose name resolves to no address (helpers, ignored): 1054
 rows with a draft under --drafts: 0

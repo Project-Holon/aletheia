@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B9B64.c
  * unit:     yes
- * function: func_021B9B64, func_021B9BD4, func_021B9BF4, func_021B9C08, func_021B9C1C
+ * function: func_021B9B64, func_021B9BD4, func_021B9BF4, func_021B9C08, func_021B9C1C, func_021B9C60
  * address:  0x021B9B64
  * region:   ov114
  * compiler: dsi/1.1p1
@@ -21,6 +21,7 @@
  *   func_021B9C60 0x021B9C60 arm ov114
  *   func_02088234 0x02088234 arm
  *   g_02150FEC 0x02150FEC data
+ *   func_021BE4D4  0x021BE4D4  arm  ov114
  */
 struct OSMessageQueue;
 typedef struct {
@@ -61,6 +62,8 @@ void func_021B9BD4(int a, u8 *p);
 void func_021B9BF4(int a);
 void func_021B9C08(int a);
 void func_021B9C1C(ThreadInfo_021B9C1C *threadInfo_p, int is);
+void func_021B9C60(void *p);
+extern void func_021BE4D4(void);
 extern OSInfo g_02150FEC;
 
 
@@ -108,4 +111,9 @@ void func_021B9C1C(ThreadInfo_021B9C1C *threadInfo_p, int is)
             func_02088234();
         }
     }
+}
+
+void func_021B9C60(void *p)
+{
+    func_021BE4D4();
 }

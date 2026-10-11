@@ -1,22 +1,26 @@
 /*
- * file:     net_state_p05.c
- * unit:     yes
- * function: func_0203D0D0, func_0203D0DC
- * address:  0x0203D0D0
+ * function: func_0203D634, func_0203D644
+ * address:  0x0203D634
+ * packet:   pkt_0203D578
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Returns the byte at +0x62 of the net context.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D634.c \
+ *       --func func_0203D634 --addr 0x0203D634 --arm --cc 1.1p1
+ *   func_020394F0  0x020394F0  arm
  */
-#include "../../matched/include/Obj15979.h"
 
 typedef unsigned char u8;
+typedef unsigned int  u32;
+
 typedef unsigned short u16;
-typedef unsigned int u32;
 
 struct NetCtx;
 
@@ -136,16 +140,16 @@ struct NetCtx;
 
 struct NetCtx;
 
-extern void func_0203D9EC(void);
-void func_0203D0D0(void);
-extern struct NetCtx *func_0203D788(void);
-extern void func_0203BA98(u16 a0, u32 a1, u8 a2);
-void func_0203D0DC(u32 a0);
+extern u8 *func_0203D788(void);
 
-void func_0203D0D0(void){ func_0203D9EC(); }
-
-
-void func_0203D0DC(u32 a0)
+extern void func_020394F0(u32 a);
+void func_0203D644(u32 a);
+u32 func_0203D634(void)
 {
-    func_0203BA98(func_0203D788()->f56, a0, 1);
+    return func_0203D788()[0x62];
+}
+
+void func_0203D644(u32 a)
+{
+    func_020394F0(a);
 }

@@ -1,7 +1,7 @@
 /*
- * function: func_0203DAC4
- * address:  0x0203DAC4
- * packet:   pkt_0203DAC4
+ * function: func_0203E420
+ * address:  0x0203E420
+ * packet:   pkt_0203DC70
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
@@ -9,23 +9,16 @@
  * isa:      arm
  * status:   EXACT
  *
- * net_irc_wireless.c.  Registers a peer MAC address: returns if it is
- * already in one of the four 8-byte slots at +0x94, otherwise copies it
- * into the first all-zero slot and records the slot index at +0x90; with
- * no free slot it reports error 1 (func_0203C938).  func_0203EFC8 is the
- * memcmp-style compare, func_02082D44 MI_CpuCopy8.
+ * net_irc_wireless.c.  Runs the context's +0x78 method on the caller's
+ * argument, copies 0x4C bytes of its result to +0xB4 and returns the +0x90
+ * buffer.  The earlier notes (func_0203E420.c.txt, pkt_0203E420.c.txt) read
+ * the function as taking no argument; the image keeps r0 untouched through
+ * the global load (`ldr r1, =g`), which is the argument being forwarded to
+ * the method, the same shape as func_0203E458.
  *
- * The lever (docs/notes/pkt_0203DAC4.c.txt had 24 bytes out): the zero MAC
- * is a SIX-byte block-scope array with an initialiser, `u8 buf[6] = {0};`
- * spelled out.  The initialiser takes the array's address first (`add r8,
- * sp, #0`) and stores through it; six separate assignments to an 8-byte
- * array store off sp and sink the address.  Flat under 2000 permuter
- * compiles before the declaration change.
  * symbols:
  *   g_021469F0     0x021469F0  data
- *   func_0203EFC8  0x0203EFC8  arm
  *   func_02082D44  0x02082D44  arm
- *   func_0203C938  0x0203C938  arm
  */
 
 typedef unsigned char u8;
@@ -151,31 +144,22 @@ struct NetCtx;
 
 struct NetCtx;
 
-extern u8 *g_021469F0;
-typedef signed int     s32;
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+struct Ctx {
+    u8    pad_00[0x78];
+    void *(*fn_78)(void *arg);
+};
+
+extern struct Ctx *g_021469F0;
 extern void func_02082D44(const void *src, void *dst, u32 size);
-extern u32 func_0203C938(u8 mode);
 
-void func_0203DAC4(const u8 *mac)
+void *func_0203E420(void *arg)
 {
-    int i;
+    struct Ctx *p = g_021469F0;
+    void *r;
 
-    if (g_021469F0 == 0)
-        return;
-    for (i = 0; i < 4; i++) {
-        if (func_0203EFC8(mac, g_021469F0 + 0x94 + i * 8, 6) == 0)
-            return;
-    }
-    {
-        u8 buf[6] = {0, 0, 0, 0, 0, 0};
-        for (i = 0; i < 4; i++) {
-            if (func_0203EFC8(buf, g_021469F0 + 0x94 + i * 8, 6) == 0) {
-                func_02082D44(mac, g_021469F0 + 0x94 + i * 8, 6);
-                *(u32 *)(g_021469F0 + 0x90) = i;
-                return;
-            }
-        }
-    }
-    func_0203C938(1);
+    if (p == 0)
+        return 0;
+    r = p->fn_78(arg);
+    func_02082D44(r, (u8 *)p + 0xB4, 0x4C);
+    return (u8 *)p + 0x90;
 }

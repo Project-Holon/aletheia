@@ -1,25 +1,31 @@
 /*
- * file:     net_state_p13.c
- * unit:     yes
- * function: func_0203D798, func_0203D7B0
- * address:  0x0203D798
+ * function: func_0203DBB0
+ * address:  0x0203DBB0
+ * packet:   pkt_0203DAC4
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
+ *           --suggest-split offers nothing (single function, the one
+ *           unresolved site's only witness is inside this range).
+ * blocker:  str_020A7D48 (string) -- no witness outside 0203DBB0..0203DC04;
+ *           the file string at 0x020A7D34 is 16 bytes and the message string
+ *           is 3 bytes past its terminator, so the `string` class refuses.
+ *           Every concrete byte of the body reproduces.
  * symbols:
- *   g_021469E0  0x021469E0  data
- *   func_0203C8E8  0x0203C8E8  arm
+ *   g_021469F0    0x021469F0  data
+ *   str_020A7D34  0x020A7D34  data
+ *   str_020A7D48  0x020A7D48  data
+ *   func_02034714 0x02034714  arm
+ *   func_02082D44 0x02082D44  arm
  */
+
 typedef unsigned char u8;
+typedef unsigned int  u32;
 
 typedef unsigned short u16;
-typedef unsigned int u32;
 
 struct NetCtx;
 
@@ -139,60 +145,19 @@ struct NetCtx;
 
 struct NetCtx;
 
-struct Singleton {
-    u8    pad_00[8];
-    void *unk_08;
-};
+extern u8 *g_021469F0;
+extern const u8 str_020A7D34[];
+extern const u8 str_020A7D48[];
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_02082D44(void *dst, const void *src, u32 size);
 
-extern void func_0203C8E8(u8 v);
-void *func_0203D798(void);
-void func_0203D7B0(u8 a0);
-extern struct Singleton g_021469E0;
-
-
-/*
- * Accessor for the +8 handle of the singleton at 0x021469E0, with the null
- * case spelled out.  The `moveq r0, #0` is a no-op on the value it guards,
- * so it is only there because the source writes the null return
- * explicitly; a plain `return g->unk_08;` loses the `cmp` and the `moveq`
- * and is eight bytes short.
- *
- * EXACT*, not EXACT: the inferred extent runs to 0x0203D7C8 because the
- * follower at 0x0203D7B0 has no label.  It is not a byte difference; the
- * follower is a pair of eight-byte ARM long-branch veneers (0x0203D7B0 ->
- * 0x0203C8E8 and 0x0203D7BC -> 0x0203C900), which save no lr and so are
- * invisible to disasm.py.  Both want seeding into
- * layout/function_starts.txt, which is the integrator's file.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D798.c \
- *       --func func_0203D798 --addr 0x0203D798 --cc 1.1p1 --arm
- */
-void *func_0203D798(void)
+void func_0203DBB0(const void *src, u32 i)
 {
-    if (g_021469E0.unk_08 == 0) {
-        return 0;
+    u8 *g = g_021469F0;
+
+    if (g != 0) {
+        func_02082D44(g + 0x94 + i * 8, src, 6);
+    } else {
+        func_02034714((const char *)str_020A7D34, 0x109, (const char *)str_020A7D48);
     }
-    return g_021469E0.unk_08;
-}
-
-
-/*
- *           prologue is `ldr r1, [pc, #0xc]` and saves no lr, so disasm.py
- *           emitted no func_ label there (the unlabelled-leaf idiom) and
- *           evidence().labels has no entry.  sole-ref/code therefore refuses
- *           it, veneer_at() does not recognise it, and the pool word under
- *           test is the only reference to it in the image, so `literal` and
- *           `label` both discard their only witness.  All 12 bytes are
- *           correct.  It becomes EXACT the moment 0x0203C8E8 is seeded into
- *           layout/function_starts.txt (the integrator's file) or a second
- *           referrer is decompiled.
- *
- * Verified with:
- *   python3 tools/match.py one --src src/pending/func_0203D7B0.c \
- *       --func func_0203D7B0 --addr 0x0203D7B0 --cc 1.1p1 --arm
- */
-void func_0203D7B0(u8 a0)
-{
-    func_0203C8E8(a0);
 }

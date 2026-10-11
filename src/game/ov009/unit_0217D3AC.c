@@ -1,7 +1,7 @@
 /*
  * file:     unit_0217D3AC.c
  * unit:     yes
- * function: func_0217D3AC, func_0217D3F8, func_0217D448, func_0217D4D8, func_0217D508, func_0217D640, func_0217D750, func_0217D8E0, func_0217D904, func_0217DCA4, func_0217DE94, gsLargeIntPowerMod, func_0217E504, func_0217E7C4, func_0217E848, func_0217E934, func_0217E978, func_0217E9EC
+ * function: func_0217D3AC, func_0217D3F8, func_0217D448, func_0217D4D8, func_0217D508, func_0217D640, func_0217D750, func_0217D8E0, func_0217D904, func_0217DCA4, func_0217DE94, gsLargeIntPowerMod, func_0217E504, func_0217E7C4, func_0217E848, func_0217E934, func_0217E978, func_0217E9EC, func_0217EA58, func_0217EA64, func_0217EA70
  * address:  0x0217D3AC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -32,6 +32,9 @@
  *   g_021A3720                     0x021A3720  data
  *   gsLargeIntReverseBytes           0x0217e934 arm
  *   GSMD5Update                      0x0218497c arm
+ *   func_020913D0  0x020913D0  arm
+ *   func_020913E8  0x020913E8  arm
+ *   func_020913FC  0x020913FC  arm
  */
 #include "../../matched/include/G_GSLintTimer.h"
 #include "../../matched/arm9_sdk/libc/string.h"
@@ -91,6 +94,12 @@ unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint);
 extern struct GSLintTimer gTimers[9];
 extern char g_021A3728[];
 extern char g_021A3720[];
+extern void *func_020913D0(unsigned long heap);
+extern void func_020913E8(void *p);
+extern void *func_020913FC(unsigned long a0, unsigned long a1);
+void *func_0217EA58(unsigned long heap);
+void func_0217EA64(void *p);
+void *func_0217EA70(unsigned long a0, unsigned long a1);
 
 
 
@@ -921,4 +930,19 @@ unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint)
     }
 
     return byteSize;
+}
+
+void *func_0217EA58(unsigned long heap)
+{
+    return func_020913D0(heap);
+}
+
+void func_0217EA64(void *p)
+{
+    func_020913E8(p);
+}
+
+void *func_0217EA70(unsigned long a0, unsigned long a1)
+{
+    return func_020913FC(a0, a1);
 }

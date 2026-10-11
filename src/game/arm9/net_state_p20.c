@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p20.c
  * unit:     yes
- * function: func_0203DC4C, func_0203DC68
- * address:  0x0203DC4C
+ * function: func_0203E538, func_0203E590, func_0203E5AC
+ * address:  0x0203E538
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,12 +13,21 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021469F0     0x021469F0  data
+ *   g_021469F0      0x021469F0  data
+ *   g_021469F4      0x021469F4  data
+ *   s_020A7D34      0x020A7D34  data
+ *   s_020A7D4C      0x020A7D4C  data
+ *   s_020A7D68      0x020A7D68  data
+ *   s_020A7D74      0x020A7D74  data
+ *   s_020A7DA0      0x020A7DA0  data
+ *   s_020A7E00      0x020A7E00  data
+ *   d_021469F0 0x021469F0 data a4
  */
 typedef unsigned char u8;
 
+typedef unsigned int   u32;
+
 typedef unsigned short u16;
-typedef unsigned int u32;
 
 struct NetCtx;
 
@@ -138,40 +147,44 @@ struct NetCtx;
 
 struct NetCtx;
 
-struct Ctx_0203DC4C {
-    u8 pad_00[0x103];
-    u8 f103;
-};
+extern void func_02034714(const char *expr, u32 line, const char *file);
+void func_0203E538(int a0);
+int func_0203E590(void);
+void func_0203E5AC(int a0);
+extern int *g_021469F0;
+extern int *g_021469F4;
+extern char s_020A7D34[];
+extern char s_020A7D4C[];
+extern char s_020A7D68[];
+extern char s_020A7D74[];
+extern char s_020A7DA0[];
+extern char s_020A7E00[];
+extern unsigned char *d_021469F0;
 
-struct Ctx_0203DC68 {
-    u8 pad_00[0x109];
-    u8 state;
-};
-
-void func_0203DC4C(void);
-extern struct Ctx_0203DC4C *g_021469F0;
-
-
-/*
- * net_irc_wireless.c.  Callback installed at +0x2C by func_0203D8F0 and
- * by states 4 and 14 of func_0203DC70: flags +0x103 of the live context.
- * An unlabelled ARM leaf.
- */
-void func_0203DC4C(void)
+void func_0203E538(int a0)
 {
-    struct Ctx_0203DC4C *p = g_021469F0;
-
-    if (p != 0)
-        p->f103 = 1;
+    if (g_021469F0 == 0)
+        func_02034714(s_020A7D34, 0x2e4, s_020A7D68);
+    if (g_021469F0 != 0) {
+        *(u8 *)((char *)g_021469F0 + 0x106) = (u8)(a0 + 1);
+        *(u8 *)((char *)g_021469F0 + 0x10a) = 1;
+    }
 }
 
-
 /*
- * net_irc_wireless.c.  The state setter of the wireless state machine
- * func_0203DC70: stores the new state at +0x109.  An unlabelled ARM leaf
- * (no lr save), filed as the `matched` witness for func_0203DC70's 27 calls.
+ * Reads byte 0x108 of the singleton, or 0 when it is not allocated.
  */
-void func_0203DC68(struct Ctx_0203DC68 *p, int state)
+int func_0203E590(void)
 {
-    p->state = state;
+    unsigned char *p = d_021469F0;
+    if (p == 0) return 0;
+    return p[0x108];
+}
+
+void func_0203E5AC(int a0)
+{
+    if (g_021469F0 == 0)
+        func_02034714(s_020A7D34, 0x31a, s_020A7D68);
+    if (g_021469F0 != 0)
+        *(u8 *)((char *)g_021469F0 + 0x10b) = (u8)a0;
 }

@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p15.c
  * unit:     yes
- * function: func_0203D9EC, func_0203DA20, func_0203DA4C
- * address:  0x0203D9EC
+ * function: func_0203DC4C, func_0203DC68
+ * address:  0x0203DC4C
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,14 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021469F0  0x021469F0  data
- *   d_021469F0   0x021469F0  data  a4
+ *   g_021469F0     0x021469F0  data
  */
 typedef unsigned char u8;
 
-typedef unsigned int  u32;
-
 typedef unsigned short u16;
+typedef unsigned int u32;
 
 struct NetCtx;
 
@@ -140,57 +138,40 @@ struct NetCtx;
 
 struct NetCtx;
 
-extern void func_02034FB8(u32 v);
-extern u32 func_020307B0(void *p);
-void func_0203D9EC(void);
-void func_0203DA20(void);
-int func_0203DA4C(void);
-extern u8 g_021469F0[];
-extern u32 d_021469F0[];
+struct Ctx_0203DC4C {
+    u8 pad_00[0x103];
+    u8 f103;
+};
+
+struct Ctx_0203DC68 {
+    u8 pad_00[0x109];
+    u8 state;
+};
+
+void func_0203DC4C(void);
+extern struct Ctx_0203DC4C *g_021469F0;
 
 
 /*
- * Tears down the net_irc_wireless singleton at 0x021469F0: releases it
- * through func_02034FB8(0x20) and the heap release, then clears the slot.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D9EC.c \
- *       --func func_0203D9EC --addr 0x0203D9EC --arm --cc 1.1p1
+ * net_irc_wireless.c.  Callback installed at +0x2C by func_0203D8F0 and
+ * by states 4 and 14 of func_0203DC70: flags +0x103 of the live context.
+ * An unlabelled ARM leaf.
  */
-void func_0203D9EC(void)
+void func_0203DC4C(void)
 {
-    if (*(u32 *)g_021469F0 == 0) {
-        return;
-    }
-    func_02034FB8(0x20);
-    func_020307B0(*(void **)g_021469F0);
-    *(u32 *)g_021469F0 = 0;
+    struct Ctx_0203DC4C *p = g_021469F0;
+
+    if (p != 0)
+        p->f103 = 1;
 }
 
 
 /*
- * Calls func_0203D9EC when the net_irc_wireless singleton exists and its
- * +0x101 byte is clear.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203DA20.c \
- *       --func func_0203DA20 --addr 0x0203DA20 --arm --cc 1.1p1
+ * net_irc_wireless.c.  The state setter of the wireless state machine
+ * func_0203DC70: stores the new state at +0x109.  An unlabelled ARM leaf
+ * (no lr save), filed as the `matched` witness for func_0203DC70's 27 calls.
  */
-void func_0203DA20(void)
+void func_0203DC68(struct Ctx_0203DC68 *p, int state)
 {
-    u8 *p = *(u8 **)g_021469F0;
-
-    if (p == 0) {
-        return;
-    }
-    if (p[0x101] != 0) {
-        return;
-    }
-    func_0203D9EC();
-}
-
-
-int func_0203DA4C(void)
-{
-    return d_021469F0[0] != 0;
+    p->state = state;
 }

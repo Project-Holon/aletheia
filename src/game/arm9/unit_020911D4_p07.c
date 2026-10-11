@@ -1,7 +1,7 @@
 /*
  * file:     unit_020911D4_p07.c
  * unit:     yes
- * function: func_0209953C, func_0209A0F0, func_0209A368, func_0209A394, func_0209A504, func_0209A524, func_0209A6E8, func_0209A7A8, func_0209AA0C, func_0209AB80, func_0209AB8C
+ * function: func_0209953C, func_0209A0F0, func_0209A368, func_0209A394, func_0209A504, func_0209A524, func_0209A6E8, func_0209A7A8, func_0209AA0C, func_0209AB80, func_0209AB8C, func_0209ABEC, func_0209ABF8
  * address:  0x0209953C
  * region:   arm9
  * compiler: dsi/1.2
@@ -27,6 +27,8 @@
  *   func_020921F4  0x020921F4  arm
  *   func_020979BC  0x020979BC  arm
  *   g_020A60DC  0x020A60DC  data
+ *   func_02091C40  0x02091C40  arm
+ *   func_0209AB8C  0x0209AB8C  arm
  */
 #define HI(x) (((i32 *)&(x))[1])
 #define LO(x) (((i32 *)&(x))[0])
@@ -63,6 +65,9 @@ double func_0209A7A8(double x, int n);
 double func_0209AA0C(double x);
 void func_0209AB80(void);
 int func_0209AB8C(const u8 *s1, const u8 *s2);
+extern int func_02091C40(const u8 *s1, const u8 *s2, int n);
+int func_0209ABEC(const u8 *s1, const u8 *s2, int n);
+int func_0209ABF8(const u8 *s1, const u8 *s2);
 extern const int init_jk[];
 extern const double PIo2[];
 extern const u8 g_020A60DC[];
@@ -633,4 +638,14 @@ int func_0209AB8C(const u8 *s1, const u8 *s2)
         if (m1 == 0)
             return 0;
     }
+}
+
+int func_0209ABEC(const u8 *s1, const u8 *s2, int n)
+{
+    return func_02091C40(s1, s2, n);
+}
+
+int func_0209ABF8(const u8 *s1, const u8 *s2)
+{
+    return func_0209AB8C(s1, s2);
 }

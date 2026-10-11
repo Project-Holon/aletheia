@@ -53,3 +53,12 @@ Still split, and why
   NetCtx (callbacks at 0x18/0x1C/0x2C, f60/f64/f65/f67, f6E), then f70, f74, fn_78, fn_7C, f80, f84, f88, f8C, f90, mac table at 0x94
   (stride 8), flags f100..f10B. Not started.
 - Callback arguments still written as raw addresses, e.g. (void *)0x0203C0F4: try the function names per site.
+
+Round 15 (lane w14b): tail-call stubs
+- The 12-byte ARM stubs (ldr ip,[pc]; bx ip; .word target) at 0203D0AC, 0203D0B8, 0203D0C4, 0203D14C, 0203D158, 0203D164,
+  0203D170, 0203D594, 0203D5A0, 0203D644 and 020377AC are compiled code, not veneers: `void f(void) { g(); }`, all EXACT, now
+  hidden functions in the part before them. Part numbers below refer to the state before this round (25 parts); now 20 parts.
+- Merged: old p04+p05+p06+p07 (struct Singleton for g_021469E0 in p04), old p08+p09. 
+- Still split at stubs: old p02|p03 (020377AC; many type clashes: line 723 int to char *, u8[] assignments, arity),
+  old p07|p08 (0203D14C..0203D170; p08 uses u8 g_021469E0[] and struct Singleton/Mod views of the same global; g_021469E0 wants
+  one canonical struct, p03 has struct Mod with f08), old p10|p11 (0203D644; struct NetCtx vs u8 * views).

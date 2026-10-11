@@ -1,4 +1,4 @@
-# Restructure report (2026-10-11, after round 13)
+# Restructure report (2026-10-11, after round 14)
 
 Handoff for the next session. Goal of this phase: rebuild `src/game/` as the
 original source files (one `.c` per translation unit, TU). `src/matched/` stays the
@@ -10,11 +10,11 @@ TUs that are one file (file counts from `split_tus.tsv`; estimate 1816 TUs):
 
 | Area | Whole | Percent |
 |---|---|---|
-| ARM9 | 376 / 406 | 92.6% |
-| Overlays | 1232 / 1325 | 93.0% |
+| ARM9 | 384 / 406 | 94.6% |
+| Overlays | 1243 / 1325 | 93.8% |
 | twl | 80 / 82 | 97.6% |
 | ITCM | 2 / 3 | 66.7% |
-| **Total** | **1690 / 1816** | **93.1%** |
+| **Total** | **1709 / 1816** | **94.1%** |
 
 Denominator change in round 6 (+7 TUs): arm9 `unit_02004F94.c` and `unit_02004FD4.c`
 (crt0 helpers copied to WRAM, data words around them; their own units like the
@@ -26,12 +26,12 @@ when those become real code. (Round 5 listed 164 split TUs; the recount finds 16
 at that commit: ov093 unit_021EFC1C was missed.)
 
 Checks at this commit:
-- `python tools/gameverify.py`: 2384 files, all EXACT or MATCH except
+- `python tools/gameverify.py`: 2351 files, all EXACT or MATCH except
   `arm9/unit_020911D4_p09.c` and `_p11.c` (compiler runtime pieces that are not
   contiguous in the image: every function is EXACT with `match.py one`, the TU
   compare cannot line up).
 - `python tools/gamecheck.py`: 35511 functions present, 0 missing, 0 doubled.
-- 7 files are MATCH (list: `match_files.txt`; was 120 before rounds 6 to 8).
+- 8 files are MATCH (list: `match_files.txt`; was 120 before rounds 6 to 8).
   Every function in them is EXACT on its own; no function is MATCH in
   `layout/matched`. What is left references the 13 hidden functions that could
   not be filed (below) or targets with no outside witness.
@@ -87,6 +87,7 @@ functions written into `src/game` are not counted (see "Coverage caveats").
 | Round 11 | 4 | 92.9% (no TU closed, big ones reduced): arm9 net_state 56 -> 46 (NetCmd, Votes, Entry canonical), button_man 10 -> 5, ov010 eventdata_system 10 -> 8, ov021 fld_trade 3 -> 2 (TradeWork), ov135 worldtrade_box 7 -> 6, ov208 zukan_detail_graphic 14 -> 13 |
 | Round 12 | 4 | 92.9% (no TU closed, structs): arm9 unit_02064D70 15 -> 4 (RendererBss and SDK-style types), net_state 46 -> 36 (NetState 0x64 bytes for g_021469DC), clact 11 -> 6, particle 6 -> 4; ov208 zukan_detail_form 4 -> 3 (Ov208Form); ov135 worldtrade_types.h with one Menu (no part count change) |
 | Round 13 | 4 | 93.0%: ov135 worldtrade_enter and ov010 musical_dressup_sys whole; arm9 net_state 36 -> 25 (NetCtx 0x354 bytes with named vtable; func_0203D798 is the same object), ov208 zukan_detail_graphic 13 -> 7 (zukan_detail_types.h: Ov208Mgr, Ov208Scene...), ov010 comm_player 11 -> 2, event_field_proclink 12 -> 2, ov135 worldtrade_box 6 -> 5; ov135 shared Work (0x132C bytes) in worldtrade_types.h applied to all 14 parts; afterwards event_field_proclink 2 -> 1 with a hidden tail-call function (the 8-byte stub was not a veneer): 93.1% |
+| Round 14 | 4 | 94.1% (19 TUs): the tail-call stubs (8-byte Thumb `ldr r3,[pc]; bx r3`, 12-byte ARM `ldr ip,[pc]; bx ip`) are compiled code, not veneers: about 100 written as hidden functions; arm9 iss_city_sys, iss_road_sys, iss_3ds_sys, backup_system, unit_02059108, unit_02059858, unit_02072374, unit_02079304; ov009 unit_0215F650, unit_02164D64, unit_02165B80, unit_0217F130; ov014 net_whpipe; ov015 unit_02179824, unit_02179CAC; ov114 ghttpEncryption, unit_021C2284; ov125 unit_021D7CEC; ov093 unit_021DA624 whole; net_state 25 -> 20 |
 
 Subagents in opencode use `.opencode/agents/lane.md` (model
 `anthropic/claude-sonnet-5-5`, not committed; it is local opencode config).
@@ -149,7 +150,7 @@ Current report: `gamegaps.tsv` / `gamegaps_summary.txt` in this folder.
   all 29 of unit_0273042C, func_02701AA0, func_02731AF0, and 3 in unit_0272E9E8
   (`src/matched/twl*`, shard `twl_sys` re-verified).
 
-### 2. TUs still split (126)
+### 2. TUs still split (107)
 List with piece counts: `split_tus.tsv` (columns: region, tu, parts, folder
 members). Each TU folder has a `MERGE.md` with its blockers. Not reached yet:
 ov021 field_effect, field_wfbc, weather_task (30), fldmmdl_blact (14), fld_trade
@@ -186,7 +187,11 @@ unit_02064D70 (15), clact (13). About 80 to 100 of the 164 are real boundaries
   unit_0215F650, unit_02164D64, unit_02165B80, unit_0216AB20, unit_0217F130
   (the 3 stubs at 0x0217EA58/64/70 too); ov114 unit_021C2284, ghttpEncryption;
   ov125 unit_021D7CEC; ov107 unit_021F4560; ov093 unit_021DA624 p01 (check).
-  The tool fix is a class split in tools/gamegaps.py.
+  Done in round 14 (see the Round 14 row): tools/gamegaps.py now reports the two
+  stub forms as `leaf` (note `tailstub`), reads K&R definitions, and keeps only the
+  16-byte `bx pc; nop; ldr ip,[pc]; bx ip` form, `ldr pc,[pc,#-4]` and the ov230
+  entries as `veneer` (916 rows left). Idiom: docs/idioms/tail-call-stub-is-code-not-a-veneer.md.
+  About 100 stub functions are only in src/game, not yet filed in src/matched.
 - Compiler behaviour worth knowing when converting raw-offset code to fields:
   `(p + i*stride) + const` (original) vs `p->row[i].x` (hoists `p + base`): the
   second changes the code; ov208 zukan_detail_form p02/p03 still uses W()/H()
@@ -328,7 +333,7 @@ shared strings and data), and lanes adjusted them (1812 became 1809).
 - Evidence not used yet: alignment gaps between each file's data block, one static
   initialiser entry per file with globals, overlay edges as outer bounds.
 
-So "93.1%" means 1690 of the 1816 estimated TUs are one file.
+So "94.1%" means 1709 of the 1816 estimated TUs are one file.
 
 ## Tools
 - `tools/restructure.py` builds/merges; `tools/gamepromote.py` moves one-piece TUs

@@ -1,7 +1,7 @@
 /*
  * file:     unit_02090BC4.c
  * unit:     yes
- * function: func_02090BC4, func_02090C40, func_02090CD4, func_02090D98, func_02090DEC, func_02090E50
+ * function: func_02090BC4, func_02090C40, func_02090CD4, func_02090D98, func_02090DEC, func_02090E50, func_02090ECC
  * address:  0x02090BC4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -23,6 +23,7 @@
  *   g_02153B00                       0x02153b00 data
  *   WMi_GetSystemWork                0x0208e4bc arm
  *   WMi_SendCommandDirect            0x0208e44c arm
+ *   func_0208E4CC  0x0208E4CC  arm
  */
 typedef unsigned long u32;
 
@@ -91,6 +92,8 @@ WMErrCode func_02090CD4(WMCallbackFunc callback, const u16 *userGameInfo, u16 us
 WMErrCode func_02090D98(WMCallbackFunc callback, u16 flag);
 WMErrCode func_02090DEC(WMCallbackFunc callback, u16 tableNumber, u16 camLifeTime, u16 frameLifeTime, u16 mpLifeTime);
 WMErrCode func_02090E50(WMCallbackFunc callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime);
+extern void func_0208E4CC(void);
+void func_02090ECC(void);
 extern u32 g_02153B00[32];
 
 
@@ -270,4 +273,9 @@ WMErrCode func_02090E50(WMCallbackFunc callback, u16 ccaMode, u16 edThreshold, u
         return result;
     }
     return WM_ERRCODE_OPERATING;
+}
+
+void func_02090ECC(void)
+{
+    func_0208E4CC();
 }

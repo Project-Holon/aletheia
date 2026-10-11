@@ -4,76 +4,16 @@ arm9	0x0200421E	0x02004226	8	leaf	hidden		thumb	weak	tailcall	cmp r1, #0xea; asr
 arm9	0x02004226	0x02004490	618	data	hidden				ptrs=3 t:ok secure_area			func_0200421A	src/game/arm9/unit_0200421A.c	func_02004490	src/game/arm9/unit_02004490.c	
 arm9	0x02004494	0x02004632	414	data	hidden				ptrs=6 t:cond branch out @2004498 a:cond branch out @20044F4 secure_area			func_02004490	src/game/arm9/unit_02004490.c	func_02004632	src/game/arm9/unit_02004632.c	
 arm9	0x02004636	0x02004800	458	data	hidden				ptrs=2 t:udf@2004648 a:align secure_area			func_02004632	src/game/arm9/unit_02004632.c	func_02004800	src/game/arm9/unit_02004800.c	
-arm9	0x02004F7C	0x02004F94	24	data	hidden				ptrs=4 a:too many conditions t:udf@2004F8E			func_02004F20	src/game/arm9/unit_02004EB4.c	func_02005124	src/game/arm9/gfl_use_p01.c	
-arm9	0x02004F94	0x02004FB0	28	leaf	hidden		arm	strong	ref	ldrh r2, [r0]; cmp r1, r2; bxeq lr; mov r3, #0x10	7	func_02004F20	src/game/arm9/unit_02004EB4.c	func_02005124	src/game/arm9/gfl_use_p01.c	
-arm9	0x02004FB0	0x02004FD4	36	data	hidden				ptrs=7 a:too many conditions t:udf@2004FCE			func_02004F20	src/game/arm9/unit_02004EB4.c	func_02005124	src/game/arm9/gfl_use_p01.c	
-arm9	0x02004FD4	0x02004FFC	40	leaf	hidden		arm	strong	ref	ldrh r2, [r1]; ldrh r3, [r0]; add r3, r3, #1; strh r3, [r0]	10	func_02004F20	src/game/arm9/unit_02004EB4.c	func_02005124	src/game/arm9/gfl_use_p01.c	
-arm9	0x02004FFE	0x02005124	294	data	hidden				ptrs=2 a:align t:ok			func_02004F20	src/game/arm9/unit_02004EB4.c	func_02005124	src/game/arm9/gfl_use_p01.c	
-arm9	0x0202AB4C	0x0202AB54	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x0202AC01 thumb			func_0202AB38	src/game/arm9/iss_city_sys_p01.c	func_0202AB5C	src/game/arm9/iss_city_sys_p02.c	
-arm9	0x0202AB54	0x0202AB5C	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x0202AC4D thumb			func_0202AB38	src/game/arm9/iss_city_sys_p01.c	func_0202AB5C	src/game/arm9/iss_city_sys_p02.c	
-arm9	0x0202B204	0x0202B20C	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x0202B225 thumb			func_0202B1FC	src/game/arm9/iss_road_sys_p01.c	func_0202B20C	src/game/arm9/iss_road_sys_p02.c	
-arm9	0x0202B8FC	0x0202B904	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x0202BABD thumb			func_0202B8F4	src/game/arm9/iss_3ds_sys_p01.c	func_0202B90C	src/game/arm9/iss_3ds_sys_p02.c	
-arm9	0x0202B904	0x0202B90C	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x0202BAE9 thumb			func_0202B8F4	src/game/arm9/iss_3ds_sys_p01.c	func_0202B90C	src/game/arm9/iss_3ds_sys_p02.c	
-arm9	0x020319E4	0x020319F0	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020319C0	src/game/arm9/backup_system_p01.c	func_020319F0	src/game/arm9/backup_system_p02.c	
-arm9	0x02031E70	0x02031E7C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_02031E68	src/game/arm9/backup_system_p02.c	func_02031E7C	src/game/arm9/backup_system_p03.c	
-arm9	0x020377AC	0x020377B8	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_0203778C	src/game/arm9/net_state_p03.c	func_020377B8	src/game/arm9/net_state_p04.c	
-arm9	0x0203D0AC	0x0203D0B8	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0203D060	src/game/arm9/net_state_p32.c	func_0203D0D0	src/game/arm9/net_state_p33.c	
-arm9	0x0203D0B8	0x0203D0C4	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0203D060	src/game/arm9/net_state_p32.c	func_0203D0D0	src/game/arm9/net_state_p33.c	
-arm9	0x0203D0C4	0x0203D0D0	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0203D060	src/game/arm9/net_state_p32.c	func_0203D0D0	src/game/arm9/net_state_p33.c	
-arm9	0x0203D14C	0x0203D158	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0203D12C	src/game/arm9/net_state_p35.c	func_0203D17C	src/game/arm9/net_state_p36.c	
-arm9	0x0203D158	0x0203D164	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0203D12C	src/game/arm9/net_state_p35.c	func_0203D17C	src/game/arm9/net_state_p36.c	
-arm9	0x0203D164	0x0203D170	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0203D12C	src/game/arm9/net_state_p35.c	func_0203D17C	src/game/arm9/net_state_p36.c	
-arm9	0x0203D170	0x0203D17C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0203D12C	src/game/arm9/net_state_p35.c	func_0203D17C	src/game/arm9/net_state_p36.c	
-arm9	0x0203D594	0x0203D5A0	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0203D578	src/game/arm9/net_state_p38.c	func_0203D5AC	src/game/arm9/net_state_p39.c	
-arm9	0x0203D5A0	0x0203D5AC	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0203D578	src/game/arm9/net_state_p38.c	func_0203D5AC	src/game/arm9/net_state_p39.c	
-arm9	0x0203D644	0x0203D650	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0203D634	src/game/arm9/net_state_p40.c	func_0203D650	src/game/arm9/net_state_p41.c	
+arm9	0x02004F7C	0x02004F94	24	frag	hidden		arm	strong	runs into next start,ref	subeq r2, r3, #164, #26; subeq r2, r3, #180, #26; subeq r0, r0, #4; subeq r2, r1, #36, #30	6	func_02004F20	src/game/arm9/unit_02004EB4.c	func_02004F94	src/game/arm9/unit_02004F94.c	
+arm9	0x02004FB0	0x02004FD4	36	frag	hidden		arm	strong	runs into next start,ref	andeq sl, sl, #128, #14; andeq sl, sl, #192, #14; andeq sb, sl, #128, #28; andeq sb, sl, #128, #28	9	func_02004F94	src/game/arm9/unit_02004F94.c	func_02004FD4	src/game/arm9/unit_02004FD4.c	
+arm9	0x02004FFE	0x02005124	294	data	hidden				ptrs=2 a:align t:ok			func_02004FD4	src/game/arm9/unit_02004FD4.c	func_02005124	src/game/arm9/gfl_use_p01.c	
 arm9	0x0203EA74	0x0203EA9C	40	data	hidden				ptrs=2 a:too many conditions t:ok			func_0203EA70	src/game/arm9/net_lower_data.c	func_0203EA9C	src/game/arm9/net_lower_data.c	
 arm9	0x0203F024	0x0203F028	4	leaf	hidden		arm	weak		bx lr	1	func_0203F004	src/game/arm9/bg_sys.c	func_0203F028	src/game/arm9/bg_sys.c	
-arm9	0x02046C88	0x02046C94	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02046C24	src/game/arm9/g3d_system_p01.c	func_02046C94	src/game/arm9/g3d_system_p02.c	
-arm9	0x02047964	0x02047970	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_02047910	src/game/arm9/g3d_system_p02.c	func_02047970	src/game/arm9/g3d_system_p03.c	
-arm9	0x02048C4C	0x02048C58	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_02048BC4	src/game/arm9/g3d_system_p03.c	func_02048C58	src/game/arm9/g3d_system_p04.c	
-arm9	0x020591CC	0x020591D8	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_020591B0	src/game/arm9/unit_02059108_p01.c	func_020591D8	src/game/arm9/unit_02059108_p02.c	
-arm9	0x020596F0	0x020596FC	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_020596D8	src/game/arm9/unit_02059108_p02.c	func_020596FC	src/game/arm9/unit_02059108_p03.c	
-arm9	0x02059870	0x0205987C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_02059858	src/game/arm9/unit_02059858_p01.c	func_0205987C	src/game/arm9/unit_02059858_p02.c	
-arm9	0x0206192C	0x02061938	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061908	src/game/arm9/unit_020616CC.c	func_020619BC	src/game/arm9/unit_020619BC.c	
-arm9	0x02061938	0x02061944	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061908	src/game/arm9/unit_020616CC.c	func_020619BC	src/game/arm9/unit_020619BC.c	
-arm9	0x02061944	0x02061950	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061908	src/game/arm9/unit_020616CC.c	func_020619BC	src/game/arm9/unit_020619BC.c	
-arm9	0x02061950	0x0206195C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061908	src/game/arm9/unit_020616CC.c	func_020619BC	src/game/arm9/unit_020619BC.c	
-arm9	0x0206195C	0x02061968	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061908	src/game/arm9/unit_020616CC.c	func_020619BC	src/game/arm9/unit_020619BC.c	
-arm9	0x02061968	0x02061974	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061908	src/game/arm9/unit_020616CC.c	func_020619BC	src/game/arm9/unit_020619BC.c	
-arm9	0x02061974	0x02061980	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061908	src/game/arm9/unit_020616CC.c	func_020619BC	src/game/arm9/unit_020619BC.c	
-arm9	0x02061980	0x0206198C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061908	src/game/arm9/unit_020616CC.c	func_020619BC	src/game/arm9/unit_020619BC.c	
-arm9	0x0206198C	0x02061998	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061908	src/game/arm9/unit_020616CC.c	func_020619BC	src/game/arm9/unit_020619BC.c	
-arm9	0x02061998	0x020619A4	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061908	src/game/arm9/unit_020616CC.c	func_020619BC	src/game/arm9/unit_020619BC.c	
-arm9	0x020619A4	0x020619B0	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061908	src/game/arm9/unit_020616CC.c	func_020619BC	src/game/arm9/unit_020619BC.c	
-arm9	0x020619B0	0x020619BC	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061908	src/game/arm9/unit_020616CC.c	func_020619BC	src/game/arm9/unit_020619BC.c	
-arm9	0x02061A14	0x02061A20	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A20	0x02061A2C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A2C	0x02061A38	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A38	0x02061A44	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A44	0x02061A50	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A50	0x02061A5C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A5C	0x02061A68	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A68	0x02061A74	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A74	0x02061A80	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A80	0x02061A8C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A8C	0x02061A98	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A98	0x02061AA4	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061AA4	0x02061AB0	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061AB0	0x02061ABC	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061B14	0x02061B20	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061AE8	src/game/arm9/unit_02061ABC.c	func_02061B2C	src/game/arm9/unit_02061B2C_p01.c	
-arm9	0x02061B20	0x02061B2C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02061AE8	src/game/arm9/unit_02061ABC.c	func_02061B2C	src/game/arm9/unit_02061B2C_p01.c	
-arm9	0x02072788	0x02072794	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02072758	src/game/arm9/unit_02072374_p01.c	func_02072794	src/game/arm9/unit_02072374_p02.c	
-arm9	0x02072920	0x0207292C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_020728E8	src/game/arm9/unit_02072374_p02.c	func_0207292C	src/game/arm9/unit_0207292C.c	
-arm9	0x02078C34	0x02078C40	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_02078C28	src/game/arm9/unit_02078C28.c	func_02078C40	src/game/arm9/unit_02078C40.c	
-arm9	0x0207A51C	0x0207A528	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0207A4B0	src/game/arm9/unit_02079304_p01.c	func_0207A528	src/game/arm9/unit_02079304_p02.c	
 arm9	0x02081E6C	0x02081E7C	16	data	hidden				ptrs=0 a:cond branch out @2081E6C t:no end			func_02081BE4	src/game/arm9/unit_02081BE4.c	func_02081E7C	src/game/arm9/unit_02081E7C.c	
 arm9	0x02084610	0x02084614	4	leaf	hidden		arm	weak		bx lr	1	func_0208459C	src/game/arm9/unit_0208459C.c	func_02084614	src/game/arm9/unit_02084614.c	
-arm9	0x02090BB8	0x02090BC4	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_02090B9C	src/game/arm9/unit_02090B9C.c	func_02090BC4	src/game/arm9/unit_02090BC4.c	
-arm9	0x02090ECC	0x02090ED8	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_02090E50	src/game/arm9/unit_02090BC4.c	func_02090ED8	src/game/arm9/unit_02090ED8.c	
-arm9	0x020911F4	0x02091200	12	leaf	hidden		arm	weak	tailcall	ldr ip, [pc]; bx ip	2	func_020911F0	src/game/arm9/unit_020911D4_p02.c	func_02091200	src/game/arm9/unit_020911D4_p02.c	
-arm9	0x02091224	0x02091230	12	leaf	hidden		arm	weak	tailcall	ldr ip, [pc]; bx ip	2	func_02091220	src/game/arm9/unit_020911D4_p02.c	func_02091230	src/game/arm9/unit_020911D4_p02.c	
-arm9	0x02091250	0x0209125C	12	leaf	hidden		arm	weak	tailcall	ldr ip, [pc]; bx ip	2	func_0209124C	src/game/arm9/unit_020911D4_p02.c	func_0209125C	src/game/arm9/unit_020911D4_p02.c	
+arm9	0x020911F4	0x02091200	12	leaf	hidden		arm	strong	tailstub target=0x02731755 thumb	ldr ip,[pc]; bx ip	2	func_020911F0	src/game/arm9/unit_020911D4_p02.c	func_02091200	src/game/arm9/unit_020911D4_p02.c	
+arm9	0x02091224	0x02091230	12	leaf	hidden		arm	strong	tailstub target=0x02731761 thumb	ldr ip,[pc]; bx ip	2	func_02091220	src/game/arm9/unit_020911D4_p02.c	func_02091230	src/game/arm9/unit_020911D4_p02.c	
+arm9	0x02091250	0x0209125C	12	leaf	hidden		arm	strong	tailstub target=0x02731765 thumb	ldr ip,[pc]; bx ip	2	func_0209124C	src/game/arm9/unit_020911D4_p02.c	func_0209125C	src/game/arm9/unit_020911D4_p02.c	
 arm9	0x02092266	0x0209229C	54	data	hidden				ptrs=3 a:align t:ok			func_020921F4	src/game/arm9/unit_020911D4_p04.c	func_020922B0	src/game/arm9/unit_020911D4_p05.c	
 arm9	0x0209229E	0x020922B0	18	data	hidden				ptrs=1 a:align t:ok			func_020921F4	src/game/arm9/unit_020911D4_p04.c	func_020922B0	src/game/arm9/unit_020911D4_p05.c	
 arm9	0x0209468C	0x02094694	8	leaf	hidden		arm	weak		add sp, sp, #8; pop {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}	2	func_0209455C	src/game/arm9/unit_020911D4_p05.c	func_02094694	src/game/arm9/unit_020911D4_p05.c	
@@ -84,8 +24,6 @@ arm9	0x02099224	0x02099228	4	frag	labeled	EXACT	arm	strong	runs into next start,
 arm9	0x0209A0EC	0x0209A0F0	4	frag	labeled	EXACT	arm	strong	runs into next start,label,ref	push {r0, r1, r2, r3}	1	func_0209953C	src/game/arm9/unit_020911D4_p07.c	func_0209A0F0	src/game/arm9/unit_020911D4_p07.c	
 arm9	0x0209A390	0x0209A394	4	frag	labeled	EXACT	arm	strong	runs into next start,label	push {r0, r1, r2, r3}	1	func_0209A368	src/game/arm9/unit_020911D4_p07.c	func_0209A394	src/game/arm9/unit_020911D4_p07.c	
 arm9	0x0209AA08	0x0209AA0C	4	frag	labeled	EXACT	arm	strong	runs into next start,label	push {r0, r1, r2, r3}	1	func_0209A7A8	src/game/arm9/unit_020911D4_p07.c	func_0209AA0C	src/game/arm9/unit_020911D4_p07.c	
-arm9	0x0209ABEC	0x0209ABF8	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0209AB8C	src/game/arm9/unit_020911D4_p07.c	func_0209AC04	src/game/arm9/unit_020911D4_p08.c	
-arm9	0x0209ABF8	0x0209AC04	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0209AB8C	src/game/arm9/unit_020911D4_p07.c	func_0209AC04	src/game/arm9/unit_020911D4_p08.c	
 arm9	0x0209AF1C	0x0209AF34	24	data	hidden				ptrs=0 a:no end t:ok			func_0209AC04	src/game/arm9/unit_020911D4_p08.c	func_0209B2E8	src/game/arm9/unit_020911D4_p08.c	
 arm9	0x0209C30A	0x0209C494	394	data	hidden				ptrs=0 a:align t:ok			func_0209C0A4	src/game/arm9/unit_020911D4_p12.c	func_0209C5E0	src/game/arm9/unit_020911D4_p13.c	
 arm9	0x0209CB78	0x0209CB80	8	leaf	hidden		arm	weak		mvn r0, #0x80000000; bx lr	2	func_0209C95C	src/game/arm9/unit_020911D4_p13.c	func_0209CE10	src/game/arm9/unit_020911D4_p13.c	
@@ -102,68 +40,23 @@ twl	0x027302B6	0x027302DC	38	data	hidden				ptrs=2 a:align t:ok			func_02730294	
 twl	0x027302DE	0x02730304	38	data	hidden				ptrs=2 a:align t:ok			func_02730294	src/game/twl/unit_02730294.c	func_0273032C	src/game/twl/unit_02730294.c	
 twl	0x02730306	0x0273032C	38	data	hidden				ptrs=2 a:align t:ok			func_02730294	src/game/twl/unit_02730294.c	func_0273032C	src/game/twl/unit_02730294.c	
 twl	0x0273154C	0x0273156C	32	leaf	hidden		arm	weak	tailcall	mov r1, r0; ldr r0, [pc, #0xc]; ldr ip, [pc, #0xc]; mov r2, #0xff	6	func_0273153C	src/game/twl/unit_02731500.c	func_0273156C	src/game/twl/unit_02731500.c	
-twl	0x027315E0	0x02731718	312	func	hidden		arm	strong	ref,push	push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}; ldr r1, [pc, #0x110]; mov r5, r0; ldr r0, [r1]	71	func_027315D0	src/game/twl/unit_02731590.c	func_02731718	src/game/twl/unit_02731718_p01.c	
-ov009	0x0215FA90	0x0215FA9C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0215F8FC	src/game/ov009/unit_0215F650_p01.c	func_0215FA9C	src/game/ov009/unit_0215F650_p02.c	
-ov009	0x02165B5C	0x02165B68	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02165AF4	src/game/ov009/unit_02164D64_p01.c	func_02165B68	src/game/ov009/unit_02164D64_p02.c	
-ov009	0x02165CA0	0x02165CAC	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_02165C28	src/game/ov009/unit_02165B80_p01.c	func_02165CAC	src/game/ov009/unit_02165B80_p02.c	
-ov009	0x0216C224	0x0216C230	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_0216C0C4	src/game/ov009/unit_0216AB20_p05.c	func_0216C230	src/game/ov009/unit_0216AB20_p06.c	
-ov009	0x0216C79C	0x0216C7A8	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_0216C788	src/game/ov009/unit_0216AB20_p06.c	func_0216C7A8	src/game/ov009/unit_0216AB20_p07.c	
-ov009	0x02174CF8	0x02174D04	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_02174CF0	src/game/ov009/unit_02174CF0.c	func_02174D04	src/game/ov009/unit_02174D04.c	
-ov009	0x0217EA58	0x0217EA64	12	leaf	hidden		arm	strong	ref,tailcall	ldr ip, [pc]; bx ip	2	func_0217E9EC	src/game/ov009/unit_0217D3AC.c	func_0217EA7C	src/game/ov009/unit_0217EA7C.c	
-ov009	0x0217EA64	0x0217EA70	12	leaf	hidden		arm	strong	ref,tailcall	ldr ip, [pc]; bx ip	2	func_0217E9EC	src/game/ov009/unit_0217D3AC.c	func_0217EA7C	src/game/ov009/unit_0217EA7C.c	
-ov009	0x0217EA70	0x0217EA7C	12	leaf	hidden		arm	strong	ref,tailcall	ldr ip, [pc]; bx ip	2	func_0217E9EC	src/game/ov009/unit_0217D3AC.c	func_0217EA7C	src/game/ov009/unit_0217EA7C.c	
-ov009	0x0217F1C0	0x0217F1CC	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_0217F150	src/game/ov009/unit_0217F130_p01.c	func_0217F1CC	src/game/ov009/unit_0217F130_p02.c	
 ov010	0x02158310	0x02158318	8	data	hidden				ptrs=1 t:no end a:no end			func_02157E9C	src/game/ov010/script_work_p01.c	func_02158318	src/game/ov010/script_work_p01.c	
-ov010	0x0215DD98	0x0215DDC8	48	data	hidden				ptrs=10 t:ok			func_0215DB38	src/game/ov010/scrcmd_musical_p01.c	func_0215DDC8	src/game/ov010/scrcmd_musical_p01.c	
-ov010	0x0216171C	0x02161724	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x020307B0 arm			func_021616F0	src/game/ov010/event_field_proclink_p08.c	func_02161724	src/game/ov010/event_field_proclink_p09.c	
-ov010	0x0216E464	0x0216E468	4	leaf	hidden		thumb	weak		bx lr	1	func_0216E434	src/game/ov010/fldmmdl_p09.c	func_0216E474	src/game/ov010/trcard_sys.c	
-ov010	0x0216E468	0x0216E46C	4	leaf	hidden		thumb	weak		bx lr	1	func_0216E434	src/game/ov010/fldmmdl_p09.c	func_0216E474	src/game/ov010/trcard_sys.c	
-ov010	0x0216E46C	0x0216E470	4	leaf	hidden		thumb	weak		bx lr	1	func_0216E434	src/game/ov010/fldmmdl_p09.c	func_0216E474	src/game/ov010/trcard_sys.c	
-ov010	0x0216E470	0x0216E474	4	leaf	hidden		thumb	weak		bx lr	1	func_0216E434	src/game/ov010/fldmmdl_p09.c	func_0216E474	src/game/ov010/trcard_sys.c	
-ov010	0x0216E51C	0x0216E544	40	func	labeled	EXACT*	thumb	strong	label,ref,push	push {r3, r4, r5, lr}; adds r5, r0, #0; bl #0x216e4ec; adds r4, r0, #0	16	func_0216E4EC	src/game/ov010/trcard_sys.c	func_0216E544	src/game/ov010/trcard_sys.c	
+ov010	0x0215DD98	0x0215DDC8	48	data	hidden				ptrs=10 t:ok			func_0215DB38	src/game/ov010/scrcmd_musical.c	func_0215DDC8	src/game/ov010/scrcmd_musical.c	
+ov010	0x0216E464	0x0216E468	4	leaf	hidden		thumb	weak		bx lr	1	func_0216E434	src/game/ov010/fldmmdl.c	func_0216E474	src/game/ov010/trcard_sys.c	
+ov010	0x0216E468	0x0216E46C	4	leaf	hidden		thumb	weak		bx lr	1	func_0216E434	src/game/ov010/fldmmdl.c	func_0216E474	src/game/ov010/trcard_sys.c	
+ov010	0x0216E46C	0x0216E470	4	leaf	hidden		thumb	weak		bx lr	1	func_0216E434	src/game/ov010/fldmmdl.c	func_0216E474	src/game/ov010/trcard_sys.c	
+ov010	0x0216E470	0x0216E474	4	leaf	hidden		thumb	weak		bx lr	1	func_0216E434	src/game/ov010/fldmmdl.c	func_0216E474	src/game/ov010/trcard_sys.c	
 ov012	0x02174ACC	0x02174AD8	12	leaf	hidden		thumb	weak		movs r0, #0xe; strb r0, [r6]; movs r0, #0; add sp, #0x34	5	func_02174744	src/game/ov012/unit_0217422C.c	func_02174AD8	src/game/ov012/unit_0217422C.c	
 ov013	0x021B3084	0x021B3250	460	func	labeled		arm	strong	label,ref,push	push {r3, r4, r5, lr}; ldr r3, [pc, #0x1ac]; lsr ip, r1, #8; str ip, [r3, #4]	110	func_021B3064	src/game/ov013/unit_021B3018_p02.c	func_021B3250	src/game/ov013/unit_021B3018_p03.c	
-ov014	0x0217720C	0x02177214	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02177C3D thumb			func_021771F8	src/game/ov014/unit_021771F8.c	func_0217721C	src/game/ov014/net_whpipe_p01.c	
-ov014	0x02177214	0x0217721C	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02177C45 thumb			func_021771F8	src/game/ov014/unit_021771F8.c	func_0217721C	src/game/ov014/net_whpipe_p01.c	
-ov014	0x0217725C	0x02177264	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02177B0D thumb			func_0217723C	src/game/ov014/net_whpipe_p01.c	func_0217727C	src/game/ov014/net_whpipe_p02.c	
-ov014	0x02177264	0x0217726C	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02177EDD thumb			func_0217723C	src/game/ov014/net_whpipe_p01.c	func_0217727C	src/game/ov014/net_whpipe_p02.c	
-ov014	0x0217726C	0x02177274	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02178035 thumb			func_0217723C	src/game/ov014/net_whpipe_p01.c	func_0217727C	src/game/ov014/net_whpipe_p02.c	
-ov014	0x02177274	0x0217727C	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x021780E5 thumb			func_0217723C	src/game/ov014/net_whpipe_p01.c	func_0217727C	src/game/ov014/net_whpipe_p02.c	
-ov015	0x02179860	0x02179868	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02179CAD thumb			func_0217984C	src/game/ov015/unit_02179824_p01.c	func_021798A0	src/game/ov015/unit_02179824_p02.c	
-ov015	0x02179868	0x02179870	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02179D81 thumb			func_0217984C	src/game/ov015/unit_02179824_p01.c	func_021798A0	src/game/ov015/unit_02179824_p02.c	
-ov015	0x02179870	0x02179878	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02179A19 thumb			func_0217984C	src/game/ov015/unit_02179824_p01.c	func_021798A0	src/game/ov015/unit_02179824_p02.c	
-ov015	0x02179878	0x02179880	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x021799FD thumb			func_0217984C	src/game/ov015/unit_02179824_p01.c	func_021798A0	src/game/ov015/unit_02179824_p02.c	
-ov015	0x02179880	0x02179888	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02179D69 thumb			func_0217984C	src/game/ov015/unit_02179824_p01.c	func_021798A0	src/game/ov015/unit_02179824_p02.c	
-ov015	0x02179888	0x02179890	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02179D79 thumb			func_0217984C	src/game/ov015/unit_02179824_p01.c	func_021798A0	src/game/ov015/unit_02179824_p02.c	
-ov015	0x02179890	0x02179898	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02179D3D thumb			func_0217984C	src/game/ov015/unit_02179824_p01.c	func_021798A0	src/game/ov015/unit_02179824_p02.c	
-ov015	0x02179898	0x021798A0	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x021799F1 thumb			func_0217984C	src/game/ov015/unit_02179824_p01.c	func_021798A0	src/game/ov015/unit_02179824_p02.c	
-ov015	0x021798B4	0x021798BC	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02179A09 thumb			func_021798A0	src/game/ov015/unit_02179824_p02.c	func_021798D4	src/game/ov015/unit_02179824_p03.c	
-ov015	0x021798BC	0x021798C4	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x02179CE5 thumb			func_021798A0	src/game/ov015/unit_02179824_p02.c	func_021798D4	src/game/ov015/unit_02179824_p03.c	
-ov015	0x021798C4	0x021798CC	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x0217998D thumb			func_021798A0	src/game/ov015/unit_02179824_p02.c	func_021798D4	src/game/ov015/unit_02179824_p03.c	
-ov015	0x021798CC	0x021798D4	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x021799C1 thumb			func_021798A0	src/game/ov015/unit_02179824_p02.c	func_021798D4	src/game/ov015/unit_02179824_p03.c	
-ov015	0x02179D78	0x02179D80	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x0217A024 arm			func_02179D68	src/game/ov015/unit_02179CAC_p01.c	func_02179D80	src/game/ov015/unit_02179CAC_p02.c	
 ov016	0x021B979C	0x021B97A8	12	leaf	labeled	EXACT	thumb	strong	label,ref,tailcall	ldr r3, [pc, #4]; movs r1, #0; bx r3	3	func_021B976C	src/game/ov016/unit_021B96B4.c	func_021B97A8	src/game/ov016/unit_021B97A8_p01.c	
-ov016	0x021C1624	0x021C1630	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_021C15FC	src/game/ov016/unit_021C1488.c	func_021C1630	src/game/ov016/unit_021C1630.c	
-ov018	0x0217FA18	0x0217FA1C	4	data	hidden				ptrs=0 t:no end a:no end			func_0217F95C	src/game/ov018/intrude_subdisp_p07.c	func_0217FA1C	src/game/ov018/intrude_subdisp_p07.c	
-ov018	0x021828A8	0x021828B0	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x0218236D thumb			func_0218261C	src/game/ov018/intrude_subdisp_p13.c	func_021828B8	src/game/ov018/unit_021828B8.c	
-ov018	0x021828B0	0x021828B8	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x021825F9 thumb			func_0218261C	src/game/ov018/intrude_subdisp_p13.c	func_021828B8	src/game/ov018/unit_021828B8.c	
-ov019	0x0217DC5C	0x0217DC64	8	data	hidden				ptrs=2 t:cond branch out @217DC5C a:no end			func_0217D9A8	src/game/ov019/union_oneself_p02.c	func_0217DC64	src/game/ov019/union_oneself_p02.c	
+ov018	0x0217FA18	0x0217FA1C	4	data	hidden				ptrs=0 t:no end a:no end			func_0217F95C	src/game/ov018/intrude_subdisp.c	func_0217FA1C	src/game/ov018/intrude_subdisp.c	
+ov019	0x0217DC5C	0x0217DC64	8	data	hidden				ptrs=2 t:cond branch out @217DC5C a:no end			func_0217D9A8	src/game/ov019/union_oneself.c	func_0217DC64	src/game/ov019/union_oneself.c	
 ov020	0x02183C30	0x02183C34	4	data	hidden				ptrs=0 t:no end a:no end			func_02183B90	src/game/ov020/unit_02183B60.c	func_02183C34	src/game/ov020/unit_02183B60.c	
 ov020	0x02185E9C	0x02185EB0	20	data	hidden				ptrs=0 t:no end a:no end			func_02185D38	src/game/ov020/unit_02184C78.c	func_02185EB0	src/game/ov020/field_wfbc_data_local.c	
-ov021	0x021938FC	0x02193904	8	veneer	labeled	EXACT	thumb	strong	ldr r3,[pc]; bx r3; target=0x02193E55 thumb			func_021938F4	src/game/ov021/field_wfbc_p01.c	func_02193904	src/game/ov021/field_wfbc_p01.c	
-ov021	0x02198E44	0x02198E60	28	func	labeled	EXACT	thumb	strong	label,ref,push	push {r4, lr}; adds r4, r0, #0; movs r1, #4; bl #0x216d6bc	11	func_02198E2C	src/game/ov021/unit_02198D3C.c	func_02198E7C	src/game/ov021/unit_02198D3C.c	
-ov021	0x02198E60	0x02198E7C	28	func	labeled	EXACT	thumb	strong	label,ref,push	push {r4, lr}; adds r4, r0, #0; movs r1, #4; bl #0x216d6bc	11	func_02198E2C	src/game/ov021/unit_02198D3C.c	func_02198E7C	src/game/ov021/unit_02198D3C.c	
-ov021	0x0219A528	0x0219A54C	36	func	labeled	EXACT	thumb	strong	label,ref,push	push {r3, r4, r5, lr}; adds r4, r1, #0; adds r5, r0, #0; movs r1, #8	14	func_0219A4CC	src/game/ov021/unit_02198D3C.c	func_0219A54C	src/game/ov021/unit_02198D3C.c	
-ov021	0x0219BF60	0x0219BF7C	28	func	labeled	EXACT*	thumb	strong	label,ref,push	push {r3, r4, r5, lr}; movs r1, #4; adds r5, r0, #0; adds r4, r2, #0	12	func_0219BF54	src/game/ov021/unit_0219B508.c	func_0219BF7C	src/game/ov021/unit_0219B508.c	
-ov021	0x0219C0D4	0x0219C0E8	20	func	labeled	EXACT*	thumb	strong	label,ref,push	push {r3, r4, r5, lr}; adds r5, r1, #0; movs r1, #0xc; adds r4, r2, #0	8	func_0219C0AC	src/game/ov021/unit_0219B508.c	func_0219C0E8	src/game/ov021/unit_0219B508.c	
-ov021	0x021A0EE4	0x021A0F30	76	func	labeled	EXACT	thumb	strong	label,ref,push	push {r4, r5, r6, lr}; adds r4, r0, #0; adds r5, r1, #0; bne #0x21a0f2c	30	func_021A0ED4	src/game/ov021/field_fog.c	func_021A0F30	src/game/ov021/field_fog.c	
-ov021	0x021AB474	0x021AB490	28	leaf	hidden		thumb	weak		cmp r0, #0x54; beq #0x21ab484; ldr r1, [pc, #0x10]; adds r0, r0, r1	12	func_021AB458	src/game/ov021/field_effect_p10.c	func_021AB4B8	src/game/ov021/field_effect_p11.c	
-ov021	0x021AB490	0x021AB4A4	20	leaf	hidden		thumb	weak		cmp r0, #0x52; beq #0x21ab49c; cmp r0, #0x56; beq #0x21ab49c	10	func_021AB458	src/game/ov021/field_effect_p10.c	func_021AB4B8	src/game/ov021/field_effect_p11.c	
-ov021	0x021AB4A4	0x021AB4B8	20	leaf	hidden		thumb	weak		cmp r0, #0x51; beq #0x21ab4b0; cmp r0, #0x55; beq #0x21ab4b0	10	func_021AB458	src/game/ov021/field_effect_p10.c	func_021AB4B8	src/game/ov021/field_effect_p11.c	
 ov021	0x021B3254	0x021B3258	4	data	hidden				ptrs=1 t:no end a:no end			func_021B3158	src/game/ov021/scrcmd_proc_fld.c	func_021B3258	src/game/ov021/scrcmd_proc_fld.c	
 ov021	0x021B5DF4	0x021B5DF8	4	leaf	hidden		thumb	weak		pop {r3, r4}; bx lr	2	func_021B5DD0	src/game/ov021/scrcmd_c03center.c	func_021B5DF8	src/game/ov021/scrcmd_c03center.c	
 ov021	0x021CB6D0	0x021CB6DC	12	data	hidden				ptrs=0 t:no end a:no end			func_021CA5C4	src/game/ov021/bsubway_scr.c	func_021CB6DC	src/game/ov021/bsubway_scr.c	
-ov021	0x021CDAB0	0x021CDAB8	8	data	hidden				ptrs=1 t:no end a:no end			func_021CD6D0	src/game/ov021/fld_trade_p03.c	func_021CDAB8	src/game/ov021/fld_trade_p03.c	
+ov021	0x021CDAB0	0x021CDAB8	8	data	hidden				ptrs=1 t:no end a:no end			func_021CD6D0	src/game/ov021/fld_trade_p02.c	func_021CDAB8	src/game/ov021/fld_trade_p02.c	
 ov021	0x021CF744	0x021CF748	4	data	hidden				ptrs=0 t:no end a:no end			func_021CF5D8	src/game/ov021/trial_house.c	func_021CF748	src/game/ov021/trial_house.c	
 ov021	0x021D2ED8	0x021D2EDC	4	data	hidden				ptrs=1 t:no end a:no end			func_021D2D7C	src/game/ov021/field_palace_sys.c	func_021D2EDC	src/game/ov021/field_palace_sys.c	
 ov039	0x021F36FC	0x021F3A34	824	func	hidden		thumb	strong	push	push {r4, r5, r6, r7, lr}; sub sp, #0x24; str r0, [sp, #4]; bl #0x2188d2c	329	func_021F36F0	src/game/ov039/unit_021F36C0_p01.c	func_021F3A34	src/game/ov039/unit_021F36C0_p02.c	
@@ -470,7 +363,6 @@ ov093	0x021D66A0	0x021D66B0	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[
 ov093	0x021D7E34	0x021D7E44	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x0689C9E5			func_021D7E10	src/game/ov093/unit_021D794C.c	func_021D7E44	src/game/ov093/unit_021D7E44.c	
 ov093	0x021DA2D0	0x021DA2E0	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x0689C945			func_021DA150	src/game/ov093/unit_021D9ADC.c	func_021DA2F0	src/game/ov093/unit_021DA2F0.c	
 ov093	0x021DA2E0	0x021DA2F0	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x0689C945			func_021DA150	src/game/ov093/unit_021D9ADC.c	func_021DA2F0	src/game/ov093/unit_021DA2F0.c	
-ov093	0x021DAEA4	0x021DAEAC	8	veneer	hidden		thumb	strong	ldr r3,[pc]; bx r3; target=0x021D7325 thumb			func_021DAE94	src/game/ov093/unit_021DA624_p01.c	func_021DAEAC	src/game/ov093/unit_021DA624_p02.c	
 ov093	0x021DB1C4	0x021DB1D4	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x0689C9B1			func_021DB1A8	src/game/ov093/unit_021DB0E4_p01.c	func_021DB1D4	src/game/ov093/unit_021DB0E4_p02.c	
 ov093	0x021DB550	0x021DB560	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x0689C8ED			func_021DB4E8	src/game/ov093/unit_021DB0E4_p02.c	func_021DB560	src/game/ov093/unit_021DB560.c	
 ov093	0x021DB99C	0x021DB9AC	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x0689C8DD			func_021DB93C	src/game/ov093/unit_021DB650.c	func_021DB9AC	src/game/ov093/unit_021DB9AC.c	
@@ -646,13 +538,13 @@ ov095	0x06898B20	0x06898B30	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[
 ov095	0x06898B30	0x06898B40	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021C88A5			func_068989CC	src/game/ov095/unit_068989C0.c	func_06898B60	src/game/ov095/unit_06898B60.c	
 ov095	0x06898B40	0x06898B50	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021C88C9			func_068989CC	src/game/ov095/unit_068989C0.c	func_06898B60	src/game/ov095/unit_06898B60.c	
 ov095	0x06898B50	0x06898B60	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D7041			func_068989CC	src/game/ov095/unit_068989C0.c	func_06898B60	src/game/ov095/unit_06898B60.c	
-ov095	0x06898BAC	0x06898BBC	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D775D			func_06898B6C	src/game/ov095/unit_06898B60.c	func_06898BFC	src/game/ov095/unit_06898BFC_p01.c	
-ov095	0x06898BBC	0x06898BCC	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021C8021			func_06898B6C	src/game/ov095/unit_06898B60.c	func_06898BFC	src/game/ov095/unit_06898BFC_p01.c	
-ov095	0x06898BCC	0x06898BDC	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021C88A5			func_06898B6C	src/game/ov095/unit_06898B60.c	func_06898BFC	src/game/ov095/unit_06898BFC_p01.c	
-ov095	0x06898BDC	0x06898BEC	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021C88C9			func_06898B6C	src/game/ov095/unit_06898B60.c	func_06898BFC	src/game/ov095/unit_06898BFC_p01.c	
-ov095	0x06898BEC	0x06898BFC	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D7041			func_06898B6C	src/game/ov095/unit_06898B60.c	func_06898BFC	src/game/ov095/unit_06898BFC_p01.c	
-ov095	0x06898CC0	0x06898CD0	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D6F0D			func_06898C10	src/game/ov095/unit_06898BFC_p02.c	func_06898CE0	src/game/ov095/unit_06898CE0_p01.c	
-ov095	0x06898CD0	0x06898CE0	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D70DD			func_06898C10	src/game/ov095/unit_06898BFC_p02.c	func_06898CE0	src/game/ov095/unit_06898CE0_p01.c	
+ov095	0x06898BAC	0x06898BBC	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D775D			func_06898B6C	src/game/ov095/unit_06898B60.c	func_06898BFC	src/game/ov095/unit_06898BFC.c	
+ov095	0x06898BBC	0x06898BCC	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021C8021			func_06898B6C	src/game/ov095/unit_06898B60.c	func_06898BFC	src/game/ov095/unit_06898BFC.c	
+ov095	0x06898BCC	0x06898BDC	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021C88A5			func_06898B6C	src/game/ov095/unit_06898B60.c	func_06898BFC	src/game/ov095/unit_06898BFC.c	
+ov095	0x06898BDC	0x06898BEC	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021C88C9			func_06898B6C	src/game/ov095/unit_06898B60.c	func_06898BFC	src/game/ov095/unit_06898BFC.c	
+ov095	0x06898BEC	0x06898BFC	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D7041			func_06898B6C	src/game/ov095/unit_06898B60.c	func_06898BFC	src/game/ov095/unit_06898BFC.c	
+ov095	0x06898CC0	0x06898CD0	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D6F0D			func_06898C10	src/game/ov095/unit_06898BFC.c	func_06898CE0	src/game/ov095/unit_06898CE0_p01.c	
+ov095	0x06898CD0	0x06898CE0	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D70DD			func_06898C10	src/game/ov095/unit_06898BFC.c	func_06898CE0	src/game/ov095/unit_06898CE0_p01.c	
 ov095	0x06898D44	0x06898D54	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D7041			func_06898D10	src/game/ov095/unit_06898CE0_p01.c	func_06898D54	src/game/ov095/unit_06898CE0_p02.c	
 ov095	0x06898DD0	0x06898DE0	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D7041			func_06898D54	src/game/ov095/unit_06898CE0_p02.c	func_06898DE0	src/game/ov095/unit_06898CE0_p03.c	
 ov095	0x06898E0C	0x06898E1C	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D70A9			func_06898DE0	src/game/ov095/unit_06898CE0_p03.c	func_06898E1C	src/game/ov095/unit_06898E1C.c	
@@ -1076,18 +968,10 @@ ov095	0x0689D4D0	0x0689D4E0	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[
 ov095	0x0689D4E0	0x0689D4F0	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021D6DCD			func_0689D448	src/game/ov095/unit_0689D2F8_p02.c	func_0689D4F0	src/game/ov095/unit_0689D4F0_p01.c	
 ov095	0x0689D5B8	0x0689D5C8	16	veneer	labeled		thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x021B86A1			func_0689D59C	src/game/ov095/unit_0689D4F0_p01.c	func_0689D5C8	src/game/ov095/unit_0689D4F0_p02.c	
 ov099	0x021C0478	0x021C047C	4	data	hidden				ptrs=0 t:no end a:no end			func_021C02C8	src/game/ov099/unit_021BF050.c	func_021C047C	src/game/ov099/unit_021BF050.c	
-ov107	0x021F5ED8	0x021F5EE4	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_021F5EA0	src/game/ov107/unit_021F4560_p03.c	func_021F5EE4	src/game/ov107/unit_021F4560_p04.c	
-ov114	0x021B9C60	0x021B9C6C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_021B9C1C	src/game/ov114/unit_021B9B64.c	func_021B9C6C	src/game/ov114/unit_021B9C6C.c	
-ov114	0x021C1210	0x021C121C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_021C1184	src/game/ov114/ghttpEncryption_p01.c	func_021C121C	src/game/ov114/ghttpEncryption_p02.c	
-ov114	0x021C2304	0x021C2310	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_021C22EC	src/game/ov114/unit_021C2284_p01.c	func_021C2310	src/game/ov114/unit_021C2284_p02.c	
-ov114	0x021C2338	0x021C2344	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_021C2324	src/game/ov114/unit_021C2284_p02.c	func_021C2344	src/game/ov114/unit_021C2344.c	
-ov121	0x021DD968	0x021DD980	24	data	hidden				ptrs=4 t:undecodable@21DD968 a:undecodable@21DD968			func_021DD24C	src/game/ov121/mystery_util_p04.c	func_021DD980	src/game/ov121/mystery_net_p01.c	
-ov125	0x021D7D24	0x021D7D30	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,ref,tailcall	ldr ip, [pc]; bx ip	2	func_021D7D20	src/game/ov125/unit_021D7CEC_p01.c	func_021D7D30	src/game/ov125/unit_021D7CEC_p02.c	
-ov125	0x021D85DC	0x021D85E8	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_021D85C0	src/game/ov125/unit_021D7CEC_p02.c	func_021D85E8	src/game/ov125/unit_021D7CEC_p03.c	
+ov121	0x021DD968	0x021DD980	24	data	hidden				ptrs=4 t:undecodable@21DD968 a:undecodable@21DD968			func_021DD24C	src/game/ov121/mystery_util.c	func_021DD980	src/game/ov121/mystery_net_p01.c	
 ov132	0x021F9E20	0x021F9E34	20	leaf	hidden		thumb	weak		ldr r2, [r0, #0x30]; lsls r0, r1, #2; adds r0, r2, r0; ldr r0, [r0, #4]	9	func_021F9E18	src/game/ov132/sta_acting.c	func_021F9E40	src/game/ov132/script_command.c	
 ov132	0x021F9E34	0x021F9E3C	8	leaf	hidden		thumb	weak		adds r0, r0, r1; adds r0, #0xf7; ldrb r0, [r0]; bx lr	4	func_021F9E18	src/game/ov132/sta_acting.c	func_021F9E40	src/game/ov132/script_command.c	
 ov132	0x021F9E3C	0x021F9E40	4	leaf	hidden		thumb	weak		str r1, [r0, #0x10]; bx lr	2	func_021F9E18	src/game/ov132/sta_acting.c	func_021F9E40	src/game/ov132/script_command.c	
-ov132	0x021FD4D0	0x021FD4F8	40	leaf	hidden		thumb	strong	ref,push	push {r3, r4}; movs r4, #0; adds r3, r4, #0; movs r0, #0x30	20	func_021FD470	src/game/ov132/script_command.c	func_021FD4F8	src/game/ov132/unit_021FD4F8.c	
 ov135	0x02201638	0x0220163C	4	data	hidden				ptrs=0 t:no end a:no end			func_0220157C	src/game/ov135/worldtrade_adapter_p04.c	func_0220163C	src/game/ov135/worldtrade_adapter_p04.c	
 ov136	0x021C6E14	0x021C6E18	4	data	hidden				ptrs=0 t:no end a:no end			func_021C6C34	src/game/ov136/mb_seq.c	func_021C6E18	src/game/ov136/mb_seq.c	
 ov137	0x021DD0AC	0x021DD0B8	12	data	hidden				ptrs=3 t:no end a:no end			func_021DCF80	src/game/ov137/guru2.c	func_021DD0B8	src/game/ov137/guru2.c	
@@ -1098,8 +982,6 @@ ov170	0x021E324C	0x021E3258	12	data	hidden				ptrs=2 t:no end a:no end			func_02
 ov170	0x021E5C58	0x021E5C5C	4	data	hidden				ptrs=0 t:no end a:no end			func_021E5AD4	src/game/ov170/box2_seq.c	func_021E5C5C	src/game/ov170/box2_seq.c	
 ov175	0x021DC5A8	0x021DC5AC	4	data	hidden				ptrs=0 t:no end a:no end			func_021DC338	src/game/ov175/wifibattlematch_net.c	func_021DC5AC	src/game/ov175/wifibattlematch_net.c	
 ov175	0x021DC668	0x021DC66C	4	data	hidden				ptrs=1 t:no end a:no end			func_021DC610	src/game/ov175/wifibattlematch_net.c	func_021DC66C	src/game/ov175/wifibattlematch_net.c	
-ov175	0x021DD560	0x021DD56C	12	veneer	labeled		arm	strong	ov230 decryptor entry,label,tailcall	ldr ip, [pc]; bx ip	2	func_021DD4D8	src/game/ov175/unit_021DD2D4.c	func_021DD56C	src/game/ov175/unit_021DD56C/ov175_func_021DD56C.c	
-ov175	0x021DFA98	0x021DFAA0	8	leaf	hidden		arm	strong	ref	add r0, r0, #0x5c; bx lr	2	func_021DFA6C	src/game/ov175/unit_021DF9D8.c	func_021DFAA0	src/game/ov175/unit_021DFAA0.c	
 ov197	0x0220D118	0x0220D11C	4	data	hidden				ptrs=0 t:no end a:no end			func_0220D024	src/game/ov197/b_bag_main.c	func_0220D11C	src/game/ov197/b_bag_main.c	
 ov198	0x0220F9E8	0x0220F9F8	16	data	hidden				ptrs=0 t:no end a:no end			func_0220F88C	src/game/ov198/b_plist_main.c	func_0220F9F8	src/game/ov198/b_plist_main.c	
 ov198	0x0220FB34	0x0220FB44	16	data	hidden				ptrs=0 t:no end a:no end			func_0220F9F8	src/game/ov198/b_plist_main.c	func_0220FB44	src/game/ov198/b_plist_main.c	
@@ -1112,8 +994,6 @@ ov210	0x021BD890	0x021BD898	8	data	hidden				ptrs=0 t:no end a:no end			func_021
 ov210	0x021BDB14	0x021BDB1C	8	data	hidden				ptrs=0 t:no end a:no end			func_021BD920	src/game/ov210/zknsearch_main.c	func_021BDB1C	src/game/ov210/zknsearch_main.c	
 ov210	0x021BDD70	0x021BDD78	8	data	hidden				ptrs=0 t:no end a:no end			func_021BDBA4	src/game/ov210/zknsearch_main.c	func_021BDD78	src/game/ov210/zknsearch_main.c	
 ov210	0x021BDFA0	0x021BDFA8	8	data	hidden				ptrs=0 t:no end a:no end			func_021BDE00	src/game/ov210/zknsearch_main.c	func_021BDFA8	src/game/ov210/zknsearch_main.c	
-ov210	0x021C06F8	0x021C06FC	4	leaf	hidden		thumb	strong	ref	bx lr	1	func_021C06C4	src/game/ov210/unit_021C04CC.c	func_021C06FC	src/game/ov210/unplaced/ov210_func_021C06FC.c	
-ov213	0x021BA30C	0x021BA330	36	func	labeled	EXACT*	thumb	strong	label,ref,push	push {r4, lr}; adds r4, r0, #0; adds r0, #0x20; bl #0x21ba14c	14	func_021BA2F0	src/game/ov213/unit_021B95A0.c	func_021BA330	src/game/ov213/unit_021B95A0.c	
 ov230	0x02187F00	0x021882A0	928	data	hidden				ptrs=10 t:ok					func_021889B0	src/game/ov230/unit_021889B0.c	
 ov230	0x021882A0	0x021882C4	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/unit_021889B0.c	
 ov230	0x021882C4	0x021882DC	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/unit_021889B0.c	

@@ -44,11 +44,13 @@ decrypted view asm/ov230d) the tool
      function) and removes everything covered.  What is left is walked piece by
      piece:
        pad       zero words and Thumb nop pairs (reported from 4 bytes)
-       veneer    ldr rX,[pc]; bx rX; .word  |  bx pc; nop; ldr ip,[pc]; bx ip; .word
+       veneer    bx pc; nop; ldr ip,[pc]; bx ip; .word (16 bytes)
                  |  ldr pc,[pc,#-4]; .word  |  any piece whose listing label is
-                 veneer_XXXXXXXX  |  the ov230 decryptor entries.  The 8 byte Thumb
-                 form is also what mwcc writes for a one-call tail stub; the note
-                 shows the target.
+                 veneer_XXXXXXXX  |  the ov230 decryptor entries.
+       tailstub  (class leaf, note "tailstub target=...") the 8 byte Thumb form
+                 ldr r3,[pc]; bx r3; .word and the 12 byte ARM form
+                 ldr ip,[pc]; bx ip; .word.  mwcc writes these for a one-call tail
+                 stub (void f(void) { g(); }), so they are code to write.
        leaf      decodes to a complete function with no bl and no push of lr
        func      decodes to a complete function with a bl or a push/pop of lr
        frag      decodes cleanly but reaches the next function start without a
@@ -113,7 +115,7 @@ RE_FUNCNAME = re.compile(r"(?:func|sub)_([0-9A-Fa-f]{8})$")
 # which protofix.DECL_RE (and so gamecheck.py) does not see
 DECL = re.compile(r"^[ \t]*((?:(?:extern|static)\s+)*)([A-Za-z_][\w\s\*]*?)\b((?:[A-Za-z][A-Za-z0-9]*_)?(?:func|sub)_[0-9A-Fa-f]{8})\s*\(([^;{}]*)\)\s*([;{])", re.M)
 # any top level function definition, for names that carry no address (vendor names, asm functions)
-DEF_ANY = re.compile(r"^[ \t]*((?:(?:extern|static|asm|inline)\s+)*)([A-Za-z_][\w\s\*]*?)\b([A-Za-z_]\w*)\s*\(([^;{}]*)\)\s*\{", re.M)
+DEF_ANY = re.compile(r"^[ \t]*((?:(?:extern|static|asm|inline)\s+)*)([A-Za-z_][\w\s\*]*?)\b([A-Za-z_]\w*)\s*\(([^;{}]*)\)(?:\s*[^\s;{}()][^;{}()]*;)*\s*\{", re.M)
 HEXPAIR = set("0123456789ABCDEF")
 
 CC_OK = (carm.ARM_CC_AL, carm.ARM_CC_INVALID)
@@ -674,6 +676,9 @@ def veneer_at(im, a, limit):
         if b[0] == 0 and (b[1] & 0xF8) == 0x48 and b[3] == 0x47 and b[2] == ((b[1] & 7) << 3) and a + 8 <= limit:
             tgt = struct.unpack("<I", b[4:8])[0]
             return 8, "ldr r%d,[pc]; bx r%d; target=0x%08X %s" % (b[1] & 7, b[1] & 7, tgt, "thumb" if tgt & 1 else "arm")
+    if len(b) >= 12 and a % 4 == 0 and b[:8] == bytes.fromhex("00C09FE5" "1CFF2FE1") and a + 12 <= limit:
+        tgt = struct.unpack("<I", b[8:12])[0]
+        return 12, "ldr ip,[pc]; bx ip; target=0x%08X %s" % (tgt, "thumb" if tgt & 1 else "arm")
     if len(b) >= 16 and a % 2 == 0 and b[:12] == bytes.fromhex("7847C046" "00C09FE5" "1CFF2FE1") and a + 16 <= limit:
         tgt = struct.unpack("<I", b[12:16])[0]
         return 16, "bx pc; nop; ldr ip,[pc]; bx ip; target=0x%08X" % tgt
@@ -870,8 +875,15 @@ def analyse_region(region, src, sdk_cache, runtime, registry, opts):
             vz = veneer_at(im, pos, limit)
             if vz:
                 size, note = vz
-                pieces.append(Piece(pos, pos + size, "veneer", "labeled" if is_label else "hidden",
-                                    "thumb" if note.startswith(("ldr r", "bx pc")) else "arm", "strong", note))
+                isa = "thumb" if note.startswith(("ldr r", "bx pc")) else "arm"
+                if note.startswith(("ldr r", "ldr ip")):
+                    # compiler tail call (mwcc), real code: not a linker veneer
+                    pieces.append(Piece(pos, pos + size, "leaf", "labeled" if is_label else "hidden",
+                                        isa, "strong", "tailstub target=" + note.split("target=")[1],
+                                        note.split("; target")[0], 2))
+                else:
+                    pieces.append(Piece(pos, pos + size, "veneer", "labeled" if is_label else "hidden",
+                                        isa, "strong", note))
                 pos += size
                 prev_func = True
                 continue

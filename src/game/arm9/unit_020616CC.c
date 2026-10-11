@@ -1,7 +1,7 @@
 /*
  * file:     unit_020616CC.c
  * unit:     yes
- * function: func_020616CC, func_02061808, func_02061824, func_02061840, func_02061860, func_02061878, func_0206188C, func_020618B8, func_020618E4, func_02061908
+ * function: func_020616CC, func_02061808, func_02061824, func_02061840, func_02061860, func_02061878, func_0206188C, func_020618B8, func_020618E4, func_02061908, func_0206192C, func_02061938, func_02061944, func_02061950, func_0206195C, func_02061968, func_02061974, func_02061980, func_0206198C, func_02061998, func_020619A4, func_020619B0
  * address:  0x020616CC
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -54,6 +54,30 @@ void func_020618B8(u32 a, u32 b, u32 c);
 void func_020618E4(u32 a, u32 b, u32 c);
 void func_02061908(u32 a, u32 b, u32 c);
 extern struct Arena02146B74 g_02146B74;
+extern void func_0207EE68(u32 a, u32 b, u32 c);
+extern void func_0207EF90(u32 a, u32 b, u32 c);
+extern void func_0207F0B8(u32 a, u32 b, u32 c);
+extern void func_0207F1E0(u32 a, u32 b, u32 c);
+extern void func_0207E888(u32 a, u32 b, u32 c);
+extern void func_0207EA00(u32 a, u32 b, u32 c);
+extern void func_0207EB78(u32 a, u32 b, u32 c);
+extern void func_0207ECF0(u32 a, u32 b, u32 c);
+extern void func_0207EB78(u32 a, u32 b, u32 c);
+extern void func_0207ECF0(u32 a, u32 b, u32 c);
+extern void func_0207E51C(u32 a, u32 b, u32 c);
+extern void func_0207E3D0(u32 a, u32 b, u32 c);
+void func_0206192C(u32 a, u32 b, u32 c);
+void func_02061938(u32 a, u32 b, u32 c);
+void func_02061944(u32 a, u32 b, u32 c);
+void func_02061950(u32 a, u32 b, u32 c);
+void func_0206195C(u32 a, u32 b, u32 c);
+void func_02061968(u32 a, u32 b, u32 c);
+void func_02061974(u32 a, u32 b, u32 c);
+void func_02061980(u32 a, u32 b, u32 c);
+void func_0206198C(u32 a, u32 b, u32 c);
+void func_02061998(u32 a, u32 b, u32 c);
+void func_020619A4(u32 a, u32 b, u32 c);
+void func_020619B0(u32 a, u32 b, u32 c);
 
 
 /*
@@ -346,4 +370,76 @@ void func_02061908(u32 a, u32 b, u32 c)
     func_0207FB2C();
     func_0207FC48(a, c);
     func_0207FCE4();
+}
+
+
+void func_0206192C(u32 a, u32 b, u32 c)
+{
+    func_0207EE68(a, b, c);
+}
+
+
+void func_02061938(u32 a, u32 b, u32 c)
+{
+    func_0207EF90(a, b, c);
+}
+
+
+void func_02061944(u32 a, u32 b, u32 c)
+{
+    func_0207F0B8(a, b, c);
+}
+
+
+void func_02061950(u32 a, u32 b, u32 c)
+{
+    func_0207F1E0(a, b, c);
+}
+
+
+void func_0206195C(u32 a, u32 b, u32 c)
+{
+    func_0207E888(a, b, c);
+}
+
+
+void func_02061968(u32 a, u32 b, u32 c)
+{
+    func_0207EA00(a, b, c);
+}
+
+
+void func_02061974(u32 a, u32 b, u32 c)
+{
+    func_0207EB78(a, b, c);
+}
+
+
+void func_02061980(u32 a, u32 b, u32 c)
+{
+    func_0207ECF0(a, b, c);
+}
+
+
+void func_0206198C(u32 a, u32 b, u32 c)
+{
+    func_0207EB78(a, b, c);
+}
+
+
+void func_02061998(u32 a, u32 b, u32 c)
+{
+    func_0207ECF0(a, b, c);
+}
+
+
+void func_020619A4(u32 a, u32 b, u32 c)
+{
+    func_0207E51C(a, b, c);
+}
+
+
+void func_020619B0(u32 a, u32 b, u32 c)
+{
+    func_0207E3D0(a, b, c);
 }

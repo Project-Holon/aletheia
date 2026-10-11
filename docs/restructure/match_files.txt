@@ -1,4 +1,3 @@
-arm9/iss_3ds_sys_p01.c
 ov009/unit_0215CA8C.c
 ov021/unit_02198D3C.c
 ov021/unit_021A1144.c

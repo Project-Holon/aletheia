@@ -1,7 +1,7 @@
 /*
  * file:     unit_021C1488.c
  * unit:     yes
- * function: func_021C1488, func_021C14F4, func_021C1518, func_021C15D0, func_021C15FC, func_021C1614
+ * function: func_021C1488, func_021C14F4, func_021C1518, func_021C15D0, func_021C15FC, func_021C1614, func_021C1624
  * address:  0x021C1488
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -25,6 +25,7 @@
  *   func_021BC7F0  0x021BC7F0  thumb  ov016
  *   func_021CF9BC  0x021CF9BC  arm  ov016
  *   DWCi_HEAPlAllocEx            0x021D6414  arm
+ *   func_021D647C  0x021D647C  arm  ov016
  */
 extern void *func_021D6414(unsigned long size, int align);
 extern int func_021BC63C(int prio, int maxap, void (*notify)(void *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stack);
@@ -46,6 +47,8 @@ void func_021C15D0(void);
 asm void cbConfig(void);
 asm void aossAlloc(void);
 extern int *g_021DE594;
+extern void func_021D647C(void *mem);
+void func_021C1624(void *mem);
 
 
 /*
@@ -128,4 +131,9 @@ asm void aossAlloc(void)
 	ldr ip, =DWCi_HEAPlAllocEx
 	mov r1, #0x20
 	bx ip
+}
+
+void func_021C1624(void *mem)
+{
+    func_021D647C(mem);
 }

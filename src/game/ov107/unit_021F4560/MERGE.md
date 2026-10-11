@@ -4,8 +4,7 @@ Merged as far as the verifier and the compile allow. Remaining parts:
 
 - `unit_021F4560_p01.c`: func_021F4560 .. func_021F4E9C (6 functions), MATCH
 - `unit_021F4560_p02.c`: MBi_ChildCallback, MBi_GetBeaconPeriodDispersion (2 functions), MATCH
-- `unit_021F4560_p03.c`: MB_Init .. MBi_CallReset (7 functions), MATCH
-- `unit_021F4560_p04.c`: MBi_CommEnd .. MBi_CheckWmErrcode (11 functions), EXACT
+- `unit_021F4560_p03.c`: MB_Init .. MBi_CheckWmErrcode (19 functions, includes the tail stub func_021F5ED8), EXACT
 
 MATCH (not EXACT) in p01 to p03 is the `.data` section-relative literal: the compiler
 addresses the static words at 0x021F6E58 as `.data` + offset, and a section-relative
@@ -22,7 +21,6 @@ Blockers:
   the right layout but a different MB_Init. The whole TU therefore differs only in
   ChildCallback. p02 defines its own block (MB_WM_OWN_STATICS in mb_wm.h) with a
   stand-in `mbi_game` so the offsets are right.
-- p03|p04: linker veneer `ldr ip, [pc]; bx ip; .word 0x021F5EA0` at 0x021F5ED8
-  (12 bytes, no function covers it).
+- p03|p04: closed. The 12 bytes at 0x021F5ED8 (`ldr ip, [pc]; bx ip; .word 0x021F5EA0`) are a compiler tail call, `int func_021F5ED8(void) { return MBi_CallReset(); }`, and p04 shares p03's statics block (MB_WM_OWN_STATICS before the include).
 
 Shared rule: the part files must stay separate where a data label only has witnesses in the other part.

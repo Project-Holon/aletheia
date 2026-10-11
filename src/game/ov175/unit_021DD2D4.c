@@ -1,7 +1,7 @@
 /*
  * file:     unit_021DD2D4.c
  * unit:     yes
- * function: func_021DD2D4, func_021DD328, func_021DD358, func_021DD380, func_021DD3A8, func_021DD3D0, func_021DD3F8, func_021DD420, func_021DD4B0, func_021DD4D8
+ * function: func_021DD2D4, func_021DD328, func_021DD358, func_021DD380, func_021DD3A8, func_021DD3D0, func_021DD3F8, func_021DD420, func_021DD4B0, func_021DD4D8, func_021DD560
  * address:  0x021DD2D4
  * region:   ov175
  * compiler: dsi/1.1p1
@@ -23,6 +23,7 @@
  *   g_021E4C08  0x021E4C08  data
  *   g_021E36B0  0x021E36B0  data
  *   g_021E36C4  0x021E36C4  data
+ *   func_021DD328  0x021DD328  arm  ov175
  */
 struct GSTask;
 typedef struct SAKEInternal_021DD2D4 {
@@ -73,6 +74,7 @@ int func_021DD3F8(char *a, char *b);
 int func_021DD420(SAKEInternal_021DD420 *sake, int fileId, char *url);
 int func_021DD4B0(char *a, char *b);
 int func_021DD4D8(SAKEInternal *sake, char *url);
+int func_021DD560(char *a, char *b);
 extern char g_021E4B88[128];
 extern char g_021E363C[];
 extern char g_021E365C[];
@@ -237,4 +239,9 @@ int func_021DD4D8(SAKEInternal *sake, char *url)
     if (rcode < 0)
         return 0;
     return 1;
+}
+
+int func_021DD560(char *a, char *b)
+{
+    return func_021DD328(a, b);
 }
