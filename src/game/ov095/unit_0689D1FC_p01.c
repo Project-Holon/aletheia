@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0689D248  0x0689D248  thumb
+ *   func_021B8640  0x021B8640  thumb
  *   func_0689D258  0x0689D258  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_0689D248(int);
+extern u32 func_021B8640(int);
 extern void func_0689D258(u8 *, int, int, u8);
 
 void func_0689D1FC(u8 *a, int b, int c)
@@ -30,7 +30,7 @@ void func_0689D1FC(u8 *a, int b, int c)
     }
     for (i = 0; i < 6; i++)
         a[0x12 + i] = 6;
-    n = func_0689D248(b);
+    n = func_021B8640(b);
     for (i = 0; i <= n; i++)
         func_0689D258(a, b, c, i);
 }

@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689C8DC  0x0689C8DC  thumb
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D62C4  0x021D62C4  thumb  ov093
  *   func_021D70AC  0x021D70AC  thumb  ov093
@@ -31,7 +32,6 @@
  *   func_021B9A24  0x021B9A24  thumb  ov093
  *   func_021E85F8  0x021E85F8  thumb  ov093
  *   sub_0201C1BC   0x0201C1BC  thumb
- *   func_021DB99C  0x021DB99C  thumb  ov093
  *   d_021F0AA0     0x021F0AA0  data   ov093  a4
  *   d_021F0AB8     0x021F0AB8  data   ov093  a4
  */
@@ -71,7 +71,7 @@ extern void func_021C88B4(void *a, int k, int b);
 extern int func_021B9A24(u32 a, u32 b);
 extern int func_021E85F8(int c);
 extern u32 sub_0201C1BC(u16 move);
-extern int func_021DB99C(int t);
+extern int func_0689C8DC(int t);
 int func_021DB650(int a, int b, int c, int d, int e, u8 g);
 void func_021DB6A4(void *a, int b, int c, int *d);
 void func_021DB6C0(void *a,int b,int c,int *d);
@@ -93,8 +93,6 @@ extern int d_021F0AA0[];
 extern int d_021F0AB8[];
 
 
-
-
 int func_021DB650(int a, int b, int c, int d, int e, u8 g)
 {
     u32 i;
@@ -112,8 +110,6 @@ int func_021DB650(int a, int b, int c, int d, int e, u8 g)
 }
 
 
-
-
 void func_021DB6A4(void *a, int b, int c, int *d)
 {
     if (*d == 0) {
@@ -123,10 +119,7 @@ void func_021DB6A4(void *a, int b, int c, int *d)
 }
 
 
-
 void func_021DB6C0(void *a,int b,int c,int *d) { if(c==func_021D775C(2)) func_021DB6A4(a,b,c,d); }
-
-
 
 
 /* 021DB6E4  shape F3: gate on func_021D775C(2) then func_021D7324 */
@@ -140,10 +133,7 @@ void func_021DB6E4(int a, int b, int c)
 }
 
 
-
 void func_021DB6FC(int a,void *b,int c) { unsigned char *p; if(c==func_021D775C(2) && func_021D5B40(func_021C7CF4(b,c))) { p=func_021C88A4(b,0x21,c); p[4]=c; func_021C88C8(b,p); } }
-
-
 
 
 void func_021DB734(int a, int b, int c, int d)
@@ -155,7 +145,6 @@ void func_021DB734(int a, int b, int c, int d)
             ((struct Obj13478 *)d)->f8 = func_021D76BC(0x22, 0x13);
     }
 }
-
 
 
 void func_021DB774(void *a, void *p, int id, int *s)
@@ -175,13 +164,11 @@ void func_021DB774(void *a, void *p, int id, int *s)
 }
 
 
-
 int *func_021DB7DC(int *p)
 {
     *p = 7;
     return d_021F0D9C;
 }
-
 
 
 void func_021DB7E8(void *a, void *p, int id)
@@ -204,11 +191,7 @@ void func_021DB7E8(void *a, void *p, int id)
 }
 
 
-
-
 void func_021DB854(int a,int b,int c,int *d) { if(c==func_021D775C(2) && func_021D775C(0x2d)==0) *d=func_021D76BC(0x41,1); }
-
-
 
 
 void func_021DB87C(void *a, void *p, int id, int *s)
@@ -226,7 +209,6 @@ void func_021DB87C(void *a, void *p, int id, int *s)
 }
 
 
-
 int *func_021DB8D0(int *p)
 {
     *p = 3;
@@ -234,13 +216,11 @@ int *func_021DB8D0(int *p)
 }
 
 
-
 int *func_021DB8DC(int *p)
 {
     *p = 3;
     return d_021F0AB8;
 }
-
 
 
 void func_021DB8E8(void *a, void *p, int id)
@@ -258,14 +238,10 @@ void func_021DB8E8(void *a, void *p, int id)
 }
 
 
-
-
 static inline void set8(int k, u8 v)
 {
     func_021D76BC(k, v);
 }
-
-
 
 
 void func_021DB93C(int a, int b, int x)
@@ -281,7 +257,7 @@ void func_021DB93C(int a, int b, int x)
             t = func_021D775C(0x12);
             if (sub_0201C1BC(t) == 10)
                 ok = 1;
-            else if (func_021DB99C(t) != 0)
+            else if (func_0689C8DC(t) != 0)
                 ok = 1;
         }
         if (ok != 0)

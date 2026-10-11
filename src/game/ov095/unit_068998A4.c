@@ -12,17 +12,17 @@
  * Calls Thumb bx-pc veneers: 068998C4 -> 021D775C,
  * 068998D4 -> 021B9A40, 068998E4 -> 021D76BC.
  * symbols:
- *   func_068998C4 0x068998C4 thumb ov095
- *   func_068998D4 0x068998D4 thumb ov095
- *   func_068998E4 0x068998E4 thumb ov095
+ *   func_021B9A40  0x021B9A40  thumb
+ *   func_021D76BC  0x021D76BC  thumb
+ *   func_021D775C  0x021D775C  thumb
  */
 typedef unsigned char u8;
-extern int func_068998C4(int);
-extern int func_068998D4(u8);
-extern int func_068998E4(int, unsigned int);
+extern int func_021D775C(int);
+extern int func_021B9A40(u8);
+extern int func_021D76BC(int, unsigned int);
 void func_068998A4(int a, int b, int c)
 {
-    if (c == func_068998D4((u8)func_068998C4(3))) {
-        func_068998E4(0x45, 1);
+    if (c == func_021B9A40((u8)func_021D775C(3))) {
+        func_021D76BC(0x45, 1);
     }
 }

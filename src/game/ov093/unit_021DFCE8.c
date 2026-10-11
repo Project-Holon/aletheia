@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689C8EC  0x0689C8EC  thumb
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021D76BC  0x021D76BC  thumb  ov093
  *   func_021E8BD0  0x021E8BD0  thumb  ov093
@@ -50,7 +51,6 @@
  *   d_021F188C     0x021F188C  data   ov093  a4
  *   d_021F19F4     0x021F19F4  data   ov093  a4
  *   func_0201C314  0x0201C314  thumb
- *   func_021E0274  0x021E0274  thumb  ov093
  *   func_021D7098  0x021D7098  thumb  ov093
  *   func_021C7EC4  0x021C7EC4  thumb  ov093
  *   func_021D7090  0x021D7090  thumb  ov093
@@ -102,7 +102,7 @@ extern int func_021C7F4C(struct Flag *p);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(struct S *p, unsigned int v);
 extern int func_0201C314(u16 id);
-extern int func_021E0274(u16 id);
+extern int func_0689C8EC(u16 id);
 extern int func_021D7098(u8 *p);
 extern u32 func_021C7EC4(u8 *p);
 extern void func_021D7090(u8 *p);
@@ -220,25 +220,6 @@ extern int d_021F19F4[];
 extern int d_021F19C4[];
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021DFCE8(int a, int b, int c)
 {
     int v;
@@ -251,49 +232,11 @@ void func_021DFCE8(int a, int b, int c)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int *func_021DFD14(int *p)
 {
     *p = 2;
     return d_021F173C;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021DFD20(int self, int q, int id)
@@ -308,26 +251,6 @@ void func_021DFD20(int self, int q, int id)
         return;
     func_021DD044((void *)self, (void *)q, id);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021DFD68(void *self, void *q, int id)
@@ -345,47 +268,11 @@ void func_021DFD68(void *self, void *q, int id)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int *func_021DFD98(int *p)
 {
     *p = 2;
     return d_021F174C;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021DFDA4(int a, int b, int c)
@@ -396,25 +283,6 @@ void func_021DFDA4(int a, int b, int c)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021DFDEC(void *self, void *q, int id)
@@ -432,45 +300,11 @@ void func_021DFDEC(void *self, void *q, int id)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int *func_021DFE1C(int *p)
 {
     *p = 2;
     return d_021F176C;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021DFE28(int a, void *b, int c)
@@ -481,24 +315,6 @@ void func_021DFE28(int a, void *b, int c)
         func_021DD044((void *)a, (void *)((int)b), c);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021DFE88(int a, void *b, int c)
@@ -518,22 +334,6 @@ void func_021DFE88(int a, void *b, int c)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int *func_021DFEE8(int *p)
 {
     *p = 3;
@@ -541,59 +341,11 @@ int *func_021DFEE8(int *p)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021DFEF4(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x9); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* 021DFF04  stack-arg wrapper: func_021E01D4(a, b, c, d, 0x9) */
 void func_021DFF04(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0x9); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int *func_021DFF14(int *p)
@@ -603,56 +355,11 @@ int *func_021DFF14(int *p)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021DFF20(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0xa); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* 021DFF30  stack-arg wrapper: func_021E01D4(a, b, c, d, 0xa) */
 void func_021DFF30(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0xa); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -667,53 +374,11 @@ int *func_021DFF40(int *p)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021DFF4C(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0xc); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* 021DFF5C  stack-arg wrapper: func_021E01D4(a, b, c, d, 0xc) */
 void func_021DFF5C(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0xc); }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int *func_021DFF6C(int *p)
@@ -723,34 +388,7 @@ int *func_021DFF6C(int *p)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021DFF78(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0xb); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* 021DFF88  stack-arg wrapper: func_021E01D4(a, b, c, d, 0xb) */
@@ -760,18 +398,6 @@ void func_021DFF78(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0xb);
 void func_021DFF88(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0xb); }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 int *func_021DFF98(int *p)
 {
     *p = 3;
@@ -779,47 +405,11 @@ int *func_021DFF98(int *p)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021DFFA4(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0xe); }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* 021DFFB4  stack-arg wrapper: func_021E01D4(a, b, c, d, 0xe) */
 void func_021DFFB4(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0xe); }
-
-
-
-
-
-
-
-
-
-
-
 
 
 int *func_021DFFC4(int *p)
@@ -829,44 +419,11 @@ int *func_021DFFC4(int *p)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 void func_021DFFD0(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x1); }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* 021DFFE0  stack-arg wrapper: func_021E01D4(a, b, c, d, 0x1) */
 void func_021DFFE0(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0x1); }
-
-
-
-
-
-
-
-
-
-
 
 
 int *func_021DFFF0(int *p)
@@ -876,28 +433,7 @@ int *func_021DFFF0(int *p)
 }
 
 
-
-
-
-
-
-
-
-
-
-
 void func_021DFFFC(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x3); }
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* 021E000C  stack-arg wrapper: func_021E01D4(a, b, c, d, 0x3) */
@@ -907,15 +443,6 @@ void func_021DFFFC(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x3);
 void func_021E000C(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0x3); }
 
 
-
-
-
-
-
-
-
-
-
 int *func_021E001C(int *p)
 {
     *p = 3;
@@ -923,26 +450,7 @@ int *func_021E001C(int *p)
 }
 
 
-
-
-
-
-
-
-
-
-
 void func_021E0028(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x4); }
-
-
-
-
-
-
-
-
-
-
 
 
 /* 021E0038  stack-arg wrapper: func_021E01D4(a, b, c, d, 0x4) */
@@ -952,14 +460,6 @@ void func_021E0028(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x4);
 void func_021E0038(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0x4); }
 
 
-
-
-
-
-
-
-
-
 int *func_021E0048(int *p)
 {
     *p = 3;
@@ -967,35 +467,11 @@ int *func_021E0048(int *p)
 }
 
 
-
-
-
-
-
-
-
-
 void func_021E0054(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x2); }
-
-
-
-
-
-
-
-
-
 
 
 /* 021E0064  stack-arg wrapper: func_021E01D4(a, b, c, d, 0x2) */
 void func_021E0064(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0x2); }
-
-
-
-
-
-
-
 
 
 int *func_021E0074(int *p)
@@ -1005,32 +481,11 @@ int *func_021E0074(int *p)
 }
 
 
-
-
-
-
-
-
-
 void func_021E0080(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0xd); }
-
-
-
-
-
-
-
-
 
 
 /* 021E0090  stack-arg wrapper: func_021E01D4(a, b, c, d, 0xd) */
 void func_021E0090(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0xd); }
-
-
-
-
-
-
 
 
 int *func_021E00A0(int *p)
@@ -1040,29 +495,11 @@ int *func_021E00A0(int *p)
 }
 
 
-
-
-
-
-
-
 void func_021E00AC(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x6); }
-
-
-
-
-
-
-
 
 
 /* 021E00BC  stack-arg wrapper: func_021E01D4(a, b, c, d, 0x6) */
 void func_021E00BC(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0x6); }
-
-
-
-
-
 
 
 int *func_021E00CC(int *p)
@@ -1072,18 +509,7 @@ int *func_021E00CC(int *p)
 }
 
 
-
-
-
-
-
 void func_021E00D8(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x5); }
-
-
-
-
-
-
 
 
 /* 021E00E8  stack-arg wrapper: func_021E01D4(a, b, c, d, 0x5) */
@@ -1093,10 +519,6 @@ void func_021E00D8(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x5);
 void func_021E00E8(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0x5); }
 
 
-
-
-
-
 int *func_021E00F8(int *p)
 {
     *p = 3;
@@ -1104,16 +526,7 @@ int *func_021E00F8(int *p)
 }
 
 
-
-
-
-
 void func_021E0104(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x7); }
-
-
-
-
-
 
 
 /* 021E0114  stack-arg wrapper: func_021E01D4(a, b, c, d, 0x7) */
@@ -1123,9 +536,6 @@ void func_021E0104(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x7);
 void func_021E0114(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0x7); }
 
 
-
-
-
 int *func_021E0124(int *p)
 {
     *p = 3;
@@ -1133,20 +543,11 @@ int *func_021E0124(int *p)
 }
 
 
-
-
-
 void func_021E0130(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0xf); }
-
-
-
-
 
 
 /* 021E0140  stack-arg wrapper: func_021E01D4(a, b, c, d, 0xf) */
 void func_021E0140(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0xf); }
-
-
 
 
 int *func_021E0150(int *p)
@@ -1156,17 +557,11 @@ int *func_021E0150(int *p)
 }
 
 
-
-
 void func_021E015C(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x10); }
-
-
-
 
 
 /* 021E016C  stack-arg wrapper: func_021E01D4(a, b, c, d, 0x10) */
 void func_021E016C(int a, int b, int c, int d) { func_021E01D4((void *)a, (void *)b, c, (int *)d, 0x10); }
-
 
 
 int *func_021E017C(int *p)
@@ -1176,10 +571,7 @@ int *func_021E017C(int *p)
 }
 
 
-
 void func_021E0188(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x8); }
-
-
 
 
 /* 021E0198  stack-arg wrapper: func_021E01D4(a, b, c, d, 0x8) */
@@ -1205,12 +597,8 @@ void func_021E01B4(void *a, void *b, int c, int *d)
 }
 
 
-
-
 /* 021E01C4  stack-arg wrapper: func_021E0284(a, b, c, d, 0x0) */
 void func_021E01C4(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x0); }
-
-
 
 
 void func_021E01D4(void *a, void *b, int c, int *d, u8 e)
@@ -1220,7 +608,7 @@ void func_021E01D4(void *a, void *b, int c, int *d, u8 e)
 
     if (c == func_021D775C(3) && e == func_021D775C(0x16)) {
         t = func_021D775C(0x12);
-        if (func_0201C314(t) != 0 && func_021E0274(t) == 0 && func_021D7098(a) == 0
+        if (func_0201C314(t) != 0 && func_0689C8EC(t) == 0 && func_021D7098(a) == 0
             && func_021C7EC4(b) == 0) {
             func_021D7090(a);
             p = func_021C88A4(b, 0x23, c);

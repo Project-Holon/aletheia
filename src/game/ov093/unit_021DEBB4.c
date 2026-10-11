@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689C8CC  0x0689C8CC  thumb
  *   d_021F16DC 0x021F16DC data a4
  *   func_021D775C 0x021D775C thumb ov093
  *   func_021D7704 0x021D7704 thumb ov093
@@ -24,7 +25,6 @@
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D7B74  0x021D7B74  thumb  ov093
  *   d_021F13BC 0x021F13BC data a4
- *   func_021DED0C  0x021DED0C  thumb  ov093
  *   func_021D679C  0x021D679C  thumb  ov093
  *   func_021D67A8  0x021D67A8  thumb  ov093
  *   func_021DCFF8  0x021DCFF8  thumb  ov093
@@ -53,7 +53,7 @@ extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(struct S *p, u32 v);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D7B74(u8 *p, u32 k);
-extern int func_021DED0C(u16 v);
+extern int func_0689C8CC(u16 v);
 extern u16 func_021D679C(u8 *p);
 extern u16 func_021D67A8(struct QL *p);
 extern int func_021DCFF8(int a, int b);
@@ -108,7 +108,7 @@ void func_021DEC70(int a, void *b, int c)
     float x;
 
     if (c == func_021D775C(3)) {
-        if (func_021DED0C(func_021D775C(0x12)) == 0) {
+        if (func_0689C8CC(func_021D775C(0x12)) == 0) {
             m = func_021C7CF4(b, c);
             n = (int)func_021D679C(m);
             if (n >= 1) {

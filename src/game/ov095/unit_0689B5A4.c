@@ -10,14 +10,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0689B5BC 0x0689B5BC thumb ov095
+ *   func_0220270C  0x0220270C  thumb
  */
 #include "../../matched/include/Obj13637.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0689B5BC(u32, int, int);
+extern void func_0220270C(u32, int, int);
 void func_0689B5A4(u8 *s, int value)
 {
-    func_0689B5BC(((struct Obj13637 *)s)->fB0, 4, value);
+    func_0220270C(((struct Obj13637 *)s)->fB0, 4, value);
     s[0x93] = 0;
 }

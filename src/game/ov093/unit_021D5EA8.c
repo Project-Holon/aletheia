@@ -14,6 +14,7 @@
  * struct UtilSlots built by offset from every old view.
  *
  * symbols:
+ *   func_0689C868  0x0689C868  thumb
  *   func_021D53DC  0x021D53DC  thumb  ov093
  *   func_021D53C8  0x021D53C8  thumb  ov093
  *   func_021D5BDC  0x021D5BDC  thumb  ov093
@@ -40,7 +41,6 @@
  *   func_021D6D70  0x021D6D70  thumb  ov093
  *   func_021D53C0  0x021D53C0  thumb  ov093
  *   func_021D4EFC  0x021D4EFC  thumb  ov093
- *   func_021D66A0  0x021D66A0  thumb  ov093
  *   func_021D58A8  0x021D58A8  thumb  ov093
  *   func_021D5970  0x021D5970  thumb  ov093
  */
@@ -139,7 +139,7 @@ extern void func_021D6C2C(struct UtilSlots *p);
 extern void func_021D6D70(struct UtilSlots *p);
 extern void func_021D53C0(unsigned char *p);
 extern void func_021D4EFC(struct UtilSlots *a, void *mon, u32 c, u32 d);
-extern int func_021D66A0(u32);
+extern int func_0689C868(u32);
 extern int func_021D58A8(struct UtilSlots *, int);
 extern void func_021D5970(struct UtilSlots *, int, u16);
 
@@ -581,7 +581,7 @@ void func_021D65C8(struct UtilSlots *p, struct UtilSlots *q)
     p->fc = q->fc;
     p->f1f2 = q->f1f2;
     for (i = 0; i < 36; i++) {
-        if (q->e[i].s.kind != 0 && func_021D66A0(i)) {
+        if (q->e[i].s.kind != 0 && func_0689C868(i)) {
             p->e[i] = q->e[i];
             p->b[i] = q->b[i];
         }

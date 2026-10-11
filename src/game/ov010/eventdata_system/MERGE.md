@@ -9,3 +9,10 @@ Boundaries left (every part EXACT alone):
 - p03|p04, p04|p05, p05|p06, p06|p07, p07|p08: stand-ins calling func_021634D8, func_021636C8, func_02163994, func_02163A08, func_02163E34 and friends with int arguments or a wrong argument count (about 200 goto-style bodies in p04..p06 still to rewrite).
 
 Parts: eventdata_system_p01.c, eventdata_system_p02.c, eventdata_system_p03.c, eventdata_system_p04.c, eventdata_system_p05.c, eventdata_system_p06.c, eventdata_system_p07.c, eventdata_system_p08.c
+
+Round 16 (lane L15), pair test of every neighbour (merge tool output, all CCERR before any byte compare):
+- p01+p02, p02+p03: struct Box/Sub views differ (Sub_02161E60 vs Sub_02162BCC vs Sub_02162C54 are not interchangeable pointers).
+- p03+p04, p04+p05: stand-in bodies (void * vs int, int vs struct pointers) fail to type-check once merged.
+- p05+p06 (func_021634D8 called with 2 args, defined with 4) and p06+p07 (func_021636C8 called with 1 arg, defined with 3): arity; try an unprototyped extern or K&R definition.
+- p07+p08: func_0216D570 / func_0216D568 prototypes differ; line 656 int to void *.
+Lesson from the sibling TUs: a u16 declaration of a callee, or u16 on the caller's own variable, removes the zero extension; chase the chain of callers until the types close.

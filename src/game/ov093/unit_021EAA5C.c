@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689B5A4  0x0689B5A4  thumb
  *   func_0689B558  0x0689B558  thumb
  *   func_021E9100  0x021E9100  thumb  ov093
  *   func_021B8BEC  0x021B8BEC  thumb  ov093
@@ -24,7 +25,6 @@
  *   func_021ED554  0x021ED554  thumb  ov093
  *   func_020457B0  0x020457B0  arm
  *   func_021EA55C  0x021EA55C  thumb  ov093
- *   func_021EAC44  0x021EAC44  thumb  ov093
  *   func_020307B0  0x020307B0  arm
  */
 #include "../../matched/include/Obj21569.h"
@@ -65,7 +65,7 @@ extern void func_021ED53C(u8 *p, int k);
 extern int func_021ED554(u8 *p, int k);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_021EA55C(struct H *p, int a);
-extern void func_021EAC44(u32 a, void *b);
+extern void func_0689B5A4(u32 a, void *b);
 extern u32 func_020307B0(void *p);
 void func_021EAA5C(u8 *o);
 void func_021EAA6C(CbSlot *s, u32 k, u32 n);
@@ -74,12 +74,10 @@ int func_021EAB18(int *st, u8 *b);
 void func_021EABC4(u8 *a, u32 x, u32 y, u32 z);
 
 
-
 void func_021EAA5C(u8 *o)
 {
     func_0689B558(((struct Obj21569 *)o)->f180);
 }
-
 
 
 void func_021EAA6C(CbSlot *s, u32 k, u32 n)
@@ -104,7 +102,6 @@ void func_021EAA6C(CbSlot *s, u32 k, u32 n)
 }
 
 
-
 int func_021EAAD8(CbSlot *s)
 {
     if (s->cb1 != 0) {
@@ -123,7 +120,6 @@ int func_021EAAD8(CbSlot *s)
     }
     return 1;
 }
-
 
 
 int func_021EAB18(int *st, u8 *b)
@@ -164,7 +160,6 @@ int func_021EAB18(int *st, u8 *b)
 }
 
 
-
 void func_021EABC4(u8 *a, u32 x, u32 y, u32 z)
 {
     u32 *t = (u32 *)func_021E9100(a, 12);
@@ -174,7 +169,7 @@ void func_021EABC4(u8 *a, u32 x, u32 y, u32 z)
     t[2] = z;
     func_021EA55C((struct H *)x, (int)((void *)t[0]));
     func_021EA55C((struct H *)y, (int)((void *)t[1]));
-    func_021EAC44(((struct Obj10116 *)a)->f180, t);
+    func_0689B5A4(((struct Obj10116 *)a)->f180, t);
     func_020307B0((void *)t[0]);
     func_020307B0((void *)t[1]);
 }

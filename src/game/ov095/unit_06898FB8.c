@@ -11,22 +11,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_06899000  0x06899000  thumb
- *   func_06899010  0x06899010  thumb
- *   func_06899020  0x06899020  thumb
- *   func_06899030  0x06899030  thumb
- *   func_06899040  0x06899040  thumb
+ *   func_021C8838  0x021C8838  thumb
+ *   func_021C8860  0x021C8860  thumb
+ *   func_021C88A4  0x021C88A4  thumb
+ *   func_021C88C8  0x021C88C8  thumb
+ *   func_021D775C  0x021D775C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_06899000(int a);
-extern u8 *func_06899010(int p, int n, u8 v);
-extern void func_06899020(u8 *p, int n, int c);
-extern void func_06899030(u8 *p, u8 v);
-extern void func_06899040(int p, u8 *q);
+extern int func_021D775C(int a);
+extern u8 *func_021C88A4(int p, int n, u8 v);
+extern void func_021C8838(u8 *p, int n, int c);
+extern void func_021C8860(u8 *p, u8 v);
+extern void func_021C88C8(int p, u8 *q);
 
 void func_06898FB8(int a0, int p, int a2, int *s)
 {
@@ -34,11 +34,11 @@ void func_06898FB8(int a0, int p, int a2, int *s)
     u8 *t;
 
     if (*s != 0) {
-        v = func_06899000(4);
-        t = func_06899010(p, 4, v);
-        func_06899020(t + 4, 2, 0x347);
-        func_06899030(t + 4, v);
-        func_06899040(p, t);
+        v = func_021D775C(4);
+        t = func_021C88A4(p, 4, v);
+        func_021C8838(t + 4, 2, 0x347);
+        func_021C8860(t + 4, v);
+        func_021C88C8(p, t);
         *s = 0;
     }
 }

@@ -1,0 +1,178 @@
+#ifndef OV009_CPS_SSL_TYPES_H
+#define OV009_CPS_SSL_TYPES_H
+/*
+ * Shared CPS SSL types for ov009 unit_0215FDA4. One definition per object,
+ * offsets checked against every view the parts had.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned long long u64;
+typedef signed char    s8;
+typedef signed short   s16;
+
+typedef struct OSThread OSThread;
+struct OSThread {
+    char pad0[0x68];
+    OSThread *next;                     /* +0x68 */
+    char pad1[0xa4 - 0x6c];
+    void *specific[3];                  /* +0xa4 */
+};
+
+typedef struct OSThreadInfo {
+    u16 isNeedRescheduling;             /* +0x0 */
+    u16 irqDepth;                       /* +0x2 */
+    OSThread *current;                  /* +0x4 */
+    OSThread *list;                     /* +0x8 */
+} OSThreadInfo;
+
+typedef struct RTCDate {
+    int year;
+    int month;
+    int day;
+    int week;
+} RTCDate;
+
+typedef struct RTCTime {
+    int hour;
+    int minute;
+    int second;
+} RTCTime;
+
+struct CPSSslSession {
+    unsigned char id[32];
+    unsigned char master[48];
+    unsigned long last_used;
+    unsigned long ip;
+    unsigned short port;
+    unsigned char valid;
+    unsigned char pad5b;
+};
+typedef struct CPSSslSession CPSSslSession;
+
+typedef struct SOCLCaInfo {
+    char *dn;
+    int modulo_len;
+    unsigned char *modulo;
+    int exponent_len;
+    unsigned char *exponent;
+} SOCLCaInfo;
+
+typedef struct CPSPrivateKey {
+    int size;
+    unsigned char *p0;
+    int l1;
+    unsigned char *p1;
+    int l2;
+    unsigned char *p2;
+    int l3;
+    unsigned char *p3;
+    int l4;
+    unsigned char *p4;
+    int l5;
+    unsigned char *p5;
+} CPSPrivateKey;
+
+typedef struct CPSSha1Ctx { unsigned char b[0x5C]; } CPSSha1Ctx;
+typedef struct CPSMd5Ctx { unsigned char b[0x58]; } CPSMd5Ctx;
+typedef struct CPSCipherCtx { unsigned char b[0x104]; } CPSCipherCtx;
+
+typedef struct {
+    u64 x;
+    u64 a;
+    u64 c;
+} Rand32Ctx;
+
+typedef struct CPSSslConnection CPSSslConnection;
+
+struct CPSSslConnection {
+    unsigned char master_secret[48];      /* 0x000 */
+    unsigned char cache;                  /* 0x030 */
+    unsigned char resumed;                /* 0x031 */
+    unsigned short method;                /* 0x032 */
+    unsigned char client_random[32];      /* 0x034 */
+    unsigned char server_random[32];      /* 0x054 */
+    union {
+        unsigned char session_id[0x20];
+        unsigned char key_block[72];
+    } common1;                            /* 0x074 */
+    unsigned char *send_mac;              /* 0x0bc */
+    unsigned char *send_key;              /* 0x0c0 */
+    unsigned char *send_iv;               /* 0x0c4 */
+    CPSCipherCtx send_cipher;             /* 0x0c8 */
+    unsigned char send_seq[8];            /* 0x1cc */
+    unsigned char *rcv_mac;               /* 0x1d4 */
+    unsigned char *rcv_key;               /* 0x1d8 */
+    unsigned char *rcv_iv;                /* 0x1dc */
+    CPSCipherCtx rcv_cipher;              /* 0x1e0 */
+    unsigned char rcv_seq[8];             /* 0x2e4 */
+    CPSSha1Ctx sha1_hash;                 /* 0x2ec */
+    CPSSha1Ctx sha1_hash_tmp;             /* 0x348 */
+    CPSMd5Ctx md5_hash;                   /* 0x3a4 */
+    CPSMd5Ctx md5_hash_tmp;               /* 0x3fc */
+    unsigned char server;                 /* 0x454 */
+    unsigned char state;                  /* 0x455 */
+    unsigned char have_record;            /* 0x456 */
+    unsigned char pad457;                 /* 0x457 */
+    int hash_type;                        /* 0x458 */
+    int f45c;                             /* 0x45c */
+    unsigned char *cert_start;            /* 0x460 */
+    unsigned char *cert_end;              /* 0x464 */
+    unsigned char hash[0x14];             /* 0x468 */
+    int hash_len;                         /* 0x47c */
+    SOCLCaInfo ca;                        /* 0x480 */
+    unsigned char modulus[0x100];         /* 0x494 */
+    int modlen;                           /* 0x594 */
+    unsigned char pubexp[8];              /* 0x598 */
+    int pubexplen;                        /* 0x5a0 */
+    unsigned char *sig;                   /* 0x5a4 */
+    int sig_len;                          /* 0x5a8 */
+    unsigned char f5ac;                   /* 0x5ac */
+    unsigned char f5ad;                   /* 0x5ad */
+    unsigned char f5ae;                   /* 0x5ae */
+    unsigned char f5af;                   /* 0x5af */
+    char dn[0x100];                       /* 0x5b0 */
+    unsigned char f6b0[0x100];            /* 0x6b0 */
+    unsigned char f7b0[0x50];             /* 0x7b0 */
+    char *f800;                           /* 0x800 */
+    unsigned char *f804;                  /* 0x804 */
+    int f808;                             /* 0x808 */
+    int f80c;                             /* 0x80c */
+    int (*f810)(int result, CPSSslConnection *con, int level);  /* 0x810 */
+    SOCLCaInfo **rootCa;                  /* 0x814 */
+    int rootCaNum;                        /* 0x818 */
+    CPSPrivateKey *privkey;               /* 0x81c */
+    unsigned char pad820[4];              /* 0x820 */
+    unsigned char *buf;                   /* 0x824 */
+    unsigned long end;                    /* 0x828 */
+    unsigned long pos;                    /* 0x82c */
+};
+
+typedef struct CPSSoc {
+    OSThread *thread;                     /* 0x00 */
+    unsigned long block_type;             /* 0x04 */
+    unsigned char state;                  /* 0x08 */
+    unsigned char ssl;                    /* 0x09 */
+    unsigned char pad0a[2];
+    CPSSslConnection *con;                /* 0x0c */
+    unsigned long when;                   /* 0x10 */
+    unsigned char pad14[4];
+    unsigned short remote_port;           /* 0x18 */
+    unsigned char pad1a[2];
+    unsigned long remote_ip;              /* 0x1c */
+    unsigned char pad20[0x30];
+    unsigned long rcvbufp;                /* 0x50 */
+} CPSSoc;
+
+/* g_021A1D40: the supported cipher methods and the handshake priority */
+typedef struct CPSSslConfig {
+    unsigned short methods[2];            /* 0x0 */
+    unsigned long priority;               /* 0x4 */
+} CPSSslConfig;
+
+extern CPSSslConfig g_021A1D40;
+extern void *(*CPSiAlloc)(unsigned long size);   /* 0x021A8280 */
+extern void (*CPSiFree)(void *ptr);              /* 0x021A82B0 */
+
+#endif

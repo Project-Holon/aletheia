@@ -10,16 +10,16 @@
  * status: EXACT*
  * Trailing 0689B572..0689B574 is Thumb alignment padding.
  * symbols:
- *   func_0689B574 0x0689B574 thumb ov095
- *   func_0689B584 0x0689B584 thumb ov095
- *   func_0689B594 0x0689B594 thumb ov095
+ *   func_021F81EC  0x021F81EC  thumb
+ *   func_021F8A78  0x021F8A78  thumb
+ *   func_0220270C  0x0220270C  thumb
  */
 #include "../../matched/include/Obj21898.h"
-extern void func_0689B574(void *, int, int);
-extern int func_0689B584(int);
-extern void func_0689B594(int);
+extern void func_0220270C(void *, int, int);
+extern int func_021F81EC(int);
+extern void func_021F8A78(int);
 void func_0689B558(void *p)
 {
-    func_0689B574(((struct Obj21898 *)p)->fB0, 0, 0);
-    func_0689B594(func_0689B584(8));
+    func_0220270C(((struct Obj21898 *)p)->fB0, 0, 0);
+    func_021F8A78(func_021F81EC(8));
 }

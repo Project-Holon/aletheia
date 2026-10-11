@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689CA3C  0x0689CA3C  thumb
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
@@ -27,7 +28,6 @@
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021D5448 0x021D5448 thumb ov093
  *   func_021D54C0 0x021D54C0 thumb ov093
- *   func_021E6CC0 0x021E6CC0 thumb ov093
  *   func_021D78AC 0x021D78AC thumb ov093
  *   d_021F270C     0x021F270C  data   ov093  a4
  */
@@ -60,7 +60,7 @@ extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern u8 func_021D5440(u8 *p);
 extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D54C0(u8 *p, int i);
-extern int func_021E6CC0(u16);
+extern int func_0689CA3C(u16);
 extern u32 func_021D78AC(u32);
 void func_021E6AD8(int x, int a, int c);
 int *func_021E6B14(int *p);
@@ -70,7 +70,6 @@ int *func_021E6BE8(int *p);
 void func_021E6BF4(void *x, void *a, int c);
 extern int d_021F2928[];
 extern int d_021F270C[];
-
 
 
 void func_021E6AD8(int x, int a, int c)
@@ -88,13 +87,11 @@ void func_021E6AD8(int x, int a, int c)
 }
 
 
-
 int *func_021E6B14(int *p)
 {
     *p = 2;
     return d_021F2928;
 }
-
 
 
 /*
@@ -151,8 +148,6 @@ void func_021E6B20(int x, int a, int b)
 }
 
 
-
-
 void func_021E6BAC(int x, int a, int c)
 {
     void *p;
@@ -202,7 +197,7 @@ void func_021E6BF4(void *x, void *a, int c)
                 n = func_021D5448(mon);
                 for (j = 0; j < n; j++) {
                     move = func_021D54C0(mon, j);
-                    if (func_021E6CC0(move) == 0) {
+                    if (func_0689CA3C(move) == 0) {
                         moves[used++] = move;
                     }
                 }

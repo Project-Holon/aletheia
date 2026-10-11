@@ -13,6 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_06899BE0  0x06899BE0  thumb
+ *   func_0689B780  0x0689B780  thumb
  *   func_020310C4  0x020310C4  arm
  *   func_021F78E4  0x021F78E4  thumb  ov094
  *   d_021F3840  0x021F3840  data  a4
@@ -21,13 +23,11 @@
  *   func_021F7544  0x021F7544  thumb  ov094
  *   func_020307B0  0x020307B0  arm
  *   func_021EB028  0x021EB028  thumb  ov093
- *   func_021E91C8  0x021E91C8  thumb  ov093
  *   func_021CD9E0  0x021CD9E0  thumb  ov093
  *   func_021EB32C  0x021EB32C  thumb  ov093
  *   func_021EB52C  0x021EB52C  thumb  ov093
  *   func_021CD9C8  0x021CD9C8  thumb  ov093
  *   func_021CD9DC  0x021CD9DC  thumb  ov093
- *   func_021E91D8  0x021E91D8  thumb  ov093
  */
 #include "../../matched/include/Obj21551.h"
 #include "../../matched/include/Obj01136.h"
@@ -68,13 +68,13 @@ extern void *func_021F745C(u8 *p, int a, u16 heap);
 extern void func_021F7544(void *p, int arg, u16 heap);
 extern u32 func_020307B0(void *p);
 extern void func_021EB028(u8 *p);
-extern void func_021E91C8(void *p);
+extern void func_06899BE0(void *p);
 extern u32 func_021CD9E0(u8 *p);
 extern void func_021EB32C(u8 *p, u32 flag);
 extern int func_021EB52C(u8 *p);
 extern u32 func_021CD9C8(u8 *p);
 extern u16 func_021CD9DC(struct QD *p);
-extern void func_021E91D8(void *a, void *b);
+extern void func_0689B780(void *a, void *b);
 void func_021E908C(char *p);
 void func_021E90A0(unsigned int *o, unsigned int key);
 int func_021E90D0(struct S *s);
@@ -137,7 +137,7 @@ int func_021E9104(u8 *p, int *st)
         func_021F7544(r, ((struct Obj01136 *)p)->fB4, ((struct Obj01136 *)p)->f184);
         func_020307B0(r);
         func_021EB028(*(u8 * *)&((struct Obj01136 *)p)->f17C);
-        func_021E91C8(((struct Obj01136 *)p)->f180);
+        func_06899BE0(((struct Obj01136 *)p)->f180);
         (*st)++;
         break;
     case 1:
@@ -152,7 +152,7 @@ int func_021E9104(u8 *p, int *st)
                 ((struct Obj01136 *)p)->f168 = func_021CD9DC((struct QD *)(*(u8 * *)&((struct Obj01136 *)p)->f4));
                 ((struct Obj01136 *)p)->f16C = 0;
                 if (func_021CD9E0(*(u8 * *)&((struct Obj01136 *)p)->f4) == 0) {
-                    func_021E91D8(((struct Obj01136 *)p)->f180, p + 0x160);
+                    func_0689B780(((struct Obj01136 *)p)->f180, p + 0x160);
                 }
             }
             return 1;

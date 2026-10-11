@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   func_021D6F0C  0x021D6F0C  thumb
  *   d_0689D650     0x0689D650  data   ov095  a4
- *   func_06898070  0x06898070  thumb  ov095
  */
 
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ typedef struct {
 } Ent;
 
 extern Ent d_0689D650[8];
-extern void *func_06898070(int id, u16 key, int pri, u32 sub_pri, u32 sub, u32 f8, u16 f16);
+extern void *func_021D6F0C(int id, u16 key, int pri, u32 sub_pri, u32 sub, u32 f8, u16 f16);
 
 void *func_06898020(int a, int b)
 {
@@ -35,7 +35,7 @@ void *func_06898020(int a, int b)
     for (i = 0; i < 8; i++) {
         if (a == d_0689D650[i].key) {
             int r = d_0689D650[i].fn(&v);
-            return func_06898070(3, a, 3, 0, b, r, v);
+            return func_021D6F0C(3, a, 3, 0, b, r, v);
         }
     }
     return 0;

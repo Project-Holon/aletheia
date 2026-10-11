@@ -12,3 +12,9 @@ Blocker p01|p02: func_02068EA0 (p01) has `u16 code`, which the image narrows ins
 in p02 (func_020694D8) pass an s32 without narrowing. In one file the definition comes first, so the caller
 narrows and the bytes change (tested: `int code` in the definition, K&R definition, `u16 c` in the caller:
 all DIFF). The original most likely had the two in different files.
+
+Round 17 (L12) re-test: merged file differs only in func_02068EA0 and func_020694D8. The image loads the
+stack argument with `ldrh r1, [sp, #0x2c]` in the callee (so the callee parameter is u16), and the caller
+passes its s32 unnarrowed. `int code` in the callee (with func_02067F9C taking int) gives the right sizes
+but the callee loads `ldr`, 7 bytes off. A block-scope unprototyped redeclaration is refused by this mwcc
+("redeclared"). Real boundary.

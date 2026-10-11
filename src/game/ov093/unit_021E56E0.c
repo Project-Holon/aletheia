@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689C91C  0x0689C91C  thumb
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C8010  0x021C8010  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
@@ -31,7 +32,6 @@
  *   d_021F24F4     0x021F24F4  data   ov093  a4
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021E5958  0x021E5958  thumb  ov093
  */
 #include "../../matched/include/Obj13527.h"
 #include "../../matched/include/Obj06273.h"
@@ -63,7 +63,7 @@ extern u16 func_021D70A8(struct QQ *p);
 extern Word func_021E89C0(void);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021E5958(u16 v);
+extern int func_0689C91C(u16 v);
 void func_021E56E0(int a, void *b, int c);
 int *func_021E5714(int *p);
 void func_021E5720(void *a, void *b, int c);
@@ -219,7 +219,7 @@ void func_021E58D8(int a, int b, int c)
     if (c == func_021D775C(3)) {
         k = func_021D775C(6);
         n = func_021D59B4(func_021C7CF4((int *)b, k), 0x10);
-        if (func_021E5958(n) == 0) {
+        if (func_0689C91C(n) == 0) {
             m = (u8 *)func_021C88A4((void *)b, 0x1f, c);
             m[6] = c;
             ((struct Obj10096 *)m)->f4 = n;

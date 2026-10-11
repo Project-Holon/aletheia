@@ -13,13 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021E9FAC 0x021E9FAC thumb ov093
- *   func_021E9FBC 0x021E9FBC thumb ov093
- *   func_021E9FCC 0x021E9FCC thumb ov093
- *   func_021E9FDC 0x021E9FDC thumb ov093
- *   func_021E9FEC 0x021E9FEC thumb ov093
- *   func_021E9FFC 0x021E9FFC thumb ov093
- *   func_021EA00C 0x021EA00C thumb ov093
+ *   func_06899CA4  0x06899CA4  thumb
+ *   func_06899CDC  0x06899CDC  thumb
+ *   func_06899D04  0x06899D04  thumb
+ *   func_06899D2C  0x06899D2C  thumb
+ *   func_06899D30  0x06899D30  thumb
+ *   func_0689C90C  0x0689C90C  thumb
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_0220C834 0x0220C834 thumb ov197
@@ -43,13 +42,12 @@ typedef signed short s16;
 
 typedef signed int s32;
 
-extern void func_021E9FAC(void *, int);
-extern int func_021E9FBC(void *);
-extern void func_021E9FCC(void *);
-extern int func_021E9FDC(u16, u8);
-extern void func_021E9FEC(void *);
-extern void func_021E9FFC(void *);
-extern int func_021EA00C(void *);
+extern void func_06899CA4(void *, int);
+extern int func_06899D04(void *);
+extern void func_06899D2C(void *);
+extern int func_0689C90C(u16, u8);
+extern void func_06899CDC(void *);
+extern void func_06899D30(void *);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int handle);
 extern void func_0220C834(u8 *arg);
@@ -81,13 +79,13 @@ int func_021E9E80(u8 *p)
     switch (p[0x174]) {
     case 0: break;
     case 1:
-        func_021E9FAC(((struct Obj00665 *)p)->f180, 1);
+        func_06899CA4(((struct Obj00665 *)p)->f180, 1);
         func_02034AC4((int)ov196_id);
         p[0x174] = 2;
         break;
     case 2:
-        if (func_021E9FBC(((struct Obj00665 *)p)->f180)) {
-            func_021E9FCC(((struct Obj00665 *)p)->f180);
+        if (func_06899D04(((struct Obj00665 *)p)->f180)) {
+            func_06899D2C(((struct Obj00665 *)p)->f180);
             func_02034AC4((int)ov197_id);
             func_0220C834(p + 0xc8);
             p[0x174] = 3;
@@ -101,7 +99,7 @@ int func_021E9E80(u8 *p)
         }
         break;
     case 4:
-        if (((struct Obj00665 *)p)->fDE && p[0xf2] != 2 && !func_021E9FDC(((struct Obj00665 *)p)->fDE, p[0xf2])) {
+        if (((struct Obj00665 *)p)->fDE && p[0xf2] != 2 && !func_0689C90C(((struct Obj00665 *)p)->fDE, p[0xf2])) {
             ((struct Obj00665 *)p)->f130 = ((struct Obj00665 *)p)->fDE;
             func_02034AC4((int)ov198_id);
             func_0220F3E8(p + 0x10c);
@@ -115,12 +113,12 @@ int func_021E9E80(u8 *p)
         }
         break;
     case 6:
-        func_021E9FEC(((struct Obj00665 *)p)->f180);
-        func_021E9FFC(((struct Obj00665 *)p)->f180);
+        func_06899CDC(((struct Obj00665 *)p)->f180);
+        func_06899D30(((struct Obj00665 *)p)->f180);
         p[0x174] = 7;
         break;
     case 7:
-        if (func_021EA00C(((struct Obj00665 *)p)->f180)) {
+        if (func_06899D04(((struct Obj00665 *)p)->f180)) {
             func_02034A5C((int)ov196_id);
             p[0x174] = 0;
             return 1;

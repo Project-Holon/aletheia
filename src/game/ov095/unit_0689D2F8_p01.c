@@ -13,11 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021B9AB0  0x021B9AB0  thumb
+ *   func_021B9AC8  0x021B9AC8  thumb
+ *   func_021D5440  0x021D5440  thumb
+ *   func_021D5B68  0x021D5B68  thumb
  *   func_0689D448 0x0689D448 thumb ov095
- *   func_0689D408 0x0689D408 thumb ov095
- *   func_0689D418 0x0689D418 thumb ov095
- *   func_0689D428 0x0689D428 thumb ov095
- *   func_0689D438 0x0689D438 thumb ov095
  *   func_0689D544 0x0689D544 thumb ov095
  */
 typedef unsigned char u8;
@@ -29,10 +29,10 @@ typedef struct { u8 a, b, c; } Rec;
 typedef struct { Rec r[6]; u8 idx[6]; } T;
 
 extern void func_0689D448(T *, int, int);
-extern int func_0689D408(int);
-extern int func_0689D418(int);
-extern int func_0689D428(int);
-extern int func_0689D438(int);
+extern int func_021B9AB0(int);
+extern int func_021B9AC8(int);
+extern int func_021D5B68(int);
+extern int func_021D5440(int);
 extern void func_0689D544(T *, int);
 void func_0689D2F8(u8 *p, int b);
 void func_0689D320(T *p, int b, int c, int d);
@@ -84,13 +84,13 @@ void func_0689D338(T *p, u32 size, u32 category, int key, int extra)
     for (i = 0; i < 6; i++) {
         if (category == p->r[i].b) idx[n++] = i;
     }
-    first = func_0689D408(size);
-    second = func_0689D418(size);
+    first = func_021B9AB0(size);
+    second = func_021B9AC8(size);
     tr = p->r[idx[0]];
     p->r[idx[first]] = p->r[idx[second]];
     p->r[idx[second]] = tr;
-    if (func_0689D428(key) == 0)
-        func_0689D320(p, idx[0], func_0689D438(key), extra);
+    if (func_021D5B68(key) == 0)
+        func_0689D320(p, idx[0], func_021D5440(key), extra);
     else
         p->r[i].c = 0x1f;
     for (i = 0; i < n; i++) func_0689D544(p, idx[i]);

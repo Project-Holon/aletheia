@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689C8CC  0x0689C8CC  thumb
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021B9A24  0x021B9A24  thumb  ov093
  *   func_021C7D00  0x021C7D00  thumb  ov093
@@ -38,7 +39,6 @@
  *   func_0201BEB8  0x0201BEB8  thumb
  *   func_021C83D4  0x021C83D4  thumb  ov093
  *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021DBE50  0x021DBE50  thumb  ov093
  *   func_021D85C0  0x021D85C0  thumb  ov093
  *   func_021E896C  0x021E896C  thumb  ov093
  *   d_021F06C8     0x021F06C8  data   ov093  a4
@@ -91,7 +91,7 @@ extern int func_021E86E8(void *a, int b, int c);
 extern u32 func_0201BEB8(u16 id, u32 bit);
 extern int func_021C83D4(u8 *p);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern int func_021DBE50(u32 k);
+extern int func_0689C8CC(u32 k);
 extern int func_021D85C0(int a, u32 b);
 extern Word func_021E896C(int a, int b);
 void func_021DBAF0(int a, int p, int x);
@@ -124,7 +124,6 @@ void func_021DBAF0(int a, int p, int x)
 }
 
 
-
 int *func_021DBB58(int *p)
 {
     *p = 2;
@@ -132,10 +131,7 @@ int *func_021DBB58(int *p)
 }
 
 
-
 void func_021DBB64(int a,void *b,int c,int *d) { if(c==func_021D775C(2) && func_021D775C(0x2d)==0 && func_021D5B40(func_021C7CF4(b,c))) *d=1; }
-
-
 
 
 void func_021DBB98(int u, int a, int b, int *c)
@@ -148,13 +144,11 @@ void func_021DBB98(int u, int a, int b, int *c)
 }
 
 
-
 int *func_021DBBCC(int *p)
 {
     *p = 1;
     return d_021F06C8;
 }
-
 
 
 void func_021DBBD8(int a, void *b, u8 c)
@@ -199,10 +193,7 @@ void func_021DBBD8(int a, void *b, u8 c)
 }
 
 
-
 void *func_021DBCE0(int *p) { *p = 1; return d_021F06C0; }
-
-
 
 
 void func_021DBCEC(int u, void *a, int b)
@@ -231,8 +222,6 @@ void func_021DBCEC(int u, void *a, int b)
 }
 
 
-
-
 /*
  * note:     func_021E896C returns a one-word struct (Word): its return temporary is
  *           the unreferenced third frame word and moves n/k to r6/r7
@@ -254,7 +243,7 @@ void func_021DBD9C(int u, void *a, int b)
         m = func_021C7CF4(a, t);
         if (func_021D62C4(m, 0xd) == 0) {
             k = func_021D775C(0x14);
-            if (k != 0 && k != 0xa5 && func_021DBE50(k) == 0
+            if (k != 0 && k != 0xa5 && func_0689C8CC(k) == 0
                 && func_021D85C0((int)a, 0x1e) != 0) {
                 if (func_021D5BB0(m, 1) != 0) {
                     n = (N)(u8)(n + 1);

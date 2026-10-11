@@ -11,13 +11,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0689A918  0x0689A918  thumb  ov095
- *   func_0689A928  0x0689A928  thumb  ov095
- *   func_0689A938  0x0689A938  thumb  ov095
- *   func_0689A948  0x0689A948  thumb  ov095
- *   func_0689A958  0x0689A958  thumb  ov095
- *   func_0689A968  0x0689A968  thumb  ov095
- *   func_0689A978  0x0689A978  thumb  ov095
+ *   func_021B8D8C  0x021B8D8C  thumb
+ *   func_021B8E70  0x021B8E70  thumb
+ *   func_021D5440  0x021D5440  thumb
+ *   func_021D5448  0x021D5448  thumb
+ *   func_021D5528  0x021D5528  thumb
+ *   func_021D6D54  0x021D6D54  thumb
+ *   func_0220270C  0x0220270C  thumb
  */
 #include "../../matched/include/Obj03724.h"
 
@@ -33,13 +33,13 @@ typedef struct {
     u32 w;
 } R;
 
-extern u32 func_0689A918(u32 h);
-extern u32 func_0689A928(u32 h);
-extern u16 func_0689A938(u32 h, u8 i, u8 *p, u8 *q);
-extern u32 func_0689A948(u32 h);
-extern u32 func_0689A958(u32 a, u32 b, u32 c);
-extern u32 func_0689A968(u32 a, u32 b);
-extern void func_0689A978(u32 h, int k, R *r);
+extern u32 func_021D5448(u32 h);
+extern u32 func_021D6D54(u32 h);
+extern u16 func_021D5528(u32 h, u8 i, u8 *p, u8 *q);
+extern u32 func_021D5440(u32 h);
+extern u32 func_021B8D8C(u32 a, u32 b, u32 c);
+extern u32 func_021B8E70(u32 a, u32 b);
+extern void func_0220270C(u32 h, int k, R *r);
 
 int func_0689A878(int unused, u8 *s)
 {
@@ -48,10 +48,10 @@ int func_0689A878(int unused, u8 *s)
     u16 i;
     u32 n;
 
-    n = func_0689A918(((struct Obj03724 *)s)->f6C);
-    r.w = func_0689A928(((struct Obj03724 *)s)->f6C);
+    n = func_021D5448(((struct Obj03724 *)s)->f6C);
+    r.w = func_021D6D54(((struct Obj03724 *)s)->f6C);
     for (i = 0; i < n; i++) {
-        r.a[i] = func_0689A938(((struct Obj03724 *)s)->f6C, i, &t[1], &t[0]);
+        r.a[i] = func_021D5528(((struct Obj03724 *)s)->f6C, i, &t[1], &t[0]);
         r.b[i] = t[1];
         r.c[i] = t[0];
     }
@@ -60,9 +60,9 @@ int func_0689A878(int unused, u8 *s)
         r.b[i] = 0;
         r.c[i] = 0;
     }
-    r.x = func_0689A968(((struct Obj03724 *)s)->fA0,
-                        func_0689A958(((struct Obj03724 *)s)->fA0, ((struct Obj03724 *)s)->fA4,
-                                      func_0689A948(((struct Obj03724 *)s)->f6C)));
-    func_0689A978(((struct Obj03724 *)s)->fB0, 2, &r);
+    r.x = func_021B8E70(((struct Obj03724 *)s)->fA0,
+                        func_021B8D8C(((struct Obj03724 *)s)->fA0, ((struct Obj03724 *)s)->fA4,
+                                      func_021D5440(((struct Obj03724 *)s)->f6C)));
+    func_0220270C(((struct Obj03724 *)s)->fB0, 2, &r);
     return 1;
 }

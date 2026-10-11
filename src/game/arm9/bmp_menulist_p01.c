@@ -1,7 +1,7 @@
 /*
  * file:     bmp_menulist_p01.c
  * unit:     yes
- * function: func_0201FF30, func_020200CC, func_0202020C, func_02020234, func_02020268, func_02020298, func_020202EC, func_020202FC, func_02020314, func_02020324, func_02020344, func_02020350, func_02020408, func_0202055C, func_020206C0, func_0202071C, func_02020780
+ * function: func_0201FF30, func_020200CC, func_0202020C, func_02020234, func_02020268, func_02020298, func_020202EC, func_020202FC, func_02020314, func_02020324, func_02020344, func_02020350, func_02020408, func_0202055C, func_020206C0, func_0202071C, func_02020780, func_020208B8, func_02020970, func_02020A34, func_02020A58, func_02020B5C
  * address:  0x0201FF30
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -17,7 +17,6 @@
  *   func_020362DC  0x020362DC  arm
  *   func_0203633C  0x0203633C  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_02020970  0x02020970  thumb
  *   func_02045770  0x02045770  arm
  *   func_0201C724  0x0201C724  thumb
  *   func_0201C7D0  0x0201C7D0  thumb
@@ -25,6 +24,10 @@
  *   func_02043AF4  0x02043AF4  arm
  *   func_020437DC  0x020437DC  arm
  *   func_02020CA0  0x02020CA0  thumb
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_02045334  0x02045334  arm
+ *   func_020437D4  0x020437D4  arm
+ *   func_020437E4  0x020437E4  arm
  */
 #include "../../matched/include/Obj11266.h"
 #include "../../matched/include/Obj08775.h"
@@ -33,9 +36,9 @@
 #define COLOR(l, s, b) ((u16)((((l) & 0x1f) << 10) | (((s) & 0x1f) << 5) | ((b) & 0x1f)))
 struct CharBuf;
 struct Descriptor;
-struct Obj;
+struct Menu;
 struct D;
-struct Obj_0202055C;
+struct Menu;
 struct Bmp;
 struct Desc;
 struct Handle;
@@ -45,10 +48,66 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct Obj_0201FF30 {
-    void *arr;
-    void *unk04;
-    void *unk08;
+struct Src {
+    u32 w[13];
+};
+
+typedef signed int     s32;
+typedef signed short s16;
+typedef signed char s8;
+
+struct Ctl {
+    u8 pad[0x18];
+    u8 lo4 : 4;
+    u8 hi4 : 4;
+};
+
+struct Target {
+    u32 win;
+    u8  dirty;
+};
+
+struct Item {
+    void *text;
+    u32   value;
+};
+
+struct Menu;
+typedef void (*Hook)(struct Menu *obj, u32 value, u8 y);
+typedef void (*Notify)(struct Menu *obj, u32 value, void *arg);
+
+/* The three bitfield layouts of the halfword at +0x1A. */
+struct Flags1A_a {
+    u16 f1Alo : 3;
+    u16 f1Amid : 4;
+    u16 f1Apad : 2;
+    u16 f1Amid2 : 6;
+    u16 f1Atop : 1;
+};
+
+struct Flags1A_b {
+    u16 f1Alo : 7;
+    u16 f1Amid : 2;
+    u16 f1Atop : 7;
+};
+
+struct Flags1A_c {
+    u16 f1Alo : 3;
+    u16 f1Amid : 4;
+    u16 f1Amid2 : 8;
+    u16 f1Atop : 1;
+};
+
+union Flags1A {
+    struct Flags1A_a a;
+    struct Flags1A_b b;
+    struct Flags1A_c c;
+};
+
+struct Menu {
+    struct Item *arr;
+    Notify callback;
+    Hook hook;
     void *unk0C;
     u16 count;
     u16 rows;
@@ -60,14 +119,14 @@ struct Obj_0201FF30 {
     u8 f18lo : 4;
     u8 f18hi : 4;
     u8 f19;
-    u16 f1Alo : 3;
-    u16 f1Amid : 4;
-    u16 f1Apad : 2;
-    u16 f1Amid2 : 6;
-    u16 f1Atop : 1;
-    u8 pad1C[0x28 - 0x1C];
+    union Flags1A u;
+    u32 f1C;
+    u16 f20;
+    u16 f22;
+    u8 pad24[0x28 - 0x24];
     void *f28;
-    u8 pad2C[0x34 - 0x2C];
+    void *f2C;
+    void *f30;
     u8 f34lo : 4;
     u8 f34hi : 4;
     u8 f35lo : 4;
@@ -78,7 +137,7 @@ struct Obj_0201FF30 {
     u8 f38 : 7;
     u8 f38top : 1;
     u8 pad39[0x3C - 0x39];
-    u32 f3C;
+    void *f3C;
     u16 f40;
     u16 f42;
     u8 f44;
@@ -86,213 +145,16 @@ struct Obj_0201FF30 {
     u8 f46;
     u8 f47;
     u16 f48;
-};
-
-struct Src {
-    u32 w[13];
-};
-
-typedef signed int     s32;
-
-struct Elem_0201FF30 {
-    void *unk00;
-    s32   f4;
-};
-
-struct Obj_020200CC {
-    struct Elem_0201FF30 *arr;
-    u8  pad_04[0x12 - 0x04];
-    u16 f12;
-    u8  pad_14[0x1A - 0x14];
-    u16 f1Alo : 7;
-    u16 f1Amid : 2;
-    u16 f1Atop : 7;
-    u8  pad_1C[0x40 - 0x1C];
-    u16 f40;
-    u16 f42;
-    u8  pad_44[3];
-    u8  f47;
-    u8  pad_48[2];
-    u8  f4A;
-};
-
-typedef signed short s16;
-
-typedef signed char s8;
-
-struct Ctl {
-    u8 pad[0x18];
-    u8 lo4 : 4;
-    u8 hi4 : 4;
-};
-
-struct Elem_0202020C {
-    u32 unk00;
-    u32 unk04;
-};
-
-struct Obj_02020268 {
-    struct Elem_0202020C *arr;
-    u32 unk04;
-    u32 unk08;
-    u32 unk0C;
-    u16 count;
-    u16 rows;
-    u8 f14;
-    u8 f15;
-    u8 f16;
-    u8 f17lo : 4;
-    u8 f17hi : 4;
-    u8 f18lo : 4;
-    u8 f18hi : 4;
-    u8 f19;
-    u16 f1Alo : 3;
-    u16 f1Amid : 4;
-    u16 f1Apad : 2;
-    u16 f1Amid2 : 6;
-    u16 f1Atop : 1;
-    u32 f1C;
-    u16 f20;
-    u16 f22;
-    u8 pad24[0x34 - 0x24];
-    u8 f34lo : 4;
-    u8 f34hi : 4;
-    u8 f35lo : 4;
-    u8 f35hi : 4;
-    u8 f36 : 6;
-    u8 f36top : 2;
-    u8 f37;
-    u8 f38 : 7;
-    u8 f38top : 1;
-    u8 pad39[0x40 - 0x39];
-    u16 f40;
-    u16 f42;
-};
-
-struct Target {
-    u32 win;
-    u8  dirty;
-};
-
-struct Obj_02020408 {
-    void *arr;
-    u32 unk04;
-    u32 unk08;
-    u32 unk0C;
-    u16 count;
-    u16 rows;
-    u8 f14;
-    u8 f15;
-    u8 f16;
-    u8 f17lo : 4;
-    u8 f17hi : 4;
-    u8 f18lo : 4;
-    u8 f18hi : 4;
-    u8 f19;
-    u8 pad1A[0x28 - 0x1A];
-    struct Target *f28;
-    u32 f2C;
-    u32 f30;
-    u8 f34lo : 4;
-    u8 f34hi : 4;
-    u8 f35lo : 4;
-    u8 f35hi : 4;
-    u8 f36;
-    u8 f37;
-    u8 f38 : 7;
-    u8 f38top : 1;
-};
-
-struct Elem_0202055C {
-    const void *text;
-    u32 value;
-};
-
-typedef void (*Hook)(struct Obj_0202055C *obj, u32 value, u8 y);
-
-struct Obj_0202055C {
-    struct Elem_0202055C *arr;
-    u32 unk04;
-    Hook hook;
-    u32 unk0C;
-    u16 count;
-    u16 rows;
-    u8 f14;
-    u8 f15;
-    u8 f16;
-    u8 f17lo : 4;
-    u8 f17hi : 4;
-    u8 f18lo : 4;
-    u8 f18hi : 4;
-    u8 f19;
-    u16 f1Alo : 3;
-    u16 f1Amid : 4;
-    u16 f1Apad : 2;
-    u16 f1Amid2 : 6;
-    u16 f1Atop : 1;
-    u8 pad1C[0x20 - 0x1C];
-    u16 f20;
-    u16 f22;
-};
-
-struct Obj_020206C0 {
-    void *arr;
-    void *unk04;
-    void *unk08;
-    void *unk0C;
-    u16 count;
-    u16 rows;
-    u8 f14;
-    u8 f15;
-    u8 f16;
-    u8 f17lo : 4;
-    u8 f17hi : 4;
-    u8 f18lo : 4;
-    u8 f18hi : 4;
-    u8 f19;
-    u16 f1Alo : 3;
-    u16 f1Amid : 4;
-    u16 f1Amid2 : 8;
-    u16 f1Atop : 1;
-    u8 pad1C[0x20 - 0x1C];
-    u16 f20;
-    u16 f22;
-    u8 pad24[0x28 - 0x24];
-    void *f28;
-    void *f2C;
-    void *f30;
-    u8 pad34[0x3C - 0x34];
-    void *f3C;
-    u16 f40;
-    u16 f42;
-};
-
-struct Elem_02020780 {
-    u32 unk00;
-    u32 unk04;
-};
-
-struct Obj_02020780 {
-    struct Elem_02020780 *arr;
-    u32 unk04;
-    u32 unk08;
-    u32 unk0C;
-    u16 count;
-    u16 rows;
-    u8 pad14[0x40 - 0x14];
-    u16 f40;
-    u16 f42;
+    u8 f4A;
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02020D18(u32 heap);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02020A34(struct Obj_0201FF30 *obj, void *arg1);
 extern u32  func_020362DC(void);
 extern unsigned int func_0203633C(void);
 extern void func_020061E4(u32 id);
-extern u32  func_02020970(struct Obj_020200CC *o, u8 a, u8 b, u8 c);
 extern void func_02020D3C(struct D *p);
 extern u32 func_020307B0(void *p);
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -302,38 +164,47 @@ extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
 extern u16 func_020437DC(const struct Bmp *bmp);
 extern void func_02020CA0(void *win, u32 a, u32 b, u32 c, u16 tile);
 extern void func_02020D5C(struct Desc *d, u32 x, u32 y, struct Handle *h, void *dst, u32 f);
-struct Obj_0201FF30 *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
-s32 func_020200CC(struct Obj_020200CC *o);
-void func_0202020C(struct Obj *o, u16 *a, u16 *b);
+extern void func_02045334(struct Descriptor *win);
+extern void *func_020437D4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
+struct Menu *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
+s32 func_020200CC(struct Menu *o);
+void func_0202020C(struct Menu *o, u16 *a, u16 *b);
 void func_02020234(u8 *p);
-void func_02020268(struct Obj_02020268 *obj, u8 a, u8 b, u8 c);
-void func_02020298(struct Obj_02020268 *obj, u8 a, u8 b, u8 c);
-void func_020202EC(struct Obj_02020268 *obj, u16 *out);
-void func_020202FC(struct Obj_02020268 *obj, u16 *a, u16 *b);
-u16 func_02020314(struct Obj_02020268 *obj);
-u16 func_02020324(struct Obj_02020268 *obj, u32 n);
-u32 func_02020344(struct Obj_02020268 *obj, u32 n);
-u32 func_02020350(struct Obj_02020268 *obj, u32 what);
-void func_02020408(struct Obj_02020408 *obj, const void *text, u32 x, u32 y, u32 sel);
-void func_0202055C(struct Obj_0202055C *obj, u16 row, u16 col, u16 n, u32 flag);
-void func_020206C0(struct Obj_020206C0 *obj);
-void func_0202071C(struct Obj_020206C0 *obj, u32 n);
-u8 func_02020780(struct Obj_02020780 *obj, u8 dir);
+void func_02020268(struct Menu *obj, u8 a, u8 b, u8 c);
+void func_02020298(struct Menu *obj, u8 a, u8 b, u8 c);
+void func_020202EC(struct Menu *obj, u16 *out);
+void func_020202FC(struct Menu *obj, u16 *a, u16 *b);
+u16 func_02020314(struct Menu *obj);
+u16 func_02020324(struct Menu *obj, u32 n);
+u32 func_02020344(struct Menu *obj, u32 n);
+u32 func_02020350(struct Menu *obj, u32 what);
+void func_02020408(struct Menu *obj, const void *text, u32 x, u32 y, u32 sel);
+void func_0202055C(struct Menu *obj, u16 row, u16 col, u16 n, u32 flag);
+void func_020206C0(struct Menu *obj);
+void func_0202071C(struct Menu *obj, u32 n);
+u8 func_02020780(struct Menu *obj, u8 dir);
+void func_020208B8(struct Menu *obj, u16 n, u32 flag);
+u32 func_02020970(struct Menu *obj, u8 notify, u8 count, u8 dir);
+void func_02020A34(struct Menu *obj, void *arg1);
+void func_02020A58(void *bmp, u32 dir, u32 start, u32 color, u16 size);
+void func_02020B5C(void *bmp, u32 dir, u32 start, u32 color, u16 size);
 extern char g_020A7390[];
 
 
 
 
-struct Obj_0201FF30 *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
+
+struct Menu *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
 {
-    struct Obj_0201FF30 *obj;
+    struct Menu *obj;
     int i;
     u32 *d;
     u32 *s;
 
-    obj = (struct Obj_0201FF30 *)func_02030734(heap, 0x50, 1, g_020A7390, 0x69);
+    obj = (struct Menu *)func_02030734(heap, 0x50, 1, g_020A7390, 0x69);
     *(struct Src *)obj = *src;
-    obj->f3C = (u32)func_02020D18(heap);
+    obj->f3C = func_02020D18(heap);
     obj->f40 = a;
     obj->f42 = b;
     obj->f44 = 0;
@@ -344,8 +215,8 @@ struct Obj_0201FF30 *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
     obj->f34lo = obj->f17hi;
     obj->f34hi = obj->f18lo;
     obj->f35lo = obj->f18hi;
-    obj->f36 = (u8)obj->f1Alo;
-    obj->f38 = (u8)obj->f1Amid2;
+    obj->f36 = (u8)obj->u.a.f1Alo;
+    obj->f38 = (u8)obj->u.a.f1Amid2;
     obj->f38top = 0;
     if (obj->count < obj->rows) {
         obj->rows = obj->count;
@@ -359,11 +230,12 @@ struct Obj_0201FF30 *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
         q[4] = 0;
     }
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->unk0C)), obj->f18lo);
-    func_0202055C((struct Obj_0202055C *)obj, obj->f40, 0, obj->rows, 1);
-    func_020206C0((struct Obj_020206C0 *)obj);
+    func_0202055C((struct Menu *)obj, obj->f40, 0, obj->rows, 1);
+    func_020206C0((struct Menu *)obj);
     func_02020A34(obj, (void *)1);
     return obj;
 }
+
 
 
 
@@ -388,7 +260,7 @@ struct Obj_0201FF30 *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
  * and the switch closes once case 0 and default share one arm.
  * func_02020970's prototype is the EXACT one (u8 scalar parameters).
  */
-s32 func_020200CC(struct Obj_020200CC *o)
+s32 func_020200CC(struct Menu *o)
 {
     u32 keys = func_020362DC();
     u32 one = 1;
@@ -398,7 +270,7 @@ s32 func_020200CC(struct Obj_020200CC *o)
 
     if (keys & one) {
         func_020061E4(0x54C);
-        return o->arr[o->f40 + o->f42].f4;
+        return o->arr[o->f40 + o->f42].value;
     }
     if (o->f4A == 0) {
         u32 two = 2;
@@ -423,7 +295,7 @@ s32 func_020200CC(struct Obj_020200CC *o)
     }
     {
         u16 h, v;
-        switch (o->f1Amid) {
+        switch (o->u.b.f1Amid) {
         case 0:
         default:
             h = 0;
@@ -439,14 +311,14 @@ s32 func_020200CC(struct Obj_020200CC *o)
             break;
         }
         if (h != 0) {
-            if (func_02020970(o, 1, (u8)o->f12, 0) == 0) {
+            if (func_02020970(o, 1, (u8)o->rows, 0) == 0) {
                 func_020061E4(0x548);
                 o->f47 = 3;
             }
             return -1;
         }
         if (v != 0) {
-            if (func_02020970(o, 1, (u8)o->f12, 1) == 0) {
+            if (func_02020970(o, 1, (u8)o->rows, 1) == 0) {
                 func_020061E4(0x548);
                 o->f47 = 4;
             }
@@ -460,7 +332,8 @@ s32 func_020200CC(struct Obj_020200CC *o)
 
 
 
-void func_0202020C(struct Obj *o, u16 *a, u16 *b)
+
+void func_0202020C(struct Menu *o, u16 *a, u16 *b)
 {
     if (a != 0) {
         *a = ((struct Obj08775 *)o)->f40;
@@ -475,6 +348,7 @@ void func_0202020C(struct Obj *o, u16 *a, u16 *b)
 
 
 
+
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02020234.c \
@@ -484,9 +358,10 @@ void func_02020234(u8 *p)
 {
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj08776 *)p)->fC)),
                   ((struct Ctl *)p)->lo4);
-    func_0202055C((struct Obj_0202055C *)((struct Obj_0201FF30 *)((struct Obj *)p)), ((struct Obj08776 *)p)->f40, 0, ((struct Obj08776 *)p)->f12, 1);
-    func_020206C0((struct Obj_020206C0 *)((struct Obj_0201FF30 *)((struct Obj *)p)));
+    func_0202055C((struct Menu *)((struct Menu *)((struct Menu *)p)), ((struct Obj08776 *)p)->f40, 0, ((struct Obj08776 *)p)->f12, 1);
+    func_020206C0((struct Menu *)((struct Menu *)((struct Menu *)p)));
 }
+
 
 
 
@@ -515,11 +390,11 @@ void func_02020234(u8 *p)
  *   func_02020314  tail call to func_02020324 with the cursor row f42
  *   func_02020324  pixel y of row n: f17lo + n * (u8)(f22 + f1Amid),
  *                  the expression unit_020206C0 inlines
- *   func_02020344  arr[n].unk04, the item's value word
+ *   func_02020344  arr[n].value, the item's value word
  *   func_02020350  twenty-way attribute getter; case 4 has no arm and
  *                  shares the default's -1
  */
-void func_02020268(struct Obj_02020268 *obj, u8 a, u8 b, u8 c)
+void func_02020268(struct Menu *obj, u8 a, u8 b, u8 c)
 {
     obj->f17hi = a;
     obj->f18lo = b;
@@ -528,7 +403,8 @@ void func_02020268(struct Obj_02020268 *obj, u8 a, u8 b, u8 c)
 
 
 
-void func_02020298(struct Obj_02020268 *obj, u8 a, u8 b, u8 c)
+
+void func_02020298(struct Menu *obj, u8 a, u8 b, u8 c)
 {
     obj->f34lo = a;
     obj->f34hi = b;
@@ -538,14 +414,16 @@ void func_02020298(struct Obj_02020268 *obj, u8 a, u8 b, u8 c)
 
 
 
-void func_020202EC(struct Obj_02020268 *obj, u16 *out)
+
+void func_020202EC(struct Menu *obj, u16 *out)
 {
     *out = obj->f40 + obj->f42;
 }
 
 
 
-void func_020202FC(struct Obj_02020268 *obj, u16 *a, u16 *b)
+
+void func_020202FC(struct Menu *obj, u16 *a, u16 *b)
 {
     if (a != 0) {
         *a = obj->f40;
@@ -559,52 +437,57 @@ void func_020202FC(struct Obj_02020268 *obj, u16 *a, u16 *b)
 
 
 
-u16 func_02020314(struct Obj_02020268 *obj)
+
+u16 func_02020314(struct Menu *obj)
 {
     return func_02020324(obj, obj->f42);
 }
 
 
 
-u16 func_02020324(struct Obj_02020268 *obj, u32 n)
+
+u16 func_02020324(struct Menu *obj, u32 n)
 {
-    return (u16)(obj->f17lo + n * (u8)(obj->f22 + obj->f1Amid));
+    return (u16)(obj->f17lo + n * (u8)(obj->f22 + obj->u.a.f1Amid));
 }
 
 
 
-u32 func_02020344(struct Obj_02020268 *obj, u32 n)
+
+u32 func_02020344(struct Menu *obj, u32 n)
 {
-    return obj->arr[n].unk04;
+    return obj->arr[n].value;
 }
 
 
 
-u32 func_02020350(struct Obj_02020268 *obj, u32 what)
+
+u32 func_02020350(struct Menu *obj, u32 what)
 {
     switch (what) {
-    case 0:  return obj->unk04;
-    case 1:  return obj->unk08;
+    case 0:  return (u32)obj->callback;
+    case 1:  return (u32)obj->hook;
     case 2:  return obj->count;
     case 3:  return obj->rows;
     case 5:  return obj->f14;
     case 6:  return obj->f15;
     case 7:  return obj->f16;
     case 8:  return obj->f17lo;
-    case 9:  return obj->f22 + obj->f1Amid;
+    case 9:  return obj->f22 + obj->u.a.f1Amid;
     case 10: return obj->f17hi;
     case 11: return obj->f18lo;
     case 12: return obj->f18hi;
-    case 13: return obj->f1Alo;
-    case 14: return obj->f1Amid;
-    case 15: return obj->f1Apad;
-    case 16: return obj->f1Amid2;
-    case 17: return obj->f1Atop;
-    case 18: return obj->unk0C;
+    case 13: return obj->u.a.f1Alo;
+    case 14: return obj->u.a.f1Amid;
+    case 15: return obj->u.a.f1Apad;
+    case 16: return obj->u.a.f1Amid2;
+    case 17: return obj->u.a.f1Atop;
+    case 18: return (u32)obj->unk0C;
     case 19: return obj->f1C;
     }
     return -1;
 }
+
 
 
 
@@ -632,34 +515,35 @@ u32 func_02020350(struct Obj_02020268 *obj, u32 what)
  * say, and the C reproduces it; it reads like a copy-paste slip in the
  * original.  EXACT* only because the extent includes 2 bytes of padding.
  */
-void func_02020408(struct Obj_02020408 *obj, const void *text, u32 x, u32 y, u32 sel)
+void func_02020408(struct Menu *obj, const void *text, u32 x, u32 y, u32 sel)
 {
     if (text == 0)
         return;
     if (obj->f38top) {
         if (sel) {
-            u32 a = obj->f2C;
-            struct Target *t = obj->f28;
-            func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)t->win), x, y, (u32)text, obj->f30,
+            u32 a = (u32)obj->f2C;
+            struct Target *t = (struct Target *)obj->f28;
+            func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)t->win), x, y, (u32)text, (u32)obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
             t->dirty = 1;
         } else {
-            func_0201C7D0((u32)func_02045770((struct Descriptor *)obj->f28->win), x, y, text, obj->f30,
+            func_0201C7D0((u32)func_02045770((struct Descriptor *)((struct Target *)obj->f28)->win), x, y, text, (u32)obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
         }
     } else {
         if (sel) {
-            u32 a = obj->f2C;
-            struct Target *t = obj->f28;
-            func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)t->win), x, y, (u32)text, obj->f30,
+            u32 a = (u32)obj->f2C;
+            struct Target *t = (struct Target *)obj->f28;
+            func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)t->win), x, y, (u32)text, (u32)obj->f30,
                           COLOR(obj->f17hi, obj->f18hi, obj->f18lo));
             t->dirty = 1;
         } else {
-            func_0201C7D0((u32)func_02045770((struct Descriptor *)obj->f28->win), x, y, text, obj->f30,
+            func_0201C7D0((u32)func_02045770((struct Descriptor *)((struct Target *)obj->f28)->win), x, y, text, (u32)obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
         }
     }
 }
+
 
 
 
@@ -685,7 +569,7 @@ void func_02020408(struct Obj_02020408 *obj, const void *text, u32 x, u32 y, u32
  * (u8)-truncated at its one assignment) swapped the last two stack slots.
  * EXACT* only because the extent includes 2 bytes of padding.
  */
-void func_0202055C(struct Obj_0202055C *obj, u16 row, u16 col, u16 n, u32 flag)
+void func_0202055C(struct Menu *obj, u16 row, u16 col, u16 n, u32 flag)
 {
     int step;
     int x;
@@ -693,7 +577,7 @@ void func_0202055C(struct Obj_0202055C *obj, u16 row, u16 col, u16 n, u32 flag)
     int i;
     int lim;
 
-    step = (u8)(obj->f22 + obj->f1Amid);
+    step = (u8)(obj->f22 + obj->u.a.f1Amid);
     if (row != 0 && flag != 0) {
         u32 bmp;
         u8 w;
@@ -706,7 +590,7 @@ void func_0202055C(struct Obj_0202055C *obj, u16 row, u16 col, u16 n, u32 flag)
         y = (u8)(obj->f17lo + col * step);
         if (obj->hook != 0)
             obj->hook(obj, obj->arr[row - 1].value, y);
-        func_02020408((struct Obj_02020408 *)obj, obj->arr[row - 1].text, x, y, 0);
+        func_02020408((struct Menu *)obj, obj->arr[row - 1].text, x, y, 0);
         k = obj->f18lo;
         func_02020CA0((void *)obj->unk0C, 0, step, (u8)((k << 4) | k),
                       (u16)((step * 2 / 8) * (func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)obj->unk0C))) / 8)));
@@ -717,12 +601,13 @@ void func_0202055C(struct Obj_0202055C *obj, u16 row, u16 col, u16 n, u32 flag)
         y = (u8)(obj->f17lo + (i + col) * step);
         if (obj->hook != 0)
             obj->hook(obj, obj->arr[row].value, y);
-        func_02020408((struct Obj_02020408 *)obj, obj->arr[row].text, x, y, 1);
+        func_02020408((struct Menu *)obj, obj->arr[row].text, x, y, 1);
         row++;
         if (row >= obj->count)
             return;
     }
 }
+
 
 
 
@@ -742,13 +627,13 @@ void func_0202055C(struct Obj_0202055C *obj, u16 row, u16 col, u16 n, u32 flag)
  * argument and the same value is an inline argument, scheduled per site
  * (docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md).
  */
-void func_020206C0(struct Obj_020206C0 *obj)
+void func_020206C0(struct Menu *obj)
 {
     u8 a = obj->f17lo;
     u8 b = obj->f16;
-    u8 v = (u8)(a + obj->f42 * (u8)(obj->f22 + obj->f1Amid));
+    u8 v = (u8)(a + obj->f42 * (u8)(obj->f22 + obj->u.c.f1Amid));
 
-    switch (obj->f1Atop) {
+    switch (obj->u.c.f1Atop) {
     case 0:
         func_02020D5C(obj->f3C, b, v, obj->f28, obj->f2C, (u32)obj->f30);
         break;
@@ -760,13 +645,14 @@ void func_020206C0(struct Obj_020206C0 *obj)
 }
 
 
-void func_0202071C(struct Obj_020206C0 *obj, u32 n)
+
+void func_0202071C(struct Menu *obj, u32 n)
 {
-    switch (obj->f1Atop) {
+    switch (obj->u.c.f1Atop) {
     case 0:
         func_02043AF4((struct Bmp *)((u32)func_02045770((struct Descriptor *)obj->unk0C)),
                       obj->f16,
-                      (s16)(u16)(obj->f17lo + n * (u8)(obj->f22 + obj->f1Amid)),
+                      (s16)(u16)(obj->f17lo + n * (u8)(obj->f22 + obj->u.c.f1Amid)),
                       obj->f20,
                       obj->f22,
                       obj->f18lo);
@@ -777,6 +663,7 @@ void func_0202071C(struct Obj_020206C0 *obj, u32 n)
         break;
     }
 }
+
 
 
 
@@ -804,7 +691,7 @@ void func_0202071C(struct Obj_020206C0 *obj, u32 n)
  * EXACT* only because the listing's extent includes the two bytes of
  * alignment padding after the function.
  */
-u8 func_02020780(struct Obj_02020780 *obj, u8 dir)
+u8 func_02020780(struct Menu *obj, u8 dir)
 {
     int ncol;
     int col;
@@ -824,7 +711,7 @@ u8 func_02020780(struct Obj_02020780 *obj, u8 dir)
         if (col == 0) {
             while (row != 0) {
                 row--;
-                if (obj->arr[col + row].unk04 != (u32)-3) {
+                if (obj->arr[col + row].value != (u32)-3) {
                     obj->f42 = row;
                     return 1;
                 }
@@ -833,7 +720,7 @@ u8 func_02020780(struct Obj_02020780 *obj, u8 dir)
         }
         while (row > mid) {
             row--;
-            if (obj->arr[col + row].unk04 != (u32)-3) {
+            if (obj->arr[col + row].value != (u32)-3) {
                 obj->f42 = row;
                 return 1;
             }
@@ -850,7 +737,7 @@ u8 func_02020780(struct Obj_02020780 *obj, u8 dir)
         if (col == obj->count - rows) {
             while ((int)row < rows - 1) {
                 row++;
-                if (obj->arr[col + row].unk04 != (u32)-3) {
+                if (obj->arr[col + row].value != (u32)-3) {
                     obj->f42 = row;
                     return 1;
                 }
@@ -859,7 +746,7 @@ u8 func_02020780(struct Obj_02020780 *obj, u8 dir)
         }
         while (row < mid) {
             row++;
-            if (obj->arr[col + row].unk04 != (u32)-3) {
+            if (obj->arr[col + row].value != (u32)-3) {
                 obj->f42 = row;
                 return 1;
             }
@@ -869,4 +756,256 @@ u8 func_02020780(struct Obj_02020780 *obj, u8 dir)
     }
     obj->f40 = ncol;
     return 2;
+}
+
+
+
+
+void func_020208B8(struct Menu *obj, u16 n, u32 flag)
+{
+    u8 step;
+
+    if (n >= (int)obj->rows) {
+        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->unk0C)), obj->f18lo);
+        func_0202055C((struct Menu *)obj, obj->f40, 0, obj->rows, 1);
+        return;
+    }
+
+    step = (u8)(obj->f22 + obj->u.c.f1Amid);
+    if (flag == 0) {
+        u8 k = obj->f18lo;
+        func_02020CA0(obj->unk0C, 1, (u8)(n * step), (u8)((k << 4) | k), 0);
+        func_0202055C((struct Menu *)obj, obj->f40, 0, n, 1);
+    } else {
+        u8 k = obj->f18lo;
+        func_02020CA0(obj->unk0C, 0, (u8)(n * step), (u8)((k << 4) | k), 0);
+        func_0202055C((struct Menu *)obj, (u16)(obj->f40 + (obj->rows - n)), (u16)(obj->rows - n), n, 0);
+    }
+}
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02020970.c \
+ *       --func func_02020970 --addr 0x02020970 --thumb
+ *
+ * Move the menu cursor count steps in direction dir (func_02020780 does one
+ * step and answers 0 = no move, 1 = cursor moved inside the window, 2 = the
+ * list scrolled), then, if notify, redraw what changed.  Closed in wave 13
+ * after the 2026-09-21 note (docs/notes/func_02020970.c.txt) left it at 34
+ * bytes out.  What closed it, in order of weight:
+ *   - ALL THREE SCALAR PARAMETERS ARE NARROW (u8 here; u16 compiles the
+ *     same).  u8 count is what gives the guard its `cmp r0,#0 / bls` with
+ *     the reload from the home slot (u32 count gives `cmp #1 / blo` or folds
+ *     onto r2); u8/u16 notify and dir are what schedule the three home
+ *     stores ahead of the obj copy.
+ *   - the guard is `i < count` with i already 0, around a do/while;
+ *   - a skipped row (item value -3) re-runs the step WITHOUT advancing i:
+ *     a goto to the top of the body, not a continue (continue reaches the
+ *     condition);
+ *   - `case 0: default: return 1;` written first; without case 0 the switch
+ *     becomes a compare chain, with a separate default it duplicates.
+ */
+u32 func_02020970(struct Menu *obj, u8 notify, u8 count, u8 dir)
+{
+    u8 acc;
+    u8 moved;
+    u8 i;
+    u8 r;
+    u16 saved;
+
+    moved = 0;
+    acc = 0;
+    saved = obj->f42;
+    i = 0;
+    if (i < count) {
+        do {
+        again:
+            r = func_02020780((struct Menu *)obj, dir);
+            acc |= r;
+            if (r == 2) {
+                moved++;
+                if (obj->arr[obj->f40 + obj->f42].value == (u32)-3)
+                    goto again;
+            }
+            i++;
+        } while (i < count);
+    }
+    if (notify != 0) {
+        switch (acc) {
+        case 0:
+        default:
+            return 1;
+        case 1:
+            func_0202071C((struct Menu *)obj, saved);
+            func_020206C0((struct Menu *)obj);
+            func_02020A34((struct Menu *)((struct Menu *)obj), 0);
+            func_02045334((struct Descriptor *)obj->unk0C);
+            break;
+        case 2:
+        case 3:
+            func_0202071C((struct Menu *)obj, saved);
+            func_020208B8((struct Menu *)obj, moved, dir);
+            func_020206C0((struct Menu *)obj);
+            func_02020A34((struct Menu *)((struct Menu *)obj), 0);
+            break;
+        }
+    }
+    return 0;
+}
+
+
+
+
+void func_02020A34(struct Menu *obj, void *arg1)
+{
+    if (obj->callback != 0) {
+        obj->callback(obj, obj->arr[obj->f40 + obj->f42].value, arg1);
+    }
+}
+
+
+
+
+void func_02020A58(void *bmp, u32 dir, u32 start, u32 color, u16 size)
+{
+    u32  wt;
+    u32  fill;
+    s32  len;
+    s32  y;
+    s32  src;
+    s32  dst;
+    u32  t;
+    s32  x;
+    u8  *buf;
+
+    buf = func_020437D4(bmp);
+    fill = (color << 24) | (color << 16) | (color << 8) | color;
+    wt = (u32)func_020437DC(bmp) >> 3;
+    len = size;
+    if (len == 0)
+        len = (wt * ((u32)func_020437E4(bmp) >> 3)) << 5;
+
+    switch (dir) {
+    case 0:
+        for (y = 0; y < len; y += 0x20) {
+            t = start;
+            for (x = 0; x < 8; x++) {
+                dst = y + x * 4;
+                src = y + (((t & 7) | (wt * (t & ~7u))) << 2);
+                *(u32 *)(buf + dst) =
+                    (src < len) ? *(u32 *)(buf + src) : fill;
+                t++;
+            }
+        }
+        break;
+    case 1:
+        buf = buf + (len - 4);
+        for (y = 0; y < len; y += 0x20) {
+            t = start;
+            for (x = 0; x < 8; x++) {
+                u32 *q;
+                u32  v;
+                dst = y + x * 4;
+                src = y + (((t & 7) | (wt * (t & ~7u))) << 2);
+                if (src < len) {
+                    v = *(u32 *)(buf - src);
+                    q = (u32 *)(buf - dst);
+                } else {
+                    q = (u32 *)(buf - dst);
+                    v = fill;
+                }
+                t++;
+                *q = v;
+            }
+        }
+        break;
+    case 2:
+    case 3:
+        break;
+    }
+}
+
+
+
+
+void func_02020B5C(void *bmp, u32 dir, u32 start, u32 color, u16 size)
+{
+    u32  wt;
+    u32  fill;
+    s32  len;
+    s32  y;
+    s32  src;
+    s32  dst;
+    u32  t;
+    s32  x;
+    u8  *buf;
+
+    buf = func_020437D4(bmp);
+    fill = (color << 24) | (color << 16) | (color << 8) | color;
+    wt = (u32)func_020437DC(bmp) >> 3;
+    len = size;
+    if (len == 0)
+        len = (wt * ((u32)func_020437E4(bmp) >> 3)) << 6;
+
+    switch (dir) {
+    case 0:
+        for (y = 0; y < len; y += 0x40) {
+            t = start;
+            for (x = 0; x < 8; x++) {
+                u32 v;
+                dst = y + x * 8;
+                src = y + (((t & 7) | (wt * (t & ~7u))) << 3);
+                if (src < len) {
+                    v = *(u32 *)(buf + src);
+                    *(u32 *)(buf + dst) = v;
+                } else {
+                    v = fill;
+                    *(u32 *)(buf + dst) = v;
+                }
+                if (src + 4 < len + 4) {
+                    v = *(u32 *)(buf + (src + 4));
+                    *(u32 *)(buf + (dst + 4)) = v;
+                } else {
+                    v = fill;
+                    *(u32 *)(buf + (dst + 4)) = v;
+                }
+                t++;
+            }
+        }
+        break;
+    case 1:
+        buf = buf + (len - 8);
+        for (y = 0; y < len; y += 0x40) {
+            t = start;
+            for (x = 0; x < 8; x++) {
+                u32  v;
+                dst = y + x * 8;
+                src = y + (((t & 7) | (wt * (t & ~7u))) << 3);
+                if (src < len) {
+                    v = *(u32 *)(buf - src);
+                    *(u32 *)(buf - dst) = v;
+                } else {
+                    v = fill;
+                    *(u32 *)(buf - dst) = v;
+                }
+                if (src - 4 < len - 4) {
+                    v = *(u32 *)(buf - (src - 4));
+                    dst = dst - 4;
+                    *(u32 *)(buf - dst) = v;
+                } else {
+                    dst = dst - 4;
+                    v = fill;
+                    *(u32 *)(buf - dst) = v;
+                }
+                t++;
+            }
+        }
+        break;
+    case 2:
+    case 3:
+        break;
+    }
 }

@@ -15,8 +15,8 @@
  * call; array indexing on j recomputes it after the call (26 differing words).
  *
  * symbols:
- *   func_0689CFD0  0x0689CFD0  thumb
- *   func_0689CFE0  0x0689CFE0  thumb
+ *   func_021C81C8  0x021C81C8  thumb
+ *   func_021D78AC  0x021D78AC  thumb
  */
 
 typedef unsigned char u8;
@@ -35,8 +35,8 @@ typedef struct {
     u8 f45;
 } S;
 
-u16 func_0689CFD0(int ctx, u32 id, int k);
-int func_0689CFE0(int k);
+u16 func_021C81C8(int ctx, u32 id, int k);
+int func_021D78AC(int k);
 
 void func_0689CF24(S *p, int ctx)
 {
@@ -49,11 +49,11 @@ void func_0689CF24(S *p, int ctx)
 
     if (p->n > 1) {
         for (i = 0; i < p->n; i++)
-            p->d[i] = func_0689CFD0(ctx, p->id[i], 1);
+            p->d[i] = func_021C81C8(ctx, p->id[i], 1);
         for (i = 0; i < p->n; i++) {
             for (j = i + 1; j < p->n; j++) {
                 pj = (u16 *)p + j;
-                if (pj[27] > p->d[i] || (pj[27] == p->d[i] && func_0689CFE0(2))) {
+                if (pj[27] > p->d[i] || (pj[27] == p->d[i] && func_021D78AC(2))) {
                     tid = p->id[i];
                     ta = p->a[i];
                     td = p->d[i];

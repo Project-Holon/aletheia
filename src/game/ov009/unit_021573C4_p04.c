@@ -1,85 +1,110 @@
 /*
  * file:     unit_021573C4_p04.c
  * unit:     yes
- * function: func_02157A44
- * address:  0x02157A44
- * packet:   pkt_ov009_02157A44
+ * function: func_02159244, func_021592A8, func_0215938C
+ * address:  0x02159244
  * region:   ov009
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      put_in_buffer (libcps.TWL.HYB.a network.o)
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
  * symbols:
- *   MI_CpuCopy                       0x02082ea4 arm
- *   g_021A826C                       0x021a826c data
- *   g_021A1CC0                       0x021a1cc0 data
- * note: volatile in this file is a matching device (it forces the reload the
- *   original performs); the vendor DWARF declares the object without volatile.
+ *   check_socket                     0x02159190 arm
+ *   OSi_ThreadInfo                   0x02150fec data
+ *   func_021578C8  0x021578C8  arm  ov009
+ *   func_02157D8C  0x02157D8C  arm  ov009
  */
+#include "cps_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned long u32;
 
-struct CPSGlobal {
-    u8 pad0[0x20];
-    u8 *buf;
-    u8 pad1[0x5c - 0x24];
-    volatile u32 bufsize;
-    volatile u32 putpnt;
-    volatile u32 getpnt;
-};
+extern unsigned long check_socket(unsigned char *iphdr, unsigned char *tcphdr, struct _CPSSoc *soc);
+void func_021592A8(unsigned char *tcphdr, struct _CPSSoc *soc);
+extern int func_021578C8(void);
+extern int func_02157D8C(void);
+int func_0215938C(void);
+extern int OSi_ThreadInfo;
 
-extern struct CPSGlobal g_021A826C;
-extern u8 g_021A1CC0[];
-extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
+
+static struct _CPSSoc *find_socket(unsigned char *iphdr, unsigned char *tcphdr)
+{
+	struct _CPSSoc *soc;
+	struct _OSThread *t;
+
+	t = *(struct _OSThread **)((char *)&OSi_ThreadInfo + 8);
+	while (t != 0) {
+		soc = *(struct _CPSSoc **)((char *)t + 0xa4);
+
+		if (soc != 0 && *(struct _OSThread **)soc != 0) {
+			if (check_socket(iphdr, tcphdr, soc) != 0)
+				return soc;
+		}
+		t = *(struct _OSThread **)((char *)t + 0x68);
+	}
+	return 0;
+}
+
+
+void func_021592A8(unsigned char *tcphdr, struct _CPSSoc *soc)
+{
+	long len;
+	unsigned char *p;
+
+	soc->remote_mss = 536;
+	len = ((tcphdr[0xc] & 0xf0) / 4) - 20;
+	p = tcphdr + 0x14;
+	while (len-- > 0) {
+		switch (*p++) {
+		case 0:
+			return;
+		case 1:
+			break;
+		case 2:
+			if (len <= 2)
+				return;
+			if (p[0] != 4)
+				return;
+			soc->remote_mss = (p[1] << 8) | p[2];
+			p += 3;
+			len -= 3;
+			break;
+		case 4:
+			if (len <= 0)
+				return;
+			if (p[0] != 2)
+				return;
+			soc->sack_enabled = 1;
+			p++;
+			len--;
+			break;
+		default: {
+			unsigned long l;
+
+			if (len <= 0)
+				return;
+			l = p[0];
+			if (l < 2)
+				return;
+			l--;
+			len -= l;
+			p += l;
+		}
+		}
+	}
+}
+
 
 /*
- * sdk:      put_in_buffer (libcps.TWL.HYB.a network.o)
- * note: volatile in this file is a matching device (it forces the reload the
- *   original performs); the vendor DWARF declares the object without volatile.
+ * One when the test fails, else the second call.
  */
-void func_02157A44(u8 *srcAddr, u8 *dstAddr, u8 *buf1, u32 size1, u8 *buf2, u32 size2)
+int func_0215938C(void)
 {
-    u32 size;
-    u32 new_putpnt;
-    u16 blocklen;
+    if (func_021578C8() == 0) {
+        return 1;
+    }
 
-    if (g_021A826C.buf == 0 || g_021A826C.bufsize == 0)
-        return;
-    size = size1 + size2;
-    if (size < 8 || size > 0x5e4)
-        return;
-    if (buf1[0] != g_021A1CC0[0] || buf1[1] != g_021A1CC0[1] || buf1[2] != g_021A1CC0[2] || buf1[6] != 8)
-        return;
-    if (buf1[7] != 0 && buf1[7] != 6)
-        return;
-    blocklen = (u16)((size + 9) & ~1);
-    new_putpnt = g_021A826C.putpnt + blocklen;
-    if (g_021A826C.putpnt < g_021A826C.getpnt && g_021A826C.getpnt <= new_putpnt)
-        return;
-    if (new_putpnt == g_021A826C.bufsize) {
-        new_putpnt = 0;
-        if (g_021A826C.getpnt == 0)
-            return;
-    } else if (new_putpnt > g_021A826C.bufsize) {
-        new_putpnt = blocklen;
-        if (g_021A826C.getpnt <= blocklen)
-            return;
-    }
-    if (g_021A826C.putpnt + blocklen > g_021A826C.bufsize) {
-        if (g_021A826C.bufsize - g_021A826C.putpnt >= 2)
-            *(u16 *)(g_021A826C.buf + g_021A826C.putpnt) = 0;
-        g_021A826C.putpnt = 0;
-    }
-    *(u16 *)(g_021A826C.buf + g_021A826C.putpnt) = blocklen;
-    MI_CpuCopy(dstAddr, g_021A826C.buf + g_021A826C.putpnt + 2, 6);
-    MI_CpuCopy(srcAddr, g_021A826C.buf + g_021A826C.putpnt + 8, 6);
-    MI_CpuCopy(buf1 + 6, g_021A826C.buf + g_021A826C.putpnt + 14, size1 - 6);
-    if (buf2 != 0 && size2 != 0)
-        MI_CpuCopy(buf2, g_021A826C.buf + g_021A826C.putpnt + 8 + size1, size2);
-    g_021A826C.putpnt = new_putpnt;
+    return func_02157D8C();
 }

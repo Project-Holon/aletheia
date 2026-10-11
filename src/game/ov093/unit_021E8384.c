@@ -13,6 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689C980  0x0689C980  thumb
+ *   func_0689C990  0x0689C990  thumb
  *   d_021F2CF0  0x021F2CF0  data  a4
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
@@ -27,8 +29,6 @@
  *   func_021C8860 0x021C8860 thumb ov093
  *   func_021C7D34 0x021C7D34 thumb ov093
  *   func_021C80AC  0x021C80AC  thumb  ov093
- *   func_021E867C  0x021E867C  thumb  ov093
- *   func_021E868C  0x021E868C  thumb  ov093
  *   d_021F2F68     0x021F2F68  data   ov093  a4
  */
 #include "../../matched/include/Obj07838.h"
@@ -59,8 +59,8 @@ extern Word func_021E8940(int);
 extern void func_021C8860(struct S *, u32);
 extern int func_021C7D34(char *p, int i);
 extern int func_021C80AC(u8 *p, int key);
-extern int func_021E867C(int b);
-extern int func_021E868C(int b);
+extern int func_0689C980(int b);
+extern int func_0689C990(int b);
 int func_021E8384(u32 x, u32 y);
 int *func_021E83C0(int *p);
 void func_021E83CC(void *a, void *b, int c, int *d);
@@ -133,9 +133,6 @@ void func_021E83CC(void *a, void *b, int c, int *d)
 }
 
 
-
-
-
 void func_021E8440(int a, void *b, int c, int *d)
 {
     u8 *m;
@@ -148,9 +145,6 @@ void func_021E8440(int a, void *b, int c, int *d)
 }
 
 
-
-
-
 void func_021E8478(int a, int b, int c, int *d)
 {
     if (c == func_021D775C(2) && *d != 0)
@@ -158,16 +152,11 @@ void func_021E8478(int a, int b, int c, int *d)
 }
 
 
-
-
-
 void func_021E8498(int a, int b, int c, int *d)
 {
     if (c == func_021D775C(3) && *d != 0)
         func_021D76BC(0x30, 0x96);
 }
-
-
 
 
 void func_021E84B8(int a, int b, int c, int *d)
@@ -192,7 +181,6 @@ void func_021E84B8(int a, int b, int c, int *d)
         }
     }
 }
-
 
 
 /*
@@ -267,8 +255,6 @@ void func_021E84FC(int a, int b, int c, const int *d)
 }
 
 
-
-
 int func_021E85F8(int v)
 {
     u32 i;
@@ -287,16 +273,12 @@ int func_021E85F8(int v)
 }
 
 
-
-
 int func_021E8624(int a, int b)
 {
     if (func_021C80AC((u8 *)a, b) != 0)
         return 1;
     return 0;
 }
-
-
 
 
 int func_021E8638(int a, int b)
@@ -307,11 +289,11 @@ int func_021E8638(int a, int b)
             return 1;
         break;
     case 0x1ed:
-        if (func_021E867C(b) != 0)
+        if (func_0689C980(b) != 0)
             return 1;
         break;
     case 0x289:
-        if (func_021E868C(b) != 0)
+        if (func_0689C990(b) != 0)
             return 1;
         break;
     }

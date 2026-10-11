@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689C8BC  0x0689C8BC  thumb
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C7D00  0x021C7D00  thumb  ov093
  *   func_021C815C  0x021C815C  thumb  ov093
@@ -28,7 +29,6 @@
  *   func_021C8374 0x021C8374 thumb ov093
  *   func_021D8340 0x021D8340 thumb ov093
  *   func_0201C314 0x0201C314 thumb
- *   func_021E6F04 0x021E6F04 thumb ov093
  *   d_021F2968     0x021F2968  data    a4
  */
 struct QL;
@@ -54,7 +54,7 @@ extern int func_021C814C(u8 *p, int v);
 extern int func_021C8374(u8 *p, int i);
 extern u32 func_021D8340(u32 *);
 extern u32 func_0201C314(void *p);
-extern int func_021E6F04(u32);
+extern int func_0689C8BC(u32);
 void func_021E6DAC(int x, int a, int c, u8 *d);
 int *func_021E6E2C(int *p);
 void func_021E6E38(void *x, void *a, int c, u8 *d);
@@ -95,7 +95,7 @@ int *func_021E6E2C(int *p)
 
 /*
  * extent: 202 bytes of code followed by 2-byte alignment nop at 021E6F02,
- * then the labelled Thumb veneer func_021E6F04.
+ * then the labelled Thumb veneer func_0689C8BC.
  */
 void func_021E6E38(void *x, void *a, int c, u8 *d)
 {
@@ -121,7 +121,7 @@ void func_021E6E38(void *x, void *a, int c, u8 *d)
                     if (func_021C814C(a, v) != 0) {
                         if (func_021C8374(a, v) == 0) {
                             id = func_021D8340(&desc);
-                            if (id != 0 && func_0201C314((void *)id) != 0 && func_021E6F04(id) == 0)
+                            if (id != 0 && func_0201C314((void *)id) != 0 && func_0689C8BC(id) == 0)
                                 ok = 1;
                         }
                     }

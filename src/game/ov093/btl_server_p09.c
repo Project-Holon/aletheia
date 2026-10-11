@@ -1,278 +1,126 @@
 /*
- * file:     btl_server_p09.c
- * unit:     yes
- * function: func_021BCEFC, func_021BCF34, func_021BCF70, func_021BCFAC, func_021BD080, func_021BD0C0
- * address:  0x021BCEFC
- * region:   ov093
+ * function: func_021C0F24
+ * address: 0x021C0F24
+ * packet: pkt_ov093_021C0F24
+ * region: ov093
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * lever: full-word aggregate eighth slot and declarations in spill order.
+ * budget: 3 one runs; both permitted scheduling variants consumed.
  * symbols:
- *   func_021CC8D8 0x021CC8D8 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
- *   func_021D74F8 0x021D74F8 thumb ov093
+ *   func_021C1144 0x021C1144 thumb ov093
+ *   func_021C1154 0x021C1154 thumb ov093
+ *   func_021C1164 0x021C1164 thumb ov093
+ *   func_021C1174 0x021C1174 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D75EC 0x021D75EC thumb ov093
- *   func_021D70F0 0x021D70F0 thumb ov093
- *   func_021D7540 0x021D7540 thumb ov093
- *   func_02018480 0x02018480 thumb
- *   func_021B86B8 0x021B86B8 thumb ov093
- *   func_021B8DDC 0x021B8DDC thumb ov093
- *   func_021B8FF4 0x021B8FF4 thumb ov093
- *   func_021D5844 0x021D5844 thumb ov093
- *   func_021B871C 0x021B871C thumb ov093
- *   func_021B85A0 0x021B85A0 thumb ov093
- *   func_021D59B4 0x021D59B4 thumb ov093
- *   func_021D78AC 0x021D78AC thumb ov093
- *   func_021D62C4 0x021D62C4 thumb ov093
- *   func_02018488 0x02018488 thumb
- *   func_021D7630  0x021D7630  thumb  ov093
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021BCA08  0x021BCA08  thumb  ov093
- *   func_021BCA50  0x021BCA50  thumb  ov093
- *   func_021D8454  0x021D8454  thumb  ov093
- *   func_021BDE48  0x021BDE48  thumb  ov093
- *   func_021BD138  0x021BD138  thumb  ov093
- *   func_021D82FC  0x021D82FC  thumb  ov093
- *   func_021BCCE0  0x021BCCE0  thumb  ov093
+ *   func_021B8590 0x021B8590 thumb ov093
+ *   func_021D62A8 0x021D62A8 thumb ov093
+ *   func_021D5B68 0x021D5B68 thumb ov093
+ *   func_021CD4B0 0x021CD4B0 thumb ov093
+ *   func_021CD64C 0x021CD64C thumb ov093
+ *   func_021C0A4C 0x021C0A4C thumb ov093
+ *   func_021C11A4 0x021C11A4 thumb ov093
+ *   func_021C195C 0x021C195C thumb ov093
+ *   func_021BFA60 0x021BFA60 thumb ov093
+ *   func_021C15AC 0x021C15AC thumb ov093
+ *
+ * Single dynamic executor loop: 0FD4..10B8. Sum/counters retain full-word
+ * wrapping adds and unsigned bound comparison; bound is reread after calls.
+ * Both flag stores 0FF0/0FF8 precede executor calls. Own C091C proves
+ * u32 return/fifth argument. C1144 targets matched ov095 CC70 u32 iterator;
+ * 1154/1164/1174 target matched D5C8 (u8 key/result). Own C0A4C/C11A4
+ * prove seven/eight physical slots, including 1000 and explicit final zero.
+ * C15AC primary 15AC..15CE compares full signed r1 without truncation.
+ * Flags is exactly one u32 with no padding, initialized by f.word=0.
+ * Original 0FA4/0FA6 copies the initialized index-zero to sp28; 1048/104A
+ * writes that full word to outgoing sp0C. Own C11A4 copies all 32 bits of
+ * its eighth input unchanged into C11F0's eighth slot; scalar/aggregate
+ * spelling changes neither bits nor arity. Run02/03 retain identical
+ * physical argument stores, with only the five spill offsets corrected.
  */
-struct Unk021D62A8;
-struct Unk021BDE48;
-struct Unk021D82FC;
-
+#include "../../matched/include/Obj02134.h"
+#include "../../matched/include/Obj21074.h"
 typedef unsigned char u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-typedef union {
-    struct { u32 type:4, select:3, move:16, arg:8, rest:1; } full;
-    struct { u32 type:4, select:3, move:3, rest:22; } small;
-} Action;
-
-typedef struct {
-    u8 *a;      /* 0x0 */
-    Action b;   /* 0x4 */
-    u32 c;      /* 0x8 */
-    u8 d;       /* 0xc */
-    u8 done;    /* 0xd */
-    u8 f;       /* 0xe */
-    u8 pad;     /* 0xf */
-} Entry;
-
-typedef struct {
-    u8 *f0;                         /* 0x000 */
-    void *f4;                       /* 0x004 */
-    void *f8;                       /* 0x008 */
-    void *fC;                       /* 0x00c */
-    u32 f10;                        /* 0x010 */
-    u32 f14;                        /* 0x014 */
-    u8 pad18[0x4b8 - 0x18];
-    u8 w4b8[0x782 - 0x4b8];         /* 0x4b8 */
-    u8 n;                           /* 0x782 */
-    u8 pad783;
-    u8 f784;                        /* 0x784 */
-    u8 pad785;
-    u8 f786;                        /* 0x786 */
-    u8 pad787[3];
-    union {
-        u8 raw;
-        struct { u8 b0:1, b1:1, b2:1, rest:5; } bits;
-    } f78a;                         /* 0x78a */
-    u8 f78b[0x7c1 - 0x78b];         /* 0x78b */
-    u8 flags[0x7e0 - 0x7c1];        /* 0x7c1 */
-    Entry e[6];                     /* 0x7e0 */
-    Entry t;                        /* 0x840 */
-    u8 pad850[0x1ab8 - 0x850];
-    u8 w1ab8[0x1d74 - 0x1ab8];      /* 0x1ab8 */
-    u32 lock;                       /* 0x1d74 */
-    u8 pad1d78[0x1f78 - 0x1d78];
-    int f1f78;                      /* 0x1f78 */
-    u8 pad1f7c[0x1fe8 - 0x1f7c];
-    u8 f1fe8;                       /* 0x1fe8 */
-} Server;
-
-extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(u32 *p, u32 v, int line);
-extern void func_021D74F8(int);
+struct State { u8 pad[5]; u8 a:1; u8 b:1; };
+struct Flags { u32 word; };
+struct Entry { u16 value; u16 id:5, mode:4, type:4, marked:1, special:1, error:1; };
+struct List { u8 good, bad, count, pad; struct Entry entries[1]; };
+struct Q { u16 h0; u8 pad[6]; u32 w8; };
+struct Slot { u32 a:3; u32 rest:29; };
+struct Unk021D62A8 { u8 pad[0x1c]; struct Slot e[6]; };
+extern u32 func_021C1144(void *, u32);
+extern u8 func_021C1154(u8 *, u8);
+extern u8 func_021C1164(u8 *, u8);
+extern u8 func_021C1174(u8 *, u8);
 extern u8 func_021D5440(u8 *p);
-extern void func_021D75EC(int, u32);
-extern void func_021D70F0(void *a, int id);
-extern void func_021D7540(int);
-extern void *func_021B86B8(void ***);
-extern u8 func_021B8DDC(u32);
-extern u8 func_021B8FF4(u8 *);
-extern void *func_021D5844(void *);
-extern int func_021B871C(char *);
-extern int func_02018480(void *, int);
-extern u8 func_021B85A0(u8 **p);
-extern int func_021D59B4(u8 *, int);
-extern u32 func_021D78AC(u32);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern void func_021D7630(int key, u32 val);
-extern int func_021D775C(int key);
-extern Entry *func_021BCA08(Server *p, u8 x);
-extern Entry *func_021BCA50(Server *p, Entry *cur, u32 x);
-extern u32 func_021D8454(Action *);
-extern u16 func_021BDE48(void *p, Action *m);
-extern int func_021BD138(u8 *p, u32 k);
-extern void func_021D82FC(Action *p, int sub);
-extern u32 func_021BCCE0(Server *p, Entry *e);
-void func_021BCEFC(Server *p, u8 *a, u32 k);
-void func_021BCF34(Server *p, u8 *a, u32 k);
-void func_021BCF70(Server *p, u8 *a, u32 k);
-int func_021BCFAC(Server *p, u8 *a);
-int func_021BD080(Server *p, u8 *a);
-int func_021BD0C0(Server *p, u8 x, u32 y);
+extern unsigned int func_021B8590(unsigned char *p);
+extern int func_021D62A8(struct Unk021D62A8 *);
+extern int func_021D5B68(void *);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern void func_021CD64C(void *, u8, ...);
+extern void func_021C0A4C(u8 *, u8 *, u8 *, const u8 *, const u32 *, u16, struct List *);
+extern u32 func_021C11A4(u8 *, u16 *, u8 *, u8 *, u8 *, u8 *, u32, struct Flags);
+extern void func_021C195C(u8 *p, u8 *q, u32 n);
+extern int func_021BFA60(u8 *, u8 *, u8 *, struct Q *);
+extern void func_021C15AC(u8 *, int);
 
-
-/*
- * interface: func_021CC8D8 returns its four-byte Lock in r0; use the
- * full-word payload spelling of matched caller func_021BC568. The entire
- * func_021CC95C body is str r1,[r0]; bx lr, retaining every payload bit.
- * Aggregate spelling added eight bytes of frame; paired fixed-flag
- * runs were DIFF (60 bytes) and EXACT (56 bytes). Calls and stores agree.
- */
-void func_021BCEFC(Server *p, u8 *a, u32 k)
+u32 func_021C0F24(u8 *p, u8 *q, u8 *a, u8 *d, u32 c)
 {
-    int line = 0x854;
-    u32 old = func_021CC8D8(&p->lock, line);
-    func_021BCF34(p, a, k);
-    func_021CC95C(&p->lock, old, line + 3);
-}
-
-
-
-
-void func_021BCF34(Server *p, u8 *a, u32 k)
-{
-    int line = 0x864;
-    func_021D74F8(line);
-    func_021D75EC(2, func_021D5440(a));
-    func_021D75EC(12, k);
-    func_021D70F0(p, 1);
-    func_021D7540(line + 4);
-}
-
-
-
-
-void func_021BCF70(Server *p, u8 *a, u32 k)
-{
-    int line = 0x874;
-    func_021D74F8(line);
-    func_021D75EC(2, func_021D5440(a));
-    func_021D75EC(12, k);
-    func_021D70F0(p, 2);
-    func_021D7540(line + 4);
-}
-
-
-
-/*
- * note 2026-10-05 (wD9r lane04): EXACT* (the trailing 021BD07E halfword is alignment padding). Closed
- *   with `r -= x - y; if (r < x - y) return 3;` in place of the one-expression
- *   `(u16)(r - (u16)(x - y)) < x - y`. The redefinition of r splits its live range, so the first use
- *   reloads the spilled r (`str r0,[sp]; ldr r0,[sp]`). No cast stand-in.
- * note 2026-10-05 (wD9 lane18): still DIFF 55 B (no stand-in). Reading: the first use of r must be an
- *   operation on the spilled r (the u16 to u32 widening node), not the call temp; any plain form forwards r0.
- *   Tried: a static inline u16 rnd(u32) for both random calls; operands reversed (x - y > r) in one and both
- *   compares; an int d = x - y block; r as u32 with (u16) at the def and (int)r at the compare (a real
- *   signedness cast, still forwards r0). All 55 B.
- * note 2026-10-05 (integrator): the source no longer has the (int)(u32)r stand-in cast, so it is DIFF (the plain compare drops the reload of r). With the cast it verifies EXACT*: rejected as a stand-in.
- * note 2026-10-05: witness src/matched/arm9/func_02018480.c filed (EXACT); the wildcard at +0x38 resolves after regeneration. The reload still needs the (int)(u32)r spelling, which is a no-op steering cast (stand-in, not accepted). Tried without it: u16 callee return type for func_021D78AC with plain compares, and an int local fed from the u16 return: both forward r0 and drop the ldr (200 bytes). Parked MATCH* because of the cast; reading: r is spilled for real (p,a,x,y fill r4..r7), so the original defines r with the store at the def and the reload at first use; no stand-in free source found.
- * evidence (older): every concrete byte matched (MATCH*, the trailing 021BD07E
- *   halfword is alignment padding). The one wildcard is +0x38, the bl to the
- *   ARM9 Thumb thunk func_02018480 (ldr r3,[pc]; bx r3; .word 0x02018489),
- *   which has no witness outside this range: label/sole-ref need an arm9
- *   label or a matched entry there. It is an arm9 leaf, Ilias's; its verified
- *   C is below. Once it is filed this caller re-runs to EXACT*.
- *   func_02018480 0x02018480 thumb, arm9; `one --thumb` (no --region): EXACT
- *     extern int func_02018488(void *p, int q);
- *     int func_02018480(void *p, int q)
- *     {
- *         return func_02018488(p, q);
- *     }
- *   (func_02018488 0x02018488 thumb resolves by label; it reads r0 and r1 and
- *   returns the 0/1 in r6.)
- * note: the reload `str r0,[sp]; ldr r0,[sp]` at 021BD046/021BD048 comes only
- *   from spelling the first use of r through a widening cast, `(int)(u32)r`;
- *   plain `r`, `(int)r` and u16/u32/int locals forward r0 into the compare
- *   and drop the ldr (55 bytes out), and `(u32)r` alone reloads but turns
- *   the bge into bhs.
- */
-int func_021BCFAC(Server *p, u8 *a)
-{
-    int k;
-    u32 n;
-    u16 x, y;
-    if ((u32)func_021B86B8((void ***)p->f4) <= 1) {
-        k = func_021B8DDC(func_021D5440(a));
-        if (k == func_021B8FF4((u8 *)p->f4)) {
-            void *v = func_021D5844(a);
-            if (func_02018480(v, func_021B871C((char *)p->f4)) == 0) {
-                n = func_021B85A0((u8 **)p->f4);
-                if (n < 8) {
-                    u16 r;
-                    x = (u16)func_021D59B4(a, 15);
-                    y = (u16)(10 * (n + 1));
-                    if (x <= y) return 0;
-                    if ((u16)func_021D78AC(x + y + 1) < y) return 0;
-                    if (func_021D62C4((struct Unk021D62A8 *)a, 2) != 0) return 4;
-                    r = func_021D78AC(256);
-                    if (r < x - y && func_021BD080(p, a) == 0) return 2;
-                    r -= x - y;
-                    if (r < x - y) return 3;
-                    return 4;
-                }
-            }
+    u32 i;
+    u32 completed;
+    u32 sum = 0;
+    int old;
+    u8 tag = 6;
+    u8 *b = (u8 *)func_021C1144(d, 0);
+    struct State *s;
+    struct Flags f;
+    p[0x789] = func_021D5440(b);
+    if (func_021B8590(((struct Obj02134 *)p)->f4)) {
+        tag = func_021C1154(p + 0x1ab8, func_021D5440(b));
+        if (tag != 6) {
+            func_021CD4B0(((struct Obj02134 *)p)->fC, 0x4e,
+                func_021C1164(p + 0x1ab8, func_021D5440(a)), tag, 0x27e);
         }
     }
-    return 0;
-}
-
-
-
-int func_021BD080(Server *p, u8 *a)
-{
-    int r;
-    func_021D74F8(2256);
-    func_021D75EC(2, func_021D5440(a));
-    func_021D7630(0x41, 0);
-    func_021D70F0(p, 0xe);
-    r = func_021D775C(0x41);
-    func_021D7540(2261);
-    return r;
-}
-
-
-
-int func_021BD0C0(Server *p, u8 x, u32 y)
-{
-    Entry *e = func_021BCA08(p, x);
-    if (e) {
-        if (e->done != 0 && func_021D8454(&e->b) == 6) {
-            e = func_021BCA50(p, e, x);
+    i = 0;
+    completed = 0;
+    f.word = 0;
+    for (; i < (*(u8 **)(p + 0x4b4))[0]; i++) {
+        old = func_021D62A8((struct Unk021D62A8 *)a);
+        s = *(struct State * *)&((struct Obj02134 *)p)->f4A8;
+        if (s->a == 0) {
+            s->a = 1;
+            s->b = 1;
         }
-        if (e->done == 0) {
-            if (func_021BDE48(e->a, &e->b)) return 0;
-            if (func_021D8454(&e->b) == 6) return 0;
-            func_021D82FC(&e->b, func_021BD138(p->w1ab8, y));
-            func_021BCCE0(p, e);
-            return 1;
-        }
+        func_021CD4B0(((struct Obj02134 *)p)->fC, 0x30,
+            (*(u8 **)(p + 0x4a8))[2], (*(u8 **)(p + 0x4a8))[3], ((struct Obj21074 *)q)->f0, 0);
+        func_021C0A4C(p, a, d, q, (const u32 *)c, 0x1000, *(struct List * *)&((struct Obj02134 *)p)->f870);
+        sum += func_021C11A4(p, (u16 *)q, a, d,
+            *(u8 * *)&((struct Obj02134 *)p)->f870, (u8 *)((struct Obj02134 *)p)->f4B4, 0x1000, f);
+        completed++;
+        if (func_021D5B68(b)) break;
+        if (func_021D5B68(a)) break;
+        func_021C195C(p, b, 1);
+        if (func_021D62A8((struct Unk021D62A8 *)a) == 2 && old != 2) break;
+        if ((*(u8 **)(p + 0x4b4))[2] != 0 &&
+            !func_021BFA60(p, a, b, (struct Q *)q)) break;
     }
-    return 0;
+    if (completed != 0) {
+        func_021C15AC(p, (*(u8 **)(p + 0x4b4))[5]);
+        func_021CD64C(((struct Obj02134 *)p)->fC, 0x5a, 0x20, completed, 0xffff0000);
+    }
+    if (func_021D5B68(b)) {
+        func_021CD64C(((struct Obj02134 *)p)->fC, 0x5b, 0, func_021D5440(b), 0xffff0000);
+    }
+    if (tag != 6) {
+        func_021CD4B0(((struct Obj02134 *)p)->fC, 0x4d,
+            func_021C1174(p + 0x1ab8, func_021D5440(a)), 0x291);
+    }
+    p[0x789] = 0x1f;
+    return sum;
 }

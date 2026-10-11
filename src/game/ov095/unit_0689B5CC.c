@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0689B63C  0x0689B63C  thumb  ov095
- *   func_0689B64C  0x0689B64C  thumb  ov095
- *   func_0689B65C  0x0689B65C  thumb  ov095
+ *   func_0220270C  0x0220270C  thumb
+ *   func_02202DC4  0x02202DC4  thumb
+ *   func_022033CC  0x022033CC  thumb
  *   d_0689D88C     0x0689D88C  data   ov095
  *   d_0689DC48     0x0689DC48  data   ov095
  */
@@ -23,9 +23,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0689B63C(u32 h, void *a, void *b);
-extern void func_0689B64C(u32 h, int a, int b);
-extern int func_0689B65C(u32 h);
+extern int func_02202DC4(u32 h, void *a, void *b);
+extern void func_0220270C(u32 h, int a, int b);
+extern int func_022033CC(u32 h);
 extern char d_0689D88C[];
 extern char d_0689DC48[];
 
@@ -35,15 +35,15 @@ int func_0689B5CC(u8 *s, u32 *out)
 
     switch (s[0x93]) {
     case 0:
-        i = func_0689B63C(((struct Obj03726 *)s)->fB0, d_0689D88C, d_0689DC48);
+        i = func_02202DC4(((struct Obj03726 *)s)->fB0, d_0689D88C, d_0689DC48);
         if (i == -1)
             break;
         *(int *)&((struct Obj03726 *)s)->f94 = i;
-        func_0689B64C(((struct Obj03726 *)s)->fB0, 0, 0);
+        func_0220270C(((struct Obj03726 *)s)->fB0, 0, 0);
         s[0x93] = s[0x93] + 1;
         break;
     case 1:
-        if (func_0689B65C(((struct Obj03726 *)s)->fB0) == 0) {
+        if (func_022033CC(((struct Obj03726 *)s)->fB0) == 0) {
             *out = ((struct Obj03726 *)s)->f94;
             return 1;
         }

@@ -11,16 +11,16 @@
  * status:   EXACT
  *
  * symbols:
+ *   func_0689CB18  0x0689CB18  thumb
+ *   func_0689CB2C  0x0689CB2C  thumb
  *   func_021E9984  0x021E9984  thumb  ov093
- *   func_021E9AF4  0x021E9AF4  thumb  ov093
- *   func_021E9B04  0x021E9B04  thumb  ov093
  */
 #include "../../matched/include/Obj00056.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y);
-extern u32 func_021E9AF4(u8 *p);
-extern u8 func_021E9B04(u8 *p, u8 i);
+extern u32 func_0689CB18(u8 *p);
+extern u8 func_0689CB2C(u8 *p, u8 i);
 
 void func_021E9A78(char *p, const u8 *q, int x, int y, u8 *r)
 {
@@ -29,10 +29,10 @@ void func_021E9A78(char *p, const u8 *q, int x, int y, u8 *r)
 
     if (x < 0) x = 0;
     func_021E9984((u8 *)p, (u8 *)(p + 0x10c), q[0xb], x, y);
-    n = func_021E9AF4(r);
+    n = func_0689CB18(r);
     for (i = 0; i < n; i++) {
         if (i >= 2) break;
-        p[i + 0x129] = func_021E9B04(r, i);
+        p[i + 0x129] = func_0689CB2C(r, i);
     }
     for (; i < 2; i++)
         p[i + 0x129] = 6;

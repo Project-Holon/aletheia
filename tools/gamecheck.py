@@ -57,6 +57,17 @@ def defined_in_tree(tree, region):
     return out, '\n'.join(texts)
 
 
+def is_veneer(region, x):
+    """True if the image holds a linker veneer (match.linker_gap) at x."""
+    import match
+    try:
+        r = match.find_region(x, region)
+    except SystemExit:
+        return False
+    i = x - r.base
+    return 0 <= i < len(r.data) and bool(match._veneer_size(r.data, i))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--tree', default=os.path.join(ROOT, 'src', 'game'))
@@ -67,7 +78,9 @@ def main():
     regions = a.region or sorted(d for d in os.listdir(a.tree) if os.path.isdir(os.path.join(a.tree, d)))
     tot_missing = tot_dup = tot_ok = 0
     for region in regions:
-        want = {x for (r, x) in idx if r == region}
+        # Linker veneers are linker output, not source: a src/matched entry
+        # for one is not a function the restructured tree has to define.
+        want = {x for (r, x) in idx if r == region and not is_veneer(region, x)}
         have, blob = defined_in_tree(a.tree, region)
 
         def present(x):

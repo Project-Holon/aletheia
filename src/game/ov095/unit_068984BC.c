@@ -13,31 +13,20 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021C7CF4  0x021C7CF4  thumb
+ *   func_021C8010  0x021C8010  thumb
+ *   func_021C8838  0x021C8838  thumb
+ *   func_021C8860  0x021C8860  thumb
+ *   func_021C88A4  0x021C88A4  thumb
+ *   func_021C88C8  0x021C88C8  thumb
+ *   func_021D5448  0x021D5448  thumb
+ *   func_021D554C  0x021D554C  thumb
+ *   func_021D59B4  0x021D59B4  thumb
+ *   func_021D5B48  0x021D5B48  thumb
+ *   func_021D62A8  0x021D62A8  thumb
+ *   func_021D7040  0x021D7040  thumb
+ *   func_021D775C  0x021D775C  thumb
  *   d_0689D6B8 0x0689D6B8 data ov095 a4
- *   func_06898628 0x06898628 thumb ov095
- *   func_06898638 0x06898638 thumb ov095
- *   func_06898648 0x06898648 thumb ov095
- *   func_06898658 0x06898658 thumb ov095
- *   func_06898668 0x06898668 thumb ov095
- *   func_06898678 0x06898678 thumb ov095
- *   func_06898688 0x06898688 thumb ov095
- *   func_06898698 0x06898698 thumb ov095
- *   func_068986A8 0x068986A8 thumb ov095
- *   func_068986B8 0x068986B8 thumb ov095
- *   func_068986C8 0x068986C8 thumb ov095
- *   func_068986D8 0x068986D8 thumb ov095
- *   func_068986E8 0x068986E8 thumb ov095
- *   func_068986F8 0x068986F8 thumb ov095
- *   func_06898708 0x06898708 thumb ov095
- *   func_06898718 0x06898718 thumb ov095
- *   func_06898728 0x06898728 thumb ov095
- *   func_06898738 0x06898738 thumb ov095
- *   func_06898748 0x06898748 thumb ov095
- *   func_06898758 0x06898758 thumb ov095
- *   func_06898768 0x06898768 thumb ov095
- *   func_06898778 0x06898778 thumb ov095
- *   func_06898788 0x06898788 thumb ov095
- *   func_06898798 0x06898798 thumb ov095
  */
 #include "../../matched/include/Obj02149.h"
 
@@ -47,30 +36,19 @@ typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-extern int func_06898628(int);
-extern int func_06898638(void *, u32);
-extern void *func_06898648(void *, int);
-extern int func_06898658(void *);
-extern int func_06898668(void *);
-extern u32 func_06898678(void *);
-extern u8 func_06898688(void *, u8);
-extern u8 *func_06898698(void *, int, int);
-extern void func_068986A8(void *, int, int);
-extern void func_068986B8(void *, u32);
-extern void func_068986C8(void *, void *);
-extern int func_068986D8(void *);
-extern u8 *func_068986E8(void *, int, int);
-extern int func_068986F8(void *, int);
-extern int func_06898708(void *, int);
-extern void func_06898718(void *, void *);
-extern int func_06898728(void *);
-extern u8 *func_06898738(void *, int, int);
-extern void func_06898748(void *, void *);
-extern u32 func_06898758(void *);
-extern u8 func_06898768(void *, u8);
-extern u8 *func_06898778(void *, int, int);
-extern void func_06898788(void *, void *);
-extern void func_06898798(void *);
+extern int func_021D775C(int);
+extern int func_021C8010(void *, u32);
+extern void *func_021C7CF4(void *, int);
+extern int func_021D5B48(void *);
+extern int func_021D62A8(void *);
+extern u32 func_021D5448(void *);
+extern u8 func_021D554C(void *, u8);
+extern u8 *func_021C88A4(void *, int, int);
+extern void func_021C8838(void *, int, int);
+extern void func_021C8860(void *, u32);
+extern void func_021C88C8(void *, void *);
+extern int func_021D59B4(void *, int);
+extern void func_021D7040(void *);
 u32 *func_068984BC(u32 *p);
 void func_068984C8(void *a, void *b, u8 c);
 extern u32 d_0689D6B8[];
@@ -100,54 +78,54 @@ void func_068984C8(void *a, void *b, u8 c)
     int value;
     u32 n2;
     u8 v;
-    slot = (u8)func_06898628(2);
-    if (c == func_06898638(b, slot)) {
-        m = func_06898648(b, slot);
+    slot = (u8)func_021D775C(2);
+    if (c == func_021C8010(b, slot)) {
+        m = func_021C7CF4(b, slot);
         flag = 0;
-        if (func_06898658(m) == 0)
+        if (func_021D5B48(m) == 0)
             flag = 1;
-        if (func_06898668(m) != 0)
+        if (func_021D62A8(m) != 0)
             flag = 1;
-        n = func_06898678(m);
+        n = func_021D5448(m);
         for (i = 0; i < n; i++) {
-            if (func_06898688(m, i) != 0)
+            if (func_021D554C(m, i) != 0)
                 flag = 1;
         }
         if (flag != 0) {
-            p = func_06898698(b, 0x37, slot);
+            p = func_021C88A4(b, 0x37, slot);
             ((struct Obj02149 *)p)->f4 = 0x280;
             p[6] = c;
             p[7] = 6;
             p[11] = 1;
-            func_068986A8(p + 12, 2, 0x2b6);
-            func_068986B8(p + 12, slot);
-            func_068986C8(b, p);
-            if (func_068986D8(m) == 0) {
-                p = func_068986E8(b, 5, slot);
+            func_021C8838(p + 12, 2, 0x2b6);
+            func_021C8860(p + 12, slot);
+            func_021C88C8(b, p);
+            if (func_021D5B48(m) == 0) {
+                p = func_021C88A4(b, 5, slot);
                 p[6] = slot;
-                value = func_068986F8(m, 14);
-                ((struct Obj02149 *)p)->f4 = value - func_06898708(m, 13);
-                func_06898718(b, p);
+                value = func_021D59B4(m, 14);
+                ((struct Obj02149 *)p)->f4 = value - func_021D59B4(m, 13);
+                func_021C88C8(b, p);
             }
-            if (func_06898728(m) != 0) {
-                p = func_06898738(b, 11, slot);
+            if (func_021D62A8(m) != 0) {
+                p = func_021C88A4(b, 11, slot);
                 p[20] = 1;
                 p[8] = slot;
                 *(int *)(p + 4) = 36;
-                func_06898748(b, p);
+                func_021C88C8(b, p);
             }
-            n2 = func_06898758(m);
+            n2 = func_021D5448(m);
             for (j = 0; j < n2; j++) {
-                v = func_06898768(m, j);
+                v = func_021D554C(m, j);
                 if (v != 0) {
-                    p = func_06898778(b, 9, slot);
+                    p = func_021C88A4(b, 9, slot);
                     p[5] = slot;
                     p[4] = v;
                     p[6] = j;
-                    func_06898788(b, p);
+                    func_021C88C8(b, p);
                 }
             }
         }
-        func_06898798(a);
+        func_021D7040(a);
     }
 }

@@ -15,10 +15,10 @@
  * boundary: handed 0689C286 is the label after 0f b4 at 0689C284;
  *   parent cleared corrected start after existing-source/unit/shard audit.
  * symbols:
- *   func_0689C354 0x0689C354 thumb ov095
+ *   func_021E8A78  0x021E8A78  thumb
  */
 typedef struct { int v; } Word;
-extern int func_0689C354(Word);
+extern int func_021E8A78(Word);
 int func_0689C284(unsigned int selector, Word value)
 {
     int result = -1;
@@ -40,7 +40,7 @@ int func_0689C284(unsigned int selector, Word value)
     case 13: result = 0x250; break;
     case 15: result = 0x371; break;
     case 5:
-        if (func_0689C354(value) != 0) result = 0xed;
+        if (func_021E8A78(value) != 0) result = 0xed;
         else result = 0xea;
         break;
     }

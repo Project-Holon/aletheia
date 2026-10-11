@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689D098  0x0689D098  thumb
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
@@ -21,7 +22,6 @@
  *   func_021C812C  0x021C812C  thumb  ov093
  *   func_021D70A8  0x021D70A8  thumb  ov093
  *   func_021C8138  0x021C8138  thumb  ov093
- *   func_021E7DA0  0x021E7DA0  thumb  ov093
  *   d_021F28C8     0x021F28C8  data   ov093  a4
  */
 #include "../../matched/include/Obj21544.h"
@@ -43,7 +43,7 @@ extern void func_021C88C8(void *a, void *b);
 extern u8 *func_021C812C(u8 *p);
 extern u16 func_021D70A8(struct QQ *p);
 extern u16 func_021C8138(struct Q7 *p);
-extern int func_021E7DA0(int a, int b, int c);
+extern int func_0689D098(int a, int b, int c);
 void func_021E7D00(int a, u8 *b, int c);
 int *func_021E7D48(int *p);
 void func_021E7D54(void *a, void *b, int c);
@@ -78,7 +78,7 @@ void func_021E7D54(void *a, void *b, int c)
     if (c == func_021D775C(2)) {
         x = (int)func_021C812C((u8 *)((int)b));
         y = func_021D70A8(a);
-        if (func_021E7DA0(x, y, func_021C8138(b)) == 1) {
+        if (func_0689D098(x, y, func_021C8138(b)) == 1) {
             p = func_021C88A4(b, 0x30, c);
             ((struct Obj21544 *)p)->f4 = y;
             func_021C88C8(b, p);

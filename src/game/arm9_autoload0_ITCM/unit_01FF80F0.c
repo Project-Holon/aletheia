@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_02731754  0x02731754  thumb
  *   d_02FE0020     0x02FE0020  data
  *   OSi_IrqThreadQueue  0x02FE00A0  data
  *   OSi_ThreadInfo      0x02150FEC  data
@@ -75,7 +76,7 @@ asm void func_01FF80F0(void)
  * `ldrbne`, `strhne` are all "unknown assembler instruction mnemonic", while
  * the word forms `ldrne`/`cmpne` assemble), so +0x7C is the one instruction
  * written as its encoding -- `dcd 0x11D106B4`, LDRHNE r0, [r1, #0x64], the
- * same device func_020911F0 uses for a whole ARM veneer.  And `blx rN` is
+ * same device func_02731754 uses for a whole ARM veneer.  And `blx rN` is
  * 0xE12FFF3N while `bx rN` is 0xE12FFF1N, so +0xC0 -- the function-pointer
  * dispatch the SDK reaches with lr preset by `mov lr, pc` -- is `bx r3`.
  *

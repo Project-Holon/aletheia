@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689B0CC  0x0689B0CC  thumb
  *   func_021E9928 0x021E9928 thumb ov093
  *   func_021E9738 0x021E9738 thumb ov093
  *   func_021D5440  0x021D5440  thumb  ov093
  *   func_021E9728  0x021E9728  thumb  ov093
  *   func_021E96C4  0x021E96C4  thumb  ov093
- *   func_021E9910  0x021E9910  thumb  ov093
  */
 #include "../../matched/include/Obj10105.h"
 #include "../../matched/include/Obj21555.h"
@@ -34,7 +34,7 @@ extern int func_021E9738(struct S *s);
 extern u8 func_021D5440(u8 *p);
 extern void func_021E9728(struct QU *p, u32 v);
 extern int func_021E96C4(char *p, int *st);
-extern int func_021E9910(void *p);
+extern int func_0689B0CC(void *p);
 void func_021E98AC(void *p);
 u32 func_021E98B4(void *p);
 void func_021E98BC(char *p, u8 *a, int b);
@@ -73,7 +73,7 @@ void func_021E98BC(char *p, u8 *a, int b)
 int func_021E98E8(char *p)
 {
     if (func_021E9738((struct S *)p) != 0) {
-        if (func_021E9910(((struct Obj21555 *)p)->f180) != 0) {
+        if (func_0689B0CC(((struct Obj21555 *)p)->f180) != 0) {
             return 1;
         }
         return 2;

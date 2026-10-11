@@ -19,3 +19,8 @@ under a second name.
 
 Guess made in p02: `func_0203D1A4` returns u8 (the callers keep the result in a byte argument
 with no narrowing).
+
+Round 17 (L12): the __FILE__ anchors (layout/file_anchors.txt) put 0x02013090, 0x02013234 and 0x02013980 all in
+btl_setup.c, so both parts are one TU. Plain concatenation also fails on duplicate names: typedef S, struct Obj
+(rename the p02 ones), K&R func_020307B0 and func_020130DC in p01 versus typed in p02, and the func_0201A920 /
+func_02013284 width conflict above. Not finished.

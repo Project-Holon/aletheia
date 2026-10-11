@@ -9,11 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0689D4A0  0x0689D4A0  thumb
- *   func_0689D4B0  0x0689D4B0  thumb
- *   func_0689D4C0  0x0689D4C0  thumb
- *   func_0689D4D0  0x0689D4D0  thumb
- *   func_0689D4E0  0x0689D4E0  thumb
+ *   func_021B9934  0x021B9934  thumb
+ *   func_021B9A24  0x021B9A24  thumb
+ *   func_021D6DCC  0x021D6DCC  thumb
  */
 
 typedef unsigned char u8;
@@ -30,11 +28,9 @@ typedef struct {
     u8 idx[6];
 } T;
 
-extern int func_0689D4A0(int, int);
-extern int func_0689D4B0(int, int);
-extern int func_0689D4C0(int, int);
-extern int func_0689D4D0(int, int);
-extern int func_0689D4E0(int, int);
+extern int func_021B9A24(int, int);
+extern int func_021B9934(int, int);
+extern int func_021D6DCC(int, int);
 
 void func_0689D448(T *a, int b, int c)
 {
@@ -49,9 +45,9 @@ void func_0689D448(T *a, int b, int c)
         q = &a->r[i];
         if (q->c == 0x1f || k == q->c)
             continue;
-        if (func_0689D4A0(q->c, k) != 0)
+        if (func_021B9A24(q->c, k) != 0)
             continue;
-        func_0689D4C0(func_0689D4B0(c, q->c), k);
-        func_0689D4E0(func_0689D4D0(c, k), q->c);
+        func_021D6DCC(func_021B9934(c, q->c), k);
+        func_021D6DCC(func_021B9934(c, k), q->c);
     }
 }

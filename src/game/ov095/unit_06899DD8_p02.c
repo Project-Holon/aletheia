@@ -15,8 +15,3 @@
  * 2026-10-05 integrator: label left open after the pengy waves.
  */
 
-asm void func_06899E0C(void)
-{
-    ldr pc, [pc, #-4]
-    dcd 0x02045808
-}

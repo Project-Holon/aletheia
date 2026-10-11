@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689CA8C  0x0689CA8C  thumb
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
@@ -21,7 +22,6 @@
  *   func_021C8010  0x021C8010  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
- *   func_021E6AC8  0x021E6AC8  thumb  ov093
  *   func_021D7E44  0x021D7E44  thumb  ov093
  *   func_021C8030  0x021C8030  thumb  ov093
  *   func_021D76BC  0x021D76BC  thumb  ov093
@@ -46,7 +46,7 @@ extern int func_021D5C30(struct UtilWork *p);
 extern int func_021C8010(u8 *p, unsigned int v);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(struct S *p, u32 v);
-extern int func_021E6AC8(u32 *out);
+extern int func_0689CA8C(u32 *out);
 extern u16 func_021D7E44(int a, int b);
 extern int func_021C8030(int a, int b, int c);
 extern int func_021D76BC(int key, u32 val);
@@ -96,7 +96,7 @@ void func_021E6A84(int x, int a, int c)
     int r;
 
     if (c == func_021D775C(2)) {
-        id = func_021D7E44(func_021E6AC8(&v), (u16)v);
+        id = func_021D7E44(func_0689CA8C(&v), (u16)v);
         r = func_021C8030(a, c, id);
         func_021D76BC(0x12, id);
         func_021D76BC(0xd, r);

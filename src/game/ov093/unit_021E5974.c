@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_06898CF4  0x06898CF4  thumb
  *   d_021F2584     0x021F2584  data   ov093  a4
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C7F24  0x021C7F24  thumb  ov093
@@ -28,9 +29,6 @@
  *   func_021C7CF4 0x021C7CF4 thumb ov093
  *   func_021D62C4 0x021D62C4 thumb ov093
  *   func_021B9A40 0x021B9A40 thumb ov093
- *   func_021E5B3C 0x021E5B3C thumb ov093
- *   func_021E5B4C 0x021E5B4C thumb ov093
- *   func_021E5B5C 0x021E5B5C thumb ov093
  */
 #include "../../matched/include/Obj06274.h"
 
@@ -57,9 +55,7 @@ extern int func_021C8010(u8 *p, unsigned int v);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern unsigned char func_021B9A40(unsigned int x);
-extern int func_021E5B3C(int, int);
-extern int func_021E5B4C(int, int);
-extern int func_021E5B5C(int, int);
+extern int func_06898CF4(int, int);
 extern int d_021F2584[];
 int *func_021E5968(int *p);
 
@@ -129,9 +125,9 @@ void func_021E5A34(void *x, void *a, int c)
             func_021C88C8(a, p);
         }
         v = func_021B9A40(c);
-        b = func_021E5B3C(v, 6);
-        d = func_021E5B4C(v, 7);
-        e = func_021E5B5C(v, 8);
+        b = func_06898CF4(v, 6);
+        d = func_06898CF4(v, 7);
+        e = func_06898CF4(v, 8);
         if (b || d || e) {
             p = func_021C88A4(a, 26, c);
             p[7] = v;

@@ -13,17 +13,17 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021B9A40  0x021B9A40  thumb
+ *   func_021C7CF4  0x021C7CF4  thumb
+ *   func_021C8234  0x021C8234  thumb
+ *   func_021C8838  0x021C8838  thumb
+ *   func_021C8860  0x021C8860  thumb
+ *   func_021C88A4  0x021C88A4  thumb
+ *   func_021C88C8  0x021C88C8  thumb
+ *   func_021D775C  0x021D775C  thumb
+ *   func_021D7B74  0x021D7B74  thumb
  *   data_0689D740 0x0689D740 data a4
  *   func_06898DE0  0x06898DE0  thumb
- *   func_06899638  0x06899638  thumb
- *   func_06899648  0x06899648  thumb
- *   func_06899658  0x06899658  thumb
- *   func_06899668  0x06899668  thumb
- *   func_06899678  0x06899678  thumb
- *   func_06899688  0x06899688  thumb
- *   func_06899698  0x06899698  thumb
- *   func_068996A8  0x068996A8  thumb
- *   func_068996B8  0x068996B8  thumb
  */
 #include "../../matched/include/Obj13633.h"
 
@@ -34,15 +34,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern int func_06898DE0(int a, u32 b);
-extern int func_06899638(int a);
-extern int func_06899648(int a);
-extern int func_06899658(int a, int b);
-extern u8 *func_06899668(int p, int n, int m);
-extern int func_06899678(int a, int b);
-extern int func_06899688(int a, int b);
-extern void func_06899698(u8 *p, int n, int c);
-extern void func_068996A8(u8 *p, int v);
-extern void func_068996B8(int p, u8 *q);
+extern int func_021D775C(int a);
+extern int func_021B9A40(int a);
+extern int func_021C8234(int a, int b);
+extern u8 *func_021C88A4(int p, int n, int m);
+extern int func_021C7CF4(int a, int b);
+extern int func_021D7B74(int a, int b);
+extern void func_021C8838(u8 *p, int n, int c);
+extern void func_021C8860(u8 *p, int v);
+extern void func_021C88C8(int p, u8 *q);
 void *func_068995A4(u32 *p);
 void func_068995B0(int a, int p, int x);
 extern unsigned char data_0689D740[];
@@ -64,8 +64,8 @@ void func_068995B0(int a, int p, int x)
     int w;
     u8 *t;
 
-    v = func_06899638(2);
-    if (x == func_06899648(v) && func_06899658(p, v) == 0) {
+    v = func_021D775C(2);
+    if (x == func_021B9A40(v) && func_021C8234(p, v) == 0) {
         switch (func_06898DE0(a, x)) {
         default:
         case 1:
@@ -78,12 +78,12 @@ void func_068995B0(int a, int p, int x)
             n = 4;
             break;
         }
-        t = func_06899668(p, 7, 0x1f);
-        w = func_06899678(p, v);
+        t = func_021C88A4(p, 7, 0x1f);
+        w = func_021C7CF4(p, v);
         t[6] = v;
-        ((struct Obj13633 *)t)->f4 = func_06899688(w, n);
-        func_06899698(t + 0xc, 2, 0x353);
-        func_068996A8(t + 0xc, v);
-        func_068996B8(p, t);
+        ((struct Obj13633 *)t)->f4 = func_021D7B74(w, n);
+        func_021C8838(t + 0xc, 2, 0x353);
+        func_021C8860(t + 0xc, v);
+        func_021C88C8(p, t);
     }
 }

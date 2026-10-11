@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689B514  0x0689B514  thumb
  *   sub_020082B8  0x020082B8  thumb
  *   sub_020082D4  0x020082D4  thumb
  *   func_021B8E70  0x021B8E70  thumb  ov093
@@ -84,7 +85,6 @@
  *   func_021ED4E4  0x021ED4E4  thumb  ov093
  *   func_021ED510  0x021ED510  thumb  ov093
  *   func_021B9AF8  0x021B9AF8  thumb  ov093
- *   func_021EAA24  0x021EAA24  thumb  ov093
  */
 #include "../../matched/include/Obj12164.h"
 #include "../../matched/include/Obj18477.h"
@@ -263,7 +263,7 @@ extern void func_021F84B4(u32 a, u32 b);
 extern void func_021ED4E4(u8 *p, int a, int b);
 extern int func_021ED510(u8 *p, int a, int b);
 extern char *func_021B9AF8(char *p, int i);
-extern void func_021EAA24(void *a, u8 *t);
+extern void func_0689B514(void *a, u8 *t);
 u16 func_021EA01C(u8 *p);
 u8 func_021EA030(u8 *p);
 u8 func_021EA044(struct QV *p);
@@ -339,7 +339,6 @@ int func_021EA990(int *st, u8 *b);
 void func_021EAA00(u8 *p, u8 v);
 
 
-
 /* 021EA01C  if (p[0xe1]) return *(u16 *)(p + 0xde); return 0; */
 /*
  * Leaf with no calls and no pool; 10 instructions, 20 bytes: adds r1, r0, #0; adds r1, #0xe1; ldrb r1, [r1]; cmp r1, #0; beq loc_021EA02C; adds r0, #0xde; ldrh r0, [r0]; bx lr; movs r0, #0; bx lr.
@@ -350,7 +349,6 @@ u16 func_021EA01C(u8 *p)
         return ((struct Obj12164 *)p)->fDE;
     return 0;
 }
-
 
 
 /* 021EA030  if (p[0xe1]) return p[0xe0]; return 0; */
@@ -371,7 +369,6 @@ u8 func_021EA030(u8 *p)
 u8 func_021EA044(struct QV *p) { return p->v; }
 
 
-
 /*
  * ldrb at #0x157 (pool constant)
  */
@@ -381,7 +378,6 @@ u8 func_021EA04C(u8 *p)
 }
 
 
-
 void func_021EA058(char *p)
 {
     if (((struct Obj04374 *)p)->fDE != 0 && ((struct Obj04374 *)p)->f12C != 6 && ((struct Obj04374 *)p)->fD0 != 1) {
@@ -389,7 +385,6 @@ void func_021EA058(char *p)
         sub_020082D4(((struct Obj04374 *)p)->fE4, ((struct Obj04374 *)p)->fDE, ((struct Obj04374 *)p)->fF2);
     }
 }
-
 
 
 void func_021EA0A0(u32 *p, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u8 s7)
@@ -407,12 +402,10 @@ void func_021EA0A0(u32 *p, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u8 s7)
 }
 
 
-
 /*
  * Indexed-dispatch thunk (o18's 23-member shape): the member's whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base; only the scratch register, the index constant and the tail target differ. Tail call T(p[i]) with the index materialised as a scaled immediate.
  */
 int func_021EA0E4(u32 *p) { return func_021ED1B0(p[0x5f]); }
-
 
 
 void func_021EA0F4(struct S_021EA0F4 *s, u32 a, u32 b, u32 c)
@@ -429,7 +422,6 @@ void func_021EA0F4(struct S_021EA0F4 *s, u32 a, u32 b, u32 c)
     s->f24 = s;
     s->f28 = 0;
 }
-
 
 
 int func_021EA120(struct S_021EA120 *s)
@@ -450,7 +442,6 @@ int func_021EA120(struct S_021EA120 *s)
     }
     return 1;
 }
-
 
 
 int func_021EA160(int *st, char *ctx)
@@ -474,7 +465,6 @@ int func_021EA160(int *st, char *ctx)
 }
 
 
-
 void func_021EA1B8(struct S_021EA1B8 *s, u32 a, int b, int c)
 {
     u8 *t;
@@ -491,7 +481,6 @@ void func_021EA1B8(struct S_021EA1B8 *s, u32 a, int b, int c)
         s->f28 = 0;
     }
 }
-
 
 
 int func_021EA1F0(struct S_021EA1F0 *s)
@@ -512,7 +501,6 @@ int func_021EA1F0(struct S_021EA1F0 *s)
     }
     return 1;
 }
-
 
 
 int func_021EA230(int *st, char *ctx)
@@ -536,7 +524,6 @@ int func_021EA230(int *st, char *ctx)
 }
 
 
-
 void func_021EA280(char *ctx, u32 n, int b, const u8 *c, u16 e)
 {
     u8 *t;
@@ -551,7 +538,6 @@ void func_021EA280(char *ctx, u32 n, int b, const u8 *c, u16 e)
         t[i] = func_021B8D8C(((struct Obj13557 *)ctx)->f0, ((struct Obj13557 *)ctx)->f8, c[i]);
     }
 }
-
 
 
 int func_021EA2BC(char *ctx)
@@ -582,7 +568,6 @@ int func_021EA2BC(char *ctx)
 }
 
 
-
 void func_021EA32C(u8 *p, int k)
 {
     int v;
@@ -600,7 +585,6 @@ void func_021EA32C(u8 *p, int k)
     }
     func_021EAF00(p, v);
 }
-
 
 
 /*
@@ -624,12 +608,10 @@ void func_021EA354(void *ctx, int a, int b)
 }
 
 
-
 void func_021EA384(char *ctx, int a)
 {
     func_021ED494(*(char * *)&((struct Obj13558 *)ctx)->f17C, a, func_021CD9E0(*(u8 * *)&((struct Obj13558 *)ctx)->f4));
 }
-
 
 
 /*
@@ -638,14 +620,12 @@ void func_021EA384(char *ctx, int a)
 int func_021EA3A0(u32 *p) { return func_021ED4D0(p[0x5f]) != 0; }
 
 
-
 void func_021EA3B8(char *ctx, int a, int b)
 {
     if (func_021CD9E0(*(u8 * *)&((struct Obj21561 *)ctx)->f4) == 0) {
         func_021F7A28(a, b);
     }
 }
-
 
 
 int func_021EA3D4(void)
@@ -657,12 +637,10 @@ int func_021EA3D4(void)
 }
 
 
-
 void func_021EA3E8(void *ctx, int a, int b, u32 c)
 {
     func_021F7AAC(a, b, c);
 }
-
 
 
 int func_021EA3F8(int a)
@@ -674,24 +652,19 @@ int func_021EA3F8(int a)
 }
 
 
-
 void func_021EA40C(char *ctx, int a)
 {
     func_021ED294((u8 *)(*(char * *)&((struct Obj13559 *)ctx)->f17C), a, func_021CD9E0(*(u8 * *)&((struct Obj13559 *)ctx)->f4));
 }
 
 
-
 int func_021EA428(u32 *p) { return func_021ED2BC(p[0x5f]); }
-
 
 
 void func_021EA438(u32 *p, u32 a2) { func_021ED2D0(p[0x5f], a2); }
 
 
-
 int func_021EA448(u32 *p) { return func_021ED304(p[0x5f]); }
-
 
 
 void func_021EA458(char *ctx, u16 a, u16 b)
@@ -700,12 +673,10 @@ void func_021EA458(char *ctx, u16 a, u16 b)
 }
 
 
-
 /*
  * Indexed-dispatch thunk (o18's 23-member shape): the whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base, and one argument means the index temp is r1.  Tail call T(p[0x5f]).  The pool word names a mid-stream entry point that no listing labels, so the site caps at MATCH until the TARGET is filed; func_021ED374 is an EXACT entry in this shard, which the `matched` class accepts as the witness (brief rule 10), and the call site then attests with no change of its own.
  */
 int func_021EA478(u32 *p) { return func_021ED374(p[0x5f]); }
-
 
 
 void func_021EA488(struct S_021EA488 *s, u8 a, u8 b, u8 c)
@@ -724,7 +695,6 @@ void func_021EA488(struct S_021EA488 *s, u8 a, u8 b, u8 c)
     s->f24 = s;
     s->f28 = 0;
 }
-
 
 
 int func_021EA4C4(struct S_021EA4C4 *s)
@@ -747,7 +717,6 @@ int func_021EA4C4(struct S_021EA4C4 *s)
 }
 
 
-
 int func_021EA504(int *st, char *ctx)
 {
     u8 *t;
@@ -766,7 +735,6 @@ int func_021EA504(int *st, char *ctx)
     }
     return 0;
 }
-
 
 
 void func_021EA55C(struct H_021EA01C *p, int a)
@@ -797,12 +765,10 @@ void func_021EA55C(struct H_021EA01C *p, int a)
 }
 
 
-
 void func_021EA5E4(unsigned char *p, void *src)
 {
     func_02045838(((struct Obj21562 *)p)->fAC, src);
 }
-
 
 
 void func_021EA5F0(char *p, struct H_021EA01C *h)
@@ -811,12 +777,10 @@ void func_021EA5F0(char *p, struct H_021EA01C *h)
 }
 
 
-
 void func_021EA600(char *p)
 {
     func_021EA730(p, ((struct Obj01899 *)p)->fAC, 0x50, 0);
 }
-
 
 
 void func_021EA614(char *p, struct H_021EA614 *h)
@@ -826,13 +790,11 @@ void func_021EA614(char *p, struct H_021EA614 *h)
 }
 
 
-
 void func_021EA638(char *p, struct H_021EA614 *h, int c)
 {
     func_021EA55C((struct H_021EA01C *)h, ((struct Obj01899 *)p)->fAC);
     func_021EA730(p, ((struct Obj01899 *)p)->fAC, h->b2, c);
 }
-
 
 
 void func_021EA65C(char *p, struct H_021EA614 *h)
@@ -842,7 +804,6 @@ void func_021EA65C(char *p, struct H_021EA614 *h)
 }
 
 
-
 void func_021EA678(char *p, u16 k, int *c)
 {
     func_021EEE80(((struct Obj01899 *)p)->fAC, k, (unsigned int *)c);
@@ -850,13 +811,11 @@ void func_021EA678(char *p, u16 k, int *c)
 }
 
 
-
 void func_021EA694(char *p, u16 k, int *c)
 {
     func_021EEEF4(((struct Obj01899 *)p)->fAC, k, (unsigned int)c);
     func_021EA730(p, ((struct Obj01899 *)p)->fAC, 0x50, 0);
 }
-
 
 
 int func_021EA6B0(char *p, u16 a, u16 b)
@@ -871,7 +830,6 @@ int func_021EA6B0(char *p, u16 a, u16 b)
 }
 
 
-
 void func_021EA6F4(void *p, u8 b, u16 c)
 {
     func_021EF5E8(*(u32 *)&((struct Obj01899 *)p)->fAC, b, c);
@@ -879,16 +837,13 @@ void func_021EA6F4(void *p, u8 b, u16 c)
 }
 
 
-
 int func_021EA710(u32 *p) { return func_021ECF68((struct T *)p[0x5f]); }
-
 
 
 /*
  * Indexed-dispatch thunk (o18's 23-member shape): the whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base, and one argument means the index temp is r1.  Tail call T(p[0x5f]).  The pool word names a mid-stream entry point that no listing labels, so the site caps at MATCH until the TARGET is filed; func_021ECF50 is an EXACT entry in this shard, which the `matched` class accepts as the witness (brief rule 10), and the call site then attests with no change of its own.
  */
 int func_021EA720(u32 *p) { return func_021ECF50(p[0x5f]); }
-
 
 
 void func_021EA730(char *p, u32 a, u16 b, u32 c)
@@ -899,33 +854,25 @@ void func_021EA730(char *p, u32 a, u16 b, u32 c)
 }
 
 
-
 void func_021EA758(u32 *p, u32 a2) { func_021ECE60(p[0x5f], a2); }
-
 
 
 void func_021EA768(u32 *p, u32 a2, u32 a3) { func_021EDA5C(p[0x5f], a2, a3); }
 
 
-
 int func_021EA778(u32 *p, u32 a2) { return func_021EDA94(p[0x5f], a2); }
-
 
 
 void func_021EA788(u32 *p, u32 a2) { func_021EDAB0(p[0x5f], a2); }
 
 
-
 int func_021EA798(u32 *p, u32 a2) { return func_021EDAE0(p[0x5f], a2); }
-
 
 
 void func_021EA7A8(u32 *p, u32 a2) { func_021EDB00(p[0x5f], a2); }
 
 
-
 int func_021EA7B8(u32 *p, u32 a2) { return func_021EDB20(p[0x5f], a2); }
-
 
 
 void func_021EA7C8(void *ctx, int a)
@@ -934,12 +881,10 @@ void func_021EA7C8(void *ctx, int a)
 }
 
 
-
 void func_021EA7D8(void *ctx, int a)
 {
     func_021F7A28(a, 0x261);
 }
-
 
 
 int func_021EA7E8(void *w, int v)
@@ -951,7 +896,6 @@ int func_021EA7E8(void *w, int v)
 }
 
 
-
 void func_021EA7FC(char *p)
 {
     func_021F8A40(3);
@@ -959,12 +903,10 @@ void func_021EA7FC(char *p)
 }
 
 
-
 /*
  * Indexed-dispatch thunk (o18's 23-member shape): the whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base, and one argument means the index temp is r1.  Tail call T(p[0x5f]).  The pool word names a mid-stream entry point that no listing labels, so the site caps at MATCH until the TARGET is filed; func_021EE21C is an EXACT entry in this shard, which the `matched` class accepts as the witness (brief rule 10), and the call site then attests with no change of its own.
  */
 int func_021EA814(u32 *p) { return func_021EE21C((u8 *)p[0x5f]); }
-
 
 
 void func_021EA824(char *p)
@@ -974,21 +916,16 @@ void func_021EA824(char *p)
 }
 
 
-
 void func_021EA838(u32 *p, u32 k) { func_021ED56C(p[0x5f], func_021B8E70((u8 *)p[0], k)); }
-
 
 
 int func_021EA850(u32 *p, u32 k) { return func_021ED57C(p[0x5f], func_021B8E70((u8 *)p[0], k)); }
 
 
-
 void func_021EA868(u32 *p, u32 a2, u32 a3) { func_021ED590(p[0x5f], a2, a3); }
 
 
-
 int func_021EA878(u32 *p) { return func_021ED5D8(p[0x5f]); }
-
 
 
 void func_021EA888(char *ctx, int a)
@@ -997,12 +934,10 @@ void func_021EA888(char *ctx, int a)
 }
 
 
-
 /*
  * Indexed-dispatch thunk (o18's 23-member shape): the whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base, and one argument means the index temp is r1.  Tail call T(p[0x5f]).  The pool word names a mid-stream entry point that no listing labels, so the site caps at MATCH until the TARGET is filed; func_021ED714 is an EXACT entry in this shard, which the `matched` class accepts as the witness (brief rule 10), and the call site then attests with no change of its own.
  */
 int func_021EA8A4(u32 *p) { return func_021ED714(p[0x5f]); }
-
 
 
 void func_021EA8B4(char *ctx, u32 a, u32 b)
@@ -1011,20 +946,16 @@ void func_021EA8B4(char *ctx, u32 a, u32 b)
 }
 
 
-
 int func_021EA8D4(u32 *p) { return func_021ED714(p[0x5f]); }
 
 
-
 void func_021EA8E4(u32 *p) { func_021ED8AC(p[0x5f]); }
-
 
 
 /*
  * Indexed-dispatch thunk (o18's 23-member shape): the whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base, and one argument means the index temp is r1.  Tail call T(p[0x5f]).  The pool word names a mid-stream entry point that no listing labels, so the site caps at MATCH until the TARGET is filed; func_021ED8D8 is an EXACT entry in this shard, which the `matched` class accepts as the witness (brief rule 10), and the call site then attests with no change of its own.
  */
 int func_021EA8F4(u32 *p) { return func_021ED8D8(p[0x5f]); }
-
 
 
 void func_021EA904(u32 *p, u32 a, u32 b, u32 c, u8 d, u8 e)
@@ -1046,7 +977,6 @@ void func_021EA904(u32 *p, u32 a, u32 b, u32 c, u8 d, u8 e)
 }
 
 
-
 int func_021EA950(CbSlot *s)
 {
     if (s->cb1 != 0) {
@@ -1065,7 +995,6 @@ int func_021EA950(CbSlot *s)
     }
     return 1;
 }
-
 
 
 int func_021EA990(int *st, u8 *b)
@@ -1094,12 +1023,11 @@ int func_021EA990(int *st, u8 *b)
 }
 
 
-
 void func_021EAA00(u8 *p, u8 v)
 {
     u8 *t;
 
     t = func_021E9100(p, 0x3c);
     func_021B9AF8(*(char * *)&((struct Obj10115 *)p)->f8, p[0xc]);
-    func_021EAA24(((struct Obj10115 *)p)->f180, t);
+    func_0689B514(((struct Obj10115 *)p)->f180, t);
 }

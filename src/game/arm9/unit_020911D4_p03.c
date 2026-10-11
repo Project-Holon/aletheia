@@ -1,10 +1,10 @@
 /*
  * file:     unit_020911D4_p03.c
  * unit:     yes
- * function: func_02091284, func_0209128C, func_020912A8, func_02091374, func_0209138C, func_020913A4, func_020913BC, func_020913D0, func_020913E8, func_020913FC, func_0209146C, func_0209149C, func_02091524, func_02091588, func_02091594, func_02091598, func_0209159C, func_020915C4, func_02091650, func_020916D4, func_020917D4, func_02091AE8, func_02091B5C, func_02091C40, func_02091CBC
- * address:  0x02091284
+ * function: func_0209953C, func_0209A0F0, func_0209A368, func_0209A394, func_0209A504, func_0209A524, func_0209A6E8, func_0209A7A8, func_0209AA0C, func_0209AB80, func_0209AB8C, func_0209ABEC, func_0209ABF8
+ * address:  0x0209953C
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: dsi/1.2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
@@ -13,983 +13,639 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_02153B88  0x02153B88  data
- *   func_02086028  0x02086028  arm
- *   func_020860D0  0x020860D0  arm
- *   func_02086078  0x02086078  arm
- *   func_0209D728  0x0209D728  arm
- *   g_02150FEC  0x02150FEC  data
- *   g_02153B8C  0x02153B8C  data
- *   g_02153BB0  0x02153BB0  data
- *   g_02153BD4  0x02153BD4  data
- *   g_020A8818  0x020A8818  data
- *   func_0209BD38  0x0209BD38  arm
- *   OS_AllocFromHeap  0x020868E0  arm
- *   OS_FreeToHeap  0x020869E8  arm
- *   ENV_InsertResourceSet  0x02086C54  arm
- *   func_02092344  0x02092344  arm
- *   func_020923B0  0x020923B0  arm
- *   g_020A8730  0x020A8730  data
- *   arr_02153B8C  0x02153B8C  data
- *   arr_02153BB0  0x02153BB0  data
- *   func_02096508  0x02096508  arm
- *   func_0209C2B0  0x0209C2B0  arm
+ *   _dsub        0x0209AF34  arm
+ *   _dmul        0x0209B2E8  arm
+ *   _dadd        0x0209AC04  arm
+ *   _dfix        0x0209C508  arm
+ *   _dflt        0x0209B750  arm
+ *   _deq         0x0209BA3C  arm
+ *   _dgeq        0x0209B7CC  arm
+ *   func_02097990  0x02097990  arm
+ *   init_jk      0x020A64A8  data
+ *   PIo2         0x020A64B8  data
+ *   _dgr  0x0209B864  arm
+ *   func_020921F4  0x020921F4  arm
+ *   func_020979BC  0x020979BC  arm
  *   g_020A60DC  0x020A60DC  data
- *   g_02153FAC  0x02153FAC  data
+ *   func_02091C40  0x02091C40  arm
+ *   func_0209AB8C  0x0209AB8C  arm
  */
-typedef unsigned char u8;
+#define HI(x) (((i32 *)&(x))[1])
+#define LO(x) (((i32 *)&(x))[0])
+/* Matched units compiled in this file, entered 4 bytes before their function:
+ * unit_0209A0EC (0x0209A0EC) holds func_0209A0F0
+ * unit_0209A390 (0x0209A390) holds func_0209A394
+ * unit_0209AA08 (0x0209AA08) holds func_0209AA0C
+ */
+
+typedef int i32;
 
 typedef unsigned int u32;
 
-extern void func_02086028(void *a0);
-extern int func_020860D0(void *a0);
-extern void func_02086078(void *a0);
-extern int func_0209D728(int a);
-extern int func_0209BD38(int x);
-extern void *OS_AllocFromHeap(u32 a, u32 b, u32 heap);
-extern void OS_FreeToHeap(u32 a, u32 b, u32 heap);
-u32 ENV_InsertResourceSet(void *prev, void *resSet);
-asm void func_02091284(void);
-void func_0209128C(int x);
-u32 func_020912A8(u32 a0);
-int func_02091374(void);
-void *func_0209138C(u32 heap);
-void func_020913A4(u32 heap);
-u32 func_020913BC(void *resSet);
-void *func_020913D0(u32 heap);
-extern u8 g_02153B88;
-struct H { u32 unk00; u32 *unk04; };
-extern struct H g_02150FEC;
-extern u32 g_02153B8C;
-extern u32 g_02153BB0;
-extern u32 g_02153BD4;
-extern int g_020A8818;
+typedef unsigned char u8;
 
-/*
- * An eight-byte ARM linker veneer, `ldr pc, [pc, #-4]; .word 0x02731920`, the
- * long-branch stub reached from 0x0209125C.  No C spelling produces it
- * (docs/idioms/an-arm-stub-pointing-outside-every-region-cannot-be-attested.md),
- * so it is written as an asm function in the form of src/matched/func_02005B6C.c;
- * the pointer word is a plain constant, not a relocation, because 0x02731920
- * lies outside every region of layout/layout.json.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02091284.c  *       --func func_02091284 --addr 0x02091284 --cc 1.1p1 --arm
- */
-asm void func_02091284(void)
-{
-    ldr pc, [pc, #-4]
-    dcd 0x02731920
-}
-
-/*
- * The image keeps BOTH arms predicated (`movne r1, #1` ... `moveq r1, #0`).
- * A single `x != 0` test lets 1.1p1 drop the first predicate (plain
- * `mov r1, #1`, one byte out, ~80 spellings in docs/notes/func_0209128C.c.txt).
- * A two-term `&&` condition goes through the short-circuit if-conversion
- * path, which predicates both arms; the redundant second test is folded away
- * afterwards, leaving the single `cmp r0, #0`.  Same shape in 1.1p1 matched
- * code: src/matched/func_02037700.c (`if (a && b) flag = 1;`).
- */
-void func_0209128C(int x)
-{
-    u8 v;
-
-    if (x && x) {
-        v = 1;
-    } else {
-        v = 0;
-    }
-    g_02153B88 = v;
-}
-
-/*
- *           `bl` at +0x90 inside this very function.  `label` needs a site from
- *           outside 020912A8..02091374 and there is none, and func_0209D728 is
- *           itself parked at MATCH in src/pending/func_0209D728.c, so the
- *           `matched` class has no manifest entry to cite either.  Filing the
- *           callee is the fix, but it lives in pkt_0209D728, which is not one
- *           of this lane's packets (write-set rule 9).
- *
- * harness output:
- *   MATCH  compiled 204 = original 204, 7 of 8 sites resolved
- *     +0010 func_020860D0 [label x20]   +0070 func_02086028 [label x25]
- *     +0090 func_0209D728 [UNRESOLVED - no witness outside this range]
- *     +00B0 func_02086078 [label x25]
- *     +00BC g_02153BD4 [literal x15]    +00C0 g_02150FEC [literal x60]
- *     +00C4 g_02153B8C [literal x15]    +00C8 g_02153BB0 [literal x15]
- *   every concrete byte right, no wildcard byte is inside a branch opcode.
- */
-u32 func_020912A8(u32 a0)
-{
-    u32 r;
-
-    if (func_020860D0(&g_02153BD4) == 0) {
-        g_02153B8C = g_02150FEC.unk04[0x1b];
-        g_02153BB0 = 1;
-    } else if (g_02153B8C == g_02150FEC.unk04[0x1b]) {
-        g_02153BB0 = g_02153BB0 + 1;
-    } else {
-        func_02086028(&g_02153BD4);
-        g_02153B8C = g_02150FEC.unk04[0x1b];
-        g_02153BB0 = 1;
-    }
-    r = func_0209D728(a0);
-    if (--g_02153BB0 == 0) {
-        func_02086078(&g_02153BD4);
-    }
-    return r;
-}
-
-int func_02091374(void)
-{
-    return func_0209BD38(g_020A8818);
-}
-
-void *func_0209138C(u32 heap)
-{
-    return OS_AllocFromHeap(0, (u32)-1, heap);
-}
-
-void func_020913A4(u32 heap)
-{
-    OS_FreeToHeap(0, (u32)-1, heap);
-}
-
-/*
- * note:     env_system.o ENV_PrependResourceSet; target named OS_ReferentSize by libmatch.
- */
-u32 func_020913BC(void *resSet)
-{
-    return ENV_InsertResourceSet(0, resSet);
-}
-
-void *func_020913D0(u32 heap)
-{
-    if (heap == 0)
-        return 0;
-    return func_0209138C(heap);
-}
-
-#include "../../matched/include/Obj00481.h"
-#include "../../matched/include/Obj16696.h"
-
-struct P02091B5C;
-struct S0209159C;
-struct FILE;
-struct S020915C4;
-struct S02091650;
-
-struct Cfg4 {
-    u32 pad : 7;
-    u32 f3  : 3;
-    u32 rest : 22;
-};
-
-struct Cfg0209149C {
-    u32 mode : 3;
-    u32 rest : 29;
-};
-
-struct S0209159C {
-    u32 pad00[6];
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2c;
-    u32 pad30;
-    u32 f34;
-};
-
-struct S020915C4 {
-    u32 f00;
-    u32 f04;
-    u32 pad08[4];
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2c;
-    u32 pad30[3];
-    u32 f3c;
-    u32 f40;
-    u32 pad44;
-    u32 f48;
-};
-
-typedef u32 (*Fn020915C4)(u32, u32, u32 *, u32);
-
-struct S02091650 {
-    u32 f00;
-    u32 f04;
-    u32 pad08[4];
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2c;
-    u32 pad30[3];
-    u32 f3c;
-    u32 f40;
-    u32 pad44;
-    u32 f48;
-};
-
-typedef u32 (*Fn02091650)(u32, u32, u32 *, u32);
-
-typedef int            s32;
-
-
-typedef unsigned short u16;
-
-typedef unsigned int   size_t;
-
-typedef unsigned short wchar_t;
-
-typedef struct {
-    u32 open_mode        : 2;
-    u32 io_mode          : 3;
-    u32 buffer_mode      : 2;
-    u32 file_kind        : 3;
-    u32 file_orientation : 2;
-    u32 binary_io        : 1;
-} file_modes;
-
-typedef struct {
-    u32 io_state    : 3;
-    u32 free_buffer : 1;
-} file_state;
-
-typedef struct FILE {
-    u32        handle;              /* 0x00 */
-    file_modes mode;                /* 0x04 */
-    file_state state;               /* 0x08 */
-    u8         eof;                 /* 0x0c */
-    u8         error;               /* 0x0d */
-    u8         char_buffer;         /* 0x0e */
-    u8         char_buffer_overflow;/* 0x0f */
-    u8         pad10[2];            /* 0x10 */
-    u8         ungetc_buffer[2];    /* 0x12 */
-    wchar_t    ungetwc_buffer[2];   /* 0x14 */
-    u32        position;            /* 0x18 */
-    u8        *buffer;              /* 0x1c */
-    u32        buffer_size;         /* 0x20 */
-    u8        *buffer_ptr;          /* 0x24 */
-    u32        buffer_len;          /* 0x28 */
-    u32        buffer_alignment;    /* 0x2c */
-    u32        saved_buffer_len;    /* 0x30 */
-} FILE;
-
-struct P02091B5C {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u8  f0c;
-    u8  f0d;
-    u8  pad0e[0xa];
-    u32 f18;
-    u32 pad1c[3];
-    u32 f28;
-};
-
-struct F04hi { u32 lo : 7; u32 mode : 3; u32 hi : 22; };
-
-struct F04lo { u32 lo : 2; u32 sub : 3; u32 hi : 27; };
-
-struct F08   { u32 mode : 3; u32 hi : 29; };
-
-struct P02091CBC {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u8  f0c;
-    u8  f0d;
-    u8  pad0e[0xa];
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2c;
-    u32 f30;
-    u32 f34;
-};
-
-struct F04hiP { u32 lo : 7; u32 mode : 3; u32 hi : 22; };
-
-struct F08P   { u32 mode : 3; u32 hi : 29; };
-
-extern void func_020913A4(u32 heap);
-extern void *func_020913D0(u32 heap);
-extern void func_020913E8(void *p);
-extern u32 func_020913BC(void *p);
-extern void *func_02092344(void *dest, const void *src, unsigned int n);
-extern void *func_020923B0(void *p, int c, u32 n);
-extern int func_02091B5C(struct P02091B5C *p);
-extern void func_0209159C(struct S0209159C *p);
-extern s32 func_020860D0(void *blk);
-extern void func_02086028(void *blk);
-extern void func_02086078(void *blk);
-extern unsigned int func_020917D4(void *ptr, unsigned int memb_size, unsigned int num_memb, struct FILE *file);
-extern int func_02091650(struct S02091650 *p, u32 *a1);
-asm void ghiFreeTempBuffer(void);
-void *func_020913FC(u32 a0, u32 a1);
-void *func_0209146C(u32 a0, u32 a1);
-int func_0209149C(void);
-int func_02091524(void);
-int func_02091588(int x);
-void func_02091594(int a, void *b);
-void func_02091598(int a, void *b);
-s32 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3);
-int func_02091AE8(u8 *p);
-int func_02091C40(const u8 *s1, const u8 *s2, int n);
-extern u8 g_020A8730[];
-extern u32 arr_02153B8C[];
-extern u32 arr_02153BB0[];
+extern double func_02097990(double x, int n);
+extern double func_0209B2E8(double x, double y);
+extern double func_0209AC04(double x, double y);
+extern double func_0209AF34(double x, double y);
+extern int func_0209C508(double x);
+extern double func_02099224(double x, double y);
+extern double func_0209A0EC(double x, double y, int iy);
+extern int func_02098B44(double x, double *y);
+extern int func_020921F4(double x);
+extern void func_020979BC(void);
+int func_0209953C(double *x, double *y, int e0, int nx, int prec, const int *ipio2);
+double func_0209A0F0(double x, double y, int iy);
+double func_0209A368(double x, double y);
+double func_0209A394(double x);
+double func_0209A504(double x);
+double func_0209A524(double x);
+double func_0209A6E8(double x, int *eptr);
+double func_0209A7A8(double x, int n);
+double func_0209AA0C(double x);
+void func_0209AB80(void);
+int func_0209AB8C(const u8 *s1, const u8 *s2);
+extern int func_02091C40(const u8 *s1, const u8 *s2, int n);
+int func_0209ABEC(const u8 *s1, const u8 *s2, int n);
+int func_0209ABF8(const u8 *s1, const u8 *s2);
+extern const int init_jk[];
+extern const double PIo2[];
 extern const u8 g_020A60DC[];
-extern u32 g_02153FAC;
 
-asm void ghiFreeTempBuffer(void)
+
+static const double
+zero   = 0.0,
+one    = 1.0,
+two24  = 1.67772160000000000000e+07,
+twon24 = 5.96046447753906250000e-08;
+
+
+int func_0209953C(double *x, double *y, int e0, int nx, int prec, const int *ipio2)
 {
-    stmfd sp!, {r3, lr}
-    cmp r0, #0
-    ldmeqfd sp!, {r3, pc}
-    bl func_020913A4
-    ldmfd sp!, {r3, pc}
+	int jz,jx,jv,jp,jk,carry,n,iq[20],i,j,k,m,q0,ih;
+	double z,fw,f[20],fq[20],q[20];
+
+	jk = init_jk[prec];
+	jp = jk;
+
+	jx =  nx-1;
+	jv = (e0-3)/24; if(jv<0) jv=0;
+	q0 =  e0-24*(jv+1);
+
+	j = jv-jx; m = jx+jk; i = 0;
+	if(m>=0) for(;i<=m;i++,j++) f[i] = (j<0)? zero : (double) ipio2[j];
+
+	for (i=0;i<=jk;i++) {
+	    for(j=0,fw=0.0;j<=jx;j++) fw += x[j]*f[jx+i-j]; q[i] = fw;
+	}
+
+	jz = jk;
+recompute:
+	i=0; j=jz; z=q[jz]; if(j>0) for(;j>0;i++,j--) {
+	    fw    =  (double)((int)(twon24* z));
+	    iq[i] =  (int)(z-two24*fw);
+	    z     =  q[j-1]+fw;
+	}
+
+	z  = func_02097990(z,q0);
+	z -= 8.0*func_0209A524(z*0.125);
+	n  = (int) z;
+	z -= (double)n;
+	ih = 0;
+	if(q0>0) {
+	    i  = (iq[jz-1]>>(24-q0)); n += i;
+	    iq[jz-1] -= i<<(24-q0);
+	    ih = iq[jz-1]>>(23-q0);
+	}
+	else if(q0==0) ih = iq[jz-1]>>23;
+	else if(z>=0.5) ih=2;
+
+	if(ih>0) {
+	    n += 1; carry = 0;
+	    for(i=0;i<jz ;i++) {
+		j = iq[i];
+		if(carry==0) {
+		    if(j!=0) {
+			carry = 1; iq[i] = 0x1000000- j;
+		    }
+		} else  iq[i] = 0xffffff - j;
+	    }
+	    if(q0>0) {
+	        switch(q0) {
+	        case 1:
+	    	   iq[jz-1] &= 0x7fffff; break;
+	    	case 2:
+	    	   iq[jz-1] &= 0x3fffff; break;
+	        }
+	    }
+	    if(ih==2) {
+		z = one - z;
+		if(carry!=0) z -= func_02097990(one,q0);
+	    }
+	}
+
+	if(z==zero) {
+	    j = 0;
+	    for (i=jz-1;i>=jk;i--) j |= iq[i];
+	    if(j==0) {
+		for(k=1;iq[jk-k]==0;k++);
+
+		for(i=jz+1;i<=jz+k;i++) {
+		    f[jx+i] = (double) ipio2[jv+i];
+		    for(j=0,fw=0.0;j<=jx;j++) fw += x[j]*f[jx+i-j];
+		    q[i] = fw;
+		}
+		jz += k;
+		goto recompute;
+	    }
+	}
+
+	if(z==0.0) {
+	    jz -= 1; q0 -= 24;
+	    while(iq[jz]==0) { jz--; q0-=24;}
+	} else {
+	    z = func_02097990(z,-q0);
+	    if(z>=two24) {
+		fw = (double)((int)(twon24*z));
+		iq[jz] = (int)(z-two24*fw);
+		jz += 1; q0 += 24;
+		iq[jz] = (int) fw;
+	    } else iq[jz] = (int) z ;
+	}
+
+	fw = func_02097990(one,q0);
+	for(i=jz;i>=0;i--) {
+	    q[i] = fw*(double)iq[i]; fw*=twon24;
+	}
+
+	for(i=jz;i>=0;i--) {
+	    for(fw=0.0,k=0;k<=jp&&k<=jz-i;k++) fw += PIo2[k]*q[i+k];
+	    fq[jz-i] = fw;
+	}
+
+	switch(prec) {
+	    case 0:
+		fw = 0.0;
+		for (i=jz;i>=0;i--) fw += fq[i];
+		y[0] = (ih==0)? fw: -fw;
+		break;
+	    case 1:
+	    case 2:
+		fw = 0.0;
+		for (i=jz;i>=0;i--) fw += fq[i];
+		y[0] = (ih==0)? fw: -fw;
+		fw = fq[0]-fw;
+		for (i=1;i<=jz;i++) fw += fq[i];
+		y[1] = (ih==0)? fw: -fw;
+		break;
+	    case 3:
+		for (i=jz;i>0;i--) {
+		    fw      = fq[i-1]+fq[i];
+		    fq[i]  += fq[i-1]-fw;
+		    fq[i-1] = fw;
+		}
+		for (i=jz;i>1;i--) {
+		    fw      = fq[i-1]+fq[i];
+		    fq[i]  += fq[i-1]-fw;
+		    fq[i-1] = fw;
+		}
+		for (fw=0.0,i=jz;i>=2;i--) fw += fq[i];
+		if(ih==0) {
+		    y[0] =  fq[0]; y[1] =  fq[1]; y[2] =  fw;
+		} else {
+		    y[0] = -fq[0]; y[1] = -fq[1]; y[2] = -fw;
+		}
+	}
+	return n&7;
 }
 
-/*
- *           callees func_020913E8 and func_020913BC have no witness
- *           outside 020913FC..0209146C (the only branches to them are
- *           the three sites inside this file), so those call sites stay
- *           wildcarded.  No C change is possible; the file becomes
- *           EXACT once either callee has its own shard entry.
- *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
- */
-void *func_020913FC(u32 a0, u32 a1)
-{
-    void *p;
-    u32 n;
 
-    if (a0 == 0)
-        return func_020913D0(a1);
-    if (a1 == 0) {
-        func_020913E8((void *)a0);
-        return 0;
+/*
+ * fdlibm __kernel_sin().  The machine entry is 0x0209A0EC, four bytes before
+ * the disasm body label func_0209A0F0: 0x0209A0EC is the compiler's
+ * `push {r0-r3}` spilling the double arguments x (r0:r1) and y (r2:r3), so
+ * the body reads them from the stack and pops 16 bytes on every return.
+ * Both the stub address and the body label are worklist entries, so the unit
+ * is anchored at the stub and the function list records the body label.
+ *
+ * Callees by address:
+ *   func_0209B2E8  __dmul(double, double)
+ *   func_0209AC04  __dadd(double, double)
+ *   func_0209AF34  __dsub(double, double)
+ *   func_0209C508  __d2s (double -> int)
+ */
+double func_0209A0F0(double x, double y, int iy)
+{
+    static const double half = 5.00000000000000000000e-01;
+    static const double S1 = -1.66666666666666324348e-01;
+    static const double S2 = 8.33333333332248946124e-03;
+    static const double S3 = -1.98412698298579493134e-04;
+    static const double S4 = 2.75573137070700676789e-06;
+    static const double S5 = -2.50507602534068634195e-08;
+    static const double S6 = 1.58969099521155010221e-10;
+
+    double z, r, v;
+    int ix;
+
+    ix = HI(x) & 0x7fffffff;
+    if (ix < 0x3e400000)
+    {
+        if ((int)x == 0)
+            return x;
     }
-    n = func_020913BC((void *)a0);
-    p = func_020913D0(a1);
-    if (p != 0) {
-        if (n >= a1)
-            n = a1;
-        func_02092344(p, (const void *)a0, n);
-        func_020913E8((void *)a0);
-    }
-    return p;
+    z = x * x;
+    v = z * x;
+    r = S2 + z * (S3 + z * (S4 + z * (S5 + z * S6)));
+    if (iy == 0)
+        return x + v * (S1 + z * r);
+    else
+        return x - ((z * (half * y - v * r) - y) - v * S1);
 }
 
-void *func_0209146C(u32 a0, u32 a1)
-{
-    u32 size = a1;
-    void *p;
-
-    size = size * a0;
-    p = func_020913D0(size);
-    if (p != 0)
-        func_020923B0(p, 0, size);
-    return p;
-}
 
 /*
- * The gated sweep of g_020A8730: same three 0x4C-byte records as
- * func_02091524, but each record is only offered to func_02091B5C when three
- * bits of its own header agree, and the record is rejected as soon as any of
- * them fails.
+ * note:     EXACT* not EXACT: scan_listing puts the next label 4 bytes past
+ *           this function's real end (0x0209A390, a pool-adjacent follower),
+ *           so the printed extent is 44 against a compiled 40.  Bytes all
+ *           match and there are no relocation sites.
  *
- * Two shapes carry the bytes:
- *
- *  - the 3-bit field at bits 7..9 of the record word at +4 has to be read as
- *    a bitfield, not as `(x << 22) >> 29`.  Writing the shifts out gives the
- *    same value but lets the register allocator put the loaded word in r2 and
- *    the extracted value in r1; the bitfield spelling puts the word in r1 and
- *    the extraction in r2, which is what the original has.  The pad member is
- *    what places the field at bit 7: a `lsl #0x16` (32 - (7 + 3)) extraction
- *    is only produced for a field whose offset is 7.
- *  - the middle test is `((x << 25) >> 30) & 1`, an unequal shift pair (the
- *    docs/idioms/unequal-shift-pair-is-a-narrowing-cast-folded-with-a-shift
- *    shape) and not a bitfield read: `tst r1, #1` after a 2-bit extraction is
- *    bit 5 selected out of a two-bit field, which no single declaration
- *    produces.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0209149C.c \
- *       --func func_0209149C --addr 0x0209149C --cc 1.1p1 --arm
- *   EXACT, 136 bytes, 2 relocation sites, both resolved.
+ * MSL copysign(): combines the magnitude of the first double with the sign
+ * of the second, reading both hi words off the stack after `push {r0-r3}`
+ * (the address-of-a-register-parameter idiom, doubled for two doubles).
  */
-int func_0209149C(void)
+double func_0209A368(double x, double y)
 {
-    u8 *p = g_020A8730;
-    int i = 1;
-    int r = 0;
-
-    do {
-        if (((struct Cfg4 *)(p + 4))->f3 != 0 &&
-            (((((struct Obj00481 *)p)->f4 << 25) >> 30) & 1) != 0 &&
-            ((struct Cfg0209149C *)(p + 8))->mode == 1) {
-            if (func_02091B5C((struct P02091B5C *)p) != 0)
-                r = -1;
-        }
-        p = (i < 3) ? g_020A8730 + i++ * 0x4c : 0;
-    } while (p != 0);
-    return r;
+    ((u32 *)&x)[1] = (((u32 *)&x)[1] & 0x7fffffff) | (((u32 *)&y)[1] & 0x80000000);
+    return x;
 }
 
-/*
- * Walks the three 0x4C-byte records of g_020A8730 and asks func_02091B5C
- * about every record whose +4 bitfield 3..5 is set, returning -1 as soon as
- * one of them fails and 0 otherwise.
- *
- * The two `!= 0` conditions are what put the g_020A8730 address in a
- * callee-saved register: the source names the global in the loop's own
- * advance expression (`p = (i < 3) ? g_020A8730 + i++ * 0x4c : 0`) rather
- * than binding it to a pointer local, so the loaded address is CSE'd into one
- * value that stays live across the func_02091B5C call and lands in r8, while
- * the cursor itself dies as that call's argument and lives in r0.  A `u8
- * *base` local instead sends the address to r5 and the induction variable to
- * r6, and the loop tail then renumbers (16 bytes of diff, and 0209149C's
- * sibling goes the same way).
- *
- * `i++ * 0x4c` rather than `i * 0x4c` is pinned by the increment sitting in
- * the true arm only: the whole ternary is if-converted, so the increment is
- * `addlt r5, r5, #1` and the false arm's 0 is rematerialised in its own
- * register (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02091524.c \
- *       --func func_02091524 --addr 0x02091524 --cc 1.1p1 --arm
- *   EXACT, 100 bytes, 2 relocation sites, both resolved.
- */
-int func_02091524(void)
-{
-    u8 *p = g_020A8730;
-    int i = 1;
-    int r = 0;
-
-    do {
-        if (((((struct Obj00481 *)p)->f4 << 22) >> 29) != 0) {
-            if (func_02091B5C((struct P02091B5C *)p) != 0)
-                r = -1;
-        }
-        p = (i < 3) ? g_020A8730 + i++ * 0x4c : 0;
-    } while (p != 0);
-    return r;
-}
-
-int func_02091588(int x){ return x < 0 ? -x : x; }
-
-void func_02091594(int a, void *b){ }
-
-void func_02091598(int a, void *b){ }
 
 /*
- * Three field moves on the object, in source order and nothing else:
- * `p->f24 = p->f1c; p->f28 = p->f20 - (p->f18 & p->f2c); p->f34 = p->f18;`.
+ * fdlibm cos().  The machine entry is 0x0209A390, four bytes before the
+ * disasm label func_0209A394: the disassembler never saw the real entry
+ * because nothing calls cos by name, so it labelled the body and left the
+ * prologue stub as an unlabelled word.  That stub is the compiler's
+ * `push {r0-r3}` for the register-passed double argument, which is why the
+ * body reads x from [sp, #0x20]/[sp, #0x24] and why every return ends
+ * `add sp, sp, #0x10` to pop the spilled pair.  Comparing from the label
+ * alone starts after the stub and cannot line up; anchored here the whole
+ * 372-byte function matches, and the header's function list records the
+ * body label so the worklist entry at 0x0209A394 is covered too.
  *
- * The load order (0x18, 0x2c, 0x1c, 0x20) is the scheduler hoisting the
- * second statement's two loads above the first statement's store, and the
- * register numbering ([r2, r1, ip, r3] for the four loads) follows from the
- * object being a struct: reading the fields through a `struct S *` keeps the
- * word loads independent, and the whole function is then a straight line with
- * no prologue at all.  No relocation sites, so the 40 bytes are compared
- * byte for byte with nothing wildcarded.
+ * |x| <= pi/4 short-circuits to __kernel_cos(x, 0.0); the general path
+ * reduces with __ieee754_rem_pio2 and selects a kernel on n & 3.  Unary
+ * minus and x-x lower to the MSL soft-float subtract helper _dsub (the
+ * table entry `__dadd_dsub` at 0x0209AF34 is its subtract entry).
  *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0209159C.c \
- *       --func func_0209159C --addr 0x0209159C --cc 1.1p1 --arm
- *   EXACT, 40 bytes, no relocation sites.
+ * Callees by address:
+ *   func_02099224  __kernel_cos(double, double)
+ *   func_0209A0EC  __kernel_sin(double, double, int)
+ *   func_02098B44  __ieee754_rem_pio2(double, double *)
  */
-void func_0209159C(struct S0209159C *p)
+double func_0209A394(double x)
 {
-    p->f24 = p->f1c;
-    p->f28 = p->f20 - (p->f18 & p->f2c);
-    p->f34 = p->f18;
-}
+    double y[2];
+    double z = 0.0;
+    int n;
+    int ix;
 
-/*
- * One deferred transaction against the object: re-derive the working fields
- * (func_0209159C), optionally preload the amount from the object's f20 when
- * the mode argument is 1, run the object's own f3c handler with four
- * arguments (f00, f1c, &f28 and f48 - the fourth is only visible as the dead
- * `ldr r3, [r4, #0x48]` the call does not otherwise need), publish f28 to the
- * caller's out parameter, and on success fold f28 into the running f18.
- *
- * The handler is called through a plain cast of the field
- * (`((Fn)p->f3c)(...)`, i.e. the field itself declared as a function
- * pointer).  Spelling it as a guarded indirect call (`p->f3c ? ... : 0`)
- * compiles to a branchy 102-byte-different body: the original is a bare
- * `blx ip`.
- *
- * The flag test is `((p->f04 << 19) >> 31) == 0`, one bit selected out of the
- * word at +4; the unequal shift pair keeps both shifts (a mask would fold to
- * `tst #0x1000`).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020915C4.c \
- *       --func func_020915C4 --addr 0x020915C4 --cc 1.1p1 --arm
- *   EXACT, 140 bytes, 2 relocation sites, both resolved.
- */
-int func_020915C4(struct S020915C4 *p, u32 *a1, int a2)
-{
-    u32 r;
-
-    func_0209159C((struct S0209159C *)p);
-    if (a2 == 1)
-        p->f28 = p->f20;
-    r = ((Fn020915C4)p->f3c)(p->f00, p->f1c, &p->f28, p->f48);
-    if (r == 2)
-        p->f28 = 0;
-    if (a1 != 0)
-        *a1 = p->f28;
-    if (r != 0)
-        return r;
-    p->f18 += p->f28;
-    if (((p->f04 << 19) >> 31) == 0)
-        func_02091598(p->f1c, &p->f28);
-    return 0;
-}
-
-/*
- * The commit half of the pair whose prepare half is func_020915C4: work out
- * the amount still to apply (f24 - f1c), and if there is one, publish it to
- * f28, pre-process it through func_02091594, run the object's f40 handler with
- * the same four arguments func_020915C4 uses, hand f28 back through the out
- * parameter, and fold the applied amount into f18 on success.  The trailing
- * func_0209159C and `return 0` are shared by both paths, which is why the
- * body's early exit is the loop-free `if (d != 0) { ... }` shape rather than a
- * `goto`.
- *
- * The handler is again a bare `blx ip` off a cast field; the f04 flag bit is
- * the same unequal-shift-pair test as in func_020915C4.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02091650.c \
- *       --func func_02091650 --addr 0x02091650 --cc 1.1p1 --arm
- *   EXACT, 132 bytes, 2 relocation sites, both resolved.
- */
-int func_02091650(struct S02091650 *p, u32 *a1)
-{
-    u32 d;
-    u32 r;
-
-    d = p->f24 - p->f1c;
-    if (d != 0) {
-        p->f28 = d;
-        if (((p->f04 << 19) >> 31) == 0)
-            func_02091594(p->f1c, &p->f28);
-        r = ((Fn02091650)p->f40)(p->f00, p->f1c, &p->f28, p->f48);
-        if (a1 != 0)
-            *a1 = p->f28;
-        if (r != 0)
-            return r;
-        p->f18 += p->f28;
-    }
-    func_0209159C((struct S0209159C *)p);
-    return 0;
-}
-
-/*
- * A refcounted-resource wrapper: the 4-argument twin of
- * src/matched/func_02092004.c (which is the 3-argument one with a three-way
- * id dispatch).  The id here is the FOURTH argument and the dispatch is
- * two-way, `a3 == g_020A8730 ? 2 : 5`, which is what the image's
- * `mov r6,#2 / cmp r7,r4 / movne r6,#5` is.
- *
- * docs/notes/pkt_020916D4.c.txt records an earlier pass that got to 248
- * bytes against 256 and diagnosed the residue as a register tie on the
- * `mul` destination plus an unreachable CSE of the 0x02153B8C base.  Both
- * readings were wrong: the shortfall was an arm structure difference, not
- * an allocator tie.  The sibling's exact shape -- the `cur`/`ref` pair named
- * as two locals in the else arm, the two table stores written out in full in
- * BOTH the then arm and the inner else arm rather than factored, and
- * `g_02150FEC.unk04[0x1b]` re-read at each of its three use sites -- closes
- * it with no permuter run at all.  The `str r3,[r2,r6,lsl #2]` addressing-
- * mode store and the per-site pool reloads the note despaired of follow from
- * writing the arms out rather than from any register hint.
- *
- * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020916D4.c \
- *       --func func_020916D4 --addr 0x020916D4 --arm --cc 1.1p1
- */
-s32 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3)
-{
-    u32 idx = (a3 == (u32)g_020A8730) ? 2 : 5;
-    u8 *blk = (u8 *)&g_02153BD4 + idx * 0x18;
-    s32 r;
-
-    if (func_020860D0(blk) == 0) {
-        arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
-        arr_02153BB0[idx] = 1;
-    } else {
-        u32 cur = arr_02153B8C[idx];
-        u32 ref = g_02150FEC.unk04[0x1b];
-
-        if (cur == ref) {
-            arr_02153BB0[idx]++;
-        } else {
-            func_02086028(blk);
-            arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
-            arr_02153BB0[idx] = 1;
+    ix = HI(x) & 0x7fffffff;
+    if (ix <= 0x3fe921fb)
+        return func_02099224(x, z);
+    else if (ix >= 0x7ff00000)
+        return x - x;
+    else
+    {
+        n = func_02098B44(x, y);
+        switch (n & 3)
+        {
+        case 0:
+            return func_02099224(y[0], y[1]);
+        case 1:
+            return -func_0209A0EC(y[0], y[1], 1);
+        case 2:
+            return -func_02099224(y[0], y[1]);
+        default:
+            return func_0209A0EC(y[0], y[1], 1);
         }
     }
-    r = func_020917D4((void *)a0, a1, a2, (struct FILE *)a3);
-    arr_02153BB0[idx]--;
-    if (arr_02153BB0[idx] == 0) func_02086078(blk);
-    return r;
 }
 
-enum { __neutral, __writing, __reading, __rereading };
-
-enum { __no_io_error, __io_error, __io_EOF };
-
-extern int func_02096508(u8 *p, int v);                 /* fwide */
-extern int  func_0209149C(void);                                 /* __flush_line_buffered_output_files */
-extern int func_020915C4(struct S020915C4 *p, u32 *a1, int a2); /* __load_buffer */
-extern void *func_02092344(void *dest, const void *src, unsigned int n); /* memcpy */
-extern void func_0209159C(struct S0209159C *p);                           /* __prep_buffer */
-extern u32  func_0209C2B0(u32 a, u32 b);                         /* udiv */
 
 /*
- * MSL C `__fread` (buffered stdio read), transcribed from the Metrowerks MSL
- * shape: fwide orientation probe, pushback drain through ungetc_buffer /
- * ungetwc_buffer, buffered copy loop through __load_buffer (func_020915C4)
- * and memcpy (func_02092344), then the unbuffered direct read that borrows
- * buffer/buffer_size.  Returns bytes_read / memb_size (func_0209C2B0).
- * The two levers over the earlier 788/456 note body were (1) writing it as
- * MSL writes it (always_buffer = !binary_io || buffer_mode == _IOFBF, the
- * set_error / set_eof bodies spelled out in each arm) and (2) the FILE
- * layout: eof/error are plain u8 members at +0x0c/+0x0d, NOT inside an
- * 8-byte state struct, which puts ungetc_buffer at +0x12 and ungetwc_buffer
- * at +0x14.  Project default compiler; EXACT on the first full transcription.
+ * MSL fabs(): the hi word of the double is cleared via `&x`, which is the
+ * address-of-a-register-parameter idiom and produces `push {r0-r3}`; the
+ * mask folds to `bic r1, r1, #0x80000000`.
  */
-size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
+double func_0209A504(double x)
 {
-    u8 *read_ptr;
-    size_t num_bytes, bytes_requested, bytes_read;
-    int ioresult, always_buffer;
+    ((u32 *)&x)[1] &= 0x7fffffff;
+    return x;
+}
 
-    if (func_02096508((u8 *)file, 0) == 0)
-        func_02096508((u8 *)file, -1);
 
-    bytes_requested = memb_size * num_memb;
+static const double huge = 1.0e300;
 
-    if (!bytes_requested || file->error || file->mode.file_kind == 0)
-        return 0;
 
-    always_buffer = !file->mode.binary_io || file->mode.buffer_mode == 2;
+/*
+ * fdlibm floor().  Identified by its two pool constants: huge = 1.0e300
+ * (0x7E37E43C_8800759C, the classic fdlibm inexact-raising addend) and
+ * 0xBFF00000, the high word of -1.0 that the |x| < 1, x < 0 arm returns.
+ * The `huge + x > 0.0` guard is a soft-float __dadd followed by __dcmp_2,
+ * which is why every arm of the function calls out twice.
+ *
+ * The leading `push {r0, r1, r2, r3}` at 0x0209A524 is the home area for the
+ * register-passed double: the body reads x's words from [sp, #0x20]/[sp,
+ * #0x24] through &x, and every return pops 16 bytes.  See the cluster header
+ * docs/families/cluster_02098B44.h.
+ */
+double func_0209A524(double x)
+{
+    i32 i0, i1, j0;
+    u32 i, j;
 
-    if (file->state.io_state == __neutral) {
-        if (file->mode.io_mode & 1) {
-            file->state.io_state = __reading;
-            file->buffer_len = 0;
-        }
-    }
-
-    if (file->state.io_state < __reading) {
-        file->error = 1;
-        file->buffer_len = 0;
-        return 0;
-    }
-
-    if (file->mode.buffer_mode & 1) {
-        if (func_0209149C()) {
-            file->error = 1;
-            file->buffer_len = 0;
-            return 0;
-        }
-    }
-
-    read_ptr = (u8 *)ptr;
-    bytes_read = 0;
-
-    if (bytes_requested && file->state.io_state >= __rereading) {
-        do {
-            if (func_02096508((u8 *)file, 0) == 1) {
-                ((struct Obj16696 *)read_ptr)->f0 = file->ungetwc_buffer[file->state.io_state - __rereading];
-                read_ptr += sizeof(wchar_t);
-                bytes_read += sizeof(wchar_t);
-                bytes_requested -= sizeof(wchar_t);
-            } else {
-                *read_ptr++ = file->ungetc_buffer[file->state.io_state - __rereading];
-                bytes_read++;
-                bytes_requested--;
-            }
-            file->state.io_state--;
-        } while (bytes_requested && file->state.io_state >= __rereading);
-
-        if (file->state.io_state == __reading)
-            file->buffer_len = file->saved_buffer_len;
-    }
-
-    if (bytes_requested && (file->buffer_len || always_buffer)) {
-        do {
-            if (!file->buffer_len) {
-                ioresult = func_020915C4((struct S020915C4 *)file, 0, 0);
-                if (ioresult) {
-                    if (ioresult == __io_error) {
-                        file->error = 1;
-                        file->buffer_len = 0;
-                    } else {
-                        file->state.io_state = __neutral;
-                        file->eof = 1;
-                        file->buffer_len = 0;
-                    }
-                    bytes_requested = 0;
-                    break;
+    i0 = HI(x);
+    i1 = LO(x);
+    j0 = ((i0 >> 20) & 0x7ff) - 0x3ff;
+    if (j0 < 20)
+    {
+        if (j0 < 0)
+        {
+            if (huge + x > 0.0)
+            {
+                if (i0 >= 0)
+                {
+                    i0 = i1 = 0;
+                }
+                else if (((i0 & 0x7fffffff) | i1) != 0)
+                {
+                    i0 = 0xbff00000;
+                    i1 = 0;
                 }
             }
-
-            num_bytes = file->buffer_len;
-            if (num_bytes > bytes_requested)
-                num_bytes = bytes_requested;
-
-            func_02092344(read_ptr, file->buffer_ptr, num_bytes);
-
-            read_ptr += num_bytes;
-            bytes_read += num_bytes;
-            bytes_requested -= num_bytes;
-
-            file->buffer_ptr += num_bytes;
-            file->buffer_len -= num_bytes;
-        } while (bytes_requested && always_buffer);
-    }
-
-    if (bytes_requested && !always_buffer) {
-        u8 *save_buffer = file->buffer;
-        size_t save_size = file->buffer_size;
-
-        file->buffer = read_ptr;
-        file->buffer_size = bytes_requested;
-
-        ioresult = func_020915C4((struct S020915C4 *)file, &num_bytes, 1);
-        if (ioresult) {
-            if (ioresult == __io_error) {
-                file->error = 1;
-                file->buffer_len = 0;
-            } else {
-                file->state.io_state = __neutral;
-                file->eof = 1;
-                file->buffer_len = 0;
+        }
+        else
+        {
+            i = (0x000fffff) >> j0;
+            if (((i0 & i) | i1) == 0)
+                return x;
+            if (huge + x > 0.0)
+            {
+                if (i0 < 0)
+                    i0 += (0x00100000) >> j0;
+                i0 &= (~i);
+                i1 = 0;
             }
         }
-
-        bytes_read += num_bytes;
-
-        file->buffer = save_buffer;
-        file->buffer_size = save_size;
-
-        func_0209159C((struct S0209159C *)file);
-
-        file->buffer_len = 0;
     }
-
-    return func_0209C2B0(bytes_read, memb_size);
+    else if (j0 > 51)
+    {
+        if (j0 == 0x400)
+            return x + x;
+        else
+            return x;
+    }
+    else
+    {
+        i = ((u32)(0xffffffff)) >> (j0 - 20);
+        if ((i1 & i) == 0)
+            return x;
+        if (huge + x > 0.0)
+        {
+            if (i0 < 0)
+            {
+                if (j0 == 20)
+                    i0 += 1;
+                else
+                {
+                    j = i1 + (1 << (52 - j0));
+                    if (j < (u32)i1)
+                        i0 += 1;
+                    i1 = j;
+                }
+            }
+            i1 &= (~i);
+        }
+    }
+    HI(x) = i0;
+    LO(x) = i1;
+    return x;
 }
 
-int func_02091AE8(u8 *p)
-{
-    u32 mode;
-    int r;
-    int x;
 
-    if (p == 0)
-        return -1;
-    mode = (((struct Obj00481 *)p)->f4 << 22) >> 29;
-    if (mode == 0)
-        return 0;
-    r = (int)func_02091B5C((struct P02091B5C *)p);
-    x = ((int (*)(u32))*(u32 *)(p + 0x44))(((struct Obj00481 *)p)->f0);
-    ((struct Obj00481 *)p)->f4 &= ~0x380u;
-    ((struct Obj00481 *)p)->f0 = 0;
-    if ((((struct Obj00481 *)p)->f8 << 28) >> 31)
-        return -1;
-    return (r != 0 || x != 0) ? -1 : 0;
-}
+static const double two54 = 1.80143985094819840000e+16;
+
 
 /*
- * The state machine the g_020A8730 sweep calls per record (and the entry the
- * null argument routes to func_02091524).  A record is rejected when its +0xd
- * byte is set or when its +4 field at bits 7..9 is zero, is a no-op when the
- * +4 field at bits 2..4 is 1, otherwise its +8 three-bit mode is forced to 2
- * when it is 3 or more (clearing the low three bits first), the record is
- * cleared when that mode is 2, and anything but mode 1 clears the mode and
- * returns.  Mode 1 runs the transaction func_02091650, and either sets the
- * +0xd byte and returns -1 or clears mode, +0x18 and +0x28 and returns 0.
- *
- * Every one of the five field accesses is a bitfield read/write against a
- * view struct cast onto the word, and that is load-bearing: written as
- * `(p->f08 << 29) >> 29` the three-mode tests are re-derived as `and #7` and
- * the whole tail renumbers, while a bitfield extraction is emitted as the
- * shift pair directly and is never folded (this is the same finding as
- * src/matched/func_0209149C.c and func_02091524.c's neighbour).  The mode
- * writes come out as exactly `bic`/`orr` on the low three bits, which is what
- * a bitfield assignment emits, and the constant -1 the failure path returns is
- * derived by the compiler from the 1 it has just stored (`subne r0, r0, #2`).
- *
- * The `||` over the two rejection tests is what shares the `mvn r0, #0`
- * epilogue; two separate `if`s cost 20 bytes.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02091B5C.c \
- *       --func func_02091B5C --addr 0x02091B5C --cc 1.1p1 --arm
- *   EXACT, 228 bytes, 2 relocation sites, both resolved.
+ * fdlibm frexp().  Word access goes through the address of the register
+ * parameter `x`, which is why the prologue preserves r0-r3 even though this
+ * is not a call that needs them.  Scaled subnormals are multiplied by the
+ * inline double constant two54; the compiler keeps its zero low word in r5
+ * and only pools the 0x43500000 high half.
  */
-int func_02091B5C(struct P02091B5C *p)
+double func_0209A6E8(double x, int *eptr)
 {
-    int r;
+    int hx;
+    int ix;
+    int lx;
 
-    if (p == 0)
-        return func_02091524();
-    if (p->f0d != 0 || ((struct F04hi *)&p->f04)->mode == 0)
-        return -1;
-    if (((struct F04lo *)&p->f04)->sub == 1)
-        return 0;
-    if (((struct F08 *)&p->f08)->mode >= 3)
-        ((struct F08 *)&p->f08)->mode = 2;
-    if (((struct F08 *)&p->f08)->mode == 2)
-        p->f28 = 0;
-    if (((struct F08 *)&p->f08)->mode != 1) {
-        ((struct F08 *)&p->f08)->mode = 0;
-        return 0;
+    hx = HI(x);
+    lx = LO(x);
+    ix = 0x7fffffff & hx;
+    *eptr = 0;
+    if (ix >= 0x7ff00000 || ((ix | lx) == 0))
+        return x;
+    if (ix < 0x00100000)
+    {
+        x *= two54;
+        hx = HI(x);
+        ix = hx & 0x7fffffff;
+        *eptr = -54;
     }
-    r = func_02091650((struct S02091650 *)p, 0);
-    if (r != 0) {
-        p->f0d = 1;
-        p->f28 = 0;
-        return -1;
-    }
-    ((struct F08 *)&p->f08)->mode = 0;
-    p->f18 = 0;
-    p->f28 = 0;
-    return 0;
+    *eptr += (ix >> 20) - 1022;
+    hx = (hx & 0x800fffff) | 0x3fe00000;
+    HI(x) = hx;
+    return x;
 }
 
+
+static const double twom54  = 5.55111512312578270212e-17;
+
+
+static const double tiny    = 1.0e-300;
+
+
 /*
- * Bounded case-insensitive string compare (the `strncmp` twin of
- * src/matched/func_0209AB8C.c, which is the unbounded `strcmp`): each byte is
- * mapped through the 256-byte table at 0x020A60DC when it is below 0x80, then
- * compared as unsigned, for at most n bytes.
+ * note:     EXACT* not EXACT: the next function's own home-area push
+ *           (0x0209AA08, sin's `push {r0, r1, r2, r3}`, already covered by
+ *           src/matched/unit_0209AA08.c) carries no label of its own, so the
+ *           printed extent is 612 against a compiled 608.  All 608 compared
+ *           bytes match and all 12 relocations resolve.
+ * MSL ldexp(double, int), with fdlibm scalbn() inlined into it.
  *
- * Three spellings are load-bearing, and docs/notes/pkt_02091C40.c.txt records
- * a whole earlier pass that got the first two but not the third:
+ * The wrapper is the first eight instructions: __fpclassify(x) (0x020921F4)
+ * and, only when that says the value is finite-and-not-one-of-the-low-classes,
+ * an equality test against 0.0 that lowers to the soft-float __dcmp_5 at
+ * 0x0209BA3C.  Either test failing returns x untouched; everything after
+ * 0x0209A7F8 is scalbn's own body.
  *
- *  - the guard is `if (n > 0) { <loop> } return 0;`, not `if (n <= 0)
- *    return 0;`.  The early-return spelling predicates the guard
- *    (`movle r0,#0` / `pople`) and is 128 bytes; the block spelling branches
- *    to the single shared epilogue the image has at 0x02091CB0.
- *  - the two byte temps are the interleaved `int c1; u8 m1; int c2; u8 m2;`
- *    of the sibling, which is what colours the masked c1 into r4 and the raw
- *    c2 into r5.  Declaring the two masks together swaps those registers.
- *    Writing the masks as `c1 &= 0xff` on the `int`s instead (the earlier
- *    pass's spelling) leaves the same 26-byte register swap that note
- *    describes: lr/ip carry the loop counter and the table there, r4/ip here.
- *  - THE TABLE BASE IS ASSIGNED INSIDE THE GUARD.  `const u8 *tab =
- *    g_020A60DC;` at the top of the function hoists its pool load above the
- *    `ble`, which is the last 12-byte residue: the image emits
- *    `mov lr,#0 / ble / ldr ip,[pc,#0x60]`, i.e. the table is not loaded at
- *    all on the n <= 0 path.  Declaring it at the top and assigning it in
- *    the block reproduces that order exactly.
+ * Identified by the full fdlibm scalbn constant set in the pool at 0x0209A9DC:
+ * two54 (0x43500000), twom54 (0x3C900000), huge = 1.0e300
+ * (0x7E37E43C_8800759C), tiny = 1.0e-300 (0x01A56E1F_C2F8F359) and the
+ * +-50000 exponent clamps (0x0000C350 / 0xFFFF3CB0).
  *
- * Also measured by the earlier pass, and still true: mwccarm 1.1p1 in
- * `-lang c99` mode REJECTS a C99 for-statement declaration
- * (`for (int i = 0; ...)` -> "expression syntax error"), so the counter is
- * declared at block scope.
- *
- * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02091C40.c \
- *       --func func_02091C40 --addr 0x02091C40 --arm --cc 1.1p1
+ * The leading `push {r0, r1, r2, r3}` at 0x0209A7A8 is the home area for the
+ * register-passed double: the body reads and writes x's words from
+ * [sp, #0x10]/[sp, #0x14] through &x, and every return pops 16 bytes.
+ * See the cluster header docs/families/cluster_02098B44.h.
  */
-int func_02091C40(const u8 *s1, const u8 *s2, int n)
+double func_0209A7A8(double x, int n)
 {
-    const u8 *tab;
-    int i = 0;
+    i32 k, hx, lx;
+
+    if (func_020921F4(x) <= 2 || x == 0.0)
+        return x;
+
+    hx = HI(x);
+    lx = LO(x);
+    k = (hx & 0x7ff00000) >> 20;
+    if (k == 0)
+    {
+        if ((lx | (hx & 0x7fffffff)) == 0)
+            return x;
+        x *= two54;
+        hx = HI(x);
+        k = ((hx & 0x7ff00000) >> 20) - 54;
+        if (n < -50000)
+            return tiny * x;
+    }
+    if (k == 0x7ff)
+        return x + x;
+    k = k + n;
+    if (k > 0x7fe)
+        return huge * func_0209A368(huge, x);
+    if (k > 0)
+    {
+        HI(x) = (hx & 0x800fffff) | (k << 20);
+        return x;
+    }
+    if (k <= -54)
+    {
+        if (n > 50000)
+            return huge * func_0209A368(huge, x);
+        else
+            return tiny * func_0209A368(tiny, x);
+    }
+    k += 54;
+    HI(x) = (hx & 0x800fffff) | (k << 20);
+    return x * twom54;
+}
+
+
+/*
+ * fdlibm sin().  The machine entry is 0x0209AA08, four bytes before the
+ * disasm body label func_0209AA0C: the stub is the compiler's `push {r0-r3}`
+ * spilling the register-passed double argument, so the body reads x from the
+ * stack and pops 16 bytes on every return.  The unit is anchored at the stub
+ * and the function list records the body label the worklist names.
+ *
+ * |x| <= pi/4 short-circuits to __kernel_sin(x, 0.0, 0); the general path
+ * reduces with __ieee754_rem_pio2 and selects a kernel on n & 3.  Negation
+ * and x-x lower to the MSL soft-float subtract helper _dsub.
+ *
+ * Callees by address:
+ *   func_0209A0EC  __kernel_sin(double, double, int)
+ *   func_02099224  __kernel_cos(double, double)
+ *   func_02098B44  __ieee754_rem_pio2(double, double *)
+ *   func_0209AF34  __dsub(double, double)
+ */
+double func_0209AA0C(double x)
+{
+    double y[2];
+    double z = 0.0;
+    int n;
+    int ix;
+
+    ix = HI(x) & 0x7fffffff;
+    if (ix <= 0x3fe921fb)
+        return func_0209A0EC(x, z, 0);
+    else if (ix >= 0x7ff00000)
+        return x - x;
+    else
+    {
+        n = func_02098B44(x, y);
+        switch (n & 3)
+        {
+        case 0:
+            return func_0209A0EC(y[0], y[1], 1);
+        case 1:
+            return func_02099224(y[0], y[1]);
+        case 2:
+            return -func_0209A0EC(y[0], y[1], 1);
+        default:
+            return -func_02099224(y[0], y[1]);
+        }
+    }
+}
+
+
+void func_0209AB80(void)
+{
+    func_020979BC();
+}
+
+
+/*
+ * note:     EXACT* not EXACT: the label following this function in the
+ *           listing is the veneer block at 0x0209AC04 (0x0209ABEC/0x0209ABF8
+ *           are unlabelled), so the printed extent is 120 against a compiled
+ *           96.  All 96 compared bytes (code + literal pool) match and the
+ *           single relocation resolves via `literal`.
+ * Case-insensitive string compare: each byte is mapped through the 256-byte
+ * table at 0x020A60DC when it is below 0x80, then compared as unsigned.
+ * The `>= 0` half of the guard is what emits the `cmp #0; blt` before the
+ * `cmp #0x80; ldrblt`, even though the byte load is unsigned.
+ *
+ * The interleaved declarations (`int c1; u8 m1; int c2; u8 m2;`) matter:
+ * they make mwccarm color the c1 mask into ip and the raw c2 into lr, which
+ * is what the original does.  Declaring the two mask temps together instead
+ * swaps those two scratch registers (9-byte DIFF).
+ */
+int func_0209AB8C(const u8 *s1, const u8 *s2)
+{
+    const u8 *tab = g_020A60DC;
     int c1;
     u8 m1;
     int c2;
     u8 m2;
 
-    if (n > 0)
+    for (;;)
     {
-        tab = g_020A60DC;
-        do
-        {
-            c1 = *s1++;
-            if (c1 >= 0 && c1 < 0x80)
-                c1 = tab[c1];
-            m1 = (u8)c1;
+        c1 = *s1++;
+        if (c1 >= 0 && c1 < 0x80)
+            c1 = tab[c1];
+        m1 = (u8)c1;
 
-            c2 = *s2++;
-            if (c2 >= 0 && c2 < 0x80)
-                c2 = tab[c2];
-            m2 = (u8)c2;
+        c2 = *s2++;
+        if (c2 >= 0 && c2 < 0x80)
+            c2 = tab[c2];
+        m2 = (u8)c2;
 
-            if (m1 < m2)
-                return -1;
-            if (m1 > m2)
-                return 1;
-            if (m1 == 0)
-                return 0;
-            i++;
-        } while (i < n);
+        if (m1 < m2)
+            return -1;
+        if (m1 > m2)
+            return 1;
+        if (m1 == 0)
+            return 0;
     }
-    return 0;
 }
 
-/*
- * Reads back the amount a record still owes: reject the record when its +4
- * bits 7..9 mode is neither 0 nor 1 or when its +0xd byte is set (leaving
- * 0x28 in the reserved word and returning -1), return the running f18 when
- * the +8 three-bit mode is 0, otherwise f34 + (f24 - f1c), reduced by
- * (mode - 2) for modes of 3 or more.
- *
- * Two spellings are pinned here and neither is the obvious one:
- *
- *  - `u8 sel = mode + 0xff;` is the decrement.  `mode - 1` compiles to
- *    `sub r1, r1, #1`; the original has `and #0xff; add r1, r1, #0xff;
- *    and #0xff`, i.e. the wrap-around add the source wrote, narrow once on
- *    being stored into the `u8 mode` and once on the sum
- *    (docs/idioms/a-u8-decrement-is-spelled-as-the-wraparound-add.md).
- *  - the +8 mode is read through a bitfield view struct.  A shift-pair
- *    spelling that feeds a `== 0` test is folded to `ands`, which loses both
- *    the second `lsr` and the register the original keeps.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02091CBC.c \
- *       --func func_02091CBC --addr 0x02091CBC --cc 1.1p1 --arm
- *   EXACT, 124 bytes, 1 relocation site, resolved.
- */
-int func_02091CBC(struct P02091CBC *p)
+int func_0209ABEC(const u8 *s1, const u8 *s2, int n)
 {
-    struct F08P *m08 = (struct F08P *)&p->f08;
-    u8 mode;
-    u8 sel;
-    u32 m;
-    u32 v;
+    return func_02091C40(s1, s2, n);
+}
 
-    mode = ((struct F04hiP *)&p->f04)->mode;
-    sel = mode + 0xff;
-    if (sel > 1 || p->f0d != 0) {
-        g_02153FAC = 0x28;
-        return -1;
-    }
-    m = m08->mode;
-    if (m == 0)
-        return p->f18;
-    v = p->f34 + (p->f24 - p->f1c);
-    if (m >= 3)
-        v -= m - 2;
-    return v;
+int func_0209ABF8(const u8 *s1, const u8 *s2)
+{
+    return func_0209AB8C(s1, s2);
 }

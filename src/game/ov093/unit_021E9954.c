@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689B66C  0x0689B66C  thumb
  *   func_06899D3C 0x06899D3C thumb ov095
  *   func_06899D64   0x06899D64  thumb  ov095
  *   func_06899DB0   0x06899DB0  thumb  ov095
@@ -23,7 +24,6 @@
  *   func_021B8FC0 0x021B8FC0 thumb ov093
  *   func_021B8588 0x021B8588 thumb ov093
  *   func_021B99B8 0x021B99B8 thumb ov093
- *   func_021E9A68 0x021E9A68 thumb ov093
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   func_021F86E0 0x021F86E0 thumb ov094
  *   func_021B8748 0x021B8748 thumb ov093
@@ -54,7 +54,7 @@ extern int func_021B8F7C(u8 *, u32);
 extern unsigned char func_021B8FC0(unsigned char *p, unsigned int k);
 extern u32 func_021B8588(void **p);
 extern int func_021B99B8(void *pp, unsigned int b);
-extern int func_021E9A68(void *);
+extern int func_0689B66C(void *);
 extern void *func_021F86D4(void);
 extern int func_021F86E0(void);
 extern u32 func_021B8748(void **p);
@@ -113,7 +113,7 @@ void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y)
     ((struct Obj00714 *)q)->f10 = ((struct Obj00056 *)p)->f184;
     ((struct Obj00714 *)q)->fC = ((struct Obj00056 *)p)->fB0;
     ((struct Obj00714 *)q)->f14 = func_021B8588(((struct Obj00056 *)p)->f0);
-    ((struct Obj00714 *)q)->f44 = func_021E9A68(((struct Obj00056 *)p)->f180);
+    ((struct Obj00714 *)q)->f44 = func_0689B66C(((struct Obj00056 *)p)->f180);
     ((struct Obj00714 *)q)->f28 = func_021F86D4();
     ((struct Obj00714 *)q)->f2C = (void *)func_021F86E0();
     ((struct Obj00714 *)q)->f0 = (void *)func_021B8748(((struct Obj00056 *)p)->f0);

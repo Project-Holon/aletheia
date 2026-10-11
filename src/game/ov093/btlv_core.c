@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_06899AF0  0x06899AF0  thumb
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D5444  0x021D5444  thumb  ov093
  *   func_021D5B40  0x021D5B40  thumb  ov093
@@ -66,7 +67,6 @@
  *   func_0201D7EC 0x0201D7EC thumb
  *   func_0203101C 0x0203101C arm
  *   func_021EAF7C 0x021EAF7C thumb ov093
- *   func_021E9024 0x021E9024 thumb ov093
  *   func_021EEC78 0x021EEC78 thumb ov093
  *   d_021F3AC4 0x021F3AC4 data a4
  */
@@ -210,7 +210,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u8 *func_021EAF7C(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u8 e2, int heap);
-extern void *func_021E9024(struct Scene *, void *, u32, void *, void *, void *, int, u16);
+extern void *func_06899AF0(struct Scene *, void *, u32, void *, void *, void *, int, u16);
 extern void func_021EEC78(u32, u32, u32, u32);
 int func_021E869C(void *a, int b);
 int func_021E86C8(void *a, int b);
@@ -264,9 +264,6 @@ extern const u32 d_021F387C[], d_021F3850[], d_021F3860[];
 extern const char d_021F3AC4[];
 
 
-
-
-
 int func_021E869C(void *a, int b)
 {
     void *r;
@@ -280,9 +277,6 @@ int func_021E869C(void *a, int b)
         return 1;
     return 0;
 }
-
-
-
 
 
 /*
@@ -301,9 +295,6 @@ int func_021E86C8(void *a, int b)
     }
     return 0;
 }
-
-
-
 
 
 int func_021E86E8(void *a, int b, int c)
@@ -327,9 +318,6 @@ int func_021E86E8(void *a, int b, int c)
 }
 
 
-
-
-
 void func_021E8744(int u, void *a, int b, int d)
 {
     u8 k;
@@ -346,9 +334,6 @@ void func_021E8744(int u, void *a, int b, int d)
         }
     }
 }
-
-
-
 
 
 void func_021E8798(int u, void *a, int b, int d)
@@ -376,9 +361,6 @@ void func_021E8798(int u, void *a, int b, int d)
 }
 
 
-
-
-
 void func_021E8804(int u, void *a, int b, int d)
 {
     u8 *p;
@@ -397,9 +379,6 @@ void func_021E8804(int u, void *a, int b, int d)
 }
 
 
-
-
-
 void func_021E8860(int n)
 {
     n *= func_021D775C(0x30);
@@ -407,17 +386,11 @@ void func_021E8860(int n)
 }
 
 
-
-
-
 void func_021E8878(int a, int b, int c, int d)
 {
     if (func_021B9A24((u8)func_021D775C(2), c) != 0)
         func_021D76BC(0x51, 1);
 }
-
-
-
 
 
 int func_021E889C(int a, int b, int c)
@@ -428,9 +401,6 @@ int func_021E889C(int a, int b, int c)
     }
     return 0;
 }
-
-
-
 
 
 void func_021E88CC(void)
@@ -444,9 +414,6 @@ void func_021E88CC(void)
 }
 
 
-
-
-
 void func_021E88F8(void)
 {
     if (d_021F6380 != 0) {
@@ -456,16 +423,10 @@ void func_021E88F8(void)
 }
 
 
-
-
-
 /*
  * Returns 0 with a 4-byte frame that nothing ever stores to.  Taking the address of a local array forces the slot, and the optimizer then removes both the store and the reload (nothing outside can alias it), so the frame and the register-resident value both survive.  A scalar `u32 v = 0; v &= ~7u;` folds to 4 bytes, which is why O28's residue could not reach this; the address-taken local is the missing form.
  */
 u32 func_021E8918(void) { u8 b[4]; ((struct Obj12160 *)b)->f0 = 0; return ((struct Obj12160 *)b)->f0 & ~7u; }
-
-
-
 
 
 int func_021E8928(union Slot s)
@@ -474,9 +435,6 @@ int func_021E8928(union Slot s)
         return 1;
     return 0;
 }
-
-
-
 
 
 /*
@@ -495,9 +453,6 @@ int func_021E8940(u32 a)
 }
 
 
-
-
-
 int func_021E896C(u32 a, u32 b)
 {
     struct S_021E896C s = {0};
@@ -507,9 +462,6 @@ int func_021E896C(u32 a, u32 b)
     s.c = b;
     return *(int *)&s;
 }
-
-
-
 
 
 /*
@@ -532,9 +484,6 @@ int func_021E899C(u32 a)
 }
 
 
-
-
-
 int func_021E89C0(void)
 {
     struct S_021E89C0 s = {0};
@@ -544,8 +493,6 @@ int func_021E89C0(void)
 }
 
 
-
-
 int func_021E89D4(u32 a)
 {
     struct S_021E89D4 s = {0};
@@ -553,8 +500,6 @@ int func_021E89D4(u32 a)
     s.c = a;
     return *(int *)&s;
 }
-
-
 
 
 /*
@@ -572,9 +517,6 @@ int func_021E89F8(u32 a, u32 b)
 }
 
 
-
-
-
 int func_021E8A28(u32 a, u32 b)
 {
     struct S_021E8A28 s = {0};
@@ -584,9 +526,6 @@ int func_021E8A28(u32 a, u32 b)
     s.c = a & 0x3f;
     return *(int *)&s;
 }
-
-
-
 
 
 int func_021E8A58(void)
@@ -599,18 +538,12 @@ int func_021E8A58(void)
 }
 
 
-
-
-
 int func_021E8A78(union Slot s)
 {
     if (s.s.kind == 1 && s.s.lo == 0xf)
         return 1;
     return 0;
 }
-
-
-
 
 
 u8 func_021E8A98(union Slot_021E8A98 s)
@@ -623,9 +556,6 @@ u8 func_021E8A98(union Slot_021E8A98 s)
 }
 
 
-
-
-
 void func_021E8AC8(union Slot_021E8AC8 *p, u8 v)
 {
     if (p->s.kind == 3)
@@ -633,8 +563,6 @@ void func_021E8AC8(union Slot_021E8AC8 *p, u8 v)
     else if (p->s.kind == 4)
         p->s.hi = v;
 }
-
-
 
 
 u8 func_021E8AFC(union Slot_021E8AFC s)
@@ -645,8 +573,6 @@ u8 func_021E8AFC(union Slot_021E8AFC s)
 }
 
 
-
-
 void func_021E8B28(union U_021E869C *p, u16 v)
 {
     if (p->a.kind == 1) p->a.id = v;
@@ -654,9 +580,6 @@ void func_021E8B28(union U_021E869C *p, u16 v)
     else if (p->a.kind == 4) p->b.id = v;
     else if (p->a.kind == 2) p->a.id = v;
 }
-
-
-
 
 
 u16 func_021E8B80(union Unk021E8B80 v)
@@ -678,7 +601,6 @@ void func_021E8BD0(union U_021E8BD0 *p, int v)
 }
 
 
-
 u32 func_021E8C24(union U_021E8BD0 v)
 {
     if (v.a.kind == 1) return v.a.f;
@@ -689,21 +611,11 @@ u32 func_021E8C24(union U_021E8BD0 v)
 }
 
 
-
-
-
-
-
 void func_021E8C50(union U *p, u32 v)
 {
     if (p->a.kind == 2 && p->a.f < 8) p->a.f = p->a.f + v;
     if (p->a.kind == 4 && p->a.f < 8) p->a.f = p->a.f + v;
 }
-
-
-
-
-
 
 
 void func_021E8C9C(union U *p, int v)
@@ -713,12 +625,6 @@ void func_021E8C9C(union U *p, int v)
 }
 
 
-
-
-
-
-
-
 /* 021E8CE0  ((a & 0xff) << 8) | (b & 0xff) as u16 */
 /*
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: lsls r0, r0, #0x18; lsrs r2, r0, #0x10; lsls r0, r1, #0x18; lsrs r0, r0, #0x18; orrs r0, r2; lsls r0, r0, #0x10; lsrs r0, r0, #0x10; bx lr.
@@ -726,22 +632,10 @@ void func_021E8C9C(union U *p, int v)
 u16 func_021E8CE0(u32 a, u32 b) { return (u16)(((a & 0xff) << 8) | (b & 0xff)); }
 
 
-
-
-
-
-
-
 int func_021E8CF0(int a)
 {
     return func_021E8CE0(a, a);
 }
-
-
-
-
-
-
 
 
 /* 021E8CFC  asrs r0,r0,#8; lsls #0x18; lsrs #0x18 */
@@ -751,19 +645,10 @@ int func_021E8CF0(int a)
 u8 func_021E8CFC(s32 v) { return (u8)(v >> 8); }
 
 
-
-
-
-
 int func_021E8D04(int x)
 {
     return (unsigned char)x;
 }
-
-
-
-
-
 
 
 void func_021E8D0C(int x, unsigned char *a, unsigned char *b)
@@ -771,11 +656,6 @@ void func_021E8D0C(int x, unsigned char *a, unsigned char *b)
     *a = func_021E8CFC(x);
     *b = func_021E8D04(x);
 }
-
-
-
-
-
 
 
 int func_021E8D24(int x, int k)
@@ -790,11 +670,6 @@ int func_021E8D24(int x, int k)
 }
 
 
-
-
-
-
-
 int func_021E8D48(int a, int b)
 {
     if (func_021E8CFC(a) == func_021E8CFC(b)) return 1;
@@ -805,11 +680,6 @@ int func_021E8D48(int a, int b)
 }
 
 
-
-
-
-
-
 int func_021E8DA8(int x)
 {
     if (func_021E8CFC(x) == func_021E8D04(x)) {
@@ -817,9 +687,6 @@ int func_021E8DA8(int x)
     }
     return 0;
 }
-
-
-
 
 
 void func_021E8DC4(unsigned short heap)
@@ -834,9 +701,6 @@ void func_021E8DC4(unsigned short heap)
 }
 
 
-
-
-
 void func_021E8DF8(void)
 {
     func_021E8F08();
@@ -848,9 +712,6 @@ void func_021E8DF8(void)
 }
 
 
-
-
-
 /*
  * wrapper over func_021E8F08, func_021E8E38
  */
@@ -859,7 +720,6 @@ void func_021E8E28(u16 heap)
     func_021E8F08();
     func_021E8E38(heap);
 }
-
 
 
 /*
@@ -888,8 +748,6 @@ void func_021E8E38(u16 heap)
 }
 
 
-
-
 void func_021E8F08(void)
 {
     func_021F7808();
@@ -898,7 +756,6 @@ void func_021E8F08(void)
     func_0203F9B4();
     func_02046788();
 }
-
 
 
 struct Scene *func_021E8F20(void *a, void *b, u32 c, int d, u16 heap)
@@ -916,7 +773,7 @@ struct Scene *func_021E8F20(void *a, void *b, u32 c, int d, u16 heap)
     p->font2 = func_0201D7EC(0x17, 2, 0, 0, heap);
     p->ctx = func_0203101C(heap, heap, 0x40, 0x80);
     p->view = func_021EAF7C((u32)p, (u32)p->a, c, (u32)p->ctx, (u32)p->font0, (u32)p->font2, p->index, heap);
-    p->other = func_021E9024(p, p->a, c, p->ctx, p->font0, p->b, d, heap);
+    p->other = func_06899AF0(p, p->a, c, p->ctx, p->font0, p->b, d, heap);
     p->f14 = 0;
     p->f18 = 0;
     p->flag = 0;

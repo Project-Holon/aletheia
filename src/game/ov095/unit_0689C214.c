@@ -11,23 +11,21 @@
  * status: EXACT*
  * Extent remainder: two-byte alignment padding at 0x0689C242.
  * symbols:
- *   func_0689C244 0x0689C244 thumb ov095
- *   func_0689C254 0x0689C254 thumb ov095
- *   func_0689C264 0x0689C264 thumb ov095
- *   func_0689C274 0x0689C274 thumb ov095
+ *   func_021C88A4  0x021C88A4  thumb
+ *   func_021C88C8  0x021C88C8  thumb
+ *   func_021D5440  0x021D5440  thumb
  */
 #include "../../matched/include/Obj13639.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_0689C244(void *);
-extern void *func_0689C254(void *, int, int);
-extern int func_0689C264(void *);
-extern void func_0689C274(void *, void *);
+extern int func_021D5440(void *);
+extern void *func_021C88A4(void *, int, int);
+extern void func_021C88C8(void *, void *);
 void func_0689C214(void *a, void *b)
 {
     void *r;
-    r = func_0689C254(a, 0x21, func_0689C244(b));
-    ((struct Obj13639 *)((u32)r))->f4 = func_0689C264(b);
+    r = func_021C88A4(a, 0x21, func_021D5440(b));
+    ((struct Obj13639 *)((u32)r))->f4 = func_021D5440(b);
     ((struct Obj13639 *)((u32)r))->f8 = 1;
-    func_0689C274(a, r);
+    func_021C88C8(a, r);
 }

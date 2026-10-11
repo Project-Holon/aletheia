@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_06899DC8 0x06899DC8 thumb ov095
+ *   func_022033CC  0x022033CC  thumb
  */
 #include "../../matched/include/Obj21886.h"
 typedef unsigned int u32;
-extern int func_06899DC8(u32);
-int func_06899DB0(unsigned char *p) { return func_06899DC8(((struct Obj21886 *)p)->fB0) == 0; }
+extern int func_022033CC(u32);
+int func_06899DB0(unsigned char *p) { return func_022033CC(((struct Obj21886 *)p)->fB0) == 0; }

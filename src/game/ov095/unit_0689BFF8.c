@@ -11,12 +11,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0689C048   0x0689C048  thumb  ov095
- *   func_0689C058   0x0689C058  thumb  ov095
- *   func_0689C068   0x0689C068  thumb  ov095
- *   func_0689C078   0x0689C078  thumb  ov095
- *   func_0689C088   0x0689C088  thumb  ov095
- *   func_0689C098   0x0689C098  thumb  ov095
+ *   func_021C88A4  0x021C88A4  thumb
+ *   func_021C88C8  0x021C88C8  thumb
+ *   func_021D5440  0x021D5440  thumb
+ *   func_021D62A8  0x021D62A8  thumb
+ *   func_021D7B8C  0x021D7B8C  thumb
+ *   func_021E8940  0x021E8940  thumb
  */
 
 typedef unsigned char u8;
@@ -31,12 +31,12 @@ typedef struct Rec {
     u8 f0f;
 } Rec;
 
-extern int func_0689C048(int, int);
-extern int func_0689C058(void *);
-extern int func_0689C068(void *);
-extern Rec *func_0689C078(void *, int, int);
-extern int func_0689C088(u8);
-extern void func_0689C098(void *, Rec *);
+extern int func_021D7B8C(int, int);
+extern int func_021D62A8(void *);
+extern int func_021D5440(void *);
+extern Rec *func_021C88A4(void *, int, int);
+extern int func_021E8940(u8);
+extern void func_021C88C8(void *, Rec *);
 
 void func_0689BFF8(void *a, void *b)
 {
@@ -44,16 +44,16 @@ void func_0689BFF8(void *a, void *b)
     int k;
     Rec *r;
 
-    n = func_0689C048(2, 4);
+    n = func_021D7B8C(2, 4);
     if (n > 0) {
-        if (func_0689C058(b) == 0) {
-            k = func_0689C068(b);
-            r = func_0689C078(a, 0xc, k);
+        if (func_021D62A8(b) == 0) {
+            k = func_021D5440(b);
+            r = func_021C88A4(a, 0xc, k);
             r->f0c = 1;
             r->f04 = 2;
-            r->f08 = func_0689C088(n);
+            r->f08 = func_021E8940(n);
             r->f0f = k;
-            func_0689C098(a, r);
+            func_021C88C8(a, r);
         }
     }
 }

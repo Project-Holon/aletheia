@@ -10,18 +10,16 @@
  * status: EXACT
  * lever: inline Slot-to-Word reinterpretation preserves the extra aggregate home word; passing the aggregate directly differed only at the four frame bytes.
  * symbols:
- *   func_0689BABC 0x0689BABC thumb ov095
- *   func_0689BACC 0x0689BACC thumb ov095
- *   func_0689BADC 0x0689BADC thumb ov095
- *   func_0689BAEC 0x0689BAEC thumb ov095
- *   func_0689BAFC 0x0689BAFC thumb ov095
- *   func_0689BB0C 0x0689BB0C thumb ov095
- *   func_0689BB1C 0x0689BB1C thumb ov095
- *   func_0689BB2C 0x0689BB2C thumb ov095
- *   func_0689BB3C 0x0689BB3C thumb ov095
- *   func_0689BB4C 0x0689BB4C thumb ov095
- *   func_0689BB5C 0x0689BB5C thumb ov095
- *   func_0689BB6C 0x0689BB6C thumb ov095
+ *   func_021C7D44  0x021C7D44  thumb
+ *   func_021C8010  0x021C8010  thumb
+ *   func_021C8838  0x021C8838  thumb
+ *   func_021C8860  0x021C8860  thumb
+ *   func_021C88A4  0x021C88A4  thumb
+ *   func_021C88C8  0x021C88C8  thumb
+ *   func_021D59B4  0x021D59B4  thumb
+ *   func_021D6314  0x021D6314  thumb
+ *   func_021D7B74  0x021D7B74  thumb
+ *   func_021E8B80  0x021E8B80  thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,21 +30,19 @@ typedef union {
 } Word;
 typedef struct { u32 kind:3, rest:29; } Slot;
 typedef struct { u32 flags; u16 hp; u8 c, bits; u16 msg; u8 id, slot; u8 data[1]; } Rec;
-extern Slot func_0689BABC(void *, int);
-extern u16 func_0689BACC(Word);
-extern int func_0689BADC(void *, u8);
-extern int func_0689BAEC(void *, u32);
-extern int func_0689BAFC(void *, int);
-extern Rec *func_0689BB0C(void *, int, int);
-extern void func_0689BB1C(void *, int, int);
-extern void func_0689BB2C(void *, u32);
-extern int func_0689BB3C(void *, int);
-extern void func_0689BB4C(void *, void *);
-extern Rec *func_0689BB5C(void *, int, int);
-extern void func_0689BB6C(void *, void *);
+extern Slot func_021D6314(void *, int);
+extern u16 func_021E8B80(Word);
+extern int func_021C7D44(void *, u8);
+extern int func_021D7B74(void *, u32);
+extern int func_021D59B4(void *, int);
+extern Rec *func_021C88A4(void *, int, int);
+extern void func_021C8838(void *, int, int);
+extern void func_021C8860(void *, u32);
+extern int func_021C8010(void *, int);
+extern void func_021C88C8(void *, void *);
 static inline u16 decode(Slot s)
 {
-    return func_0689BACC(*(Word *)&s);
+    return func_021E8B80(*(Word *)&s);
 }
 void func_0689B9F4(void *a, void *b, int c)
 {
@@ -55,30 +51,30 @@ void func_0689B9F4(void *a, void *b, int c)
     u16 hp, max;
     Rec *r;
     int msg;
-    id = (u8)decode(func_0689BABC(b, 0x12));
-    x = func_0689BADC(a, id);
+    id = (u8)decode(func_021D6314(b, 0x12));
+    x = func_021C7D44(a, id);
     if (x == 0x1f) return;
-    hp = func_0689BAEC(b, 8);
-    max = func_0689BAFC(b, 0xd);
+    hp = func_021D7B74(b, 8);
+    max = func_021D59B4(b, 0xd);
     if (hp > max) hp = max;
-    r = func_0689BB0C(a, 7, c);
+    r = func_021C88A4(a, 7, c);
     r->c = c;
     r->hp = hp;
     msg = 0x262;
-    func_0689BB1C(r->data, 2, msg);
-    func_0689BB2C(r->data, c);
+    func_021C8838(r->data, 2, msg);
+    func_021C8860(r->data, c);
     r->bits |= 2;
     msg += 0x13;
     r->msg = msg;
     r->id = id;
-    r->slot = func_0689BB3C(a, c);
-    func_0689BB4C(a, r);
+    r->slot = func_021C8010(a, c);
+    func_021C88C8(a, r);
     if (x != 0x1f) {
-        r = func_0689BB5C(a, 6, c);
+        r = func_021C88A4(a, 6, c);
         r->flags |= 0x1000000;
         r->c = x;
         r->bits = c;
         r->hp = hp;
-        func_0689BB6C(a, r);
+        func_021C88C8(a, r);
     }
 }

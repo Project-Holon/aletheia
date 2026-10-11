@@ -10,12 +10,12 @@
  * status: EXACT*
  * extent: Two bytes of alignment padding follow the return.
  * symbols:
- *   func_0689AD14 0x0689AD14 thumb ov095
+ *   func_021B8778  0x021B8778  thumb
  */
 typedef unsigned char u8;
-extern int func_0689AD14(int, int, u8 *);
+extern int func_021B8778(int, int, u8 *);
 void func_0689ACFC(u8 *p, int a, unsigned short b)
 {
-    p[1] = func_0689AD14(a, b, p + 3);
+    p[1] = func_021B8778(a, b, p + 3);
     p[2] = 1;
 }

@@ -11,6 +11,12 @@
  * status: EXACT*
  *
  * symbols:
+ *   func_06899BE0  0x06899BE0  thumb
+ *   func_06899D64  0x06899D64  thumb
+ *   func_06899DB0  0x06899DB0  thumb
+ *   func_06899F00  0x06899F00  thumb
+ *   func_06899F28  0x06899F28  thumb
+ *   func_06899FE8  0x06899FE8  thumb
  *   func_021F745C  0x021F745C  thumb  ov094
  *   func_021F7544  0x021F7544  thumb  ov094
  *   func_021F7C0C  0x021F7C0C  thumb  ov094
@@ -26,14 +32,6 @@
  *   func_0201BD28  0x0201BD28  thumb
  *   func_02005D90  0x02005D90  thumb
  *   func_02005F38  0x02005F38  thumb
- *   func_021E95B4  0x021E95B4  thumb  ov093
- *   func_021E95C4  0x021E95C4  thumb  ov093
- *   func_021E95D4  0x021E95D4  thumb  ov093
- *   func_021E95E4  0x021E95E4  thumb  ov093
- *   func_021E95F4  0x021E95F4  thumb  ov093
- *   func_021E9604  0x021E9604  thumb  ov093
- *   func_021E9614  0x021E9614  thumb  ov093
- *   func_021E9624  0x021E9624  thumb  ov093
  *   func_021E9634  0x021E9634  thumb  ov093
  *   func_021E9D04  0x021E9D04  thumb  ov093
  *   func_021E9E80  0x021E9E80  thumb  ov093
@@ -102,7 +100,7 @@ extern void *func_021F745C(u8 *p, int a, u16 heap);
 extern void func_021F7544(u32 a, u32 b, u16 c);
 extern u32 func_020307B0(void *p);
 extern void func_021EB028(u8 *p);
-extern void func_021E95B4(u32 a);
+extern void func_06899BE0(u32 a);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_021EB32C(u8 *p, u32 flag);
 extern int func_021EB52C(u32 a);
@@ -115,14 +113,13 @@ extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EAF78(u8 *p, u8 v);
 extern void func_021EA65C(char *p, struct H *h);
 extern void func_021EA614(char *p, struct H *h);
-extern void func_021E9604(u32 a, u32 b, u8 c, u32 d);
-extern int func_021E95C4(u32 a);
-extern void func_021E95D4(u32 a, u32 b, u32 c);
-extern int func_021E95E4(u32 a);
+extern void func_06899F00(u32 a, u32 b, u8 c, u32 d);
+extern int func_06899F28(u32 a);
+extern void func_06899FE8(u32 a, u32 b, u32 c);
 extern void func_021EA6F4(void *p, u8 b, u16 c);
-extern void func_021E9624(u32 a);
+extern void func_06899D64(u32 a);
 extern int func_021EA710(u32 *p);
-extern int func_021E95F4(u32 a);
+extern int func_06899DB0(u32 a);
 extern u32 func_0201BD28(u16 id, u32 field);
 extern void func_021ED118(u8 *p, int a, int b, u32 c, u32 d, int e, u8 f);
 extern int func_021ED1B0(char *p);
@@ -136,7 +133,6 @@ extern void func_021EA7C8(void *ctx, int a);
 extern int func_021EA7E8(void *w, int v);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
-extern int func_021E9614(u32 a);
 extern void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d);
 extern int func_021E9E80(u8 *p);
 extern int func_021F7EB4(void);
@@ -155,7 +151,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         func_021F7544(h, p->xB4, p->h184);
         func_020307B0((void *)h);
         func_021EB028((u8 *)p->x17C);
-        func_021E95B4(p->x180);
+        func_06899BE0(p->x180);
         w->heap = (u32)func_02045B38(0, 2, 0x14, p->h184);
         w->timer = 0;
         (*state)++;
@@ -182,24 +178,24 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         p->xB8 = 0;
         p->xC4 = 0;
         p->b175 = 0;
-        func_021E9604(p->x180, p->xBC, p->b175, 0);
+        func_06899F00(p->x180, p->xBC, p->b175, 0);
         (*state)++;
         break;
     case 4:
-        if (func_021E95C4(p->x180)) {
-            func_021E95D4(p->x180, p->xBC, p->xB8);
+        if (func_06899F28(p->x180)) {
+            func_06899FE8(p->x180, p->xBC, p->xB8);
             (*state)++;
         }
         break;
     case 5:
-        if (func_021E95E4(p->x180)) {
+        if (func_06899F28(p->x180)) {
             func_021EA6F4(p, func_021D5440(func_021E9634((struct Pair *)p, 0)), 1);
-            func_021E9624(p->x180);
+            func_06899D64(p->x180);
             (*state)++;
         }
         break;
     case 6:
-        if (func_021EA710((u32 *)p) && func_021E95F4(p->x180)) {
+        if (func_021EA710((u32 *)p) && func_06899DB0(p->x180)) {
             func_021ED118((u8 *)p->x17C, 0, 1, 1, func_0201BD28(1, 0x1B), 0, 0);
             (*state)++;
         }
@@ -251,12 +247,12 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     case 13:
         if (func_021EA710((u32 *)p) && --w->timer == 0) {
-            func_021E9604(p->x180, p->xBC, p->b175, p->xB8);
+            func_06899F00(p->x180, p->xBC, p->b175, p->xB8);
             (*state)++;
         }
         break;
     case 14:
-        if (func_021E9614(p->x180)) {
+        if (func_06899F28(p->x180)) {
             func_021E9D04((u8 *)p, 2, 0, 0, 1, 0);
             (*state)++;
         }
@@ -265,7 +261,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         if (func_021E9E80((u8 *)p)) {
             func_02045CAC((struct MsgBank *)w->heap, 1, (void *)p->xAC);
             func_021EA730((char *)p, p->xAC, 0, 0);
-            func_021E9624(p->x180);
+            func_06899D64(p->x180);
             (*state)++;
         }
         break;

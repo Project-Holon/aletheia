@@ -11,24 +11,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_06899144  0x06899144  thumb
- *   func_06899154  0x06899154  thumb
- *   func_06899164  0x06899164  thumb
- *   func_06899174  0x06899174  thumb
- *   func_06899184  0x06899184  thumb
- *   func_06899194  0x06899194  thumb
+ *   func_021C8838  0x021C8838  thumb
+ *   func_021C8860  0x021C8860  thumb
+ *   func_021C88A4  0x021C88A4  thumb
+ *   func_021C88C8  0x021C88C8  thumb
+ *   func_021D775C  0x021D775C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_06899144(int a);
-extern int func_06899154(int a);
-extern u8 *func_06899164(int p, int n, int v);
-extern void func_06899174(u8 *p, int n, int c);
-extern void func_06899184(u8 *p, int v);
-extern void func_06899194(int p, u8 *q);
+extern int func_021D775C(int a);
+extern u8 *func_021C88A4(int p, int n, int v);
+extern void func_021C8838(u8 *p, int n, int c);
+extern void func_021C8860(u8 *p, int v);
+extern void func_021C88C8(int p, u8 *q);
 
 void func_068990E8(int a0, int p, int a2, int *s)
 {
@@ -37,13 +35,13 @@ void func_068990E8(int a0, int p, int a2, int *s)
     u8 *t;
 
     if (s[0] != 0) {
-        k = func_06899144(0x19);
+        k = func_021D775C(0x19);
         if (k == 0 || s[1] != k) {
-            v = func_06899154(2);
-            t = func_06899164(p, 4, v);
-            func_06899174(t + 4, 2, 0x34a);
-            func_06899184(t + 4, v);
-            func_06899194(p, t);
+            v = func_021D775C(2);
+            t = func_021C88A4(p, 4, v);
+            func_021C8838(t + 4, 2, 0x34a);
+            func_021C8860(t + 4, v);
+            func_021C88C8(p, t);
             s[1] = k;
         }
         s[0] = 0;

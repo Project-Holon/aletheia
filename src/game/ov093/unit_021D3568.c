@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689C9F8  0x0689C9F8  thumb
  *   func_021CD9E0  0x021CD9E0  thumb  ov093
  *   func_021B8E70  0x021B8E70  thumb  ov093
  *   func_021EA3E8  0x021EA3E8  thumb  ov093
@@ -50,7 +51,6 @@
  *   func_021D6580  0x021D6580  thumb  ov093
  *   func_021D66B0 0x021D66B0 thumb ov093
  *   func_021D8090  0x021D8090  thumb  ov093
- *   func_021D3A10  0x021D3A10  thumb  ov093
  *   func_021D5B68  0x021D5B68  thumb  ov093
  *   func_021D6064  0x021D6064  thumb  ov093
  */
@@ -120,7 +120,7 @@ extern void func_021D63EC(u8 *p, u16 n);
 extern void func_021D6580(void *p);
 extern void func_021D66B0(u8 *p, int n);
 extern void func_021D8090(u32 v, u8 *out);
-extern u32 func_021D3A10(u32 i);
+extern u32 func_0689C9F8(u32 i);
 extern int func_021D5B68(void *p);
 extern int func_021D6064(u8 *p, u32 k, union Slot *out, int *changed);
 int func_021D3568(u32 *a, int *b, u32 *c);
@@ -457,7 +457,7 @@ int func_021D39A8(u8 *a, int b, u32 *s)
     m = s[0];
     func_021D8090(s[2], buf);
     for (i = 0; i < n; i++) {
-        t = func_021D3A10(i);
+        t = func_0689C9F8(i);
         if (t == 0)
             break;
         for (j = 0; j < m; j++) {

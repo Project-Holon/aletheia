@@ -70,6 +70,17 @@ typedef struct WCMApListHeader {
     WCMApList *tail;
 } WCMApListHeader;
 
+typedef struct WMScanExParam {
+    unsigned char *scanBuf;
+    unsigned short scanBufSize;
+    unsigned short channelList;
+    unsigned short maxChannelTime;
+    unsigned char bssid[6];
+    unsigned short scanType;
+    unsigned short ssidLength;
+    unsigned char ssid[32];
+} WMScanExParam;
+
 typedef struct WCMWork {
     unsigned char sendBuf[0x600];
     unsigned char recvBuf[0xC40];
@@ -85,6 +96,12 @@ typedef struct WCMWork {
     unsigned char phase;            /* +0x12DE */
     unsigned char deviceId;         /* +0x12DF */
     unsigned char bssDesc[0xC0];    /* +0x12E0 */
+    unsigned char wmSysBuf[0xF00];  /* +0x13A0, WM_Init work buffer */
+    WMScanExParam scanParam;        /* +0x22A0 */
+    unsigned char pad22D4[0x10];
+    unsigned long notifyCount;      /* +0x22E4 */
+    unsigned short aid;             /* +0x22E8 */
+    unsigned short wlStatus;        /* +0x22EA */
 } WCMWork;
 
 #endif

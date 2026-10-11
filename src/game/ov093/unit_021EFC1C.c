@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_06898080  0x06898080  thumb
  *   func_021D5440  0x021D5440  thumb  ov093
  *   func_021B9A24  0x021B9A24  thumb  ov093
  *   func_021B9940  0x021B9940  thumb  ov093
  *   func_021D5750  0x021D5750  thumb  ov093
  *   func_021EFCE4  0x021EFCE4  thumb  ov093
  *   func_021E8AFC  0x021E8AFC  thumb  ov093
- *   func_021EFCD4  0x021EFCD4  thumb  ov093
  *   func_021EF83C  0x021EF83C  thumb  ov093
  */
 #include "../../matched/include/Obj06299.h"
@@ -44,7 +44,7 @@ extern u8 *func_021B9940(char *p, u8 i);
 extern int func_021D5750(u8 *p, u16 id);
 extern void *func_021EFCE4(char *a, int b);
 extern u8 func_021E8AFC(Slot s);
-extern void func_021EFCD4(u32 a);
+extern void func_06898080(u32 a);
 extern void func_021EF83C(char *a, u32 b);
 int func_021EFC1C(S *a, char *x, void *m, u16 y);
 void func_021EFC78(char *a, void (*cb)(u32, u32), u32 arg);
@@ -93,7 +93,7 @@ void func_021EFC78(char *a, void (*cb)(u32, u32), u32 arg)
         if (((struct Obj06299 *)e)->f48 < lim)
             continue;
         if (((struct Obj06299 *)e)->f8 != 0) {
-            func_021EFCD4(((struct Obj06299 *)e)->f8);
+            func_06898080(((struct Obj06299 *)e)->f8);
             ((struct Obj06299 *)e)->f8 = 0;
         }
         func_021EF83C(a, k);

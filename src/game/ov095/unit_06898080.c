@@ -13,14 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021D775C  0x021D775C  thumb
  *   func_021D7040  0x021D7040  thumb  ov093
  *   func_021D76BC  0x021D76BC  thumb  ov093
  *   func_021D7704  0x021D7704  thumb  ov093
  *   d_0689D638     0x0689D638  data   ov095  a4
  *   d_0689D630     0x0689D630  data   ov095  a4
  *   d_0689D640     0x0689D640  data   ov095  a4
- *   func_068980E4 0x068980E4 thumb ov095
- *   func_068980F4 0x068980F4 thumb ov095
  */
 struct Node;
 typedef unsigned char u8;
@@ -30,10 +29,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_021D7040(struct Node *n);
-extern int func_021D76BC(int key, u32 val);
+extern int func_021D76BC();
 extern void func_021D7704(int key, int m);
-extern int func_068980E4(int key);
-extern void func_068980F4(int key, int value);
+extern int func_021D775C(int key);
 void func_06898080(void *n);
 u8 *func_06898088(u32 *p);
 void func_06898094(void);
@@ -99,6 +97,6 @@ void func_068980BC(void)
 
 void func_068980CC(void)
 {
-    if (func_068980E4(0x16) == 4)
-        func_068980F4(0x4b, 1);
+    if (func_021D775C(0x16) == 4)
+        func_021D76BC(0x4b, 1);
 }

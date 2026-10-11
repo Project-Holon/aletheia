@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689C8CC  0x0689C8CC  thumb
  *   func_021D775C   0x021D775C  thumb ov093
  *   func_021C7CF4   0x021C7CF4  thumb ov093
  *   func_021D5B68   0x021D5B68  thumb ov093
@@ -30,7 +31,6 @@
  *   func_021D7704 0x021D7704 thumb ov093
  *   d_021F0628 0x021F0628 data a4
  *   func_021D76BC 0x021D76BC thumb ov093
- *   func_021DC6DC 0x021DC6DC thumb ov093
  *   func_021E8624 0x021E8624 thumb ov093
  *   d_021F0950     0x021F0950  data   ov093  a4
  */
@@ -59,7 +59,7 @@ void func_021C88C8(void *a, void *b);
 extern int func_021C8288(u8 *p);
 extern void func_021D7704(int,int);
 extern int func_021D76BC(int,unsigned int);
-extern int func_021DC6DC(u16);
+extern int func_0689C8CC(u16);
 extern int func_021E8624(int a, int b);
 void func_021DC57C(void *a, int b, int c);
 int *func_021DC5EC(int *p);
@@ -81,7 +81,6 @@ extern int d_021F0940[];
 extern unsigned char d_021F06D0[];
 extern unsigned char d_021F0628[];
 extern int d_021F0950[];
-
 
 
 /*
@@ -116,13 +115,11 @@ void func_021DC57C(void *a, int b, int c)
 }
 
 
-
 int *func_021DC5EC(int *p)
 {
     *p = 1;
     return d_021F0700;
 }
-
 
 
 int *func_021DC5F8(int *p)
@@ -132,13 +129,10 @@ int *func_021DC5F8(int *p)
 }
 
 
-
 void func_021DC604(int a, int b, int c, int d)
 {
     func_021D928C(b, c, d, 0x2);
 }
-
-
 
 
 /* 021DC614  shifted 4-arg wrapper -> func_021D92CC(..., 0xcc) */
@@ -170,4 +164,4 @@ void func_021DC664(int a, int b, int c) { if (c == func_021D775C(4) && func_021D
 void *func_021DC694(int *p) { *p = 1; return d_021F0628; }
 
 
-void func_021DC6A0(int a, void *b, int c) { if (c == func_021D775C(3) && func_021DC6DC(func_021D775C(18)) == 0 && func_021E8624((int)b,c) != 0) func_021D7704(49,0x14cd); }
+void func_021DC6A0(int a, void *b, int c) { if (c == func_021D775C(3) && func_0689C8CC(func_021D775C(18)) == 0 && func_021E8624((int)b,c) != 0) func_021D7704(49,0x14cd); }

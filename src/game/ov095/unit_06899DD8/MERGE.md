@@ -1,10 +1,9 @@
 # ov095 unit_06899DD8: boundaries left
 
-Each boundary below is a real file boundary for now (uncovered bytes, an ARM/Thumb switch, a lang change, or an asm veneer).
+Every boundary below is a linker veneer (rechecked 2026-10-11, bytes decoded; the earlier ISA/lang notes were the veneers):
 
-- unit_06899DD8_p01.c | unit_06899DD8_p02.c: ISA change thumb -> arm; lang change "" -> "c99" (merge not tried across it); 18 uncovered bytes before the next part (stub, pool or padding)
-- unit_06899DD8_p02.c | unit_06899DD8_p03.c: 16 uncovered bytes before the next part (stub, pool or padding)
-- unit_06899DD8_p03.c | unit_06899DD8_p04.c: ISA change arm -> thumb
-- unit_06899DD8_p04.c | unit_06899DD8_p05.c: merge compiled to DIFF in the greedy pass
-- unit_06899DD8_p05.c | unit_06899DD8_p06.c: 48 uncovered bytes before the next part (stub, pool or padding)
-- unit_06899DD8_p06.c | unit_06899DD8_p07.c: ISA change thumb -> arm
+- p01 | p02: 16-byte veneer at 0x06899DFC; p02 is the 8-byte ARM veneer 'ldr pc,[pc,#-4]' at 0x06899E0C
+- p02 | p03: 16-byte veneer at 0x06899E14; p03 is the ARM veneer at 0x06899E24
+- p03 | p04: p03 is an ARM veneer ('ldr pc,[pc,#-4]'), not source
+- p04 | p05: three 16-byte veneers at 0x06899FA4..0x06899FD4
+- p05 | p06: p06 is the ARM veneer at 0x0689A3E4

@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021D7040  0x021D7040  thumb
  *   d_0689E7EC 0x0689E7EC data a4
  *   g_0689E7E0     0x0689E7E0  data
- *   func_06898D44 0x06898D44 thumb ov095
  */
 #include "../../matched/include/G_Row.h"
 #include "../../matched/include/G_Row.h"
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 
 typedef struct Node Node;
 
-extern void func_06898D44(Node *n);
+extern void func_021D7040(Node *n);
 u32 func_06898CE0(u32 a, u32 b);
 int func_06898CF4(int a, int b);
 int func_06898D10(u32 a, u32 b);
@@ -43,7 +43,6 @@ u32 func_06898CE0(u32 a, u32 b)
 {
     return *(const u32 *)((u32)d_0689E7EC + a * 224 + b * 16);
 }
-
 
 
 /*
@@ -61,7 +60,7 @@ int func_06898D10(u32 a, u32 b)
     u32 *p;
     p = (u32 *)((u32)((u8 *)&g_0689E7E0) + a * 224 + b * 16);
     if (p[0] != 0) {
-        func_06898D44((Node *)p[0]);
+        func_021D7040((Node *)p[0]);
         p[0] = 0;
         p[3] = 0;
         p[1] &= ~7;

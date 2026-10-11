@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689C8CC  0x0689C8CC  thumb
  *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021DE170  0x021DE170  thumb  ov093
  *   func_021D70C8  0x021D70C8  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
@@ -35,7 +35,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern int func_021DE170(u16 a);
+extern int func_0689C8CC(u16 a);
 extern void func_021D70C8(void *a);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
@@ -61,13 +61,12 @@ int *func_021DE0EC(int *p)
 void func_021DE0F8(void *a, void *b, int c, int *d) { func_021DE108(a, b, c, d, 0x2); }
 
 
-
 void func_021DE108(void *a, void *b, int c, int *d, int e)
 {
     u8 *m;
 
     if (c == func_021D775C(4) && func_021D775C(0x46) == 0
-        && func_021DE170(func_021D775C(0x12)) == 0 && e == func_021D775C(0x1a)) {
+        && func_0689C8CC(func_021D775C(0x12)) == 0 && e == func_021D775C(0x1a)) {
         func_021D70C8(a);
         *d = func_021D775C(3) + 1;
         m = (u8 *)func_021C88A4(b, 0, c);

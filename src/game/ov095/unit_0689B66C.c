@@ -13,11 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0689B730 0x0689B730 thumb ov095
- *   func_0689B740 0x0689B740 thumb ov095
- *   func_0689B750 0x0689B750 thumb ov095
- *   func_0689B760 0x0689B760 thumb ov095
- *   func_0689B770 0x0689B770 thumb ov095
+ *   func_021F81EC  0x021F81EC  thumb
+ *   func_021F8A78  0x021F8A78  thumb
+ *   func_0220270C  0x0220270C  thumb
+ *   func_022033CC  0x022033CC  thumb
  */
 typedef unsigned char u8;
 
@@ -43,11 +42,10 @@ typedef struct {
     void *ctx;
 } S;
 
-extern int func_0689B730(void *);
-extern void func_0689B740(void *, int, int);
-extern void func_0689B750(int);
-extern void func_0689B760(void);
-extern int func_0689B770(void *);
+extern int func_022033CC(void *);
+extern void func_0220270C(void *, int, int);
+extern void func_021F81EC(int);
+extern void func_021F8A78(void);
 unsigned char *func_0689B66C(unsigned char *s);
 void func_0689B670(struct S *s);
 int func_0689B69C(S *s);
@@ -83,17 +81,17 @@ int func_0689B69C(S *s)
 {
     switch (s->f.state) {
     case 0:
-        if (func_0689B730(s->ctx) == 0)
+        if (func_022033CC(s->ctx) == 0)
             s->f.state += (u8)1;
         break;
     case 1:
-        func_0689B740(s->ctx, 0, 0);
-        func_0689B750(8);
-        func_0689B760();
+        func_0220270C(s->ctx, 0, 0);
+        func_021F81EC(8);
+        func_021F8A78();
         s->f.state += (u8)1;
         break;
     case 2:
-        if (func_0689B770(s->ctx) == 0)
+        if (func_022033CC(s->ctx) == 0)
             s->f.state += (u8)1;
         break;
     case 3:

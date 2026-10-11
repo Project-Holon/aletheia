@@ -13,16 +13,16 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021B9A40  0x021B9A40  thumb
+ *   func_021D76BC  0x021D76BC  thumb
+ *   func_021D775C  0x021D775C  thumb
  *   d_0689D730 0x0689D730 data a4
- *   func_06899230 0x06899230 thumb ov095
- *   func_06899240 0x06899240 thumb ov095
- *   func_06899250 0x06899250 thumb ov095
  */
 typedef unsigned char u8;
 
-extern int func_06899230(int);
-extern int func_06899240(u8);
-extern void func_06899250(int, int);
+extern int func_021D775C(int);
+extern int func_021B9A40(u8);
+extern void func_021D76BC(int, int);
 unsigned int *func_06899204(unsigned int *out);
 void func_06899210(int a0, int a1, int value);
 extern unsigned int d_0689D730;
@@ -38,7 +38,7 @@ unsigned int *func_06899204(unsigned int *out)
 
 void func_06899210(int a0, int a1, int value)
 {
-    if (value == func_06899240(func_06899230(4))) {
-        func_06899250(0x41, 1);
+    if (value == func_021B9A40(func_021D775C(4))) {
+        func_021D76BC(0x41, 1);
     }
 }

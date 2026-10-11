@@ -1,16 +1,19 @@
 # unit_020911D4 (arm9)
 
-14 parts (round 6, lane sa9). Round 6 retag: old p07 and p09 (tagged 1.1p1) build EXACT under 1.2 and DIFF under 2.0;
-old p06 and p08 are DIFF under 1.1p1, so the whole run p06..p09 is compiler 1.2. Greedy merge then joined
-old p06+p07 into p06 (e_pow style, statics zero/one/...) and old p08+p09 into p07.
+10 parts (round 16, lane L10; was 14). Part numbers below are the new ones.
 
-Boundaries:
-- p01|p02, p02|p03: ARM and Thumb alternate (p02 is Thumb), settings differ; p02 holds the four Thumb wrappers and their veneers.
-- p03|p04: CCERR/DIFF, g_02153BD4 is declared two ways (needs one canonical type and the u8 * stand-in parameters of both parts).
-- p04|p05: p05 is MATCH, not EXACT (__ctype_map, s_020A8A40 have no symbols rows).
-- p06|p07: both define file-scope statics `zero`, `one`, `two24` (fdlibm constants); in one file they would be redefinitions.
-  The two halves are two fdlibm source files: a real boundary (same name defined twice).
-- p08..p13 (compiler runtime: double arithmetic, comparators, converters, ll_divmod): manifest kind runtime, checked per
-  function with match.py one; do not merge. p09 (comparators) and p11 (converters) are EXACT per function but match.py tu
-  reports DIFF (members not contiguous). Their header status stays EXACT with a verdict note.
-- p12|p13, p13|p14: c99=DIFF.
+Closed this round:
+- Old p01+p02+p03: the four Thumb wrappers and their 16-byte veneers (0x020911D8..0x02091283) are
+  `#pragma thumb on` ... `#pragma thumb reset` inside the ARM file (needs the per-symbol ISA of locals
+  in tools/match.py, so a Thumb to ARM call between functions of one file resolves to BLX).
+- Old p03|p04: g_02153BD4 is `extern u8 g_02153BD4[]` in the whole file.
+- Old p04|p05: `func_02091374` is `double f(const char *)` (nan, tail call of `_f2d`); the 76 bytes after
+  `func_020921F4` were two hidden leaves, `func_02092264` (mbtowc) and `func_0209229C` (wctomb).
+
+Boundaries left:
+- p01 (libc, 1.1p1; also EXACT under 1.2) | p02 | p03 (fdlibm, 1.2 only; p02 and p03 are EXACT under 1.2,
+  DIFF under 1.1p1). p02|p03: both define file-scope statics `zero`, `one`, `two24`: two fdlibm source files.
+  p01|p02 could join under 1.2; not done (different source files).
+- p04..p10 (compiler runtime: double arithmetic, comparators, converters, ll_divmod): the members of
+  the archive are interleaved in the image (p05 and p07 do not lay out contiguously), checked per
+  function with match.py one; pair merges p08|p09, p09|p10 are DIFF. p05 and p07 keep their verdict note.

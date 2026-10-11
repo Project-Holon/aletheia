@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689C944  0x0689C944  thumb
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D62A8  0x021D62A8  thumb  ov093
@@ -53,8 +54,6 @@
  *   d_021F0808     0x021F0808  data   ov093  a4
  *   func_021C7D00 0x021C7D00 thumb ov093
  *   func_021C7F68 0x021C7F68 thumb ov093
- *   func_021DA2D0 0x021DA2D0 thumb ov093
- *   func_021DA2E0 0x021DA2E0 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021B9A24 0x021B9A24 thumb ov093
  *   func_021B9A6C 0x021B9A6C thumb ov093
@@ -116,8 +115,7 @@ int func_021E8CF0(int k);
 extern int func_021E8A78(S a);
 extern u16 func_021C7D00(void *, int);
 extern u8 func_021C7F68(int *p, int b, u8 *out);
-extern int func_021DA2D0(u16);
-extern int func_021DA2E0(u16);
+extern int func_0689C944(u16);
 extern u8 func_021D5440(u8 *p);
 extern int func_021B9A24(u32 a, u32 b);
 extern int func_021B9A6C(int a, u32 b);
@@ -179,16 +177,6 @@ extern int d_021F0800[];
 extern int d_021F07F8[];
 
 
-
-
-
-
-
-
-
-
-
-
 void func_021D9ADC(int a, void *b, int c)
 {
     u8 *p;
@@ -209,31 +197,11 @@ void func_021D9ADC(int a, void *b, int c)
 }
 
 
-
-
-
-
-
-
-
-
-
-
 int *func_021D9B34(int *p)
 {
     *p = 1;
     return d_021F0878;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021D9B40(int a, void *b, int c)
@@ -253,30 +221,11 @@ void func_021D9B40(int a, void *b, int c)
 }
 
 
-
-
-
-
-
-
-
-
-
-
 int *func_021D9B98(int *p)
 {
     *p = 1;
     return d_021F0870;
 }
-
-
-
-
-
-
-
-
-
 
 
 /* 021D9BA4  shape F1: gate on func_021D775C(4) */
@@ -290,14 +239,6 @@ void func_021D9BA4(int a, int b, int c)
 }
 
 
-
-
-
-
-
-
-
-
 int *func_021D9BBC(int *p)
 {
     *p = 1;
@@ -305,35 +246,10 @@ int *func_021D9BBC(int *p)
 }
 
 
-
-
-
-
-
-
-
-
 void func_021D9BC8(int a,int b,int c) { unsigned char v; if(c==func_021D775C(3)) { v=func_021D775C(0x2c)+1; func_021D76BC(0x2c,v); } }
 
 
-
-
-
-
-
-
-
-
 void *func_021D9BEC(int *p) { *p=1; return &d_021F0860; }
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -370,13 +286,6 @@ void func_021D9BF8(void *a, int b, int c)
 }
 
 
-
-
-
-
-
-
-
 int *func_021D9C80(int *p)
 {
     *p = 1;
@@ -384,81 +293,22 @@ int *func_021D9C80(int *p)
 }
 
 
-
-
-
-
-
-
-
 void func_021D9C8C(int a,int b,int c) { Slot s; s=func_021D7D18(5); func_021D9E08(b,c,5,s,30); }
-
-
-
-
-
-
-
-
-
 
 
 void *func_021D9CB0(int *p) { *p=1; return &d_021F0850; }
 
 
-
-
-
-
-
-
-
-
-
 void func_021D9CBC(int a,int b,int c) { Slot s; s=func_021D7D18(1); func_021D9E08(b,c,1,s,30); }
-
-
-
-
-
-
-
-
-
 
 
 void *func_021D9CE0(int *p) { *p=1; return &d_021F0848; }
 
 
-
-
-
-
-
-
-
-
 void func_021D9CEC(int a,int b,int c) { Slot s; s=func_021D7D18(4); func_021D9E08(b,c,4,s,30); }
 
 
-
-
-
-
-
-
-
-
 void *func_021D9D10(int *p) { *p=1; return &d_021F0840; }
-
-
-
-
-
-
-
-
-
 
 
 void func_021D9D1C(int a, void *b, int c)
@@ -482,29 +332,11 @@ void func_021D9D1C(int a, void *b, int c)
 }
 
 
-
-
-
-
-
-
-
-
-
 int *func_021D9DA4(int *p)
 {
     *p = 1;
     return d_021F0838;
 }
-
-
-
-
-
-
-
-
-
 
 
 void func_021D9DB0(int a, int b, int c)
@@ -530,23 +362,11 @@ void func_021D9DB0(int a, int b, int c)
 }
 
 
-
-
-
-
-
-
 int *func_021D9DFC(int *p)
 {
     *p = 1;
     return d_021F0830;
 }
-
-
-
-
-
-
 
 
 void func_021D9E08(int a, int b, int c, Slot d, u8 e)
@@ -570,13 +390,6 @@ void func_021D9E08(int a, int b, int c, Slot d, u8 e)
     ((struct Obj06252 *)p)->fF = func_021D775C(3);
     func_021C88C8((void *)a, p);
 }
-
-
-
-
-
-
-
 
 
 void func_021D9E80(int a, int b, int c)
@@ -605,21 +418,11 @@ void func_021D9E80(int a, int b, int c)
 }
 
 
-
-
-
-
-
 int *func_021D9F10(int *p)
 {
     *p = 1;
     return d_021F0828;
 }
-
-
-
-
-
 
 
 void func_021D9F1C(int a, int b, int c)
@@ -647,19 +450,11 @@ void func_021D9F1C(int a, int b, int c)
 }
 
 
-
-
-
-
 int *func_021D9FB8(int *p)
 {
     *p = 1;
     return d_021F0820;
 }
-
-
-
-
 
 
 /*
@@ -694,17 +489,11 @@ void func_021D9FC4(void *a, int b, int c)
 }
 
 
-
-
-
 int *func_021DA040(int *p)
 {
     *p = 1;
     return d_021F0818;
 }
-
-
-
 
 
 void func_021DA04C(int a, int b, int c)
@@ -739,15 +528,11 @@ void func_021DA04C(int a, int b, int c)
 }
 
 
-
-
 int *func_021DA0F0(int *p)
 {
     *p = 1;
     return d_021F0810;
 }
-
-
 
 
 /*
@@ -760,13 +545,11 @@ void func_021DA0FC(int a, int b, int c)
 }
 
 
-
 int *func_021DA114(int *p)
 {
     *p = 1;
     return d_021F0808;
 }
-
 
 
 /*
@@ -814,7 +597,7 @@ void func_021DA150(int a, void *b, int c, int *d)
         mask = func_021C7D00(b, c);
         n = func_021C7F68(b, (u16)(mask | 0x100), buf);
         for (count = 0, i = 0; i < n; i++) {
-            if (!func_021DA2D0((u16)func_021D59B4(func_021C7CF4(b, buf[i]), 16))) selected[count++] = buf[i];
+            if (!func_0689C944((u16)func_021D59B4(func_021C7CF4(b, buf[i]), 16))) selected[count++] = buf[i];
         }
         if (count != 0) {
             choice = count == 1 ? 0 : func_021D78AC(count);
@@ -829,7 +612,7 @@ void func_021DA150(int a, void *b, int c, int *d)
         mask = func_021C7D00(b, c);
         if (slot != 6 && (func_021C815C(b) != 2 || func_021B9A6C(mask, slot))) {
             candidate = func_021D59B4(func_021C7CF4(b, active), 16);
-            if (!func_021DA2E0((u16)candidate)) { move = candidate; chosen = active; }
+            if (!func_0689C944((u16)candidate)) { move = candidate; chosen = active; }
         }
     }
     if (move != 0 && c != 31) {

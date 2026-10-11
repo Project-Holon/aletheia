@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
+ *   func_0689CA1C  0x0689CA1C  thumb
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D62C4  0x021D62C4  thumb  ov093
  *   func_021D5448  0x021D5448  thumb  ov093
  *   func_021D54C0  0x021D54C0  thumb  ov093
- *   func_021E6D90  0x021E6D90  thumb  ov093
  *   func_0201BEB8  0x0201BEB8  thumb
  *   func_021D78AC  0x021D78AC  thumb  ov093
  *   func_021C8030  0x021C8030  thumb  ov093
@@ -35,7 +35,7 @@ struct Unk021D62A8;
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D54C0(u8 *p, int i);
-extern int func_021E6D90(int e);
+extern int func_0689CA1C(int e);
 extern int func_0201BEB8(int bag, int item);
 extern u32 func_021D78AC(u32 range);
 extern int func_021C8030(u8 *p, int v, u16 k);
@@ -69,7 +69,7 @@ void func_021E6CDC(int x, int a, int c, u32 *d)
             cnt = 0;
             for (; i < n; i++) {
                 e = func_021D54C0(m, i);
-                if (func_021E6D90(e) == 0 && func_0201BEB8(e, 1) == 0) {
+                if (func_0689CA1C(e) == 0 && func_0201BEB8(e, 1) == 0) {
                     d[cnt++] = e;
                 }
             }

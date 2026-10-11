@@ -13,21 +13,18 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021C7CF4  0x021C7CF4  thumb
+ *   func_021C8020  0x021C8020  thumb
+ *   func_021C8138  0x021C8138  thumb
+ *   func_021C83D4  0x021C83D4  thumb
+ *   func_021C8838  0x021C8838  thumb
+ *   func_021C8860  0x021C8860  thumb
+ *   func_021C88A4  0x021C88A4  thumb
+ *   func_021C88C8  0x021C88C8  thumb
+ *   func_021D5B68  0x021D5B68  thumb
+ *   func_021D7040  0x021D7040  thumb
+ *   func_021D775C  0x021D775C  thumb
  *   d_0689D6A0 0x0689D6A0 data a4
- *   func_06898A80 0x06898A80 thumb ov095
- *   func_06898A90 0x06898A90 thumb ov095
- *   func_06898AA0 0x06898AA0 thumb ov095
- *   func_06898AB0 0x06898AB0 thumb ov095
- *   func_06898AC0 0x06898AC0 thumb ov095
- *   func_06898AD0 0x06898AD0 thumb ov095
- *   func_06898AE0 0x06898AE0 thumb ov095
- *   func_06898AF0 0x06898AF0 thumb ov095
- *   func_06898B00 0x06898B00 thumb ov095
- *   func_06898B10 0x06898B10 thumb ov095
- *   func_06898B20 0x06898B20 thumb ov095
- *   func_06898B30 0x06898B30 thumb ov095
- *   func_06898B40 0x06898B40 thumb ov095
- *   func_06898B50 0x06898B50 thumb ov095
  */
 #include "../../matched/include/Obj10161.h"
 
@@ -39,20 +36,17 @@ typedef unsigned short u16;
 
 typedef struct { int w0; u32 w1; u8 pad[0x10]; u32 w6; } D;
 
-extern int func_06898A80(int k);
-extern int func_06898A90(int b);
-extern int func_06898AA0(int b);
-extern int func_06898AB0(int b, int c);
-extern int func_06898AC0(int b, int s);
-extern int func_06898AD0(int x);
-extern u8 *func_06898AE0(int b, int n, int k);
-extern void func_06898AF0(void *p, int n, int v);
-extern void func_06898B00(void *p, int k);
-extern void func_06898B10(void *p, u32 v);
-extern void func_06898B20(int b, void *p);
-extern u8 *func_06898B30(int b, int n, int k);
-extern void func_06898B40(int b, void *p);
-extern void func_06898B50(int a);
+extern int func_021D775C(int k);
+extern int func_021C83D4(int b);
+extern int func_021C8138(int b);
+extern int func_021C8020(int b, int c);
+extern int func_021C7CF4(int b, int s);
+extern int func_021D5B68(int x);
+extern u8 *func_021C88A4(int b, int n, int k);
+extern void func_021C8838(void *p, int n, int v);
+extern void func_021C8860();
+extern void func_021C88C8(int b, void *p);
+extern void func_021D7040(int a);
 void *func_068989C0(u32 *p);
 void func_068989CC(int a, int b, int c, D *d);
 extern char d_0689D6A0[];
@@ -72,27 +66,27 @@ void *func_068989C0(u32 *p)
  */
 void func_068989CC(int a, int b, int c, D *d)
 {
-    if (func_06898A80(2) == 0x1f && func_06898A90(b) == 0) {
-        u8 t = func_06898AA0(b);
+    if (func_021D775C(2) == 0x1f && func_021C83D4(b) == 0) {
+        u8 t = func_021C8138(b);
         if (t >= d->w0) {
-            int s = func_06898AB0(b, c);
+            int s = func_021C8020(b, c);
             u8 k = d->w6;
             if (s != 0x1f && s != k) {
-                if (func_06898AD0(func_06898AC0(b, s)) == 0) {
-                    u8 *x = func_06898AE0(b, 4, k);
+                if (func_021D5B68(func_021C7CF4(b, s)) == 0) {
+                    u8 *x = func_021C88A4(b, 4, k);
                     u8 *y;
-                    func_06898AF0(x + 4, 2, 0x438);
-                    func_06898B00(x + 4, s);
-                    func_06898B10(x + 4, d->w1);
-                    func_06898B20(b, x);
-                    y = func_06898B30(b, 0x27, k);
+                    func_021C8838(x + 4, 2, 0x438);
+                    func_021C8860(x + 4, s);
+                    func_021C8860(x + 4, d->w1);
+                    func_021C88C8(b, x);
+                    y = func_021C88A4(b, 0x27, k);
                     y[4] = k;
                     y[5] = s;
                     ((struct Obj10161 *)y)->f6 = d->w1;
-                    func_06898B40(b, y);
+                    func_021C88C8(b, y);
                 }
             }
-            func_06898B50(a);
+            func_021D7040(a);
         }
     }
 }

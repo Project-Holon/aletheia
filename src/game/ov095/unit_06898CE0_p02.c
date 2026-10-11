@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   func_021D7040  0x021D7040  thumb
  *   g_0689E7E0     0x0689E7E0  data
- *   func_06898DD0  0x06898DD0  thumb  ov095
  */
 
 #include "../../matched/include/G_Row.h"
@@ -34,7 +34,7 @@ typedef struct {
 } Row;
 
 extern struct Row g_0689E7E0[2];
-extern void func_06898DD0(void *p);
+extern void func_021D7040(void *p);
 
 void func_06898D54(void (*cb)(u8, u32, u32), u32 arg)
 {
@@ -55,7 +55,7 @@ void func_06898D54(void (*cb)(u8, u32, u32), u32 arg)
                 if (e->n >= e->lim) {
                     e->en = 0;
                     e->type = 0;
-                    func_06898DD0(e->p);
+                    func_021D7040(e->p);
                     e->p = 0;
                     cb(j, i, arg);
                 }

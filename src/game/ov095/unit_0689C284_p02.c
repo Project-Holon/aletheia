@@ -13,25 +13,23 @@
  * at 0x0689C364; the function is filed from the push.
  *
  * symbols:
+ *   func_021C8810  0x021C8810  thumb
+ *   func_021C8838  0x021C8838  thumb
+ *   func_021C8860  0x021C8860  thumb
+ *   func_021D5440  0x021D5440  thumb
+ *   func_021E8B80  0x021E8B80  thumb
  *   func_0689C284   0x0689C284  thumb  ov095
- *   func_0689C3C4   0x0689C3C4  thumb  ov095
- *   func_0689C3D4   0x0689C3D4  thumb  ov095
- *   func_0689C3E4   0x0689C3E4  thumb  ov095
- *   func_0689C3F4   0x0689C3F4  thumb  ov095
- *   func_0689C404   0x0689C404  thumb  ov095
- *   func_0689C414   0x0689C414  thumb  ov095
  */
 
 typedef unsigned short u16;
 typedef struct Word { int v; } Word;
 
 extern int func_0689C284(int, Word);
-extern void func_0689C3C4(void *, int, u16);
-extern int func_0689C3D4(void *);
-extern void func_0689C3E4(void *, int);
-extern int func_0689C3F4(Word);
-extern void func_0689C404(void *, int);
-extern void func_0689C414(void *);
+extern void func_021C8838(void *, int, u16);
+extern int func_021D5440(void *);
+extern void func_021C8860(void *, int);
+extern int func_021E8B80(Word);
+extern void func_021C8810(void *);
 
 void func_0689C364(int a, Word b, void *c, void *d)
 {
@@ -39,11 +37,11 @@ void func_0689C364(int a, Word b, void *c, void *d)
 
     k = func_0689C284(a, b);
     if (k >= 0) {
-        func_0689C3C4(d, 2, k);
-        func_0689C3E4(d, func_0689C3D4(c));
+        func_021C8838(d, 2, k);
+        func_021C8860(d, func_021D5440(c));
         if (a == 8 || a == 13)
-            func_0689C404(d, func_0689C3F4(b));
+            func_021C8860(d, func_021E8B80(b));
     } else {
-        func_0689C414(d);
+        func_021C8810(d);
     }
 }

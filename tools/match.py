@@ -173,7 +173,7 @@ class FuncBytes:
     """A function extracted from a relocatable object."""
 
     __slots__ = ("name", "data", "mask", "thumb", "section", "relocs",
-                 "locals", "sites", "anon", "secs")
+                 "locals", "sites", "anon", "secs", "local_isa")
 
     def __init__(self, name, data, mask, thumb, section, relocs, locals_=None):
         self.name = name
@@ -183,6 +183,8 @@ class FuncBytes:
         self.section = section
         self.relocs = relocs    # list of (offset, type, symbol name, addend)
         self.locals = locals_ or {}   # symbol -> offset within self.data
+        self.local_isa = {}     # symbol -> True (Thumb) / False (ARM) where the
+                                #   file mixes ISAs (`#pragma thumb on/off`)
         self.sites = []         # filled in by resolve_relocations()
         self.anon = {}          # "@N" local data object -> its bytes
         self.secs = {}          # section symbol -> {"align", "size", "nobits",
@@ -4920,7 +4922,7 @@ class Site:
 
     __slots__ = ("off", "rtype", "name", "addend", "resolved", "value",
                  "cls", "witnesses", "witness", "reason", "note", "subkind",
-                 "tregion")
+                 "tregion", "via")
 
     def __init__(self, off, rtype, name, addend):
         self.off = off
@@ -4929,6 +4931,7 @@ class Site:
         self.addend = addend
         self.resolved = False
         self.value = None
+        self.via = None
         self.cls = ""
         self.witnesses = 0
         self.witness = 0
@@ -4960,6 +4963,48 @@ R_ARM_CALL, R_ARM_JUMP24, R_ARM_THM_JUMP24 = 28, 29, 30
 
 _THUMB_BRANCH = (R_ARM_THM_CALL, R_ARM_THM_XPC22, R_ARM_THM_JUMP24)
 _ARM_BRANCH = (R_ARM_PC24, R_ARM_CALL, R_ARM_JUMP24)
+
+
+def _veneer_route(data, off, place, rtype, target, region):
+    """(veneer address, entered in Thumb) when the image's branch at `place`
+    lands on a linker veneer (see linker_gap()) that jumps to `target`."""
+    try:
+        r = find_region(place, region)
+    except SystemExit:
+        return None
+    i = place - r.base
+    img = r.data
+    if i < 0 or i + 4 > len(img):
+        return None
+    if rtype in _THUMB_BRANCH:
+        h1, h2 = struct.unpack_from("<HH", img, i)
+        if (h1 & 0xF800) != 0xF000 or (h2 & 0xE800) != 0xE800:
+            return None
+        imm = ((h1 & 0x7FF) << 12) | ((h2 & 0x7FF) << 1)
+        if imm & 0x400000:
+            imm -= 0x800000
+        if h2 & 0x1000:
+            dest = place + 4 + imm
+        else:
+            dest = ((place + 4) & ~3) + imm     # BLX aligns the PC first
+    else:
+        w = struct.unpack_from("<I", img, i)[0]
+        if (w & 0x0E000000) != 0x0A000000:
+            return None
+        imm = w & 0xFFFFFF
+        if imm & 0x800000:
+            imm -= 0x1000000
+        dest = place + 8 + (imm << 2)
+    j = dest - r.base
+    if j < 0:
+        return None
+    n = _veneer_size(img, j)
+    if not n:
+        return None
+    word = struct.unpack_from("<I", img, j + n - 4)[0]
+    if (word & ~1) != (target & ~1):
+        return None
+    return dest, n == 16
 
 
 def _encode_thumb_branch(data, off, place, target, thumb_target, addend):
@@ -5221,6 +5266,8 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
         if name in fb.locals:
             target = place + fb.locals[name]
             kind = "thumb" if fb.thumb else "arm"
+            if name in fb.local_isa:
+                kind = "thumb" if fb.local_isa[name] else "arm"
             st.cls = "local"
             st.tregion = region
         elif (name in getattr(fb, "secs", {})
@@ -5297,6 +5344,12 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
                 self_expect = (target + addend) & 0xFFFFFFFF
             proof = attest(target, kind, lo, hi, src, region_hint, align,
                            self_site, self_expect, site_region=region)
+            if (proof is None and rtype in _THUMB_BRANCH + _ARM_BRANCH
+                    and _veneer_route(data, off, place + off, rtype, target,
+                                      region) is not None):
+                # The image's own linker veneer at the branch destination
+                # names this target: that veneer is the witness.
+                proof = ("veneer", 1, target)
             if proof is None and rtype == R_ARM_ABS32 and kind == "data":
                 # A linker-defined absolute the vendor object names at this
                 # slot (see "vendor-object rules").
@@ -5374,6 +5427,22 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
         else:
             st.reason = "relocation type %d is not implemented" % rtype
             continue
+        if not ok and rtype in _THUMB_BRANCH + _ARM_BRANCH:
+            # Out of branch range: the linker routes the call through a
+            # veneer.  Accept it when the image's branch lands on a linker
+            # veneer whose pointer word is this target.
+            via = _veneer_route(data, off, place_at, rtype, target, region)
+            if via is not None:
+                v_at, v_thumb = via
+                if rtype in _THUMB_BRANCH:
+                    ok = _encode_thumb_branch(data, off, place_at, v_at,
+                                              v_thumb, addend)
+                else:
+                    ok = _encode_arm_branch(data, off, place_at, v_at, addend,
+                                            thumb_target=v_thumb)
+                if ok:
+                    st.value = target
+                    st.via = v_at
         if not ok:
             st.reason = "cannot encode a %s to %08X here" % (
                 RELOC_NAMES.get(rtype, "r%d" % rtype), target)
@@ -5768,7 +5837,8 @@ class TULayout:
     byte range of the original the same way one function is.
     """
 
-    __slots__ = ("data", "mask", "parts", "relocs", "locals")
+    __slots__ = ("data", "mask", "parts", "relocs", "locals", "local_isa",
+                 "veneers")
 
     def __init__(self, data, mask, parts, relocs, locals_=None):
         self.data = data        # bytes, the laid-out image
@@ -5776,14 +5846,70 @@ class TULayout:
         self.parts = parts      # [(offset, size, pad_before, [names])]
         self.relocs = relocs    # [(offset, type, symbol, addend)]
         self.locals = locals_ or {}   # symbol -> offset within self.data
+        self.local_isa = {}     # function symbol -> True if Thumb (from the
+                                #   $a/$t mapping symbols of its section)
+        self.veneers = []       # [(offset, size)] linker veneers taken from
+                                #   the image (see linker_gap())
 
     @property
     def size(self):
         return len(self.data)
 
 
-def layout_tu(obj_path):
-    """Lay out every executable section of an object end to end."""
+# Linker veneers between the sections of one unit.  The linker puts its
+# interworking veneers between input sections, so the image of one source
+# file can hold veneers that no source line produced.  Only the two linker
+# forms count (the 12-byte `ldr ip,[pc]; bx ip` and 8-byte Thumb
+# `ldr r3,[pc]; bx r3` stubs are compiler tail calls, see
+# docs/idioms/tail-call-stub-is-code-not-a-veneer.md):
+#   16 bytes  bx pc; nop; ldr ip,[pc]; bx ip; .word target   (Thumb to ARM)
+#    8 bytes  ldr pc,[pc,#-4]; .word target                  (ARM long branch)
+# A Thumb section that ends at 2 mod 4 is followed by a 2-byte Thumb nop (or
+# zero fill) that aligns the veneer.  These bytes are linker output, so the
+# layout takes them from the image instead of the source.
+_VENEER_THUMB = bytes.fromhex("7847c04600c09fe51cff2fe1")
+_VENEER_ARM = bytes.fromhex("04f01fe5")
+
+
+def _veneer_size(img, p):
+    if img[p:p + 12] == _VENEER_THUMB and len(img) >= p + 16:
+        return 16
+    if img[p:p + 4] == _VENEER_ARM and len(img) >= p + 8:
+        return 8
+    return 0
+
+
+def linker_gap(img, off, body):
+    """(bytes, [(offset, size)]) of the linker veneers at `off`, or None.
+
+    `img` is the original image from the unit's start address.  None when the
+    image has no veneer there, or when the next compiled section is itself
+    that veneer (an `asm` stand-in in the source: compared, not taken)."""
+    p = off
+    if p % 4:
+        q = p + (-p) % 4
+        if img[p:q] not in (b"\xc0\x46", b"\x00\x00"):
+            return None
+        p = q
+    start = p
+    found = []
+    while p % 4 == 0:
+        n = _veneer_size(img, p)
+        if not n:
+            break
+        found.append((p, n))
+        p += n
+    if not found or body[:8] == img[start:start + 8]:
+        return None
+    return bytes(img[off:p]), found
+
+
+def layout_tu(obj_path, image=None):
+    """Lay out every executable section of an object end to end.
+
+    With `image` (the original bytes from the unit's start address), linker
+    veneers that the image holds between two sections are copied in, so a
+    source file needs no stand-in for linker output."""
     with open(obj_path, "rb") as fh:
         obj = Obj(os.path.basename(obj_path), fh.read())
     if not obj.ok:
@@ -5803,9 +5929,17 @@ def layout_tu(obj_path):
     parts = []
     relocs = []
     locals_ = {}
+    local_isa = {}
+    veneers = []
     for i, s in enumerate(obj.sections):
         if s[1] != SHT_PROGBITS or not (s[2] & SHF_EXECINSTR) or not s[5]:
             continue
+        if image is not None and data:
+            gap = linker_gap(image, len(data), obj.section_data(i))
+            if gap is not None:
+                veneers += [(o, n) for o, n in gap[1]]
+                data += gap[0]
+                mask += b"\x01" * len(gap[0])
         align = s[8] or 1
         pad = (-len(data)) % align
         data += bytes([SECTION_FILL]) * pad
@@ -5823,9 +5957,22 @@ def layout_tu(obj_path):
             relocs.append((base + off, rtype, sname, addend))
         for v, n in allsec.get(i, []):
             locals_.setdefault(n, base + v)
+        maps = sorted((mv, mn) for mn, mv, _sz, _t, _b, msh in syms
+                      if msh == i and mn in ("$a", "$t"))
+        for v, n in bysec.get(i, []):
+            cur = None
+            for mv, mn in maps:
+                if mv > v:
+                    break
+                cur = mn
+            if cur is not None:
+                local_isa.setdefault(n, cur == "$t")
         names = [n for _v, n in sorted(bysec.get(i, []))]
         parts.append((base, len(body), pad, names))
-    return TULayout(bytes(data), mask, parts, relocs, locals_)
+    tl = TULayout(bytes(data), mask, parts, relocs, locals_)
+    tl.local_isa = local_isa
+    tl.veneers = veneers
+    return tl
 
 
 # ---------------------------------------------------------------------------
@@ -6008,11 +6155,12 @@ def run_tu(src, addr, version, flags, thumb, lang, region=None, keep=False,
         if obj is None:
             r = Result("CCERR", note=first_line(log), log=log)
             return r, None
-        tl = layout_tu(obj)
         reg = find_region(addr, region)
+        tl = layout_tu(obj, image=memoryview(reg.data)[addr - reg.base:])
         rname, tgt = target_bytes(addr, tl.size, region=reg.name)
         fake = FuncBytes("<tu>", tl.data, tl.mask, bool(thumb), ".text",
                          tl.relocs, tl.locals)
+        fake.local_isa = tl.local_isa
         tu_decls = declared_symbols(read_header(src))
         resolve_relocations(fake, addr, tu_decls,
                             src=source_key(src), region=reg.name)
@@ -6248,6 +6396,10 @@ def cmd_tu(args):
         return 2
     print("  %d code section(s), %d bytes laid out, %d relocation site(s)"
           % (len(tl.parts), r.size, len(tl.relocs)))
+    if tl.veneers:
+        print("  %d linker veneer(s) taken from the image: %s"
+              % (len(tl.veneers), ", ".join("%08X" % (addr + o)
+                                             for o, _n in tl.veneers)))
     print("  %-10s %-6s %-5s %s" % ("address", "size", "pad", "symbol(s)"))
     for base, size, pad, names in tl.parts:
         print("  %08X   %-6d %-5d %s"
@@ -7870,6 +8022,27 @@ def cmd_selftest(args):
     _check(res, "sdk: an ordinary game address not in symbols_sdk.json does "
                 "not attest via this class",
            cls(attest_sdk(FUNC_LABELLED, "thumb")), None)
+
+    # --- linker veneers inside one unit (2026-10-12) ----------------------
+    # The layout takes a veneer (and the Thumb nop before it) from the image;
+    # a source `asm` veneer is compared, not taken.
+    img = (bytes(6) + bytes.fromhex("c046") + bytes.fromhex("7847c04600c09fe51cff2fe1")
+           + bytes.fromhex("01007002") + bytes.fromhex("04f01fe5")
+           + bytes.fromhex("00107002"))
+    g = linker_gap(img, 6, bytes.fromhex("10b5"))
+    _check(res, "linker gap: Thumb nop plus two veneers are taken",
+           (len(g[0]), [o for o, _n in g[1]]) if g else None, (26, [8, 24]))
+    _check(res, "linker gap: a source asm veneer is not taken",
+           linker_gap(img, 6, bytes.fromhex("7847c04600c09fe5")), None)
+    _check(res, "linker gap: no veneer, nothing taken",
+           linker_gap(bytes(16), 4, bytes.fromhex("10b5")), None)
+    # ov172 0x021B7B56 calls 0x02701248 through the veneer at 0x021B7B5C.
+    _check(res, "veneer route: an out-of-range call lands on its veneer",
+           _veneer_route(None, 0, 0x021B77E8 + 0x36E, R_ARM_THM_CALL,
+                         0x02701248, "ov172"), (0x021B7B5C, False))
+    _check(res, "veneer route: a veneer to another target is refused",
+           _veneer_route(None, 0, 0x021B77E8 + 0x36E, R_ARM_THM_CALL,
+                         0x02701250, "ov172"), None)
 
     # --- the veneer class --------------------------------------------------
     # VENEER's address is now also named by two real literal pool words

@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_02202DC4  0x02202DC4  thumb
  *   func_0220270C 0x0220270C thumb ov094
- *   func_0689B548 0x0689B548 thumb ov095
  */
 #include "../../matched/include/Obj21895.h"
 #include "../../matched/include/Obj21896.h"
@@ -22,7 +22,7 @@
 typedef unsigned char u8;
 
 extern void func_0220270C(char *s, int mode, void *arg);
-extern int func_0689B548(void *, int, int);
+extern int func_02202DC4(void *, int, int);
 void func_0689B514(void *p, void *q);
 int func_0689B524(void *p, u8 *q);
 
@@ -41,7 +41,7 @@ int func_0689B524(void *p, u8 *q)
 {
     int zero = 0;
     int value;
-    value = func_0689B548(((struct Obj21896 *)p)->fB0, 0, 0);
+    value = func_02202DC4(((struct Obj21896 *)p)->fB0, 0, 0);
     if (value != zero - 1) {
         *q = value;
         return 1;

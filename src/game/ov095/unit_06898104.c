@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021D7704  0x021D7704  thumb
+ *   func_021D775C  0x021D775C  thumb
  *   d_0689D620 0x0689D620 data a4
- *   func_0689812C 0x0689812C thumb ov095
- *   func_0689813C 0x0689813C thumb ov095
  */
-extern int func_0689812C(int);
-extern void func_0689813C(int, int);
+extern int func_021D775C(int);
+extern void func_021D7704(int, int);
 void *func_06898104(int *p);
 void func_06898110(void);
 extern unsigned char d_0689D620[];
@@ -34,6 +34,6 @@ void *func_06898104(int *p)
 
 void func_06898110(void)
 {
-    if (func_0689812C(22) == 9)
-        func_0689813C(49, 0x548);
+    if (func_021D775C(22) == 9)
+        func_021D7704(49, 0x548);
 }

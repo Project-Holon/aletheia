@@ -1,7 +1,7 @@
 /*
  * file:     unit_02064D70_p02.c
  * unit:     yes
- * function: func_020651B8, func_020653A4, func_02065438, func_02065878, func_020659D4, func_02065AA8, func_02065B64, func_02065B74, func_02065BD0, func_02065C78, func_02065CE4, func_02065D4C, func_02065DB4, func_02066080
+ * function: func_020651B8, func_020653A4, func_02065438, func_02065878, func_020659D4, func_02065AA8, func_02065B64, func_02065B74, func_02065BD0, func_02065C78, func_02065CE4, func_02065D4C, func_02065DB4, func_02066080, func_0206615C, func_02066380, func_020663D0, func_020664CC, func_02066620, func_02066740, func_02066748, func_02066754
  * address:  0x020651B8
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -14,9 +14,9 @@
  *
  * symbols:
  *   g_02147B88     0x02147B88  data  a4
+ *   g_02147B88_head 0x02147B88  data  a4
  *   g_02147D18     0x02147D18  data  a4
  *   g_020A81F8     0x020A81F8  data  a4
- *   func_02066740  0x02066740  arm
  *   func_02063784  0x02063784  arm
  *   g_02148718     0x02148718  data  a4
  *   g_02147C18     0x02147C18  data  a4
@@ -32,13 +32,8 @@
  *   func_02067AAC  0x02067AAC  arm
  *   func_02067BA4  0x02067BA4  arm
  *   func_02067CB0  0x02067CB0  arm
- *   func_0206615C  0x0206615C  arm
  *   func_02067B50  0x02067B50  arm
  *   func_02067B64  0x02067B64  arm
- *   func_020663D0  0x020663D0  arm
- *   func_02066620  0x02066620  arm
- *   func_020664CC  0x020664CC  arm
- *   func_02066380  0x02066380  arm
  *   g_020A1B38     0x020A1B38  data  a2
  *   func_02067A60  0x02067A60  arm
  *   func_02082AC0  0x02082AC0  arm
@@ -50,7 +45,10 @@
  *   func_02066DEC  0x02066DEC  arm
  *   func_02066E10  0x02066E10  arm
  *   func_02066DFC  0x02066DFC  arm
+ *   g_02148018     0x02148018  data  a4
+ *   func_0207C778  0x0207C778  arm
  */
+#define FX32_SHIFT 12
 struct Ctx;
 struct G2dOamState;
 struct Src02067AC0;
@@ -251,7 +249,16 @@ struct Obj02066080 {
     u16  unk_5a;
 };
 
-extern int func_02066740(int *p);
+struct RendererBssHead {
+    u16 currentMtxCachePos_;
+    u16 groupID_;
+    BOOL bDonotUseSRTransform;
+    NNSG2dRendererInstance *pCurrentInstance_;
+    s32 stackPos_;
+};
+
+typedef long long fx64;
+
 extern int func_02063784(unsigned short *p, int i);
 extern void func_02064EDC(void);
 extern void func_02067B28(u32 a, u32 b);
@@ -263,13 +270,8 @@ extern void func_02067B48(u32 *p, u32 v);
 extern void func_02067AAC(int *p, int a, int b);
 extern void func_02067BA4(struct Ctx *c);
 extern void func_02067CB0(void);
-extern void func_0206615C(void);
 extern u32 func_02067B50(const struct G2dOamState *p);
 extern u32 func_02067B64(const struct G2dOamState *p);
-extern void  func_020663D0(fx32 x, fx32 y, fx32 z);
-extern void  func_02066620(fx32 sn, fx32 cs);
-extern void  func_020664CC(fx32 sx, fx32 sy, fx32 sz);
-extern void  func_02066380(int a);
 extern void func_02067A60(NNSG2dRndCoreInstance *p);
 extern void func_02082AC0(u32 data, void *dest, u32 size);
 extern void MIi_CpuClear16(u32 val, void *dst, u32 size);
@@ -280,6 +282,8 @@ extern int func_02066E20(void);
 extern void func_02066DEC(int);
 extern void func_02066E10(int);
 extern void func_02066DFC(void);
+extern fx32 func_0207C778(fx32 v);
+extern void func_02067AA0(int *p, int a, int b);
 void func_020651B8(struct Cell *c, void *a1, void *a2);
 void func_020653A4(void *a0, void *a1, void *a2);
 void func_02065438(void *a);
@@ -294,7 +298,16 @@ void func_02065CE4(void *a0);
 void func_02065D4C(void *a0);
 void func_02065DB4(const NNSG2dMultiCellInstance *pMC);
 void func_02066080(struct Obj02066080 *c);
+void func_0206615C(void);
+void func_02066380(int n);
+void func_020663D0(fx32 x, fx32 y, fx32 z);
+void func_020664CC(fx32 x, fx32 y, fx32 z);
+void func_02066620(fx32 sin, fx32 cos);
+int func_02066740(int *p);
+void func_02066748(int *a0, int a1, int a2);
+void func_02066754(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
 extern struct RendererBss g_02147B88;
+extern struct RendererBssHead g_02147B88_head;
 extern MtxFx32 g_02147D18[];
 extern struct RendererData g_020A81F8;
 extern MCRenderState g_02148718;
@@ -302,6 +315,9 @@ extern MCMMtxState g_02147C18[];
 extern NNSG2dRndCore2DMtxCache g_02148318[];
 extern fx32 g_02147B98[];
 extern s16 g_020A1B38[];
+extern MtxFx32 g_02148018[];
+
+
 
 
 
@@ -324,11 +340,15 @@ static inline int GetColorParam(const OamAttr *oam)
 
 
 
+
+
 static inline void SetObjMode(OamAttr *oam, int mode, int cParam)
 {
     oam->attr01 = (oam->attr01 & ~0xC00) | (mode << 10);
     oam->attr2 = (u16)((oam->attr2 & ~0xF000) | (cParam << 12));
 }
+
+
 
 
 
@@ -392,6 +412,8 @@ void func_020651B8(struct Cell *c, void *a1, void *a2)
 
 
 
+
+
 static inline MtxFx32 *GetMtx(void)
 {
     if (g_02147B88.bDonotUseSRTransform != 0) {
@@ -401,6 +423,8 @@ static inline MtxFx32 *GetMtx(void)
     }
     return &g_02147D18[g_02147B88.stackPos_];
 }
+
+
 
 
 
@@ -420,6 +444,8 @@ void func_020653A4(void *a0, void *a1, void *a2)
 
     v->fn44(o, v, a1, a2, GetMtx());
 }
+
+
 
 
 
@@ -460,6 +486,8 @@ static inline NNSG2dRndCore2DMtxCache *GetAff(void)
 
 
 
+
+
 static inline void Finish(void *a)
 {
     int r = !(g_020A81F8.currenVramTransferHandle_ == -1);
@@ -469,6 +497,8 @@ static inline void Finish(void *a)
     else
         func_02067D14((u32)a);
 }
+
+
 
 
 
@@ -500,6 +530,8 @@ static inline void DrawA(void *a, NNSG2dRenderSurface *p)
 
 
 
+
+
 static inline void DrawB(void *a, NNSG2dRendererInstance *o, NNSG2dRenderSurface *p)
 {
     NNSG2dRendererInstance *q = g_02147B88.pCurrentInstance_;
@@ -513,6 +545,8 @@ static inline void DrawB(void *a, NNSG2dRendererInstance *o, NNSG2dRenderSurface
     g_02147B88.pCurrentInstance_->rendererCore.pCurrentTargetSurface = 0;
     func_02067CB0();
 }
+
+
 
 
 
@@ -556,6 +590,8 @@ void func_02065438(void *a)
 
 
 
+
+
 static inline void Draw(struct Obj02065878 *c, void *a)
 {
     int r;
@@ -568,6 +604,8 @@ static inline void Draw(struct Obj02065878 *c, void *a)
         func_02065438(a);
     }
 }
+
+
 
 
 
@@ -642,6 +680,8 @@ void func_02065878(struct Obj02065878 *c)
 
 
 
+
+
 void func_020659D4(struct Cmd020659D4 *c)
 {
     int a;
@@ -684,6 +724,8 @@ void func_020659D4(struct Cmd020659D4 *c)
 
 
 
+
+
 static inline void MI_CpuFillFast(void *dest, u32 data, u32 size)
 {
     func_02082AC0(data, dest, size);
@@ -694,10 +736,14 @@ static inline void MI_CpuFillFast(void *dest, u32 data, u32 size)
 
 
 
+
+
 static inline void NNS_G2dInitRndCore2DMtxCache(NNSG2dRndCore2DMtxCache *pMtxCache)
 {
     MI_CpuFillFast(pMtxCache->affineIndex, 0xFFFFFFFF, sizeof(pMtxCache->affineIndex));
 }
+
+
 
 
 
@@ -744,11 +790,15 @@ void func_02065AA8(NNSG2dRendererInstance *pRend)
 
 
 
+
+
 void func_02065B64(NNSG2dRendererInstance *pRend, NNSG2dRenderSurface *pNew)
 {
     pNew->pNextSurface = pRend->rendererCore.pTargetSurfaceList;
     pRend->rendererCore.pTargetSurfaceList = pNew;
 }
+
+
 
 
 
@@ -783,6 +833,8 @@ void func_02065B74(struct Obj *p)
     p->fn20 = (u32)func_020651B8;
     p->fn24 = (u32)func_020653A4;
 }
+
+
 
 
 
@@ -842,6 +894,8 @@ void func_02065BD0(NNSG2dRendererInstance *obj)
 
 
 
+
+
 /*
  * Teardown tail of the cell-actor / OAM manager: raises the capture-enable
  * bit at 0x04000448, then, if the attached object still carries work bits at
@@ -875,6 +929,8 @@ void func_02065C78(u32 a)
     }
     g_02147B88.pCurrentInstance_ = 0;
 }
+
+
 
 
 
@@ -924,6 +980,8 @@ void func_02065CE4(void *a0)
 
 
 
+
+
 void func_02065D4C(void *a0)
 {
     int saved;
@@ -946,10 +1004,14 @@ void func_02065D4C(void *a0)
 
 
 
+
+
 static inline u16 NNSi_G2dGetMC2NodeCellAinmIdx(const NNSG2dMultiCellHierarchyData *pNodeData)
 {
     return (u16)((0xFF00 & pNodeData->nodeAttr) >> 8);
 }
+
+
 
 
 
@@ -960,6 +1022,8 @@ static inline void FlipTranslate_(int x, int y)
 
     func_020663D0(x_ << 12, y_ << 12, 0);
 }
+
+
 
 
 
@@ -979,10 +1043,14 @@ static inline void DrawNode2_(const NNSG2dMultiCellInstance *pMC, const NNSG2dMu
 
 
 
+
+
 static inline BOOL IsAutoZoffsetEnable_(void)
 {
     return (BOOL)g_02147B88.pCurrentInstance_->spriteZoffsetStep;
 }
+
+
 
 
 
@@ -1040,6 +1108,8 @@ void func_02065DB4(const NNSG2dMultiCellInstance *pMC)
 }
 
 
+
+
 void func_02066080(struct Obj02066080 *c)
 {
     if (c->unk_5a == 0) {
@@ -1074,4 +1144,418 @@ void func_02066080(struct Obj02066080 *c)
 
     func_02065DB4((const struct NNSG2dMultiCellInstance *)c->unk_34);
     func_02066380(1);
+}
+
+
+
+
+
+static inline void CopySlot(int next)
+{
+    if (g_02147B88.bDonotUseSRTransform != 0) {
+        int cur = ((volatile struct RendererBss *)&g_02147B88)->stackPos_;
+        g_02147D18[next]._20 = g_02147D18[cur]._20;
+        g_02147D18[next]._21 = g_02147D18[cur]._21;
+        g_02147B98[next] = g_02147B98[cur];
+    } else {
+        int cur = ((volatile struct RendererBss *)&g_02147B88)->stackPos_;
+        g_02147D18[next] = g_02147D18[cur];
+        g_02148018[next] = g_02148018[cur];
+        g_02147B98[next] = g_02147B98[cur];
+    }
+    g_02147B88.stackPos_ = next;
+}
+
+
+
+
+
+/*
+ * The matrix-slot PUSH, the counterpart of src/matched/func_02066380.c.
+ * The slot index g_02147B88.stackPos_ (+0x0c) is advanced if it stays below 0x20,
+ * copying the current slot of every per-slot table into the next one: in
+ * the translate-only mode (g_02147B88.bDonotUseSRTransform != 0) just tx/ty of g_02147D18
+ * plus the u32 in g_02147B98; otherwise the whole 0x18-byte matrix of
+ * g_02147D18 and g_02148018 plus g_02147B98.  Unless the live actor's +0x7c
+ * bit 0 is set, the 8-byte slot record g_02147C18[(u16)slot] is then
+ * copied from the old slot to the (possibly unchanged) current one with its
+ * state promoted 1 -> 2.  r0 is never read (every caller passes the flag
+ * word it tested), so the parameter is kept, unused.
+ *
+ * Levers, all needed:
+ *   - Compiler pin ../2.0/sp2 ("kept constants": the image reloads the
+ *     g_02147B88 pool word in each arm and after the store); 1.1p1 is 524
+ *     bytes against 548, 381 out.
+ *   - 0x02147D28 / 0x02147D2C are &g_02147D18[0]._20 / ._21 (member offset in
+ *     the relocation addend), and 0x02147C1C is &g_02147C18[0].stateType, the
+ *     same reading for the state reload of the promote step.
+ *   - The flag test is written `(flags & 1) == 0` first: the image falls
+ *     through into the long arm.
+ *   - The copy helper re-reads the slot through a volatile cast in each
+ *     arm (the image reloads it after the unk_04 test; plain, 394 out).
+ *   - Copy order is tx, ty, g_02147B98 in the translate arm and g_02147D18,
+ *     g_02148018, g_02147B98 in the full arm; the other eight orders of the
+ *     two arms measured 30..118 out.
+ *   - The promote is an if/else that stores in both arms (strheq/strhne);
+ *     the ternary costs a second pool word.
+ */
+void func_0206615C(void)
+{
+    if ((g_02147B88.pCurrentInstance_->rendererCore.flag & 1) == 0) {
+        int cur = g_02147B88.stackPos_;
+        u16 old = cur;
+        int next = cur + 1;
+        int r = !(next >= 0x20);
+        u16 nw;
+
+        if (r != 0)
+            CopySlot(next);
+
+        nw = g_02147B88.stackPos_;
+        g_02147C18[nw] = g_02147C18[old];
+        if (g_02147C18[old].stateType == 1)
+            g_02147C18[nw].stateType = 2;
+        else
+            g_02147C18[nw].stateType = g_02147C18[old].stateType;
+    } else {
+        int next = g_02147B88.stackPos_ + 1;
+        int r = !(next >= 0x20);
+        if (r == 0)
+            return;
+        CopySlot(next);
+    }
+}
+
+
+
+
+
+/*
+ * The matrix-slot POP, the counterpart of func_0206615C.  Returns at once
+ * when the slot index g_02147B88.stackPos_ (+0x0c) is already 0; otherwise
+ * decrements it and, if the "first modified slot" halfword g_020A81F8 now
+ * lies above the new index, resets it to the 0xFFFE sentinel.  Every
+ * caller passes 1 in r0 (func_020659D4, func_02065878, func_02066080) and
+ * the body never reads it, so the parameter is kept, unused.
+ *
+ * TWO LEVERS, both needed (EXACT under dsi/1.1p1 and equally under
+ * ../2.0/sp2; the default is kept):
+ *   1. The guard's MATERIALISED boolean (`movle r0, #1` / `movgt r0, #0` /
+ *      `cmp r0, #0` / `bxne lr`) is `int r = !(g_02147B88.stackPos_ > 0);`.
+ *      Every spelling of `slot <= 0` (plain, named local, inline helper,
+ *      if/else, ternary) folds to a predicated body 24 bytes short, which is
+ *      why the earlier drafts in docs/notes/pkt_02065D4C.c.txt and
+ *      docs/notes/pkt_02065020.c.txt needed a fake `u16 *` return.  Same
+ *      lever as src/matched/func_02065878.c's `!(x == -1)`.
+ *   2. The image loads g_020A81F8 BETWEEN the slot load and the subtract
+ *      (`ldr r3, [r1, #0xc]` / `ldrh r2, [r0]` / `sub` / `str` / `cmp r2,
+ *      r3`).  Without volatile both compilers sink the ldrh below the store
+ *      (14 bytes out, immovable by permuter hill 80 and anneal 1200).  The
+ *      read-modify-write through `(volatile Manager *)` with the halfword
+ *      read through `*(volatile u16 *)` between them pins the order.
+ */
+void func_02066380(int n)
+{
+    int r = !(g_02147B88.stackPos_ > 0);
+    if (r != 0)
+        return;
+    {
+    int s = ((volatile struct RendererBss *)&g_02147B88)->stackPos_ - 1;
+    u16 c = (*(volatile u16 *)&g_020A81F8);
+    ((volatile struct RendererBss *)&g_02147B88)->stackPos_ = s;
+    if (c > s)
+        g_020A81F8.firstSRTransformedMtxIdx_ = 0xFFFE;
+    }
+}
+
+
+
+
+/*
+ * Matrix translate.  With the manager's mode word (+0x04) set, the current
+ * slot's tx/ty are bumped in place; otherwise the translate matrix
+ * (1, 0, 0, 1, x, y) is concatenated by func_02066754 into the slot of both
+ * matrix tables, g_02147D18 and g_02148018.  z accumulates into the u32
+ * per-slot table g_02147B98 either way.
+ *
+ * TWO READINGS closed this after four spellings in
+ * docs/notes/pkt_02065D4C.c.txt stalled at 244 bytes:
+ *   - 0x02147D28 and 0x02147D2C are NOT separate tables: they are
+ *     &g_02147D18[0]._20 and &g_02147D18[0]._21.  A field of table[i] with a
+ *     run-time i puts the member offset in the relocation addend (register-
+ *     offset ldr has no immediate), so the pool words are g_02147D18+0x10 and
+ *     g_02147D18+0x14.  Written as ._20/._21 of the Mtx array the pool order
+ *     and the load/add/store interleave come out as the image has them.
+ *   - Compiler pin ../2.0/sp2 on the "kept constants" tell of
+ *     docs/families/cluster_02064B68.h: the image reloads the g_02147B88
+ *     pool word after each call and recomputes slot*0x18 for each argument
+ *     (add r1 / add r2 from the same sum), with a four-register push.  Under
+ *     dsi/1.1p1 the same C is 244 bytes, 134 out, push {r3-r7, lr}; under the
+ *     pin it is EXACT on the first compile.
+ */
+void func_020663D0(fx32 x, fx32 y, fx32 z)
+{
+    MtxFx32 m;
+
+    if (g_02147B88_head.bDonotUseSRTransform != 0) {
+        g_02147D18[g_02147B88_head.stackPos_]._20 += x;
+        g_02147D18[g_02147B88_head.stackPos_]._21 += y;
+        g_02147B98[g_02147B88_head.stackPos_] += z;
+        return;
+    }
+
+    m._00 = 0x1000;
+    m._01 = 0;
+    m._10 = 0;
+    m._11 = 0x1000;
+    m._20 = x;
+    m._21 = y;
+    func_02066754(&m, &g_02147D18[g_02147B88_head.stackPos_], &g_02147D18[g_02147B88_head.stackPos_]);
+    func_02066754(&m, &g_02148018[g_02147B88_head.stackPos_], &g_02148018[g_02147B88_head.stackPos_]);
+    g_02147B98[g_02147B88_head.stackPos_] += z;
+}
+
+
+
+static inline void NNSi_G2dSetScale(MtxFx32 *m, fx32 sx, fx32 sy)
+{
+    m->_00 = sx;
+    m->_01 = 0;
+    m->_10 = 0;
+    m->_11 = sy;
+    m->_20 = 0;
+    m->_21 = 0;
+}
+
+
+
+
+
+static inline void NNSi_G2dSetScaleFor2DHW(MtxFx32 *m, fx32 sx, fx32 sy)
+{
+    m->_00 = func_0207C778(sx);
+    m->_01 = 0;
+    m->_10 = 0;
+    m->_11 = func_0207C778(sy);
+    m->_20 = 0;
+    m->_21 = 0;
+}
+
+
+
+
+
+static inline u16 NNSi_G2dGetMtxStackPos(void)
+{
+    return (u16)(g_02147B88.stackPos_);
+}
+
+
+
+
+
+static inline void NNSi_G2dScale(fx32 sx, fx32 sy)
+{
+    {
+        MtxFx32 temp;
+        NNSi_G2dSetScale(&temp, sx, sy);
+        func_02066754(&temp, &g_02147B88.mtxStack_[g_02147B88.stackPos_], &g_02147B88.mtxStack_[g_02147B88.stackPos_]);
+        NNSi_G2dSetScaleFor2DHW(&temp, sx, sy);
+        func_02066754(&temp, &g_02147B88.mtxStackFor2DHW_[g_02147B88.stackPos_], &g_02147B88.mtxStackFor2DHW_[g_02147B88.stackPos_]);
+    }
+}
+
+
+
+
+
+static inline void NNSi_G2dSetRndMtxStackSRTransformed(void)
+{
+    g_020A81F8.firstSRTransformedMtxIdx_ = NNSi_G2dGetMtxStackPos();
+}
+
+
+
+
+
+static inline BOOL NNSi_G2dIsRndCurrentMtxSRTransformed(void)
+{
+    return (BOOL)(!g_02147B88.bDonotUseSRTransform &&
+                  g_020A81F8.firstSRTransformedMtxIdx_ != 0xFFFE);
+}
+
+
+
+
+
+static inline void SetMtxStateGroupID_(MCMMtxState *pMtxState, u16 groupID)
+{
+    pMtxState->groupID = groupID;
+}
+
+
+
+
+
+static inline u16 GetNewGroupID_(void)
+{
+    return g_02147B88.groupID_++;
+}
+
+
+
+
+
+static inline MCMMtxState *GetCuurentMtxState_(void)
+{
+    return &g_02147B88.mtxStateStack_[NNSi_G2dGetMtxStackPos()];
+}
+
+
+
+
+
+static inline void NNSi_G2dMCMSetCurrentMtxSRChanged(void)
+{
+    MCMMtxState *pCurrMtxState = GetCuurentMtxState_();
+
+    switch (pCurrMtxState->stateType) {
+    case 1:
+        return;
+    case 0:
+    case 2:
+    case 3:
+    {
+        SetMtxStateGroupID_(pCurrMtxState, GetNewGroupID_());
+
+        pCurrMtxState->stateType = 1;
+    }
+    break;
+    }
+}
+
+
+
+
+
+/*
+ * NitroSystem g2d_Renderer.c NNS_G2dScale(x, y, z) (z unused): NNSi_G2dScale
+ * concatenates NNSi_G2dSetScale onto mtxStack_[stackPos_] and
+ * NNSi_G2dSetScaleFor2DHW (FX_Inv of each factor, func_0207C778) onto
+ * mtxStackFor2DHW_[stackPos_] with NNSi_G2dMtxConcat32 (func_02066754), then
+ * the SR-transformed latch and NNSi_G2dMCMSetCurrentMtxSRChanged.  Library
+ * shape verbatim; closed by the same lever as func_02066620 (NNS_G2dRotZ):
+ * the renderer's file statics are ONE pooled object at 0x02147B88 (see that
+ * file's header for the member map).  ../2.0/sp2 and sp2p2 identical;
+ * 1.1p1 is 320 bytes.
+ */
+void func_020664CC(fx32 x, fx32 y, fx32 z)
+{
+    NNSi_G2dScale(x, y);
+
+    if (!NNSi_G2dIsRndCurrentMtxSRTransformed()) {
+        NNSi_G2dSetRndMtxStackSRTransformed();
+    }
+
+    NNSi_G2dMCMSetCurrentMtxSRChanged();
+}
+
+
+
+
+
+static inline void NNSi_G2dSetRotate(MtxFx32 *m, fx32 sin, fx32 cos)
+{
+    m->_00 = cos;
+    m->_01 = sin;
+    m->_10 = -sin;
+    m->_11 = cos;
+    m->_20 = 0;
+    m->_21 = 0;
+}
+
+
+
+
+
+static inline void NNSi_G2dRotate(fx32 sin, fx32 cos)
+{
+    {
+        MtxFx32 temp;
+        NNSi_G2dSetRotate(&temp, sin, cos);
+
+        func_02066754(&temp, &g_02147B88.mtxStack_[g_02147B88.stackPos_], &g_02147B88.mtxStack_[g_02147B88.stackPos_]);
+        func_02066754(&temp, &g_02147B88.mtxStackFor2DHW_[g_02147B88.stackPos_], &g_02147B88.mtxStackFor2DHW_[g_02147B88.stackPos_]);
+    }
+}
+
+
+
+
+
+/*
+ * NitroSystem g2d_Renderer.c NNS_G2dRotZ(sin, cos): NNSi_G2dRotate (the
+ * rotation MtxFx32 concatenated onto mtxStack_[stackPos_] and
+ * mtxStackFor2DHW_[stackPos_] through NNSi_G2dMtxConcat32 = func_02066754),
+ * then the SR-transformed latch and NNSi_G2dMCMSetCurrentMtxSRChanged.
+ * Written as the library writes it (g2di_RendererMtxStack.hpp,
+ * g2di_RendererMtxState.h, g2di_Mtx32.h inlines).
+ *
+ * THE LEVER (wave 13): the renderer's file statics are ONE object.  mwccarm
+ * pools a translation unit's .bss statics behind one base, so
+ * currentMtxCachePos_ (+0x00), groupID_ (+0x02), bDonotUseSRTransform
+ * (+0x04), pCurrentInstance_ (+0x08), stackPos_ (+0x0c), fxZStack_ (+0x10),
+ * mtxStateStack_ (+0x90 = 0x02147C18), mtxStack_ (+0x190 = 0x02147D18) and
+ * mtxStackFor2DHW_ (+0x490 = 0x02148018) are members of the block at
+ * 0x02147B88, and the pool words 0x02147C18 / D18 / 8018 are that symbol
+ * plus an addend.  Declared as separate externs, the compiler proves
+ * mtxStateStack_ and groupID_ distinct and schedules the state store above
+ * the groupID_++ store (tail 17 bytes out, three waves); as one object the
+ * store order and every register are the image's.  g_020A81F8 is the .data
+ * twin: firstSRTransformedMtxIdx_ (u16, 0xFFFE = NNS_G2D_OAM_AFFINE_IDX_NONE).
+ * ../2.0/sp2 and sp2p2 identical; 1.1p1 is 276 bytes.
+ */
+void func_02066620(fx32 sin, fx32 cos)
+{
+    NNSi_G2dRotate(sin, cos);
+
+    if (!NNSi_G2dIsRndCurrentMtxSRTransformed()) {
+        NNSi_G2dSetRndMtxStackSRTransformed();
+    }
+
+    NNSi_G2dMCMSetCurrentMtxSRChanged();
+}
+
+
+
+
+int func_02066740(int *p){ return p[0x1e]; }
+
+
+
+
+void func_02066748(int *a0, int a1, int a2){ func_02067AA0(a0, a1, a2); }
+
+
+
+
+void func_02066754(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab)
+{
+    MtxFx32 tmp;
+    MtxFx32 *p;
+
+    if (ab == b)
+        p = &tmp;
+    else
+        p = ab;
+
+    p->_00 = (fx32)(((fx64)a->_00 * b->_00 + (fx64)a->_01 * b->_10) >> FX32_SHIFT);
+    p->_01 = (fx32)(((fx64)a->_00 * b->_01 + (fx64)a->_01 * b->_11) >> FX32_SHIFT);
+    p->_10 = (fx32)(((fx64)a->_10 * b->_00 + (fx64)a->_11 * b->_10) >> FX32_SHIFT);
+    p->_11 = (fx32)(((fx64)a->_10 * b->_01 + (fx64)a->_11 * b->_11) >> FX32_SHIFT);
+    p->_20 = (fx32)(((fx64)a->_20 * b->_00 + (fx64)a->_21 * b->_10) >> FX32_SHIFT) + b->_20;
+    p->_21 = (fx32)(((fx64)a->_20 * b->_01 + (fx64)a->_21 * b->_11) >> FX32_SHIFT) + b->_21;
+
+    if (p == &tmp)
+        *ab = tmp;
 }

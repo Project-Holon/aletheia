@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_06898020  0x06898020  thumb
  *   func_02082BCC 0x02082BCC arm
  *   func_021B9AF8 0x021B9AF8 thumb ov093
  *   func_021B9B94 0x021B9B94 thumb ov093
@@ -116,7 +117,6 @@
  *   func_021EFC78  0x021EFC78  thumb  ov093
  *   func_021EFCE4  0x021EFCE4  thumb  ov093
  *   d_021F3AF8  0x021F3AF8  data  a4
- *   func_021EFA84  0x021EFA84  thumb  ov093
  *   func_021E8A98  0x021E8A98  thumb  ov093
  */
 #include "../../matched/include/Obj00027.h"
@@ -507,7 +507,7 @@ extern int func_021EFB34(void *mem, int a);
 extern void func_021EFC1C(void *screen, int line, int color, char *text);
 extern int func_021EFC78(void *mem, int a, int b);
 extern void *func_021EFCE4(char *arg0, int arg1);
-extern u32 func_021EFA84(u32 a, int b);
+extern u32 func_06898020(u32 a, int b);
 extern u32 func_021E8A98(Slot a);
 void func_021EE104(u8 *p, u32 *out, u32 a, u32 b, u32 flag);
 void func_021EE200(u8 *p);
@@ -627,19 +627,6 @@ extern struct Countdown d_021F63F4;
 extern char d_021F3AF8[];
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * tail: 021EE1FE..021EE200 is zero alignment padding.
  */
@@ -675,37 +662,11 @@ void func_021EE104(u8 *p, u32 *out, u32 a, u32 b, u32 flag)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EE200(u8 *p)
 {
     func_021EF694(((struct Obj00027 *)p)->f34, 0xf);
     func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0, 0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -714,35 +675,9 @@ void func_021EE200(u8 *p)
 int func_021EE21C(u8 *p) { return func_021ECF68((struct T *)p); }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EE224(char *p)
 {
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021EE228(void)
@@ -750,19 +685,6 @@ void func_021EE228(void)
     int x = 0x10;
     func_0204E720(1, 0, x, x - 0x13);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021EE23C(struct Q *q)
@@ -773,36 +695,10 @@ void func_021EE23C(struct Q *q)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int func_021EE25C(void)
 {
     return func_021EB318();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021EE264(char *o, int a, struct T *src)
@@ -814,19 +710,6 @@ void func_021EE264(char *o, int a, struct T *src)
     ((struct O *)o)->fe8 = o;
     ((struct O *)o)->fec = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int func_021EE2A0(struct O *o)
@@ -849,19 +732,6 @@ int func_021EE2A0(struct O *o)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EE2F8(struct O *o)
 {
     o->fe0 = 0;
@@ -869,19 +739,6 @@ void func_021EE2F8(struct O *o)
     o->fe8 = o;
     o->fec = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int func_021EE318(struct O *o)
@@ -904,19 +761,6 @@ int func_021EE318(struct O *o)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EE370(struct O *o)
 {
     o->fe0 = 0;
@@ -924,19 +768,6 @@ void func_021EE370(struct O *o)
     o->fe8 = o;
     o->fec = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int func_021EE390(struct O *o)
@@ -957,19 +788,6 @@ int func_021EE390(struct O *o)
     }
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int func_021EE3E8(int *st, struct C_021EE3E8 *c)
@@ -1005,19 +823,6 @@ int func_021EE3E8(int *st, struct C_021EE3E8 *c)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int func_021EE4B4(int *st, struct C_021EE4B4 *c)
 {
     switch (*st) {
@@ -1038,19 +843,6 @@ int func_021EE4B4(int *st, struct C_021EE4B4 *c)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int func_021EE544(int *st, struct C *c)
@@ -1085,36 +877,10 @@ int func_021EE544(int *st, struct C *c)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void *func_021EE5E4(u32 heap)
 {
     return func_02030734(heap, 0xC08, 1, d_021F3ADC, 0x6b);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -1124,19 +890,6 @@ void func_021EE600(void *p)
 {
     func_020307B0(p);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021EE608(u8 *p, const u8 *src, int n)
@@ -1158,19 +911,6 @@ void func_021EE608(u8 *p, const u8 *src, int n)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* 021EE638  ldrb r0,[r0] */
 /*
  * Reads the u8 field at offset 0 of the argument and returns it.
@@ -1178,37 +918,11 @@ void func_021EE608(u8 *p, const u8 *src, int n)
 u8 func_021EE638(u8 *p) { return *p; }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 unsigned short *func_021EE63C(unsigned short *a, unsigned int *b)
 {
     *b = *a;
     return a + 4;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021EE644(Q_021EE644 *q, u32 a, u32 n)
@@ -1223,19 +937,6 @@ void func_021EE644(Q_021EE644 *q, u32 a, u32 n)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EE674(Q_021EE674 *q)
 {
     u32 i;
@@ -1243,19 +944,6 @@ void func_021EE674(Q_021EE674 *q)
     for (i = 0; i < 4; i++)
         q->w[i] = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -1279,19 +967,6 @@ int func_021EE688(Q_021EE688 *q, int i)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -1369,19 +1044,6 @@ u32 *func_021EE6B8(Reader *r, u32 idx, u8 *outLen, u8 *outFlag)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Counts the bit7-flagged records in a stream (Q: buf, n:31+flag:1).
  * The buffer is read through q->buf in the loop (the compiler hoists it),
@@ -1431,19 +1093,6 @@ int func_021EE830(Q_021EE830 *q)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int func_021EE894(Q_021EE894 *q, int i)
 {
     u32 p;
@@ -1458,37 +1107,11 @@ int func_021EE894(Q_021EE894 *q, int i)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EE8B4(B *p, int b)
 {
     func_02082BCC(p, 0, 0x40);
     p->f = (u8)b;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 u8 *func_021EE8D8(u8 *p, u32 *out, int flag)
@@ -1498,19 +1121,6 @@ u8 *func_021EE8D8(u8 *p, u32 *out, int flag)
     *out = 2;
     return p + 4;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021EE8F4(u8 *p, u8 idx, const void *src, u32 n)
@@ -1540,19 +1150,6 @@ void func_021EE8F4(u8 *p, u8 idx, const void *src, u32 n)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 u8 *func_021EE96C(B *p, u8 b, u32 *out)
 {
     u8 type;
@@ -1569,19 +1166,6 @@ u8 *func_021EE96C(B *p, u8 b, u32 *out)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 u8 *func_021EE9A4(u8 *p, u32 *out)
 {
     p[4] = 0;
@@ -1589,19 +1173,6 @@ u8 *func_021EE9A4(u8 *p, u32 *out)
     *out = 2;
     return p + 4;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021EE9B4(B *p, const void *src, int n)
@@ -1614,19 +1185,6 @@ void func_021EE9B4(B *p, const void *src, int n)
     p->f = 0;
     p->g = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int func_021EE9E4(u8 *p, u32 *pos, u8 *a, u8 *b, u32 *dst)
@@ -1651,19 +1209,6 @@ int func_021EE9E4(u8 *p, u32 *pos, u8 *a, u8 *b, u32 *dst)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EEA30(int v)
 {
     int i;
@@ -1674,33 +1219,7 @@ void func_021EEA30(int v)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EEA54(void) { }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 Obj *func_021EEA58(u32 a, int idx, u32 v, u32 heap)
@@ -1727,19 +1246,6 @@ Obj *func_021EEA58(u32 a, int idx, u32 v, u32 heap)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* 021EEAD0  clear the low nibble of byte +0xc and zero bytes +0xe/+0xf */
 /*
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: ldrb r2, [r0, #0xc]; movs r1, #0; strb r1, [r0, #0xe]; strb r1, [r0, #0xf]; movs r1, #0xf; bics r2, r1; strb r2, [r0, #0xc]; bx lr.
@@ -1754,36 +1260,10 @@ void func_021EEAD0(u8 *p)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EEAE0(void *p)
 {
     func_020307B0(p);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* 021EEAE8  call through a global pointer when it is set */
@@ -1798,38 +1278,12 @@ void func_021EEAE8(void)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * empty function: bx lr
  */
 void func_021EEAFC(void)
 {
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021EEB00(W *p, u16 a, const void *src, u16 n)
@@ -1843,19 +1297,6 @@ void func_021EEB00(W *p, u16 a, const void *src, u16 n)
     p->w8 = 0;
     p->st = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int func_021EEB2C(W *p)
@@ -1876,19 +1317,6 @@ int func_021EEB2C(W *p)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Leaf with no calls and no pool; 6 instructions, 12 bytes: cmp r1, #0; beq loc_021EEB6C; ldr r2, [r0, #8]; str r2, [r1]; ldr r0, [r0, #4]; bx lr.
  */
@@ -1900,38 +1328,12 @@ u32 func_021EEB64(struct QW *p, u32 *out)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EEB70(W *p)
 {
     p->mode = 0;
     if (p->hi != 0)
         func_021D4C58(p->hi);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 u32 func_021EEB84(W *p)
@@ -1944,19 +1346,6 @@ u32 func_021EEB84(W *p)
     }
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 u32 func_021EEBA4(W *p)
@@ -1973,37 +1362,11 @@ u32 func_021EEBA4(W *p)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EEBDC(W *p)
 {
     p->h10 = 0;
     p->h12 = 4;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 u8 func_021EEBE8(W *p)
@@ -2023,19 +1386,6 @@ u8 func_021EEBE8(W *p)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 u16 func_021EEC20(W *p, u8 **out)
 {
     u8 *q;
@@ -2052,19 +1402,6 @@ u16 func_021EEC20(W *p, u8 **out)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 func_021EEC4C(W *p, u32 a, u32 b)
 {
     if (p->hi != 0)
@@ -2076,19 +1413,6 @@ u32 func_021EEC4C(W *p, u32 a, u32 b)
     }
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021EEC78(u32 a, u32 b, u32 c, u32 d)
@@ -2109,18 +1433,6 @@ void func_021EEC78(u32 a, u32 b, u32 c, u32 d)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EECD8(void)
 {
     int i;
@@ -2132,34 +1444,10 @@ void func_021EECD8(void)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EED00(u8 a, u32 b)
 {
     func_0201EEF4((struct WordSet *)d_021F6398.f08, b, func_021D5864((struct Work *)func_021B9940((char *)d_021F6398.f04, a)));
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021EED24(u8 a, u32 b)
@@ -2168,51 +1456,16 @@ void func_021EED24(u8 a, u32 b)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EED48(u8 a, u8 b)
 {
     func_0201EE84((struct WordSet *)d_021F6398.f08, b, func_021D5864((struct Work *)func_021B9940((char *)d_021F6398.f04, a)));
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EED6C(void *a, u8 b, u8 c)
 {
     func_0201F0F8((struct WordSet *)a, b, (u8)func_021BA020((void *)d_021F6398.f00, c));
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021EED90(void *win, u8 slot, u8 k)
@@ -2239,17 +1492,6 @@ void func_021EED90(void *win, u8 slot, u8 k)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Variadic: copies n words into an eight-word table at d_021F6398 + 0x30
  * (zero-filling the rest), then hands the table (named separately at its
@@ -2271,17 +1513,6 @@ void func_021EEE24(u32 a, u16 k, u32 n, ...)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 void func_021EEE80(u32 a, u16 k, u32 *p)
 {
     u32 i;
@@ -2297,32 +1528,12 @@ void func_021EEE80(u32 a, u16 k, u32 *p)
 }
 
 
-
-
-
-
-
-
-
-
-
-
 void func_021EEEC8(u32 a, u32 b, u32 c)
 {
     func_02045CAC((struct MsgBank *)d_021F6398.t[0], b, (void *)d_021F6398.f0c);
     func_021EEFE0((void *)d_021F6398.f0c, (const u32 *)c, (void *)d_021F6398.f08);
     func_0201F250((struct WordSet *)d_021F6398.f08, (void *)a, (void *)d_021F6398.f0c);
 }
-
-
-
-
-
-
-
-
-
-
 
 
 void func_021EEEF4(u32 a, u16 b, u32 c)
@@ -2337,16 +1548,6 @@ void func_021EEEF4(u32 a, u16 b, u32 c)
     }
     func_021EF1CC(a, b, c);
 }
-
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -2380,16 +1581,6 @@ u16 *func_021EEF20(u16 *p, u32 *o1, u16 *o2, u8 *o3)
 }
 
 
-
-
-
-
-
-
-
-
-
-
 u8 func_021EEF98(void *s)
 {
     u32 o1;
@@ -2411,16 +1602,6 @@ u8 func_021EEF98(void *s)
     }
     return n;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -2514,16 +1695,6 @@ void func_021EEFE0(void *s, const u32 *values, void *w)
 }
 
 
-
-
-
-
-
-
-
-
-
-
 void func_021EF1CC(u32 a, u16 b, u32 c)
 {
     func_02045CAC((struct MsgBank *)d_021F6398.t[1], b, (void *)d_021F6398.f0c);
@@ -2532,14 +1703,6 @@ void func_021EF1CC(u32 a, u16 b, u32 c)
     else
         func_021EF204(a, b, (u32 *)c);
 }
-
-
-
-
-
-
-
-
 
 
 void func_021EF204(u32 a, u32 b, u32 *p)
@@ -2562,12 +1725,6 @@ void func_021EF204(u32 a, u32 b, u32 *p)
 }
 
 
-
-
-
-
-
-
 static inline int classify(u8 k)
 {
     int x;
@@ -2577,12 +1734,6 @@ static inline int classify(u8 k)
     } else x = 0;
     return x;
 }
-
-
-
-
-
-
 
 
 /*
@@ -2610,13 +1761,6 @@ second:
     func_021EEFE0((void *)d_021F6398.f0c, p, (void *)d_021F6398.f08);
     func_0201F250((struct WordSet *)d_021F6398.f08, (void *)a, (void *)d_021F6398.f0c);
 }
-
-
-
-
-
-
-
 
 
 /*
@@ -2653,13 +1797,6 @@ void func_021EF3A4(u32 a, u32 b, P_021EF3A4 *p)
     func_02045CAC((void *)d_021F6398.t[1], (u16)(pos + x), (void *)d_021F6398.f0c);
     func_0201F250((void *)d_021F6398.f08, (void *)a, (void *)d_021F6398.f0c);
 }
-
-
-
-
-
-
-
 
 
 /*
@@ -2699,12 +1836,6 @@ void func_021EF460(u32 a, u32 b, P_021EF460 *p)
 }
 
 
-
-
-
-
-
-
 void func_021EF508(u32 a, int b, u32 *p)
 {
     u8 r5 = p[1] - 1;
@@ -2730,12 +1861,6 @@ void func_021EF508(u32 a, int b, u32 *p)
 }
 
 
-
-
-
-
-
-
 void func_021EF594(u32 a, u32 b, u32 *p)
 {
     u8 id = p[0];
@@ -2753,12 +1878,6 @@ void func_021EF594(u32 a, u32 b, u32 *p)
     func_021EEFE0((void *)d_021F6398.f0c, (const u32 *)((u32)p), (void *)d_021F6398.f08);
     func_0201F250((struct WordSet *)d_021F6398.f08, (void *)a, (void *)d_021F6398.f0c);
 }
-
-
-
-
-
-
 
 
 void func_021EF5E8(u32 a, u8 b, u16 c)
@@ -2782,11 +1901,6 @@ void func_021EF5E8(u32 a, u8 b, u16 c)
 }
 
 
-
-
-
-
-
 void func_021EF664(int a, u16 b, int c)
 {
     u16 k;
@@ -2802,30 +1916,16 @@ void func_021EF664(int a, u16 b, int c)
 }
 
 
-
-
-
-
-
 void func_021EF694(u32 a, u32 b)
 {
     func_02045CAC((struct MsgBank *)d_021F6398.t[3], b, (void *)a);
 }
 
 
-
-
-
-
-
 void func_021EF6A8(u32 a, u32 b, u32 c)
 {
     func_021EF6B0(a, b, c);
 }
-
-
-
-
 
 
 void func_021EF6B0(u32 a, u32 b, u32 c)
@@ -2838,10 +1938,6 @@ void func_021EF6B0(u32 a, u32 b, u32 c)
 }
 
 
-
-
-
-
 /*
  * Tail-call stub (ldr r3,[pc]; bx r3) to func_021EF6F0; callee of func_021EA55C case 6.
  */
@@ -2849,9 +1945,6 @@ void func_021EF6E8(u32 a, u32 b, u32 c)
 {
     func_021EF6F0(a, b, c);
 }
-
-
-
 
 
 /*
@@ -2864,9 +1957,6 @@ void func_021EF6F0(u32 a, u32 b, u32 c)
     func_021EEFE0((void *)d_021F6398.f0c, (const u32 *)c, (void *)d_021F6398.f08);
     func_0201F250((struct WordSet *)d_021F6398.f08, (void *)a, (void *)d_021F6398.f0c);
 }
-
-
-
 
 
 void func_021EF71C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
@@ -2882,9 +1972,6 @@ void func_021EF71C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 }
 
 
-
-
-
 void func_021EF7AC(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 {
     func_02045CAC((struct MsgBank *)d_021F6398.t[3], 0x11, (void *)d_021F6398.f0c);
@@ -2896,9 +1983,6 @@ void func_021EF7AC(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
     func_0201EFA4((struct WordSet *)d_021F6398.f08, 5, g, 3, 0, 1);
     func_0201F250((struct WordSet *)d_021F6398.f08, (void *)a, (void *)d_021F6398.f0c);
 }
-
-
-
 
 
 void func_021EF83C(S *a, u32 i)
@@ -2915,16 +1999,10 @@ void func_021EF83C(S *a, u32 i)
 }
 
 
-
-
-
 void func_021EF874(int a)
 {
     func_021EF988((S_021EF988 *)&d_021F63F4, a);
 }
-
-
-
 
 
 int func_021EF884(void)
@@ -2933,25 +2011,16 @@ int func_021EF884(void)
 }
 
 
-
-
-
 int func_021EF894(void)
 {
     return func_021EF9B0((u32 *)(&(*(char *)&d_021F63F4)));
 }
 
 
-
-
-
 int DWC_StartUtilityEx(int a, int b)
 {
     return (int)func_021EF9C0((int *)(&d_021F63F4), a, b);
 }
-
-
-
 
 
 /*
@@ -2967,14 +2036,10 @@ u32 func_021EF8B8(void)
 }
 
 
-
-
 int func_021EF8C8(u32 a, Slot c)
 {
     return func_021EF9F4((S_021EF9F4 *)&d_021F63F4, a, c, 1);
 }
-
-
 
 
 int func_021EF8E8(int a)
@@ -2983,13 +2048,10 @@ int func_021EF8E8(int a)
 }
 
 
-
-
 int func_021EF8F8(int a, int b)
 {
     return func_021EFAD8(&(*(char *)&d_021F63F4), a, b);
 }
-
 
 
 int func_021EF90C(int a)
@@ -2998,12 +2060,10 @@ int func_021EF90C(int a)
 }
 
 
-
 void SetBottomScreenLineCentered(int line, int color, char *text)
 {
     func_021EFC1C(&(*(char *)&d_021F63F4), line, color, text);
 }
-
 
 
 int func_021EF934(int a, int b)
@@ -3012,12 +2072,10 @@ int func_021EF934(int a, int b)
 }
 
 
-
 int func_021EF948(int a)
 {
     return (int)func_021EFCE4(&(*(char *)&d_021F63F4), a);
 }
-
 
 
 S *func_021EF958(u32 heap)
@@ -3029,9 +2087,7 @@ S *func_021EF958(u32 heap)
 }
 
 
-
 void func_021EF980(void *p) { func_020307B0(p); }
-
 
 
 void func_021EF988(S_021EF988 *p, u32 v)
@@ -3045,13 +2101,11 @@ void func_021EF988(S_021EF988 *p, u32 v)
 }
 
 
-
 /*
  * Sole blocker of the claimed 021D3D84 follower.
  * Body ends at 021EF9B0; larger unlabelled follower remains outside this leaf.
  */
 u8 func_021EF9A8(u32 *p) { return (u8)*p; }
-
 
 
 int func_021EF9B0(u32 *p)
@@ -3062,7 +2116,6 @@ int func_021EF9B0(u32 *p)
 }
 
 
-
 int *func_021EF9C0(int *p, int a, int b)
 {
     p[0] = a;
@@ -3071,13 +2124,11 @@ int *func_021EF9C0(int *p, int a, int b)
 }
 
 
-
 void func_021EF9C8(int *p)
 {
     p[0] = 0;
     p[1] = 0;
 }
-
 
 
 /*
@@ -3097,7 +2148,6 @@ u32 func_021EF9D0(Countdown *p)
 }
 
 
-
 /*
  * Eight-slot table object: six u32[8] arrays and a u32[8][6] block, all
  * indexed by the slot b.  Written as struct member arrays, the load of
@@ -3113,7 +2163,7 @@ int func_021EF9F4(S_021EF9F4 *a, u32 b, Slot c, int d)
 
     if (a->used[b] == 0) {
         if (d != 0) {
-            a->t[b] = func_021EFA84(b, 0);
+            a->t[b] = func_06898020(b, 0);
             if (a->t[b] == 0)
                 return 0;
         }

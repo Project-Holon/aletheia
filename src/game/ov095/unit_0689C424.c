@@ -13,13 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021C8838  0x021C8838  thumb
+ *   func_021C8860  0x021C8860  thumb
+ *   func_021D5440  0x021D5440  thumb
+ *   func_021E8B80  0x021E8B80  thumb
  *   d_0689E21C   0x0689E21C  data  ov095  a4
- *   func_0689C4E0   0x0689C4E0  thumb  ov095
- *   func_0689C4F0   0x0689C4F0  thumb  ov095
- *   func_0689C500   0x0689C500  thumb  ov095
- *   func_0689C510   0x0689C510  thumb  ov095
- *   func_0689C520   0x0689C520  thumb  ov095
- *   func_0689C530   0x0689C530  thumb  ov095
  */
 typedef unsigned int u32;
 
@@ -35,12 +33,10 @@ typedef unsigned short u16;
 
 typedef struct Word { int v; } Word;
 
-extern void func_0689C4E0(void *, int, u16);
-extern int func_0689C4F0(void *);
-extern void func_0689C500(void *, int);
-extern void func_0689C510(void *, int);
-extern int func_0689C520(Word);
-extern void func_0689C530(void *, int);
+extern void func_021C8838(void *, int, u16);
+extern int func_021D5440(void *);
+extern void func_021C8860(void *, int);
+extern int func_021E8B80(Word);
 int func_0689C424(u32 key, int flag);
 int func_0689C464(int a, Word b, void *c, unsigned char d, void *e);
 extern Ent d_0689E21C[17];
@@ -76,16 +72,16 @@ int func_0689C464(int a, Word b, void *c, unsigned char d, void *e)
         f = 0;
     k = func_0689C424(a, f);
     if (k >= 0) {
-        func_0689C4E0(e, 2, k);
-        func_0689C500(e, func_0689C4F0(c));
+        func_021C8838(e, 2, k);
+        func_021C8860(e, func_021D5440(c));
         if (f != 0)
-            func_0689C510(e, d);
+            func_021C8860(e, d);
         switch (a) {
         case 8:
-            func_0689C530(e, func_0689C520(b));
+            func_021C8860(e, func_021E8B80(b));
             break;
         case 0x12:
-            func_0689C530(e, 0x49);
+            func_021C8860(e, 0x49);
             break;
         }
         return 1;

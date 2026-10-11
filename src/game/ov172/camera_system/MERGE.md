@@ -1,10 +1,9 @@
 # camera_system (ov172)
 
-Translation unit 021B6100..021B6A00. Not mergeable further: the parts alternate
-between ARM and Thumb code, and p03, p07, p15 use no lang flag while the others use
-c99. Each part is a separate compile unit by instruction set, so every boundary is a
-real file boundary (the unit boundary guess is weak, tools/tuboundary.py).
-Parts p01..p31 are in address order.
+Translation unit 021B6100..021B6A00. Three parts, each byte-exact. ARM and Thumb share one file with
+`#pragma thumb off` / `#pragma thumb on` around the ARM asm veneers (prototypes and bodies both).
 
-Round 5 (lane s11) re-checked the headers: p01..p31 alternate thumb/arm strictly (p03, p07, p15 have no lang), so no two
-neighbours share an ISA. Nothing to merge.
+Open boundaries:
+- p01 | p02 at 021B6390: the Thumb function 021B6338 ends at 021B638E and the tool fills the 2-byte gap
+  before the ARM function with 00 00, the original image has a Thumb nop (C0 46) there. Same at
+  p02 | p03 (021B6950 to 021B6974). The code itself is exact; only these two alignment bytes differ.

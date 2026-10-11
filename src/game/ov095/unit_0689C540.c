@@ -11,35 +11,23 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0689C5CC   0x0689C5CC  thumb  ov095
- *   func_0689C5DC   0x0689C5DC  thumb  ov095
- *   func_0689C5EC   0x0689C5EC  thumb  ov095
- *   func_0689C5FC   0x0689C5FC  thumb  ov095
- *   func_0689C60C   0x0689C60C  thumb  ov095
- *   func_0689C61C   0x0689C61C  thumb  ov095
- *   func_0689C62C   0x0689C62C  thumb  ov095
- *   func_0689C63C   0x0689C63C  thumb  ov095
- *   func_0689C64C   0x0689C64C  thumb  ov095
- *   func_0689C65C   0x0689C65C  thumb  ov095
- *   func_0689C66C   0x0689C66C  thumb  ov095
- *   func_0689C67C   0x0689C67C  thumb  ov095
+ *   func_021D62C4  0x021D62C4  thumb
+ *   func_021D6314  0x021D6314  thumb
+ *   func_021D76BC  0x021D76BC  thumb
+ *   func_021D775C  0x021D775C  thumb
+ *   func_021E8B80  0x021E8B80  thumb
+ *   func_021E8C24  0x021E8C24  thumb
  */
 
 typedef unsigned char u8;
 
-extern int func_0689C5CC(void *, int);
+extern int func_021D62C4(void *, int);
 typedef struct Word { int v; } Word;
-extern Word func_0689C5DC(void *, int);
-extern int func_0689C5EC(void);
-extern int func_0689C5FC(int);
-extern int func_0689C60C(int);
-extern void func_0689C61C(int, int);
-extern int func_0689C62C(void *, int);
-extern int func_0689C63C(int);
-extern void func_0689C64C(int, int);
-extern int func_0689C65C(void *, int);
-extern int func_0689C66C(int);
-extern void func_0689C67C(int, int);
+extern Word func_021D6314(void *, int);
+extern int func_021E8B80(void);
+extern int func_021D775C(int);
+extern int func_021E8C24(int);
+extern void func_021D76BC(int, int);
 
 void func_0689C540(void *a, void *b)
 {
@@ -48,19 +36,19 @@ void func_0689C540(void *a, void *b)
     u8 x;
 
     k = 0x11;
-    if (func_0689C5CC(b, k) != 0) {
-        v = func_0689C5DC(b, k).v;
-        x = func_0689C5EC();
-        if (x == (u8)func_0689C5FC(0x15)) {
-            func_0689C61C(func_0689C60C(v) == 0 ? 0x4b : 0x4c, 1);
+    if (func_021D62C4(b, k) != 0) {
+        v = func_021D6314(b, k).v;
+        x = func_021E8B80();
+        if (x == (u8)func_021D775C(0x15)) {
+            func_021D76BC(func_021E8C24(v) == 0 ? 0x4b : 0x4c, 1);
         }
     }
-    if (func_0689C62C(b, 0x15) != 0) {
-        if (func_0689C63C(0x16) == 4)
-            func_0689C64C(0x4b, 1);
+    if (func_021D62C4(b, 0x15) != 0) {
+        if (func_021D775C(0x16) == 4)
+            func_021D76BC(0x4b, 1);
     }
-    if (func_0689C65C(b, 0x1f) != 0) {
-        if (func_0689C66C(0x16) == 4)
-            func_0689C67C(0x4b, 1);
+    if (func_021D62C4(b, 0x1f) != 0) {
+        if (func_021D775C(0x16) == 4)
+            func_021D76BC(0x4b, 1);
     }
 }

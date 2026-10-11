@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_06898080  0x06898080  thumb
  *   func_021EFCE4  0x021EFCE4  thumb  ov093
- *   func_021EFC0C 0x021EFC0C thumb ov093
  *   func_021EF83C 0x021EF83C thumb ov093
  *   func_021E8A98 0x021E8A98 thumb ov093
  *   func_021E8AC8 0x021E8AC8 thumb ov093
@@ -39,7 +39,7 @@ typedef struct {
 } S;
 
 void *func_021EFCE4(char *arg0, int arg1);
-extern void func_021EFC0C(u32);
+extern void func_06898080(u32);
 extern void func_021EF83C(char *, u32);
 extern u32 func_021E8A98(Slot);
 extern void func_021E8AC8(union Slot *p, u8 v);
@@ -92,7 +92,7 @@ void func_021EFB34(S *a, u32 v)
                 a->w[i][j] = 0x1f;
                 a->z128[i] = a->z128[i] - 1;
                 if (a->z128[i] == 0) {
-                    if (a->t[i]) { func_021EFC0C(a->t[i]); a->t[i] = 0; }
+                    if (a->t[i]) { func_06898080(a->t[i]); a->t[i] = 0; }
                     func_021EF83C((char *)a, i);
                 } else {
                     if (v == func_021E8A98(a->c[i])) func_021E8AC8((union Slot *)(&a->c[i]), a->w[i][0]);

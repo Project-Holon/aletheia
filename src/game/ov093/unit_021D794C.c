@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_0689C9E4  0x0689C9E4  thumb
  *   d_021F047C  0x021F047C  data  ov093  a1
  *   func_021E8D0C  0x021E8D0C  thumb  ov093
  *   func_021E8DA8  0x021E8DA8  thumb  ov093
@@ -28,7 +29,6 @@
  *   func_021E89F8  0x021E89F8  thumb  ov093
  *   func_021E8A28  0x021E8A28  thumb  ov093
  *   func_021E89C0  0x021E89C0  thumb  ov093
- *   func_021D7E34 0x021D7E34 thumb ov093
  *   func_021D62C4 0x021D62C4 thumb ov093
  */
 struct Unk021D62A8;
@@ -68,7 +68,7 @@ extern Word func_021E8940(u8 a);
 extern Word func_021E89F8(u8 a, u32 b);
 extern Word func_021E8A28(u32 a, u8 b);
 extern Word func_021E89C0(void);
-extern int func_021D7E34(int);
+extern int func_0689C9E4(int);
 extern int func_021D62C4(struct Unk021D62A8 *,int);
 int func_021D794C(int a, int b);
 int func_021D799C(int a, int v);
@@ -100,9 +100,6 @@ extern u8 d_021F0427[];
 extern u8 d_021F0421[6];
 
 
-
-
-
 int func_021D794C(int a, int b)
 {
     if (a == 0x11 || b == 0x11)
@@ -122,9 +119,6 @@ int func_021D794C(int a, int b)
 }
 
 
-
-
-
 int func_021D799C(int a, int v)
 {
     u8 t[2];
@@ -136,9 +130,6 @@ int func_021D799C(int a, int v)
     x = func_021D794C(a, t[1]);
     return func_021D79E8(x, func_021D794C(a, t[0]));
 }
-
-
-
 
 
 /*
@@ -167,27 +158,16 @@ int func_021D79E8(int x, int y)
 }
 
 
-
-
 u32 func_021D7A44(u32 a,u32 b,u32 c,u32 d) { return (a*b*(2*c/5+2)/d)/50+2; }
-
-
 
 
 u32 func_021D7A6C(u32 a,u32 b) { switch(b) { case 0:return 0; case 1:return a/4; case 2:return a/2; case 3:return a; case 4:return a*2; case 5:return a*4; } return a; }
 
 
-
-
 u8 func_021D7A9C(int a,u8 *out) { u8 n,i; i=0; n=0; do { if(d_021F047C[a][i]==0 || d_021F047C[a][i]==2) out[n++]=i; ++i; } while(i<17); return n; }
 
 
-
-
 int func_021D7AD4(int a) { if(a>3) return 2; if(a==3) return 1; if(a!=0) return 3; return 0; }
-
-
-
 
 
 int func_021D7AF0(u32 pct)
@@ -195,9 +175,6 @@ int func_021D7AF0(u32 pct)
     if (func_021D78AC(100) < pct) return 1;
     return 0;
 }
-
-
-
 
 
 /* 021D7B08  cmp r0,r1; bge; adds r0,r1,#0 */
@@ -210,9 +187,6 @@ int func_021D7B08(int a, int b)
         a = b;
     return a;
 }
-
-
-
 
 
 /*
@@ -234,22 +208,13 @@ u32 func_021D7B10(u32 a, u32 b)
 }
 
 
-
-
 u32 func_021D7B2C(u32 a,u32 b) { u32 r=func_021D7B10(a,b); if(r==0) r=1; return r; }
-
-
 
 
 u32 func_021D7B3C(u32 a,u32 b) { u32 m; a*=b; m=a%100; a/=100; if(m>=50) ++a; return a; }
 
 
-
-
 u32 func_021D7B60(void *p,u32 b) { return (u32)func_021D59B4(p,14)/b; }
-
-
-
 
 
 /*
@@ -272,9 +237,6 @@ int func_021D7B74(u8 *p, u32 k)
 }
 
 
-
-
-
 u32 func_021D7B8C(u32 lo, u32 hi)
 {
     u32 t;
@@ -287,12 +249,7 @@ u32 func_021D7B8C(u32 lo, u32 hi)
 }
 
 
-
-
 int func_021D7BA4(int a) { u8 r,i; if(a!=5) return a; r=func_021D78AC(100); for(i=0;i<6;++i) { if(r<d_021F0421[i]) return i; } return a; }
-
-
-
 
 
 int func_021D7BD4(void *p, int k)
@@ -317,11 +274,7 @@ int func_021D7BD4(void *p, int k)
 }
 
 
-
-
 u32 func_021D7C38(int a,int b) { switch(a) { case 1: if(b==9) return 6144; if(b==10) return 2048; break; case 2: if(b==9) return 2048; if(b==10) return 6144; break; } return 4096; }
-
-
 
 
 void func_021D7C70(struct Sel s, int m, Word *out)
@@ -352,7 +305,6 @@ void func_021D7C70(struct Sel s, int m, Word *out)
 }
 
 
-
 union Slot_021D794C func_021D7D18(int x)
 {
     union Slot_021D794C s;
@@ -377,8 +329,6 @@ union Slot_021D794C func_021D7D18(int x)
 }
 
 
-
-
 /* 021D7D6C  cmp r0,#6; bge; movs r0,#1; bx lr; movs r0,#0; bx lr */
 int func_021D7D6C(int x)
 {
@@ -392,7 +342,6 @@ union Slot_021D7D78 func_021D7D78(u32 x) { union Slot_021D7D78 s; s.raw=0; s.s.k
 
 
 union Slot_021D7D78 func_021D7D9C(u32 x) { union Slot_021D7D78 s; s.raw=0; s.s.kind=3; s.s.lo=x; return s; }
-
 
 
 void func_021D7DC0(int a, int b, Word *out)
@@ -423,4 +372,4 @@ void func_021D7DC0(int a, int b, Word *out)
  * lever: declare n before i; both exits return n to retain r0 on the zero path.
  * extent: trailing two-byte alignment before Thumb-to-ARM veneer 021D7E34.
  */
-int func_021D7E10(struct Unk021D62A8 *p) { int n; int i=0; for (;;) { n=func_021D7E34(i++); if(n==0) return n; if(func_021D62C4(p,n)) return n; } }
+int func_021D7E10(struct Unk021D62A8 *p) { int n; int i=0; for (;;) { n=func_0689C9E4(i++); if(n==0) return n; if(func_021D62C4(p,n)) return n; } }
