@@ -39,16 +39,6 @@ struct Sub020071CCCtrl;
 struct Slot;
 typedef unsigned char  u8;
 
-struct RecSlot_0200DE5C {
-    u8 unk000[0xFE];
-    u8 unkFE;
-    u8 unkFF;
-    u8 unk100;
-    u8 unk101;
-    u8 unk102;
-    u8 unk103;
-    u8 unk104[0x690];
-};
 
 typedef unsigned short u16;
 
@@ -120,11 +110,11 @@ extern u32   func_02007248(void *a, u32 b, u32 c, void *d, u32 e);
 extern int   memcmp(const void *a, const void *b, u32 n);
 extern u8 func_02167380(u32 id);
 extern u8 func_02167358(u32 id);
-u8 func_0200DE5C(struct RecSlot_0200DE5C *p);
-u8 func_0200DE64(struct RecSlot_0200DE5C *p);
-void func_0200DE6C(struct RecSlot_0200DE5C *p, const void *src, u8 a, u8 b);
-u8 func_0200DE94(struct RecSlot_0200DE5C *p);
-u8 func_0200DEA0(struct RecSlot_0200DE5C *p);
+u8 func_0200DE5C(struct RecSlot_0200DEA8 *p);
+u8 func_0200DE64(struct RecSlot_0200DEA8 *p);
+void func_0200DE6C(struct RecSlot_0200DEA8 *p, const void *src, u8 a, u8 b);
+u8 func_0200DE94(struct RecSlot_0200DEA8 *p);
+u8 func_0200DEA0(struct RecSlot_0200DEA8 *p);
 void sub_0200DEA8(u8 *base, u8 *out, int idx);
 void func_0200DF10(struct RecSlot_0200DEA8 *p, const void *src, u8 a, u8 b);
 int func_0200DF40(struct RecSlot_0200DEA8 *p);
@@ -195,7 +185,7 @@ extern char  sFile_020A720C[];
  * whose reach is 31, so both are register-offset loads; see
  * docs/idioms/thumb-immediate-reach-costs-an-adds.md.
  */
-u8 func_0200DE5C(struct RecSlot_0200DE5C *p)
+u8 func_0200DE5C(struct RecSlot_0200DEA8 *p)
 {
     return p->unkFE;
 }
@@ -203,7 +193,7 @@ u8 func_0200DE5C(struct RecSlot_0200DE5C *p)
 
 
 
-u8 func_0200DE64(struct RecSlot_0200DE5C *p)
+u8 func_0200DE64(struct RecSlot_0200DEA8 *p)
 {
     return p->unkFF;
 }
@@ -211,7 +201,7 @@ u8 func_0200DE64(struct RecSlot_0200DE5C *p)
 
 
 
-void func_0200DE6C(struct RecSlot_0200DE5C *p, const void *src, u8 a, u8 b)
+void func_0200DE6C(struct RecSlot_0200DEA8 *p, const void *src, u8 a, u8 b)
 {
     MI_CpuCopy8(src, p->unk104, sizeof(p->unk104));
     p->unk101 = a;
@@ -222,7 +212,7 @@ void func_0200DE6C(struct RecSlot_0200DE5C *p, const void *src, u8 a, u8 b)
 
 
 
-u8 func_0200DE94(struct RecSlot_0200DE5C *p)
+u8 func_0200DE94(struct RecSlot_0200DEA8 *p)
 {
     return p->unk101;
 }
@@ -230,7 +220,7 @@ u8 func_0200DE94(struct RecSlot_0200DE5C *p)
 
 
 
-u8 func_0200DEA0(struct RecSlot_0200DE5C *p)
+u8 func_0200DEA0(struct RecSlot_0200DEA8 *p)
 {
     return p->unk100;
 }

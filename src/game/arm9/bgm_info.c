@@ -187,25 +187,15 @@ struct Sub02005CE0State {
 
 /* The wireless state block; src/matched/unit_02005F38.c has the whole of it,
  * this file touches one word. */
-struct Sub02005E04State {
+struct Su4State {
     u32 unk00;
     u32 unk04;
     u32 unk08;
 };
 
-struct Sub02005E30State {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-};
 
-struct Sub02005E50State {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-};
 
-struct Sub02005F38State {
+struct Su8State {
     u32 unk00;
     u32 unk04;
     u32 unk08;
@@ -222,34 +212,18 @@ struct Sub02005F38State {
     int unk30;
 };
 
-struct Sub02005FF4State {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-    u32 unk0C;
-    u32 unk10;
-    u32 unk14;
-    u32 unk18;
-    u32 unk1C;
-    u32 unk20;
-    u16 unk24;
-    u16 unk26;
-    u32 unk28;
-    int unk2C;
-    int unk30;
-};
 
 struct Sub02006118Entry {
     u32 unk00;
     u32 unk04;
 };
 
-struct Sub0200616CEntry {
+struct SuCEntry {
     void *unk00;
     u32   unk04;
 };
 
-struct Sub02006300State {
+struct Su0State {
     u32 unk00;
     u32 unk04;
     u32 unk08;
@@ -258,10 +232,6 @@ struct Sub02006300State {
     u32 unk14;
 };
 
-struct Sub02006238Entry {
-    void *unk00;
-    u32   unk04;
-};
 
 struct StructA {
     u8 pad[0x10];
@@ -269,14 +239,6 @@ struct StructA {
     u32 active;
 };
 
-struct Sub02006394State {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-    u32 unk0C;
-    u32 unk10;
-    u32 unk14;
-};
 
 struct Sub02006448Pair {
     u32 unk00;
@@ -286,7 +248,7 @@ struct Sub02006448Pair {
     u16 unk0A;
 };
 
-struct Sub020064B8Head {
+struct Su8Head {
     u32 unk00 : 24;
     u32 unk03 : 8;
 };
@@ -347,10 +309,6 @@ struct Sub02006544State {
     u8  unkAC;
 };
 
-struct Sub020067E0Head {
-    u32 unk00 : 24;
-    u32 unk03 : 8;
-};
 
 struct Sub020067E0Block {
     u32 unk00;
@@ -609,20 +567,20 @@ extern struct Sub02005C18State sub_02005C18_State;
 extern struct Sub02005C4CState sub_02005C4C_State;
 extern u8 sub_02005C64_Obj[];
 extern struct Sub02005CE0State sub_02005CE0_State;
-extern struct Sub02005E04State sub_02005E04_State;
-extern struct Sub02005E30State sub_02005E30_State;
-extern struct Sub02005E50State sub_02005E50_State;
-extern struct Sub02005F38State sub_02005F38_State;
-extern struct Sub02005FF4State sub_02005FF4_State;
+extern struct Su4State sub_02005E04_State;
+extern struct Su4State sub_02005E30_State;
+extern struct Su4State sub_02005E50_State;
+extern struct Su8State sub_02005F38_State;
+extern struct Su8State sub_02005FF4_State;
 extern struct Sub02006118Entry sub_02006118_Table[];
-extern struct Sub0200616CEntry sub_0200616C_Table[];
-extern struct Sub02006300State sub_02006300_State;
-extern struct Sub02006238Entry sub_02006238_Table[];
+extern struct SuCEntry sub_0200616C_Table[];
+extern struct Su0State sub_02006300_State;
+extern struct SuCEntry sub_02006238_Table[];
 extern u32 sub_02006300_Thread[];
 extern u32 sub_02006300_Stack[];
 extern struct StructA g_020AA260;
 extern u8 g_020AA354[];
-extern struct Sub02006394State sub_02006394_State;
+extern struct Su0State sub_02006394_State;
 extern u32 sub_02006394_Thread[];
 extern u16 g_02140484;
 extern u8  g_02140524[];
@@ -1736,7 +1694,7 @@ int func_02006448(u32 a0, u32 a1, u32 a2)
  */
 int sub_020064B8(u32 a, u32 b, u32 c, u32 d)
 {
-    struct Sub020064B8Head *p;
+    struct Su8Head *p;
     u32 *q;
 
     p = func_02074450(a);
@@ -2107,7 +2065,7 @@ void sub_020067D0(struct Sub02006544Entry *e)
  */
 int sub_020067E0(struct Sub02006544Entry *e, u32 id)
 {
-    struct Sub020067E0Head *p;
+    struct Su8Head *p;
     struct Sub020067E0Block *block;
     struct Sub020067E0Wave *wave;
     u32 handle;
@@ -2657,7 +2615,6 @@ void func_02006CBC(u16 heap)
 }
 
 
-struct PerapVoice;
 
 struct Sub02006D44Obj {
     u32   unk00[7];

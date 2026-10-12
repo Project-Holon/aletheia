@@ -68,7 +68,7 @@ typedef unsigned int   u32;
 
 typedef unsigned long long u64;
 
-struct Sub020089A8Rec {
+struct Su8Rec {
     u8 unk00;
     u8 unk01;
     u8 unk02;
@@ -80,7 +80,7 @@ struct Sub020089A8Obj {
     u16 unk600;
     u8  unk602;
     u8  unk603;
-    struct Sub020089A8Rec unk604[8];
+    struct Su8Rec unk604[8];
     union {
         u64 whole;
         struct {
@@ -92,17 +92,11 @@ struct Sub020089A8Obj {
     u16 unk638[16];
 };
 
-struct Sub02008A54Rec {
-    u8 unk00;
-    u8 unk01;
-    u8 unk02;
-    u8 unk03;
-};
 
 struct Sub02008A54Obj {
     u32 unk000[384];
     u32 unk600;
-    struct Sub02008A54Rec unk604[8];
+    struct Su8Rec unk604[8];
 };
 
 struct RTCDate {
@@ -274,7 +268,7 @@ void sub_02008A1C(struct Sub020089A8Obj *obj, u8 value);
 u8 sub_02008A28(const struct Sub020089A8Obj *obj);
 void sub_02008A34(struct Sub020089A8Obj *obj, u32 lo, u32 hi);
 u64 sub_02008A44(const struct Sub020089A8Obj *obj);
-struct Sub02008A54Rec sub_02008A54(struct Sub02008A54Obj *obj, int i);
+struct Su8Rec sub_02008A54(struct Sub02008A54Obj *obj, int i);
 void sub_02008A7C(struct Sub020089A8Obj *obj, u32 i, u32 a, u32 b, u32 c);
 u16 sub_02008ACC(const struct Sub020089A8Obj *obj, u32 i);
 void sub_02008ADC(struct Sub020089A8Obj *obj, int i, int value);
@@ -576,7 +570,7 @@ u64 sub_02008A44(const struct Sub020089A8Obj *obj)
  * This sits between unit_020089A8.c and unit_02008A7C.c in one original
  * file; the three can be merged into one unit.
  */
-struct Sub02008A54Rec sub_02008A54(struct Sub02008A54Obj *obj, int i)
+struct Su8Rec sub_02008A54(struct Sub02008A54Obj *obj, int i)
 {
     return obj->unk604[i];
 }

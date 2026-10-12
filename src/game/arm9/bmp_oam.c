@@ -133,13 +133,13 @@ struct ModeEntry {
     u32 b;
 };
 
-struct Grid_0202570C {
-    u32   pad_0;
-    void *a[25];
-    void *b[24];
-    u8    pad_C8[2];
-    u8    cols;
-    u8    rows;
+struct Grid {
+    u32 pad_0;
+    void * a[25];
+    void * b[24];
+    u16 flags;
+    u8 cols;
+    u8 rows;
 };
 
 typedef signed char    s8;
@@ -166,19 +166,6 @@ struct Obj02025774_020258E8 {
     u16           space;
 };
 
-struct Point_020258E8 {
-    s16 x;
-    s16 y;
-};
-
-struct Grid {
-    u32   pad_0;
-    void *a[25];
-    void *b[24];
-    u16   flags;
-    u8    cols;
-    u8    rows;
-};
 
 struct Obj_020258E8 {
     u32 field_0;
@@ -239,7 +226,7 @@ void func_02025518(u32 a0, u32 a1, u32 a2);
 void *func_02025538(u32 a0, void *a1);
 void func_02025588(void *p);
 struct Grid_020255A0 *func_020255A0(struct Sys *sys, const struct Param *param);
-void func_0202570C(struct Grid_0202570C *g);
+void func_0202570C(struct Grid *g);
 void func_02025774(u8 *g, u32 a);
 int func_020257C4(const int *p);
 void func_020257D0(struct Obj_02025318 *o);
@@ -582,7 +569,7 @@ struct Grid_020255A0 *func_020255A0(struct Sys *sys, const struct Param *param)
  * rows x cols grid, releases the cell's two resources, then frees the
  * object itself.
  */
-void func_0202570C(struct Grid_0202570C *g)
+void func_0202570C(struct Grid *g)
 {
     u8 i, j;
 
@@ -723,7 +710,7 @@ void func_020258E8(struct Obj02025774_020258E8 *p, s16 *out_x, s16 *out_y)
  */
 void func_0202590C(struct Grid *g, s16 x, s16 y)
 {
-    struct Point_020258E8 pt;
+    struct PtS pt;
     int i, j;
 
     for (i = 0; i < g->rows; i++) {

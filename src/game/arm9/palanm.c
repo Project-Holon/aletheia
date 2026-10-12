@@ -31,7 +31,7 @@
  *   2  0x05000200  main OBJ
  *   3  0x05000600  sub OBJ
  */
-struct PalAnmSlot_020215EC;
+struct PalAnmSlot;
 typedef unsigned short u16;
 
 typedef unsigned int u32;
@@ -47,37 +47,15 @@ struct PalAnmState {
     u64 tick;
 };
 
-struct PalAnmSlot_02021464 {
-    void *unk_00;
-    void *unk_04;
-    u32   size;
-    u32   unk_0c;
-    u32   unk_10;
-};
-
-struct PalAnmSlot_020215A0 {
-    void *unk_00;
-    void *unk_04;
-    u32   size;
-    u32   unk_0c;
-    u32   unk_10;
-};
-
-struct PalAnmSlot_020215BC {
+struct PalAnmSlot {
     u16 *unk_00;
     u16 *unk_04;
-    u32  size;
-    u32  unk_0c;
-    u32  unk_10;
+    u32 size;
+    u32 unk_0c;
+    u32 unk_10;
 };
 
-struct PalAnmSlot_020215EC {
-    u16 *unk_00;
-    u16 *unk_04;
-    u32  size;
-    u32  unk_0c;
-    u32  unk_10;
-};
+
 
 struct PltRes {
     u32  unk_00;
@@ -103,15 +81,15 @@ void func_02021444(void);
 void func_02021464(u8 *p);
 void *func_02021518(u32 heap);
 u32 func_02021540(void *a0);
-void func_02021548(struct PalAnmSlot_02021464 *slots, u32 idx, void *a, void *b, u32 size);
-void func_0202155C(struct PalAnmSlot_02021464 *slots, u32 idx, u32 size, u32 heap);
-void func_020215A0(struct PalAnmSlot_020215A0 *slots, u32 idx);
-void func_020215BC(struct PalAnmSlot_020215BC *slots, const void *src, u32 idx, u32 off, u16 size);
-void func_020215EC(struct PalAnmSlot_020215EC *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
-void func_02021640(struct PalAnmSlot_020215EC *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-void func_02021660(struct PalAnmSlot_020215EC *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
-void func_020216B4(struct PalAnmSlot_020215EC *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-void func_020216D4(struct PalAnmSlot_020215EC *slots, u32 bank, u32 off, u32 size);
+void func_02021548(struct PalAnmSlot *slots, u32 idx, void *a, void *b, u32 size);
+void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+void func_020215A0(struct PalAnmSlot *slots, u32 idx);
+void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
+void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+void func_02021660(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
+void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u16 sub_0209E968_Map[];
 extern u16 sub_0209E904_Tbl[][2];
 extern struct PalAnmState g_02146788;
@@ -329,7 +307,7 @@ u32 func_02021540(void *a0)
  *   python tools/match.py one --src src/matched/func_02021548.c \
  *       --func func_02021548 --addr 0x02021548 --cc 1.1p1 --thumb
  */
-void func_02021548(struct PalAnmSlot_02021464 *slots, u32 idx, void *a, void *b,
+void func_02021548(struct PalAnmSlot *slots, u32 idx, void *a, void *b,
                    u32 size)
 {
     slots[idx].unk_00 = a;
@@ -355,11 +333,11 @@ void func_02021548(struct PalAnmSlot_02021464 *slots, u32 idx, void *a, void *b,
  *   python tools/match.py one --src src/matched/func_0202155C.c \
  *       --func func_0202155C --addr 0x0202155C --cc 1.1p1 --thumb
  */
-void func_0202155C(struct PalAnmSlot_02021464 *slots, u32 idx, u32 size, u32 heap)
+void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap)
 {
     void *a = func_02030734(heap, size, 0, func_0202155C_File, 142);
     void *b = func_02030734(heap, size, 0, func_0202155C_File, 143);
-    func_02021548((struct PalAnmSlot_02021464 *)slots, idx, a, b, size);
+    func_02021548((struct PalAnmSlot *)slots, idx, a, b, size);
 }
 
 
@@ -378,7 +356,7 @@ void func_0202155C(struct PalAnmSlot_02021464 *slots, u32 idx, u32 size, u32 hea
  *   python tools/match.py one --src src/matched/func_020215A0.c \
  *       --func func_020215A0 --addr 0x020215A0 --cc 1.1p1 --thumb
  */
-void func_020215A0(struct PalAnmSlot_020215A0 *slots, u32 idx)
+void func_020215A0(struct PalAnmSlot *slots, u32 idx)
 {
     func_020307B0(slots[idx].unk_00);
     func_020307B0(slots[idx].unk_04);
@@ -403,7 +381,7 @@ void func_020215A0(struct PalAnmSlot_020215A0 *slots, u32 idx)
  *   python tools/match.py one --src src/matched/func_020215BC.c \
  *       --func func_020215BC --addr 0x020215BC --cc 1.1p1 --thumb
  */
-void func_020215BC(struct PalAnmSlot_020215BC *slots, const void *src, u32 idx,
+void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx,
                    u32 off, u16 size)
 {
     MIi_CpuCopy16(src, slots[idx].unk_00 + off, size);
@@ -432,7 +410,7 @@ void func_020215BC(struct PalAnmSlot_020215BC *slots, const void *src, u32 idx,
  *   python tools/match.py one --src src/matched/func_020215EC.c \
  *       --func func_020215EC --addr 0x020215EC --cc 1.1p1 --thumb
  */
-void func_020215EC(struct PalAnmSlot_020215EC *slots, u32 arcId, u32 fileId, u32 tag,
+void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag,
                    u32 idx, u32 count, u16 off, u16 srcOff)
 {
     struct PltRes *res;
@@ -442,7 +420,7 @@ void func_020215EC(struct PalAnmSlot_020215EC *slots, u32 arcId, u32 fileId, u32
     if (count == 0) {
         count = res->count;
     }
-    func_020215BC((struct PalAnmSlot_020215BC *)slots, res->data + srcOff, idx, off, (u16)count);
+    func_020215BC((struct PalAnmSlot *)slots, res->data + srcOff, idx, off, (u16)count);
     func_020307B0(block);
 }
 
@@ -462,10 +440,10 @@ void func_020215EC(struct PalAnmSlot_020215EC *slots, u32 arcId, u32 fileId, u32
  *   python tools/match.py one --src src/matched/func_02021640.c \
  *       --func func_02021640 --addr 0x02021640 --cc 1.1p1 --thumb
  */
-void func_02021640(struct PalAnmSlot_020215EC *slots, u32 arcId, u32 fileId, u32 tag,
+void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag,
                    u32 idx, u32 count, u16 off)
 {
-    func_020215EC((struct PalAnmSlot_020215EC *)slots, arcId, fileId, tag, idx, count, off, 0);
+    func_020215EC((struct PalAnmSlot *)slots, arcId, fileId, tag, idx, count, off, 0);
 }
 
 
@@ -490,7 +468,7 @@ void func_02021640(struct PalAnmSlot_020215EC *slots, u32 arcId, u32 fileId, u32
  *   python tools/match.py one --src src/matched/func_02021660.c \
  *       --func func_02021660 --addr 0x02021660 --cc 1.1p1 --thumb
  */
-void func_02021660(struct PalAnmSlot_020215EC *slots, void *arc, u32 fileId, u32 tag,
+void func_02021660(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag,
                    u32 idx, u32 count, u16 off, u16 srcOff)
 {
     struct PltRes *res;
@@ -500,7 +478,7 @@ void func_02021660(struct PalAnmSlot_020215EC *slots, void *arc, u32 fileId, u32
     if (count == 0) {
         count = res->count;
     }
-    func_020215BC((struct PalAnmSlot_020215BC *)slots, res->data + srcOff, idx, off, (u16)count);
+    func_020215BC((struct PalAnmSlot *)slots, res->data + srcOff, idx, off, (u16)count);
     func_020307B0(block);
 }
 
@@ -520,10 +498,10 @@ void func_02021660(struct PalAnmSlot_020215EC *slots, void *arc, u32 fileId, u32
  *   python tools/match.py one --src src/matched/func_020216B4.c \
  *       --func func_020216B4 --addr 0x020216B4 --cc 1.1p1 --thumb
  */
-void func_020216B4(struct PalAnmSlot_020215EC *slots, void *arc, u32 fileId, u32 tag,
+void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag,
                    u32 idx, u32 count, u16 off)
 {
-    func_02021660((struct PalAnmSlot_020215EC *)slots, arc, fileId, tag, idx, count, off, 0);
+    func_02021660((struct PalAnmSlot *)slots, arc, fileId, tag, idx, count, off, 0);
 }
 
 
@@ -553,7 +531,7 @@ void func_020216B4(struct PalAnmSlot_020215EC *slots, void *arc, u32 fileId, u32
  *   python tools/match.py one --src src/matched/func_020216D4.c \
  *       --func func_020216D4 --addr 0x020216D4 --cc 1.1p1 --thumb
  */
-void func_020216D4(struct PalAnmSlot_020215EC *slots, u32 bank, u32 off, u32 size)
+void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size)
 {
     u16 *base;
 
@@ -574,5 +552,5 @@ void func_020216D4(struct PalAnmSlot_020215EC *slots, u32 bank, u32 off, u32 siz
         return;
     }
 
-    func_020215BC((struct PalAnmSlot_020215BC *)slots, base + off, bank, off, (u16)size);
+    func_020215BC((struct PalAnmSlot *)slots, base + off, bank, off, (u16)size);
 }

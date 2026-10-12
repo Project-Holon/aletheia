@@ -233,8 +233,6 @@ struct Entry;
 #define HW_BUTTON_XY_BUF    0x02FFFFA8
 #define REG_KEYINPUT        0x04000130
 #define PAD_ALL_MASK        0x2FFF
-struct NetCtx;
-struct Entry;
 struct TPData;
 struct Kind;
 struct R;
@@ -289,7 +287,6 @@ struct Sys_020353B0 {
 
 typedef unsigned short u16;
 
-struct NetCtx;
 
 struct Entry {
     void *obj;
@@ -451,12 +448,20 @@ struct R {
     u8 c;
 };
 
-struct Sio_02035D5C {
-    u8 pad_00[0x0c];
+struct Hdr {
+    u8 f00;
+    u8 f01;
+    u8 f02;
+    u8 f03;
+    u8 f04;
+    u8 f05;
+    u8 f06;
+    u8 body[1];
+    u8 pad_08[0x4];
     u8 buf[0x4c];
     u16 unk58;
     u16 unk5a;
-    u8 pad_5c[0x19];
+    u8 pad_5C[0x19];
     u8 unk75;
 };
 
@@ -714,18 +719,6 @@ struct Votes {
     u16 tag[8];
     u8  mask[8];
     u8  ready[8];
-};
-
-struct Hdr
-{
-    u8 f00;
-    u8 f01;
-    u8 f02;
-    u8 f03;
-    u8 f04;
-    u8 f05;
-    u8 f06;
-    u8 body[1];
 };
 
 struct Glob_020377B8
@@ -1161,12 +1154,12 @@ u32 sub_02035CB8(u32 *outA, u32 *outB);
 u32 sub_02035CD8(struct Sys_020353B0 *ctx, u32 *outA, u32 *outB);
 u32 sub_02035D20(u32 *outA, u32 *outB);
 u32 sub_02035D40(struct Sys_020353B0 *ctx, u32 a, u32 b);
-u32 sub_02035D5C(struct Sio_02035D5C *p);
-void sub_02035D98(struct Sio_02035D5C *p);
+u32 sub_02035D5C(struct Hdr *p);
+void sub_02035D98(struct Hdr *p);
 void sub_02035DC8(void);
-void sub_02035DD8(struct Sio_02035D5C *p);
+void sub_02035DD8(struct Hdr *p);
 void sub_02035E08(void);
-u32 sub_02035E18(struct Sio_02035D5C *p);
+u32 sub_02035E18(struct Hdr *p);
 void sub_02035E54(struct Sys_020353B0 *p);
 void func_02035E84(void *p, u16 a, u16 b, u16 c, u16 d);
 int func_02035EB0(int a0, int a1, int a2);
@@ -3403,7 +3396,7 @@ u32 sub_02035D40(struct Sys_020353B0 *ctx, u32 a, u32 b)
  *   python tools/match.py tu --src src/matched/unit_02035D5C.c \
  *       --addr 0x02035D5C --arm
  */
-u32 sub_02035D5C(struct Sio_02035D5C *p)
+u32 sub_02035D5C(struct Hdr *p)
 {
     if (p->unk58 == 0) {
         return 1;
@@ -3436,9 +3429,9 @@ u32 sub_02035D5C(struct Sio_02035D5C *p)
 
 
 
-void sub_02035D98(struct Sio_02035D5C *p)
+void sub_02035D98(struct Hdr *p)
 {
-    struct Sio_02035D5C *sio = (struct Sio_02035D5C *)func_02035750();
+    struct Hdr *sio = (struct Hdr *)func_02035750();
 
     if (sio != 0 && sio->unk5a != 0 && sio->unk58 != 0) {
         sub_02035E18(sio);
@@ -3468,7 +3461,7 @@ void sub_02035D98(struct Sio_02035D5C *p)
 
 void sub_02035DC8(void)
 {
-    sub_02035D98((struct Sio_02035D5C *)func_02035224());
+    sub_02035D98((struct Hdr *)func_02035224());
 }
 
 
@@ -3491,9 +3484,9 @@ void sub_02035DC8(void)
 
 
 
-void sub_02035DD8(struct Sio_02035D5C *p)
+void sub_02035DD8(struct Hdr *p)
 {
-    struct Sio_02035D5C *sio = (struct Sio_02035D5C *)func_02035750();
+    struct Hdr *sio = (struct Hdr *)func_02035750();
 
     if (sio != 0 && sio->unk5a != 1 && sio->unk58 != 0) {
         sub_02035D5C(sio);
@@ -3523,7 +3516,7 @@ void sub_02035DD8(struct Sio_02035D5C *p)
 
 void sub_02035E08(void)
 {
-    sub_02035DD8((struct Sio_02035D5C *)func_02035224());
+    sub_02035DD8((struct Hdr *)func_02035224());
 }
 
 
@@ -3546,7 +3539,7 @@ void sub_02035E08(void)
 
 
 
-u32 sub_02035E18(struct Sio_02035D5C *p)
+u32 sub_02035E18(struct Hdr *p)
 {
     u32 ret;
 

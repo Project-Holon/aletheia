@@ -40,7 +40,6 @@
 
 struct Layer;
 struct Struct_0204EE0C;
-struct Struct_0204EE64;
 struct Cell;
 struct Tagged;
 typedef unsigned char  u8;
@@ -63,35 +62,29 @@ struct Struct_0204EE0C {
     u16 count;
 };
 
-struct Struct_0204EE64 {
+struct Cell {
     u32 heapId;
-    u8 pad[0xc - 4];
+    u16 f04;
+    u16 f06;
+    u8 f08;
+    u8 f09;
+    u8 f0a;
+    u8 f0b;
     u32 offC;
     u32 off10;
-    u8 pad2[0x20 - 0x14];
+    u32 f14;
+    u32 f18;
+    u32 f1c;
     u32 off20;
     u32 off24;
 };
 
 typedef signed int     s32;
 
-struct Cell {
-    u8  pad_00[4];
-    u16 f04;
-    u16 f06;
-    u8  f08;
-    u8  f09;
-    u8  f0a;
-    u8  f0b;
-    u8  pad_0c[8];
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-};
 
 struct Pair8 { u32 w; u32 pad; };
 
-struct Slot_0204EF58 {
+struct Slot {
     u8  pad_00[4];
     u32 unk_04;
     u32 unk_08;
@@ -105,21 +98,9 @@ struct Slot_0204EF58 {
 
 struct Desc {
     u8           pad_00[4];
-    struct Slot_0204EF58 *slots;
+    struct Slot *slots;
     u32          unk_08;
     int          count;
-};
-
-struct Slot_0204EFC8 {
-    u8  pad_00[4];
-    u32 unk_04;
-    u32 unk_08;
-    u32 unk_0c;
-    u32 unk_10;
-    u32 unk_14;
-    u8  pad_18[8];
-    u32 unk_20;
-    u32 unk_24;
 };
 
 struct Slot_0204F044 {
@@ -165,18 +146,6 @@ struct Actor {
     u16 count;
 };
 
-struct Slot {
-    u8  pad_00[4];
-    u32 unk_04;
-    u32 unk_08;
-    u32 unk_0c;
-    u32 unk_10;
-    u32 unk_14;
-    u8  pad_18[8];
-    u32 unk_20;
-    u32 unk_24;
-};
-
 extern int func_02046FF8(int *self);
 extern u32 func_02047388(struct Layer *layer);
 extern u32 func_020473B8(struct Layer *layer);
@@ -188,7 +157,7 @@ extern void func_020307E0(void *p, u32 size);
 extern int func_020470D0(u32 *p);
 extern void func_02046EFC(struct Tagged *p);
 int func_0204EE0C(struct Struct_0204EE0C *p, int *out_index);
-void func_0204EE64(struct Struct_0204EE64 *p, u32 heapId);
+void func_0204EE64(struct Cell *p, u32 heapId);
 void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c);
 u32 func_0204EF58(struct Desc *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 u32 func_0204EFC8(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
@@ -238,7 +207,7 @@ int func_0204EE0C(struct Struct_0204EE0C *p, int *out_index)
  *   python tools/match.py one --src src/matched/func_0204EE64.c \
  *       --func func_0204EE64 --addr 0x0204EE64 --cc 1.1p1 --arm
  */
-void func_0204EE64(struct Struct_0204EE64 *p, u32 heapId)
+void func_0204EE64(struct Cell *p, u32 heapId)
 {
     u32 res;
 
@@ -318,7 +287,7 @@ u32 func_0204EF58(struct Desc *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5)
     u32 idx;
 
     if (func_0204EE0C((struct Struct_0204EE0C *)desc, (int *)(&idx)) == 1) {
-        func_0204EE64((struct Struct_0204EE64 *)(&desc->slots[idx]), a1);
+        func_0204EE64((struct Cell *)(&desc->slots[idx]), a1);
         func_0204EEC8((struct Cell *)(&desc->slots[idx]), a2, a3, a4, a5);
     }
     return idx;
@@ -340,7 +309,7 @@ u32 func_0204EFC8(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a
     u32 idx;
 
     if (func_0204EE0C((struct Struct_0204EE0C *)desc, (int *)(&idx)) == 1) {
-        func_0204EE64((struct Struct_0204EE64 *)(&desc->slots[idx]), (u32)func_02046DB8(a1, a2));
+        func_0204EE64((struct Cell *)(&desc->slots[idx]), (u32)func_02046DB8(a1, a2));
         func_0204EEC8((struct Cell *)(&desc->slots[idx]), a3, a4, a5, a6);
     }
     return idx;

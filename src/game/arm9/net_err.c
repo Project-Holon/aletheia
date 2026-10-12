@@ -144,7 +144,7 @@ typedef struct { u32 w[3]; } DWCFriendData;
 
 typedef signed short   s16;
 
-struct Sub0200F6B8Obj {
+struct Su8Obj {
     unsigned char pad[0x60];
 };
 
@@ -244,9 +244,6 @@ struct Sub0200FB6CObj {
     void *unk08;
 };
 
-struct Sub0200FBA0Obj {
-    unsigned char pad[0x60];
-};
 
 typedef enum { GX_BG_SCRSIZE_TEXT_256x256 = 0 } GXBGScrSizeText;
 

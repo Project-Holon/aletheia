@@ -183,11 +183,7 @@ struct Big {
     u8  unk2A0[4];
 };
 
-struct Bits {
-    u32 unk00_0  : 16;
-    u32 unk00_16 : 5;
-    u32 unk00_21 : 11;
-};
+
 
 struct Rec2DC {
     u8 unk000[0x1E8];
@@ -279,8 +275,11 @@ struct Bits0200AB04 {
     u8    flag : 1;
 };
 
-struct Rec0200AB04 {
-    u8 pad00[0x1b];
+struct Bits {
+    u32 unk00_0 : 16;
+    u32 unk00_16 : 5;
+    u32 unk00_21 : 11;
+    u8 pad_04[0x17];
     struct Bits0200AB04 bits;
 };
 
@@ -381,6 +380,8 @@ struct Rec1E {
 struct RecBig {
     u8 unk000[0x2C0];
     struct Rec1E unk2C0[1];
+    u8 pad_2DE[0x6A];
+    unsigned int f348;
 };
 
 extern int  DWC_IsValidFriendData(const void *friendData);
@@ -559,7 +560,7 @@ int sub_0200A9A4(struct T0200A9A4 *o, u32 v);
 int sub_0200A9D4(struct T0200A9A4 *o, u32 v);
 u8 func_0200AA00(u32 a0, u32 a1, struct Date *src);
 u8 sub_0200AA68(Rec *r, const void *src, u16 a2, u8 a3, u8 s0, u8 s1, u32 s2, u16 s3, u8 s4, u8 s5, u8 s6);
-void sub_0200AB04(struct Rec0200AB04 *o);
+void sub_0200AB04(struct Bits *o);
 int sub_0200AB24(void);
 void func_0200AB2C(void *a0);
 u8 func_0200AB50(Ent *list, s32 n, Ent *dst);
@@ -2442,7 +2443,7 @@ u8 sub_0200AA68(Rec *r, const void *src, u16 a2, u8 a3,
  * constant getter for 0x34c, which Thumb spells `movs r0, #0xd3; lsls
  * r0, r0, #2`.
  */
-void sub_0200AB04(struct Rec0200AB04 *o)
+void sub_0200AB04(struct Bits *o)
 {
     int i;
 
@@ -2460,7 +2461,7 @@ int sub_0200AB24(void)
 void func_0200AB2C(void *a0)
 {
     func_02082BCC(a0, 0, 0x34c);
-    ((struct Obj11229 *)a0)->f348 = (((struct Obj11229 *)a0)->f348 & ~0xff) | 0x7f;
+    ((struct RecBig *)a0)->f348 = (((struct RecBig *)a0)->f348 & ~0xff) | 0x7f;
 }
 
 

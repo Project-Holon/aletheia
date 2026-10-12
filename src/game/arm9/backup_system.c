@@ -90,7 +90,6 @@
 #include "../../matched/include/Obj15875.h"
 #include "../../matched/include/Obj06929.h"
 #include "../../matched/include/Obj11324.h"
-#include "../../matched/include/Obj01020.h"
 #include "../../matched/include/Obj02604.h"
 #include "../../matched/include/Obj08815.h"
 #include "../../matched/include/Obj15878.h"
@@ -376,6 +375,12 @@ struct Item020346D8 {
     u16 pad2;
     u16 unk04;
     u16 unk06;
+    u8 pad_08[0x24];
+    void * f2C;
+    unsigned int f30;
+    unsigned int f34;
+    u8 pad_38[0x108];
+    unsigned int f140;
 };
 
 typedef void (*AssertHandler)(void);
@@ -759,7 +764,7 @@ u32 func_02031994(u8 *p, u32 *out)
  */
 u32 func_020319A4(u8 *p, u32 id)
 {
-    return func_02033B68(*(u8 * *)&((struct Obj01020 *)p)->f2C, id) + ((struct Obj01020 *)p)->f34;
+    return func_02033B68(*(u8 * *)&((struct Item020346D8 *)p)->f2C, id) + ((struct Item020346D8 *)p)->f34;
 }
 
 
@@ -1179,7 +1184,7 @@ u32 func_02031EAC(u32 *p, u32 sel)
 }
 
 
-int func_02031ECC(int p0){ return (*(int *)&((struct Obj01020 *)p0)->f34 + ((*(int *)&((struct Obj01020 *)p0)->f30 - 0x10) - *(int *)&((struct Obj01020 *)p0)->f140)); }
+int func_02031ECC(int p0){ return (*(int *)&((struct Item020346D8 *)p0)->f34 + ((*(int *)&((struct Item020346D8 *)p0)->f30 - 0x10) - *(int *)&((struct Item020346D8 *)p0)->f140)); }
 
 
 int func_02031EE8(int p0, int p1){ return (p1 + (((struct Obj15879 *)p0)->f30 - 0x10)); }

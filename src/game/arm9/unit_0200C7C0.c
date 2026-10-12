@@ -64,10 +64,6 @@ struct Blk37_0200CA98 {
     u32 unk4D0;
 };
 
-struct FormCount {
-    u16 id;
-    u16 count;
-};
 
 struct Blk37 {
     u32 unk00;
@@ -189,7 +185,7 @@ void func_0200D55C(struct Blk38 *p, u8 v);
 u32 func_0200D564(struct Blk38 *p);
 u32 func_0200D58C(struct Blk38 *p);
 extern const struct DistEnt func_0200C7C0_Table[];
-extern const struct FormCount func_0200CA98_Table[];
+extern const struct DistEnt func_0200CA98_Table[];
 
 
 

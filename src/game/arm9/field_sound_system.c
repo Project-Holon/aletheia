@@ -49,7 +49,7 @@
 #include "../../matched/include/Obj00354.h"
 #include "../../matched/include/Obj16754.h"
 
-struct Cmd;
+struct SndCmd;
 struct Fader;
 struct Sys;
 struct T;
@@ -69,7 +69,7 @@ typedef unsigned short u16;
 
 typedef int            s32_0202889C;
 
-struct Sys_0202889C {
+struct Sys {
     u32 unk00;
     u32 unk04;
     u8  unk08[0x14];
@@ -78,20 +78,14 @@ struct Sys_0202889C {
 };
 
 struct SoundSys_02028844 {
-    u8    unk00[0xA4];
-    void *fader;
-    void *ringtone;
+    u8 unk00[0xA4];
+    struct Fader *fader;
+    void * ringtone;
 };
 
 typedef int            s32_020288C4;
 
-struct Sys_020288C4 {
-    u32 unk00;
-    u32 unk04;
-    u8  unk08[0x14];
-    u32 unk1C;
-    u32 unk20;
-};
+
 
 typedef signed int    s32_02028900;
 
@@ -116,23 +110,11 @@ typedef struct {
 
 typedef int            s32_02028988;
 
-struct Sys_02028988 {
-    u32 unk00;
-    u32 unk04;
-    u8  unk08[0x14];
-    u32 unk1C;
-    u32 unk20;
-};
+
 
 typedef int            s32_0;
 
-struct Sys {
-    u32 unk00;
-    u32 unk04;
-    u8  unk08[0x14];
-    u32 unk1C;
-    u32 unk20;
-};
+
 
 struct SndCmd {
     u32 unk00;
@@ -146,11 +128,7 @@ struct T {
     u32 f04;
 };
 
-struct SoundSys_020289B8 {
-    u8            unk00[0xA4];
-    struct Fader *fader;
-    void         *ringtone;
-};
+
 
 struct SoundSys2 {
     u16 unk00[0x56];
@@ -184,16 +162,11 @@ struct Sys_02028D2C {
 
 typedef signed int     s32_1;
 
-struct Cmd {
-    u32 unk00;
-    u32 unk04;
-    u16 unk08;
-    u16 unk0A;
-};
+
 
 struct Sys_02028D8C {
     u8         pad_00[0x28];
-    struct Cmd queue[10];   /* 0x28 */
+    struct SndCmd queue[10];   /* 0x28 */
     u8         tail;        /* 0xa0 */
     u8         head;        /* 0xa1 */
 };
@@ -202,14 +175,14 @@ typedef signed int     s32;
 
 struct Sys_02028DCC {
     u8          pad_00[0x28];
-    struct Cmd  queue[10];
+    struct SndCmd  queue[10];
     u8          tail;
     volatile u8 head;
 };
 
 struct Sys_02028E0C {
     u8         pad_00[0x28];
-    struct Cmd queue[10];   /* 0x28 */
+    struct SndCmd queue[10];   /* 0x28 */
     u8         pad_A0;
     u8         head;        /* 0xa1 */
 };
@@ -219,12 +192,7 @@ struct Sys_02028E48 {
     u32 unk1C;      /* 0x1c */
 };
 
-struct Sys_02028E80 {
-    u8         pad_00[0x28];
-    struct Cmd queue[10];
-    u8         tail;
-    u8         head;
-};
+
 
 struct SoundParam2 {
     unsigned char pad00[4];
@@ -292,17 +260,17 @@ extern int func_02029354(int a0);
 extern void func_0202938C(u8 *p);
 struct Sys_02028844 *func_02028844(void *desc, u32 heap);
 void func_0202889C(struct SoundSys_02028844 *s);
-s32_020288C4 func_020288C4(struct Sys_020288C4 *s);
+s32_020288C4 func_020288C4(struct Sys *s);
 void *func_02028900(Obj *p);
-u32 func_02028988(struct Sys_02028988 *s);
+u32 func_02028988(struct Sys *s);
 u32 func_020289B8(struct Sys *s);
 u32 func_020289D4(struct Sys *s);
 void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 void func_02028A14(struct T *p);
 void func_02028A50(void *sys, void *res);
-void func_02028A58(struct SoundSys_020289B8 *sys, u8 level, u16 frames);
-void func_02028A64(struct SoundSys_020289B8 *sys);
-void func_02028A70(struct SoundSys_020289B8 *sys);
+void func_02028A58(struct SoundSys_02028844 *sys, u8 level, u16 frames);
+void func_02028A64(struct SoundSys_02028844 *sys);
+void func_02028A70(struct SoundSys_02028844 *sys);
 void func_02028A7C(struct SoundSys2 *s, u32 id);
 void func_02028ACC(struct SoundSys2 *s, u32 id, u32 who);
 void func_02028B18(struct SoundSys2 *s, u32 id, u32 who);
@@ -316,13 +284,13 @@ void func_02028CD4(u8 *p, u32 v);
 void func_02028D2C(struct Sys_02028D2C *s, void *desc);
 void func_02028D54(int a0);
 void *func_02028D7C(void *obj);
-struct Cmd *func_02028D8C(struct Sys_02028D8C *s);
+struct SndCmd *func_02028D8C(struct Sys_02028D8C *s);
 int func_02028DB8(void *obj);
 u8 func_02028DCC(struct Sys_02028DCC *s, u32 target);
-void func_02028E0C(struct Sys_02028E0C *s, struct Cmd *cmd);
+void func_02028E0C(struct Sys_02028E0C *s, struct SndCmd *cmd);
 u32 func_02028E48(struct Sys_02028E48 *s, u32 kind);
-void func_02028E80(struct Sys_02028E80 *s);
-void func_02028EAC(struct SoundParam2 *obj, struct Cmd *cmd);
+void func_02028E80(struct Sys_02028D8C *s);
+void func_02028EAC(struct SoundParam2 *obj, struct SndCmd *cmd);
 void func_02028F18(struct SoundParam2 *obj, u16 a1);
 void func_02028F30(struct SoundParam2 *obj, u16 a1);
 void func_02028F48(struct SoundParam2 *obj, u16 a1);
@@ -427,7 +395,7 @@ void func_0202889C(struct SoundSys_02028844 *s)
  * Verified with:
  *   python tools/match.py tu --src src/matched/func_020288C4.c  *       --addr 0x020288C4 --thumb
  */
-s32_020288C4 func_020288C4(struct Sys_020288C4 *s)
+s32_020288C4 func_020288C4(struct Sys *s)
 {
     s32_020288C4 n = s->unk20;
     u32 mode;
@@ -506,7 +474,7 @@ void *func_02028900(Obj *p)
  * Verified with:
  *   python tools/match.py tu --src src/matched/func_02028988.c  *       --addr 0x02028988 --thumb
  */
-u32 func_02028988(struct Sys_02028988 *s)
+u32 func_02028988(struct Sys *s)
 {
     u32 v = s->unk04;
 
@@ -564,7 +532,7 @@ u32 func_020289D4(struct Sys *s)
     if (s->unk1C == 4 && s->unk04 == 6) {
         return 0;
     }
-    if (func_02028DCC((struct Sys_02028DCC *)((struct Sys_020288C4 *)s), 4) != 0) {
+    if (func_02028DCC((struct Sys_02028DCC *)((struct Sys *)s), 4) != 0) {
         return 0;
     }
     return 1;
@@ -612,7 +580,7 @@ void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d)
     cmd.unk04 = b;
     cmd.unk08 = c;
     cmd.unk0A = d;
-    func_02028E0C((struct Sys_02028E0C *)s, (struct Cmd *)(&cmd));
+    func_02028E0C((struct Sys_02028E0C *)s, (struct SndCmd *)(&cmd));
 }
 
 
@@ -696,7 +664,7 @@ void func_02028A50(void *sys, void *res)
 
 
 
-void func_02028A58(struct SoundSys_020289B8 *sys, u8 level, u16 frames)
+void func_02028A58(struct SoundSys_02028844 *sys, u8 level, u16 frames)
 {
     func_02028794(sys->fader, level, frames);
 }
@@ -708,7 +676,7 @@ void func_02028A58(struct SoundSys_020289B8 *sys, u8 level, u16 frames)
 
 
 
-void func_02028A64(struct SoundSys_020289B8 *sys)
+void func_02028A64(struct SoundSys_02028844 *sys)
 {
     func_02029F54(sys->ringtone);
 }
@@ -720,7 +688,7 @@ void func_02028A64(struct SoundSys_020289B8 *sys)
 
 
 
-void func_02028A70(struct SoundSys_020289B8 *sys)
+void func_02028A70(struct SoundSys_02028844 *sys)
 {
     func_02029F60(sys->ringtone);
 }
@@ -1119,8 +1087,8 @@ void func_02028D54(int a0)
 {
     int *p = func_02028D7C((void *)a0);
     if (func_02028FD0((struct SoundParam *)a0, *p)) {
-        func_02028EAC((struct SoundParam2 *)a0, (struct Cmd *)((int)p));
-        func_02028E80((struct Sys_02028E80 *)((struct Sys *)a0));
+        func_02028EAC((struct SoundParam2 *)a0, (struct SndCmd *)((int)p));
+        func_02028E80((struct Sys_02028D8C *)((struct Sys *)a0));
     }
 }
 
@@ -1159,7 +1127,7 @@ void *func_02028D7C(void *obj)
  *   python tools/match.py tu --src src/matched/func_02028D8C.c \
  *       --addr 0x02028D8C --thumb
  */
-struct Cmd *func_02028D8C(struct Sys_02028D8C *s)
+struct SndCmd *func_02028D8C(struct Sys_02028D8C *s)
 {
     s32_1 i;
 
@@ -1234,7 +1202,7 @@ u8 func_02028DCC(struct Sys_02028DCC *s, u32 target)
  *   python tools/match.py one --src src/pending/func_02028E0C.c \
  *       --func func_02028E0C --addr 0x02028E0C --cc 1.1p1 --thumb
  */
-void func_02028E0C(struct Sys_02028E0C *s, struct Cmd *cmd)
+void func_02028E0C(struct Sys_02028E0C *s, struct SndCmd *cmd)
 {
     s32 n;
 
@@ -1313,7 +1281,7 @@ u32 func_02028E48(struct Sys_02028E48 *s, u32 kind)
 
 
 
-void func_02028E80(struct Sys_02028E80 *s)
+void func_02028E80(struct Sys_02028D8C *s)
 {
     s32 tail = s->tail;
 
@@ -1335,7 +1303,7 @@ void func_02028E80(struct Sys_02028E80 *s)
  * unit_02028F18 (pkt_02028B50), but unit_02028F18's header only lists func_02028F18,
  * so the other internal functions have no external branch witness in the manifest.
  */
-void func_02028EAC(struct SoundParam2 *obj, struct Cmd *cmd)
+void func_02028EAC(struct SoundParam2 *obj, struct SndCmd *cmd)
 {
     switch (cmd->unk00) {
     case 1:

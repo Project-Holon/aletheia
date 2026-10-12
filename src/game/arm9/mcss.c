@@ -234,7 +234,7 @@ struct McssSys_02014910;
 struct McssWork_02014910;
 struct MtxFx44;
 struct Pose;
-struct Tex;
+struct McssTex;
 struct VecFx32;
 struct AnimBank;
 struct AnimSequence;
@@ -251,13 +251,9 @@ struct Rec;
 struct Stats;
 struct Sub150;
 struct Pokemon;
-struct Pokemon;
-struct Pokemon;
 struct MsgData;
 struct Personal;
-struct Pokemon;
 struct Sub0200852CObj;
-struct Pokemon;
 struct Sub02008F80Obj;
 struct MsgBank;
 struct Strbuf;
@@ -305,7 +301,7 @@ struct Sub02014CB8Obj {
     u32   f40;
 };
 
-struct Sub02014CF8Rec {
+struct Sub150 {
     u32 w[9];
 };
 
@@ -313,7 +309,7 @@ struct Sub02014CF8Ctx {
     u32                    pad000[(0x148 - 0) / 4];
     void                  *f148;
     u32                    pad14C;
-    struct Sub02014CF8Rec  f150;
+    struct Sub150  f150;
 };
 
 typedef signed long long s64;
@@ -478,11 +474,7 @@ struct McssWork_020155A0 {
     u32  b31 : 1;
 };
 
-struct Tex { s32_02014910 fmt; u32 f04; u32 plttBase; };
 
-struct Sub150 {
-    u32 w[9];
-};
 
 struct Rec_020159C8 {
     u32 pad000[0x38];
@@ -686,19 +678,6 @@ struct Src {
     u32 f20;
 };
 
-struct Obj_020160C4 {
-    void *f00;
-    void *f04;
-    void *f08;
-    void *f0c;
-    void *f10;
-    void *f14;
-    u32 f18;
-    u32 f1c;
-    void *f20;
-    void *f24;
-    u32 f28;
-};
 
 struct Obj_02016880 {
     void *f00;                    /* +0x00 */
@@ -709,12 +688,12 @@ struct Obj_02016880 {
     void *f14;                    /* +0x14 */
     u32  f18;                     /* +0x18 */
     u32  f1c;                     /* +0x1c */
-    struct Obj20_02016880 *f20;   /* +0x20 */
+    struct Obj20 *f20;   /* +0x20 */
     u32 *f24;                     /* +0x24 */
     u32  f28;                     /* +0x28 */
 };
 
-struct Obj20_02016880 {
+struct Obj20 {
     u8   pad00[0xc];
     void *f0c;                    /* +0x0c */
 };
@@ -725,14 +704,10 @@ struct Obj24_0201691C {
     void *f08;      /* +0x08 */
 };
 
-struct Obj04_0201691C {
-    u8   pad00[0xc];
-    void *f0c;      /* +0x0c */
-};
 
 struct Obj_0201691C {
     u8   pad00[4];
-    struct Obj04_0201691C *f04;   /* +0x04 */
+    struct Obj20 *f04;   /* +0x04 */
     u8   pad08[4];
     void *f0c;                    /* +0x0c */
     u8   pad10[0xc];
@@ -1072,9 +1047,9 @@ void sub_02014CB8(struct Sub02014CB8Obj *o, u32 x);
 void sub_02014CD4(struct Sub02014CB8Obj *o);
 void func_02014CEC(u8 *p, u32 value);
 void sub_02014CF0(struct Obj02014CF0 *o, int v1, int v2);
-void sub_02014CF8(void *a, struct Sub02014CF8Ctx *b, const struct Sub02014CF8Rec *c);
+void sub_02014CF8(void *a, struct Sub02014CF8Ctx *b, const struct Sub150 *c);
 void func_02014D2C(struct McssSys_02014910 *sys);
-void func_020155A0(struct McssSys_020155A0 *sys, struct McssWork_020155A0 *w, fx32 x, fx32 y, fx32 width, fx32 height, fx32 s, fx32 t, struct Pose *pose, u16 *frame, struct Tex *tex, int id, int proj, u32 *z, u8 flip);
+void func_020155A0(struct McssSys_020155A0 *sys, struct McssWork_020155A0 *w, fx32 x, fx32 y, fx32 width, fx32 height, fx32 s, fx32 t, struct Pose *pose, u16 *frame, struct McssTex *tex, int id, int proj, u32 *z, u8 flip);
 struct Rec_020159C8 *func_020159C8(struct Obj_02014910 *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
 void sub_02015BA4(void *sys, void *obj);
 void sub_02015BF0(void *obj);
@@ -1839,11 +1814,11 @@ void sub_02014CF0(struct Obj02014CF0 *o, int v1, int v2)
  *   python tools/match.py one --src src/matched/sub_02014CF8.c \
  *       --func sub_02014CF8 --addr 0x02014CF8 --thumb --cc 1.1p1
  */
-void sub_02014CF8(void *a, struct Sub02014CF8Ctx *b, const struct Sub02014CF8Rec *c)
+void sub_02014CF8(void *a, struct Sub02014CF8Ctx *b, const struct Sub150 *c)
 {
     func_02016BA0(b);
     b->f150 = *c;
-    func_020163C4(a, (u32)b->f148, (const struct Src *)((struct Sub02014CF8Rec *)c));
+    func_020163C4(a, (u32)b->f148, (const struct Src *)((struct Sub150 *)c));
 }
 
 
@@ -2181,17 +2156,17 @@ void func_02014D2C(struct McssSys_02014910 *sys)
             rec = (struct Rec_02014910 *)(w->f2c + 0xc) + part.f00;
             if (rec->q1.w != 0 && w->b30 == 0) {
                 if (w->b8) {
-                    func_020155A0((struct McssSys_020155A0 *)sys, (struct McssWork_020155A0 *)w, rec->q1.x, rec->q1.y, rec->q1.w, rec->q1.h, rec->q1.s, rec->q1.t + rec->q1.h, &part, &pose.f00, (struct Tex *)(&sys->tex), id, billboard, &z, flip);
+                    func_020155A0((struct McssSys_020155A0 *)sys, (struct McssWork_020155A0 *)w, rec->q1.x, rec->q1.y, rec->q1.w, rec->q1.h, rec->q1.s, rec->q1.t + rec->q1.h, &part, &pose.f00, (struct McssTex *)(&sys->tex), id, billboard, &z, flip);
                 } else {
-                    func_020155A0((struct McssSys_020155A0 *)sys, (struct McssWork_020155A0 *)w, rec->q1.x, rec->q1.y, rec->q1.w, rec->q1.h, rec->q1.s, rec->q1.t, &part, &pose.f00, (struct Tex *)(&sys->tex), id, billboard, &z, flip);
+                    func_020155A0((struct McssSys_020155A0 *)sys, (struct McssWork_020155A0 *)w, rec->q1.x, rec->q1.y, rec->q1.w, rec->q1.h, rec->q1.s, rec->q1.t, &part, &pose.f00, (struct McssTex *)(&sys->tex), id, billboard, &z, flip);
                 }
             }
-            func_020155A0((struct McssSys_020155A0 *)sys, (struct McssWork_020155A0 *)w, rec->q0.x, rec->q0.y, rec->q0.w, rec->q0.h, rec->q0.s, rec->q0.t, &part, &pose.f00, (struct Tex *)(&sys->tex), id, billboard, &z, flip);
+            func_020155A0((struct McssSys_020155A0 *)sys, (struct McssWork_020155A0 *)w, rec->q0.x, rec->q0.y, rec->q0.w, rec->q0.h, rec->q0.s, rec->q0.t, &part, &pose.f00, (struct McssTex *)(&sys->tex), id, billboard, &z, flip);
             if (rec->q1.w != 0 && w->b30 == 1) {
                 if (w->b8) {
-                    func_020155A0((struct McssSys_020155A0 *)sys, (struct McssWork_020155A0 *)w, rec->q1.x, rec->q1.y, rec->q1.w, rec->q1.h, rec->q1.s, rec->q1.t + rec->q1.h, &part, &pose.f00, (struct Tex *)(&sys->tex), id, billboard, &z, flip);
+                    func_020155A0((struct McssSys_020155A0 *)sys, (struct McssWork_020155A0 *)w, rec->q1.x, rec->q1.y, rec->q1.w, rec->q1.h, rec->q1.s, rec->q1.t + rec->q1.h, &part, &pose.f00, (struct McssTex *)(&sys->tex), id, billboard, &z, flip);
                 } else {
-                    func_020155A0((struct McssSys_020155A0 *)sys, (struct McssWork_020155A0 *)w, rec->q1.x, rec->q1.y, rec->q1.w, rec->q1.h, rec->q1.s, rec->q1.t, &part, &pose.f00, (struct Tex *)(&sys->tex), id, billboard, &z, flip);
+                    func_020155A0((struct McssSys_020155A0 *)sys, (struct McssWork_020155A0 *)w, rec->q1.x, rec->q1.y, rec->q1.w, rec->q1.h, rec->q1.s, rec->q1.t, &part, &pose.f00, (struct McssTex *)(&sys->tex), id, billboard, &z, flip);
                 }
             }
         }
@@ -2262,7 +2237,7 @@ void func_02014D2C(struct McssSys_02014910 *sys)
  */
 void func_020155A0(struct McssSys_020155A0 *sys, struct McssWork_020155A0 *w, fx32 x, fx32 y,
                    fx32 width, fx32 height, fx32 s, fx32 t,
-                   struct Pose *pose, u16 *frame, struct Tex *tex, int id,
+                   struct Pose *pose, u16 *frame, struct McssTex *tex, int id,
                    int proj, u32 *z, u8 flip)
 {
     u32 alpha;
@@ -4511,7 +4486,7 @@ void func_02016630(struct Ctx *a0, u32 idx, const struct Src *a2)
 {
     u8 *a1 = (u8 *)a0->f14[idx];
     void *h;
-    struct Obj_020160C4 *p;
+    struct Obj_020163C4 *p;
     u32 flag;
     u32 *q;
 
@@ -4536,7 +4511,7 @@ void func_02016630(struct Ctx *a0, u32 idx, const struct Src *a2)
     *(u32 * *)&((struct Obj00696 *)a1)->f2C = q;
     *(u32 * *)&((struct Obj00696 *)a1)->f30 = (u32 *)((u8 *)q + ((0x30 * q[0] + 0xC) & ~3u));
 
-    p = (struct Obj_020160C4 *)func_02030734((u16)(((u16)*(u32 *)(a1 + (5 << 6) + 0xC) & (0xFFFFDFFFu >> 0x11)) | (flag << 0xF)),
+    p = (struct Obj_020163C4 *)func_02030734((u16)(((u16)*(u32 *)(a1 + (5 << 6) + 0xC) & (0xFFFFDFFFu >> 0x11)) | (flag << 0xF)),
                                     0x2C, 1, data_020A72CC, 0x8AB);
     p->f20 = a0;
     if (a0->f08 == 0) {
@@ -4645,7 +4620,7 @@ void func_0201691C(void *a0, struct Obj_0201691C *a1)
         if (a1->f24->f08 == a0)
             a1->f24->f08 = 0;
     }
-    sub_020307B0(((struct Obj04_0201691C *)a1->f04)->f0c);
+    sub_020307B0(((struct Obj20 *)a1->f04)->f0c);
     sub_020307B0(a1->f04);
     sub_020307B0(a1);
     sub_02030EAC(a0);

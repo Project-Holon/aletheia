@@ -91,8 +91,6 @@
 #include "../../matched/include/Obj11252.h"
 #include "../../matched/include/Obj08745.h"
 #include "../../matched/include/Obj16727.h"
-#include "../../matched/include/Obj15631.h"
-#include "../../matched/include/Obj17167.h"
 #include "../../matched/include/Obj15637.h"
 #include "../../matched/include/Obj15639.h"
 #include "../../matched/include/Obj15640.h"
@@ -257,25 +255,29 @@ struct Rec44_1 {
 };
 
 struct BigObj_02012AE4 {
-    u8  unk000[0x198];
-    void *unk198;
-    u8  unk19C[0x1C];
-    void *unk1B8;
-    u8  unk1BC[0xC];
-    u8  unk1C8;
-    u8  unk1C9;
-    u8  unk1CA;
-    u8  unk1CB;
-    u8  unk1CC;
-    u8  unk1CD;
-    u8  unk1CE;
-    u8  unk1CF;
-    u8  unk1D0[0x414];
+    u8 unk000[0x198];
+    void * unk198;
+    u8 unk19C[0x1C];
+    void * unk1B8;
+    u8 unk1BC[0xC];
+    u8 unk1C8;
+    u8 unk1C9;
+    u8 unk1CA;
+    u8 unk1CB;
+    u8 unk1CC;
+    u8 unk1CD;
+    u8 unk1CE;
+    u8 unk1CF;
+    u8 unk1D0[0x414];
+    u8 pad_5E4[0xA4];
+    int f688;
 };
 
 struct BigObj_02012C0C {
     u8 unk000[0x5E8];
     u8 unk5E8[4];
+    u8 pad_5EC[0xBC];
+    void * f6A8;
 };
 
 typedef signed short s16;
@@ -292,7 +294,6 @@ struct Big {
     void *unk_688;
 };
 
-
 struct Obj_02012914 {
     u32  unk00;
     u8   pad04[0x10];
@@ -300,12 +301,7 @@ struct Obj_02012914 {
     u8   pad18[0x18];
 };
 
-struct Obj020136E0 {
-    u8  pad00[0x22];
-    u8  f22;            /* +0x22 */
-};
-
-struct Obj02013734 {
+struct Obj {
     u8  pad00[0x22];
     u8  f22;            /* +0x22 */
 };
@@ -326,7 +322,6 @@ struct Zone {
     void *f94;
 };
 
-
 struct ZoneData_0201394C {
     u32 f0;             /* +0x00 */
     u8  pad04[0x14];
@@ -335,7 +330,6 @@ struct ZoneData_0201394C {
     u8  pad1c[0x30];
     u8 *f4c;            /* +0x4C */
 };
-
 
 extern u16 *func_02008850(void *p);
 extern u8 *func_020127A4(void *p);
@@ -556,8 +550,8 @@ void func_02013610(u8 *p, u32 a, u32 b, u32 c, u16 d);
 void func_02013644(u8 *p, u32 a, u32 b, u32 c, u16 d);
 void func_02013678(u8 *p, u32 a, u32 b, u32 c, u16 d);
 void func_020136AC(u8 *p, u32 a, u32 b, u32 c, u16 d);
-void func_020136E0(struct Obj020136E0 *o, u32 a1, u32 a2, u32 a3, u32 a4, u16 a5);
-void func_02013734(struct Obj02013734 *o, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+void func_020136E0(struct Obj *o, u32 a1, u32 a2, u32 a3, u32 a4, u16 a5);
+void func_02013734(struct Obj *o, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 void func_02013790(u8 *p0, void *p1, u32 p2, u8 p3, u16 p4);
 void func_020137C0(u8 *p0, void *p1, u32 p2, u8 p3, u16 p4);
 void func_020137F0(u8 *p0, void *p1, u32 p2, u8 p3, u8 p4, u16 p5);
@@ -1475,7 +1469,7 @@ void *func_02012ED8(struct Big *p)
  */
 char *func_02012EE4(char *base, int v)
 {
-    ((struct Obj15631 *)base)->f688 = v;
+    ((struct BigObj_02012AE4 *)base)->f688 = v;
     return base;
 }
 
@@ -1594,7 +1588,7 @@ void *func_02012F68(void **h)
 
 void func_02012F74(void *h, void *w)
 {
-    ((struct Obj17167 *)h)->f6A8 = w;
+    ((struct BigObj_02012C0C *)h)->f6A8 = w;
 }
 
 
@@ -2483,7 +2477,7 @@ void func_020136AC(u8 *p, u32 a, u32 b, u32 c, u16 d)
  *   python tools/match.py one --src src/matched/func_020136E0.c \
  *       --func func_020136E0 --addr 0x020136E0 --cc 1.1p1 --thumb
  */
-void func_020136E0(struct Obj020136E0 *o, u32 a1, u32 a2, u32 a3, u32 a4,
+void func_020136E0(struct Obj *o, u32 a1, u32 a2, u32 a3, u32 a4,
                    u16 a5)
 {
     func_020134F4((u8 *)o, a1, 1, a2, a5);
@@ -2507,7 +2501,7 @@ void func_020136E0(struct Obj020136E0 *o, u32 a1, u32 a2, u32 a3, u32 a4,
  *   python tools/match.py one --src src/matched/func_02013734.c \
  *       --func func_02013734 --addr 0x02013734 --cc 1.1p1 --thumb
  */
-void func_02013734(struct Obj02013734 *o, u32 a1, u32 a2, u32 a3, u32 a4,
+void func_02013734(struct Obj *o, u32 a1, u32 a2, u32 a3, u32 a4,
                    u32 a5, u16 a6)
 {
     func_020134F4((u8 *)o, a1, 1, a2, a6);

@@ -68,9 +68,7 @@
 #include "../../matched/include/Obj16178.h"
 #include "../../matched/include/Obj16187.h"
 #include "../../matched/include/Obj16190.h"
-#include "../../matched/include/Obj16191.h"
 #include "../../matched/include/Obj16192.h"
-#include "../../matched/include/Obj16193.h"
 #include "../../matched/include/Obj11459.h"
 #include "../../matched/include/Obj11460.h"
 #include "../../matched/include/Obj16194.h"
@@ -186,11 +184,20 @@ struct Ctx_02051C88 {
 
 typedef signed short  s16_02051E74;
 
-struct Mtx22 { s32 m[4]; };
+struct Mtx22 {
+    s32 m[4];
+    u8 pad_10[0x80];
+    int f90;
+};
 
 struct Vec { int x, y, z; };
 
-struct Ball_02051F1C { struct Vec p; int radius; };
+struct Ball_02051F1C {
+    struct Vec p;
+    int radius;
+    u8 pad_10[0x84];
+    int f94;
+};
 
 struct Vec3_02051C88 { int x; int y; int z; };
 
@@ -829,7 +836,7 @@ void func_02051A04(void *p, struct S12 *q)
  */
 void func_02051A24(void *p, int v)
 {
-    ((struct Obj16191 *)p)->f90 = v;
+    ((struct Mtx22 *)p)->f90 = v;
 }
 
 
@@ -859,7 +866,7 @@ void func_02051A2C(void *p, int v)
  */
 int func_02051A34(void *p)
 {
-    return ((struct Obj16193 *)p)->f94;
+    return ((struct Ball_02051F1C *)p)->f94;
 }
 
 

@@ -93,7 +93,6 @@
  *   func_02048A24  0x02048A24  arm
  */
 #include "../../matched/include/Obj11450.h"
-#include "../../matched/include/Obj02611.h"
 #include "../../matched/include/Obj02015.h"
 #include "../../matched/include/Obj08867.h"
 #include "../../matched/include/Obj06991.h"
@@ -326,6 +325,16 @@ typedef struct { char pad[0x18]; E28_020508C4 *f18; } Mgr_020508C4;
 
 struct S14 {
     u16 f : 14;
+    u8 pad_02[0x6];
+    unsigned int f8;
+    unsigned short fC;
+    unsigned short fE;
+    unsigned short f10;
+    unsigned short f12;
+    unsigned short f14;
+    u8 pad_16[0x6];
+    unsigned short f1C;
+    u8 pad_1E[0x2];
 };
 
 typedef void (*Fn)(void);
@@ -717,7 +726,7 @@ void func_02050088(struct BbActSlot *p0)
 
 
 
-void func_020500A0(int p0){ ((struct Obj02611 *)p0)->f10 = (unsigned short)0; ((struct Obj02611 *)p0)->f12 = (unsigned short)0; ((struct Obj02611 *)p0)->f14 = (unsigned short)0; ((struct Obj02611 *)p0)->f1C = (unsigned short)0; }
+void func_020500A0(int p0){ ((struct S14 *)p0)->f10 = (unsigned short)0; ((struct S14 *)p0)->f12 = (unsigned short)0; ((struct S14 *)p0)->f14 = (unsigned short)0; ((struct S14 *)p0)->f1C = (unsigned short)0; }
 
 
 
@@ -1202,9 +1211,9 @@ void func_02050804(void *p, int idx, u32 v, u16 h)
 {
     char *e = (char *)(((struct Obj16156 *)p)->f18 + idx * 40);
 
-    ((struct Obj02611 *)e)->f8 = v;
-    ((struct Obj02611 *)e)->fC = h;
-    ((struct Obj02611 *)e)->fE = 0;
+    ((struct S14 *)e)->f8 = v;
+    ((struct S14 *)e)->fC = h;
+    ((struct S14 *)e)->fE = 0;
     func_020500A0((int)e);
 }
 
@@ -1216,7 +1225,7 @@ void func_02050804(void *p, int idx, u32 v, u16 h)
 void func_0205082C(void *p, int idx, u32 h)
 {
     char *e = (char *)(((struct Obj16157 *)p)->f18 + idx * 40);
-    ((struct Obj02611 *)e)->fE = h;
+    ((struct S14 *)e)->fE = h;
     func_020500A0((int)e);
 }
 
@@ -1248,7 +1257,7 @@ void func_0205085C(void *p, int idx, u32 v)
     char *e = (char *)(((struct Obj16158 *)p)->f18 + idx * 40);
 
     func_020500A0((int)e);
-    ((struct Obj02611 *)e)->f10 = v;
+    ((struct S14 *)e)->f10 = v;
 }
 
 
@@ -1444,7 +1453,7 @@ int func_020509E0(void)
  */
 int func_020509E8(void *p, void *q)
 {
-    ((struct Obj02611 *)p)->fE = ((struct Obj16164 *)q)->f2;
+    ((struct S14 *)p)->fE = ((struct Obj16164 *)q)->f2;
     func_020500A0((int)p);
     return 0;
 }

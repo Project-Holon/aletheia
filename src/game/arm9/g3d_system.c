@@ -317,14 +317,10 @@ struct G3dSlot {
     void *unk_04;
 };
 
-struct G3dInner {
-    u32   unk_00;
-    void *unk_04;
-};
 
 struct G3dSys_1 {
     u32               unk_00;
-    struct G3dInner  *unk_04;
+    struct G3dSlot  *unk_04;
     struct G3dSlot  **slots;
 };
 
@@ -333,14 +329,10 @@ struct Sub {
     u32 unk_04;
 };
 
-struct Mid {
-    u32 pad_00;
-    u32 unk_04;
-};
 
 struct Owner_02046440 {
     u32      pad_00;
-    struct Mid *unk_04;
+    struct Sub *unk_04;
     struct Sub **unk_08;
 };
 
@@ -689,47 +681,11 @@ struct FatInfo {
     u16 count;
 };
 
-struct Arc {
-    u8  file[0x48];
-    u32 imageBase;
-    u16 fatOffset;
-    u16 count;
-};
 
-struct ArcFile_0204932C {
-    u8  file[0x48];
-    u32 imageBase;
-    u16 fatOffset;
-    u16 count;
-};
 
-struct ArcFile_020493D4 {
-    u8  file[0x48];
-    u32 imageBase;
-    u16 fatOffset;
-    u16 count;
-};
 
-struct ArcFile_0204944C {
-    u8  file[0x48];
-    u32 imageBase;
-    u16 fatOffset;
-    u16 count;
-};
 
-struct ArcFile_020494F4 {
-    u8  file[0x48];
-    u32 imageBase;
-    u16 fatOffset;
-    u16 count;
-};
 
-struct ArcFile_02049578 {
-    u8  file[0x48];
-    u32 imageBase;
-    u16 fatOffset;
-    u16 count;
-};
 
 struct ArcFile_020495F4 {
     u8 raw[0x50];
@@ -880,7 +836,7 @@ int func_02046C94(void);
 void sub_02046C9C(struct Rec *rec, u32 mode, u32 value);
 void func_02046CE0(struct S02046CE0 *out, u32 *tag);
 void *func_02046DB8(u32 a0, u32 a1);
-void *func_02046E24(struct Arc *a0, u32 a1);
+void *func_02046E24(struct ArcHandle *a0, u32 a1);
 void *func_02046E90(u32 a0, u32 a1);
 void func_02046EFC(struct Tagged *p);
 void *func_02046F48(struct Tagged *p);
@@ -934,10 +890,10 @@ Util *func_02047CFC(u16 resCount, u16 objCount, u16 heapID);
 void func_02047E54(struct Rec_1 *p);
 u16 func_02047E88(Util *util, const Setup *setup);
 u16 func_02047F4C(Util *util, const Setup *setup);
-u16 func_02048010(Util *util, const Setup *setup, struct Arc *extra);
+u16 func_02048010(Util *util, const Setup *setup, struct ArcHandle *extra);
 void func_020480E4(Util *util, u32 i);
 void func_02048120(Util *util, u16 index, const Setup *setup, u16 heapID);
-void func_02048258(struct Owner_02047970 *owner, u16 index, struct Holder *p, u32 a4, struct Arc *a5);
+void func_02048258(struct Owner_02047970 *owner, u16 index, struct Holder *p, u32 a4, struct ArcHandle *a5);
 void func_020482B4(struct Owner_02047970 *owner, u32 index);
 void func_02048330(Util *util, u16 unitIdx, const Setup *setup, u16 heapID);
 void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID);
@@ -989,12 +945,12 @@ void *sub_020490F4(u32 id, u16 heap);
 void *func_0204913C(void *a0, u32 a1, u16 heap);
 void func_0204919C(u8 *p);
 asm void func_02049238(void *arc);
-void *func_02049250(struct Arc *arc, u32 member, u16 heap);
-void func_0204932C(struct ArcFile_0204932C *arc, u32 member, void *dst);
-u32 func_020493D4(struct ArcFile_020493D4 *arc, u32 member);
-void func_0204944C(struct ArcFile_0204944C *arc, u32 member, u32 offset, u32 size, void *dst);
-void func_020494F4(struct ArcFile_020494F4 *arc, u32 member, u32 *out);
-u32 func_02049578(struct ArcFile_02049578 *arc, u32 member);
+void *func_02049250(struct ArcHandle *arc, u32 member, u16 heap);
+void func_0204932C(struct ArcHandle *arc, u32 member, void *dst);
+u32 func_020493D4(struct ArcHandle *arc, u32 member);
+void func_0204944C(struct ArcHandle *arc, u32 member, u32 offset, u32 size, void *dst);
+void func_020494F4(struct ArcHandle *arc, u32 member, u32 *out);
+u32 func_02049578(struct ArcHandle *arc, u32 member);
 void func_020495F4(struct ArcFile_020495F4 *arc, u32 size, void *dst);
 asm void NHTTPi_GetConnection(void);
 u16 func_0204961C(void *obj);
@@ -1699,7 +1655,7 @@ void *func_02046DB8(u32 a0, u32 a1)
  *   python tools/match.py one --src src/matched/func_02046E24.c \
  *       --func func_02046E24 --addr 0x02046E24 --cc 1.1p1 --arm
  */
-void *func_02046E24(struct Arc *a0, u32 a1)
+void *func_02046E24(struct ArcHandle *a0, u32 a1)
 {
     u8 *node = func_02030734(g_02146A5C.obj->heap_id, 8, 0,
                              (const char *)&sG3dSystemFile, 0x2c8);
@@ -3552,7 +3508,7 @@ u16 func_02047F4C(Util *util, const Setup *setup)
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02048010.c --func func_02048010 --addr 0x02048010 --cc 1.1p1 --arm
  */
-u16 func_02048010(Util *util, const Setup *setup, struct Arc *extra)
+u16 func_02048010(Util *util, const Setup *setup, struct ArcHandle *extra)
 {
     u16 resIdx = 0;
     u16 objIdx = 0;
@@ -3739,7 +3695,7 @@ void func_02048120(Util *util, u16 index, const Setup *setup, u16 heapID)
  *       --func func_02048258 --addr 0x02048258 --cc 1.1p1 --arm
  */
 void func_02048258(struct Owner_02047970 *owner, u16 index, struct Holder *p, u32 a4,
-                   struct Arc *a5)
+                   struct ArcHandle *a5)
 {
     struct Slot *slot = (struct Slot *)((u8 *)owner + index * 8);
     u16 count = slot->unk_18;
@@ -5119,7 +5075,7 @@ asm void func_02049238(void *arc)
  *   python tools/match.py one --src src/matched/func_02049250.c \
  *       --func func_02049250 --addr 0x02049250 --cc 1.1p1 --arm
  */
-void *func_02049250(struct Arc *arc, u32 member, u16 heap)
+void *func_02049250(struct ArcHandle *arc, u32 member, u16 heap)
 {
     u32 range[2];
     void *buf;
@@ -5156,7 +5112,7 @@ void *func_02049250(struct Arc *arc, u32 member, u16 heap)
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0204932C.c  *       --func func_0204932C --addr 0x0204932C --cc 1.1p1 --arm
  */
-void func_0204932C(struct ArcFile_0204932C *arc, u32 member, void *dst)
+void func_0204932C(struct ArcHandle *arc, u32 member, void *dst)
 {
     u32 range[2];
 
@@ -5187,7 +5143,7 @@ void func_0204932C(struct ArcFile_0204932C *arc, u32 member, void *dst)
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020493D4.c  *       --func func_020493D4 --addr 0x020493D4 --cc 1.1p1 --arm
  */
-u32 func_020493D4(struct ArcFile_020493D4 *arc, u32 member)
+u32 func_020493D4(struct ArcHandle *arc, u32 member)
 {
     u32 range[2];
 
@@ -5223,7 +5179,7 @@ u32 func_020493D4(struct ArcFile_020493D4 *arc, u32 member)
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0204944C.c  *       --func func_0204944C --addr 0x0204944C --cc 1.1p1 --arm
  */
-void func_0204944C(struct ArcFile_0204944C *arc, u32 member, u32 offset, u32 size,
+void func_0204944C(struct ArcHandle *arc, u32 member, u32 offset, u32 size,
                    void *dst)
 {
     u32 start;
@@ -5256,7 +5212,7 @@ void func_0204944C(struct ArcFile_0204944C *arc, u32 member, u32 offset, u32 siz
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020494F4.c  *       --func func_020494F4 --addr 0x020494F4 --cc 1.1p1 --arm
  */
-void func_020494F4(struct ArcFile_020494F4 *arc, u32 member, u32 *out)
+void func_020494F4(struct ArcHandle *arc, u32 member, u32 *out)
 {
     u32 start;
 
@@ -5286,7 +5242,7 @@ void func_020494F4(struct ArcFile_020494F4 *arc, u32 member, u32 *out)
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02049578.c  *       --func func_02049578 --addr 0x02049578 --cc 1.1p1 --arm
  */
-u32 func_02049578(struct ArcFile_02049578 *arc, u32 member)
+u32 func_02049578(struct ArcHandle *arc, u32 member)
 {
     u32 start;
 

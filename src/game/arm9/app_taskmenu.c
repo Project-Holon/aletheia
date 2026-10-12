@@ -215,14 +215,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Obj_0 {
-    u8  pad0[4];
-    u8  f4;
-    u8  f5;
-    u8  pad6[0xA];
-    u8  f10;
-    u8  pad11[3];
+    u8 pad_00[0x4];
+    u8 f4;
+    u8 f5;
+    u8 pad_06[0xA];
+    u8 f10;
+    u8 pad_11[0x3];
     u32 f14;
     u32 f18;
+    u8 pad_1C[0xAEC];
+    unsigned int fB08;
 };
 
 typedef void (*Fn)(u32 a, u32 b, u32 c);
@@ -240,19 +242,21 @@ struct Sub {
 
 struct Comm {
     u32 f00;
-    u8  b0 : 1;   /* +0x04 */
-    u8  b1 : 1;
-    u8  b2 : 1;
-    u8  b3 : 5;
-    u8  f05;
-    u8  f06;
-    u8  f07;
+    u8 b0 : 1;
+    u8 b1 : 1;
+    u8 b2 : 1;
+    u8 b3 : 5;
+    u8 f05;
+    u8 f06;
+    u8 f07;
     u32 f08;
-    struct Sub sub;       /* +0x0C; its state byte is +0x10 */
+    struct Sub sub;
     u32 f14;
     u32 f18;
     u32 f1c;
     u32 f20;
+    u8 pad_24[0xB8A];
+    signed char fBAE;
 };
 
 struct Field4 {
@@ -495,12 +499,7 @@ struct Src {
     u32 f08;
 };
 
-struct Row_0 {
-    u32 f00;
-    u16 f04;
-    u8  pad06[8 - 6];
-    u32 f08;
-};
+
 
 struct Glyph {
     u16 f00;
@@ -510,7 +509,7 @@ struct Glyph {
 struct Obj_020263B0 {
     u8  pad00[0x18];
     u32 *layers;
-    struct Row_0 *rows;
+    struct Src *rows;
     u8  pad20[0x24 - 0x20];
     u8  count;
     u8  pad25[0x2c - 0x25];
@@ -593,6 +592,8 @@ struct Obj_02028084 {
     u16 field_14;
     u16 pad_16;
     u32 field_18;
+    u8 pad_1C[0xAEC];
+    int fB08;
 };
 
 struct Obj {
@@ -2047,7 +2048,7 @@ int func_02026A60(struct Req *r)
  */
 void *sub_02026BFC(u8 *base, int n)
 {
-    int c = ((struct Obj17251 *)base)->fBAE;
+    int c = ((struct Comm *)base)->fBAE;
     if (c == 0 || c - n <= 0)
         return 0;
     return base + 0x64 + n * 0x60;
@@ -3453,7 +3454,7 @@ Obj_1 *func_0202751C(u32 heap, u32 a1)
  */
 void func_02027584(u8 *p)
 {
-    func_02045808((struct U16Vec *)(((struct Obj15764 *)p)->fB08));
+    func_02045808((struct U16Vec *)(((struct Obj_0 *)p)->fB08));
     func_02082BCC(p, 0, 0xb10);
     func_020307B0(p);
 }
@@ -3524,7 +3525,7 @@ void func_020275B8(char *p, int v) { p[0xb0e] = v; }
  */
 int func_020275C4(void *p)
 {
-    return ((struct Obj15765 *)p)->fB08;
+    return ((struct Obj_02028084 *)p)->fB08;
 }
 
 
@@ -4761,8 +4762,8 @@ void func_02027A24(struct Obj_020263B0 *o, struct Cfg *cfg)
     u32 oy;
     u8  i;
     u32 bg;
-    struct Row_0 *rows;
-    struct Row_0 *row;
+    struct Src *rows;
+    struct Src *row;
 
     if (o->inset == 0) {
         ox = o->x0;

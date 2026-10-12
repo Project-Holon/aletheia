@@ -93,7 +93,6 @@
  */
 #include "../../matched/include/Obj06868.h"
 #include "../../matched/include/Obj11261.h"
-#include "../../matched/include/Obj15718.h"
 #include "../../matched/include/Obj15719.h"
 #include "../../matched/include/Obj17207.h"
 #include "../../matched/include/Obj17208.h"
@@ -123,9 +122,6 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct Mon_02019A50 {
-    u32 unk00;
-};
 
 struct BlockA {
     u16 species;
@@ -139,7 +135,9 @@ struct Mon_02019C38 {
     u32 unk00;
     u16 flags;
     u16 unk06;
-    u8  block[0x80];
+    u8 block[0x80];
+    u8 pad_88[0x23];
+    unsigned char fAB;
 };
 
 struct Memo {
@@ -397,18 +395,15 @@ struct Rec_0201CD10 {
 
 struct Rec3 {
     u32 pad[4];
-    void *unk10;
-};
-
-struct Rec_0201CE5C {
-    u8 pad00[0x18];
+    void * unk10;
+    u8 pad_14[0x4];
     u8 unk18;
     u8 unk19;
-    u8 pad1A[2];
+    u8 pad_1A[0x2];
     u8 unk1C;
     u8 unk1D;
     u8 unk1E;
-    u8 pad1F[3];
+    u8 pad_1F[0x3];
     u8 unk22;
 };
 
@@ -490,7 +485,7 @@ extern signed char func_02013080(u32 idx);
 void func_02019A50(u16 *p, u32 size, u32 seed);
 u16 func_02019A7C(u32 *s);
 u16 func_02019A9C(const u16 *p, u32 size);
-u32 func_02019ABC(struct Mon_02019A50 *p);
+u32 func_02019ABC(struct Mon_02019C38 *p);
 u32 func_02019B04(u32 a, u32 b, u32 n);
 s8 func_02019B44(u32 a, u32 n);
 void func_02019B58(void *p);
@@ -648,10 +643,10 @@ u32 sub_0201CE30(void *p);
 u32 sub_0201CE34(void *p);
 void sub_0201CE38(void *p);
 void sub_0201CE48(struct Rec3 *p);
-void sub_0201CE5C(struct Rec_0201CE5C *p, s32 v);
-void sub_0201CE8C(struct Rec_0201CE5C *p, s32 v);
-void sub_0201CEB8(struct Rec_0201CE5C *p);
-u32 sub_0201CED4(struct Rec_0201CE5C *p);
+void sub_0201CE5C(struct Rec3 *p, s32 v);
+void sub_0201CE8C(struct Rec3 *p, s32 v);
+void sub_0201CEB8(struct Rec3 *p);
+u32 sub_0201CED4(struct Rec3 *p);
 extern void *gMsgBank;
 extern u16   gNameBuf[];
 extern const s8 func_02019B04_Table[][5];
@@ -788,7 +783,7 @@ u16 func_02019A9C(const u16 *p, u32 size)
  *   python tools/match.py tu --src src/matched/unit_02019ABC.c \
  *       --addr 0x02019ABC --thumb
  */
-u32 func_02019ABC(struct Mon_02019A50 *p)
+u32 func_02019ABC(struct Mon_02019C38 *p)
 {
     u32 r = 0;
     struct BlockA *a = (struct BlockA *)func_02019C38((struct Mon_02019C38 *)p, p->unk00, 0);
@@ -2023,7 +2018,7 @@ u8 *func_0201A4D4(u8 *a0, u32 a1, u16 a2, u32 a3)
     v7 = (u8 *)func_02030734(a2, 0x38, 1, (const char *)0x020A72F0, 0x312);
     ((struct Obj06868 *)v7)->f0 = (u32)func_02045B38(0, 2, 0xa5, a2);
     v10 = (u32)func_020457B0(0x40, a2);
-    f = ((struct Obj15718 *)a0)->fAB;
+    f = ((struct Mon_02019C38 *)a0)->fAB;
     if (f == 2)
         ((struct Obj06868 *)v7)->f34 = a3;
     else
@@ -6836,7 +6831,7 @@ void sub_0201CE48(struct Rec3 *p)
  *   python tools/match.py tu --src src/matched/unit_0201CE5C.c \
  *       --addr 0x0201CE5C --thumb
  */
-void sub_0201CE5C(struct Rec_0201CE5C *p, s32 v)
+void sub_0201CE5C(struct Rec3 *p, s32 v)
 {
     if (v < p->unk1E) {
         p->unk1E = (u8)v;
@@ -6848,7 +6843,7 @@ void sub_0201CE5C(struct Rec_0201CE5C *p, s32 v)
 }
 
 
-void sub_0201CE8C(struct Rec_0201CE5C *p, s32 v)
+void sub_0201CE8C(struct Rec3 *p, s32 v)
 {
     u8 tmp[2];
 
@@ -6859,7 +6854,7 @@ void sub_0201CE8C(struct Rec_0201CE5C *p, s32 v)
 }
 
 
-void sub_0201CEB8(struct Rec_0201CE5C *p)
+void sub_0201CEB8(struct Rec3 *p)
 {
     ((u8 *)p)[0x22] = ((u8 *)p)[0x22] & ~8u;
     p->unk1D = p->unk19;
@@ -6867,7 +6862,7 @@ void sub_0201CEB8(struct Rec_0201CE5C *p)
 }
 
 
-u32 sub_0201CED4(struct Rec_0201CE5C *p)
+u32 sub_0201CED4(struct Rec3 *p)
 {
     return ((u32)((u8 *)p)[0x22] << 28) >> 31;
 }

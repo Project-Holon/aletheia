@@ -48,17 +48,6 @@ struct DWCstAccUserData {
     unsigned long crc32;
 };
 
-struct DWCstAccUserData_020598EC {
-    unsigned char pad[0x24];
-    unsigned long gamecode;
-};
-
-struct DWCstAccUserData_0205994C {
-    unsigned char pad[0x1c];
-    int gs_profile_id;
-    unsigned long reserved;
-    unsigned long gamecode;
-};
 
 typedef struct { unsigned char pad[36]; unsigned long gamecode; } DWCstAccUserData;
 
@@ -81,8 +70,8 @@ int DWCi_Acc_IsDirty(void *userdata);
 void func_02059870(struct DWCstAccUserData *userdata);
 void func_0205987C(struct DWCstAccUserData *userdata);
 unsigned long long func_020598C4(void *frienddata);
-int func_020598EC(struct DWCstAccUserData_020598EC *userdata, void *frienddata);
-unsigned long long func_0205994C(struct DWCstAccUserData_0205994C *userdata);
+int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
+unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
 void func_02059980(void *token, unsigned long long friend_key);
 void func_020599BC(struct DWCstAccUserData *userdata, void *token);
 void func_02059A10(void *frienddata, int gs_profile_id);
@@ -135,7 +124,7 @@ unsigned long long func_020598C4(void *frienddata)
 /*
  * sdk:      DWC_GetGsProfileId (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
-int func_020598EC(struct DWCstAccUserData_020598EC *userdata, void *frienddata)
+int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata)
 {
     unsigned long long friend_key;
     unsigned long type;
@@ -158,7 +147,7 @@ int func_020598EC(struct DWCstAccUserData_020598EC *userdata, void *frienddata)
 /*
  * sdk:      DWC_CreateFriendKey (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
-unsigned long long func_0205994C(struct DWCstAccUserData_0205994C *userdata)
+unsigned long long func_0205994C(struct DWCstAccUserData *userdata)
 {
     unsigned long long ret = 0;
 

@@ -31,7 +31,6 @@
  *   _fsub   0x0209CB8C  arm
  *   _f2s    0x0209C494  arm
  */
-#include "../../matched/include/Obj05797.h"
 #include "../../matched/include/Obj03439.h"
 #include "../../matched/include/Obj11316.h"
 #include "../../matched/include/Obj02602.h"
@@ -82,10 +81,12 @@ typedef int s32_0202BDE8;
 typedef unsigned short u16;
 
 struct Obj0202BE24 {
-    u8 pad[8];
+    u8 pad_00[0x4];
+    unsigned int f4;
     u8 target;
     u8 curr;
     u8 step;
+    u8 pad_0B[0x1];
 };
 
 struct Rec_0202BF54 {
@@ -222,7 +223,7 @@ void func_0202BAF4(u8 *o)
 {
     Slot i;
 
-    if (((struct Obj05797 *)o)->f4 == 0) {
+    if (((struct Obj0202BE24 *)o)->f4 == 0) {
         return;
     }
     sub_0202BE24((struct Obj0202BE24 *)o);

@@ -137,12 +137,12 @@
 
 struct Obj0202C244;
 struct Obj0202C360;
-struct Obj0202C3E0;
+struct Arr0202C510;
 struct Arr0202C510;
 struct Arr0202C4D0;
 struct Obj0202C4CC;
 struct Counter0202C5B4;
-struct Obj0202C6B8;
+struct Counter0202C5B4;
 struct BigObj;
 struct Ctx;
 struct Descriptor;
@@ -158,7 +158,7 @@ struct Cfg;
 struct Bmp;
 struct PtS;
 struct Vec2;
-struct Pos0202DE6C;
+struct Pos;
 struct PrintSys;
 struct Container;
 struct Pos;
@@ -193,10 +193,12 @@ struct Obj0202C360 {
     void *words[9];
 };
 
-struct Obj0202C3E0 {
-    u8 pad04[4];
+struct Arr0202C510 {
+    u8 pad_00[0x4];
     u16 unk04[9];
     u8 unk16;
+    u8 pad_17[0x1];
+    u32 unk18[1];
 };
 
 typedef signed int s32;
@@ -206,10 +208,7 @@ struct Obj0202C4CC {
     u8 unk16;
 };
 
-struct Arr0202C510 {
-    u8 pad[0x18];
-    u32 unk18[1];
-};
+
 
 struct Arr0202C4D0 {
     u8 pad[4];
@@ -221,18 +220,12 @@ struct Counter0202C5B4 {
     u16 unk04;
     u16 unk06;
     u16 unk08;
+    u8 pad_0A[0x2];
 };
 
-struct Obj0202C5C4 {
-    u8 pad[6];
-    u16 unk06;
-    u16 unk08;
-};
 
-struct Obj0202C6B8 {
-    u32 unk00;
-    u16 unk04;
-};
+
+
 
 struct Pair {
     u16 a;
@@ -324,7 +317,7 @@ typedef signed short   s16;
 
 struct Pt_0202DD24 { s16 x; s16 y; };
 
-struct Pos0202DE6C {
+struct Pos {
     u32 x;
     u32 y;
 };
@@ -341,14 +334,11 @@ struct Res {
     u32 f10;
 };
 
-struct Pos { u32 x; u32 y; };
+
 
 struct Pt_0202E040  { u16 x; u16 y; };
 
-struct Pt_0202E0E0 {
-    s16 x;
-    s16 y;
-};
+
 
 typedef struct { u16 arc; u16 str; u16 code[2]; } MSGPARAM;
 
@@ -445,8 +435,8 @@ extern void func_0204B3B4(struct Actor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern u32 func_02041648(u8 channel);
 extern u32 func_02041664(u8 channel);
-extern void func_0204B53C(const struct Actor *actor, struct Pt_0202E0E0 *out);
-extern void func_0204B528(struct Actor *actor, const struct Pt_0202E0E0 *src);
+extern void func_0204B53C(const struct Actor *actor, struct Pt_0202DD24 *out);
+extern void func_0204B528(struct Actor *actor, const struct Pt_0202DD24 *src);
 extern void func_02024570(struct Rec8 *dst, const struct Rec8 *src);
 extern u32 func_0202465C(struct T *p, u32 a1, u32 a2);
 extern void *func_0202441C(const struct Struct_0202441C *obj, u32 heapId);
@@ -516,7 +506,7 @@ void *func_0202C384(void *heap);
 u32 func_0202C3A0(void *p);
 void func_0202C3A8(char *p, int a1);
 void func_0202C3C4(struct Obj0202C360 *p);
-u32 func_0202C3E0(struct Obj0202C3E0 *a, void *b);
+u32 func_0202C3E0(struct Arr0202C510 *a, void *b);
 u32 func_0202C470(void *p);
 u32 func_0202C48C(void *p, u32 idx);
 u32 func_0202C498(void *p, u32 idx);
@@ -541,7 +531,7 @@ void func_0202C588(void *p, u32 v);
 void *func_0202C590(u32 heapId);
 u32 func_0202C5AC(void *p);
 void func_0202C5B4(struct Counter0202C5B4 *p);
-u32 func_0202C5C4(struct Obj0202C5C4 *p, u16 a, u16 b);
+u32 func_0202C5C4(struct Counter0202C5B4 *p, u16 a, u16 b);
 void func_0202C5CC(struct Counter0202C5B4 *p);
 u32 func_0202C5E0(struct Counter0202C5B4 *p);
 void func_0202C5F0(void *p);
@@ -553,8 +543,8 @@ u32 func_0202C670(void *p);
 u32 func_0202C688(void *p);
 u32 func_0202C6A0(void *p);
 u32 func_0202C6AC(void *p);
-u32 func_0202C6B8(struct Obj0202C6B8 *p);
-struct Obj0202C6B8 *func_0202C6BC(struct Obj0202C6B8 *p, u32 v);
+u32 func_0202C6B8(struct Counter0202C5B4 *p);
+struct Counter0202C5B4 *func_0202C6BC(struct Counter0202C5B4 *p, u32 v);
 s32 func_0202C6C4(struct Counter0202C5B4 *p);
 void func_0202C710(struct Counter0202C5B4 *p, s32 n);
 u32 func_0202C72C(void *p);
@@ -640,7 +630,7 @@ void func_0202DD24(struct PmsDraw *p, u32 i, u32 j);
 void func_0202DE5C(struct PmsDraw *p, u8 v);
 void func_0202DE64(struct PmsDraw *p, u16 v);
 void func_0202DE68(struct PmsDraw *p, u32 v);
-void func_0202DE6C(u32 a, u32 b, u32 c, const struct Pos0202DE6C *base, struct Pos0202DE6C *out);
+void func_0202DE6C(u32 a, u32 b, u32 c, const struct Pos *base, struct Pos *out);
 u32 func_0202DE9C(u32 engine);
 u32 func_0202DEE0(u32 engine);
 u32 func_0202DF24(u32 engine);
@@ -1191,7 +1181,7 @@ void func_0202C3C4(struct Obj0202C360 *p)
     }
 }
 
-u32 func_0202C3E0(struct Obj0202C3E0 *a, void *b)
+u32 func_0202C3E0(struct Arr0202C510 *a, void *b)
 {
     u16 digits[9];
     u16 sep;
@@ -1405,7 +1395,7 @@ void func_0202C5B4(struct Counter0202C5B4 *p)
  *   python tools/match.py one --src src/matched/sub_0202C5C4.c \
  *       --func func_0202C5C4 --addr 0x0202C5C4 --cc 1.1p1 --thumb
  */
-u32 func_0202C5C4(struct Obj0202C5C4 *p, u16 a, u16 b)
+u32 func_0202C5C4(struct Counter0202C5B4 *p, u16 a, u16 b)
 {
     p->unk06 = a;
     p->unk08 = b;
@@ -1510,12 +1500,12 @@ u32 func_0202C6AC(void *p)
     return (u32)func_0202C6BC(p, 1);
 }
 
-u32 func_0202C6B8(struct Obj0202C6B8 *p)
+u32 func_0202C6B8(struct Counter0202C5B4 *p)
 {
     return p->unk00;
 }
 
-struct Obj0202C6B8 *func_0202C6BC(struct Obj0202C6B8 *p, u32 v)
+struct Counter0202C5B4 *func_0202C6BC(struct Counter0202C5B4 *p, u32 v)
 {
     p->unk00 = v;
     p->unk04 = 0;
@@ -1526,7 +1516,7 @@ s32 func_0202C6C4(struct Counter0202C5B4 *p)
 {
     s32 v;
 
-    switch (func_0202C6B8((struct Obj0202C6B8 *)p)) {
+    switch (func_0202C6B8((struct Counter0202C5B4 *)p)) {
     case 0:
         return 0x7F;
     case 1:
@@ -3136,8 +3126,8 @@ void func_0202DE68(struct PmsDraw *p, u32 v)
     p->unk2c = v;
 }
 
-void func_0202DE6C(u32 a, u32 b, u32 c, const struct Pos0202DE6C *base,
-                  struct Pos0202DE6C *out)
+void func_0202DE6C(u32 a, u32 b, u32 c, const struct Pos *base,
+                  struct Pos *out)
 {
     out->x = base->x + (b + func_02045758((struct Descriptor *)a) * 8);
     out->y = base->y + ((c << 4) + func_02045760((struct Descriptor *)a) * 8);
@@ -3296,7 +3286,7 @@ void func_0202E040(void *h, struct Descriptor *cell, u32 b, u32 c,
     struct Pt_0202E040 pt;
     u32 t;
 
-    func_0202DE6C((u32)cell, b, c, (const struct Pos0202DE6C *)base, (struct Pos0202DE6C *)(&pos));
+    func_0202DE6C((u32)cell, b, c, (const struct Pos *)base, (struct Pos *)(&pos));
     pt.x = (u16)pos.x;
     pt.y = (u16)pos.y;
     t = func_02045730(cell);
@@ -3355,8 +3345,8 @@ int func_0202E0E0(struct PmsElem *a0, void *a1, int a2)
 
     if (a2 != 0) {
         s32 v = (s32)func_02045730(a0->handle);
-        struct Pt_0202E0E0 diff = { 0, 0 };
-        struct Pt_0202E0E0 pos;
+        struct Pt_0202DD24 diff = { 0, 0 };
+        struct Pt_0202DD24 pos;
         s32 nx;
         s32 ny;
         nx = func_02041648((u8)v);

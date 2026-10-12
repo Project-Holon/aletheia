@@ -236,19 +236,7 @@ struct Cfg {
     u16 unk_0a;
 };
 
-struct Descriptor_020456F8 {
-    u16   unk0;
-    u8    unk2;
-    u8    unk3;
-    u8    unk4;
-    u8    unk5;
-    u8    unk6;
-    u8    unk7;
-    u8    unk8;
-    u8    unk9;
-    u16   unkA;
-    void *heap;
-};
+
 
 struct Descriptor_02045730 {
     u8    unk0;
@@ -521,7 +509,7 @@ u32 sub_020452E8(struct Descriptor *d);
 void sub_02045334(struct Descriptor_02045334 *d);
 void sub_02045374(struct Cfg *cfg);
 void func_020454E0(struct Cfg *cfg, u16 base, u32 pal);
-void sub_020456F8(struct Descriptor_020456F8 *d);
+void sub_020456F8(struct Descriptor_02045334 *d);
 u8 sub_02045730(struct Descriptor_02045730 *p);
 u8 sub_02045738(struct Descriptor_02045730 *p);
 u8 sub_02045740(struct Descriptor_02045730 *p);
@@ -2451,7 +2439,7 @@ void func_020454E0(struct Cfg *cfg, u16 base, u32 pal)
  *   python tools/match.py one --src src/matched/sub_020456F8.c \
  *       --func sub_020456F8 --addr 0x020456F8 --cc 1.1p1 --arm
  */
-void sub_020456F8(struct Descriptor_020456F8 *d)
+void sub_020456F8(struct Descriptor_02045334 *d)
 {
     sub_02041300(d->unk2, 0, d->unk3, d->unk4, d->unk5, d->unk6, 0);
 }

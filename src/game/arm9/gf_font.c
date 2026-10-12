@@ -74,7 +74,7 @@ struct U16Vec;
 struct PrintSys;
 struct Ring;
 struct ArcFile;
-struct Font_0201D9C8;
+struct Font;
 struct WordSet;
 struct MsgBank;
 struct Rec;
@@ -207,7 +207,7 @@ struct Font_0201CEE0 {
     void *unk90;
 };
 
-struct Font_0201D9C8 {
+struct Font {
     u32 unk00;
     u32 unk04;
     u32 unk08;
@@ -258,37 +258,8 @@ struct Font_0201DA24 {
     u32   unk8C;
 };
 
-typedef void (*FontFini)(struct Font_0201D9C8 *f);
+typedef void (*FontFini)(struct Font *f);
 
-struct Font_0201DAF0 {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-    void *unk0C;
-    u8  pad10[0x40];
-    void *unk50;
-    void *unk54;
-    u8  unk58[8];
-    void *unk60;
-    void *unk64;
-    void *unk68;
-    u32 unk6C;
-    u16 unk70;
-    u8  unk72;
-    u8  pad73;
-    u8  unk74;
-    u8  unk75;
-    u16 unk76;
-    u8  pad78[4];
-    u16 unk7C;
-    u8  unk7E;
-    u8  unk7F;
-    void *unk80;
-    void *unk84;
-    void *unk88;
-    void *unk8C;
-    void *unk90;
-};
 
 struct CMap {
     u16 ccodeBegin;
@@ -328,25 +299,6 @@ struct Font_0201DBBC {
     void *scratch;
 };
 
-struct Font_0201DBF4 {
-    u32   format;
-    u32   measure;
-    u32   decode;
-    u8   *body;
-    u8    pad10[0x40];
-    void *handle;
-    u8    pad54[0x22];
-    u16   mapSize;
-    u8    pad78[4];
-    u16   lastCols;
-    u8    tilesW;
-    u8    tilesH;
-    void *resHdr;
-    void *bodyBuf;
-    void *charMap;
-    void *glyphDir;
-    void *scratch;
-};
 
 struct Font_0201DC44 {
     u32   pad00[2];
@@ -356,35 +308,6 @@ struct Font_0201DC44 {
     u8    unk59;
 };
 
-struct Font_0201DC6C {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-    void *unk0C;
-    u8  pad10[0x40];
-    void *unk50;
-    void *unk54;
-    u8  unk58[8];
-    void *unk60;
-    void *unk64;
-    void *unk68;
-    u32 unk6C;
-    u16 unk70;
-    u8  unk72;
-    u8  pad73;
-    u8  unk74;
-    u8  unk75;
-    u16 unk76;
-    u8  pad78[4];
-    u16 unk7C;
-    u8  unk7E;
-    u8  unk7F;
-    void *unk80;
-    void *unk84;
-    void *unk88;
-    void *unk8C;
-    void *unk90;
-};
 
 typedef signed   char  s8;
 
@@ -520,22 +443,22 @@ void *func_0201D7C4(struct PrintSys *p, void *q);
 struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 u32 func_0201D83C(void *ptr);
 void func_0201D854(struct Font_0201CEE0 *f, int resid, u32 flag, u32 heap);
-void func_0201D9C8(struct Font_0201D9C8 *p);
+void func_0201D9C8(struct Font *p);
 void func_0201DA00(struct Font_0201DA00 *f, u32 fmt, u32 heap);
 void func_0201DA24(struct Font_0201DA24 *f, u32 a, u32 b, u8 heap);
 void func_0201DAA4(char *p, int a, int b);
-void func_0201DADC(struct Font_0201D9C8 *f);
-void func_0201DAF0(struct Font_0201DAF0 *p);
-void sub_0201DB00(struct Font_0201DAF0 *p);
-void func_0201DB04(struct Font_0201DAF0 *p, u16 ch, void *c, void *d);
+void func_0201DADC(struct Font *f);
+void func_0201DAF0(struct Font *p);
+void sub_0201DB00(struct Font *p);
+void func_0201DB04(struct Font *p, u16 ch, void *c, void *d);
 u32 func_0201DB20(struct Font_0201DB20 *f, u16 c);
 void func_0201DBBC(const struct Font_0201DBBC *f, u32 i, void *d, u8 *out);
-void func_0201DBF4(const struct Font_0201DBF4 *f, u32 i, void *d, u8 *out);
+void func_0201DBF4(const struct Font_0201DBBC *f, u32 i, void *d, u8 *out);
 void func_0201DC44(struct Font_0201DC44 *f, const u8 *g, u32 w, void *d, u8 *out);
-u32 func_0201DC6C(struct Font_0201DC6C *p, u16 ch);
-u32 func_0201DC80(struct Font_0201DC6C *p);
+u32 func_0201DC6C(struct Font *p, u16 ch);
+u32 func_0201DC80(struct Font *p);
 u8 sub_0201DC88(u8 *obj, u32 id);
-u32 func_0201DD58(struct Font_0201DC6C *p);
+u32 func_0201DD58(struct Font *p);
 void func_0201DD60(void);
 void func_0201DD68(void);
 void func_0201DD78(u32 r, u32 g, u32 b);
@@ -1386,7 +1309,7 @@ u32 func_0201D528(void *s, u8 b, void *c, u32 d)
             acc = 0;
             p = p + 1;
         } else if (p[0] != 0xF000) {
-            acc = acc + (d + func_0201DC6C((struct Font_0201DC6C *)((struct Font_0201CEE0 *)c), ch));
+            acc = acc + (d + func_0201DC6C((struct Font *)((struct Font_0201CEE0 *)c), ch));
             p = p + 1;
         } else {
             if (p[1] == 0xBD06) {
@@ -1875,8 +1798,8 @@ struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId)
 
 u32 func_0201D83C(void *ptr)
 {
-    func_0201DADC((struct Font_0201D9C8 *)ptr);
-    func_0201D9C8((struct Font_0201D9C8 *)ptr);
+    func_0201DADC((struct Font *)ptr);
+    func_0201D9C8((struct Font *)ptr);
     return func_020307B0(ptr);
 }
 
@@ -2002,7 +1925,7 @@ void func_0201D854(struct Font_0201CEE0 *f, int resid, u32 flag, u32 heap)
  *   python tools/match.py tu --src src/matched/unit_0201D9C8.c \
  *       --addr 0x0201D9C8 --thumb
  */
-void func_0201D9C8(struct Font_0201D9C8 *p)
+void func_0201D9C8(struct Font *p)
 {
     if (p->unk90 != 0) {
         func_020307B0(p->unk90);
@@ -2161,7 +2084,7 @@ void func_0201DAA4(char *p, int a, int b)
  *   python tools/match.py one --src src/pending/sub_0201DADC.c \
  *       --func func_0201DADC --addr 0x0201DADC --cc 1.1p1 --thumb
  */
-void func_0201DADC(struct Font_0201D9C8 *f)
+void func_0201DADC(struct Font *f)
 {
     g_0209E744[f->unk00](f);
 }
@@ -2197,7 +2120,7 @@ void func_0201DADC(struct Font_0201D9C8 *f)
  *   python tools/match.py tu --src src/matched/unit_0201DAF0.c \
  *       --addr 0x0201DAF0 --thumb
  */
-void func_0201DAF0(struct Font_0201DAF0 *p)
+void func_0201DAF0(struct Font *p)
 {
     func_020307B0(p->unk0C);
     p->unk0C = 0;
@@ -2209,7 +2132,7 @@ void func_0201DAF0(struct Font_0201DAF0 *p)
 
 
 
-void sub_0201DB00(struct Font_0201DAF0 *p)
+void sub_0201DB00(struct Font *p)
 {
 }
 
@@ -2219,9 +2142,9 @@ void sub_0201DB00(struct Font_0201DAF0 *p)
 
 
 
-void func_0201DB04(struct Font_0201DAF0 *p, u16 ch, void *c, void *d)
+void func_0201DB04(struct Font *p, u16 ch, void *c, void *d)
 {
-    ((void (*)(struct Font_0201DAF0 *, u32, void *, void *))p->unk04)(
+    ((void (*)(struct Font *, u32, void *, void *))p->unk04)(
         p, func_0201DB20((struct Font_0201DB20 *)((struct Font_0201CEE0 *)p), ch), c, d);
 }
 
@@ -2347,11 +2270,11 @@ void func_0201DBBC(const struct Font_0201DBBC *f, u32 i, void *d, u8 *out)
  *   python tools/match.py one --src src/matched/sub_0201DBBC.c \
  *       --func func_0201DBF4 --addr 0x0201DBF4 --cc 1.1p1 --thumb
  */
-void func_0201DBF4(const struct Font_0201DBF4 *f, u32 i, void *d, u8 *out)
+void func_0201DBF4(const struct Font_0201DBBC *f, u32 i, void *d, u8 *out)
 {
     func_0204960C(f->handle, (u32)f->resHdr + ((u32)f->glyphDir + i * f->mapSize));
     func_020495F4(f->handle, f->mapSize, f->scratch);
-    func_0201DC44((struct Font_0201DC44 *)((struct Font_0201DBBC *)((struct Font_0201DBF4 *)f)), f->scratch, f->lastCols, d, out);
+    func_0201DC44((struct Font_0201DC44 *)((struct Font_0201DBBC *)((struct Font_0201DBBC *)f)), f->scratch, f->lastCols, d, out);
 }
 
 
@@ -2408,15 +2331,15 @@ void func_0201DC44(struct Font_0201DC44 *f, const u8 *g, u32 w, void *d, u8 *out
  *   python tools/match.py tu --src src/matched/unit_0201DC6C.c \
  *       --addr 0x0201DC6C --thumb
  */
-u32 func_0201DC6C(struct Font_0201DC6C *p, u16 ch)
+u32 func_0201DC6C(struct Font *p, u16 ch)
 {
-    return ((u32 (*)(struct Font_0201DC6C *, u32))p->unk6C)(p, func_0201DB20((struct Font_0201DB20 *)p, ch));
+    return ((u32 (*)(struct Font *, u32))p->unk6C)(p, func_0201DB20((struct Font_0201DB20 *)p, ch));
 }
 
 
 
 
-u32 func_0201DC80(struct Font_0201DC6C *p)
+u32 func_0201DC80(struct Font *p)
 {
     return p->unk58[1];
 }
@@ -2513,7 +2436,7 @@ u8 sub_0201DC88(u8 *obj, u32 id)
  *   python tools/match.py tu --src src/matched/unit_0201DD58.c \
  *       --addr 0x0201DD58 --thumb
  */
-u32 func_0201DD58(struct Font_0201DC6C *p)
+u32 func_0201DD58(struct Font *p)
 {
     return p->unk58[6];
 }

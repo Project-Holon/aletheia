@@ -54,7 +54,6 @@
 #include "../../matched/include/Obj11237.h"
 #include "../../matched/include/Obj15607.h"
 #include "../../matched/include/Obj15608.h"
-#include "../../matched/include/Obj17085.h"
 #include "../../matched/include/Obj17086.h"
 #include "../../matched/include/Obj08961.h"
 #include "../../matched/include/Obj17088.h"
@@ -88,14 +87,7 @@ typedef struct Tally {
     u16 total16[150];   /* 0x154 */
 } Tally;
 
-struct Rec0200E6FC {
-    u16 a;
-    u16 b;
-    u16 c;
-    u16 d;
-};
-
-struct Rec0200E714 {
+struct RFC {
     u16 a;
     u16 b;
     u16 c;
@@ -189,11 +181,11 @@ struct Out0200EC98 {
     u32 d;
 };
 
-struct L0200ED54 { u32 arr[32]; u32 count; };
-
-struct L0200EDC4 {
+struct L0200ED54 {
     u32 arr[32];
     u32 count;
+    u8 pad_84[0x617C];
+    unsigned int f6200;
 };
 
 extern u8 func_0216736C(u32 id);
@@ -255,8 +247,8 @@ u32 sub_0200E6B0(void);
 void sub_0200E6B4(void *obj);
 void *sub_0200E6E8(u32 a);
 void *sub_0200E6F0(u32 a);
-void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-void func_0200E714(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src);
+void func_0200E6FC(struct RFC *src, int idx, struct RFC *dst);
+void func_0200E714(struct RFC *dst, int idx, struct RFC *src);
 u32 sub_0200E730(void);
 void sub_0200E734(void *dest);
 u32 sub_0200E740(const void *obj, u32 idx);
@@ -312,7 +304,7 @@ u32 func_0200ED38(void);
 void func_0200ED3C(void *block);
 void *func_0200ED48(void *p);
 void func_0200ED54(struct L0200ED54 *l, u32 val);
-int sub_0200EDC4(struct L0200EDC4 *l, u32 val);
+int sub_0200EDC4(struct L0200ED54 *l, u32 val);
 int sub_0200EDEC(char *obj, int i);
 void sub_0200EE14(char *obj, int i);
 extern const char data_020A721C[];
@@ -847,7 +839,7 @@ void *sub_0200E6F0(u32 a)
  * r3) and lands six bytes wrong.  EXACT*: the listing extent runs 192 bytes
  * because the follower at 0x0200E714 saves nothing and carries no label.
  */
-void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst)
+void func_0200E6FC(struct RFC *src, int idx, struct RFC *dst)
 {
     *dst = src[idx];
 }
@@ -862,7 +854,7 @@ void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst)
 /*
  * Unlabelled Thumb leaf that follows func_0200E6FC: copy one 8-byte record to dst[idx].
  */
-void func_0200E714(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src)
+void func_0200E714(struct RFC *dst, int idx, struct RFC *src)
 {
     dst[idx] = *src;
 }
@@ -1223,7 +1215,7 @@ void *sub_0200E8D0(void *obj)
 
 u32 sub_0200E8D8(const void *obj)
 {
-    return *(const u32 *)&((struct Obj17085 *)obj)->f6200;
+    return *(const u32 *)&((struct L0200ED54 *)obj)->f6200;
 }
 
 
@@ -1931,7 +1923,7 @@ void func_0200ED54(struct L0200ED54 *l, u32 val)
  * object, both written with a signed index (`/ 32` and `% 32`, which is
  * what the `asrs`/`rors` pair is).
  */
-int sub_0200EDC4(struct L0200EDC4 *l, u32 val)
+int sub_0200EDC4(struct L0200ED54 *l, u32 val)
 {
     u32 i;
 

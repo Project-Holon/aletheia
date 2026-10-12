@@ -29,7 +29,7 @@ typedef unsigned char u8;
 
 typedef unsigned int  u32;
 
-struct Record020461F4 {
+struct Recor4 {
     void *data;
     u32 unk04;
     u32 unk08;
@@ -44,12 +44,6 @@ typedef unsigned short u16;
 
 typedef signed int     s32;
 
-struct Rec02046300 {
-    void *data;
-    u32 unk04;
-    u32 unk08;
-    u32 builtin;
-};
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020788AC(struct File020461F4 *f);
@@ -66,7 +60,7 @@ int func_020463D8(void);
 void func_020463E0(u32 x, u32 y);
 extern const char func_020461F4_File[];
 extern const u8 g_020A08D0[];
-extern struct Record020461F4 *g_02146A58;
+extern struct Recor4 *g_02146A58;
 
 
 

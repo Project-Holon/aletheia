@@ -84,7 +84,6 @@
  *   func_0207AF38  0x0207AF38  thumb
  *   func_0207B51C  0x0207B51C  arm
  */
-#include "../../matched/include/Obj16203.h"
 #include "../../matched/include/Obj00077.h"
 #include "../../matched/include/Obj11462.h"
 #include "../../matched/include/Obj16201.h"
@@ -331,11 +330,6 @@ struct Angle {
 struct Src_020576D0 {
     char _00[0x14];
     struct Angle *_14;
-};
-
-struct Obj_02057B10 {
-    char _00[0x34];
-    short _34;
 };
 
 struct Obj_020576D0 {
@@ -827,12 +821,6 @@ struct Owner { u8 pad00[0x14]; SPLList list; struct SubX_02056420 *x; };
 
 struct MtxFx43 { s32 m[12]; };
 
-struct Bf16 {
-    u16 b0 : 5;
-    u16 b5 : 5;
-    u16 b10 : 6;
-};
-
 struct BfHw {
     u16 a : 7;
     u16 kind : 2;
@@ -944,7 +932,7 @@ struct S_020524C8 {
     u8 pad22[0x0a];
     u8 f2c;
     u8 pad2d;
-    struct Bf16 w;
+    struct PBf w;
     s32 f30;
     s16 f34;
     u16 f36;
@@ -954,11 +942,6 @@ struct S_020524C8 {
 };
 
 struct Frame_02055FD4 {
-    struct VecFx32 t;
-    struct MtxFx43 m;
-};
-
-struct Frame_02055B80 {
     struct VecFx32 t;
     struct MtxFx43 m;
 };
@@ -1050,12 +1033,6 @@ struct Frame_02054A68 {
 };
 
 struct MtxFx33 { s32 m[9]; };
-
-struct Frame_02054718 {
-    struct MtxFx43 m1;
-    struct MtxFx43 m2;
-    struct MtxFx43 m3;
-};
 
 struct Frame {
     struct MtxFx43 m1;
@@ -1324,14 +1301,14 @@ struct Cls {
 };
 
 struct Node_02052770 {
-    struct Node_02052770 *next;   /* 0x00 */
-    struct Node_02052770 *prev;   /* 0x04 */
+    struct Node_02052770 * next;
+    struct Node_02052770 * prev;
     u32 f08;
     u32 f0c;
     u32 pad10[2];
     u32 f18;
     u32 f1c;
-    struct Cls **f20;    /* 0x20 */
+    struct Cls ** f20;
     u32 f24_b0 : 1;
     u32 f24_b1 : 1;
     u32 f24_b2 : 1;
@@ -1339,9 +1316,10 @@ struct Node_02052770 {
     u32 f24_b4 : 1;
     u32 f24_hi : 27;
     u16 pad28[18];
-    u16 f4c;             /* 0x4c */
+    u16 f4c;
     u16 pad4e;
     u32 pad50[12];
+    unsigned int f80;
 };
 
 struct Head_02052770 {
@@ -1447,7 +1425,7 @@ void func_02057E68(struct Obj_02056420 *o, struct Src_02057E68 *s, int t);
 void func_02057C9C(struct Out *out, struct Ctx *ctx, s32 t);
 void func_02057BC0(struct O_02057BC0 *o, struct S_02057BC0 *s, int t);
 void func_02057B5C(struct O_020576D0 *o, struct S_020576D0 *s, int t);
-void func_02057B10(struct Obj_02057B10 *o, struct Src_020576D0 *s, int t);
+void func_02057B10(struct Obj_02056420 *o, struct Src_020576D0 *s, int t);
 void func_02057AB8(struct Obj_020576D0 *o, int unused, int t);
 void func_02057830(struct Rig *m);
 void func_020576D0(fx32 *out, const VecFx32 *src, const struct Mtx3 *m);
@@ -2059,7 +2037,7 @@ void func_02057B5C(struct O_020576D0 *o, struct S_020576D0 *s, int t)
 
 
 
-void func_02057B10(struct Obj_02057B10 *o, struct Src_020576D0 *s, int t)
+void func_02057B10(struct Obj_02056420 *o, struct Src_020576D0 *s, int t)
 {
     short cur;
 
@@ -3094,7 +3072,7 @@ void func_02055FD4(struct Obj *obj, struct S_020524C8 *s)
  */
 void func_02055B80(struct Obj *obj, struct S_020524C8 *s)
 {
-    struct Frame_02055B80 f;
+    struct Frame_02055FD4 f;
     struct SubC *p;
     struct MtxFx43 *mtx;
     s32 n;
@@ -3782,7 +3760,7 @@ extern u32 (*const func_02054718_Hooks2[])(s32, s32, s32, s32);
 
 void func_02054718(struct Obj *obj, struct S_020524C8 *s)
 {
-    struct Frame_02054718 f;
+    struct Frame_02054A68 f;
     struct SubC *p;
     s32 n;
     s32 e;
@@ -5351,7 +5329,7 @@ void func_02052770(struct Head_02052770 *h)
                 }
             }
             if (n->f24_b2 == 0) {
-                idx = (((struct Obj16203 *)n)->f80 << 13) >> 29;
+                idx = (((struct Node_02052770 *)n)->f80 << 13) >> 29;
                 if (idx == 0 || h->f48 == idx - 1)
                     func_02053218((struct SPLManager *)h, (struct SPLEmitter *)n);
             }

@@ -159,7 +159,7 @@ struct GflSys {
 
 typedef signed int     s32;
 
-struct Sub020057DCSlot {
+struct SuCSlot {
     u32 unk00;
     u16 unk04;
     u16 unk06;
@@ -170,60 +170,22 @@ struct Sub020057DCSlot {
     u32 unk18;
 };
 
-struct Sub020057DCCur {
+struct SuCCur {
     u16   unk00;
     u16   unk02;
     int   index;
     u32 **unk08;
 };
 
-struct Sub02005A4CSlot {
-    u32 unk00;
-    u16 unk04;
-    u16 unk06;
-    u32 unk08;
-    u32 unk0C;
-    u32 unk10;
-    u32 unk14;
-    u32 unk18;
-};
 
-struct Sub02005A4CCur {
-    u16   unk00;
-    u16   unk02;
-    int   index;
-    u32 **unk08;
-};
 
-struct Sub02005A98Slot {
-    u32 unk00;
-    u16 unk04;
-    u16 unk06;
-    u32 unk08;
-    u32 unk0C;
-    u32 unk10;
-    u32 unk14;
-    u32 unk18;
-};
 
-struct Sub02005A98Cur {
-    u16   unk00;
-    u16   unk02;
-    int   index;
-    u32 **unk08;
-};
 
 struct Sub02005A98Hdr {
     u32 n;
     u32 status;
 };
 
-struct Sub02005B04Cur {
-    u16   unk00;
-    u16   unk02;
-    int   index;
-    u32 **unk08;
-};
 
 extern void OS_SetIrqFunction(u32 mask, void (*fn)(void));
 extern u32  OS_EnableIrqMask(u32 mask);
@@ -428,13 +390,13 @@ extern u8 d_0209D8A0[];
 extern u8 d_0209D8B0[];
 extern u8 d_020A6C58[];
 extern void *sub_0200575C_Table[];
-extern struct Sub020057DCCur  sub_020057DC_Cur;
-extern struct Sub020057DCSlot sub_020057DC_Table[];
-extern struct Sub02005A4CCur  sub_02005A4C_Cur;
-extern struct Sub02005A4CSlot sub_02005A4C_Table[];
-extern struct Sub02005A98Cur  sub_02005A98_Cur;
-extern struct Sub02005A98Slot sub_02005A98_Table[];
-extern struct Sub02005B04Cur sub_02005B04_Cur;
+extern struct SuCCur  sub_020057DC_Cur;
+extern struct SuCSlot sub_020057DC_Table[];
+extern struct SuCCur  sub_02005A4C_Cur;
+extern struct SuCSlot sub_02005A4C_Table[];
+extern struct SuCCur  sub_02005A98_Cur;
+extern struct SuCSlot sub_02005A98_Table[];
+extern struct SuCCur sub_02005B04_Cur;
 extern char g_020AA9B4[];
 extern char g_020AA260[];
 extern char g_020A7010[];
@@ -1306,7 +1268,7 @@ void sub_020057E8(u32 i)
 
 void sub_02005834(u32 v)
 {
-    struct Sub020057DCSlot *slot =
+    struct SuCSlot *slot =
         &sub_020057DC_Table[sub_020057DC_Cur.index];
 
     slot->unk0C = v;
@@ -1319,7 +1281,7 @@ void sub_02005834(u32 v)
 
 void sub_02005858(void)
 {
-    struct Sub020057DCSlot *slot =
+    struct SuCSlot *slot =
         &sub_020057DC_Table[sub_020057DC_Cur.index];
 
     func_02072EA8((u32 * volatile*)(&slot->unk08));
@@ -1345,7 +1307,7 @@ void sub_02005888(u16 a)
 
 u16 sub_020058D0(void)
 {
-    struct Sub020057DCSlot *slot =
+    struct SuCSlot *slot =
         &sub_020057DC_Table[sub_020057DC_Cur.index];
     u16 v;
 
@@ -1374,7 +1336,7 @@ u32 *sub_0200590C(void)
 
 int sub_02005924(u32 a)
 {
-    struct Sub020057DCSlot *slot =
+    struct SuCSlot *slot =
         &sub_020057DC_Table[sub_020057DC_Cur.index];
     int r;
 
@@ -1394,7 +1356,7 @@ int sub_02005924(u32 a)
 
 void sub_0200597C(void)
 {
-    struct Sub020057DCSlot *slot =
+    struct SuCSlot *slot =
         &sub_020057DC_Table[sub_020057DC_Cur.index];
 
     slot->unk14 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
@@ -1403,7 +1365,7 @@ void sub_0200597C(void)
 
 int sub_020059A0(u32 a)
 {
-    struct Sub020057DCSlot *slot =
+    struct SuCSlot *slot =
         &sub_020057DC_Table[sub_020057DC_Cur.index];
 
     slot->unk18 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
@@ -1414,7 +1376,7 @@ int sub_020059A0(u32 a)
 
 void sub_020059C8(void)
 {
-    struct Sub020057DCSlot *slot =
+    struct SuCSlot *slot =
         &sub_020057DC_Table[sub_020057DC_Cur.index];
 
     if (slot->unk00 == 0) {
@@ -1429,7 +1391,7 @@ void sub_020059C8(void)
 
 int sub_02005A00(void)
 {
-    struct Sub020057DCSlot *slot =
+    struct SuCSlot *slot =
         &sub_020057DC_Table[sub_020057DC_Cur.index];
     u32 v;
 
@@ -1467,7 +1429,7 @@ int sub_02005A00(void)
  */
 int sub_02005A4C(void)
 {
-    struct Sub02005A4CSlot *slot;
+    struct SuCSlot *slot;
     int i;
     u16 v;
 
@@ -1509,7 +1471,7 @@ int sub_02005A4C(void)
  */
 struct Sub02005A98Hdr *func_02005A98(const u32 *a0, u32 a1)
 {
-    struct Sub02005A98Slot *slot;
+    struct SuCSlot *slot;
     struct Sub02005A98Hdr *p;
     u32 saved;
     u32 i;

@@ -195,12 +195,6 @@ struct DispConfig {
     u32 unk_0c;
 };
 
-struct BgVramReq {
-    u32 unk_00;
-    u32 unk_04;
-    u32 unk_08;
-    u32 unk_0c;
-};
 
 struct Bg {
     void *buf;
@@ -405,7 +399,7 @@ u32 func_0203FA08(u32 layer, u32 size, u32 top);
 u32 func_0203FAF0(u32 a, u32 b, u32 c);
 void func_0203FB44(u32 layer, u32 offset, u32 size);
 void func_0203FC28(struct DispConfig *cfg);
-void func_0203FC6C(const struct BgVramReq *req, u32 which);
+void func_0203FC6C(const struct DispConfig *req, u32 which);
 void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 void sub_020403F4(u32 i);
 void func_0204044C(u32 mode);
@@ -1529,7 +1523,7 @@ void func_0203FC28(struct DispConfig *cfg)
  * field reads as separate arguments to the same call is what folds them
  * into the load-multiple.
  */
-void func_0203FC6C(const struct BgVramReq *req, u32 which)
+void func_0203FC6C(const struct DispConfig *req, u32 which)
 {
     if (which == 0) {
         func_020434CC(func_0207D4B0(req->unk_00, req->unk_04, req->unk_0c));
