@@ -1,27 +1,29 @@
 # btl_server.c (ov093)
 
-Translation unit 021B8CB0..021D3568. Round 17 (lane L01): 131 parts became 26, all EXACT.
-Veneer gaps (16-byte form) are no longer boundaries: match.py takes them from the image, so parts are merged
-across them. A script classified all 293 gap pieces inside the unit: 293 are the 16-byte veneer, 0 are code
-(the 3 other pieces are 4-byte alignment words inside one part).
+Translation unit 021B8CB0..021D3568. 5 parts, all EXACT (round 18, lane L01d). Shared types: ../btl_server_types.h
+(Server with one field per used offset, Entry, Action, union Slot, CallFlags and the types several parts share).
 
-## Boundaries left (current part numbers; first error of the pair merge)
+All 479 server functions take `Server *p` and use fields; the p13..p15 functions of the closure were converted in
+this round (p->fC, p->w1ab8, ...). No `p + n` is left on a `Server *` except the raw forms marked in the code
+(`(u8 *)p + q` in func_021BDA00).
 
-- p01|p02: E_021B8CB0 typedef differs; func_021B8B9C prototype; 'b' not a member of one Entry view.
-- p02|p03, p03|p04: prototype differences (func_021CD4B0, func_021BB8B0, func_021D8454, func_021C6350,
-  func_021C0780, func_021C60EC); p03 header holds two junk symbols rows (func_02018480/8 prose) to clean.
-- p04|p05: DIFF at func_021B8D8C prototype view.
-- p05|p06: union Slot_021C024C versus a struct view at a call (func_021C5620, func_021C5C1C).
-- p06|p07: DIFF, func_021D5584 return view (u8 versus u32).
-- p07|p08: u32 passed where const u32 * is declared.
-- p08|p09, p09|p10: struct Flags versus Fl (bitfield versus word), func_021C0A4C, func_021C11A4.
-- p10|p11, p11|p12: union Slot defined differently in each part.
-- p12|p13 (func_021B911C), p13|p14, p18|p19, p21|p22, p22|p23, p23|p24 (struct Lock), p19|p20, p20|p21:
-  int versus pointer parameter views.
-- p14|p15, p15|p16, p16|p17, p17|p18: Ent_* typedef per function (b6/b7, count/targets/value) to unify into one Ent.
-- p24|p25: DIFF, func_021D5778 prototype.
-- p25|p26: struct G view at the call of func_021CFD50 (cast to the per-function struct, as in the merged parts).
+## Boundaries left (current part numbers)
 
-Levers that closed pairs this round: u16/u8 return or parameter views chosen so the caller does not narrow
-(func_021B8D8C u16 view, func_021D5584 u32 view, func_021D122C u8 view), unused trailing parameter
-(func_021D1410), one Buf and one BattleSeq struct, Word typedef unified, d_021F3B64 as a union view.
+- p01|p02 (old p02|p03): func_021B8E28 takes a u8 n, but func_021BDC98 passes an int that the original does not
+  narrow. With any single prototype the caller gains a lsls/lsrs pair (tried u8, u32, unprototyped extern, block-scope
+  extern, `u8 r`). Needs a second declaration, which one TU cannot have.
+- p02|p03 (old p09|p10): merge compiles with the p10 prototypes unified (func_021C4104 takes sa/sb as separate ints,
+  func_021C25A4 takes union Slot, W_021C312C shared) but one literal pool entry moves in func_021C3810 (+4 bytes),
+  so every later bl differs by 4. Next step: find which constant is pooled twice in the merged unit.
+- p03|p04 (old p13|p14): func_021CAA58 passes `key` (int from func_021CAA24) to func_021B98A4(u8 b) without narrowing.
+  The thunk func_021B98A4 only matches with u8 b, and func_021CAA24 returning u8 changes its register allocation.
+  This pair was closed before the crash of this lane; the closing edit was not recovered.
+- p04|p05 (old p14|p15): func_021D8394 is (void *, u8, u32) in p14 and (void *, u8, u8) in p15; p15 passes a wide `j`
+  that needs the u8 proto's narrowing, a cast `(u8)j` changes its register allocation.
+
+## Levers used this round
+
+u8 return view for func_021B8D8C; func_021CAA58/func_021C0A4C parameters as u32/u16 views chosen so callers do not
+narrow; one union Slot for every one-word struct passed by value; one CallFlags; QueueA/QueueB/Word_021CC768, Buf_021CC768,
+Rec_021CAA58 in the header; the five p14 one-letter macros expanded (they collided with type names);
+tail-call stubs written as code (func_021C82B8 returns func_021B911C(p->f4, z)).

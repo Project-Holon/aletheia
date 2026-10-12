@@ -23,7 +23,7 @@ and data runs are not counted as matched or as work.
 
 ## DSi `twl` region and ARM9 autoloads
 
-twl: 204 functions, 39,012 SDK bytes (all matched) and 440 game bytes. ITCM
+twl: 206 functions, 39,336 SDK bytes (all matched) and 620 game bytes. ITCM
 100%. The DSi-mode `twl` block and the ARM9
 autoload blocks (ITCM, the two MAIN_TWL stubs and VRAM_LCDC) are not part of
 the ARM9 static image or the overlays, so they have a map of their own.
@@ -63,6 +63,8 @@ byte-matching ROM.
   - [ ] Field and battle loop call trees
   - [ ] Overlays: 24,513 of 24,514 game functions are matched (1,886,692 of 1,887,132 game instruction bytes, 99.98%), plus 3,244 of 3,244 SDK functions (519,104 of 519,104 SDK instruction bytes) matched; the remaining 237 overlay regions are still carried as reassembled listings
   - [ ] 100% matching across the whole ROM
+  - [~] One C file per original source file (`src/game/`): 1,957 of 1,977 files whole and byte-exact; the rest are split at real compiler or library boundaries or wait on the last two unmatched functions (`docs/restructure/REPORT.md`)
+  - [~] Build from `src/game`: `tools/build.py --game` rebuilds every region whose files are whole; `tools/gamelink.py` links all 166 whole overlays and ITCM byte-identical with the original `mwldarm` linker (data between files still comes from the extracted image: `docs/restructure/BUILD_FROM_GAME.md`)
 
 - [ ] **Milestone 4**: Native PC port ([eidos](https://github.com/Project-Holon/eidos))
 - [ ] **Milestone 5**: Pokémon White support

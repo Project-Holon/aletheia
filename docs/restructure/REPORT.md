@@ -1,4 +1,4 @@
-# Restructure report (2026-10-12, after round 16)
+# Restructure report (2026-10-12, after round 17)
 
 Handoff for the next session. Goal of this phase: rebuild `src/game/` as the
 original source files (one `.c` per translation unit, TU). `src/matched/` stays the
@@ -6,15 +6,19 @@ frozen per-function record. Renaming functions is a later, separate step.
 
 ## Where it stands
 
-TUs that are one file (file counts from `split_tus.tsv`; estimate 1818 TUs):
+TUs that are one file (`python tools/tucount.py`; counted from the files, a
+TU split at a real boundary counts once as split):
 
 | Area | Whole | Percent |
 |---|---|---|
-| ARM9 | 397 / 408 | 97.3% |
-| Overlays | 1290 / 1325 | 97.4% |
-| twl | 80 / 82 | 97.6% |
-| ITCM | 3 / 3 | 100% |
-| **Total** | **1770 / 1818** | **97.4%** |
+| ARM9 | 399 / 404 | 98.8% |
+| Overlays | 1472 / 1486 | 99.1% |
+| twl | 82 / 83 | 98.8% |
+| ITCM | 4 / 4 | 100% |
+| **Total** | **1957 / 1977** | **99.0%** |
+
+Round 17 drops the old 1816 estimate (the user, 2026-10-12: the estimate may
+move freely with evidence). The figure is now the file count itself.
 
 Denominator change in round 16 (+2 TUs): arm9 `app_keycursor.c` (out of
 app_taskmenu) and `tpoke_data.c` (out of tr_tool), split on the game's own
@@ -32,15 +36,27 @@ when those become real code. (Round 5 listed 164 split TUs; the recount finds 16
 at that commit: ov093 unit_021EFC1C was missed.)
 
 Checks at this commit:
-- `python tools/gameverify.py`: 1960 files, all EXACT or MATCH except
-  `arm9/unit_020911D4_p05.c` and `_p07.c` (compiler runtime pieces that are not
-  contiguous in the image: every function is EXACT with `match.py one`, the TU
-  compare cannot line up).
-- `python tools/gamecheck.py`: 35483 functions present, 0 missing, 0 doubled
-  (linker veneer addresses are no longer expected in source).
-- 6 files are MATCH (list: `match_files.txt`). Every function in them is EXACT
-  on its own; what is left are targets with no outside witness.
+- `python tools/gameverify.py`: 1850 files, all EXACT or MATCH except
+  `arm9/unit_020911D4_p03.c` and `_p05.c` (compiler runtime pieces that are not
+  contiguous in the image).
+- `python tools/gamecheck.py`: 35483 functions present, 0 missing, 0 doubled.
+- 5 files are MATCH (`match_files.txt`); ov214 btl_rec_sel_graphic became EXACT
+  (two objects had one name `config`).
 - `python tools/match.py selftest`: 340 cases, 0 failures.
+- `python tools/gamelink.py`: all 166 whole overlays and ITCM link
+  byte-identical with mwldarm; arm9_main links 408 of 409 files identical (the
+  skipped one is unit_020911D4, being rewritten).
+
+Tooling changes in round 17:
+- `tools/build.py --game`, `tools/gamebuild.py`: build regions from src/game.
+- `tools/gamelink.py`: real link with mwldarm (typed ARM/Thumb stub objects,
+  -interworking, one veneer per far call site, data sections at their
+  addresses). See `BUILD_FROM_GAME.md`.
+- `tools/mwccdbg/regalloc.py`: the simplify replay reads spill costs lazily,
+  as the real allocator does (reproduces 14 captures).
+- `tools/tucount.py`, `tools/tumerge.py` (greedy veneer-aware merge),
+  `tools/gameverify.py --file`: lane tools now in the repo (a session crash
+  emptied the scratchpad on 2026-10-12).
 
 Tooling changes in round 16 (approved by the user, 2026-10-11):
 - `match.py` `layout_tu(image=...)` / `linker_gap()`: between two sections of a
@@ -110,6 +126,7 @@ functions written into `src/game` are not counted (see "Coverage caveats").
 | Round 14 | 4 | 94.1% (19 TUs): the tail-call stubs (8-byte Thumb `ldr r3,[pc]; bx r3`, 12-byte ARM `ldr ip,[pc]; bx ip`) are compiled code, not veneers: about 100 written as hidden functions; arm9 iss_city_sys, iss_road_sys, iss_3ds_sys, backup_system, unit_02059108, unit_02059858, unit_02072374, unit_02079304; ov009 unit_0215F650, unit_02164D64, unit_02165B80, unit_0217F130; ov014 net_whpipe; ov015 unit_02179824, unit_02179CAC; ov114 ghttpEncryption, unit_021C2284; ov125 unit_021D7CEC; ov093 unit_021DA624 whole; net_state 25 -> 20 |
 | Round 15 | 5 | 94.4%: ov135 worldtrade_box and worldtrade_adapter, ov208 zukan_detail_form, arm9 net_state (20 -> 1) and g3d_system whole; 48 more hidden functions filed (35559 functions); the table figures above (ARM9/Overlays rows) were not recomputed per area. Not done: 16 overlay tail stubs are labelled but not in the 24,513-function count (decision pending); ov095/ov039/ov070/twl matches still open |
 | Round 16 | 20 | 97.4% (102 -> 48 split TUs): veneers taken from the image (19 ov093/ov095 TUs whole at once, btl_server 131 -> 26); `#pragma thumb` closes ISA switches (ov013 unit_021AEB20, ov121 mystery_net, ov125 gds_rap, ov172 ctvt_comm, ITCM unit_01FF82A8, arm9 gfl_use); one struct per object across ov009 (unit_0216F014, unit_0215FDA4, unit_02180410, unit_0216A1F4, unit_0216C858, unit_0216870C, unit_0217576C, unit_02166880, unit_02176DEC, unit_0219BA58, GPI family x4); ov010 comm_player, scrcmd_proc, symbol_map, script_work (fp casts gone); ov218 un_select, ov055 unit_021F39C0, ov114 nhttp_rap, arm9 particle, ica_anime, bgm_info, unit_0207AD58/ADC4/B598 whole; twl func_0272EC38, func_0272EFB0 written |
+| Round 17 | 30+ | 99.0% (48 -> 20 split TUs): ov009 dwc_rap, unit_0216AB20 (one DWCstMatchControl header); ov010 eventdata_system (goto stand-ins rewritten); all of ov095; ov172 camera_system and ctvt_draw (no asm); ov177; ov183 br_codein; ov198 unit_0220BC70 (non-const table array); ov204, ov208; arm9 clact, wipe_sub, pokeparty, bmp_menulist, btl_setup, unit_02067FE4; twl unit_02731718; ov039 0x021F36FC matched (u8 callee parameter) and its TU whole; btl_server 26 -> 5 (one Server struct) |
 
 Subagents in opencode use `.opencode/agents/lane.md` (model
 `anthropic/claude-sonnet-5-5`, not committed; it is local opencode config).
@@ -172,19 +189,22 @@ Current report: `gamegaps.tsv` / `gamegaps_summary.txt` in this folder.
   all 29 of unit_0273042C, func_02701AA0, func_02731AF0, and 3 in unit_0272E9E8
   (`src/matched/twl*`, shard `twl_sys` re-verified).
 
-### 2. TUs still split (48)
-List with piece counts: `split_tus.tsv`. Each TU folder has a `MERGE.md` with
-its blockers. Biggest: ov093 btl_server (26, all type-view conflicts, listed per
-pair), ov198 unit_0220BC70 (10, table type shape), arm9 unit_020911D4 (10,
-runtime archive members interleaved), ov009 dwc_rap (9) and unit_021573C4 (8,
-.bss order of a function static), ov010 eventdata_system (8, goto stand-ins),
-twl unit_0272E9E8 (7) and unit_02731718 (5, placeholders still asm), arm9
-wipe_sub (7), clact, pokeparty, button_man, ov009 unit_0216AB20, ov095
-unit_06899DD8. Real boundaries kept: compiler changes in arm9 unit_02061B2C and
-unit_02064D70 p01|p02, ov016 unit_021B824C; second entry label in ov021
-field_effect. ov009 has two headers for one object (`dwc_match_types.h` from
-unit_0216C858, `dwc_match_ctl_types.h` from unit_0216F014/unit_0217576C): fold
-into one.
+### 2. TUs still split (20)
+List: `split_tus.tsv`; blockers in each TU's `MERGE.md`.
+- Real boundaries (evidence in MERGE.md): arm9 button_man (compiler change,
+  arm7tdmi part), unit_02061B2C and unit_02064D70 (compiler change),
+  unit_02060468 (two library objects), unit_020911D4 (libc and fdlibm files,
+  interleaved runtime members); ov016 unit_021B97A8, unit_021BA2F8 (static vs
+  extern helper, -ipa settings); ov021 field_effect (second entry label);
+  ov067 ui_scene, ov194 namein_graphic, ov021 fld_trade, ov038 unit_021F36C0
+  (callers compiled against a different declaration than the callee).
+- Waiting on an unmatched function: ov013 unit_021B3018 (0x021B3084, 6 bytes,
+  alias set), ov070 itemmenu (0x021B86B8, 44 bytes, register colouring).
+- .bss/.data layout: ov009 unit_021573C4, ov016 unit_021D0040, ov107
+  unit_021F3D04, unit_021F4560 (analyses in MERGE.md).
+- Open work: ov093 btl_server (5 parts: narrowing at three call sites and one
+  literal pool entry), twl unit_0272E9E8 (func_0272F0BC register allocation,
+  64-byte key blob needs a build-time data include).
 
 ### 3. Readability debt (from lane reports)
 - **Mis-classified "veneers" (found 2026-10-11).** `gamegaps` calls every 8-byte

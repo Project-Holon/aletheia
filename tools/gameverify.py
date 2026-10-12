@@ -41,17 +41,24 @@ def main():
     ap.add_argument('--region', action='append')
     ap.add_argument('--members', action='store_true')
     ap.add_argument('--report')
+    ap.add_argument('--file', action='append', help='verify only these files (any region)')
     a = ap.parse_args()
     regions = a.region or sorted(d for d in os.listdir(a.tree) if os.path.isdir(os.path.join(a.tree, d)))
+    if a.file:
+        regions = [None]
     rows, bad, nmatch = [], 0, 0
     for region in regions:
-        base = os.path.join(a.tree, region)
         files = []
-        for dp, _dn, fn in os.walk(base):
-            top = os.path.normpath(dp) == os.path.normpath(base)
-            if not top and not a.members:
-                continue
-            files += [os.path.join(dp, f) for f in fn if f.endswith('.c') and not f.startswith('_')]
+        if region is None:
+            files = [os.path.abspath(f) for f in a.file]
+            region = ''
+        else:
+            base = os.path.join(a.tree, region)
+            for dp, _dn, fn in os.walk(base):
+                top = os.path.normpath(dp) == os.path.normpath(base)
+                if not top and not a.members:
+                    continue
+                files += [os.path.join(dp, f) for f in fn if f.endswith('.c') and not f.startswith('_')]
         for p in sorted(files):
             try:
                 raw = open(p, encoding='latin1').read()
