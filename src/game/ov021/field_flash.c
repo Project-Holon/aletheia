@@ -218,9 +218,20 @@ typedef struct {
     fx32 f10;
 } Work_021C6E94;
 
-typedef struct { u32 f0; u32 f4; u32 f8; u8 fC; u8 fD; u16 fE; u16 f10; u16 f12; u32 f14; u32 f18; } W_021C701C;
+typedef struct FieldFlashWork {
+    u32 f0;
+    u32 f4;
+    u32 f8;
+    u8 fC;
+    u8 fD;
+    u16 fE;
+    u16 f10;
+    u16 f12;
+    u32 f14;
+    u32 f18;
+    u16 f1c;
+} FieldFlashWork;
 
-typedef struct { u32 f0; u32 f4; u32 f8; u8 fC; u8 fD; u16 fE; u16 f10; u16 f12; u32 f14; u32 f18; } W_021C7058;
 
 typedef struct {
     u32 w0;
@@ -234,7 +245,6 @@ typedef struct {
     u32 to;
 } Work_021C70DC;
 
-typedef struct { u32 f0; u32 f4; u32 f8; u8 fC; u8 fD; u16 fE; u16 f10; u16 f12; u32 f14; u32 f18; } W_021C6E5C;
 
 typedef struct { u16 v[4]; } T4;
 
@@ -248,9 +258,8 @@ typedef struct {
     u16 he;
 } Ctl;
 
-typedef struct { u32 x, y, z; } V_021C6E5C;
 
-typedef struct { u8 f0; u32 f4; u32 f8; u32 fC; u8 pad[0xc]; V_021C6E5C f1C; } X;
+typedef struct { u8 f0; u32 f4; u32 f8; u32 fC; u8 pad[0xc]; FieldFlashWork f1C; } X;
 
 typedef signed int     s32_021C7500;
 
@@ -360,14 +369,9 @@ typedef struct {
     u16 f12;
 } Obj_021C7D28;
 
-typedef struct { u32 f0; u32 f4; u32 f8; u8 fC; u8 fD; u16 fE; u16 f10; u16 f12; } W_021C7D78;
 
 typedef struct { u32 f0; u8 sub[0x18]; u16 f1C; u16 f1E; } M;
 
-typedef struct Obj_021C7D78 {
-    u8 pad00[0x1C];
-    u16 f1c;            /* 0x1C */
-} Obj_021C7D78;
 
 typedef short s16_021C7E90;
 
@@ -568,7 +572,7 @@ Q *func_021C701C(u32 a, u16 b, u32 c);
 Q *func_021C7058(u32 a, u16 b, u32 c);
 void func_021C7094(u32 *p);
 void func_021C70DC(Work_021C70DC *w);
-int func_021C71A4(W_021C6E5C *w);
+int func_021C71A4(FieldFlashWork *w);
 void *func_021C71D4(u32 a, u32 b, u32 c);
 void *func_021C7220(u32 a, u16 b, int c, u32 d);
 void *func_021C7260(u32 a, u16 b, int c);
@@ -579,7 +583,7 @@ u16 func_021C73B4(float a, float b, float c);
 int func_021C7418(Ctl *o);
 int func_021C748C(Ctl *o);
 int func_021C7500(Ctl *o);
-Q *func_021C754C(u32 a, u32 b, V_021C6E5C *v);
+Q *func_021C754C(u32 a, u32 b, FieldFlashWork *v);
 int func_021C7584(Work_021C6E5C *w);
 void *func_021C7684(u32 a, u32 b, int c, int d);
 void func_021C76C4(Vec_021C7500 *out, float a, float b, float c);
@@ -594,18 +598,18 @@ int func_021C78DC(int a, int b, const Vec *c, int d);
 void func_021C7940(Vec *out, u16 cnt, Vec *v, u16 max);
 int func_021C7A20(Obj_021C7A20 *p);
 int func_021C7A7C(Obj_021C7A20 *p);
-Q *func_021C7AE4(u32 a, u32 b, const V_021C6E5C *v);
+Q *func_021C7AE4(u32 a, u32 b, const FieldFlashWork *v);
 int func_021C7B1C(Work_021C7A20 *w);
 int func_021C7C10(int a, int b, const Vec *c, const Vec *d);
 int func_021C7C74(Obj_021C7C74 *p);
 int func_021C7D28(int a, int b, u16 c, u16 d);
-int func_021C7D78(W_021C7D78 *w);
+int func_021C7D78(FieldFlashWork *w);
 M *func_021C7DAC(u32 heap);
 void func_021C7DE0(M *m);
 void func_021C7DFC(M *m);
 void func_021C7E30(M *m);
 void func_021C7E50(u8 *p, u16 v);
-u16 func_021C7E54(Obj_021C7D78 *p);
+u16 func_021C7E54(FieldFlashWork *p);
 void func_021C7E58(u32 a);
 void func_021C7E64(u32 a);
 int func_021C7E70(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1);
@@ -845,7 +849,7 @@ int func_021C6F30(Work_021C6E94 *w)
 Q *func_021C701C(u32 a, u16 b, u32 c)
 {
     Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x1c, func_021C71A4);
-    W_021C701C *w = (W_021C701C *)func_021C6CCC((u8 *)q);
+    FieldFlashWork *w = (FieldFlashWork *)func_021C6CCC((u8 *)q);
     w->f0 = a;
     w->f4 = (u32)func_02188C58((void *)a);
     w->fC = 0;
@@ -873,7 +877,7 @@ Q *func_021C701C(u32 a, u16 b, u32 c)
 Q *func_021C7058(u32 a, u16 b, u32 c)
 {
     Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x1c, func_021C71A4);
-    W_021C7058 *w = (W_021C7058 *)func_021C6CCC((u8 *)q);
+    FieldFlashWork *w = (FieldFlashWork *)func_021C6CCC((u8 *)q);
     w->f0 = a;
     w->f4 = (u32)func_02188C58((void *)a);
     w->fC = 0;
@@ -977,7 +981,7 @@ void func_021C70DC(Work_021C70DC *w)
 
 
 
-int func_021C71A4(W_021C6E5C *w)
+int func_021C71A4(FieldFlashWork *w)
 {
     switch (w->fC) {
     case 0:
@@ -1327,11 +1331,11 @@ int func_021C7500(Ctl *o){
 
 
 
-static inline void set3(V_021C6E5C *d, u32 x, u32 y, u32 z)
+static inline void set3(FieldFlashWork *d, u32 x, u32 y, u32 z)
 {
-    d->x = x;
-    d->y = y;
-    d->z = z;
+    d->f0 = x;
+    d->f4 = y;
+    d->f8 = z;
 }
 
 
@@ -1346,7 +1350,7 @@ static inline void set3(V_021C6E5C *d, u32 x, u32 y, u32 z)
 
 
 
-Q *func_021C754C(u32 a, u32 b, V_021C6E5C *v)
+Q *func_021C754C(u32 a, u32 b, FieldFlashWork *v)
 {
     Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x28, func_021C7584);
     X *x = (X *)func_021C6CCC((u8 *)q);
@@ -1354,7 +1358,7 @@ Q *func_021C754C(u32 a, u32 b, V_021C6E5C *v)
     x->f4 = a;
     x->f8 = 0;
     x->fC = b;
-    set3(&x->f1C, v->x, v->y, v->z);
+    set3(&x->f1C, v->f0, v->f4, v->f8);
     return q;
 }
 
@@ -1872,11 +1876,11 @@ int func_021C7A7C(Obj_021C7A20 *p)
 
 
 /*
- * The source vector is `const V_021C6E5C *`: the const lets the scheduler hoist each
+ * The source vector is `const FieldFlashWork *`: the const lets the scheduler hoist each
  * load above the preceding store (ldr x; str fC; ldr y; str x; ...).  The
- * sibling func_021C754C takes a plain `V_021C6E5C *` and keeps loads after the fC store.
+ * sibling func_021C754C takes a plain `FieldFlashWork *` and keeps loads after the fC store.
  */
-Q *func_021C7AE4(u32 a, u32 b, const V_021C6E5C *v)
+Q *func_021C7AE4(u32 a, u32 b, const FieldFlashWork *v)
 {
     Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x28, func_021C7B1C);
     X *x = (X *)func_021C6CCC((u8 *)q);
@@ -1884,7 +1888,7 @@ Q *func_021C7AE4(u32 a, u32 b, const V_021C6E5C *v)
     x->f4 = a;
     x->f8 = 0;
     x->fC = b;
-    set3(&x->f1C, v->x, v->y, v->z);
+    set3(&x->f1C, v->f0, v->f4, v->f8);
     return q;
 }
 
@@ -2012,7 +2016,7 @@ int func_021C7D28(int a, int b, u16 c, u16 d)
 
 
 
-int func_021C7D78(W_021C7D78 *w)
+int func_021C7D78(FieldFlashWork *w)
 {
     if (w->fC == 0) {
         if (w->fE % w->f12 == 0)
@@ -2102,7 +2106,7 @@ void func_021C7E50(u8 *p, u16 v)
  * Unlabelled leaf accessor (prints as .word in the listing): returns the u16 at +0x1C (func_021C7E50 sets +0x1E).
  * Sole blocker of ov010 func_0215ECBC's MATCH.
  */
-u16 func_021C7E54(Obj_021C7D78 *p)
+u16 func_021C7E54(FieldFlashWork *p)
 {
     return p->f1c;
 }

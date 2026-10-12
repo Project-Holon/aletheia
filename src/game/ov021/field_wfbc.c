@@ -385,7 +385,6 @@ struct Sub02008700Obj;
 struct Cmd;
 struct Obj_021968DC;
 struct Obj_02196F44;
-struct Obj_0219707C;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
@@ -589,25 +588,11 @@ struct FrameStyle {
     u8 palette;
 };
 
-typedef struct { u8 x0; u8 x1; u8 x2; u8 x3; u32 x4; u32 x8; u32 xc; } Obj_02195E70;
 
 typedef struct { int w[8]; } B32;
 
 typedef struct { u32 x0; u32 x4; u32 x8; u32 xc; } Desc;
 
-typedef struct Obj_0219630C {
-    u8 pad0[0x10];
-    u16 x10;
-    u16 pad12;
-    u32 w[4];
-    u32 x24;
-    u32 x28;
-    u32 x2c;
-    u8 pad30[8];
-    u32 x38;
-    u8 pad3c[0x2B8];
-    int x2f4;
-} Obj_0219630C;
 
 typedef struct Cb { u32 x0; int (*fn)(void *, struct Cb *); } Cb;
 
@@ -645,12 +630,27 @@ typedef struct {
     int arr[3];
 } Sub;
 
-typedef struct {
-    u8 pad0[0x10];
+typedef struct FieldWfbcWork {
+    u8 f0;
+    u8 f1;
+    u8 f2;
+    u8 f3;
+    u32 f4;
+    u32 f8;
+    u32 fC;
     u16 f10;
-    u8 pad12[0x26C - 0x12];
-    Sub sub;
-} Obj_0219707C;
+    u8 pad12[0x14 - 0x12];
+    u32 f14[4];
+    u32 f24;
+    u32 f28;
+    u32 f2C;
+    u8 pad30[0x38 - 0x30];
+    u32 f38;
+    u8 pad3C[0x26C - 0x3C];
+    Sub f26C;
+    u8 pad2A0[0x2F4 - 0x2A0];
+    int f2F4;
+} FieldWfbcWork;
 
 extern int func_02169520(int a0, int a1);
 extern void func_0216959C(u8 *p);
@@ -853,8 +853,8 @@ extern s32 func_0204A6C8(void *h, u32 b, u32 c, u32 d, u16 e);
 extern s32 func_0204AC18(void *h, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204AF28(void *h, u32 b, u32 c, u32 d);
 extern void func_0204B3B4(struct Obj_02196F44 *p);
-extern struct Obj_0219707C *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
-extern void func_0204B3DC(struct Obj_0219707C *obj, unsigned int on);
+extern FieldWfbcWork *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
+extern void func_0204B3DC(FieldWfbcWork *obj, unsigned int on);
 extern void func_0204B688(struct Actor *actor, u32 value);
 int func_02193628(u8 *o, unsigned int *q);
 void func_02193790(Plane *out, const int *map, Vec *pos, fx32_02193628 size, fx32_02193628 base);
@@ -963,7 +963,7 @@ void func_02195588(u8 *p);
 void func_021955EC(struct FrameStyle *style, void *win, int deco);
 void func_02195938(struct FrameStyle *style, void *win, int deco);
 u32 func_02195E54(u32 a, u32 b, u8 c, u32 d);
-void func_02195E70(u32 a, Obj_02195E70 *b);
+void func_02195E70(u32 a, FieldWfbcWork *b);
 int func_02195E80(u32 a, u32 b);
 void func_02195E90(struct FrameStyle *style, void *win);
 void func_02196030(u32 *p, u32 v);
@@ -974,7 +974,7 @@ void func_02196228(u8 *p, int flag);
 void func_02196290(u8 *a);
 int func_021962C4(u32 a);
 void func_021962F4(u8 *a);
-void func_0219630C(int n, u32 *msg, Obj_0219630C *a, Desc *d, int *xs, int *ys);
+void func_0219630C(int n, u32 *msg, FieldWfbcWork *a, Desc *d, int *xs, int *ys);
 void func_02196454(u8 *p);
 void func_0219649C(void *a, int b, Cb *c);
 void func_021964B0(u16 (*dst)[16], u16 *add, int n);
@@ -1013,7 +1013,7 @@ void func_02196FF0(u8 *p);
 void func_02196FFC(u8 *p);
 void func_02197058(Obj_02196F44 *a);
 void func_0219707C(u8 *p);
-void func_02197190(Obj_0219707C *p);
+void func_02197190(FieldWfbcWork *p);
 extern char d_021DDA60[];
 extern int d_021D3F60[];
 extern int d_021D3F58[];
@@ -4049,7 +4049,7 @@ void func_02194C60(u8 *p, u8 *e)
     case 3:
         ((struct Obj02377 *)e)->f0 = 4;
         t = ((struct Obj02377 *)e)->f60;
-        func_02195E70((u32)p, (Obj_02195E70 *)e);
+        func_02195E70((u32)p, (FieldWfbcWork *)e);
         ((struct Obj02377 *)e)->f8 = func_0201CCE4(((struct Obj02377 *)e)->fC, e[0x5C], e[0x5D], ((struct Obj02377 *)e)->f14,
                                         ((struct Obj01351 *)p)->f8, t, *(u32 *)&((struct Obj01351 *)p)->fC98, 0, ((struct Obj01351 *)p)->f0, 15);
         return;
@@ -5139,9 +5139,9 @@ u32 func_02195E54(u32 a, u32 b, u8 c, u32 d)
 
 
 
-void func_02195E70(u32 a, Obj_02195E70 *b)
+void func_02195E70(u32 a, FieldWfbcWork *b)
 {
-    func_02195E54(a, b->xc, b->x3, 0);
+    func_02195E54(a, b->fC, b->f3, 0);
 }
 
 
@@ -5457,46 +5457,46 @@ void func_021962F4(u8 *a)
 
 
 
-void func_0219630C(int n, u32 *msg, Obj_0219630C *a, Desc *d, int *xs, int *ys)
+void func_0219630C(int n, u32 *msg, FieldWfbcWork *a, Desc *d, int *xs, int *ys)
 {
     int i;
     int x;
     int y;
 
     func_020414EC(7);
-    a->x2f4 = n;
-    func_02049B40(0x17, 5, 4, 0x100, 0x20, a->x10);
+    a->f2F4 = n;
+    func_02049B40(0x17, 5, 4, 0x100, 0x20, a->f10);
     for (i = 0; i < 4; i++) {
-        if (a->w[i] != 0) {
-            func_020456F8((struct Descriptor *)a->w[i]);
-            func_0201F7A8((void *)a->w[i], 2);
-            func_020452E8((struct Descriptor *)a->w[i]);
+        if (a->f14[i] != 0) {
+            func_020456F8((struct Descriptor *)a->f14[i]);
+            func_0201F7A8((void *)a->f14[i], 2);
+            func_020452E8((struct Descriptor *)a->f14[i]);
         }
-        a->w[i] = 0;
+        a->f14[i] = 0;
     }
     for (i = 0; i < n; i++) {
         func_0201DD78(15, 2, 0);
-        a->w[i] = func_020450F0(7, (u8)d[i].x0, (u8)d[i].x4, (u8)d[i].x8, (u8)d[i].xc, 8, 0);
-        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)a->w[i])), 0);
-        func_02045CAC((struct MsgBank *)a->x28, msg[i], (void *)a->x38);
+        a->f14[i] = func_020450F0(7, (u8)d[i].x0, (u8)d[i].x4, (u8)d[i].x8, (u8)d[i].xc, 8, 0);
+        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)a->f14[i])), 0);
+        func_02045CAC((struct MsgBank *)a->f28, msg[i], (void *)a->f38);
         if (xs != 0) {
-            x = xs[i] - (func_0201D304((struct StrObj *)a->x38, a->x2c, 0) >> 1);
+            x = xs[i] - (func_0201D304((struct StrObj *)a->f38, a->f2C, 0) >> 1);
         } else {
             x = 0;
         }
         if (ys != 0) {
-            y = ys[i] - (func_0201D42C((struct StrObj *)a->x38, (void *)a->x2c) >> 1);
+            y = ys[i] - (func_0201D42C((struct StrObj *)a->f38, (void *)a->f2C) >> 1);
         } else {
             y = 0;
         }
-        func_0201C7A4((void *)((u32)func_02045770((struct Descriptor *)a->w[i])), x, y, (void *)a->x38, (void *)a->x2c);
-        func_02045334((struct Descriptor *)a->w[i]);
-        func_02045374((struct Cfg *)a->w[i]);
+        func_0201C7A4((void *)((u32)func_02045770((struct Descriptor *)a->f14[i])), x, y, (void *)a->f38, (void *)a->f2C);
+        func_02045334((struct Descriptor *)a->f14[i]);
+        func_02045374((struct Cfg *)a->f14[i]);
     }
-    if (a->x24 != 0) {
-        func_02051C6C((void *)a->x24);
+    if (a->f24 != 0) {
+        func_02051C6C((void *)a->f24);
     }
-    a->x24 = 0;
+    a->f24 = 0;
     func_02041B6C(7);
     func_02040588(7, 1);
 }
@@ -5660,7 +5660,7 @@ void func_021966F0(u8 *p)
 
     func_021966B0(p, 0xB);
     func_0219707C(p);
-    func_0219630C(4, (u32 *)&t, (Obj_0219630C *)p, d_021DDB84, d_021D4014, d_021D4024);
+    func_0219630C(4, (u32 *)&t, (FieldWfbcWork *)p, d_021DDB84, d_021D4014, d_021D4024);
     *(u32 *)&((struct Obj00093 *)p)->f24 = (u32)func_02051B84(d_021D404C, (int)((void *)func_0219649C), (int)p, ((struct Obj00093 *)p)->f10);
     ((struct Obj00093 *)p)->f4 = (void *)func_02196974;
     func_02196034(p, (void *)func_02196A4C, 0x340);
@@ -5920,9 +5920,9 @@ void func_02196A60(u8 *p)
 {
     struct Rec8 loc = d_021D3FE0;
 
-    func_02197190((Obj_0219707C *)p);
+    func_02197190((FieldWfbcWork *)p);
     func_021966B0(p, 0xC);
-    func_0219630C(2, (u32 *)&loc, (Obj_0219630C *)p, d_021DDAF4, 0, 0);
+    func_0219630C(2, (u32 *)&loc, (FieldWfbcWork *)p, d_021DDAF4, 0, 0);
     ((struct Obj00093 *)p)->f24 = func_02051B84(d_021D3FF4, (int)func_0219649C, (int)p, ((struct Obj00093 *)p)->f10);
     ((struct Obj00093 *)p)->f4 = func_02196BF8;
     func_02196034(p, func_02196FF0, 0x432);
@@ -6095,7 +6095,7 @@ void func_02196C68(u8 *p)
 
     func_0219728C(p);
     func_021966B0(p, 0xD);
-    func_0219630C(4, (u32 *)&loc, (Obj_0219630C *)p, d_021DDB44, 0, 0);
+    func_0219630C(4, (u32 *)&loc, (FieldWfbcWork *)p, d_021DDB44, 0, 0);
     ((struct Obj00093 *)p)->f24 = func_02051B84(d_021D4034, (int)func_0219649C, (int)p, ((struct Obj00093 *)p)->f10);
     ((struct Obj00093 *)p)->f4 = func_02196F44;
     func_02196034((Obj_021968DC *)p, func_02196FF0, 0x4CC);
@@ -6234,7 +6234,7 @@ void func_02196E04(u8 *p)
 
     func_021973A0(p);
     func_021966B0(p, 0xD);
-    func_0219630C(2, (u32 *)&loc, (Obj_0219630C *)p, d_021DDAF4, 0, 0);
+    func_0219630C(2, (u32 *)&loc, (FieldWfbcWork *)p, d_021DDAF4, 0, 0);
     ((struct Obj00093 *)p)->f24 = func_02051B84(d_021D4004, (int)func_0219649C, (int)p, ((struct Obj00093 *)p)->f10);
     ((struct Obj00093 *)p)->f4 = func_02196D94;
     func_02196034((Obj_021968DC *)p, func_02196D88, 0x54D);
@@ -6442,15 +6442,15 @@ void func_0219707C(u8 *p)
         pos.b = 1;
         *(u32 *)(p + i * 4 + 0x294) = (u32)func_0204B294((void *)*(u32 *)&((struct Obj00093 *)p)->f26C, *(u32 *)&((struct Obj00093 *)p)->f27C,
             *(u32 *)&((struct Obj00093 *)p)->f274, *(u32 *)&((struct Obj00093 *)p)->f284, &pos, 1, ((struct Obj00093 *)p)->f10);
-        func_0204B92C((struct Obj_021968DC *)((struct Obj_0219707C *)*(u32 *)(p + i * 4 + 0x294)), 0);
-        func_0204B3DC((struct Obj_0219707C *)*(u32 *)(p + i * 4 + 0x294), 1);
+        func_0204B92C((struct Obj_021968DC *)((FieldWfbcWork *)*(u32 *)(p + i * 4 + 0x294)), 0);
+        func_0204B3DC((FieldWfbcWork *)*(u32 *)(p + i * 4 + 0x294), 1);
         func_0204B688((struct Actor *)(*(u32 *)(p + i * 4 + 0x294)), 1);
     }
 }
 
 
 
-void func_02197190(Obj_0219707C *p)
+void func_02197190(FieldWfbcWork *p)
 {
     Tbl3 x0 = d_021D3FA0;
     Tbl3 x1 = d_021D3F8C;
@@ -6465,9 +6465,9 @@ void func_02197190(Obj_0219707C *p)
         r.c = x2.v[i];
         r.d = 0;
         r.e = 1;
-        p->sub.arr[i] = (int)func_0204B294((void *)p->sub.f0, p->sub.f10, p->sub.f8, p->sub.f18, &r, 1, p->f10);
-        func_0204B92C((struct Obj_021968DC *)((struct Obj_0219707C *)p->sub.arr[i]), 0);
-        func_0204B3DC((struct Obj_0219707C *)p->sub.arr[i], 1);
-        func_0204B688((struct Actor *)p->sub.arr[i], 1);
+        p->f26C.arr[i] = (int)func_0204B294((void *)p->f26C.f0, p->f26C.f10, p->f26C.f8, p->f26C.f18, &r, 1, p->f10);
+        func_0204B92C((struct Obj_021968DC *)((FieldWfbcWork *)p->f26C.arr[i]), 0);
+        func_0204B3DC((FieldWfbcWork *)p->f26C.arr[i], 1);
+        func_0204B688((struct Actor *)p->f26C.arr[i], 1);
     }
 }

@@ -154,7 +154,7 @@ struct Work;
 struct Big;
 struct Sub02009448Obj;
 struct Obj_021B7364;
-struct Pair;
+struct Entry;
 struct Ent_021B77E4;
 struct Sub;
 typedef unsigned char u8;
@@ -194,10 +194,6 @@ typedef struct Work {
     u16 f10;
 } Work;
 
-typedef struct Pair {
-    u16 a;
-    u16 b;
-} Pair;
 
 struct Rec_021B7494 { unsigned short *f0; char pad04[4]; void *f8; char fC[4]; u16 f10; };
 
@@ -243,14 +239,14 @@ typedef int            fx32;
 
 typedef struct { fx32 x, y, z; } VecFx32_021B7A84;
 
-typedef struct { u16 a, b, c, d; } Rect4_021B7A84;
+typedef struct { u16 a, b, c, d; } Q;
 
 typedef struct Node {
     u8 pad[0x30];
     VecFx32_021B7A84 pos;
 } Node;
 
-typedef int (*HitFn)(int i, u8 *p, VecFx32_021B7A84 *hit, Rect4_021B7A84 *r, VecFx32_021B7A84 *out);
+typedef int (*HitFn)(int i, u8 *p, VecFx32_021B7A84 *hit, Q *r, VecFx32_021B7A84 *out);
 
 typedef long long s64;
 
@@ -283,9 +279,9 @@ typedef struct V3 { int x, y, z; } V3;
 struct Cam {
     u8 pad00[0x50];
     V3 f50;
-    Rect4_021B7A84 f5C;
+    Q f5C;
     u8 pad64[8];
-    Rect4_021B7A84 f6C;
+    Q f6C;
     u8 f74;
     u8 f75;
     u8 f76;
@@ -351,9 +347,9 @@ typedef struct {
 struct Cam_021B7DE0 {
     u8 pad00[0x50];
     V3 f50;
-    Rect4_021B7A84 f5C;
+    Q f5C;
     u8 pad64[8];
-    Rect4_021B7A84 f6C;
+    Q f6C;
     u8 f74;
     u8 f75;
     u8 f76;
@@ -418,7 +414,6 @@ typedef struct Sub_021B7EE4 {
     Out f64;
 } Sub_021B7EE4;
 
-typedef struct { u16 h0; u8 b2; u8 pad3; s16 h4; u16 h6; } Arg_021B8050;
 
 typedef struct { u8 pad[8]; u32 f8; } Info_021B8040;
 
@@ -506,7 +501,6 @@ struct Obj_021B83FC {
     struct Tbl *f24;
 };
 
-typedef struct { u16 a, b, c, d; } Q;
 
 typedef struct {
     u8 b[0x24];
@@ -599,7 +593,7 @@ extern int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void func_021B919C(u8 *p, u32 a);
 extern void func_021B91F8(Sub_021B7EE4 *p, V3_021B7EE4 *out);
-extern void func_021B9238(Sub_021B8050 *p, Arg_021B8050 *out);
+extern void func_021B9238(Sub_021B8050 *p, Arg_021B7DE0 *out);
 extern int func_021B9368(u8 *p, u32 a1, u32 a2, int a3, u32 a5);
 extern void VEC_Subtract(const V3 *a, const V3 *b, V3 *ab);
 extern void VEC_Normalize(const V3 *src, V3 *dst);
@@ -620,7 +614,7 @@ PostmanList *func_021B7400(u32 a, u32 b, int c);
 int func_021B7494(void *a);
 void func_021B74CC(PostmanList *p);
 int func_021B7574(void *task, int *st, Work *w);
-Pair *func_021B7640(u32 a, u32 b, u32 c, int *d);
+Entry *func_021B7640(u32 a, u32 b, u32 c, int *d);
 void func_021B76B4(void *a0, int a1, int a2);
 int func_021B76F8(void *p, int key, void *q);
 void *func_021B7740(void *p, int key, void *q, int idx);
@@ -640,18 +634,18 @@ void func_021B79CC(u32 *p);
 void func_021B79D4(void **o, void *out);
 void func_021B79E4(unsigned short *p);
 int func_021B79F0(struct Obj_021B79AC *o, int flag);
-int func_021B7A84(u8 *p, const VecFx32_021B7A84 *pa, const VecFx32_021B7A84 *pb, Rect4_021B7A84 *r, VecFx32_021B7A84 *out);
+int func_021B7A84(u8 *p, const VecFx32_021B7A84 *pa, const VecFx32_021B7A84 *pb, Q *r, VecFx32_021B7A84 *out);
 void func_021B7C04(u8 *o, int k, int flag);
 int func_021B7C38(u8 *o);
 void func_021B7C58(Outer_021B7364 *o, void *a1, u16 a2, u16 a3, u16 a4, Arg_021B7C58 *out);
 int func_021B7C90(struct Mgr_021B7364 *m, void *r, u16 key, void *q);
-int func_021B7CD8(struct Mgr_021B7CD8 *m, const Rect4_021B7A84 *r, u8 key, Rect4_021B7A84 *out);
+int func_021B7CD8(struct Mgr_021B7CD8 *m, const Q *r, u8 key, Q *out);
 void func_021B7D38(struct Mgr_021B7D38 *m, void *r, void *out);
 int func_021B7D50(Outer_021B7D50 *o, void *out);
 void func_021B7D68(struct Obj_021B7D68 *o, void *r);
 void func_021B7DC0(struct Cam_021B7D50 *c, Rect4_021B7DC0 * __restrict out);
 int func_021B7DE0(Obj_021B7DE0 *o, Arg_021B7DE0 *a);
-u8 func_021B7E60(struct Cam_021B7DE0 *c, u8 key, Rect4_021B7A84 *out, V3 *pos);
+u8 func_021B7E60(struct Cam_021B7DE0 *c, u8 key, Q *out, V3 *pos);
 void func_021B7ED4(u8 *o, Triple *out);
 void func_021B7EE4(Sub_021B7EE4 *p, const Out *q);
 void func_021B8028(u8 *o, Triple *out);
@@ -669,7 +663,7 @@ void func_021B8230(u8 *p, u32 a1);
 void func_021B823C(u8 *p, int k);
 u32 func_021B8248(u8 *p);
 u32 func_021B824C(u8 *p);
-void func_021B8250(const Mgr_021B824C *m, const Arg_021B8050 *src, Arg_021B8050 *out);
+void func_021B8250(const Mgr_021B824C *m, const Arg_021B7DE0 *src, Arg_021B7DE0 *out);
 u16 func_021B82F0(u8 *p);
 u32 func_021B82F4(u8 *p);
 u32 func_021B82F8(u8 *p);
@@ -952,9 +946,9 @@ int func_021B7574(void *task, int *st, Work *w)
 
 
 
-Pair *func_021B7640(u32 a, u32 b, u32 c, int *d)
+Entry *func_021B7640(u32 a, u32 b, u32 c, int *d)
 {
-    Pair *buf;
+    Entry *buf;
     void *h;
     int n;
     int i;
@@ -1469,7 +1463,7 @@ int func_021B79F0(struct Obj_021B79AC *o, int flag)
 
 
 
-int func_021B7A84(u8 *p, const VecFx32_021B7A84 *pa, const VecFx32_021B7A84 *pb, Rect4_021B7A84 *r, VecFx32_021B7A84 *out)
+int func_021B7A84(u8 *p, const VecFx32_021B7A84 *pa, const VecFx32_021B7A84 *pb, Q *r, VecFx32_021B7A84 *out)
 {
     VecFx32_021B7A84 hit;
     VecFx32_021B7A84 d;
@@ -1478,7 +1472,7 @@ int func_021B7A84(u8 *p, const VecFx32_021B7A84 *pa, const VecFx32_021B7A84 *pb,
     VecFx32_021B7A84 bestPos;
     VecFx32_021B7A84 a;
     VecFx32_021B7A84 b;
-    Rect4_021B7A84 bestR;
+    Q bestR;
     int i;
     fx32 best;
     int found;
@@ -1614,9 +1608,9 @@ int func_021B7C90(struct Mgr_021B7364 *m, void *r, u16 key, void *q)
 
 
 
-int func_021B7CD8(struct Mgr_021B7CD8 *m, const Rect4_021B7A84 *r, u8 key, Rect4_021B7A84 *out)
+int func_021B7CD8(struct Mgr_021B7CD8 *m, const Q *r, u8 key, Q *out)
 {
-    Rect4_021B7A84 old = *r;
+    Q old = *r;
 
     func_021B7EE4((Sub_021B7EE4 *)((Inner_021B7C58 *)m->f1C), (const Out *)((Arg_021B7C58 *)r));
     func_021B80E0((Obj_021B80E0 *)m->f1C, 4, key);
@@ -1779,10 +1773,10 @@ int func_021B7DE0(Obj_021B7DE0 *o, Arg_021B7DE0 *a)
 
 
 
-u8 func_021B7E60(struct Cam_021B7DE0 *c, u8 key, Rect4_021B7A84 *out, V3 *pos)
+u8 func_021B7E60(struct Cam_021B7DE0 *c, u8 key, Q *out, V3 *pos)
 {
     if (c->f74 == 0 || key != c->f76) {
-        c->f75 = func_021B7CD8((struct Mgr_021B7CD8 *)c->f78, (const Rect4_021B7A84 *)(&c->f5C), key, &c->f6C);
+        c->f75 = func_021B7CD8((struct Mgr_021B7CD8 *)c->f78, (const Q *)(&c->f5C), key, &c->f6C);
         func_021B7D38((struct Mgr_021B7D38 *)c->f78, &c->f6C, &c->f50);
         c->f74 = 1;
         c->f76 = key;
@@ -1956,7 +1950,7 @@ void func_021B8050(Sub_021B8050 *o, s16 *out)
 {
     V3 a;
     V3 b;
-    Arg_021B8050 q;
+    Arg_021B7DE0 q;
     s32 cur;
     s32 lim;
     s32 end;
@@ -2072,7 +2066,7 @@ void func_021B810C(Sub_021B810C *o)
     o->f2C = 0;
     o->f74 = 0;
     o->f64 = o->f5C;
-    func_021B9238((Sub_021B8050 *)o, (Arg_021B8050 *)(&o->f5C));
+    func_021B9238((Sub_021B8050 *)o, (Arg_021B7DE0 *)(&o->f5C));
     o->f44 = o->f38;
     rem = o->fC % 16;
     if (rem == 0)
@@ -2199,9 +2193,9 @@ u32 func_021B824C(u8 *p)
  * `adds r0,r3,#0` copy. `const Mgr_021B824C *m` lets the base load schedule into the
  * struct copy (`ldr r7,[r6,#0x34]` between the stores to a).
  */
-void func_021B8250(const Mgr_021B824C *m, const Arg_021B8050 *src, Arg_021B8050 *out)
+void func_021B8250(const Mgr_021B824C *m, const Arg_021B7DE0 *src, Arg_021B7DE0 *out)
 {
-    Arg_021B8050 a;
+    Arg_021B7DE0 a;
     u8 *base;
     s32 off;
     s32 x;

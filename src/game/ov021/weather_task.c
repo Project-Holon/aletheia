@@ -536,7 +536,7 @@ typedef struct {
     int x;
     int y;
     int z;
-} Vec021A2424;
+} Vec3;
 
 typedef s32 fx32;
 
@@ -655,12 +655,15 @@ typedef struct {
     int f28;
 } Hdr_021A28CC;
 
-typedef struct {
+typedef struct Obj_021A28CC {
     int f0;
-    char pad4[0x18];
-    int pad1c;
+    int f4;
+    int f8[2];
+    int f10;
+    unsigned char *f14;
+    u8 pad18[0x8];
     Hdr_021A28CC *hdr;
-    char pad24[4];
+    u8 pad24[0x4];
     char sub[0x14];
     int f3c;
 } Obj_021A28CC;
@@ -670,21 +673,19 @@ typedef struct {
     unsigned short n;
 } Hdr_021A2924;
 
-typedef struct {
-    char pad0[0x20];
-    Hdr_021A2924 *hdr;
-    char pad24[0x18];
-    void *f3c;
-} Obj_021A2924;
-
-typedef struct {
+typedef struct Obj_021A2924 {
     u16 f0;
     u16 f2;
     u16 f4;
     u16 f6;
-    char pad8[8];
+    u8 pad8[0x8];
     int f10;
-} Obj_021A29A8;
+    u8 pad14[0xC];
+    Hdr_021A2924 *hdr;
+    u8 pad24[0x18];
+    void *f3c;
+} Obj_021A2924;
+
 
 typedef struct {
     u16 f0;
@@ -702,12 +703,6 @@ typedef struct {
     char pad9[3];
 } Buf;
 
-typedef struct {
-    char pad0[4];
-    int f4;
-    int f8[2];
-    int f10;
-} Obj_021A2A18;
 
 typedef struct {
     u32 f0;
@@ -741,19 +736,7 @@ typedef struct {
     u32 flag;
 } Snd021A2C30;
 
-typedef struct {
-    u16 state;
-    u16 id;
-    u32 pad4;
-    u32 flag;
-} Snd021A2C6C;
 
-typedef struct {
-    u16 state;
-    u16 id;
-    u32 pad4;
-    u32 flag;
-} Snd021A2C98;
 
 typedef struct {
     u8 pad[0x77C];
@@ -794,11 +777,6 @@ typedef struct {
     Pair_021A3190 e[10];
 } Row;
 
-typedef struct {
-    int x;
-    int y;
-    int z;
-} Vec021A36E4;
 
 typedef struct {
     s16 x;
@@ -825,11 +803,6 @@ typedef struct {
     u16 f22;
 } Obj021A36E4;
 
-typedef struct {
-    int x;
-    int y;
-    int z;
-} Vec021A38A4;
 
 typedef struct {
     u8 pad[0x30];
@@ -849,82 +822,21 @@ typedef struct {
     u16 done;
 } Obj021A3CC0;
 
-typedef struct {
-    u8 pad[0x24];
-    u32 mask;
-    u8 pad28[4];
-    u16 timer;
-    u16 count;
-    short step;
-    u16 done;
-} Obj021A3CE8;
 
-typedef struct {
-    u8 pad[0x24];
-    u32 mask;
-    u8 pad28[4];
-    u16 timer;
-    u16 count;
-    short step;
-    u16 done;
-} Obj021A3D6C;
 
-typedef struct {
-    u8 pad[0x24];
-    u32 mask;
-    u8 pad28[4];
-    u16 timer;
-    u16 count;
-    short step;
-    u16 done;
-} Obj021A3E14;
 
 typedef int BOOL;
 
-typedef struct {
-    u8 pad[0x24];
-    u32 mask;
-    u8 pad28[4];
-    u16 timer;
-    u16 count;
-    short step;
-    u16 done;
-} Obj021A3EE0;
 
-typedef struct {
-    u8 pad[0x24];
-    u32 mask;
-    u8 pad28[4];
-    u16 timer;
-    u16 count;
-    short step;
-    u16 done;
-} Obj021A3F10;
 
 typedef struct {
     u8 pad[0x30];
     short step;
 } Obj021A3F48;
 
-typedef struct {
-    u8 pad[0x30];
-    short step;
-} Obj021A3F70;
 
-typedef struct {
-    u8 pad[0x30];
-    short step;
-} Obj021A3F98;
 
-typedef struct {
-    u8 pad[0x30];
-    short step;
-} Obj021A3FC0;
 
-typedef struct {
-    u8 pad[0x30];
-    short step;
-} Obj021A408C;
 
 typedef struct {
     u32 w0;
@@ -952,19 +864,9 @@ typedef struct { u32 mask; int val; s16 a; s16 b; } T1;
 
 typedef struct { int (*fn)(u16); u16 val; s8 a; s8 b; u8 kind; } T2;
 
-typedef struct {
-    int x;
-    int y;
-    int z;
-} Vec021A4F58;
 
 typedef int (*Fn021A55A8)(u32 *p, int a);
 
-typedef struct {
-    int x;
-    int y;
-    int z;
-} Vec021A56C0;
 
 typedef struct {
     u8 pad[0x14];
@@ -972,28 +874,9 @@ typedef struct {
     u8 flag;
 } Obj021A5738;
 
-typedef struct {
-    int x;
-    int y;
-    int z;
-} Vec021A5788;
 
-typedef struct Vec3 {
-    int x;
-    int y;
-    int z;
-} Vec3;
 
-typedef struct {
-    int f0;
-    int pad[4];
-    unsigned char *f14;
-} S_021A5EA4;
 
-typedef struct {
-    int f0;
-    int f4;
-} S_021A66F8;
 
 typedef u32 (*Fn)(u8 *p, u32 a, u32 b);
 
@@ -1049,10 +932,6 @@ typedef struct Record {
     ModelParam param;
 } Record;
 
-typedef struct Holder_021A7258 {
-    int mode;
-    void *f04;
-} Holder_021A7258;
 
 extern void func_02030EAC(struct Node *n);
 extern void func_0204B084(u32 v);
@@ -1091,7 +970,7 @@ int func_021A03A4(int *p);
 int func_021A03B8(int *p);
 int func_021A03CC(int *p);
 void *func_0218EC2C(u8 *p);
-void func_02048B30(void *x, Vec021A2424 *out);
+void func_02048B30(void *x, Vec3 *out);
 extern void func_02048AE8(void *cam, VecFx32_021A244C *out);
 extern fx32 func_0207CF3C(const VecFx32_021A244C *a, const VecFx32_021A244C *b);
 extern u32 func_0207C768(u32 a, u32 b);
@@ -1178,7 +1057,7 @@ extern void *func_0216CE60(void *a, Tmpl021A36E4 *b, int c);
 extern void func_0216D844(void *h, s16 v);
 extern void func_0216D85C(void *p, int v);
 extern void func_0216D874(int a0, int a1);
-extern void func_0216D89C(void *h, const Vec021A36E4 *v);
+extern void func_0216D89C(void *h, const Vec3 *v);
 extern void func_0216DB80(unsigned int *p, unsigned int v);
 extern int func_0216D3CC(int a0);
 extern int func_0216D454();
@@ -1231,7 +1110,7 @@ extern int func_021AB44C(u16 id);
 extern int func_0216DB4C(void *a0, int a1);
 extern int func_0216DCE8(void *a0, int a1);
 extern void *func_0216D568(void *p, u32 v);
-int func_02163E58(void *h, Vec021A4F58 *v, int *lim);
+int func_02163E58(void *h, Vec3 *v, int *lim);
 char *func_0216D570(char *p, u32 v);
 extern int func_021AB41C(u16 id);
 extern void func_021AC528(u32, u32);
@@ -1370,9 +1249,9 @@ void func_021A2968(u8 *p);
 u8 func_021A2970(u8 *p);
 void func_021A2978(u8 *p, u16 *q, u32 c);
 void func_021A2994(u8 *p);
-void func_021A29A8(Obj_021A29A8 *o, Src *s, int heap);
+void func_021A29A8(Obj_021A2924 *o, Src *s, int heap);
 void func_021A29F4(u16 *p);
-void func_021A2A18(Obj_021A2A18 *o, int idx, void *p, void *src, unsigned short x);
+void func_021A2A18(Obj_021A28CC *o, int idx, void *p, void *src, unsigned short x);
 void func_021A2A68(u8 *p, int i, int x);
 int func_021A2A84(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u32 e2, u32 e3, u32 e4, u32 e5);
 void func_021A2AAC(char *p, int a, int b, int c, int d);
@@ -1386,8 +1265,8 @@ unsigned char *func_021A2C24(unsigned char *o);
 u32 func_021A2C28(u8 *p);
 void func_021A2C2C(u8 *p, u32 v);
 void func_021A2C30(Snd021A2C30 *p, int a, u16 id);
-void func_021A2C6C(Snd021A2C6C *p, int a);
-void func_021A2C98(Snd021A2C98 *p, int a);
+void func_021A2C6C(Snd021A2C30 *p, int a);
+void func_021A2C98(Snd021A2C30 *p, int a);
 void func_021A2CC8(Obj021A2CC8 *p, u8 mode, u32 value, int n);
 void func_021A2CEC(char *p);
 u8 func_021A2CF8(char *p);
@@ -1465,11 +1344,11 @@ void func_021A36BC(struct Obj18028 *p, void *a1);
 int func_021A36C8(u8 *p, u32 k, void *buf);
 void func_021A36D4(u8 *p, u32 v);
 u32 func_021A36E0(u8 *p);
-Obj021A36E4 *func_021A36E4(u32 a, u32 b, const Vec021A36E4 *pos, u32 d, u16 heap);
+Obj021A36E4 *func_021A36E4(u32 a, u32 b, const Vec3 *pos, u32 d, u16 heap);
 void func_021A3810(u32 a0);
 void func_021A3818(u32 *p);
 void func_021A3898(u8 *p, struct VecFx32 *out);
-void func_021A38A4(u8 *p, Vec021A38A4 *v);
+void func_021A38A4(u8 *p, Vec3 *v);
 u16 func_021A3920(u8 *p);
 void func_021A392C(void *p, int b);
 int func_021A3938(u32 a, u32 b);
@@ -1511,23 +1390,23 @@ int func_021A3CC0(Obj021A3CC0 *p);
 void func_021A3CE8(void *p);
 int func_021A3D08(u8 *p, u32 v);
 int func_021A3D50(u32 a, u32 b);
-int func_021A3D6C(Obj021A3D6C *p, int a);
+int func_021A3D6C(Obj021A3CC0 *p, int a);
 int func_021A3DA0(u8 *p);
-int func_021A3E14(Obj021A3E14 *p);
+int func_021A3E14(Obj021A3CC0 *p);
 u32 func_021A3E48(u32 a1);
 int func_021A3E54(u8 *p);
-int func_021A3EE0(Obj021A3EE0 *p);
-int func_021A3F10(Obj021A3F10 *p);
+int func_021A3EE0(Obj021A3CC0 *p);
+int func_021A3F10(Obj021A3CC0 *p);
 int func_021A3F48(Obj021A3F48 *p);
 u32 func_021A3F64(u32 a1);
-int func_021A3F70(Obj021A3F70 *p);
+int func_021A3F70(Obj021A3F48 *p);
 u32 func_021A3F8C(u32 a1);
-int func_021A3F98(Obj021A3F98 *p);
+int func_021A3F98(Obj021A3F48 *p);
 u32 func_021A3FB4(u32 a1);
-int func_021A3FC0(Obj021A3FC0 *p);
+int func_021A3FC0(Obj021A3F48 *p);
 u32 func_021A3FDC(u32 a1);
 int func_021A3FE8(u8 *p);
-int func_021A408C(Obj021A408C *p);
+int func_021A408C(Obj021A3F48 *p);
 int func_021A40A8(u8 *p);
 void func_021A4114(u32 *p);
 u32 *func_021A4140(u32 a, u32 b);
@@ -1654,11 +1533,11 @@ int func_021A5D04(void *a, void *b, int c, int d, u16 e, int f);
 int func_021A5DD8(void *a, void *b, int c, int d, u16 e, int f);
 int func_021A5E28(void *a, void *b, int c, int d, u16 e, int f);
 void func_021A5EA0(void *p, void *a, int b, int c, int d, int e);
-void func_021A5EA4(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
-void func_021A5EDC(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
-void func_021A5F14(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
-void func_021A5F38(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
-void func_021A5F74(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
+void func_021A5EA4(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
+void func_021A5EDC(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
+void func_021A5F14(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
+void func_021A5F38(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
+void func_021A5F74(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
 void func_021A5F98(int *a, u32 sel, u32 c, u32 d, u16 e, u32 f);
 int func_021A6014(int *a, int b, int c, u16 d, int e);
 int func_021A607C(void *a, void *b, int c, int d, u16 e, int f);
@@ -1666,17 +1545,17 @@ int func_021A60DC(void *a, void *b, int c, int d, u16 e, int f);
 int func_021A61B0(void *a, void *b, int c, int d, u16 e, int f);
 int func_021A6200(void *a, void *b, int c, int d, u16 e, int f);
 void func_021A6278(void *a, void *b, int c, int d, int e, int f);
-void func_021A627C(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
-void func_021A62B4(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
-void func_021A62D8(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
-void func_021A62FC(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
-void func_021A6338(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
-void func_021A635C(S_021A5EA4 *a, int sel, int c, int d, u16 e, int f);
+void func_021A627C(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
+void func_021A62B4(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
+void func_021A62D8(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
+void func_021A62FC(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
+void func_021A6338(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
+void func_021A635C(Obj_021A28CC *a, int sel, int c, int d, u16 e, int f);
 void func_021A63EC(void *a, void *b, int c, int d, int e, int f);
-void func_021A63F0(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
-void func_021A6428(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
-void func_021A6454(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
-void func_021A6478(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f);
+void func_021A63F0(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
+void func_021A6428(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
+void func_021A6454(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
+void func_021A6478(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f);
 int func_021A64B4(int *a, int b, int c, u16 d, int e);
 int func_021A652C(void *a, void *b, int c, int d, u16 e, int f);
 int func_021A658C(void *a, void *b, int c, int d, u16 e, int f);
@@ -1684,7 +1563,7 @@ int func_021A661C(void *a, void *b, int c, int d, u16 e, int f);
 u32 func_021A666C(void *a, void *b, u32 c, u32 d, u16 e, u32 f);
 void func_021A66E4(u32 *p, u32 v);
 void func_021A66EC(u32 *p, u32 v);
-int func_021A66F8(S_021A66F8 *a, int m);
+int func_021A66F8(Obj_021A28CC *a, int m);
 void func_021A6708(void *a);
 void func_021A6714(void *a);
 void func_021A6720(void *a);
@@ -1738,7 +1617,7 @@ void func_021A70D0(u32 a, u32 *b, u16 c, u32 d, u32 e, u32 f, u32 g);
 void func_021A712C(u32 a, u32 *b, u16 c, u32 d, u32 e, u32 f, u32 g);
 int func_021A7198(u32 a, u32 *b, V *c, u32 d);
 int func_021A71E4(u32 a, u32 *b, u16 *c, u32 d);
-void func_021A7258(void *o, Holder_021A7258 *h, int mode, VecFx32_021A6E30 *pos, u16 e, u16 f, u16 g);
+void func_021A7258(void *o, Holder_021A6E30 *h, int mode, VecFx32_021A6E30 *pos, u16 e, u16 f, u16 g);
 extern const u32 d_021D886C[];
 extern const u32 d_021D8868[];
 extern u8 d_021DDE80[];
@@ -2722,7 +2601,7 @@ void func_021A1E08(Obj_021A1E08 *o, u16 x)
         if (func_021A2724(o, (Cb021A2724)o->f20[11], x) != 0) {
             ((u8 *)o)[0x26] = o->hi24 != 0 ? 6 : 7;
         }
-        func_021A2C98((Snd021A2C98 *)o->sub40, o->fC);
+        func_021A2C98((Snd021A2C30 *)o->sub40, o->fC);
         func_021A2968((u8 *)o);
         break;
     case 6:
@@ -2730,32 +2609,32 @@ void func_021A1E08(Obj_021A1E08 *o, u16 x)
             ((u8 *)o)[0x26] = 8;
         }
         func_021A27F8((Obj021A27F8 *)o);
-        func_021A2C98((Snd021A2C98 *)o->sub40, o->fC);
+        func_021A2C98((Snd021A2C30 *)o->sub40, o->fC);
         break;
     case 7:
         if (func_021A2724(o, (Cb021A2724)o->f20[13], x) != 0) {
             ((u8 *)o)[0x26] = 8;
         }
-        func_021A2C98((Snd021A2C98 *)o->sub40, o->fC);
+        func_021A2C98((Snd021A2C30 *)o->sub40, o->fC);
         break;
     case 8:
         func_021A2724(o, (Cb021A2724)o->f20[14], x);
         func_021A27F8((Obj021A27F8 *)o);
-        func_021A2C98((Snd021A2C98 *)o->sub40, o->fC);
+        func_021A2C98((Snd021A2C30 *)o->sub40, o->fC);
         break;
     case 9:
         if (func_021A2724(o, (Cb021A2724)o->f20[15], x) != 0) {
             ((u8 *)o)[0x26] = 10;
         }
         func_021A27F8((Obj021A27F8 *)o);
-        func_021A2C98((Snd021A2C98 *)o->sub40, o->fC);
+        func_021A2C98((Snd021A2C30 *)o->sub40, o->fC);
         break;
     case 10:
         if (func_021A2724(o, (Cb021A2724)o->f20[16], x) != 0) {
             ((u8 *)o)[0x26] = 11;
         }
         func_021A27F8((Obj021A27F8 *)o);
-        func_021A2C98((Snd021A2C98 *)o->sub40, o->fC);
+        func_021A2C98((Snd021A2C30 *)o->sub40, o->fC);
         break;
     case 11:
         if (func_021A2970((u8 *)o) != 0) {
@@ -4350,11 +4229,11 @@ int func_021A2418(int *p)
 
 void func_021A2424(u8 *p)
 {
-    Vec021A2424 v;
+    Vec3 v;
 
     if (((struct Obj02702 *)p)->f14 != 0) {
         func_02048B30(func_0218EC2C((u8 *)(((struct Obj02702 *)p)->f14)), &v);
-        *(Vec021A2424 *)(p + 0x68) = v;
+        *(Vec3 *)(p + 0x68) = v;
     }
 }
 
@@ -4414,7 +4293,7 @@ void func_021A244C(u8 *o, s32 *outX, s32 *outY)
         return;
     }
     cam = func_0218EC2C((u8 *)((struct Obj00954 *)o)->f14);
-    func_02048B30(cam, (Vec021A2424 *)&pos);
+    func_02048B30(cam, (Vec3 *)&pos);
     func_02048AE8(cam, &tgt);
     dx = pos.x - ((VecFx32_021A244C *)(o + 0x68))->x;
     dz = pos.z - ((VecFx32_021A244C *)(o + 0x68))->z;
@@ -4593,7 +4472,7 @@ void func_021A25BC(unsigned char *o, u16 arg)
  */
 void func_021A25CC(u8 *p)
 {
-    func_021A2C6C((Snd021A2C6C *)(p + 0x40), ((struct Obj18003 *)p)->fC);
+    func_021A2C6C((Snd021A2C30 *)(p + 0x40), ((struct Obj18003 *)p)->fC);
 }
 
 
@@ -5240,7 +5119,7 @@ void func_021A282C(void *o, int x)
 {
     u8 *b = (u8 *)o;
     func_021A2978(b + 0x28, *(u16 **)(b + 0x20), x);
-    func_021A29A8((Obj_021A29A8 *)(b + 0x28), (Src *)(*(void **)(b + 0x20)), x);
+    func_021A29A8((Obj_021A2924 *)(b + 0x28), (Src *)(*(void **)(b + 0x20)), x);
 }
 
 
@@ -5312,7 +5191,7 @@ void func_021A2860(Obj_021A277C *o, u16 x)
     int i;
 
     for (i = 0; i < o->hdr->count; i++) {
-        func_021A2A18((Obj_021A2A18 *)o->sub, i, (void *)(o->arr[i]), (char *)o->hdr + 0xe + i * 12, x);
+        func_021A2A18((Obj_021A28CC *)o->sub, i, (void *)(o->arr[i]), (char *)o->hdr + 0xe + i * 12, x);
     }
 }
 
@@ -5620,7 +5499,7 @@ void func_021A2994(u8 *p)
 
 
 
-void func_021A29A8(Obj_021A29A8 *o, Src *s, int heap)
+void func_021A29A8(Obj_021A2924 *o, Src *s, int heap)
 {
     if (s->f2 != 0) {
         o->f2 = func_0204A6C8(o->f10, s->f6, 0, 0, heap);
@@ -5701,7 +5580,7 @@ void func_021A29F4(u16 *p)
  * memcpy dst and the 3rd argument, once for the byte-8 test); the second
  * name is an alias at the same address that stops the compiler CSEing them.
  */
-void func_021A2A18(Obj_021A2A18 *o, int idx, void *p, void *src, unsigned short x)
+void func_021A2A18(Obj_021A28CC *o, int idx, void *p, void *src, unsigned short x)
 {
     func_02082D44(src, d_021EE710, 12);
     if (d_021EE710b[8] != 0x1f) {
@@ -6272,7 +6151,7 @@ void func_021A2C2C(u8 *p, u32 v)
 
 void func_021A2C30(Snd021A2C30 *p, int a, u16 id)
 {
-    func_021A2C6C((Snd021A2C6C *)p, a);
+    func_021A2C6C((Snd021A2C30 *)p, a);
     if (func_02005C64() == 0) {
         p->state = 1;
         p->id = id;
@@ -6315,7 +6194,7 @@ void func_021A2C30(Snd021A2C30 *p, int a, u16 id)
 
 
 
-void func_021A2C6C(Snd021A2C6C *p, int a)
+void func_021A2C6C(Snd021A2C30 *p, int a)
 {
     if (p->state == 1) {
         p->state = 0;
@@ -6355,7 +6234,7 @@ void func_021A2C6C(Snd021A2C6C *p, int a)
 
 
 
-void func_021A2C98(Snd021A2C98 *p, int a)
+void func_021A2C98(Snd021A2C30 *p, int a)
 {
     if (p->state == 2 && func_02005C64() == 0) {
         p->state = 1;
@@ -6800,7 +6679,7 @@ u32 *func_021A2E50(int a, u32 b, int c, int d, u16 heap)
     u32 *o = (u32 *)func_02030734(heap, 0x10, 1, (const char *)&d_021DDEA8, 0x4C);
 
     o[0] = b;
-    o[1] = (u32)func_021A36E4(a, b, (const Vec021A36E4 *)c, d, heap);
+    o[1] = (u32)func_021A36E4(a, b, (const Vec3 *)c, d, heap);
     return o;
 }
 
@@ -7437,7 +7316,7 @@ void func_021A3038(u8 *p, struct V3 *out)
 
 void func_021A3044(u8 *p, void *v)
 {
-    func_021A38A4((u8 *)((struct Obj18012 *)p)->f4, (Vec021A38A4 *)v);
+    func_021A38A4((u8 *)((struct Obj18012 *)p)->f4, (Vec3 *)v);
 }
 
 
@@ -9376,7 +9255,7 @@ u32 func_021A36E0(u8 *p)
 
 
 
-Obj021A36E4 *func_021A36E4(u32 a, u32 b, const Vec021A36E4 *pos, u32 d, u16 heap)
+Obj021A36E4 *func_021A36E4(u32 a, u32 b, const Vec3 *pos, u32 d, u16 heap)
 {
     Obj021A36E4 *o;
     void *m;
@@ -9598,7 +9477,7 @@ void func_021A3898(u8 *p, struct VecFx32 *out)
 
 
 
-void func_021A38A4(u8 *p, Vec021A38A4 *v)
+void func_021A38A4(u8 *p, Vec3 *v)
 {
     int x = (v->x >> 4) / 4096;
     int y = (v->y >> 4) / 4096;
@@ -9611,7 +9490,7 @@ void func_021A38A4(u8 *p, Vec021A38A4 *v)
     func_0216D844((void *)h, (short)x);
     func_0216D85C((void *)h, (short)y);
     func_0216D874(h, (short)z);
-    func_0216D89C((void *)h, (const Vec021A36E4 *)v);
+    func_0216D89C((void *)h, (const Vec3 *)v);
 }
 
 
@@ -11171,7 +11050,7 @@ int func_021A3CC0(Obj021A3CC0 *p)
 
 void func_021A3CE8(void *p)
 {
-    int i = func_021A3C94(((Obj021A3CE8 *)p)->mask);
+    int i = func_021A3C94(((Obj021A3CC0 *)p)->mask);
 
     if (i < 10) {
         while (func_021A3C6C((Obj021A3C6C *)p, i) == 0)
@@ -11292,7 +11171,7 @@ return func_021A3D08((u8 *)a, func_021A3190(func_021A398C((u8 *)a), b));
 
 
 
-int func_021A3D6C(Obj021A3D6C *p, int a)
+int func_021A3D6C(Obj021A3CC0 *p, int a)
 {
     if (func_021A3B94((u32 *)p) == 1) {
         p->count++;
@@ -11388,7 +11267,7 @@ int func_021A3DA0(u8 *p)
 
 
 
-int func_021A3E14(Obj021A3E14 *p)
+int func_021A3E14(Obj021A3CC0 *p)
 {
     func_021A398C((u8 *)p);
     func_021A3960((u8 *)p);
@@ -11430,14 +11309,14 @@ int func_021A3E14(Obj021A3E14 *p)
 
 
 /*
- * Calls func_021A3D6C((Obj021A3D6C *)(its own argument 1), 0x1) and returns 0x0.
+ * Calls func_021A3D6C((Obj021A3CC0 *)(its own argument 1), 0x1) and returns 0x0.
  */
 /*
  * Calls func_021A3D6C(its own argument 1, 0x1) and returns 0x0.
  */
 u32 func_021A3E48(u32 a1)
 {
-    func_021A3D6C((Obj021A3D6C *)a1, 0x1);
+    func_021A3D6C((Obj021A3CC0 *)a1, 0x1);
 
     return 0x0;
 }
@@ -11530,7 +11409,7 @@ int func_021A3E54(u8 *p)
 
 
 
-int func_021A3EE0(Obj021A3EE0 *p)
+int func_021A3EE0(Obj021A3CC0 *p)
 {
     int a = func_021A3974((u8 *)p);
 
@@ -11569,7 +11448,7 @@ int func_021A3EE0(Obj021A3EE0 *p)
 
 
 
-int func_021A3F10(Obj021A3F10 *p)
+int func_021A3F10(Obj021A3CC0 *p)
 {
     int a;
 
@@ -11650,14 +11529,14 @@ int func_021A3F48(Obj021A3F48 *p)
 
 
 /*
- * Calls func_021A3D6C((Obj021A3D6C *)(its own argument 1), 0x4) and returns 0x0.
+ * Calls func_021A3D6C((Obj021A3CC0 *)(its own argument 1), 0x4) and returns 0x0.
  */
 /*
  * Calls func_021A3D6C(its own argument 1, 0x4) and returns 0x0.
  */
 u32 func_021A3F64(u32 a1)
 {
-    func_021A3D6C((Obj021A3D6C *)a1, 0x4);
+    func_021A3D6C((Obj021A3CC0 *)a1, 0x4);
 
     return 0x0;
 }
@@ -11692,7 +11571,7 @@ u32 func_021A3F64(u32 a1)
 
 
 
-int func_021A3F70(Obj021A3F70 *p)
+int func_021A3F70(Obj021A3F48 *p)
 {
     if (func_021A3D50((u32)p, 5) != 1)
         p->step++;
@@ -11730,14 +11609,14 @@ int func_021A3F70(Obj021A3F70 *p)
 
 
 /*
- * Calls func_021A3D6C((Obj021A3D6C *)(its own argument 1), 0x5) and returns 0x0.
+ * Calls func_021A3D6C((Obj021A3CC0 *)(its own argument 1), 0x5) and returns 0x0.
  */
 /*
  * Calls func_021A3D6C(its own argument 1, 0x5) and returns 0x0.
  */
 u32 func_021A3F8C(u32 a1)
 {
-    func_021A3D6C((Obj021A3D6C *)a1, 0x5);
+    func_021A3D6C((Obj021A3CC0 *)a1, 0x5);
 
     return 0x0;
 }
@@ -11772,7 +11651,7 @@ u32 func_021A3F8C(u32 a1)
 
 
 
-int func_021A3F98(Obj021A3F98 *p)
+int func_021A3F98(Obj021A3F48 *p)
 {
     if (func_021A3D50((u32)p, 6) != 1)
         p->step++;
@@ -11810,14 +11689,14 @@ int func_021A3F98(Obj021A3F98 *p)
 
 
 /*
- * Calls func_021A3D6C((Obj021A3D6C *)(its own argument 1), 0x6) and returns 0x0.
+ * Calls func_021A3D6C((Obj021A3CC0 *)(its own argument 1), 0x6) and returns 0x0.
  */
 /*
  * Calls func_021A3D6C(its own argument 1, 0x6) and returns 0x0.
  */
 u32 func_021A3FB4(u32 a1)
 {
-    func_021A3D6C((Obj021A3D6C *)a1, 0x6);
+    func_021A3D6C((Obj021A3CC0 *)a1, 0x6);
 
     return 0x0;
 }
@@ -11852,7 +11731,7 @@ u32 func_021A3FB4(u32 a1)
 
 
 
-int func_021A3FC0(Obj021A3FC0 *p)
+int func_021A3FC0(Obj021A3F48 *p)
 {
     if (func_021A3D50((u32)p, 9) != 1)
         p->step++;
@@ -11890,14 +11769,14 @@ int func_021A3FC0(Obj021A3FC0 *p)
 
 
 /*
- * Calls func_021A3D6C((Obj021A3D6C *)(its own argument 1), 0x9) and returns 0x0.
+ * Calls func_021A3D6C((Obj021A3CC0 *)(its own argument 1), 0x9) and returns 0x0.
  */
 /*
  * Calls func_021A3D6C(its own argument 1, 0x9) and returns 0x0.
  */
 u32 func_021A3FDC(u32 a1)
 {
-    func_021A3D6C((Obj021A3D6C *)a1, 0x9);
+    func_021A3D6C((Obj021A3CC0 *)a1, 0x9);
 
     return 0x0;
 }
@@ -11994,7 +11873,7 @@ int func_021A3FE8(u8 *p)
 
 
 
-int func_021A408C(Obj021A408C *p)
+int func_021A408C(Obj021A3F48 *p)
 {
     if (func_021A3D50((u32)p, 8) != 1)
         p->step++;
@@ -12037,7 +11916,7 @@ int func_021A40A8(u8 *p)
     void *a;
     u32 b;
 
-    func_021A3D6C((Obj021A3D6C *)p, 8);
+    func_021A3D6C((Obj021A3CC0 *)p, 8);
     if (((struct Obj09563 *)p)->f32 == 1 && func_021A3974(p) == 2) {
         f = 0;
         a = func_021A3960(p);
@@ -13946,7 +13825,7 @@ void func_021A4F50(u32 *a, void *a1, u32 a2)
 int func_021A4F58(u32 *p, void *a1, u32 a2)
 {
     void *h = func_021A3960(*(unsigned char * *)&((struct Obj00262 *)p)->fC);
-    Vec021A4F58 v;
+    Vec3 v;
     int lim;
 
     func_0216D88C(h, (struct V3 *)&v);
@@ -13958,7 +13837,7 @@ int func_021A4F58(u32 *p, void *a1, u32 a2)
             func_0216D570(h, 0x8000);
             p[7] = 1;
         }
-        func_0216D89C(h, (const Vec021A36E4 *)&v);
+        func_0216D89C(h, (const Vec3 *)&v);
         p[0] = 7;
         return 7;
     }
@@ -15278,11 +15157,11 @@ int func_021A569C(u8 *a, void *b, int c, int *d)
 u32 func_021A56C0(u32 *p, u32 a1, u32 a2)
 {
     void *h = func_021A3960(*(unsigned char * *)&((struct Obj12739 *)p)->fC);
-    Vec021A56C0 v;
+    Vec3 v;
     int lim;
 
     func_0216D88C(h, (struct V3 *)((struct VecFx32 *)&v));
-    func_02163E58(h, (Vec021A4F58 *)&v, &lim);
+    func_02163E58(h, (Vec3 *)&v, &lim);
     if (v.y <= lim)
         return 1;
     return 0;
@@ -15533,7 +15412,7 @@ return 0;
 
 int func_021A5788(u32 *p, int k, int *out)
 {
-    Vec021A5788 v;
+    Vec3 v;
 
     func_021A3898(*(unsigned char * *)&((struct Obj09571 *)p)->fC, (struct VecFx32 *)&v);
     if (k != 9)
@@ -15570,7 +15449,7 @@ int func_021A57C0(u8 *p, int dir)
     func_0216D88C((const struct Actor *)a, (struct V3 *)((struct VecFx32 *)&pos));
     y = pos.y;
     func_02164208(dir, (int *)(&pos), 0x10000);
-    if (func_02163E58(a, (Vec021A4F58 *)&pos, &lim) == 1) {
+    if (func_02163E58(a, (Vec3 *)&pos, &lim) == 1) {
         if (y < lim) {
             return 1;
         }
@@ -15844,7 +15723,7 @@ return 0;
 u32 func_021A59EC(u32 p)
 {
     u32 r = 1;
-    if (func_021A66F8((S_021A66F8 *)p, 1) == 0) {
+    if (func_021A66F8((Obj_021A28CC *)p, 1) == 0) {
         r = 0;
     }
     return r;
@@ -16093,7 +15972,7 @@ void func_021A5AD4(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e)
         break;
     case 2:
     case 3:
-        func_021A635C((S_021A5EA4 *)p, a, c, d, (u16)b, e);
+        func_021A635C((Obj_021A28CC *)p, a, c, d, (u16)b, e);
         break;
     }
 }
@@ -16172,9 +16051,9 @@ int func_021A5B6C(u32 a, u32 b, u32 c, u32 d)
 
 void func_021A5B7C(u8 *p)
 {
-    if (func_021A66F8((S_021A66F8 *)((u32)p), 8)) {
+    if (func_021A66F8((Obj_021A28CC *)((u32)p), 8)) {
         func_021A6B08((P *)(p + 8), 0);
-    } else if (func_021A66F8((S_021A66F8 *)((u32)p), 0x10)) {
+    } else if (func_021A66F8((Obj_021A28CC *)((u32)p), 0x10)) {
         func_021A6B08((P *)(p + 8), 1);
     } else {
         func_021A6B30((P *)(p + 8));
@@ -16207,19 +16086,19 @@ void func_021A5BC0(u8 *p, u32 k, u32 b, u32 c, u16 d, u32 e)
         func_021A5EA0(p, a, b, c, d, e);
         break;
     case 1:
-        func_021A5EA4((S_021A5EA4 *)p, a, b, c, d, e);
+        func_021A5EA4((Obj_021A28CC *)p, a, b, c, d, e);
         break;
     case 2:
-        func_021A5EDC((S_021A5EA4 *)p, a, b, c, d, e);
+        func_021A5EDC((Obj_021A28CC *)p, a, b, c, d, e);
         break;
     case 3:
-        func_021A5F14((S_021A5EA4 *)p, a, b, c, d, e);
+        func_021A5F14((Obj_021A28CC *)p, a, b, c, d, e);
         break;
     case 4:
-        func_021A5F38((S_021A5EA4 *)p, a, b, c, d, e);
+        func_021A5F38((Obj_021A28CC *)p, a, b, c, d, e);
         break;
     case 5:
-        func_021A5F74((S_021A5EA4 *)p, a, b, c, d, e);
+        func_021A5F74((Obj_021A28CC *)p, a, b, c, d, e);
         break;
     }
 }
@@ -16437,7 +16316,7 @@ void func_021A5EA0(void *p, void *a, int b, int c, int d, int e)
 
 
 
-void func_021A5EA4(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A5EA4(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     if (e == 9) {
         e = func_0216D5F8(b);
@@ -16460,7 +16339,7 @@ void func_021A5EA4(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
 
 
 
-void func_021A5EDC(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A5EDC(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     int k;
     if (f == 1) {
@@ -16488,7 +16367,7 @@ void func_021A5EDC(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
 
 
 
-void func_021A5F14(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A5F14(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     func_0216D410((int)b, func_02197E7C(e, 0x28));
     a->f0 = 2;
@@ -16508,7 +16387,7 @@ void func_021A5F14(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
 
 
 
-void func_021A5F38(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A5F38(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     func_0216D410((int)b, func_02197E7C(e, 0x1c));
     a->f0 = 3;
@@ -16531,7 +16410,7 @@ void func_021A5F38(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
 
 
 
-void func_021A5F74(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A5F74(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     func_0216D410((int)b, func_02197E7C(e, 0x38));
     a->f0 = 1;
@@ -16556,11 +16435,11 @@ void func_021A5F98(int *a, u32 sel, u32 c, u32 d, u16 e, u32 f)
     void *p = ((void **)a)[7];
     switch (sel) {
     case 0: func_021A6278(a, p, c, d, e, f); break;
-    case 1: func_021A627C((S_021A5EA4 *)a, p, c, d, e, f); break;
-    case 2: func_021A62B4((S_021A5EA4 *)a, p, c, d, e, f); break;
-    case 3: func_021A62D8((S_021A5EA4 *)a, p, c, d, e, f); break;
-    case 4: func_021A62FC((S_021A5EA4 *)a, p, c, d, e, f); break;
-    case 5: func_021A6338((S_021A5EA4 *)a, p, c, d, e, f); break;
+    case 1: func_021A627C((Obj_021A28CC *)a, p, c, d, e, f); break;
+    case 2: func_021A62B4((Obj_021A28CC *)a, p, c, d, e, f); break;
+    case 3: func_021A62D8((Obj_021A28CC *)a, p, c, d, e, f); break;
+    case 4: func_021A62FC((Obj_021A28CC *)a, p, c, d, e, f); break;
+    case 5: func_021A6338((Obj_021A28CC *)a, p, c, d, e, f); break;
     }
 }
 
@@ -16761,7 +16640,7 @@ void func_021A6278(void *a, void *b, int c, int d, int e, int f)
 
 
 
-void func_021A627C(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A627C(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     if (e == 9) {
         e = func_0216D5F8(b);
@@ -16784,7 +16663,7 @@ void func_021A627C(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
 
 
 
-void func_021A62B4(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A62B4(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     func_0216D410((int)b, func_02197E7C(e, 0x14));
     a->f0 = 1;
@@ -16803,7 +16682,7 @@ void func_021A62B4(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
 
 
 
-void func_021A62D8(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A62D8(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     func_0216D410((int)b, func_02197E7C(e, 0x28));
     a->f0 = 2;
@@ -16822,7 +16701,7 @@ void func_021A62D8(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
 
 
 
-void func_021A62FC(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A62FC(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     func_0216D410((int)b, func_02197E7C(e, 0x1c));
     a->f0 = 3;
@@ -16844,7 +16723,7 @@ void func_021A62FC(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
 
 
 
-void func_021A6338(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A6338(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     func_0216D410((int)b, func_02197E7C(e, 0x38));
     a->f0 = 1;
@@ -16862,15 +16741,15 @@ void func_021A6338(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
 
 
 
-void func_021A635C(S_021A5EA4 *a, int sel, int c, int d, u16 e, int f)
+void func_021A635C(Obj_021A28CC *a, int sel, int c, int d, u16 e, int f)
 {
     void *x = func_021A3960(a->f14);
     switch (sel) {
     case 0: func_021A63EC(a, x, c, d, e, f); break;
-    case 1: func_021A63F0((S_021A5EA4 *)a, x, c, d, e, f); break;
-    case 2: func_021A6428((S_021A5EA4 *)a, x, c, d, e, f); break;
-    case 3: func_021A6454((S_021A5EA4 *)a, x, c, d, e, f); break;
-    case 4: func_021A6478((S_021A5EA4 *)a, x, c, d, e, f); break;
+    case 1: func_021A63F0((Obj_021A28CC *)a, x, c, d, e, f); break;
+    case 2: func_021A6428((Obj_021A28CC *)a, x, c, d, e, f); break;
+    case 3: func_021A6454((Obj_021A28CC *)a, x, c, d, e, f); break;
+    case 4: func_021A6478((Obj_021A28CC *)a, x, c, d, e, f); break;
     }
 }
 
@@ -16898,7 +16777,7 @@ void func_021A63EC(void *a, void *b, int c, int d, int e, int f)
 
 
 
-void func_021A63F0(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A63F0(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     if (e == 9) {
         e = func_0216D5F8(b);
@@ -16918,7 +16797,7 @@ void func_021A63F0(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
 
 
 
-void func_021A6428(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A6428(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     func_0216D410((int)b, func_02197E7C(e, (f == 1) ? 0x14 : 0x10));
     a->f0 = 1;
@@ -16935,7 +16814,7 @@ void func_021A6428(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
 
 
 
-void func_021A6454(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A6454(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     func_0216D410((int)b, func_02197E7C(e, 0x28));
     a->f0 = 2;
@@ -16952,7 +16831,7 @@ void func_021A6454(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
 
 
 
-void func_021A6478(S_021A5EA4 *a, void *b, int c, int d, u16 e, int f)
+void func_021A6478(Obj_021A28CC *a, void *b, int c, int d, u16 e, int f)
 {
     func_0216D410((int)b, func_02197E7C(e, 0x1c));
     a->f0 = 3;
@@ -17143,7 +17022,7 @@ void func_021A66EC(u32 *p, u32 v)
 
 
 
-int func_021A66F8(S_021A66F8 *a, int m)
+int func_021A66F8(Obj_021A28CC *a, int m)
 {
     if (a->f4 & m) {
         return 1;
@@ -17392,7 +17271,7 @@ u32 func_021A67A4(u8 *p)
 {
     u32 r4 = func_0216D7DC((void *)(((struct Obj19808 *)p)->f1C));
 
-    if (!func_021A66F8((S_021A66F8 *)p, 2)) {
+    if (!func_021A66F8((Obj_021A28CC *)p, 2)) {
         r4 = func_021AB0F0(r4);
         if (func_021AB348(r4) == 1)
             return 1;
@@ -17449,23 +17328,23 @@ void func_021A6870(u8 *p)
 {
     u32 o = *(u32 *)&((struct Obj01658 *)p)->f1C;
 
-    if (func_021A66F8((S_021A66F8 *)p, 0x59))
+    if (func_021A66F8((Obj_021A28CC *)p, 0x59))
         func_0216D550((u32 *)o, 0x18);
-    if (func_021A66F8((S_021A66F8 *)p, 1)) {
+    if (func_021A66F8((Obj_021A28CC *)p, 1)) {
         func_021A6714(p);
         func_021A6720(p);
         func_021A3964((u8 *)(*(u32 *)&((struct Obj01658 *)p)->f14), 0);
     }
-    if (func_021A66F8((S_021A66F8 *)p, 0x18)) {
+    if (func_021A66F8((Obj_021A28CC *)p, 0x18)) {
         func_021A6750(p);
         func_021A6768(p);
         func_0216D60C(o, func_021642A4(func_0216D608((void *)o)));
     }
-    if (func_021A66F8((S_021A66F8 *)p, 0x20)) {
+    if (func_021A66F8((Obj_021A28CC *)p, 0x20)) {
         func_021A6780(p);
         func_0216D60C(o, 3);
     }
-    if (func_021A66F8((S_021A66F8 *)p, 0x40)) {
+    if (func_021A66F8((Obj_021A28CC *)p, 0x40)) {
         func_021A6798(p);
         func_021A6BAC(p + 0xC);
     }
@@ -17608,7 +17487,7 @@ u32 func_021A6AA0(u8 *p, u32 a1)
 {
     u32 r5;
 
-    if (!func_021A66F8((S_021A66F8 *)p, 0x40)) {
+    if (!func_021A66F8((Obj_021A28CC *)p, 0x40)) {
         func_021A678C(p);
         func_021A6B9C(p + 0xC);
     }
@@ -17980,13 +17859,13 @@ void func_021A6E30(void *o, VecFx32_021A6E30 *pos, u16 e)
         func_021A35E0(h->f04, heap);
         func_021A3664(h->f04, heap);
         func_021A305C(h->f04, e);
-        func_021A7258(o, (Holder_021A7258 *)h, mode, pos, e, anim[0], anim[1]);
+        func_021A7258(o, (Holder_021A6E30 *)h, mode, pos, e, anim[0], anim[1]);
     } else {
         anchor = (VecFx32_021A6E30 *)func_02012AB8(r);
         func_021A3664(h->f04, heap);
         func_021A35E0(h->f04, heap);
         func_021A305C(h->f04, e);
-        func_021A7258(o, (Holder_021A7258 *)h, mode, anchor, e, anim[0], anim[1]);
+        func_021A7258(o, (Holder_021A6E30 *)h, mode, anchor, e, anim[0], anim[1]);
     }
     func_02188D40(o, (u32)func_0216D888(m));
     func_021A3038(h->f04, (struct V3 *)pos);
@@ -18131,7 +18010,7 @@ void func_021A70D0(u32 a, u32 *b, u16 c, u32 d, u32 e, u32 f, u32 g)
     func_021A35F0((void *)b[1], 0, 0, 0);
     if (d == 0)
         c = func_0216D5F8(h);
-    func_021A7258((void *)a, (Holder_021A7258 *)((Holder_021A6E30 *)b), 1, (VecFx32_021A6E30 *)e, c, v[0], v[1]);
+    func_021A7258((void *)a, (Holder_021A6E30 *)((Holder_021A6E30 *)b), 1, (VecFx32_021A6E30 *)e, c, v[0], v[1]);
     func_021A3674((u8 *)b[1], f, g);
 }
 
@@ -18150,7 +18029,7 @@ void func_021A712C(u32 a, u32 *b, u16 c, u32 d, u32 e, u32 f, u32 g)
     func_021A3674((u8 *)b[1], 0, 0);
     if (d == 0)
         c = func_0216D5F8(h);
-    func_021A7258((void *)a, (Holder_021A7258 *)((Holder_021A6E30 *)b), 0, (VecFx32_021A6E30 *)e, c, v[0], v[1]);
+    func_021A7258((void *)a, (Holder_021A6E30 *)((Holder_021A6E30 *)b), 0, (VecFx32_021A6E30 *)e, c, v[0], v[1]);
     if (func_021A35BC(b[1]) == 1)
         fl |= 1;
     func_021A35F0((void *)b[1], f, g, fl);
@@ -18210,7 +18089,7 @@ int func_021A71E4(u32 a, u32 *b, u16 *c, u32 d)
  * here (docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-
  * by-the-load-reach.md).
  */
-void func_021A7258(void *o, Holder_021A7258 *h, int mode, VecFx32_021A6E30 *pos, u16 e, u16 f, u16 g)
+void func_021A7258(void *o, Holder_021A6E30 *h, int mode, VecFx32_021A6E30 *pos, u16 e, u16 f, u16 g)
 {
     void *x;
     void *y;

@@ -310,12 +310,22 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 typedef struct Work_021B3158 {
-    u8  state;
-    u8  sub;
-    u8  b2;
-    u8  b3;
+    u8 state;
+    u8 sub;
+    u8 b2;
+    u8 b3;
     u32 f04;
-    u8  f08;
+    u8 f08;
+    u8 pad9[0x3];
+    u32 f0c;
+    u32 f10;
+    u32 f14;
+    u8 pad18[0xC];
+    u16 h24;
+    u16 h26;
+    u32 f28;
+    u8 pad2C[0x4];
+    u32 w30[6];
 } Work_021B3158;
 
 typedef struct Buf24 {
@@ -466,29 +476,16 @@ typedef struct {
     Ent_021B4878 b[5];
 } Rec_021B51BC;
 
-typedef struct {
-    u32 pad0[3];
-    u32 f0c;
-    u32 f10;
-    u32 f14;
-    u32 pad18[3];
-    u16 h24;
-    u16 h26;
-    u32 f28;
-    u32 pad2c;
-    u32 w30[6];
-} Out_021B53BC;
 
 typedef struct { u32 w[3]; } V12;
 
-typedef struct { u32 w[6]; } V24;
 
 typedef struct {
     u16 h0;
     u16 h2;
     u32 f4;
     V12 v8;
-    V24 v14;
+    Buf24 v14;
 } Src;
 
 typedef struct {
@@ -499,7 +496,7 @@ typedef struct {
     u16 h26;
     u32 f28;
     u32 pad2c;
-    V24 v30;
+    Buf24 v30;
 } Out_021B542C;
 
 typedef struct {
@@ -2681,7 +2678,7 @@ return 0;
 
 int func_021B53BC(struct Cursor *a0, int a1)
 {
-    Out_021B53BC o;
+    Work_021B3158 o;
     int r4;
 
     r4 = (int)func_02188C58(func_0201210C(func_0215A5DC((void *)a1)));

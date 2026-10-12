@@ -301,7 +301,7 @@ struct BigObj;
 struct Big;
 struct IdList021CFA1C;
 struct Sub02008828Obj;
-struct Rec_021CEDA0;
+struct Slot;
 struct Sub02009470Obj;
 struct Sub02009470Ent;
 struct Tbl021CFCF4;
@@ -362,14 +362,6 @@ typedef struct Ent021CEE48 {
     Sub021CEE48 sub;
 } Ent021CEE48;
 
-typedef struct {
-    u8  name[0x20];
-    u8  mac[6];
-    u8  used;
-    u8  pad;
-    s16_021CEDA0 timer;
-    u8  pad2[2];
-} Ent_021CEE78;
 
 typedef signed int     s32;
 
@@ -459,9 +451,6 @@ typedef struct {
     Slot slot[20];
 } Slots;
 
-typedef struct Rec_021CEDA0 {
-    u16 v[10];
-} Rec_021CEDA0;
 
 typedef struct Out {
     u8 key;       /* 0x00 */
@@ -608,25 +597,7 @@ typedef struct Src021D072C {
     int f4;
 } Src021D072C;
 
-typedef struct S_021D0750 {
-    int *f0;
-    int f4;
-    u8 f8;
-    s8 f9;
-    s8 fA;
-    u8 padB;
-    u8 rows[6][0x14];
-} S_021D0750;
 
-typedef struct S_021D07D8 {
-    int *f0;
-    int f4;
-    u8 f8;
-    s8 f9;
-    s8 fA;
-    u8 padB;
-    u8 rows[6][0x14];
-} S_021D07D8;
 
 typedef struct Row20 {
     u32 f0;
@@ -835,7 +806,7 @@ extern u32 func_021ABE24(u8 *p);
 extern void *func_02046E24(u32 a0, u32 a1);
 extern int func_02046FF8(int *self);
 extern void *func_02047400(void *a0, u32 n, void *a2);
-extern void func_02047504(struct Rec_021CEDA0 *p);
+extern void func_02047504(struct Slot *p);
 extern int func_020470D0(u32 *p);
 extern void func_02046EFC(struct Tagged *p);
 extern int func_021ABEA0(u32 a, u32 b);
@@ -847,8 +818,8 @@ extern int func_020477D4(struct Owner *owner, u32 index);
 extern int func_021AC1AC(u32 a);
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
 extern void *func_0204767C(u32 a0, u32 *a1, int a2);
-extern void func_02047738(struct Rec_021CEDA0 *p);
-extern void func_0204762C(struct Rec_021CEDA0 *p);
+extern void func_02047738(struct Slot *p);
+extern void func_0204762C(struct Slot *p);
 extern int func_020478B8(void *a, int idx, int amount);
 extern void func_0207ADC4(void *a);
 extern void func_021AC1B8(u32 a, V *v);
@@ -975,7 +946,7 @@ int func_021CFA88(void *a, void *b);
 int func_021CFAC0(u8 *base, int a, int b, int c, int d);
 void func_021CFB1C(Slots *base, int i, Slot *dst);
 const Row8 *func_021CFB68(u8 *base, int *idx);
-int func_021CFBA8(u32 a, u32 unused, const Rec_021CEDA0 *src);
+int func_021CFBA8(u32 a, u32 unused, const Slot *src);
 void *func_021CFC14(void *a, void *unused, void *c);
 void func_021CFC4C(void *a, int b, void *c);
 void func_021CFC80(void *a, Out *out, u32 key, u32 b);
@@ -1022,8 +993,8 @@ void func_021D0648(S_021CFC80 *p);
 void func_021D06E0(S_021CFC80 *p);
 void func_021D072C(void *a, S_021D072C *s);
 void func_021D074C(void);
-void func_021D0750(int unused, S_021D0750 *s);
-void func_021D07D8(void *a, S_021D07D8 *s);
+void func_021D0750(int unused, S_021D072C *s);
+void func_021D07D8(void *a, S_021D072C *s);
 Row20 *func_021D07FC(S_021D07FC *s);
 void func_021D0824(int *p, int a);
 void func_021D08B0(u32 a);
@@ -2481,9 +2452,9 @@ const Row8 *func_021CFB68(u8 *base, int *idx)
  *
  * Addresses are Black-image addresses.
  */
-int func_021CFBA8(u32 a, u32 unused, const Rec_021CEDA0 *src)
+int func_021CFBA8(u32 a, u32 unused, const Slot *src)
 {
-    Rec_021CEDA0 r = *src;
+    Slot r = *src;
     u32 h;
     u32 x;
     u32 buf;
@@ -3019,7 +2990,7 @@ void func_021D01D8(u32 *p)
 
     for (i = 0; i < 8; i++) {
         if (p[1 + i] != 0) {
-            func_02047504((struct Rec_021CEDA0 *)p[13 + i]);
+            func_02047504((struct Slot *)p[13 + i]);
             func_020470D0((u32 *)p[1 + i]);
             func_02046EFC((struct Tagged *)p[1 + i]);
         }
@@ -3150,9 +3121,9 @@ void func_021D0308(void *unused, u32 *p)
 {
     int i;
 
-    func_02047738((struct Rec_021CEDA0 *)p[3]);
+    func_02047738((struct Slot *)p[3]);
     for (i = 0; i < 4; i++) {
-        func_0204762C((struct Rec_021CEDA0 *)p[4 + i]);
+        func_0204762C((struct Slot *)p[4 + i]);
     }
 }
 
@@ -3515,11 +3486,11 @@ void func_021D06E0(S_021CFC80 *p)
 {
     int i;
 
-    func_02047738((struct Rec_021CEDA0 *)p->f1c);
+    func_02047738((struct Slot *)p->f1c);
     for (i = 0; i < 2; i++) {
-        func_0204762C((struct Rec_021CEDA0 *)p->b[i]);
+        func_0204762C((struct Slot *)p->b[i]);
     }
-    func_02047504((struct Rec_021CEDA0 *)p->f10);
+    func_02047504((struct Slot *)p->f10);
     for (i = 0; i < 3; i++) {
         if (func_02046F50((struct Tagged *)p->a[i], 2)) {
             func_020470D0((u32 *)p->a[i]);
@@ -3557,7 +3528,7 @@ void func_021D074C(void) {}
  * func_02047888 (arm9 ARM leaf) is filed as src/matched/arm9/func_02047888.c
  * to give the witness.  EXACT*: the listing extent includes 2 pad bytes.
  */
-void func_021D0750(int unused, S_021D0750 *s)
+void func_021D0750(int unused, S_021D072C *s)
 {
     int v;
     int i;
@@ -3595,7 +3566,7 @@ void func_021D0750(int unused, S_021D0750 *s)
 
 
 
-void func_021D07D8(void *a, S_021D07D8 *s)
+void func_021D07D8(void *a, S_021D072C *s)
 {
     int i;
 

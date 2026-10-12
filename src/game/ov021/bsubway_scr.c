@@ -418,7 +418,6 @@ typedef struct { u8 pad[0x15]; u8 f15; u8 f16; u8 f17; u32 f18; } Fld15;
 
 typedef struct S5 { u32 v[5]; } S5;
 
-typedef struct { u8 pad[0x10]; u8 f10; u8 f11; u8 f12; u8 f13; u32 f14; u32 f18; u32 f1C; u32 f20; u32 f24; u8 pad28[0xc]; u32 f34; u32 f38; } E_021C8FE0;
 
 typedef struct V3 { int v[3]; } V3;
 
@@ -428,13 +427,10 @@ typedef struct { u32 a; V v; } T_021C9258;
 
 typedef struct S4 { u32 v[4]; } S4;
 
-typedef struct { u8 pad[0x10]; u8 f10; u8 f11; u8 f12; u8 f13; u32 f14; u32 f18; u32 f1C; u32 f20; u32 f24; u8 pad28[0xc]; u32 f34; u32 f38; } E_021C9314;
 
-typedef struct { u8 pad[0x10]; u8 f10; u8 f11; u8 f12; u8 f13; u32 f14; u32 f18; u32 f1C; u32 f20; u32 f24; u8 pad28[0xc]; u32 f34; u32 f38; } E_021C9334;
 
 typedef struct { u32 a[6]; u32 b[9]; } T_021C8FE0;
 
-typedef struct { u8 pad[0x14]; u32 f14; } E_021C9360;
 
 typedef struct { u32 f0; u32 f4; u32 f8[3]; } Q_021C94F4;
 
@@ -442,13 +438,28 @@ typedef struct Rec { u32 h; V3 pos; } Rec;
 
 typedef struct { u32 f0; u32 f4; u32 f8[3]; u32 f14; } Q_021C9550;
 
-typedef struct { u32 f0; u32 f4; } E_021C94F4;
 
 typedef struct { u32 f0; u32 f4; u32 f8[3]; u32 f14; } Q;
 
-typedef struct { u32 f0; u32 f4; u32 f8; } W_021C978C;
 
-typedef struct { u32 f0; u32 f4; u32 f8; } W_021C9828;
+typedef struct BsubwayScrWork {
+    u32 f0;
+    u32 f4;
+    u32 f8;
+    u8 pad0C[0x10 - 0xC];
+    u8 f10;
+    u8 f11;
+    u8 f12;
+    u8 f13;
+    u32 f14;
+    u32 f18;
+    u32 f1C;
+    u32 f20;
+    u32 f24;
+    u8 pad28[0x34 - 0x28];
+    u32 f34;
+    u32 f38;
+} BsubwayScrWork;
 
 typedef struct { u32 f0; u32 f4; u32 f8; u32 fC; u32 f10; } W_021C98F4;
 
@@ -892,15 +903,15 @@ void func_021C909C(u32 a);
 void func_021C90AC(u32 a);
 int func_021C90D0(u32 a, u32 b, u32 c, u32 d);
 void func_021C90E4(u32 a, u32 *q);
-void func_021C9164(void *task, E_021C8FE0 *e);
+void func_021C9164(void *task, BsubwayScrWork *e);
 void func_021C9190(u32 a, u8 *b);
 void func_021C9208(u32 a, u32 *b);
 void func_021C9258(u32 a, V *v);
 void func_021C928C(u32 a);
 void func_021C92B0(u32 a, u32 *q);
-void func_021C9314(void *task, E_021C9314 *e);
-void func_021C9334(void *task, E_021C9334 *e);
-void func_021C9360(u32 a, E_021C9360 *e);
+void func_021C9314(void *task, BsubwayScrWork *e);
+void func_021C9334(void *task, BsubwayScrWork *e);
+void func_021C9360(u32 a, BsubwayScrWork *e);
 u32 *func_021C939C(u32 a, u32 heap);
 void func_021C93D0(void **q);
 void func_021C93E4(u32 a, u8 *q, u32 x, u32 y, u32 z, u32 w, u32 n, u32 cnt);
@@ -915,7 +926,7 @@ void func_021C9550(u32 a, u32 b);
 void func_021C95D8(u32 a, u32 *b);
 void func_021C963C(void *task, Q_021C9550 *q);
 void func_021C9660(u32 a, Q_021C9550 *q);
-void func_021C9690(u32 a, E_021C94F4 *e);
+void func_021C9690(u32 a, BsubwayScrWork *e);
 int func_021C96CC(u32 a, u32 *q, u32 *p);
 u32 func_021C978C(u32 a, u32 b, u32 c);
 int func_021C97B8(u32 a, u32 *q, u32 *p);
@@ -2103,7 +2114,7 @@ void func_021C90E4(u32 a, u32 *q)
 
 
 
-void func_021C9164(void *task, E_021C8FE0 *e)
+void func_021C9164(void *task, BsubwayScrWork *e)
 {
     func_0204762C((struct Rec *)e->f1C);
     func_0204762C((struct Rec *)e->f20);
@@ -2186,9 +2197,9 @@ void func_021C9258(u32 a, V *v)
 void func_021C928C(u32 a)
 {
     u32 z;
-    E_021C8FE0 *e;
+    BsubwayScrWork *e;
     if (a != 0) {
-        e = (E_021C8FE0 *)func_021AC1E0(a);
+        e = (BsubwayScrWork *)func_021AC1E0(a);
         if (e->f10 == 0) {
             z = 0;
             e->f10 = 1;
@@ -2224,7 +2235,7 @@ void func_021C92B0(u32 a, u32 *q)
 
 
 
-void func_021C9314(void *task, E_021C9314 *e)
+void func_021C9314(void *task, BsubwayScrWork *e)
 {
     func_0204762C((struct Rec *)e->f18);
     func_0204762C((struct Rec *)e->f1C);
@@ -2239,7 +2250,7 @@ void func_021C9314(void *task, E_021C9314 *e)
 
 
 
-void func_021C9334(void *task, E_021C9334 *e)
+void func_021C9334(void *task, BsubwayScrWork *e)
 {
     func_02047910((void *)e->f14, 0, 0x1000);
     if (e->f10 == 1 && func_020478B8((void *)e->f14, 1, 0x1000) == 0)
@@ -2253,7 +2264,7 @@ void func_021C9334(void *task, E_021C9334 *e)
 
 
 
-void func_021C9360(u32 a, E_021C9360 *e)
+void func_021C9360(u32 a, BsubwayScrWork *e)
 {
     T_021C8FE0 t = d_021DAC44;
     func_0207ADC4(t.b);
@@ -2532,7 +2543,7 @@ void func_021C9660(u32 a, Q_021C9550 *q)
 
 
 
-void func_021C9690(u32 a, E_021C94F4 *e)
+void func_021C9690(u32 a, BsubwayScrWork *e)
 {
     T_021C8FE0 t = d_021DAC94;
     func_0207ADC4(t.b);
@@ -2600,7 +2611,7 @@ int func_021C96CC(u32 a, u32 *q, u32 *p)
 u32 func_021C978C(u32 a, u32 b, u32 c)
 {
     u32 t = (u32)func_020122C0((void *)b, (void *)a, func_021C96CC, 0x14);
-    W_021C978C *w = func_020124E8((struct Obj *)t);
+    BsubwayScrWork *w = func_020124E8((struct Obj *)t);
     w->f0 = b;
     w->f4 = c;
     w->f8 = 0;
@@ -2653,7 +2664,7 @@ int func_021C97B8(u32 a, u32 *q, u32 *p)
 u32 func_021C9828(u32 a, u32 b, u32 c)
 {
     u32 t = (u32)func_020122C0((void *)b, (void *)a, func_021C97B8, 0x14);
-    W_021C9828 *w = func_020124E8((struct Obj *)t);
+    BsubwayScrWork *w = func_020124E8((struct Obj *)t);
     w->f0 = b;
     w->f4 = c;
     w->f8 = 0;

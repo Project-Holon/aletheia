@@ -247,7 +247,7 @@ typedef struct { u16 a, b, c; u8 d, e; } Rect;
 
 typedef struct { u8 v[5]; } B5;
 
-typedef struct {
+typedef struct Sub_0219728C {
     int f0;
     int f4;
     int f8;
@@ -259,6 +259,11 @@ typedef struct {
     int f20;
     int f24;
     int arr[5];
+    u8 pad3C[0x234];
+    void *c[6];
+    u32 x288;
+    void *b[2];
+    void *a[5];
 } Sub_0219728C;
 
 typedef struct {
@@ -288,13 +293,6 @@ typedef signed short   s16;
 
 typedef signed char    s8;
 
-typedef struct Obj_0219749C {
-    u8 pad[0x270];
-    void *c[6];
-    u32 x288;
-    void *b[2];
-    void *a[5];
-} Obj_0219749C;
 
 typedef struct { u32 w; u16 h; u16 pad; u32 z; } Ent;
 
@@ -341,7 +339,7 @@ extern struct Obj_0219728C *func_0204B294(void *owner, unsigned int i, unsigned 
 extern void func_0204B92C(struct Obj_0219728C *, unsigned int);
 extern void func_0204B3DC(struct Obj_0219728C *, unsigned int);
 extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B3B4(struct Obj_0219749C *p);
+extern void func_0204B3B4(struct Sub_0219728C *p);
 extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
@@ -500,7 +498,7 @@ extern void func_021AC154(u32);
 void func_0219728C(Obj_0219728C *p);
 void func_021973A0(Obj_0219728C *p);
 void func_0219749C(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4);
-void func_021974A0(Obj_0219749C *o);
+void func_021974A0(Sub_0219728C *o);
 void func_02197534(Obj *a);
 int func_021975D0(u8 *p);
 void func_02197644(u8 *a, u32 b);
@@ -774,7 +772,7 @@ void func_0219749C(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4)
 
 
 
-void func_021974A0(Obj_0219749C *o)
+void func_021974A0(Sub_0219728C *o)
 {
     int i;
 
@@ -1138,7 +1136,7 @@ int func_021978DC(struct Obj0203159C *a, u32 b, u32 c)
     func_0219749C(w, 0x39, 0x9a, 0, 10);
     func_0219749C(w, 0xc8, 0x26, 1, 11);
     func_0202208C(0, 1, 1, 0, 6, 1, ((struct Obj00150 *)w)->f10);
-    func_02196034(w, (void (*)(void))func_021966F0, 0x83B);
+    func_02196034(w, func_021966F0, 0x83B);
     ((struct Obj00150 *)w)->f2E4 = c;
     ((struct Obj00150 *)w)->f30 = (u32)func_020120F4((const struct Ctx *)func_02155A90((u8 *)((struct Obj00150 *)w)->f2E4));
     func_0207D63C(0x04001050, 4, 1, 0xf, 4);
@@ -1224,7 +1222,7 @@ int func_02197B5C(u32 a, u32 b, u8 *c, u32 *d)
     }
     func_020307B0((void *)d[0xBB]);
     func_020307B0((void *)d[0xBC]);
-    func_021974A0((Obj_0219749C *)((struct Obj *)d));
+    func_021974A0((Sub_0219728C *)((struct Obj *)d));
     if (d[0xAD] != 0) {
         func_0201CE48((struct Rec3 *)d[0xAD]);
     }

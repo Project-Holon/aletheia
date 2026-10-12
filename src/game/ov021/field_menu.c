@@ -134,49 +134,19 @@ typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-typedef struct Args_021A7CE8 {
+typedef struct FieldMenuWork2 {
     void *f00;
     void *f04;
     void *f08;
     void *f0C;
     void *f10;
     void *f14;
-} Args_021A7CE8;
+} FieldMenuWork2;
 
-typedef struct Work_021A7CE8 {
-    Args_021A7CE8 *f00;
-    void *f04;
-    void *f08;
-    u8 f0C[0x18 - 0x0C];
-    u16 f18;
-} Work_021A7CE8;
 
 typedef unsigned int   u32;
 
-typedef struct Work_021A7E3C {
-    void *f00;
-    void *f04;
-    void *f08;
-    void *f0C;
-    int f10;
-    int f14;
-    u16 f18;
-    u8 f1A;
-    u8 pad1B[0x28 - 0x1B];
-    int f28;
-    u8 pad2C[0x36 - 0x2C];
-    u8 f36;
-    u8 pad37;
-    int f38;
-} Work_021A7E3C;
 
-typedef struct Args_021A7E3C {
-    void *f00;
-    void *f04;
-    void *f08;
-    void *f0C;
-    void *f10;
-} Args_021A7E3C;
 
 typedef struct Args {
     void *f00;
@@ -215,18 +185,7 @@ typedef struct V {
 
 typedef signed int     s32;
 
-typedef struct Work_021A81EC {
-    u8 pad00[0x2C];
-    u8 step[10];
-    u8 f36;
-} Work_021A81EC;
 
-typedef struct Work_021A8200 {
-    u8 pad00[0x18];
-    u16 f18;
-    u8 pad1A[0x36 - 0x1A];
-    u8 f36;
-} Work_021A8200;
 
 typedef struct {
     int pad[3];
@@ -240,10 +199,6 @@ typedef struct {
     int f28;
 } S_021A8140;
 
-typedef struct {
-    int pad[10];
-    int f28;
-} S_021A8234;
 
 typedef struct Src {
     void *f00;
@@ -268,13 +223,25 @@ typedef struct {
     int f40;
 } R_021A8324;
 
-typedef struct {
-    int pad[14];
+typedef struct FieldMenuWork3 {
+    void *f00;
+    void *f04;
+    void *f08;
+    void *f0C;
+    int f10;
+    int f14;
+    u16 f18;
+    u8 f1A;
+    u8 pad1B[0x28 - 0x1B];
+    int f28;
+    u8 f2C[10];
+    u8 f36;
+    u8 pad37[0x38 - 0x37];
     int f38;
-} R_021A834C;
+} FieldMenuWork3;
 
 typedef struct {
-    R_021A834C *f0;
+    FieldMenuWork3 *f0;
 } S_021A7CE8;
 
 typedef struct Item {
@@ -328,9 +295,14 @@ typedef struct {
     int f28;
 } S_021A84A8;
 
-typedef struct Obj_021A84A8 {
-    u8 pad00[0x34];
-    Item items[7];
+typedef struct FieldMenuWork4 {
+    FieldMenuWork2 *f00;
+    void *f04;
+    void *f08;
+    u8 f0C[0x18 - 0x0C];
+    u16 f18;
+    u8 pad1A[0x34 - 0x1A];
+    Item f34[7];
     u8 padF8[0x104 - 0xF8];
     void *f104;
     void *f108;
@@ -344,7 +316,7 @@ typedef struct Obj_021A84A8 {
     void *f128;
     void *f12C;
     void *f130;
-} Obj_021A84A8;
+} FieldMenuWork4;
 
 typedef struct Sel {
     u8 pad00[0x14];
@@ -354,7 +326,7 @@ typedef struct Sel {
     int f18;
 } Sel;
 
-typedef struct Obj_021A8588 {
+typedef struct FieldMenuWork {
     u16 f00;
     u16 f02;
     void *f04;
@@ -368,22 +340,22 @@ typedef struct Obj_021A8588 {
     u8 f1F;
     u8 f20;
     u8 f21;
-    u8 pad22[2];
+    u8 pad22[0x24 - 0x22];
     int f24;
     int f28;
     int f2C;
     int f30;
-    Item items[7];
+    Item f34[7];
     Sel *fF8;
     s16 fFC;
-    u8 padFE[2];
+    u8 padFE[0x100 - 0xFE];
     int f100;
     u8 pad104[0x124 - 0x104];
     u32 f124;
     u32 f128;
     void *f12C;
     void *f130;
-} Obj_021A8588;
+} FieldMenuWork;
 
 extern void *func_02188C58(void *o);
 extern unsigned int func_02188D38(u8 *p);
@@ -457,9 +429,9 @@ extern void func_021A8E20(struct W *w, u32 v);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0203D34C(u32 a, u32 b);
 extern void func_021A0FB4(u32 *p, u32 a);
-extern void func_021A926C(Obj_021A84A8 *p, Item *it);
+extern void func_021A926C(FieldMenuWork4 *p, Item *it);
 extern void func_02030EAC(struct Node *n);
-extern void func_0204B3B4(struct Obj_021A84A8 *p);
+extern void func_0204B3B4(FieldMenuWork4 *p);
 extern void func_0204B084(void *p);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204AFD8(u32 i);
@@ -473,18 +445,18 @@ extern u32 func_020307B0(void *p);
 extern void func_020409B4(u32 index);
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_021A12D4(u32 *p, u32 x);
-extern void func_021A9294(Obj_021A8588 *p, Item *it);
-extern void func_021A87A8(Obj_021A8588 *p);
+extern void func_021A9294(FieldMenuWork *p, Item *it);
+extern void func_021A87A8(FieldMenuWork *p);
 extern u32 func_020221A4(void);
-extern void func_021A8EEC(Obj_021A8588 *p);
+extern void func_021A8EEC(FieldMenuWork *p);
 extern void func_021A8FFC(struct W *w);
 extern u32 func_0204B98C(struct Actor *a);
-extern void func_021A9080(Obj_021A8588 *p, u8 a, u8 b);
-extern void func_0204B878(struct Obj_021A8588 *p, u16 value);
+extern void func_021A9080(FieldMenuWork *p, u8 a, u8 b);
+extern void func_0204B878(FieldMenuWork *p, u16 value);
 extern void func_021A0FA0(int *p, int v);
 extern u32 func_0201C4E4(struct PrintSys *ps);
-int func_021A7CE8(void *task, int *state, Work_021A7CE8 *w);
-void *func_021A7E3C(Args_021A7E3C *a);
+int func_021A7CE8(void *task, int *state, FieldMenuWork4 *w);
+void *func_021A7E3C(FieldMenuWork2 *a);
 void func_021A7EB4(u8 *p);
 int func_021A7F38(void *task, int *state, Work *w);
 int func_021A80FC(u32 a);
@@ -493,22 +465,22 @@ void func_021A811C(u32 a, u32 b);
 void func_021A8140(void *a, V *out);
 void func_021A8198(void *a, V *out);
 u8 func_021A81DC(u32 a);
-u8 func_021A81EC(Work_021A81EC *w);
-void func_021A8200(Work_021A8200 *w);
+u8 func_021A81EC(FieldMenuWork3 *w);
+void func_021A8200(FieldMenuWork3 *w);
 void func_021A8214(S_021A8140 *s);
-void func_021A8234(S_021A8234 *s);
+void func_021A8234(FieldMenuWork *s);
 int func_021A8244(u32 a);
 int func_021A8268(u32 a);
-void func_021A8278(S_021A8234 *s);
-void func_021A82A8(S_021A8234 *s);
+void func_021A8278(FieldMenuWork *s);
+void func_021A82A8(FieldMenuWork *s);
 void func_021A82D8(void *a, struct Src **pp);
 void func_021A8324(int a, R_021A8324 **r);
 int func_021A834C(S_021A7CE8 *s);
 Obj *func_021A836C(u16 heap, u16 a1, int a2, void *a3, int a4);
 void func_021A84A8(S_021A84A8 *s);
-void func_021A84BC(Obj_021A84A8 *p);
+void func_021A84BC(FieldMenuWork4 *p);
 int func_021A8588(void);
-u32 func_021A85B4(Obj_021A8588 *p);
+u32 func_021A85B4(FieldMenuWork *p);
 extern char d_021DDF94[];
 
 
@@ -521,9 +493,9 @@ extern char d_021DDF94[];
  * the next step (func_021A81EC) and advances the index (func_021A8200).
  * Returns 1 once the current step is 8 and the handle reports done.
  */
-int func_021A7CE8(void *task, int *state, Work_021A7CE8 *w)
+int func_021A7CE8(void *task, int *state, FieldMenuWork4 *w)
 {
-    Args_021A7CE8 *a;
+    FieldMenuWork2 *a;
     void *a04;
     void *obj;
     void *a08;
@@ -544,8 +516,8 @@ int func_021A7CE8(void *task, int *state, Work_021A7CE8 *w)
     case 0:
         func_02185B88(obj, 1);
         if (func_0218F0F8(h) == 0) {
-            *state = func_021A81EC((Work_021A81EC *)w);
-            func_021A8200((Work_021A8200 *)w);
+            *state = func_021A81EC((FieldMenuWork3 *)w);
+            func_021A8200((FieldMenuWork3 *)w);
         } else {
             func_0218F0A8(h);
             *state = 9;
@@ -553,26 +525,26 @@ int func_021A7CE8(void *task, int *state, Work_021A7CE8 *w)
         break;
     case 9:
         if (func_0218F0E8(h) == 0) {
-            *state = func_021A81EC((Work_021A81EC *)w);
-            func_021A8200((Work_021A8200 *)w);
+            *state = func_021A81EC((FieldMenuWork3 *)w);
+            func_021A8200((FieldMenuWork3 *)w);
         }
         break;
     case 1:
         func_021BDCC8(w->f08, (int *)w->f0C);
         func_02029D7C(w04, a08);
         func_021A82D8(task, (struct Src **)w);
-        *state = func_021A81EC((Work_021A81EC *)w);
-        func_021A8200((Work_021A8200 *)w);
+        *state = func_021A81EC((FieldMenuWork3 *)w);
+        func_021A8200((FieldMenuWork3 *)w);
         break;
     case 2:
-        func_021A8278((S_021A8234 *)w);
-        *state = func_021A81EC((Work_021A81EC *)w);
-        func_021A8200((Work_021A8200 *)w);
+        func_021A8278((FieldMenuWork *)w);
+        *state = func_021A81EC((FieldMenuWork3 *)w);
+        func_021A8200((FieldMenuWork3 *)w);
         break;
     case 3:
         if (func_021A8244((u32)w) == 1) {
-            *state = func_021A81EC((Work_021A81EC *)w);
-            func_021A8200((Work_021A8200 *)w);
+            *state = func_021A81EC((FieldMenuWork3 *)w);
+            func_021A8200((FieldMenuWork3 *)w);
         }
         break;
     case 4:
@@ -581,30 +553,30 @@ int func_021A7CE8(void *task, int *state, Work_021A7CE8 *w)
         if (func_021BDD40(w->f08) != 0 && func_021BDD48(w->f08) != 0) {
             *state = 10;
         } else {
-            *state = func_021A81EC((Work_021A81EC *)w);
-            func_021A8200((Work_021A8200 *)w);
+            *state = func_021A81EC((FieldMenuWork3 *)w);
+            func_021A8200((FieldMenuWork3 *)w);
         }
         break;
     case 6:
-        func_021A82A8((S_021A8234 *)w);
-        *state = func_021A81EC((Work_021A81EC *)w);
-        func_021A8200((Work_021A8200 *)w);
+        func_021A82A8((FieldMenuWork *)w);
+        *state = func_021A81EC((FieldMenuWork3 *)w);
+        func_021A8200((FieldMenuWork3 *)w);
         break;
     case 10:
         if (w->f18++ > 15) {
-            *state = func_021A81EC((Work_021A81EC *)w);
-            func_021A8200((Work_021A8200 *)w);
+            *state = func_021A81EC((FieldMenuWork3 *)w);
+            func_021A8200((FieldMenuWork3 *)w);
         }
         break;
     case 5:
         func_021BDD20(w->f08);
-        *state = func_021A81EC((Work_021A81EC *)w);
-        func_021A8200((Work_021A8200 *)w);
+        *state = func_021A81EC((FieldMenuWork3 *)w);
+        func_021A8200((FieldMenuWork3 *)w);
         break;
     case 7:
         if (func_021A8244((u32)w) == 1) {
-            *state = func_021A81EC((Work_021A81EC *)w);
-            func_021A8200((Work_021A8200 *)w);
+            *state = func_021A81EC((FieldMenuWork3 *)w);
+            func_021A8200((FieldMenuWork3 *)w);
         }
         break;
     case 8:
@@ -615,7 +587,7 @@ int func_021A7CE8(void *task, int *state, Work_021A7CE8 *w)
         func_021BDD34(w->f08);
         func_0218E160((u32)h);
         func_021BDCB8(w->f08);
-        func_021A8234((S_021A8234 *)w);
+        func_021A8234((FieldMenuWork *)w);
         return 1;
     }
     return 0;
@@ -626,10 +598,10 @@ int func_021A7CE8(void *task, int *state, Work_021A7CE8 *w)
 
 
 
-void *func_021A7E3C(Args_021A7E3C *a)
+void *func_021A7E3C(FieldMenuWork2 *a)
 {
     void *task;
-    Work_021A7E3C *w;
+    FieldMenuWork3 *w;
 
     task = func_020122C0(a->f04, 0, func_021A7F38, 0x3C);
     w = func_020124E8(task);
@@ -710,24 +682,24 @@ int func_021A7F38(void *task, int *state, Work *w)
     switch (*state) {
     case 0:
         func_021BDCC8(w->f08, (int *)w->f0C);
-        *state = func_021A81EC((Work_021A81EC *)((Work_021A7CE8 *)w));
-        func_021A8200((Work_021A8200 *)((Work_021A7CE8 *)w));
+        *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
+        func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
         if (w->f38 != 0) {
             return 0x21;
         }
         break;
     case 1:
         func_021BDD20(w->f08);
-        *state = func_021A81EC((Work_021A81EC *)((Work_021A7CE8 *)w));
-        func_021A8200((Work_021A8200 *)((Work_021A7CE8 *)w));
+        *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
+        func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
         if (w->f38 != 0) {
             return 0x21;
         }
         break;
     case 3:
-        func_021A8278((S_021A8234 *)((Work_021A7CE8 *)w));
-        *state = func_021A81EC((Work_021A81EC *)((Work_021A7CE8 *)w));
-        func_021A8200((Work_021A8200 *)((Work_021A7CE8 *)w));
+        func_021A8278((FieldMenuWork *)((FieldMenuWork4 *)w));
+        *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
+        func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
         if (w->f38 != 0) {
             return 0x21;
         }
@@ -739,8 +711,8 @@ int func_021A7F38(void *task, int *state, Work *w)
         if (func_021BDD40(w->f08) != 0 && func_021BDD48(w->f08) != 0) {
             *state = 9;
         } else {
-            *state = func_021A81EC((Work_021A81EC *)((Work_021A7CE8 *)w));
-            func_021A8200((Work_021A8200 *)((Work_021A7CE8 *)w));
+            *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
+            func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
         }
         if (w->f38 != 0) {
             return 0x21;
@@ -748,8 +720,8 @@ int func_021A7F38(void *task, int *state, Work *w)
         break;
     case 4:
         if (func_021A8244((u32)w) == 1) {
-            *state = func_021A81EC((Work_021A81EC *)((Work_021A7CE8 *)w));
-            func_021A8200((Work_021A8200 *)((Work_021A7CE8 *)w));
+            *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
+            func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
             if (w->f38 != 0) {
                 return 0x21;
             }
@@ -757,8 +729,8 @@ int func_021A7F38(void *task, int *state, Work *w)
         break;
     case 9:
         if (w->f18++ > 15) {
-            *state = func_021A81EC((Work_021A81EC *)((Work_021A7CE8 *)w));
-            func_021A8200((Work_021A8200 *)((Work_021A7CE8 *)w));
+            *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
+            func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
             if (w->f38 != 0) {
                 return 0x21;
             }
@@ -767,8 +739,8 @@ int func_021A7F38(void *task, int *state, Work *w)
     case 5:
         func_021A7B10(obj);
         func_02012374(task, func_021618E0(a04, obj));
-        *state = func_021A81EC((Work_021A81EC *)((Work_021A7CE8 *)w));
-        func_021A8200((Work_021A8200 *)((Work_021A7CE8 *)w));
+        *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
+        func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
         if (w->f38 != 0) {
             return 0x21;
         }
@@ -776,21 +748,21 @@ int func_021A7F38(void *task, int *state, Work *w)
     case 6:
         func_02029D44((u32)w04, (u32)a08, a->f20, a->f45);
         a->f48 = 1;
-        *state = func_021A81EC((Work_021A81EC *)((Work_021A7CE8 *)w));
-        func_021A8200((Work_021A8200 *)((Work_021A7CE8 *)w));
+        *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
+        func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
         break;
     case 7:
         if (func_021A834C((S_021A7CE8 *)w) != 0) {
             func_020061E4(0x559);
         }
         func_021A8324((int)task, (R_021A8324 * *)w);
-        *state = func_021A81EC((Work_021A81EC *)((Work_021A7CE8 *)w));
-        func_021A8200((Work_021A8200 *)((Work_021A7CE8 *)w));
+        *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
+        func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
         break;
     case 8:
         func_021BDD34(w->f08);
         func_021BDCB8(w->f08);
-        func_021A8234((S_021A8234 *)((Work_021A7CE8 *)w));
+        func_021A8234((FieldMenuWork *)((FieldMenuWork4 *)w));
         return 1;
     }
     return 0;
@@ -901,9 +873,9 @@ return *(u8 *)((u8 *)(((a + *(u8 *)((u8 *)((a + 54)))) + 44)));
  * Unlabelled leaf: the Work step table entry after the current one
  * (step[f36 + 1]); func_021A81DC reads step[f36].
  */
-u8 func_021A81EC(Work_021A81EC *w)
+u8 func_021A81EC(FieldMenuWork3 *w)
 {
-    return w->step[(u8)(w->f36 + 1)];
+    return w->f2C[(u8)(w->f36 + 1)];
 }
 
 
@@ -915,7 +887,7 @@ u8 func_021A81EC(Work_021A81EC *w)
 /*
  * Unlabelled leaf: advance the Work step index and clear its frame counter.
  */
-void func_021A8200(Work_021A8200 *w)
+void func_021A8200(FieldMenuWork3 *w)
 {
     w->f36++;
     w->f18 = 0;
@@ -937,7 +909,7 @@ void func_021A8214(S_021A8140 *s)
 
 
 
-void func_021A8234(S_021A8234 *s)
+void func_021A8234(FieldMenuWork *s)
 {
     if (s->f28 != 0) {
         func_0218C860(s->f28);
@@ -978,7 +950,7 @@ return 0;
 
 
 
-void func_021A8278(S_021A8234 *s)
+void func_021A8278(FieldMenuWork *s)
 {
     u16 v;
     if (func_021A8268((unsigned int)s)) {
@@ -994,7 +966,7 @@ void func_021A8278(S_021A8234 *s)
 
 
 
-void func_021A82A8(S_021A8234 *s)
+void func_021A82A8(FieldMenuWork *s)
 {
     u16 v;
     if (func_021A8268((unsigned int)s)) {
@@ -1045,7 +1017,7 @@ void func_021A8324(int a, R_021A8324 **r)
 
 int func_021A834C(S_021A7CE8 *s)
 {
-    R_021A834C *p = s->f0;
+    FieldMenuWork3 *p = s->f0;
     if (func_021A8268((u32)s)) {
         return 0;
     }
@@ -1129,12 +1101,12 @@ void func_021A84A8(S_021A84A8 *s)
 
 
 
-void func_021A84BC(Obj_021A84A8 *p)
+void func_021A84BC(FieldMenuWork4 *p)
 {
     u8 i;
 
     for (i = 0; i < 7; i++) {
-        func_021A926C(p, &p->items[i]);
+        func_021A926C(p, &p->f34[i]);
     }
     func_021A84A8((S_021A84A8 *)p);
     func_02030EAC(p->f130);
@@ -1172,7 +1144,7 @@ return func_02040588(7, 1);
 
 
 
-u32 func_021A85B4(Obj_021A8588 *p)
+u32 func_021A85B4(FieldMenuWork *p)
 {
     u8 i;
     s16 v;
@@ -1183,7 +1155,7 @@ u32 func_021A85B4(Obj_021A8588 *p)
         if (func_0201C6B4(p->f12C) == 1) {
             func_021A12D4(p->f08, p->f02);
             for (i = 0; i < 7; i++) {
-                func_021A9294(p, &p->items[i]);
+                func_021A9294(p, &p->f34[i]);
             }
             if (p->fFC != 0) {
                 func_020061E4(0x554);
@@ -1235,14 +1207,14 @@ u32 func_021A85B4(Obj_021A8588 *p)
             func_02040588(5, 1);
             func_02040588(6, 1);
             func_02040588(7, 1);
-            func_0204B3DC((struct Obj *)((struct Obj_021A8588 *)p->f128), 0);
+            func_0204B3DC((struct Obj *)((FieldMenuWork *)p->f128), 0);
         } else {
             s = p->fF8;
             if (s->f18 != 0) {
                 p->f20 = 0;
                 func_021A9080(p, s->f14, s->f15);
-                func_0204B878((struct Obj_021A8588 *)p->f124, 1);
-                func_0204B3DC((struct Obj *)((struct Obj_021A8588 *)p->f124), 1);
+                func_0204B878((FieldMenuWork *)p->f124, 1);
+                func_0204B3DC((struct Obj *)((FieldMenuWork *)p->f124), 1);
                 p->f0C = 6;
                 func_020061E4(0x54C);
             } else {

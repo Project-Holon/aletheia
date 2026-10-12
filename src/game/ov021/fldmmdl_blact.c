@@ -274,7 +274,7 @@ typedef struct {
     u32 flag;
     u32 w;
     V3_0219C4AC pos;
-    void (*f1c)(void);
+    void (*f1c)(u32, u32, u8 *);
     u32 f20;
 } Desc;
 
@@ -283,6 +283,8 @@ typedef signed int     s32;
 typedef struct { u16 a; u16 b; u16 c; u16 pad; } Ent;
 
 typedef struct { int n; Ent *e; } Tbl;
+
+typedef struct { int f0; int f4; u8 pad8[0xc]; Tbl tbl; } BlactSys;
 
 typedef struct { u16 id; u8 pad[5]; u8 f7; u8 f8; } D;
 
@@ -599,10 +601,10 @@ void func_0219CA40(Tbl *t, u16 a, u16 b, u16 c);
 void func_0219CA6C(Tbl *t, u16 k);
 int func_0219CA98(u32 *o, u32 key, u16 *a, u16 *b);
 void func_0219CAD8(u8 *a, u32 b);
-void func_0219CAF4(u8 *s);
-void func_0219CB24(u8 *o, u32 a, u16 b, u32 c, u8 s0, u32 s1);
+void func_0219CAF4(BlactSys *s);
+void func_0219CB24(BlactSys *o, u32 a, u16 b, u32 c, u8 s0, u32 s1);
 void func_0219CB64(u8 *s, const D *d, u32 g);
-void func_0219CB98(u8 *s, u16 k);
+void func_0219CB98(BlactSys *s, u16 k);
 int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
 void func_0219CBE0(u8 *o);
 void func_0219CC80(u8 *o);
@@ -614,7 +616,22 @@ void func_0219CEAC(int *obj);
 int func_0219CF00(int *t, unsigned int id, unsigned short *out);
 int func_0219CF54(int *t, unsigned int id);
 void func_0219CFB0(int *obj, int a1, unsigned char *src, int a3, int a5, int a6, S3 *a7);
-void func_0219D064(int *obj, int *rec);
+typedef struct BlactEntry {
+    u16 *res;
+    int f4;
+    u16 f8;
+    u8 fA;
+    u8 fB;
+    u8 fC;
+    u8 fD;
+    u8 pad_E[2];
+    int f10;
+    void (*f14)(u32, int);
+    int f18;
+    V3_0219C4AC pos;
+} BlactEntry;
+
+void func_0219D064(int *obj, BlactEntry *rec);
 void func_0219D0F4(int *obj);
 int func_0219D144(int *obj, unsigned int a, int b);
 void func_0219D184(int *obj, int key);
@@ -931,7 +948,7 @@ void func_0219C5D0(u32 a)
     u32 s = func_0216D520((void *)a);
     func_0219D2F4((u8 *)s);
     func_0219CC80((u8 *)s);
-    func_0219CAF4((u8 *)s);
+    func_0219CAF4((BlactSys *)s);
     func_020307B0((void *)s);
     func_0216D51C((u8 *)a, 0);
 }
@@ -1125,7 +1142,7 @@ u32 func_0219C6B8(u32 a, V3_0219C4AC *b, int c, u32 d, u16 e)
     s.k = 0x1f;
     s.flag = 1;
     s.w = 1;
-    s.f1c = (void (*)(void))func_0219C9D0;
+    s.f1c = func_0219C9D0;
     s.f20 = (u32)m;
     r = func_02050340((struct BbActSys *)(((struct Obj07474 *)m)->f4), ((struct Obj07474 *)m)->f8, (const struct BbActDesc *)(&s), 1, 0);
     q = (u32 *)func_0219D3E4(d);
@@ -1300,7 +1317,7 @@ void func_0219C880(u8 *o, u32 a, u32 b, u16 c)
         }
         if (v[0] & 1) {
             if (func_0216DFC4((void *)a, c) == 0)
-                func_0219CB98(o, c);
+                func_0219CB98((BlactSys *)o, c);
         }
     }
 }
@@ -1665,10 +1682,10 @@ void func_0219CAD8(u8 *a, u32 b)
 
 
 
-void func_0219CAF4(u8 *s)
+void func_0219CAF4(BlactSys *s)
 {
     int i;
-    Ent *e = ((Tbl *)(s + 0x14))->e;
+    Ent *e = s->tbl.e;
     i = 0;
     do {
         if (e->a != 0xFFFF) {
@@ -1676,8 +1693,8 @@ void func_0219CAF4(u8 *s)
         }
         i++;
         e++;
-    } while (i < ((Tbl *)(s + 0x14))->n);
-    func_0219CA34((u8 *)(s + 0x14));
+    } while (i < s->tbl.n);
+    func_0219CA34((u8 *)&s->tbl);
 }
 
 
@@ -1696,13 +1713,13 @@ void func_0219CAF4(u8 *s)
 /*
  * Addresses are Black-image addresses.
  */
-void func_0219CB24(u8 *o, u32 a, u16 b, u32 c, u8 s0, u32 s1)
+void func_0219CB24(BlactSys *o, u32 a, u16 b, u32 c, u8 s0, u32 s1)
 {
     int r = -1;
     u16 t;
     if (s1 & 2) r = 2;
     t = func_0219D3F0((int *)o, b, c, s0, a, r);
-    func_0219CA40((Tbl *)(o + 0x14), b, t, (u16)s1);
+    func_0219CA40(&o->tbl, b, t, (u16)s1);
 }
 
 
@@ -1728,7 +1745,7 @@ void func_0219CB24(u8 *o, u32 a, u16 b, u32 c, u8 s0, u32 s1)
 void func_0219CB64(u8 *s, const D *d, u32 g)
 {
     u16 *q = func_0216E3C8((void *)d);
-    func_0219CB24(s, (u32)func_02046E24(func_0216D518((u8 *)(((struct Obj19659 *)s)->f10)), *q), d->id, d->f7, d->f8, g);
+    func_0219CB24((BlactSys *)s, (u32)func_02046E24(func_0216D518((u8 *)(((struct Obj19659 *)s)->f10)), *q), d->id, d->f7, d->f8, g);
 }
 
 
@@ -1751,16 +1768,16 @@ void func_0219CB64(u8 *s, const D *d, u32 g)
 
 
 
-void func_0219CB98(u8 *s, u16 k)
+void func_0219CB98(BlactSys *s, u16 k)
 {
     u16 t[2];
-    func_0219CA98((u32 *)(s + 0x14), k, &t[0], &t[1]);
+    func_0219CA98((u32 *)&s->tbl, k, &t[0], &t[1]);
     if (t[1] & 2) {
-        func_02050278((struct BbActSys *)(((struct Obj00429 *)s)->f4), t[0], 1);
+        func_02050278((struct BbActSys *)(s->f4), t[0], 1);
     } else {
-        func_0219C52C(((struct Obj00429 *)s)->f4, t[0]);
+        func_0219C52C(s->f4, t[0]);
     }
-    func_0219CA6C((Tbl *)(s + 0x14), k);
+    func_0219CA6C(&s->tbl, k);
 }
 
 
@@ -2127,7 +2144,7 @@ void func_0219CEAC(int *obj)
         for (; i < ((struct Obj07477 *)t)->f6; i++, p += 5) {
             if (p[4] != 0 && ((struct Obj03117 *)p)->f0 == 1) {
                 ((struct Obj03117 *)p)->f0 = 0;
-                func_0219CB24((u8 *)obj, p[4], ((struct Obj03117 *)p)->f8, *((unsigned char *)p + 0xa),
+                func_0219CB24((BlactSys *)obj, p[4], ((struct Obj03117 *)p)->f8, *((unsigned char *)p + 0xa),
                               *((unsigned char *)p + 0xb), p[1]);
                 p[4] = 0;
             }
@@ -2317,33 +2334,33 @@ void func_0219CFB0(int *obj, int a1, unsigned char *src, int a3, int a5, int a6,
 
 
 
-void func_0219D064(int *obj, int *rec)
+void func_0219D064(int *obj, BlactEntry *rec)
 {
     unsigned short x[3];
     u32 r;
 
     x[0] = 0xFFFF;
-    *((unsigned char *)rec + 0xd) = 0;
-    if (rec[4] != 0) {
-        x[2] = func_0219D3F0(obj, ((struct Obj00808 *)rec)->f8, *((unsigned char *)rec + 0xa),
-                             *((unsigned char *)rec + 0xb), rec[4], 1);
-        rec[4] = 0;
-        func_0219CBD4((u32)obj, ((struct Obj00808 *)rec)->f8, (u32)(&x[0]), (u32)(&x[1]));
+    rec->fD = 0;
+    if (rec->f10 != 0) {
+        x[2] = func_0219D3F0(obj, rec->f8, rec->fA,
+                             rec->fB, rec->f10, 1);
+        rec->f10 = 0;
+        func_0219CBD4((u32)obj, rec->f8, (u32)(&x[0]), (u32)(&x[1]));
     } else {
-        func_0219CBD4((u32)obj, ((struct Obj00808 *)rec)->f8, (u32)(&x[2]), (u32)(&x[1]));
+        func_0219CBD4((u32)obj, rec->f8, (u32)(&x[2]), (u32)(&x[1]));
     }
-    if (rec[1] != 0) {
-        r = func_0219C7B4(rec[1], x[2], x[0]);
+    if (rec->f4 != 0) {
+        r = func_0219C7B4(rec->f4, x[2], x[0]);
     } else {
-        r = func_0219C780(obj[4], (V3_0219C4AC *)(rec + 7), *((unsigned char *)rec + 0xa),
-                          *((unsigned char *)rec + 0xc), x[2], x[0]);
+        r = func_0219C780(obj[4], &rec->pos, rec->fA,
+                          rec->fC, x[2], x[0]);
     }
-    *(unsigned short *)rec[0] = r;
-    if (rec[5] != 0) {
-        ((void (*)(unsigned int, int))rec[5])(*(unsigned short *)rec[0], rec[6]);
+    *rec->res = r;
+    if (rec->f14 != 0) {
+        rec->f14(*rec->res, rec->f18);
     }
-    if (rec[1] != 0) {
-        func_0216D758((void *)rec[1]);
+    if (rec->f4 != 0) {
+        func_0216D758((void *)rec->f4);
     }
 }
 
@@ -2371,18 +2388,18 @@ void func_0219D0F4(int *obj)
 {
     unsigned int i;
     unsigned int n;
-    int *p;
+    BlactEntry *p;
     unsigned short sp[2];
 
     i = 0;
     n = func_0216D4F0((void *)obj[4]);
-    p = *(int **)(obj[7] + 0x14);
+    p = *(BlactEntry **)(obj[7] + 0x14);
     if (n == 0) {
         return;
     }
-    for (; i < n; i++, p += 10) {
-        if (p[0] != 0 && *((unsigned char *)p + 0xd) == 1) {
-            if (func_0219CBD4((u32)obj, ((struct Obj00808 *)p)->f8, (u32)(&sp[0]), (u32)(&sp[1])) == 1) {
+    for (; i < n; i++, p++) {
+        if (p->res != 0 && p->fD == 1) {
+            if (func_0219CBD4((u32)obj, p->f8, (u32)(&sp[0]), (u32)(&sp[1])) == 1) {
                 func_0219D064(obj, p);
                 func_0219D1F8((u8 *)p);
             }
@@ -2502,7 +2519,7 @@ void func_0219D184(int *obj, int key)
  */
 void func_0219D1F8(u8 *p)
 {
-    *((u8 *)p + 0xd) = 0;
+    p[0xd] = 0;
     func_02082BCC(p, 0, 0x28);
 }
 

@@ -1053,23 +1053,6 @@ typedef struct {
     int e;
 } EntSlot;
 
-typedef struct S_0218B924 {
-    unsigned short heap;
-    unsigned char pad0[2];
-    int f4;
-    S_0218BCF4 pad8;
-    unsigned int f18;
-    unsigned char arr[0x190];
-    unsigned short n;
-    unsigned char pad1[0x1A];
-    unsigned int count;
-    unsigned char *ents;
-    unsigned char pad2[4];
-    unsigned int count2;
-    unsigned char *ents2;
-    void *slots[7];
-    EntSlot tbl[0x120];
-} S_0218B924;
 
 typedef struct {
     unsigned char b[16];
@@ -1148,7 +1131,23 @@ typedef struct {
     unsigned char fC[1];
 } S_0218C518;
 
-typedef struct { unsigned short a, b; } E_0218C518;
+typedef struct FieldMsgbgWork {
+    unsigned short f0;
+    unsigned short f2;
+    int f4;
+    u8 pad08[0x18 - 0x8];
+    unsigned int f18;
+    unsigned char f1C[0x190];
+    unsigned short f1AC;
+    u8 pad1AE[0x1C8 - 0x1AE];
+    unsigned int f1C8;
+    unsigned char *f1CC;
+    u8 pad1D0[0x1D4 - 0x1D0];
+    unsigned int f1D4;
+    unsigned char *f1D8;
+    void *f1DC[7];
+    EntSlot f1F8[0x120];
+} FieldMsgbgWork;
 
 typedef struct {
     int h;
@@ -2290,21 +2289,21 @@ void func_0218B7F8(char *p);
 void func_0218B83C(char *p);
 void func_0218B88C(unsigned char *p);
 void func_0218B8AC(char *p, int a, int b, int c);
-int func_0218B910(S_0218B924 *p, u32 b);
+int func_0218B910(FieldMsgbgWork *p, u32 b);
 int func_0218B924(u8 *p, u32 a1);
 int func_0218B930(void *p, int a, Vec_0218B924 *pos, int *k);
 int func_0218B974(void *p, int a, const Src_02189BBC *s, int n);
 void func_0218B9FC(int a, int obj);
 void func_0218BA04(void *p, int a, const Src_02189BBC *s, int d);
-void func_0218BA48(S_0218B924 *p, void *v);
-void func_0218BA70(S_0218B924 *p, void *v);
-void *func_0218BA98(S_0218B924 *p, int h);
-unsigned short func_0218BACC(S_0218B924 *p, void *v);
+void func_0218BA48(FieldMsgbgWork *p, void *v);
+void func_0218BA70(FieldMsgbgWork *p, void *v);
+void *func_0218BA98(FieldMsgbgWork *p, int h);
+unsigned short func_0218BACC(FieldMsgbgWork *p, void *v);
 u8 *func_0218BB04(u8 *p);
 void func_0218BB0C(u8 *s, u16 a, u32 n);
 int func_0218BB64(char *a);
 void func_0218BB78(u8 *s, int k);
-int func_0218BBD0(S_0218B924 *p, unsigned int i);
+int func_0218BBD0(FieldMsgbgWork *p, unsigned int i);
 int func_0218BBF4(u32 a, u32 b);
 char *func_0218BC00(char *p, int i);
 u8 *func_0218BC10(u8 *a, int b);
@@ -2318,13 +2317,13 @@ void func_0218BCE4(S_0218BCF4 *p, u8 v);
 void func_0218BCF4(S_0218BCF4 *p);
 u32 func_0218BD20(u8 *p);
 u8 func_0218BD24(u8 *p);
-void func_0218BD28(S_0218B924 *p, int arg);
+void func_0218BD28(FieldMsgbgWork *p, int arg);
 void func_0218BD94(u8 *s);
 void func_0218BDD8(u8 *s, u32 *out);
 void func_0218BE84(u8 *s, u8 *e);
 void func_0218BEE8(u8 *s, void **out, int x, int unused);
 void func_0218BF84(S_0218BDD8 *p);
-void func_0218BFB4(S_0218B924 *a, u32 *out, u32 *st);
+void func_0218BFB4(FieldMsgbgWork *a, u32 *out, u32 *st);
 void func_0218C02C(void *a, u32 *out);
 void func_0218C040(void *a, void **b);
 void func_0218C08C(u8 *a, void **b);
@@ -2350,7 +2349,7 @@ void func_0218C4EC(unsigned char *p, void *key);
 void func_0218C518(u8 *base, EntSlot *e);
 u8 func_0218C530(int a);
 void func_0218C54C(S_0218C54C *p, int save);
-void func_0218C574(S_0218B924 *a, S_0218C574 *s, int b);
+void func_0218C574(FieldMsgbgWork *a, S_0218C574 *s, int b);
 Ent_0218C518 **func_0218C584(u8 *s, Rect *r, int kind, int *count);
 int func_0218C638(int a, int b, int c);
 int func_0218C654(int a, int b, int c);
@@ -2358,9 +2357,9 @@ int func_0218C674(unsigned char *p, int b);
 void func_0218C69C(unsigned char *p, int b, int i, int c);
 void func_0218C6D0(int *p, int b);
 int func_0218C6F4(unsigned char *p, int b, int id);
-u8 *func_0218C724(S_0218B924 *owner, u32 *obj);
+u8 *func_0218C724(FieldMsgbgWork *owner, u32 *obj);
 int func_0218C7D8(void *p, int b, int c);
-u8 *func_0218C7F0(S_0218B924 *owner, u32 x, Blk *src);
+u8 *func_0218C7F0(FieldMsgbgWork *owner, u32 x, Blk *src);
 void func_0218C860(S_0218C518 *p);
 void func_0218C88C(unsigned char *p, int v, int c);
 void func_0218C89C(unsigned char *p, int v);
@@ -4927,7 +4926,7 @@ void func_0218B8AC(char *p, int a, int b, int c)
     func_0218BB0C((u8 *)p, k1, (u32)s);
     func_0218BC40((unsigned char *)p, (u16)k2, (int)s, c);
     func_0218BB78((u8 *)p, k3);
-    func_0218BD28((S_0218B924 *)p, c);
+    func_0218BD28((FieldMsgbgWork *)p, c);
     func_0218BDD8((u8 *)p, (u32 *)(p + 0x1B0));
 }
 
@@ -4941,7 +4940,7 @@ void func_0218B8AC(char *p, int a, int b, int c)
 
 
 
-int func_0218B910(S_0218B924 *p, u32 b)
+int func_0218B910(FieldMsgbgWork *p, u32 b)
 {
     return func_0218BBF4(p->f18, func_0218BBD0(p, b));
 }
@@ -5001,7 +5000,7 @@ static inline void Vec_Set(Vec_0218B924 *v, int x, int y, int z)
 
 int func_0218B930(void *p, int a, Vec_0218B924 *pos, int *k)
 {
-    Ent_0218B924 *e = (Ent_0218B924 *)func_0218B910((S_0218B924 *)p, a);
+    Ent_0218B924 *e = (Ent_0218B924 *)func_0218B910((FieldMsgbgWork *)p, a);
     if (e->id == 0xFFFF)
         return 0;
     *k = func_0218BBD0(p, e->id);
@@ -5123,12 +5122,12 @@ void func_0218BA04(void *p, int a, const Src_02189BBC *s, int d)
 
 
 
-void func_0218BA48(S_0218B924 *p, void *v)
+void func_0218BA48(FieldMsgbgWork *p, void *v)
 {
     int i;
     for (i = 0; i < 7; i++) {
-        if (p->slots[i] == v) {
-            p->slots[i] = 0;
+        if (p->f1DC[i] == v) {
+            p->f1DC[i] = 0;
             return;
         }
     }
@@ -5146,12 +5145,12 @@ void func_0218BA48(S_0218B924 *p, void *v)
 
 
 
-void func_0218BA70(S_0218B924 *p, void *v)
+void func_0218BA70(FieldMsgbgWork *p, void *v)
 {
     int i;
     for (i = 0; i < 7; i++) {
-        if (p->slots[i] == 0) {
-            p->slots[i] = v;
+        if (p->f1DC[i] == 0) {
+            p->f1DC[i] = v;
             return;
         }
     }
@@ -5169,14 +5168,14 @@ void func_0218BA70(S_0218B924 *p, void *v)
 
 
 
-void *func_0218BA98(S_0218B924 *p, int h)
+void *func_0218BA98(FieldMsgbgWork *p, int h)
 {
     unsigned short idx = h & ~0xFFF0;
     if ((unsigned short)(h & 0xFFF0) != 0xFFF0)
         return 0;
     if (idx >= 7)
         return 0;
-    return p->slots[idx];
+    return p->f1DC[idx];
 }
 
 
@@ -5191,13 +5190,13 @@ void *func_0218BA98(S_0218B924 *p, int h)
 
 
 
-unsigned short func_0218BACC(S_0218B924 *p, void *v)
+unsigned short func_0218BACC(FieldMsgbgWork *p, void *v)
 {
     int i;
     if (v == 0)
         return 0;
     for (i = 0; i < 7; i++) {
-        if (p->slots[i] == v)
+        if (p->f1DC[i] == v)
             return 0xFFF0 | i;
     }
     return 0;
@@ -5307,13 +5306,13 @@ void func_0218BB78(u8 *s, int k)
 
 
 
-int func_0218BBD0(S_0218B924 *p, unsigned int i)
+int func_0218BBD0(FieldMsgbgWork *p, unsigned int i)
 {
     unsigned char v;
     if (i >= 0x190)
         i = 0;
-    v = p->arr[i];
-    if (v >= 0x80 || v >= p->n)
+    v = p->f1C[i];
+    if (v >= 0x80 || v >= p->f1AC)
         v = 0;
     return v;
 }
@@ -5566,15 +5565,15 @@ u8 func_0218BD24(u8 *p)
 
 
 
-void func_0218BD28(S_0218B924 *p, int arg)
+void func_0218BD28(FieldMsgbgWork *p, int arg)
 {
-    unsigned short n = p->n;
+    unsigned short n = p->f1AC;
     unsigned char i;
     if (n != 0) {
-        p->count = n;
-        p->ents = func_02030734(p->heap, n * 0x18, 1, d_021DD9CC, 0x45F);
-        for (i = 0; i < p->count; i++)
-            func_0218BEE8((u8 *)p, (void **)(p->ents + i * 0x18), i, arg);
+        p->f1C8 = n;
+        p->f1CC = func_02030734(p->f0, n * 0x18, 1, d_021DD9CC, 0x45F);
+        for (i = 0; i < p->f1C8; i++)
+            func_0218BEE8((u8 *)p, (void **)(p->f1CC + i * 0x18), i, arg);
     }
 }
 
@@ -5624,7 +5623,7 @@ void func_0218BDD8(u8 *s, u32 *out)
         for (i = 0; i < ((struct Obj00572 *)s)->f1D4; i++) {
             u8 *a = *(u8 * *)&((struct Obj00572 *)s)->f1D8;
             u8 *b = *(u8 * *)&((struct Obj00572 *)s)->f1CC;
-            func_0218BFB4((S_0218B924 *)s, (u32 *)(a + i * 0x18), (u32 *)(b + i * 0x18));
+            func_0218BFB4((FieldMsgbgWork *)s, (u32 *)(a + i * 0x18), (u32 *)(b + i * 0x18));
             *(u32 *)(*(u8 * *)&((struct Obj07411 *)out)->f0 + i * 8) = *(u32 *)(a + i * 0x18);
             *(u32 *)(*(u8 * *)&((struct Obj07411 *)out)->f0 + i * 8 + 4) = 0;
         }
@@ -5741,7 +5740,7 @@ void func_0218BF84(S_0218BDD8 *p)
  *
  * Addresses are Black-image addresses.
  */
-void func_0218BFB4(S_0218B924 *a, u32 *out, u32 *st)
+void func_0218BFB4(FieldMsgbgWork *a, u32 *out, u32 *st)
 {
     u32 buf[4];
     u8 *t;
@@ -6387,7 +6386,7 @@ void func_0218C54C(S_0218C54C *p, int save)
 
 
 
-void func_0218C574(S_0218B924 *a, S_0218C574 *s, int b)
+void func_0218C574(FieldMsgbgWork *a, S_0218C574 *s, int b)
 {
     *s->d = func_0218BBD0(a, b);
 }
@@ -6587,7 +6586,7 @@ int func_0218C6F4(unsigned char *p, int b, int id)
  *
  * Addresses are Black-image addresses.
  */
-u8 *func_0218C724(S_0218B924 *owner, u32 *obj)
+u8 *func_0218C724(FieldMsgbgWork *owner, u32 *obj)
 {
     u8 *def = (u8 *)obj[3];
     u8 *p;
@@ -6595,7 +6594,7 @@ u8 *func_0218C724(S_0218B924 *owner, u32 *obj)
     int k;
 
     p = func_02030734(((struct Obj04199 *)owner)->f0, 0x60, 0, d_021DD9CC, 0x7E9);
-    *(S_0218B924 **)&((struct Obj04200 *)p)->f0 = owner;
+    *(FieldMsgbgWork **)&((struct Obj04200 *)p)->f0 = owner;
     *(u32 * *)&((struct Obj04200 *)p)->f8 = obj;
     ((struct Obj04200 *)p)->f4 = 0xFFFF;
     k = ((struct Obj12576 *)def)->f10 >> 4;
@@ -6647,11 +6646,11 @@ int func_0218C7D8(void *p, int b, int c)
  *
  * Addresses are Black-image addresses.
  */
-u8 *func_0218C7F0(S_0218B924 *owner, u32 x, Blk *src)
+u8 *func_0218C7F0(FieldMsgbgWork *owner, u32 x, Blk *src)
 {
     u8 *p = func_02030734(((struct Obj04199 *)owner)->f0, 0x60, 0, d_021DD9CC, 0x825);
 
-    *(S_0218B924 **)&((struct Obj09456 *)p)->f0 = owner;
+    *(FieldMsgbgWork **)&((struct Obj09456 *)p)->f0 = owner;
     ((struct Obj09456 *)p)->f8 = 0;
     ((struct Obj09456 *)p)->f4 = 0xFFFF;
     *(Blk *)(p + 0x24) = *src;
@@ -6806,7 +6805,7 @@ unsigned short func_0218C924(unsigned char *p)
 {
     if (p == 0)
         return 0;
-    return (**(E_0218C518 ** *)&((struct Obj19541 *)p)->f10)->b;
+    return (**(FieldMsgbgWork ** *)&((struct Obj19541 *)p)->f10)->f2;
 }
 
 

@@ -114,7 +114,6 @@
 #include "../../matched/include/Obj12797.h"
 #include "../../matched/include/Obj19888.h"
 
-#define R(a) ((Rec *)((char *)(a) + 0x88))
 struct BbActDesc;
 struct BbActSys;
 struct X_021ACA5C;
@@ -123,18 +122,14 @@ struct Actor;
 struct VecFx32;
 struct E;
 struct Vec3;
-struct X_021AD3FC;
-struct Q;
 struct Desc;
-struct P_021AD3D4;
+struct P_021ACA38;
 struct G3dOwner;
 struct G3dRec;
 struct G3dSys;
 struct Rec;
 struct A;
-struct B_021AD82C;
-struct W;
-struct Z;
+struct ModelSet;
 struct Tagged;
 struct AnmCtl;
 struct SoundSys2;
@@ -174,11 +169,23 @@ typedef signed short s16;
 
 typedef signed char s8;
 
-typedef struct P_021ACA38 { u32 f0; u32 f4; u32 f8; } P_021ACA38;
+typedef struct P_021ACA38 {
+    u32 f0;
+    u32 f4;
+    u32 f8;
+    u32 fc;
+} P_021ACA38;
 
 typedef signed int s32;
 
-typedef struct X_021ACA5C { u32 f0; u16 h4; u16 h6; u16 h8; u16 ha; } X_021ACA5C;
+typedef struct X_021ACA5C {
+    u32 f0;
+    u16 h4;
+    u16 h6;
+    u16 h8;
+    u16 ha;
+    u16 hc;
+} X_021ACA5C;
 
 typedef struct Arg_021ACB38 { u32 a; u32 b; u16 c, d, e; } Arg_021ACB38;
 
@@ -244,16 +251,6 @@ typedef struct B_021ACDC4 {
 
 typedef struct Y { u8 pad[0x18]; u16 h18; u16 pad1a; u32 *f1c; u8 pad20[0x34]; u16 h54; } Y;
 
-typedef struct Inner_021ACFF8 {
-    u16 a;
-    u16 b;
-    V3 p4;
-    V3 p10;
-    u16 c;
-    u16 pad;
-    V3 scale;
-    V3 pos;
-} Inner_021ACFF8;
 
 typedef struct B_021ACFF8 {
     u8 pad0[9];
@@ -268,7 +265,7 @@ typedef struct B_021ACFF8 {
     u32 *f1c;
     u32 f20;
     u8 pad4[0x14];
-    Inner_021ACFF8 in;
+    Inner in;
 } B_021ACFF8;
 
 typedef struct M33 { s32 m[9]; } M33;
@@ -301,11 +298,8 @@ typedef struct B_021AD274 {
     Inner_021AD274 in;
 } B_021AD274;
 
-typedef struct P_021AD3D4 { u32 f0; } P_021AD3D4;
 
-typedef struct X_021AD3FC { u32 f0; u16 h4; u16 h6; u16 h8; u16 ha; u16 hc; } X_021AD3FC;
 
-typedef struct Arg_021AD564 { u32 f0; u32 f4; u32 f8; u32 fc; } Arg_021AD564;
 
 typedef struct T5 {
     V3 v[5];
@@ -360,18 +354,7 @@ typedef struct A {
     u32 f14;
 } A;
 
-typedef struct B_021AD82C {
-    u8 pad0[8];
-    u32 f8[4];
-    u32 f18[28];
-    u8 f88;
-} B_021AD82C;
-
-typedef struct Z { u32 f0; u32 arr[4]; u32 f14; } Z;
-
-typedef struct W { u8 pad[0x88]; u8 n; } W;
-
-typedef struct Desc_021AD8DC {
+typedef struct ModelDesc {
     u8 n;
     u8 lo : 3;
     u8 mid : 3;
@@ -379,48 +362,22 @@ typedef struct Desc_021AD8DC {
     u8 b7 : 1;
     u16 pad2;
     u16 h4;
-    u16 h6;
-} Desc_021AD8DC;
+    u16 tab[4];
+} ModelDesc;
 
-typedef struct P_021AD8DC {
-    int f0;
-    int f4;
-    int f8;
-    int fc;
-    int f10;
-    int f14;
-    int f18;
-    int f1c;
-    int f20;
-    int f24;
-} P_021AD8DC;
-
-typedef struct Desc_021AD96C {
-    u8 n;
-    u8 lo : 3;
-    u8 mid : 3;
-    u8 b6 : 1;
-    u8 b7 : 1;
-    u16 pad2;
-    u16 h4;
-    u16 tab[1];
-} Desc_021AD96C;
-
-typedef struct P_021AD96C {
+typedef struct ModelSet {
     int f0;
     int f4;
     int f8[4];
-    int f18[1];
-} P_021AD96C;
-
-typedef struct Q {
-    int f0;
-    int f4;
-    int f8[4];
-    int f18[28];
-    u8 n;
-    u8 cnt : 3;
-} Q;
+    union {
+        int f18[28];
+        struct {
+            int pad[4];
+            A rec[4];
+        } r;
+    } u;
+    ModelDesc desc;
+} ModelSet;
 
 typedef struct L {
     int f0;
@@ -549,10 +506,10 @@ void func_021ACDC4(u32 a, B_021ACDC4 *b);
 void func_021ACFD8(u32 a, Y *y);
 void func_021ACFF8(u32 a, B_021ACFF8 *b);
 void func_021AD274(u32 a, B_021AD274 *b);
-P_021AD3D4 *func_021AD3D4(u32 a, int heap);
+P_021ACA38 *func_021AD3D4(u32 a, int heap);
 void func_021AD3FC(u32 a, u8 *p);
 void func_021AD410(u32 *a);
-void func_021AD530(X_021AD3FC *x);
+void func_021AD530(X_021ACA5C *x);
 void func_021AD564(u32 a, u32 b, u32 c);
 void func_021AD598(u32 a, u32 b, u32 c);
 int func_021AD5CC(u32 a);
@@ -567,13 +524,13 @@ void *func_021AD77C(u32 a, int heap);
 void *func_021AD788(u32 a, int heap);
 void *func_021AD794(u32 a, int heap);
 void func_021AD7A0(u32 a, u8 *p);
-P_021AD3D4 *func_021AD7B4(u32 a, int heap, u32 c);
-void func_021AD7E4(int *a, u32 b);
-void func_021AD82C(A *a, B_021AD82C *b, int c);
-void func_021AD8A4(Z *z, W *w);
-void func_021AD8DC(P_021AD8DC *a, Desc_021AD8DC *d, int c);
-void func_021AD96C(P_021AD96C *a, Desc_021AD96C *d, int c);
-void func_021ADA1C(Q *a);
+P_021ACA38 *func_021AD7B4(u32 a, int heap, u32 c);
+void func_021AD7E4(ModelSet *a, u32 b);
+void func_021AD82C(A *a, ModelSet *b, int c);
+void func_021AD8A4(A *z, ModelSet *w);
+void func_021AD8DC(ModelSet *a, ModelDesc *d, int c);
+void func_021AD96C(ModelSet *a, ModelDesc *d, int c);
+void func_021ADA1C(ModelSet *a);
 u8 func_021ADAAC(int a, u8 *b, int c, int d, int e, int f);
 void func_021ADB4C(u32 a, int v);
 void func_021ADB5C(int a, int v);
@@ -593,7 +550,7 @@ extern AngTbl d_021D91B0;
 extern u8 d_021D9170[];
 extern T5 d_021D91F8;
 extern char d_021DE0E8[];
-extern Rec d_021DE094[];
+extern ModelDesc d_021DE094[];
 extern u8 d_021D9238[];
 extern int d_021D9240[];
 extern u8 d_021D9234[];
@@ -1163,7 +1120,7 @@ void func_021ACFF8(u32 a, B_021ACFF8 *b)
     V3 u;
     s16 f[3];
     s16 d[3];
-    Inner_021ACFF8 *in;
+    Inner *in;
     s32 dist;
     s32 r;
 
@@ -1296,11 +1253,11 @@ void func_021AD274(u32 a, B_021AD274 *b)
 
 
 
-P_021AD3D4 *func_021AD3D4(u32 a, int heap)
+P_021ACA38 *func_021AD3D4(u32 a, int heap)
 {
-    P_021AD3D4 *p;
+    P_021ACA38 *p;
 
-    p = (P_021AD3D4 *)func_02030734(heap, 0x10, 1, d_021DE080, 0x3cf);
+    p = (P_021ACA38 *)func_02030734(heap, 0x10, 1, d_021DE080, 0x3cf);
     p->f0 = a;
     func_021AD410((u32 *)p);
     return p;
@@ -1318,7 +1275,7 @@ P_021AD3D4 *func_021AD3D4(u32 a, int heap)
  */
 void func_021AD3FC(u32 a, u8 *p)
 {
-    func_021AD530((X_021AD3FC *)((struct X_021AD3FC *)p));
+    func_021AD530((X_021ACA5C *)((struct X_021ACA5C *)p));
     func_020307B0(p);
 }
 
@@ -1383,7 +1340,7 @@ void func_021AD410(u32 *a)
 
 
 
-void func_021AD530(X_021AD3FC *x)
+void func_021AD530(X_021ACA5C *x)
 {
     u32 h = func_021ABE18((u8 *)x->f0);
 
@@ -1401,7 +1358,7 @@ void func_021AD530(X_021AD3FC *x)
 
 void func_021AD564(u32 a, u32 b, u32 c)
 {
-    Arg_021AD564 s;
+    P_021ACA38 s;
 
     s.f4 = func_021ABEA0(a, 9);
     s.f8 = b;
@@ -1417,7 +1374,7 @@ void func_021AD564(u32 a, u32 b, u32 c)
 
 void func_021AD598(u32 a, u32 b, u32 c)
 {
-    Arg_021AD564 s;
+    P_021ACA38 s;
 
     s.f4 = func_021ABEA0(a, 9);
     s.f8 = b;
@@ -1596,7 +1553,7 @@ void *func_021AD794(u32 a, int heap)
  */
 void func_021AD7A0(u32 a, u8 *p)
 {
-    func_021ADA1C((Q *)((struct Q *)p));
+    func_021ADA1C((ModelSet *)p);
     func_020307B0(p);
 }
 
@@ -1606,13 +1563,13 @@ void func_021AD7A0(u32 a, u8 *p)
 
 
 
-P_021AD3D4 *func_021AD7B4(u32 a, int heap, u32 c)
+P_021ACA38 *func_021AD7B4(u32 a, int heap, u32 c)
 {
-    P_021AD3D4 *p;
+    P_021ACA38 *p;
 
-    p = (P_021AD3D4 *)func_02030734(heap, 0x98, 1, d_021DE0E8, 0x11e);
+    p = (P_021ACA38 *)func_02030734(heap, 0x98, 1, d_021DE0E8, 0x11e);
     p->f0 = a;
-    func_021AD7E4((int *)p, c);
+    func_021AD7E4((ModelSet *)p, c);
     return p;
 }
 
@@ -1622,16 +1579,16 @@ P_021AD3D4 *func_021AD7B4(u32 a, int heap, u32 c)
 
 
 
-void func_021AD7E4(int *a, u32 b)
+void func_021AD7E4(ModelSet *a, u32 b)
 {
     int t;
 
-    *R(a) = d_021DE094[b];
-    t = func_021ABE24((u8 *)(*a));
+    a->desc = d_021DE094[b];
+    t = func_021ABE24((u8 *)a->f0);
     if (b == 0) {
-        func_021AD8DC((P_021AD8DC *)((struct P_021AD3D4 *)a), (Desc_021AD8DC *)((struct Desc *)R(a)), t);
+        func_021AD8DC((ModelSet *)a, &a->desc, t);
     } else {
-        func_021AD96C((P_021AD96C *)((struct P_021AD3D4 *)a), (Desc_021AD96C *)((struct Desc *)R(a)), t);
+        func_021AD96C((ModelSet *)a, &a->desc, t);
     }
 }
 
@@ -1645,17 +1602,17 @@ void func_021AD7E4(int *a, u32 b)
 
 /*
  * Lever: func_0204767C takes three arguments (see ov019_func_0217FA10); the
- * third is b->f88, which is what keeps the loop bound in r2.
+ * third is b->desc.n, which is what keeps the loop bound in r2.
  */
-void func_021AD82C(A *a, B_021AD82C *b, int c)
+void func_021AD82C(A *a, ModelSet *b, int c)
 {
     int i = 0;
 
     a->f14 = (u32)func_02047400((void *)b->f8[c], 0, (void *)b->f8[c]);
-    for (; i < b->f88; i++)
-        a->f4[i] = (u32)func_02047564((struct G3dOwner *)a->f14, (const struct G3dOwner *)b->f18[c * b->f88 + i], 0);
-    a->f0 = (u32)func_0204767C(a->f14, a->f4, b->f88);
-    for (i = 0; i < b->f88; i++)
+    for (; i < b->desc.n; i++)
+        a->f4[i] = (u32)func_02047564((struct G3dOwner *)a->f14, (const struct G3dOwner *)b->u.f18[c * b->desc.n + i], 0);
+    a->f0 = (u32)func_0204767C(a->f14, a->f4, b->desc.n);
+    for (i = 0; i < b->desc.n; i++)
         func_020477A4((struct G3dSys *)a->f0, (u16)i);
 }
 
@@ -1667,12 +1624,12 @@ void func_021AD82C(A *a, B_021AD82C *b, int c)
 
 
 
-void func_021AD8A4(Z *z, W *w)
+void func_021AD8A4(A *z, ModelSet *w)
 {
     int i;
 
-    for (i = 0; i < w->n; i++)
-        func_0204762C((struct Rec *)z->arr[i]);
+    for (i = 0; i < w->desc.n; i++)
+        func_0204762C((struct Rec *)z->f4[i]);
     func_02047738((struct Rec *)z->f0);
     func_02047504((struct Rec *)z->f14);
 }
@@ -1685,21 +1642,21 @@ void func_021AD8A4(Z *z, W *w)
 
 
 
-void func_021AD8DC(P_021AD8DC *a, Desc_021AD8DC *d, int c)
+void func_021AD8DC(ModelSet *a, ModelDesc *d, int c)
 {
     int r7;
 
     r7 = func_021ABE28((u8 *)a->f0);
-    func_02046FF8((int *)(a->f8 = (int)func_02046E24(c, d->h4 + r7)));
-    a->f18 = (int)func_02046E24(c, d->h6 + r7);
-    func_021AD82C((struct A *)((char *)a + 0x28), (struct B_021AD82C *)a, 0);
+    func_02046FF8((int *)(a->f8[0] = (int)func_02046E24(c, d->h4 + r7)));
+    a->u.f18[0] = (int)func_02046E24(c, d->tab[0] + r7);
+    func_021AD82C(&a->u.r.rec[0], (ModelSet *)a, 0);
     r7 += d->mid;
-    func_02046FF8((int *)(a->fc = (int)func_02046E24(c, d->h4 + r7)));
-    a->f1c = (int)func_02046E24(c, d->h6 + r7);
-    func_021AD82C((struct A *)((char *)a + 0x40), (struct B_021AD82C *)a, 1);
-    func_02046FF8((int *)(a->f10 = (int)func_02046E24(c, d->h4)));
-    a->f20 = (int)func_02046E24(c, d->h6);
-    func_021AD82C((struct A *)((char *)a + 0x58), (struct B_021AD82C *)a, 2);
+    func_02046FF8((int *)(a->f8[1] = (int)func_02046E24(c, d->h4 + r7)));
+    a->u.f18[1] = (int)func_02046E24(c, d->tab[0] + r7);
+    func_021AD82C(&a->u.r.rec[1], (ModelSet *)a, 1);
+    func_02046FF8((int *)(a->f8[2] = (int)func_02046E24(c, d->h4)));
+    a->u.f18[2] = (int)func_02046E24(c, d->tab[0]);
+    func_021AD82C(&a->u.r.rec[2], (ModelSet *)a, 2);
 }
 
 
@@ -1710,7 +1667,7 @@ void func_021AD8DC(P_021AD8DC *a, Desc_021AD8DC *d, int c)
 
 
 
-void func_021AD96C(P_021AD96C *a, Desc_021AD96C *d, int c)
+void func_021AD96C(ModelSet *a, ModelDesc *d, int c)
 {
     int base;
     int i;
@@ -1728,9 +1685,9 @@ void func_021AD96C(P_021AD96C *a, Desc_021AD96C *d, int c)
         a->f8[i] = (int)func_02046E24(c, d->h4 + t);
         func_02046FF8((int *)a->f8[i]);
         for (j = 0; j < d->n; j++) {
-            a->f18[i * d->n + j] = (int)func_02046E24(c, t + d->tab[j]);
+            a->u.f18[i * d->n + j] = (int)func_02046E24(c, t + d->tab[j]);
         }
-        func_021AD82C((struct A *)((char *)a + 0x28 + i * 0x18), (struct B_021AD82C *)a, (u8)i);
+        func_021AD82C(&a->u.r.rec[i], a, (u8)i);
     }
 }
 
@@ -1742,17 +1699,17 @@ void func_021AD96C(P_021AD96C *a, Desc_021AD96C *d, int c)
 
 
 
-void func_021ADA1C(Q *a)
+void func_021ADA1C(ModelSet *a)
 {
     int i;
 
-    for (i = 0; i < a->cnt; i++) {
-        func_021AD8A4((struct Z *)((char *)a + 0x28 + i * 0x18), (struct W *)a);
+    for (i = 0; i < a->desc.lo; i++) {
+        func_021AD8A4(&a->u.r.rec[i], a);
     }
-    for (i = 0; i < a->n * a->cnt; i++) {
-        func_02046EFC((struct Tagged *)a->f18[i]);
+    for (i = 0; i < a->desc.n * a->desc.lo; i++) {
+        func_02046EFC((struct Tagged *)a->u.f18[i]);
     }
-    for (i = 0; i < a->cnt; i++) {
+    for (i = 0; i < a->desc.lo; i++) {
         func_020470D0((u32 *)a->f8[i]);
         func_02046EFC((struct Tagged *)a->f8[i]);
     }

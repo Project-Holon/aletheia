@@ -245,29 +245,6 @@ typedef struct {
     void *f3C;
 } Info;
 
-typedef struct {
-    u16 h0;
-    u16 h2;
-    Info *x4;
-    u16 h8;
-    u16 ha;
-    int xc;
-    int x10;
-    int x14;
-    int x18;
-    void *x1c;
-    int x20;
-    Src *x24;
-    u8 *x28;
-    u8 b2c;
-    u8 pad2d[5];
-    u8 b32;
-    u8 b33;
-    u8 pad34[0x40];
-    u8 b74;
-    u8 pad75[3];
-    u8 *x78;
-} Obj_021B8848;
 
 typedef enum { MODE_0, MODE_1, MODE_2 } Mode;
 
@@ -293,11 +270,6 @@ typedef struct {
     char b[0x70];
 } E70;
 
-typedef struct {
-    u16 h0;
-    char pad[0xE];
-    E70 *f10;
-} Obj_021B977C;
 
 typedef struct {
     u16 id;
@@ -309,10 +281,31 @@ typedef struct {
 
 typedef struct { u32 key[4]; u32 val[4]; } T;
 
-typedef struct {
-    char pad[0x30];
+typedef struct FieldNogridMapperWork {
+    u16 h0;
+    u16 h2;
+    Info *f4;
+    u16 h8;
+    u16 ha;
+    int fC;
+    int f10;
+    int f14;
+    int f18;
+    void *f1C;
+    int f20;
+    Src *f24;
+    u8 *f28;
+    u8 b2c;
+    u8 pad2D[0x30 - 0x2D];
     char f30[1];
-} Obj_021B963C;
+    u8 pad31[0x32 - 0x31];
+    u8 b32;
+    u8 b33;
+    u8 pad34[0x74 - 0x34];
+    u8 b74;
+    u8 pad75[0x78 - 0x75];
+    u8 *f78;
+} FieldNogridMapperWork;
 
 typedef struct {
     char b[0x48];
@@ -331,10 +324,6 @@ typedef struct { fx32 x, y, z; } VecFx32;
 
 typedef long long      s64;
 
-typedef struct {
-    u8 pad[0x30];
-    VecFx32 pos;
-} Mover_021BAE7C;
 
 typedef struct {
     int x0;
@@ -349,12 +338,15 @@ typedef struct { int x, y, z; } V_021BACA8;
 
 typedef long long fx64;
 
-typedef struct {
-    char pad[0xC];
+typedef struct FieldNogridMapperWork2 {
+    u16 h0;
+    u8 pad02[0xC - 0x2];
     void *fC;
-    int pad10;
+    E70 *f10;
     int f14;
-} Obj_021BB260;
+    u8 pad18[0x30 - 0x18];
+    VecFx32 f30;
+} FieldNogridMapperWork2;
 
 typedef struct {
     void *f0;
@@ -491,11 +483,11 @@ void *func_021B8870(Table *t, u16 i);
 void *func_021B8894(Table *t, u32 i);
 void *func_021B88B8(Table *t, u16 i);
 int func_021B88DC(Ov021Mover *p, int dir, int d);
-void func_021B9164(Obj_021B8848 *o, Src *s, u8 *b);
+void func_021B9164(FieldNogridMapperWork *o, Src *s, u8 *b);
 void func_021B919C(u8 *p, u32 a);
 u16 func_021B91A8(u8 *p);
 int func_021B91AC(u32 a);
-void *func_021B91C8(Obj_021B8848 *p);
+void *func_021B91C8(FieldNogridMapperWork *p);
 void func_021B91F8(u8 *p, V3 *out);
 void func_021B9238(const In *p, Out *out);
 int func_021B9278(void *e, int a, void *map);
@@ -519,7 +511,7 @@ int func_021B96AC(u8 *a, u8 *b);
 void func_021B9768(void *a, void *b);
 void func_021B976C(void *a, void *b, void *c);
 void func_021B977C(u8 *p);
-int func_021B97D0(Obj_021B977C *p, E70 *e);
+int func_021B97D0(FieldNogridMapperWork2 *p, E70 *e);
 int func_021B97FC(Obj_021B97FC *p, E48_021B977C *e);
 int func_021B9828(VecFx32 *a, VecFx32 *b, VecFx32 *c, VecFx32 *d, VecFx32 *e, VecFx32 *out);
 void func_021B9A50(VecFx32 *out, VecFx32 *a, VecFx32 *b, int t);
@@ -550,7 +542,7 @@ void func_021BABDC(void *p);
 void func_021BAC04(u32 a);
 void func_021BAC74(u32 p);
 void func_021BACA8(u32 p);
-int func_021BAE7C(Mover_021BAE7C *a, Mover_021BAE7C *b, const VecFx32 *c, VecFx32 *out, fx32 *t, VecFx32 *axis);
+int func_021BAE7C(FieldNogridMapperWork2 *a, FieldNogridMapperWork2 *b, const VecFx32 *c, VecFx32 *out, fx32 *t, VecFx32 *axis);
 void func_021BB014(u32 a, unsigned char *b, u32 c);
 void *func_021BB088(int a);
 void func_021BB0A4(u8 *p, u32 a1, u32 a2, u32 a3);
@@ -567,7 +559,7 @@ int func_021BB1DC(int x);
 int func_021BB1E8(int x);
 u32 *func_021BB1F4(u32 a, u32 b, u32 c, u32 d);
 int func_021BB240(void *a, u32 b, u32 c, u32 d);
-void func_021BB260(Obj_021BB260 *p, int b);
+void func_021BB260(FieldNogridMapperWork2 *p, int b);
 void func_021BB278(u32 *a, u16 *b, u32 c);
 void func_021BB2F8(u32 a, u32 b, u32 c);
 void func_021BB348(u32 a);
@@ -1090,21 +1082,21 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
  * keeps it out of constant propagation, so it is materialised at entry, overlaps
  * s and the loaded x2c (r1) and takes r3, which the later zero then reuses.
  */
-void func_021B9164(Obj_021B8848 *o, Src *s, u8 *b)
+void func_021B9164(FieldNogridMapperWork *o, Src *s, u8 *b)
 {
     Mode m = MODE_2;
-    o->x24 = s;
-    o->x1c = s->x2c;
+    o->f24 = s;
+    o->f1C = s->x2c;
     o->h0 = m;
     o->b33 = 0;
     o->b32 = 0;
     o->b2c = 0;
-    o->x78 = b;
-    o->x4 = 0;
-    o->xc = 0;
-    o->x14 = 0;
-    o->x20 = 0;
-    o->x28 = b + 0x50;
+    o->f78 = b;
+    o->f4 = 0;
+    o->fC = 0;
+    o->f14 = 0;
+    o->f20 = 0;
+    o->f28 = b + 0x50;
     o->b74 = 0;
     o->h8 = 0;
 }
@@ -1131,7 +1123,7 @@ void func_021B9164(Obj_021B8848 *o, Src *s, u8 *b)
 
 void func_021B919C(u8 *p, u32 a)
 {
-    func_021B9164((Obj_021B8848 *)p, (Src *)a, (u8 *)*(u32 *)&((struct Obj01358 *)p)->f78);
+    func_021B9164((FieldNogridMapperWork *)p, (Src *)a, (u8 *)*(u32 *)&((struct Obj01358 *)p)->f78);
 }
 
 
@@ -1216,13 +1208,13 @@ return 0;
 
 
 
-void *func_021B91C8(Obj_021B8848 *p)
+void *func_021B91C8(FieldNogridMapperWork *p)
 {
     switch (p->h0) {
     case 0:
-        return func_021B8820(p->x24, p->x4->f3C);
+        return func_021B8820(p->f24, p->f4->f3C);
     case 1:
-        return func_021B8820(p->x24, p->x4->f10);
+        return func_021B8820(p->f24, p->f4->f10);
     }
     return &(*(int *)&d_021D9A0C);
 }
@@ -1294,7 +1286,7 @@ void func_021B9238(const In *p, Out *out)
     t = p->t;
     out->t = t;
     if (t == 0)
-        v = func_021B97D0((Obj_021B977C *)p->p24, (E70 *)p->p4);
+        v = func_021B97D0((FieldNogridMapperWork2 *)p->p24, (E70 *)p->p4);
     else
         v = func_021B97FC(p->p24, p->p4);
     out->a = v;
@@ -1979,7 +1971,7 @@ void func_021B9768(void *a, void *b)
 void func_021B976C(void *a, void *b, void *c)
 {
     if (b != 0) {
-        func_021B9768(a, ((Obj_021B963C *)b)->f30);
+        func_021B9768(a, ((FieldNogridMapperWork *)b)->f30);
     }
 }
 
@@ -2034,7 +2026,7 @@ void func_021B977C(u8 *p)
 
 
 
-int func_021B97D0(Obj_021B977C *p, E70 *e)
+int func_021B97D0(FieldNogridMapperWork2 *p, E70 *e)
 {
     int i;
 
@@ -2480,7 +2472,7 @@ int func_021B9E84(int a, void *p, const VecFx32 *pos, Rec *out, int arg)
     e0 = func_021B8224(p, info[0]);
     e1 = func_021B8224(p, info[1]);
     k = func_021B8248(p);
-    if (func_021BAE7C((Mover_021BAE7C *)e0, (Mover_021BAE7C *)e1, pos, &A, (fx32 *)&B, &C) == 0) {
+    if (func_021BAE7C((FieldNogridMapperWork2 *)e0, (FieldNogridMapperWork2 *)e1, pos, &A, (fx32 *)&B, &C) == 0) {
         return 0;
     }
     x = pos->x;
@@ -2571,7 +2563,7 @@ int func_021B9FC8(int a, void *p, const VecFx32 *pos, Rec *out, int arg)
     info = func_021B8230(p, a);
     e0 = func_021B8224(p, info[0]);
     e1 = func_021B8224(p, info[1]);
-    if (func_021BAE7C((Mover_021BAE7C *)e0, (Mover_021BAE7C *)e1, pos, &A, (fx32 *)&B, &C) == 0) {
+    if (func_021BAE7C((FieldNogridMapperWork2 *)e0, (FieldNogridMapperWork2 *)e1, pos, &A, (fx32 *)&B, &C) == 0) {
         return 0;
     }
     out->id = a;
@@ -3379,7 +3371,7 @@ void func_021BACA8(u32 p)
  *
  * Addresses are Black-image addresses.
  */
-int func_021BAE7C(Mover_021BAE7C *a, Mover_021BAE7C *b, const VecFx32 *c, VecFx32 *out, fx32 *t, VecFx32 *axis)
+int func_021BAE7C(FieldNogridMapperWork2 *a, FieldNogridMapperWork2 *b, const VecFx32 *c, VecFx32 *out, fx32 *t, VecFx32 *axis)
 {
     VecFx32 d1;
     VecFx32 d2;
@@ -3392,8 +3384,8 @@ int func_021BAE7C(Mover_021BAE7C *a, Mover_021BAE7C *b, const VecFx32 *c, VecFx3
     fx32 s;
     fx32 dy;
 
-    VEC_Subtract(&a->pos, &b->pos, &d1);
-    VEC_Subtract(c, &b->pos, &d2);
+    VEC_Subtract(&a->f30, &b->f30, &d1);
+    VEC_Subtract(c, &b->f30, &d2);
     VEC_Normalize(&d1, &d1n);
     len1 = VEC_Mag(&d1);
     d1 = d1n;
@@ -3416,7 +3408,7 @@ int func_021BAE7C(Mover_021BAE7C *a, Mover_021BAE7C *b, const VecFx32 *c, VecFx3
     VEC_CrossProduct(&n1, &n2, axis);
     s = *t;
     VEC_Set(out, FX_MUL(d1n.x, s), FX_MUL(d1n.y, s), FX_MUL(d1n.z, s));
-    VEC_Add((VecFx32 *)&b->pos, (VecFx32 *)out, (VecFx32 *)out);
+    VEC_Add((VecFx32 *)&b->f30, (VecFx32 *)out, (VecFx32 *)out);
     if (VEC_Distance(c, out) >= 0x100000) {
         return 0;
     }
@@ -3688,7 +3680,7 @@ return func_020307B0(a);
 
 
 
-void func_021BB260(Obj_021BB260 *p, int b)
+void func_021BB260(FieldNogridMapperWork2 *p, int b)
 {
     if (b != 0) {
         p->f14 = 0;

@@ -133,26 +133,9 @@ typedef struct St_0219B59C {
     s8 f8;
 } St_0219B59C;
 
-typedef struct St_0219B6E0 {
-    u8 state;
-    s8 f1;
-    s8 cur;
-    s8 max;
-} St_0219B6E0;
 
 typedef struct Tbl24 { u32 w[2][4]; } Tbl24;
 
-typedef struct St_0219B75C {
-    u8 f0;
-    u8 state;
-    u8 f2;
-    u8 f3;
-    s8 f4;
-    s8 f5;
-    s8 f6;
-    s8 f7;
-    s8 f8;
-} St_0219B75C;
 
 typedef int (*Step)(u32, u8 *);
 
@@ -531,7 +514,7 @@ void func_0219B6B0(u32 a)
 
 int func_0219B6E0(int a)
 {
-    St_0219B6E0 *p;
+    St_0219B520 *p;
 
     p = func_0216D6B8((void *)a);
     switch (p->state) {
@@ -592,7 +575,7 @@ int func_0219B6E0(int a)
 int func_0219B75C(char *a)
 {
     Tbl24 t = d_021D5258;
-    St_0219B75C *p;
+    St_0219B59C *p;
     int lim;
     int i;
     u16 v;

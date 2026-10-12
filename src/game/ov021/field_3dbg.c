@@ -110,17 +110,15 @@ typedef signed short   s16;
 
 typedef unsigned int   u32;
 
-typedef struct { unsigned char pad[0x20]; void *f20; } Obj_021A145C;
 
-typedef struct { unsigned char pad[0x20]; void *f20; } Obj_021A1468;
 
-typedef struct { unsigned char pad[0x20]; void *f20; } Obj_021A1474;
 
-typedef struct { unsigned char pad[0x20]; void *f20; } Obj_021A14B4;
 
-typedef struct { unsigned char pad[0x20]; void *f20; } Obj_021A14C0;
 
-typedef struct { unsigned char pad[0x20]; void *f20; } Obj_021A1584;
+typedef struct Field3dbgWork {
+    u8 pad00[0x20 - 0x0];
+    void *f20;
+} Field3dbgWork;
 
 typedef signed char    s8;
 
@@ -267,13 +265,13 @@ extern void func_021A1C1C(int a, u32 *p);
 extern int func_020056A0(void (*cb)(void *), void *arg, int pri);
 void func_021A1428(u32 *p);
 void func_021A1448(u32 *p);
-int func_021A145C(Obj_021A145C *p);
-int func_021A1468(Obj_021A1468 *p);
-int func_021A1474(Obj_021A1474 *p);
+int func_021A145C(Field3dbgWork *p);
+int func_021A1468(Field3dbgWork *p);
+int func_021A1474(Field3dbgWork *p);
 void func_021A1480(u32 *p);
 void func_021A14A0(u32 *p);
-int func_021A14B4(Obj_021A14B4 *p);
-int func_021A14C0(Obj_021A14C0 *p);
+int func_021A14B4(Field3dbgWork *p);
+int func_021A14C0(Field3dbgWork *p);
 void func_021A14CC(u32 *p);
 void func_021A14EC(u32 *p);
 void func_021A1500(u32 *p);
@@ -285,7 +283,7 @@ int func_021A153C(u32 *p);
 void func_021A1548(u32 *p);
 int func_021A1554(u32 *p);
 void func_021A1560(u32 *p);
-int func_021A1584(Obj_021A1584 *p);
+int func_021A1584(Field3dbgWork *p);
 void func_021A1590(u32 *p);
 u8 *func_021A15A4(u8 *p, u32 heap);
 int func_021A15D4(u32 a);
@@ -362,7 +360,7 @@ void func_021A1448(u32 *p)
 
 
 
-int func_021A145C(Obj_021A145C *p) { return func_021F2344(p->f20); }
+int func_021A145C(Field3dbgWork *p) { return func_021F2344(p->f20); }
 
 
 
@@ -371,7 +369,7 @@ int func_021A145C(Obj_021A145C *p) { return func_021F2344(p->f20); }
 
 
 
-int func_021A1468(Obj_021A1468 *p) { return func_021F23F8(p->f20); }
+int func_021A1468(Field3dbgWork *p) { return func_021F23F8(p->f20); }
 
 
 
@@ -379,7 +377,7 @@ int func_021A1468(Obj_021A1468 *p) { return func_021F23F8(p->f20); }
 
 
 
-int func_021A1474(Obj_021A1474 *p) { return func_021F2404(p->f20); }
+int func_021A1474(Field3dbgWork *p) { return func_021F2404(p->f20); }
 
 
 
@@ -411,12 +409,12 @@ void func_021A14A0(u32 *p)
 
 
 
-int func_021A14B4(Obj_021A14B4 *p) { return func_021F0174(p->f20); }
+int func_021A14B4(Field3dbgWork *p) { return func_021F0174(p->f20); }
 
 
 
 
-int func_021A14C0(Obj_021A14C0 *p) { return func_021F05A4(p->f20); }
+int func_021A14C0(Field3dbgWork *p) { return func_021F05A4(p->f20); }
 
 
 
@@ -546,7 +544,7 @@ void func_021A1560(u32 *p)
 }
 
 
-int func_021A1584(Obj_021A1584 *p) { return func_021EFF3C(p->f20); }
+int func_021A1584(Field3dbgWork *p) { return func_021EFF3C(p->f20); }
 
 
 

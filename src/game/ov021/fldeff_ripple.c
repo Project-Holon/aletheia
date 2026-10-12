@@ -174,11 +174,9 @@ typedef struct { E e[12]; } T_021C3A7C;
 
 typedef struct { u32 v[6]; } T6;
 
-typedef struct { u32 v[6]; } T_021C3F60;
 
 typedef struct { u16 x, y; } P_021C3670;
 
-typedef struct { u32 v[4]; } T;
 
 typedef unsigned long long u64;
 
@@ -346,10 +344,10 @@ void func_021C484C(u32 a, int b, int c, s32_021C484C d);
 extern const T4 d_021DA8D8;
 extern T_021C3A7C d_021DA960;
 extern const T6 d_021DA930;
-extern T_021C3F60 d_021DA918;
-extern T d_021DA908;
+extern T6 d_021DA918;
+extern T4 d_021DA908;
 extern const T4 d_021DA8F8;
-extern T d_021DA8E8;
+extern T4 d_021DA8E8;
 extern void *g_020A7370;
 extern const T6 d_021DA948;
 extern unsigned char abs_id_3f[];
@@ -1100,7 +1098,7 @@ void func_021C3F60(int a, u32 *p)
 
 void func_021C3FC0(u32 *a, u32 *b)
 {
-    T_021C3F60 t = d_021DA918;
+    T6 t = d_021DA918;
     u32 *pt = t.v;
     int i;
 
@@ -1224,7 +1222,7 @@ test:
  */
 void func_021C40F8(u32 *p, u32 *q, u32 heap)
 {
-    T t = d_021DA908;
+    T4 t = d_021DA908;
     u32 *pt = t.v;
     u16 *buf = func_02048F60(0x7b, q[0], heap);
     int n = buf[0];
@@ -1311,7 +1309,7 @@ test:
 
 void func_021C4238(u32 *a, u32 *b, u32 *c)
 {
-    T t = d_021DA8E8;
+    T4 t = d_021DA8E8;
     int i;
 
     for (i = 0; i < 4; i++) {

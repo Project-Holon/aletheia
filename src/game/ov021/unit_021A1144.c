@@ -372,12 +372,8 @@ void func_021A1404(HidObj_021A1404 *w, int b)
 }
 
 void func_0217D3AC(int id);
-typedef struct HidObj_021A1410 {
-    int f0[8];
-    int f20;
-} HidObj_021A1410;
 
-void func_021A1410(HidObj_021A1410 *w)
+void func_021A1410(HidObj_021A13F8 *w)
 {
     func_0217D3AC(w->f20);
 }

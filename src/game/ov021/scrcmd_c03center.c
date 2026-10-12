@@ -455,7 +455,7 @@ int func_021B5A18(void *a, void *b)
     }
     p->f8 = 0;
     p->fc = n;
-    func_02030DA8(task, (void (*)())func_021B5B0C, p, 0);
+    func_02030DA8(task, func_021B5B0C, p, 0);
     return 0;
 }
 

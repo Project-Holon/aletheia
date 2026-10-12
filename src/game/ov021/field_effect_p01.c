@@ -334,7 +334,6 @@
 
 struct Actor;
 struct PtS;
-struct Obj_021A87A8;
 struct BgTemplate;
 struct BigObj;
 struct MsgBank;
@@ -344,7 +343,6 @@ struct Sub0200852CObj;
 struct U16Vec;
 struct Src;
 struct W_021A8E78;
-struct Obj_021A8E78;
 struct Vec2;
 struct Cfg;
 struct CharBuf;
@@ -405,43 +403,12 @@ typedef struct {
     int pad18;
 } E_021A87A8;
 
-typedef struct {
-    char pad0[0x2c];
-    int f2c;
-    char pad30[0x8];
-    E_021A87A8 e[7];
-    s16 hfc;
-    char pad2[0x120 - 0xfe];
-    int f120;
-    int f124;
-} S_021A87A8;
 
 typedef unsigned short u16;
 
-typedef struct {
-    char pad[0xfc];
-    short hfc;
-    short pad2;
-    int f100;
-} S_021A8840;
 
 typedef unsigned int u32;
 
-typedef struct Obj_021A87A8 {
-    u16 f00;
-    u16 f02;
-    u8 pad04[0x104 - 0x04];
-    u32 f104;
-    u32 f108;
-    u32 f10C;
-    u32 f110;
-    u32 f114;
-    u32 f118;
-    u32 f11C;
-    u32 f120;
-    u32 f124;
-    u32 f128;
-} Obj_021A87A8;
 
 typedef struct Pos_021A87A8 {
     s16 x;
@@ -469,27 +436,6 @@ typedef struct Item {
     void *f18;
 } Item;
 
-typedef struct Obj_021A8AFC {
-    u16 f00;
-    u16 f02;
-    void *f04;
-    void *f08;
-    int f0C;
-    u32 f10;
-    u32 f14;
-    void *f18;
-    u16 f1C;
-    u8 f1E;
-    u8 f1F;
-    u8 f20;
-    u8 f21;
-    u8 pad22[2];
-    int f24;
-    int f28;
-    int f2C;
-    int f30;
-    Item items[7];
-} Obj_021A8AFC;
 
 typedef struct Name {
     u16 s[7];
@@ -532,22 +478,8 @@ typedef struct {
     s16 y;
 } P_021A8D40;
 
-typedef struct {
-    char pad0[0xfc];
-    s16 hfc;
-    char pad2[0x120 - 0xfe];
-    int f120;
-} S_021A8DD8;
 
-typedef struct {
-    int pad[2];
-    int f8;
-} T_021A8E10;
 
-typedef struct {
-    char pad[0xf8];
-    T_021A8E10 *pf8;
-} S_021A8E10;
 
 struct Slot {
     u32 f00;
@@ -588,20 +520,6 @@ typedef struct Item_021A8E78 {
     void *f18;
 } Item_021A8E78;
 
-typedef struct Obj_021A8E78 {
-    u8 pad00[0x1E];
-    u8 f1E;
-    u8 f1F;
-    u8 pad20[0x24 - 0x20];
-    int f24;
-    int f28;
-    int f2C;
-    u8 pad30[0x34 - 0x30];
-    Item_021A8E78 items[7];
-    int fF8;
-    u8 padFC[0x124 - 0xFC];
-    u32 f124;
-} Obj_021A8E78;
 
 struct W_021A8FFC {
     u8 pad00[0x1E];
@@ -627,12 +545,6 @@ typedef struct {
     s16 y;
 } P_021A9080;
 
-typedef struct {
-    char pad0[0x124];
-    int f124;
-    int pad128[3];
-    int f134;
-} S_021A9080;
 
 typedef struct {
     int pad0;
@@ -640,22 +552,6 @@ typedef struct {
     int pad8[5];
 } E_021A8E78;
 
-typedef struct {
-    int pad0[3];
-    int fc;
-    int pad10[3];
-    char pad1c[2];
-    u8 b1e;
-    u8 b1f;
-    int pad20[2];
-    int f28;
-    int pad2c;
-    int f30;
-    int pad34;
-    E_021A8E78 e[7];
-    char padfc[0x128 - 0xfc];
-    int f128;
-} S_021A90A4;
 
 struct W {
     u8 pad00[0x1E];
@@ -672,7 +568,7 @@ struct W {
     void *f124;
 };
 
-typedef struct Item_021A90E0 {
+typedef struct FieldEffectWork6 {
     int f00;
     int f04;
     int f08;
@@ -680,9 +576,17 @@ typedef struct Item_021A90E0 {
     u32 f10;
     u8 f14;
     u8 f15;
-    u8 pad16[2];
+    u8 pad16[0x18 - 0x16];
     u32 f18;
-} Item_021A90E0;
+    u8 pad1C[0x38 - 0x1C];
+    u16 h38;
+    u16 h3a;
+    u8 pad3C[0x5B4 - 0x3C];
+    int f5b4;
+    u16 f5B8;
+    u8 pad5BA[0x5BC - 0x5BA];
+    u16 h5bc;
+} FieldEffectWork6;
 
 typedef struct Src {
     int f00;
@@ -700,17 +604,6 @@ typedef struct Src {
     u32 f1C;
 } Src;
 
-typedef struct Obj_021A90E0 {
-    u16 f00;
-    u16 f02;
-    void *f04;
-    u8 pad08[0x104 - 0x08];
-    u32 f104;
-    u8 pad108[0x11C - 0x108];
-    u32 f11C;
-    u8 pad120[0x12C - 0x120];
-    u32 f12C;
-} Obj_021A90E0;
 
 typedef struct Hdr {
     u16 f00;
@@ -726,20 +619,7 @@ typedef struct Hdr {
     u16 f16;
 } Hdr;
 
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fc;
-    int f10;
-    int f14;
-    int f18;
-} S_021A926C;
 
-typedef struct {
-    int f0;
-    int f4;
-} S_021A9294;
 
 struct Scr {
     u8 pad00[0xC];
@@ -980,11 +860,25 @@ typedef struct {
     u8 b[0x2c];
 } Buf;
 
-typedef struct {
+typedef struct FieldEffectWork2 {
     int f0;
     int f4;
     int f8;
-} S_021AA0A0;
+    u8 pad0C[0x1E - 0xC];
+    u8 f1E;
+    u8 f1F;
+    u8 pad20[0x24 - 0x20];
+    int f24;
+    int f28;
+    int f2C;
+    u8 pad30[0x34 - 0x30];
+    Item_021A8E78 f34[7];
+    int fF8;
+    s16 hfc;
+    u8 padFE[0x120 - 0xFE];
+    int f120;
+    u32 f124;
+} FieldEffectWork2;
 
 struct Sel_021AA180 {
     u8 pad00[0x15];
@@ -1094,10 +988,6 @@ struct Ctx_021AA7DC {
     struct Enc_021A87A8 *f10;
 };
 
-typedef struct Self_021AA900 {
-    char pad00[8];
-    void *obj;
-} Self_021AA900;
 
 typedef struct Vec3s {
     short x, y, z;
@@ -1151,17 +1041,45 @@ typedef struct {
     Sub_021AAABC sub;
 } T_021AAABC;
 
-typedef struct {
-    char pad[0x5b4];
+typedef struct FieldEffectWork {
+    u16 f00;
+    u16 f02;
+    void *f04;
+    void *f08;
+    int f0C;
+    u32 f10;
+    u32 f14;
+    void *f18;
+    u16 f1C;
+    u8 f1E;
+    u8 f1F;
+    u8 f20;
+    u8 f21;
+    u8 pad22[0x24 - 0x22];
+    int f24;
+    int f28;
+    int f2C;
+    int f30;
+    Item f34[7];
+    FieldEffectWork2 *fF8;
+    short hfc;
+    u8 padFE[0x100 - 0xFE];
+    int f100;
+    u32 f104;
+    u32 f108;
+    u32 f10C;
+    u32 f110;
+    u32 f114;
+    u32 f118;
+    u32 f11C;
+    u32 f120;
+    u32 f124;
+    u32 f128;
+    u32 f12C;
+    u8 pad130[0x5B4 - 0x130];
     int f5b4;
-} D_021AAABC;
+} FieldEffectWork;
 
-typedef struct {
-    int pad[2];
-    int f8;
-    int fc;
-    D_021AAABC *f10;
-} S_021AAABC;
 
 typedef struct {
     u8 pad[0x1d];
@@ -1187,15 +1105,7 @@ typedef struct Ent_021AAB74 {
     unsigned char f6 : 2;
 } Ent_021AAB74;
 
-typedef struct {
-    char pad[0x5b8];
-    u16 a;
-} D_021AAB74;
 
-typedef struct {
-    int pad[3];
-    u32 fc;
-} S_021AAB74;
 
 struct Ctx {
     void *f00;
@@ -1308,22 +1218,9 @@ typedef struct {
     Sub_021AAEC0 sub;
 } T_021AAABCx;
 
-typedef struct {
-    int pad[2];
-    int f8;
-} S_021AAEC0;
 
 typedef struct D_021AAFA0 D_021AAFA0;
 
-typedef struct {
-    u16 h0;
-    u16 h2;
-    u16 h4;
-    u16 h6;
-    int f8;
-    u8 bc;
-    u8 pad[3];
-} R_021AAFC0;
 
 typedef struct {
     int f0;
@@ -1331,41 +1228,18 @@ typedef struct {
     int f5b4;
 } D_021AAFC0;
 
-typedef struct {
-    char pad[0x5b4];
-    int f5b4;
-} D_021AAFFC;
 
-typedef struct {
-    char pad[0x5bc];
-    u16 h5bc;
-} D_021AB070;
 
 typedef struct {
     u32 f0;
     void *f4;
     int pad[2];
-    D_021AB070 *f10;
+    FieldEffectWork6 *f10;
 } S_021AAFFC;
 
 typedef int BOOL;
 
-typedef struct {
-    int f0;
-    int f4;
-    int pad8[3];
-    int f14;
-    int f18;
-    int pad1c;
-} S_021AB4B8;
 
-typedef struct {
-    int pad[2];
-    int f8;
-    int fc;
-    int f10;
-    int f14;
-} S_021AB634;
 
 struct Rec {
     u8 pad00[0x40];
@@ -1418,24 +1292,28 @@ typedef struct {
     int z;
 } V;
 
-typedef struct {
-    int pad[9];
-    V f24;
-    V f30;
-} S_021AB908;
 
 typedef long long s64;
 
-typedef struct {
-    int pad[7];
+typedef struct FieldEffectWork4 {
+    u16 h0;
+    u16 h2;
+    u16 h4;
+    u16 h6;
+    int f8;
+    u8 bc;
+    u8 pad0D[0x1C - 0xD];
     int f1c;
-} S_021ABB54;
+    u8 pad20[0x2C - 0x20];
+    int f2c;
+    u8 pad30[0x38 - 0x30];
+    E_021A87A8 f38[7];
+    s16 hfc;
+    u8 padFE[0x120 - 0xFE];
+    int f120;
+    int f124;
+} FieldEffectWork4;
 
-typedef struct {
-    char pad[0x38];
-    u16 h38;
-    u16 h3a;
-} S_021ABD08;
 
 typedef struct {
     int f0;
@@ -1504,10 +1382,6 @@ typedef struct {
     void (*f8)(T *t, int v);
 } D_021ABE30;
 
-typedef struct {
-    int f0;
-    int f4;
-} E_021ABF48;
 
 typedef struct T_021ABF48 T_021ABF48;
 
@@ -1516,56 +1390,27 @@ struct T_021ABF48 {
     u16 h4;
     u16 pad6;
     int pad8[2];
-    E_021ABF48 *f10;
+    FieldEffectWork6 *f10;
 };
 
-typedef struct {
-    int f0;
-    u16 h4;
-    u16 pad6;
-    int pad8[3];
-    u16 h14;
-    u16 pad16;
-    void *f18;
-    int f1c;
-    int f20;
-} T_021ABF68;
 
-typedef struct {
-    int f0;
-    u16 h4;
-    u16 pad6;
-    int pad8[3];
-    u16 h14;
-    u16 pad16;
-    void *f18;
-    int f1c;
-    int f20;
-} T_021ABFA8;
 
-typedef struct {
-    int f0;
-    u16 h4;
-    u16 pad6;
-    int pad8[3];
-    u16 h14;
-    u16 pad16;
-    void *f18;
-    int f1c;
-    int f20;
-} T_021ABFC0;
 
-typedef struct {
+typedef struct FieldEffectWork5 {
     int f0;
     u16 h4;
-    u16 pad6;
-    int pad8[3];
+    u8 pad06[0x8 - 0x6];
+    int f8;
+    int fc;
+    FieldEffectWork *f10;
     u16 h14;
-    u16 pad16;
+    u8 pad16[0x18 - 0x16];
     void *f18;
     int f1c;
     int f20;
-} T_021ABFDC;
+    V f24;
+    V f30;
+} FieldEffectWork5;
 
 typedef struct {
     int f0;
@@ -1639,7 +1484,30 @@ struct Obj_021AC154 {
 
 typedef struct Res { u8 pad[0x30]; u16 h30; u16 pad32; u32 f34; u32 f38; } Res;
 
-typedef struct X_021ABF48 { u8 pad[0x24]; u32 f24; } X_021ABF48;
+typedef struct FieldEffectWork3 {
+    int f0;
+    int f4;
+    int f8;
+    int fc;
+    int f10;
+    int f14;
+    int f18;
+    u8 pad1C[0x1E - 0x1C];
+    u8 b1e;
+    u8 b1f;
+    u8 pad20[0x24 - 0x20];
+    u32 f24;
+    int f28;
+    u8 pad2C[0x30 - 0x2C];
+    int f30;
+    u8 pad34[0x38 - 0x34];
+    E_021A8E78 f38[7];
+    u8 padFC[0x124 - 0xFC];
+    int f124;
+    int f128;
+    u8 pad12C[0x134 - 0x12C];
+    int f134;
+} FieldEffectWork3;
 
 typedef struct Tmpl { u32 res; u8 b4, b5, b6, b7; u32 w8; } Tmpl;
 
@@ -1709,7 +1577,7 @@ typedef struct Arg_021AC760 {
 
 extern void func_0204B09C(int a, int b, P_021A87A8 *c);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B3DC(struct Obj_021A87A8 *h, unsigned int v);
+extern void func_0204B3DC(FieldEffectWork *h, unsigned int v);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -1731,11 +1599,11 @@ extern u32 func_02027620(u32);
 extern void func_02049238(void *h);
 extern void func_020409B4(u32 layer);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern struct Obj_021A87A8 *func_0204B034(u8 *a0, u32 a1, u32 heap);
+extern FieldEffectWork *func_0204B034(u8 *a0, u32 a1, u32 heap);
 extern void func_0204B258(struct Bank *bank, void *p);
-extern struct Obj_021A87A8 *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern FieldEffectWork *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B954(struct Actor *a, u32 v);
-extern void func_0204B92C(struct Obj_021A87A8 *, u32);
+extern void func_0204B92C(FieldEffectWork *, u32);
 extern void func_0204B84C(u32, int);
 extern u32 func_02013CC8(u32 id);
 extern u32 func_02013CE0(u16 v);
@@ -1758,8 +1626,8 @@ extern unsigned int func_0203633C(void);
 extern void func_020061E4(u32 se);
 extern void func_020355D8(u8 v);
 extern int func_02035C08(const void *p);
-extern void func_0204B404(struct Obj_021A8E78 *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B878(struct Obj_021A8E78 *p, u16 value);
+extern void func_0204B404(FieldEffectWork2 *p, const struct Vec2 *delta, u32 which);
+extern void func_0204B878(FieldEffectWork2 *p, u16 value);
 extern u32 func_02188C54(u8 *p);
 extern u32 func_021904AC(u8 *p);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -1767,9 +1635,9 @@ extern void func_02045374(struct Cfg *cfg);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern struct Obj_021A90E0 *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
+extern FieldEffectWork *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 extern unsigned int func_020452E8(struct Descriptor *d);
-extern void func_0204B3B4(struct Obj_021A90E0 *p);
+extern void func_0204B3B4(FieldEffectWork *p);
 extern void func_0204AFD8(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_02045334(struct Descriptor *a);
@@ -1956,27 +1824,27 @@ extern void func_02164280(int x, int y, int *p);
 extern u32 func_0216D8AC(void *p);
 extern int func_0216D55C(int a0, int a1);
 extern void func_02163E58(u32 a, V3 *v, int *out);
-void func_021A87A8(S_021A87A8 *s);
-void func_021A8840(S_021A8840 *s);
-void func_021A8874(Obj_021A87A8 *p, void *q, int r, u32 unused);
+void func_021A87A8(FieldEffectWork4 *s);
+void func_021A8840(FieldEffectWork *s);
+void func_021A8874(FieldEffectWork *p, void *q, int r, u32 unused);
 void func_021A8AFC(int a, int b);
 u32 func_021A8B18(void *a, void *b, u32 c);
 int func_021A8B84(int idx);
-void func_021A8BB8(Obj_021A8AFC *p, void *q, int r);
+void func_021A8BB8(FieldEffectWork *p, void *q, int r);
 void func_021A8D40(void *unused, struct W_021A8D40 *w);
-void func_021A8DD8(S_021A8DD8 *s);
-int func_021A8E10(S_021A8E10 *s);
+void func_021A8DD8(FieldEffectWork2 *s);
+int func_021A8E10(FieldEffectWork *s);
 void func_021A8E20(struct W_021A8E20 *w, u32 v);
 int func_021A8E78(u32 a, u32 b);
 u32 func_021A8E80(struct W_021A8E78 *w, u32 dir);
-void func_021A8EEC(Obj_021A8E78 *p);
+void func_021A8EEC(FieldEffectWork2 *p);
 void func_021A8FFC(struct W_021A8FFC *w);
-void func_021A9080(S_021A9080 *s, s16 x, s16 y);
-void func_021A90A4(S_021A90A4 *s, int m);
+void func_021A9080(FieldEffectWork3 *s, s16 x, s16 y);
+void func_021A90A4(FieldEffectWork3 *s, int m);
 void func_021A90E0(struct W *w);
-void func_021A9154(Obj_021A90E0 *p, Item_021A90E0 *it, const Src *s);
-void func_021A926C(int a, S_021A926C *s);
-void func_021A9294(int a, S_021A9294 *s);
+void func_021A9154(FieldEffectWork *p, FieldEffectWork6 *it, const Src *s);
+void func_021A926C(int a, FieldEffectWork3 *s);
+void func_021A9294(int a, FieldEffectWork2 *s);
 void func_021A92A4(u32 a, u32 b);
 void func_021A9350(struct Sel_021A8E78 *s, void *a, int b, int c, u16 d);
 u32 func_021A94B0(struct Obj *o, u32 unused, u32 n);
@@ -2006,7 +1874,7 @@ u32 func_021A9EC4(u32 a);
 u32 *func_021A9ED8(u32 a);
 int func_021A9F28(void *a, u32 b, u32 c, u32 d);
 int func_021A9F40(struct Ctx_021A87A8 *ctx, int mode);
-void func_021AA0A0(S_021AA0A0 *s, u16 a, u8 b, u32 flags);
+void func_021AA0A0(FieldEffectWork2 *s, u16 a, u8 b, u32 flags);
 struct Obj *func_021AA180(struct Ctx_021A87A8 *ctx, int mode);
 int func_021AA248(struct Ctx_021AA248 *ctx, void *b);
 void func_021AA304(struct Info_021A87A8 *out, void *a1, void *a2);
@@ -2030,25 +1898,25 @@ void func_021AA7DC(S_021AA7AC *s, D_021AA7AC *d);
 void func_021AA80C(struct Ctx_021AA7DC *ctx);
 void func_021AA8EC(u8 *p);
 void func_021AA8F8(struct Self *a0);
-int func_021AA900(Self_021AA900 *self, short *pos);
+int func_021AA900(FieldEffectWork *self, short *pos);
 int func_021AA944(Self_021AA944 *self);
 int func_021AAA4C(Self *self, short *out);
-void func_021AAABC(S_021AAABC *s);
-void func_021AAAF0(S_021AAABC *s, int b);
-void func_021AAB1C(S_021AAABC *s, int b);
+void func_021AAABC(FieldEffectWork5 *s);
+void func_021AAAF0(FieldEffectWork5 *s, int b);
+void func_021AAB1C(FieldEffectWork5 *s, int b);
 u16 func_021AAB48(char *p);
-void func_021AAB54(S_021AAABC *s);
+void func_021AAB54(FieldEffectWork5 *s);
 void func_021AAB74(Self *self, int a);
-int func_021AABC4(S_021AAB74 *s, D_021AAB74 *d);
+int func_021AABC4(FieldEffectWork6 *s, FieldEffectWork6 *d);
 void func_021AABEC(u8 *p);
 void func_021AABF4(struct Ctx *ctx, void *unused, struct Area *a);
 void func_021AACD4(void **ctx, struct Enc_021AACD4 *e);
-void func_021AAE34(S_021AA0A0 *s, R_021AAE34 *r);
+void func_021AAE34(FieldEffectWork2 *s, R_021AAE34 *r);
 int func_021AAEC0(Self_021AAEC0 *self, s16 x, s16 y2, s16 z, int skip);
 int func_021AAF54(Self_021AAF54 *self);
-void func_021AAFA0(S_021AAEC0 *s, D_021AAFA0 *d);
-void func_021AAFC0(int a, D_021AAFC0 *d, R_021AAFC0 *r);
-void func_021AAFFC(D_021AAFFC *d);
+void func_021AAFA0(FieldEffectWork6 *s, D_021AAFA0 *d);
+void func_021AAFC0(int a, D_021AAFC0 *d, FieldEffectWork4 *r);
+void func_021AAFFC(FieldEffectWork6 *d);
 unsigned short func_021AB018(void);
 u16 func_021AB070(void);
 int func_021AB0AC(S_021AAFFC *s, u16 v);
@@ -2120,10 +1988,10 @@ BOOL sub_021AB4F8(u16 id);
 int func_021AB504(u32 attr);
 u8 func_021AB580(u16 x);
 int func_021AB5AC(unsigned long a, unsigned long b);
-S_021AB4B8 *func_021AB5F4(int heap, int a, int b);
+FieldEffectWork3 *func_021AB5F4(int heap, int a, int b);
 void func_021AB624(u8 *p);
-void func_021AB634(S_021AB634 *s, int a, int b, int c);
-void func_021AB650(S_021AB634 *s);
+void func_021AB634(FieldEffectWork3 *s, int a, int b, int c);
+void func_021AB650(FieldEffectWork3 *s);
 int func_021AB660(struct Obj_021AB660 *o, void *arg);
 void func_021AB75C(u8 *p, u32 v);
 u32 func_021AB760(u8 *p);
@@ -2141,17 +2009,17 @@ u32 func_021AB884(u8 *p);
 void *func_021AB888(void);
 int func_021AB890(void *self, const Range *r, V3 *ref);
 void func_021AB908(u32 a0, const u8 *p, const V3 *q);
-void func_021AB9FC(int a, const S_021AB908 *s);
+void func_021AB9FC(int a, const FieldEffectWork5 *s);
 int func_021ABA3C(int a, const u16 *r, V *v);
 void func_021ABABC(int a0, const u16 *p, void *q);
-void func_021ABB54(int a, S_021ABB54 *s, int c);
-void func_021ABB78(int a, S_021ABB54 *s, int c);
+void func_021ABB54(int a, FieldEffectWork4 *s, int c);
+void func_021ABB78(int a, FieldEffectWork4 *s, int c);
 void func_021ABBA0(u16 *r, V *v, int *o1, int *o2);
 void func_021ABBF0(u8 *a, u32 b, u32 c, u32 d);
 void func_021ABC14(u8 *a, u32 b, u32 c, u32 d);
 void func_021ABC38(u8 *a, u32 b, u32 c, u32 d);
 void func_021ABC5C(u8 *a0, char *p, void *q);
-void func_021ABD08(unsigned char *a, const S_021ABD08 *s, int c);
+void func_021ABD08(unsigned char *a, const FieldEffectWork6 *s, int c);
 char *func_021ABD50(int a, int b, u16 c);
 int func_021ABDE8(void *a, u32 b, u32 c, u32 d);
 void func_021ABE04(u32 a);
@@ -2169,11 +2037,11 @@ void func_021ABEAC(T_021ABEA0 *t);
 void func_021ABEE8(O *o);
 E_021ABE30 *func_021ABF2C(T *t, int id);
 D_021ABF48 *func_021ABF48(int id);
-void func_021ABF68(T_021ABF68 *t, int n);
-void func_021ABFA8(T_021ABFA8 *t, int b, int c, int d, int e, int f);
-void func_021ABFC0(T_021ABFC0 *t);
-void func_021ABFDC(T_021ABFDC *t);
-void func_021ABFEC(T_021ABFDC *t);
+void func_021ABF68(FieldEffectWork5 *t, int n);
+void func_021ABFA8(FieldEffectWork5 *t, int b, int c, int d, int e, int f);
+void func_021ABFC0(FieldEffectWork5 *t);
+void func_021ABFDC(FieldEffectWork5 *t);
+void func_021ABFEC(FieldEffectWork5 *t);
 char *func_021ABFFC(u16 heap, int b, int cnt);
 void func_021AC03C(U *u);
 void func_021AC074(Mgr_021AC074 *m);
@@ -2189,7 +2057,7 @@ void func_021AC1B8(Obj_021AC154 *o, V3 *out);
 void func_021AC1CC(Obj_021AC154 *o, V3 *in);
 int func_021AC1E0(u32 a);
 void func_021AC1EC(u32 *p, u32 v);
-void func_021AC1F0(X_021ABF48 *x, void *b);
+void func_021AC1F0(FieldEffectWork3 *x, void *b);
 char *func_021AC218(int a, int heap);
 void func_021AC260(u32 a, u8 *p);
 void func_021AC274(Ctl *p);
@@ -2272,7 +2140,7 @@ extern u8 d_021D90EC[];
 
 
 
-void func_021A87A8(S_021A87A8 *s)
+void func_021A87A8(FieldEffectWork4 *s)
 {
     P_021A87A8 v;
     P_021A87A8 p4;
@@ -2283,20 +2151,20 @@ void func_021A87A8(S_021A87A8 *s)
     v.y = -s->hfc;
     func_0204B09C(s->f120, 0, &v);
     for (i = 0; i < 7; i++) {
-        if (s->e[i].f10 != 0 && s->e[i].f0 != 7) {
-            func_0204B454((struct Actor *)s->e[i].f10, (struct PtS *)&p4, 0);
+        if (s->f38[i].f10 != 0 && s->f38[i].f0 != 7) {
+            func_0204B454((struct Actor *)s->f38[i].f10, (struct PtS *)&p4, 0);
             if (p4.y < 0xd0) {
-                func_0204B3DC((struct Obj_021A87A8 *)s->e[i].f10, 1);
+                func_0204B3DC((FieldEffectWork *)s->f38[i].f10, 1);
             } else {
-                func_0204B3DC((struct Obj_021A87A8 *)s->e[i].f10, 0);
+                func_0204B3DC((FieldEffectWork *)s->f38[i].f10, 0);
             }
         }
     }
     func_0204B454((struct Actor *)s->f124, (struct PtS *)&p0, 0);
     if (s->f2c != 0 && p0.y < 0xd6) {
-        func_0204B3DC((struct Obj_021A87A8 *)s->f124, 1);
+        func_0204B3DC((FieldEffectWork *)s->f124, 1);
     } else {
-        func_0204B3DC((struct Obj_021A87A8 *)s->f124, 0);
+        func_0204B3DC((FieldEffectWork *)s->f124, 0);
     }
 }
 
@@ -2318,7 +2186,7 @@ void func_021A87A8(S_021A87A8 *s)
 
 
 
-void func_021A8840(S_021A8840 *s)
+void func_021A8840(FieldEffectWork *s)
 {
     if (s->f100 == 1) {
         func_02041EE4(5, 3, -s->hfc);
@@ -2345,7 +2213,7 @@ void func_021A8840(S_021A8840 *s)
 
 
 
-void func_021A8874(Obj_021A87A8 *p, void *q, int r, u32 unused)
+void func_021A8874(FieldEffectWork *p, void *q, int r, u32 unused)
 {
     void *h;
     u32 t;
@@ -2388,14 +2256,14 @@ void func_021A8874(Obj_021A87A8 *p, void *q, int r, u32 unused)
     pos.b = 0;
     p->f124 = (u32)func_0204B294((void *)p->f11C, p->f108, p->f104, p->f10C, &pos, 0, p->f00);
     func_0204B954((struct Actor *)p->f124, 0x1000);
-    func_0204B92C((struct Obj_021A87A8 *)p->f124, 1);
+    func_0204B92C((FieldEffectWork *)p->f124, 1);
     func_0204B84C(p->f124, 2);
     pos.x = 0xE0;
     pos.y = 0xA8;
     p->f128 = (u32)func_0204B294((void *)p->f11C, p->f114, p->f110, p->f118, &pos, 0, p->f00);
     func_0204B954((struct Actor *)p->f128, 0x1000);
-    func_0204B92C((struct Obj_021A87A8 *)p->f128, 1);
-    func_0204B3DC((struct Obj_021A87A8 *)p->f128, 1);
+    func_0204B92C((FieldEffectWork *)p->f128, 1);
+    func_0204B3DC((FieldEffectWork *)p->f128, 1);
     func_0204B954((struct Actor *)p->f128, 0x2000);
 }
 
@@ -2513,7 +2381,7 @@ int func_021A8B84(int idx)
 
 
 
-void func_021A8BB8(Obj_021A8AFC *p, void *q, int r)
+void func_021A8BB8(FieldEffectWork *p, void *q, int r)
 {
     void *h;
     u8 i;
@@ -2526,7 +2394,7 @@ void func_021A8BB8(Obj_021A8AFC *p, void *q, int r)
 
     h = func_02045B38(0, 2, 0x22, p->f02);
     for (i = 0; i < 7; i++) {
-        p->items[i].f00 = 0;
+        p->f34[i].f00 = 0;
     }
     j = 0;
     row = d_021D8D24[r];
@@ -2576,7 +2444,7 @@ void func_021A8BB8(Obj_021A8AFC *p, void *q, int r)
         }
         st.b6 = d_021D8B18[j].x;
         st.b7 = d_021D8B18[j].y;
-        func_021A9154((Obj_021A90E0 *)p, (Item_021A90E0 *)(&p->items[j]), (const Src *)((const struct Src *)(&st)));
+        func_021A9154((FieldEffectWork *)p, (FieldEffectWork6 *)(&p->f34[j]), (const Src *)((const struct Src *)(&st)));
         func_02045808(st.s);
     }
     func_02045C04(h);
@@ -2629,7 +2497,7 @@ void func_021A8D40(void *unused, struct W_021A8D40 *w)
 
 
 
-void func_021A8DD8(S_021A8DD8 *s)
+void func_021A8DD8(FieldEffectWork2 *s)
 {
     P_021A8D40 v;
     s->hfc = 0xc0;
@@ -2657,9 +2525,9 @@ void func_021A8DD8(S_021A8DD8 *s)
 
 
 
-int func_021A8E10(S_021A8E10 *s)
+int func_021A8E10(FieldEffectWork *s)
 {
-    T_021A8E10 *p = s->pf8;
+    FieldEffectWork2 *p = s->fF8;
     if (p == 0) {
         return 0;
     }
@@ -2693,7 +2561,7 @@ void func_021A8E20(struct W_021A8E20 *w, u32 v)
             w->f1E = i % 2;
             w->f1F = i / 2;
             w->f24 = 1;
-            func_021A9080((S_021A9080 *)w, s[w->f1E + w->f1F * 2].f14, s[w->f1E + w->f1F * 2].f15);
+            func_021A9080((FieldEffectWork3 *)w, s[w->f1E + w->f1F * 2].f14, s[w->f1E + w->f1F * 2].f15);
         }
     }
 }
@@ -2802,7 +2670,7 @@ u32 func_021A8E80(struct W_021A8E78 *w, u32 dir)
 
 
 
-void func_021A8EEC(Obj_021A8E78 *p)
+void func_021A8EEC(FieldEffectWork2 *p)
 {
     u32 trg;
     u32 rep;
@@ -2818,7 +2686,7 @@ void func_021A8EEC(Obj_021A8E78 *p)
         p->f2C = 1;
         p->fF8 = 0;
         p->f24 = 1;
-        func_0204B3DC((struct Obj_021A87A8 *)((struct Obj_021A8E78 *)p->f124), 1);
+        func_0204B3DC((FieldEffectWork *)((FieldEffectWork2 *)p->f124), 1);
         return;
     }
     if (rep & 0x40) {
@@ -2844,7 +2712,7 @@ void func_021A8EEC(Obj_021A8E78 *p)
     } else if ((trg & 2) || (trg & 0x400)) {
         func_021A90A4((void *)p, 1);
     } else if (trg & 1) {
-        if (p->items[func_021A8E78(p->f1E, p->f1F)].f08 != 7) {
+        if (p->f34[func_021A8E78(p->f1E, p->f1F)].f08 != 7) {
             func_021A90A4((void *)p, 0);
             func_020355D8(0);
         }
@@ -2883,7 +2751,7 @@ void func_021A8FFC(struct W_021A8FFC *w)
         w->f1F = r / 2;
         z = 0;
         w->f2C = z;
-        func_0204B3DC((struct Obj_021A87A8 *)w->f124, 0);
+        func_0204B3DC((FieldEffectWork *)w->f124, 0);
         if (r == 6) {
             func_021A90A4((void *)w, 1);
             return;
@@ -2915,12 +2783,12 @@ void func_021A8FFC(struct W_021A8FFC *w)
 
 
 
-void func_021A9080(S_021A9080 *s, s16 x, s16 y)
+void func_021A9080(FieldEffectWork3 *s, s16 x, s16 y)
 {
     P_021A9080 v;
     v.x = x;
     v.y = y;
-    func_0204B404((struct Obj_021A8E78 *)s->f124, (const struct Vec2 *)(&v), 0);
+    func_0204B404((FieldEffectWork2 *)s->f124, (const struct Vec2 *)(&v), 0);
     s->f134 = 0;
 }
 
@@ -2945,16 +2813,16 @@ void func_021A9080(S_021A9080 *s, s16 x, s16 y)
 
 
 
-void func_021A90A4(S_021A90A4 *s, int m)
+void func_021A90A4(FieldEffectWork3 *s, int m)
 {
     if (m == 1) {
         s->f28 = 1;
         s->fc = 4;
-        func_0204B878((struct Obj_021A8E78 *)s->f128, 8);
+        func_0204B878((FieldEffectWork2 *)s->f128, 8);
     } else {
         s->f28 = 0;
         s->fc = 5;
-        s->f30 = s->e[func_021A8E78(s->b1e, s->b1f)].f0;
+        s->f30 = s->f38[func_021A8E78(s->b1e, s->b1f)].f0;
     }
 }
 
@@ -3019,7 +2887,7 @@ void func_021A90E0(struct W *w)
 
 
 
-void func_021A9154(Obj_021A90E0 *p, Item_021A90E0 *it, const Src *s)
+void func_021A9154(FieldEffectWork *p, FieldEffectWork6 *it, const Src *s)
 {
     Hdr h;
     u32 k;
@@ -3049,12 +2917,12 @@ void func_021A9154(Obj_021A90E0 *p, Item_021A90E0 *it, const Src *s)
         h.f16 = 2;
         it->f18 = (u32)func_0204B324(p->f11C, it->f0C, p->f104, it->f10, (u32)(&h), 0, p->f00);
         func_0204B954((struct Actor *)it->f18, 0x1000);
-        func_0204B92C((struct Obj_021A87A8 *)((struct Obj_021A90E0 *)it->f18), 1);
-        func_0204B878((void *)((struct Obj_021A90E0 *)it->f18), 0);
+        func_0204B92C((FieldEffectWork *)((FieldEffectWork *)it->f18), 1);
+        func_0204B878((void *)((FieldEffectWork *)it->f18), 0);
         if (it->f08 == 7)
-            func_0204B3DC((struct Obj_021A87A8 *)((void *)((struct Obj_021A90E0 *)it->f18)), 0);
+            func_0204B3DC((FieldEffectWork *)((void *)((FieldEffectWork *)it->f18)), 0);
         else
-            func_0204B3DC((struct Obj_021A87A8 *)((void *)((struct Obj_021A90E0 *)it->f18)), 1);
+            func_0204B3DC((FieldEffectWork *)((void *)((FieldEffectWork *)it->f18)), 1);
     } else {
         it->f18 = 0;
     }
@@ -3081,12 +2949,12 @@ void func_021A9154(Obj_021A90E0 *p, Item_021A90E0 *it, const Src *s)
 
 
 
-void func_021A926C(int a, S_021A926C *s)
+void func_021A926C(int a, FieldEffectWork3 *s)
 {
     if (s->f0 == 1) {
         func_020452E8((struct Descriptor *)s->f4);
         if (s->f18 != 0) {
-            func_0204B3B4((struct Obj_021A90E0 *)s->f18);
+            func_0204B3B4((FieldEffectWork *)s->f18);
             func_0204AFD8(s->f10);
             func_0204A8D4(s->fc);
         }
@@ -3114,7 +2982,7 @@ void func_021A926C(int a, S_021A926C *s)
 
 
 
-void func_021A9294(int a, S_021A9294 *s)
+void func_021A9294(int a, FieldEffectWork2 *s)
 {
     if (s->f0 == 1) {
         func_02045334((struct Descriptor *)s->f4);
@@ -4392,7 +4260,7 @@ int func_021A9F40(struct Ctx_021A87A8 *ctx, int mode)
 
 
 
-void func_021AA0A0(S_021AA0A0 *s, u16 a, u8 b, u32 flags)
+void func_021AA0A0(FieldEffectWork2 *s, u16 a, u8 b, u32 flags)
 {
     Opts opts;
     Buf buf;
@@ -5050,8 +4918,8 @@ func_021AAB74((Self *)a, b);
 
 void func_021AA7CC(u32 a, u32 b, u32 c, u32 d)
 {
-func_021AAB54((S_021AAABC *)a);
-func_021AAFFC((D_021AAFFC *)b);
+func_021AAB54((FieldEffectWork5 *)a);
+func_021AAFFC((FieldEffectWork6 *)b);
 }
 
 
@@ -5119,7 +4987,7 @@ void func_021AA80C(struct Ctx_021AA7DC *ctx)
         return;
     if (p->flags != 0)
         return;
-    if (func_021AABC4((S_021AAB74 *)p, (D_021AAB74 *)e) == 0)
+    if (func_021AABC4((FieldEffectWork6 *)p, (FieldEffectWork6 *)e) == 0)
         return;
     if (func_02005728(1000) >= e->f5BA * 10) {
         func_021AABEC((u8 *)p);
@@ -5127,7 +4995,7 @@ void func_021AA80C(struct Ctx_021AA7DC *ctx)
     }
     func_021AACD4((void **)ctx, (struct Enc_021AACD4 *)e);
     if (e->f04 != 0)
-        func_021AAE34((S_021AA0A0 *)((struct Ctx_021AA7DC *)ctx), (R_021AAE34 *)e);
+        func_021AAE34((FieldEffectWork2 *)((struct Ctx_021AA7DC *)ctx), (R_021AAE34 *)e);
 }
 
 
@@ -5151,7 +5019,7 @@ void func_021AA80C(struct Ctx_021AA7DC *ctx)
  */
 void func_021AA8EC(u8 *p)
 {
-    func_021AAFA0((S_021AAEC0 *)p, (D_021AAFA0 *)(((struct Obj18072 *)p)->f10));
+    func_021AAFA0((FieldEffectWork6 *)p, (D_021AAFA0 *)(((struct Obj18072 *)p)->f10));
 }
 
 
@@ -5195,9 +5063,9 @@ void func_021AA8F8(struct Self *a0)
  * True when the entry behind self->+8 is live (low nibble of +0x1D) and its
  * s16 triple at +0x12/+0x14/+0x16 equals pos[0]/pos[1]/pos[2].
  */
-int func_021AA900(Self_021AA900 *self, short *pos)
+int func_021AA900(FieldEffectWork *self, short *pos)
 {
-    Entry *e = (Entry *)func_02012A38(self->obj);
+    Entry *e = (Entry *)func_02012A38(self->f08);
 
     if (e->flags == 0)
         return 0;
@@ -5277,14 +5145,14 @@ int func_021AA944(Self_021AA944 *self)
         x = func_021A9F40((struct Ctx_021A87A8 *)((struct Ctx *)self), 1);
     }
     if (x == 0) {
-        func_021AAFA0((S_021AAEC0 *)((u8 *)self), (D_021AAFA0 *)((u32)arg));
+        func_021AAFA0((FieldEffectWork6 *)((u8 *)self), (D_021AAFA0 *)((u32)arg));
         return 0;
     }
     if (flag) {
-        func_021AAFA0((S_021AAEC0 *)((u8 *)self), (D_021AAFA0 *)((u32)arg));
+        func_021AAFA0((FieldEffectWork6 *)((u8 *)self), (D_021AAFA0 *)((u32)arg));
     } else {
         if (e->b == 5 || e->b == 6)
-            func_021AAB1C((S_021AAABC *)self, 1);
+            func_021AAB1C((FieldEffectWork5 *)self, 1);
         e->top = 1;
         o = func_02188CB4(self->ctx);
         if (func_021A3624(o))
@@ -5342,7 +5210,7 @@ int func_021AAA4C(Self *self, short *out)
 
 
 
-void func_021AAABC(S_021AAABC *s)
+void func_021AAABC(FieldEffectWork5 *s)
 {
     Sub_021AAABC *b = &((T_021AAABC *)func_02012A38((const struct BigObj *)s->f8))->sub;
     if (b->lo) {
@@ -5367,10 +5235,10 @@ void func_021AAABC(S_021AAABC *s)
 
 
 
-void func_021AAAF0(S_021AAABC *s, int b)
+void func_021AAAF0(FieldEffectWork5 *s, int b)
 {
     T_021AAAF0 *t = (T_021AAAF0 *)func_02012A38((const struct BigObj *)s->f8);
-    D_021AAABC *d = s->f10;
+    FieldEffectWork *d = s->f10;
     if (t->lo && d->f5b4 != 0) {
         func_021ADB4C(d->f5b4, b);
     }
@@ -5390,10 +5258,10 @@ void func_021AAAF0(S_021AAABC *s, int b)
 
 
 
-void func_021AAB1C(S_021AAABC *s, int b)
+void func_021AAB1C(FieldEffectWork5 *s, int b)
 {
     T_021AAAF0 *t = (T_021AAAF0 *)func_02012A38((const struct BigObj *)s->f8);
-    D_021AAABC *d = s->f10;
+    FieldEffectWork *d = s->f10;
     if (t->lo && d->f5b4 != 0) {
         func_021ADB5C(d->f5b4, b);
     }
@@ -5430,7 +5298,7 @@ u16 func_021AAB48(char *p)
 
 
 
-void func_021AAB54(S_021AAABC *s)
+void func_021AAB54(FieldEffectWork5 *s)
 {
     Sub_021AAABC *b = &((T_021AAABC *)func_02012A38((const struct BigObj *)s->f8))->sub;
     if (b->lo) {
@@ -5462,7 +5330,7 @@ void func_021AAB74(Self *self, int a)
     if (id != e->id || e->f6 != 0)
         func_02082BCC(e, 0, 0x10);
     else
-        func_021AAFC0((int)self, (D_021AAFC0 *)a, (R_021AAFC0 *)e);
+        func_021AAFC0((int)self, (D_021AAFC0 *)a, (FieldEffectWork4 *)e);
 }
 
 
@@ -5477,13 +5345,13 @@ void func_021AAB74(Self *self, int a)
 
 
 
-int func_021AABC4(S_021AAB74 *s, D_021AAB74 *d)
+int func_021AABC4(FieldEffectWork6 *s, FieldEffectWork6 *d)
 {
-    u32 *c = &s->fc;
+    u32 *c = &s->f0C;
     if (*c < 0xffffffff) {
         (*c)++;
     }
-    if (*c >= d->a) {
+    if (*c >= d->f5B8) {
         return 1;
     }
     return 0;
@@ -5636,7 +5504,7 @@ void func_021AACD4(void **ctx, struct Enc_021AACD4 *e)
 
 
 
-void func_021AAE34(S_021AA0A0 *s, R_021AAE34 *r)
+void func_021AAE34(FieldEffectWork2 *s, R_021AAE34 *r)
 {
     u16 k = func_02005728(r->h4);
     E_021AAE34 *e = &r->e[k];
@@ -5652,7 +5520,7 @@ void func_021AAE34(S_021AA0A0 *s, R_021AAE34 *r)
         b->h0 = func_02188C9C((u8 *)s->f0);
         b->lo = 1;
         func_021AABEC((u8 *)t);
-        func_021AAFC0((int)((Self *)s), (D_021AAFC0 *)((int)r), (R_021AAFC0 *)((Ent_021AAB74 *)b));
+        func_021AAFC0((int)((Self *)s), (D_021AAFC0 *)((int)r), (FieldEffectWork4 *)((Ent_021AAB74 *)b));
     }
 }
 
@@ -5739,9 +5607,9 @@ int func_021AAF54(Self_021AAF54 *self)
 
 
 
-void func_021AAFA0(S_021AAEC0 *s, D_021AAFA0 *d)
+void func_021AAFA0(FieldEffectWork6 *s, D_021AAFA0 *d)
 {
-    T_021AAABCx *t = (T_021AAABCx *)func_02012A38((const struct BigObj *)s->f8);
+    T_021AAABCx *t = (T_021AAABCx *)func_02012A38((const struct BigObj *)s->f08);
     func_021AAFFC((void *)d);
     func_02082BCC(&t->sub, 0, 0x10);
 }
@@ -5759,7 +5627,7 @@ void func_021AAFA0(S_021AAEC0 *s, D_021AAFA0 *d)
 
 
 
-void func_021AAFC0(int a, D_021AAFC0 *d, R_021AAFC0 *r)
+void func_021AAFC0(int a, D_021AAFC0 *d, FieldEffectWork4 *r)
 {
     if (d->f5b4 == 0) {
         d->f5b4 = func_021ADAAC(a, (u8 *)d->f0, r->h2, r->h6, r->f8, r->bc);
@@ -5784,7 +5652,7 @@ void func_021AAFC0(int a, D_021AAFC0 *d, R_021AAFC0 *r)
 
 
 
-void func_021AAFFC(D_021AAFFC *d)
+void func_021AAFFC(FieldEffectWork6 *d)
 {
     if (d->f5b4 != 0) {
         func_021AC154((Obj_021AC154 *)d->f5b4);
@@ -7730,9 +7598,9 @@ int func_021AB5AC(unsigned long a, unsigned long b)
 
 
 
-S_021AB4B8 *func_021AB5F4(int heap, int a, int b)
+FieldEffectWork3 *func_021AB5F4(int heap, int a, int b)
 {
-    S_021AB4B8 *p = func_02030734((u16)heap, 0x20, 1, d_021DDFC8, 0x51);
+    FieldEffectWork3 *p = func_02030734((u16)heap, 0x20, 1, d_021DDFC8, 0x51);
     p->f0 = a;
     p->f4 = b;
     p->f14 = -1;
@@ -7775,7 +7643,7 @@ void func_021AB624(u8 *p)
 
 
 
-void func_021AB634(S_021AB634 *s, int a, int b, int c)
+void func_021AB634(FieldEffectWork3 *s, int a, int b, int c)
 {
     func_021AB650(s);
     s->f8 = a;
@@ -7796,7 +7664,7 @@ void func_021AB634(S_021AB634 *s, int a, int b, int c)
 
 
 
-void func_021AB650(S_021AB634 *s)
+void func_021AB650(FieldEffectWork3 *s)
 {
     s->f8 = 0;
     s->fc = 0;
@@ -8301,7 +8169,7 @@ static inline void set3(V *d, int x, int y, int z)
  * Lever: `const S *` together with the inline set3 helper gives the y, x, z
  * load order of the two 12-byte vector fills (as in ov021_func_021AB890.c).
  */
-void func_021AB9FC(int a, const S_021AB908 *s)
+void func_021AB9FC(int a, const FieldEffectWork5 *s)
 {
     int h = func_021AB760((u8 *)a);
     V v1;
@@ -8412,7 +8280,7 @@ void func_021ABABC(int a0, const u16 *p, void *q)
 
 
 
-void func_021ABB54(int a, S_021ABB54 *s, int c)
+void func_021ABB54(int a, FieldEffectWork4 *s, int c)
 {
     int h = func_021AB760((u8 *)a);
     if (s->f1c != 0) {
@@ -8431,7 +8299,7 @@ void func_021ABB54(int a, S_021ABB54 *s, int c)
 
 
 
-void func_021ABB78(int a, S_021ABB54 *s, int c)
+void func_021ABB78(int a, FieldEffectWork4 *s, int c)
 {
     int h = func_021AB760((u8 *)a);
     func_021ABABC(a, (const u16 *)s, (void *)c);
@@ -8477,7 +8345,7 @@ void func_021ABBF0(u8 *a, u32 b, u32 c, u32 d)
 {
 func_021ABABC((int)a, (const u16 *)b, (void *)c);
 func_021ABC5C(a, (char *)b, (void *)c);
-func_021ABD08((unsigned char *)((u32)a), (const S_021ABD08 *)b, c);
+func_021ABD08((unsigned char *)((u32)a), (const FieldEffectWork6 *)b, c);
 }
 
 
@@ -8495,9 +8363,9 @@ func_021ABD08((unsigned char *)((u32)a), (const S_021ABD08 *)b, c);
  */
 void func_021ABC14(u8 *a, u32 b, u32 c, u32 d)
 {
-func_021ABB54((int)a, (S_021ABB54 *)((void *)b), c);
+func_021ABB54((int)a, (FieldEffectWork4 *)((void *)b), c);
 func_021ABC5C(a, (char *)b, (void *)c);
-func_021ABD08((unsigned char *)((u32)a), (const S_021ABD08 *)b, c);
+func_021ABD08((unsigned char *)((u32)a), (const FieldEffectWork6 *)b, c);
 }
 
 
@@ -8510,9 +8378,9 @@ func_021ABD08((unsigned char *)((u32)a), (const S_021ABD08 *)b, c);
 
 void func_021ABC38(u8 *a, u32 b, u32 c, u32 d)
 {
-func_021ABB78((int)a, (S_021ABB54 *)((void *)b), c);
+func_021ABB78((int)a, (FieldEffectWork4 *)((void *)b), c);
 func_021ABC5C(a, (char *)b, (void *)c);
-func_021ABD08((unsigned char *)((u32)a), (const S_021ABD08 *)b, c);
+func_021ABD08((unsigned char *)((u32)a), (const FieldEffectWork6 *)b, c);
 }
 
 
@@ -8558,7 +8426,7 @@ void func_021ABC5C(u8 *a0, char *p, void *q)
  * load-of-a-struct-copy-into-an-address-taken-local.md); the assignment
  * must stay inside the multiply for the result to land in r3.
  */
-void func_021ABD08(unsigned char *a, const S_021ABD08 *s, int c)
+void func_021ABD08(unsigned char *a, const FieldEffectWork6 *s, int c)
 {
     int h = func_021AB760(a);
     int y;
@@ -8617,7 +8485,7 @@ char *func_021ABD50(int a, int b, u16 c)
  */
 int func_021ABDE8(void *a, u32 b, u32 c, u32 d)
 {
-func_021ABFC0((T_021ABFC0 *)a);
+func_021ABFC0((FieldEffectWork5 *)a);
 func_021ABEE8((O *)((u32)a));
 func_02049238((void *)(((struct Obj02708 *)((u8 *)(a)))->fC));
 return func_020307B0(a);
@@ -8639,7 +8507,7 @@ return func_020307B0(a);
  */
 void func_021ABE04(u32 a)
 {
-    func_021ABFDC((T_021ABFDC *)((void *)a));
+    func_021ABFDC((FieldEffectWork5 *)((void *)a));
 }
 
 
@@ -8658,7 +8526,7 @@ void func_021ABE04(u32 a)
  */
 void func_021ABE0C(u32 a)
 {
-    func_021ABFEC((T_021ABFDC *)((void *)a));
+    func_021ABFEC((FieldEffectWork5 *)((void *)a));
 }
 
 
@@ -8896,7 +8764,7 @@ D_021ABF48 *func_021ABF48(int id)
 
 
 
-void func_021ABF68(T_021ABF68 *t, int n)
+void func_021ABF68(FieldEffectWork5 *t, int n)
 {
     t->h14 = n;
     t->f18 = func_02030734(t->h4, func_02030CB0(n), 0, d_021DE018, 0x1db);
@@ -8911,7 +8779,7 @@ void func_021ABF68(T_021ABF68 *t, int n)
 
 
 
-void func_021ABFA8(T_021ABFA8 *t, int b, int c, int d, int e, int f)
+void func_021ABFA8(FieldEffectWork5 *t, int b, int c, int d, int e, int f)
 {
     func_021AC0A0((Mgr_021AC0A0 *)t->f20, (const ObjFuncs *)b, (const V3 *)c, d, e, f);
 }
@@ -8923,7 +8791,7 @@ void func_021ABFA8(T_021ABFA8 *t, int b, int c, int d, int e, int f)
 
 
 
-void func_021ABFC0(T_021ABFC0 *t)
+void func_021ABFC0(FieldEffectWork5 *t)
 {
     if (t->f20 != 0) {
         func_021AC03C((void *)t->f20);
@@ -8939,7 +8807,7 @@ void func_021ABFC0(T_021ABFC0 *t)
 
 
 
-void func_021ABFDC(T_021ABFDC *t)
+void func_021ABFDC(FieldEffectWork5 *t)
 {
     if (t->f1c != 0) {
         func_02030D28((struct Ctx *)t->f1c);
@@ -8953,7 +8821,7 @@ void func_021ABFDC(T_021ABFDC *t)
 
 
 
-void func_021ABFEC(T_021ABFDC *t)
+void func_021ABFEC(FieldEffectWork5 *t)
 {
     if (t->f20 != 0) {
         func_021AC074((Mgr_021AC074 *)((struct Mgr *)t->f20));
@@ -9253,7 +9121,7 @@ void func_021AC1EC(u32 *p, u32 v)
 
 
 
-void func_021AC1F0(X_021ABF48 *x, void *b)
+void func_021AC1F0(FieldEffectWork3 *x, void *b)
 {
     Res *p;
 
@@ -9356,7 +9224,7 @@ void func_021AC2C0(u32 a, u32 b)
 
     s.a = func_021ABEA0(b, 0);
     s.b = a;
-    func_021ABFA8((T_021ABFA8 *)b, (int)d_021D9098, 0, 0, (int)&s, 0);
+    func_021ABFA8((FieldEffectWork5 *)b, (int)d_021D9098, 0, 0, (int)&s, 0);
 }
 
 
@@ -9553,7 +9421,7 @@ void func_021AC528(u32 a, u32 b)
     v.z += 0x6000;
     s.a = func_021ABEA0(b, 1);
     s.v = v;
-    func_021ABFA8((T_021ABFA8 *)b, (int)d_021D90AC, 0, 0, (int)((void *)&s), 0);
+    func_021ABFA8((FieldEffectWork5 *)b, (int)d_021D90AC, 0, 0, (int)((void *)&s), 0);
 }
 
 
@@ -9574,7 +9442,7 @@ void func_021AC578(u32 a, u32 b)
     v.x += (s32)(((long long)tbl_020A1B38[i] * 0x6000 + 0x800) >> 12);
     s.a = func_021ABEA0(b, 1);
     s.v = v;
-    func_021ABFA8((T_021ABFA8 *)b, (int)d_021D90AC, 0, 0, (int)&s, 0);
+    func_021ABFA8((FieldEffectWork5 *)b, (int)d_021D90AC, 0, 0, (int)&s, 0);
 }
 
 
@@ -9668,7 +9536,7 @@ void func_021AC6D4(u32 *p)
     t = d_021D911C + lv;
     for (i = 0; i < 8; i++) {
         s.a = (u32)func_02046E24(r7, t[i * 4]);
-        func_021AC1F0((X_021ABF48 *)((struct X *)p[0]), (void *)s.a);
+        func_021AC1F0((FieldEffectWork3 *)((struct X *)p[0]), (void *)s.a);
         ((u16 *)p)[4 + i] = func_020500F0((struct BbActSys *)p[1], (const struct BbActRec *)(&s), 1);
     }
 }
@@ -9720,5 +9588,5 @@ void func_021AC760(u32 a, u32 b, u32 c, int d)
         v.z -= 0x2000;
     }
     s.pos = v;
-    func_021ABFA8((T_021ABFA8 *)a, (int)d_021D90EC, 0, c, (int)&s, 0);
+    func_021ABFA8((FieldEffectWork5 *)a, (int)d_021D90EC, 0, c, (int)&s, 0);
 }

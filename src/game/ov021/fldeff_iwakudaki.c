@@ -144,9 +144,7 @@ typedef struct P { u32 f0; } P;
 
 typedef signed int     s32_021ADC6C;
 
-typedef struct Q_021ADD38 { u32 f0; u32 f4; u32 arr[4]; u32 f18; u32 f1c; } Q_021ADD38;
 
-typedef struct Q_021ADD64 { u32 f0; u32 f4; u32 arr[4]; u32 f18; u32 f1c; } Q_021ADD64;
 
 typedef int s32_021ADD38;
 
@@ -158,9 +156,14 @@ typedef struct Src { u32 f0; u32 f4; u32 arr[4]; } Src;
 
 typedef struct Q_021ADDE8 { Src *src; u32 f4; u32 arr[4]; u32 f18; } Q_021ADDE8;
 
-typedef struct Q_021ADE4C { u32 f0; u32 f4; u32 arr[4]; u32 f18; u32 f1c; } Q_021ADE4C;
 
-typedef struct Q_021ADE70 { u32 f0; u32 f4; u32 arr[4]; u32 f18; u32 f1c; } Q_021ADE70;
+typedef struct FldeffIwakudakiWork {
+    u32 f0;
+    u32 f4;
+    u32 f8[4];
+    u32 f18;
+    u32 f1c;
+} FldeffIwakudakiWork;
 
 typedef struct V3 { int x, y, z; } V3;
 
@@ -300,12 +303,12 @@ void func_021ADC6C(int a, u8 *b);
 P *func_021ADCB8(u32 a, int heap);
 void func_021ADCDC(u32 a, u8 *p);
 void func_021ADCF0(int *p);
-void func_021ADD38(Q_021ADD38 *q);
-void func_021ADD64(u32 a, Q_021ADD64 *q);
+void func_021ADD38(FldeffIwakudakiWork *q);
+void func_021ADD64(u32 a, FldeffIwakudakiWork *q);
 void func_021ADD7C(int a, int b);
 void func_021ADDE8(u32 a, Q_021ADDE8 *q);
-void func_021ADE4C(u32 a, Q_021ADE4C *q);
-void func_021ADE70(u32 a, Q_021ADE70 *q);
+void func_021ADE4C(u32 a, FldeffIwakudakiWork *q);
+void func_021ADE70(u32 a, FldeffIwakudakiWork *q);
 void func_021ADEA0(u32 a, Q_021ADEA0 *q);
 P *func_021ADEDC(u32 a, int heap);
 void func_021ADF00(u32 a, u8 *p);
@@ -391,7 +394,7 @@ P *func_021ADCB8(u32 a, int heap)
  */
 void func_021ADCDC(u32 a, u8 *p)
 {
-    func_021ADD38((Q_021ADD38 *)((struct Q *)p));
+    func_021ADD38((FldeffIwakudakiWork *)((struct Q *)p));
     func_020307B0(p);
 }
 
@@ -414,12 +417,12 @@ void func_021ADCF0(int *p)
 
 
 
-void func_021ADD38(Q_021ADD38 *q)
+void func_021ADD38(FldeffIwakudakiWork *q)
 {
     int i;
 
     for (i = 0; i < 4; i++)
-        func_02046EFC((struct Tagged *)q->arr[i]);
+        func_02046EFC((struct Tagged *)q->f8[i]);
     func_020470D0((u32 *)q->f4);
     func_02046EFC((struct Tagged *)q->f4);
     func_02030EAC((struct Node *)q->f18);
@@ -429,7 +432,7 @@ void func_021ADD38(Q_021ADD38 *q)
 
 
 
-void func_021ADD64(u32 a, Q_021ADD64 *q)
+void func_021ADD64(u32 a, FldeffIwakudakiWork *q)
 {
     if (q->f1c == 0) {
         func_02047204((struct Tagged *)q->f4);
@@ -482,12 +485,12 @@ void func_021ADDE8(u32 a, Q_021ADDE8 *q)
 
 
 
-void func_021ADE4C(u32 a, Q_021ADE4C *q)
+void func_021ADE4C(u32 a, FldeffIwakudakiWork *q)
 {
     int i;
 
     for (i = 0; i < 4; i++)
-        func_0204762C((struct Rec *)q->arr[i]);
+        func_0204762C((struct Rec *)q->f8[i]);
     func_02047738((struct Rec *)q->f4);
     func_02047504((struct Rec *)q->f18);
 }
@@ -495,7 +498,7 @@ void func_021ADE4C(u32 a, Q_021ADE4C *q)
 
 
 
-void func_021ADE70(u32 a, Q_021ADE70 *q)
+void func_021ADE70(u32 a, FldeffIwakudakiWork *q)
 {
     int done = 1;
     int i;

@@ -218,13 +218,6 @@ typedef signed char    s8;
 
 typedef signed int     s32;
 
-typedef struct {
-    u16 id;
-    u8 pad[2];
-    u8 f4;
-    u8 f5;
-    u8 f6;
-} St_0219F058;
 
 typedef struct { s32 x, y, z; } Vec;
 
@@ -240,13 +233,16 @@ typedef struct {
     u32 x, y, z;
 } V3;
 
-typedef struct {
-    u16 id;
+typedef struct FieldFogWork {
+    u16 f0;
     u8 f2;
     u8 f3;
-    u8 pad[4];
+    u8 f4;
+    u8 f5;
+    u8 f6;
+    u8 pad07[0x8 - 0x7];
     u32 f8;
-} St_0219F634;
+} FieldFogWork;
 
 typedef struct { u8 b[4]; } U8x4;
 
@@ -927,7 +923,7 @@ void func_0219F2B0(u32 a)
 
 void func_0219F354(u32 a)
 {
-    St_0219F058 *p;
+    FieldFogWork *p;
     u32 h;
     u32 n;
     u32 v;
@@ -935,7 +931,7 @@ void func_0219F354(u32 a)
     u32 buf[3];
 
     p = func_0216D6F0((void *)a);
-    if (p->id != 0xFFFF) {
+    if (p->f0 != 0xFFFF) {
         h = func_0219C9DC((u8 *)func_0216D910(a));
         n = func_0216D678((void *)a);
         if (n >= 10) {
@@ -946,15 +942,15 @@ void func_0219F354(u32 a)
                 p->f4 = v;
                 p->f5 = n;
                 p->f6 = 0;
-                func_0205082C((void *)h, p->id, (u16)(n + 30));
+                func_0205082C((void *)h, p->f0, (u16)(n + 30));
             }
-            func_021A000C(a, h, p->id, flag, 0);
+            func_021A000C(a, h, p->f0, flag, 0);
         } else {
-            func_0219FEB0(&p->f4, a, h, p->id);
+            func_0219FEB0(&p->f4, a, h, p->f0);
         }
         func_02197CCC((u8 *)a, (s32 *)buf);
         func_0219FFBC(a, buf);
-        func_0204F638((u8 *)func_02050080((u32 *)h), p->id, (struct Trip *)buf);
+        func_0204F638((u8 *)func_02050080((u32 *)h), p->f0, (struct Trip *)buf);
     }
 }
 
@@ -1407,7 +1403,7 @@ return func_0219C8D4(a, ((struct Obj17981 *)((u8 *)(func_0216D6F0((void *)a))))-
 
 void func_0219F8F4(u32 a)
 {
-    St_0219F634 *p;
+    FieldFogWork *p;
     u8 flag;
     u32 h;
     u32 n;
@@ -1415,7 +1411,7 @@ void func_0219F8F4(u32 a)
     u32 v[3];
 
     p = func_0216D6F0((void *)a);
-    if (p->id != 0xFFFF) {
+    if (p->f0 != 0xFFFF) {
         flag = 0;
         h = func_0219C9DC((u8 *)func_0216D910(a));
         n = func_0216D5F8((void *)a);
@@ -1424,7 +1420,7 @@ void func_0219F8F4(u32 a)
             p->f2 = n;
             p->f3 = 0;
             p->f8 = 0;
-            func_0205082C((void *)h, p->id, p->f2);
+            func_0205082C((void *)h, p->f0, p->f2);
             {
                 V3 *pv = (V3 *)v;
                 pv->x = 0;
@@ -1436,8 +1432,8 @@ void func_0219F8F4(u32 a)
         func_0219F990(a, (u8 *)p, n);
         func_02197CCC((u8 *)a, (s32 *)buf);
         func_0219FFBC(a, buf);
-        func_0204F638((u8 *)func_02050080((u32 *)h), p->id, (struct Trip *)buf);
-        func_021A000C(a, h, p->id, flag, 0);
+        func_0204F638((u8 *)func_02050080((u32 *)h), p->f0, (struct Trip *)buf);
+        func_021A000C(a, h, p->f0, flag, 0);
     }
 }
 

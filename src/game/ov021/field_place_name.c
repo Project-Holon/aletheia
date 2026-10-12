@@ -265,7 +265,6 @@ struct BbActSys;
 struct Manager0204F684;
 struct Trip;
 struct BgTemplate;
-struct S_021BC388;
 struct Descriptor;
 struct Cfg;
 struct ArcFile;
@@ -302,11 +301,6 @@ typedef struct V3 { int x, y, z; } V3;
 
 typedef unsigned short u16;
 
-typedef struct Vec_021BBDD4_021BBDD4 {
-    int x;
-    int y;
-    int z;
-} Vec_021BBDD4_021BBDD4;
 
 typedef struct Arg_021BBDD4 {
     int a;
@@ -370,9 +364,11 @@ typedef struct Obj_021BBF10 {
     int i10;
 } Obj_021BBF10;
 
-typedef struct {
+typedef struct FieldPlaceNameWork2 {
     int f0;
-} Obj_021BBF78;
+    int f4;
+    int f8;
+} FieldPlaceNameWork2;
 
 typedef signed int s32;
 
@@ -380,16 +376,6 @@ typedef struct Arg_021BBEF4 { u32 a; u32 b; u32 c; u32 d; u32 e; } Arg_021BBEF4;
 
 typedef struct { u32 w[5]; } Blk;
 
-typedef struct {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0C;
-    u32 f10;
-    Blk blk;
-    u32 f28;
-    u32 f2C;
-} Obj_021BBFF4;
 
 typedef struct {
     char pad[0x10];
@@ -400,21 +386,6 @@ typedef struct {
     char f28[1];
 } Obj_021BC030;
 
-typedef struct Obj_021BC048 {
-    int f0;
-    int f4;
-    int f8;
-    int fC;
-    u8 b10;
-    u8 b11;
-    u8 pad12[0x1c - 0x12];
-    u32 f1c;
-    u32 f20;
-    u8 pad24[4];
-    u16 h28;
-    u16 h2a;
-    u8 f2c[4];
-} Obj_021BC048;
 
 typedef struct {
     char pad[0x10];
@@ -465,10 +436,6 @@ typedef struct {
     void *f8;
 } Obj_021BCFE0;
 
-typedef struct {
-    char pad[0x14];
-    void *f14;
-} Obj_021BCFF0;
 
 typedef struct {
     char pad[0x1C];
@@ -482,27 +449,41 @@ typedef struct {
     void *f38;
 } Obj_021BC730;
 
-typedef struct {
-    char pad[0x2C];
-    void *f2C;
-} Obj_021BC75C;
 
-typedef struct {
-    char pad[0x34];
-    void *f34;
-} Obj_021BC794;
 
-typedef struct {
-    char pad[0x34];
+typedef struct FieldPlaceNameWork {
+    float f00;
+    float f04;
+    float f08;
+    float f0c;
+    float f10;
+    float f14;
+    float f18;
+    float f1c;
+    float f20;
+    float f24;
+    int f28;
+    int f2C;
+    void *f30;
     void *f34[1];
     void *f38;
-} Obj_021BC7BC;
+    int f3C;
+    u8 b40;
+    u8 pad41[0x42 - 0x41];
+    u16 h42;
+    u16 h44;
+    u16 h46;
+    u8 pad48[0x50 - 0x48];
+    void *f50[0x1E];
+    void *fC8[0x20];
+    u8 b148;
+    u8 b149;
+    u8 b14A;
+    u8 pad14B[0x14C - 0x14B];
+    int f14C;
+    int f150;
+} FieldPlaceNameWork;
 
-typedef struct {
-    char pad[0x30];
-    void *f30;
-    void *f34;
-} Obj_021BC998;
 
 typedef struct {
     char pad[0xC];
@@ -514,57 +495,15 @@ typedef struct {
     void *f50[0x1E];
 } Obj_021BC7D4;
 
-typedef struct S_021BC388 {
-    char pad[0x14c];
-    int a;
-    int b;
-} S_021BC388;
 
-typedef struct {
-    char pad[0x28];
-    int f28;
-} Obj_021BC704;
 
-typedef struct {
-    char pad[0x24];
-    void *f24;
-} Obj_021BD01C;
 
-typedef struct {
-    char pad[0x14C];
-    void *f14C;
-    int f150;
-} Obj_021BC6B4;
 
-typedef struct {
-    char pad[0x50];
-    void *f50[0x1E];
-} Obj_021BC7F8;
 
-typedef struct {
-    char pad[0x30];
-    void *f30;
-} Obj_021BC9AC;
 
-typedef struct {
-    char pad[0x42];
-    u16 h42;
-} Obj_021BD0B0;
 
-typedef struct {
-    char pad[0xC8];
-    void *fC8[0x20];
-} Obj_021BC970;
 
-typedef struct {
-    char pad[0xC];
-    int fC;
-} Inner_021BBDD4;
 
-typedef struct {
-    char pad[0x150];
-    Inner_021BBDD4 *f150;
-} Obj_021BC6D0;
 
 typedef struct {
     float f0;
@@ -580,60 +519,18 @@ typedef struct {
     u16 pad;
 } Params;
 
-typedef struct {
-    u8 pad0[0x18];
-    u32 f18;
-    u8 pad1C[0x50 - 0x1C];
-    u32 f50[30];
-    u32 fC8[32];
-    u8 count;
-    u8 pad149[2];
-    u8 skip;
-} Obj_021BC848;
 
-typedef struct {
-    char pad[0x148];
-    u8 b148;
-} Obj_021BC910;
 
-typedef struct {
-    char pad[0xC8];
-    void *fC8[0x20];
-    char pad2[0x149 - 0xC8 - 0x80];
-    u8 b149;
-} Obj_021BC948;
 
-typedef struct {
-    char pad[0x14A];
-    u8 b14A;
-} Obj_021BCA48;
 
-typedef struct {
-    char pad[0x44];
-    u16 h44;
-    u16 h46;
-} Obj_021BCA8C;
 
-typedef struct {
-    char pad[0x3C];
-    int f3C;
-} Obj_021BD0A0;
 
-typedef struct {
-    char pad[0x40];
-    u8 b40;
-} Obj_021BD0D0;
 
 typedef struct {
     char pad[0xC];
     u16 hC;
 } Obj_021BD098;
 
-typedef struct {
-    char pad[0x44];
-    int f44;
-    u16 h48;
-} Obj_021BD234;
 
 typedef struct {
     u16 h0;
@@ -664,77 +561,58 @@ typedef struct {
     void *fC;
 } Obj_021BD5D4;
 
-typedef struct {
-    char pad[0x28];
-    int f;
-} Inner_021BD36C;
 
-typedef struct {
-    char pad[0x2C];
-    int f;
-} Inner_021BD394;
 
-typedef struct {
-    float f00;
-    char pad04[4];
-    float f08;
-    char pad0c[4];
-    float f10;
-    char pad14[4];
-    float f18;
-    char pad1c[0xc];
-    int f28;
-} T_021BD3EC;
 
 typedef struct {
     char pad00[0x10];
-    T_021BD3EC t;
+    FieldPlaceNameWork t;
 } S_021BD3EC_021BBDD4;
 
-typedef struct {
-    char pad00[4];
-    float f04;
-    char pad08[4];
-    float f0c;
-    char pad10[4];
-    float f14;
-    char pad18[4];
-    float f1c;
-    char pad20[0xc];
-    int f2c;
-} T_021BD430;
 
 typedef struct {
     char pad00[0x10];
-    T_021BD430 t;
+    FieldPlaceNameWork t;
 } S_021BD3EC_021BD430;
 
-typedef struct {
-    char pad[0x44];
+typedef struct FieldPlaceNameWork5 {
+    int f0;
+    int f4;
+    int f8;
+    int fC;
+    u8 b10;
+    u8 b11;
+    u8 pad12[0x14 - 0x12];
+    void *f14;
+    u32 f18;
+    u32 f1c;
+    u32 f20;
+    void *f24;
+    u16 h28;
+    u16 h2a;
+    u8 f2c[4];
+    void *f30;
+    void *f34;
+    u8 pad38[0x44 - 0x38];
     int f44;
-} Obj_021BD474;
+    u16 h48;
+    u8 pad4A[0x50 - 0x4A];
+    u32 f50[30];
+    u32 fC8[32];
+    u8 f148;
+    u8 pad149[0x14B - 0x149];
+    u8 f14B;
+    void *f14C;
+    int f150;
+} FieldPlaceNameWork5;
+
 
 typedef struct {
     float f0;
     float f4;
     float f8;
     float fC;
-    float f10;
-    float f14;
-    float f18;
-    float f1C;
-    float f20;
-    float f24;
-    int f28;
-    int f2C;
-} Sub_021BD484;
-
-typedef struct {
-    float f0;
-    float f4;
-    float f8;
-    float fC;
-    Sub_021BD484 s;
+    FieldPlaceNameWork s;
 } Obj_021BD484;
 
 typedef struct {
@@ -872,10 +750,6 @@ typedef struct {
     Inner_021BDC80 *f0;
 } Obj_021BDC2C;
 
-typedef struct {
-    char pad[0x54];
-    void *f54;
-} Obj_021BDDAC;
 
 typedef struct {
     void *f0;
@@ -884,10 +758,21 @@ typedef struct {
     int f64;
 } Obj_021BDD7C;
 
-typedef struct {
-    char pad[0x58];
-    V3 v58;
-} Obj_021BDCC8;
+typedef struct FieldPlaceNameWork3 {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    u32 f0C;
+    u32 f10;
+    Blk f14;
+    u32 f28;
+    u32 f2C;
+    u8 pad30[0x54 - 0x30];
+    void *f54;
+    V3 f58;
+    u8 pad64[0x150 - 0x64];
+    FieldPlaceNameWork5 *f150;
+} FieldPlaceNameWork3;
 
 typedef struct {
     u16 f0;
@@ -895,20 +780,21 @@ typedef struct {
     int f4;
 } Rot;
 
-typedef struct {
+typedef struct FieldPlaceNameWork4 {
     int f0;
     int f4;
-    u8 pad8[0x24 - 0x8];
-    Rot t;
-    u8 pad2C[0x44 - 0x2C];
+    u8 pad08[0x24 - 0x8];
+    Rot f24;
+    void *f2C;
+    u8 pad30[0x44 - 0x30];
     int f44;
     int f48;
-} Sub_021BDC2C;
+} FieldPlaceNameWork4;
 
 typedef struct {
     u32 f0;
     u32 f4;
-    Sub_021BDC2C s;
+    FieldPlaceNameWork4 s;
     u32 f54;
     u8 pad58[0x68 - 0x58];
     int f68;
@@ -988,7 +874,7 @@ void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 int func_0216D804(void *p);
 int func_0216D81C(void *p);
 void func_02164280(int x, int y, int *p);
-void func_021ABFA8(int a, void *b, Vec_021BBDD4_021BBDD4 *c, int d, Arg_021BBDD4 *e, int f);
+void func_021ABFA8(int a, void *b, FieldPlaceNameWork2 *c, int d, Arg_021BBDD4 *e, int f);
 extern int func_021AC1AC(u32 a);
 extern void func_021AC1B8(int a, Desc2 *d);
 extern void func_021AC154(int a);
@@ -1168,14 +1054,14 @@ void func_021BBE84(int a0, Res *r);
 void func_021BBEF4(int a0, Obj_021BBEF4 *p);
 void func_021BBF10(int a0, Obj_021BBF10 *p);
 void func_021BBF74(void);
-Obj_021BBF78 *func_021BBF78(int a, int b);
+FieldPlaceNameWork2 *func_021BBF78(int a, int b);
 void func_021BBF9C(u32 a, u8 *p);
 void func_021BBFB0(void);
 void func_021BBFB4(void *p);
 void func_021BBFB8(u32 a, u32 b, u32 c, u32 d);
-void func_021BBFF4(u32 a, Obj_021BBFF4 *o);
+void func_021BBFF4(u32 a, FieldPlaceNameWork3 *o);
 void func_021BC030(int a0, Obj_021BC030 *p);
-void func_021BC048(u32 a0, Obj_021BC048 *p);
+void func_021BC048(u32 a0, FieldPlaceNameWork5 *p);
 void func_021BC10C(int a0, Obj_021BC10C *p);
 void func_021BC138(u16 id, Param *p);
 int func_021BC338(u32 a);
@@ -1192,49 +1078,49 @@ void func_021BC5D4(u8 *p);
 void func_021BC5E4(int *p);
 void func_021BC63C(void *p);
 void func_021BC654(u8 *p);
-void func_021BC664(S_021BC388 *p);
-void func_021BC6B4(Obj_021BC6B4 *p);
-void func_021BC6D0(Obj_021BC6D0 *p);
-void func_021BC6E8(Obj_021BC704 *p);
-void func_021BC704(Obj_021BC704 *p);
-void func_021BC720(Obj_021BD01C *p);
+void func_021BC664(FieldPlaceNameWork *p);
+void func_021BC6B4(FieldPlaceNameWork5 *p);
+void func_021BC6D0(FieldPlaceNameWork3 *p);
+void func_021BC6E8(FieldPlaceNameWork *p);
+void func_021BC704(FieldPlaceNameWork *p);
+void func_021BC720(FieldPlaceNameWork5 *p);
 void func_021BC730(Obj_021BC730 *p);
 void func_021BC748(u8 *p);
-void func_021BC75C(Obj_021BC75C *p);
+void func_021BC75C(FieldPlaceNameWork4 *p);
 void func_021BC788(u8 *p);
-void func_021BC794(Obj_021BC794 *p);
+void func_021BC794(FieldPlaceNameWork5 *p);
 void func_021BC7B0(u8 *p);
-void func_021BC7BC(Obj_021BC7BC *p, int i);
+void func_021BC7BC(FieldPlaceNameWork *p, int i);
 void func_021BC7D4(Obj_021BC7D4 *p);
-void func_021BC7F8(Obj_021BC7F8 *p);
+void func_021BC7F8(FieldPlaceNameWork *p);
 void func_021BC810(Obj_021BC810 *p);
 void func_021BC824(u8 *p);
 void func_021BC838(char *p);
-void func_021BC848(Obj_021BC848 *p);
-int func_021BC910(Obj_021BC910 *p);
-void func_021BC92C(Obj_021BC7F8 *p);
-void func_021BC948(Obj_021BC948 *p);
-void func_021BC970(Obj_021BC970 *p);
-void func_021BC998(Obj_021BC998 *p);
-void func_021BC9AC(Obj_021BC9AC *p);
+void func_021BC848(FieldPlaceNameWork5 *p);
+int func_021BC910(FieldPlaceNameWork *p);
+void func_021BC92C(FieldPlaceNameWork *p);
+void func_021BC948(FieldPlaceNameWork *p);
+void func_021BC970(FieldPlaceNameWork *p);
+void func_021BC998(FieldPlaceNameWork5 *p);
+void func_021BC9AC(FieldPlaceNameWork *p);
 void func_021BC9C0(char *p);
 void func_021BC9CC(char *p);
-int func_021BCA48(Obj_021BCA48 *p);
+int func_021BCA48(FieldPlaceNameWork *p);
 void func_021BCA64(u8 *p);
 u8 *func_021BCA6C(u8 *p);
 u32 func_021BCA74(u8 *p);
 void func_021BCA78(u8 *p);
 void func_021BCA80(u8 *p);
 u32 func_021BCA88(u8 *p);
-int func_021BCA8C(Obj_021BCA8C *p);
+int func_021BCA8C(FieldPlaceNameWork *p);
 void func_021BCAB0(int *p);
 int func_021BCB48(int *p, int b);
 void func_021BCB9C(void *p, int keep);
 void func_021BCBC8(char *p);
 void func_021BCC3C(void *p);
 void func_021BCC80(char *p);
-void func_021BCD34(Obj_021BD0B0 *p);
-void func_021BCD70(Obj_021BD0B0 *p);
+void func_021BCD34(FieldPlaceNameWork *p);
+void func_021BCD70(FieldPlaceNameWork *p);
 void func_021BCD84(char *p);
 void func_021BCDD8(char *p);
 void func_021BCE88(char *p);
@@ -1249,28 +1135,28 @@ void *func_021BCF88(int a);
 void func_021BCFA4(X *x, u32 b);
 void func_021BCFD8(int a);
 void func_021BCFE0(Obj_021BCFE0 *p);
-void func_021BCFF0(Obj_021BCFF0 *p);
+void func_021BCFF0(FieldPlaceNameWork5 *p);
 void func_021BD008(Obj_021BD008 *p);
-void func_021BD01C(Obj_021BD01C *p);
+void func_021BD01C(FieldPlaceNameWork5 *p);
 void func_021BD040(Obj_021BCFE0 *p);
 void func_021BD054(u8 *p);
 void func_021BD068(u8 *p);
-void func_021BD07C(Obj_021BD01C *p);
+void func_021BD07C(FieldPlaceNameWork5 *p);
 u16 func_021BD090(u8 *p);
 u32 func_021BD094(u8 *p);
 void func_021BD098(Obj_021BD098 *p, int v);
 void func_021BD09C(u8 *p, u32 v);
-void func_021BD0A0(Obj_021BD0A0 *p, int v);
+void func_021BD0A0(FieldPlaceNameWork *p, int v);
 u32 func_021BD0A4(u8 *p);
 void func_021BD0A8(char *p);
-void func_021BD0B0(Obj_021BD0B0 *p);
+void func_021BD0B0(FieldPlaceNameWork *p);
 u8 func_021BD0C0(u8 *p);
 void func_021BD0C8(char *p);
-void func_021BD0D0(Obj_021BD0D0 *p);
+void func_021BD0D0(FieldPlaceNameWork *p);
 void func_021BD0E0(Obj_021BD0E0 *p);
 int func_021BD0FC(u32 a);
 u16 func_021BD118(u8 *p);
-void func_021BD120(Obj_021BCA8C *p, u16 v);
+void func_021BD120(FieldPlaceNameWork *p, u16 v);
 u32 func_021BD134(u8 *p);
 u8 func_021BD138(u8 *p);
 u32 func_021BD140(u32 a);
@@ -1288,7 +1174,7 @@ u32 func_021BD204(u32 *a0);
 unsigned int func_021BD20C(char *p);
 void *func_021BD214(int a);
 u32 func_021BD22C(void *a0);
-void func_021BD234(Obj_021BD234 *p);
+void func_021BD234(FieldPlaceNameWork5 *p);
 void func_021BD250(Obj_021BD250 *p);
 void func_021BD264(u8 *p);
 void func_021BD278(Obj_021BD278 *p, int a, u16 b, int c);
@@ -1313,7 +1199,7 @@ int func_021BD394(void *p);
 void func_021BD3BC(void *p);
 void func_021BD3EC(S_021BD3EC_021BBDD4 *p);
 void func_021BD430(S_021BD3EC_021BD430 *p);
-void func_021BD474(Obj_021BD474 *p);
+void func_021BD474(FieldPlaceNameWork5 *p);
 void func_021BD47C(u8 *p);
 void func_021BD484(Obj_021BD484 *obj);
 void func_021BD554(Obj_021BD554 *p, Src_021BD554 *s);
@@ -1349,7 +1235,7 @@ void func_021BDC80(Obj_021BDC2C *p);
 void *func_021BDC94(void *a);
 void func_021BDCB8(u8 *p);
 void func_021BDCC8(char *a, int *b);
-void func_021BDD20(Obj_021BDDAC *p);
+void func_021BDD20(FieldPlaceNameWork3 *p);
 void func_021BDD34(u8 *p);
 int func_021BDD40(void *a);
 int func_021BDD48(Obj_021BDD48 *o);
@@ -1357,7 +1243,7 @@ void *func_021BDD58(int a);
 void func_021BDD74(void *p);
 void func_021BDD7C(Obj_021BDD7C *p, void *a);
 void func_021BDD9C(Obj_021BDD9C *p, void *x);
-void func_021BDDAC(Obj_021BDDAC *p);
+void func_021BDDAC(FieldPlaceNameWork3 *p);
 void func_021BDDC0(Obj_021BDDC0 *p);
 void func_021BDEB4(A *a);
 void func_021BDFB0(char *a);
@@ -1366,7 +1252,7 @@ void func_021BE148(void *dst, int b);
 int func_021BE158(u32 a, u32 b);
 u32 func_021BE17C(u8 *p);
 u8 *func_021BE180(u8 *p);
-void func_021BE184(Obj_021BDCC8 *p, const V3 *v);
+void func_021BE184(FieldPlaceNameWork3 *p, const V3 *v);
 int func_021BE194(u32 a);
 int func_021BE1A0(u32 a);
 int func_021BE1B0(u32 a);
@@ -1404,7 +1290,7 @@ void func_021BBDD4(int a, int b, int c)
     int t;
     int u;
     int w;
-    Vec_021BBDD4_021BBDD4 v;
+    FieldPlaceNameWork2 v;
     Arg_021BBDD4 s;
 
     x = func_021ABEA0(b, 5);
@@ -1416,15 +1302,15 @@ void func_021BBDD4(int a, int b, int c)
     t = func_0216D804((void *)a);
     func_02164280(t, func_0216D81C((void *)a), (int *)(&v));
     if (c == 0 && (u16)(w + 0xFFFE) <= 1) {
-        v.z -= 0x2000;
+        v.f8 -= 0x2000;
     } else if (c == 4 && (u16)(w + 0xFFFE) <= 1) {
-        v.z -= 0x2000;
+        v.f8 -= 0x2000;
     }
     if (c == 4) {
-        v.y -= ((struct Obj20103 *)x)->f3C;
+        v.f4 -= ((struct Obj20103 *)x)->f3C;
     }
     s.h = w;
-    func_021ABFA8(b, &d_021D9AF8, (Vec_021BBDD4_021BBDD4 *)&v, 0, (Arg_021BBDD4 *)&s, 0);
+    func_021ABFA8(b, &d_021D9AF8, (FieldPlaceNameWork2 *)&v, 0, (Arg_021BBDD4 *)&s, 0);
 }
 
 
@@ -1553,9 +1439,9 @@ void func_021BBF74(void) {}
 
 
 
-Obj_021BBF78 *func_021BBF78(int a, int b)
+FieldPlaceNameWork2 *func_021BBF78(int a, int b)
 {
-    Obj_021BBF78 *q = func_02030734(b, 4, 1, (const char *)&d_021DE320, 0x78);
+    FieldPlaceNameWork2 *q = func_02030734(b, 4, 1, (const char *)&d_021DE320, 0x78);
 
     q->f0 = a;
     func_021BBFB0();
@@ -1653,7 +1539,7 @@ void func_021BBFB8(u32 a, u32 b, u32 c, u32 d)
     s.d = a;
     s.e = func_0219C9DC((u8 *)func_0216D520((void *)a));
     s.a = func_021ABEA0(c, 6);
-    func_021ABFA8(c, d_021D9B64, (Vec_021BBDD4_021BBDD4 *)0, 0, (Arg_021BBDD4 *)&s, 0);
+    func_021ABFA8(c, d_021D9B64, (FieldPlaceNameWork2 *)0, 0, (Arg_021BBDD4 *)&s, 0);
 }
 
 
@@ -1673,15 +1559,15 @@ void func_021BBFB8(u32 a, u32 b, u32 c, u32 d)
 /*
  * Addresses are Black-image addresses.
  */
-void func_021BBFF4(u32 a, Obj_021BBFF4 *o)
+void func_021BBFF4(u32 a, FieldPlaceNameWork3 *o)
 {
     u32 *p = (u32 *)func_021AC1AC(a);
 
-    o->blk = *(Blk *)p;
+    o->f14 = *(Blk *)p;
     o->f0C = 0x40;
     o->f00 = 0;
     o->f08 = 0;
-    if (o->blk.w[1] == 2) {
+    if (o->f14.w[1] == 2) {
         o->f0C = 0;
     }
     func_0216E1A4(p[2], (int)(&o->f2C));
@@ -1726,7 +1612,7 @@ void func_021BC030(int a0, Obj_021BC030 *p)
  * what materialises `add r6, sp, #0xc` before the three stores and keeps r6
  * across the func_0216E3C4 call (plain element stores fold to sp-relative).
  */
-void func_021BC048(u32 a0, Obj_021BC048 *p)
+void func_021BC048(u32 a0, FieldPlaceNameWork5 *p)
 {
     u16 s[2];
     int h;
@@ -1961,20 +1847,20 @@ int func_021BC388(int a, int b, int c)
     func_021BD0E0((Obj_021BD0E0 *)r4);
     func_021BC810((Obj_021BC810 *)r4);
     func_021BCFE0((Obj_021BCFE0 *)r4);
-    func_021BCFF0((Obj_021BCFF0 *)r4);
+    func_021BCFF0((FieldPlaceNameWork5 *)r4);
     func_021BD008((Obj_021BD008 *)r4);
     func_021BD098((Obj_021BD098 *)r4, b);
     func_021BD09C((u8 *)r4, func_021904AC((u8 *)c));
     func_021BC730((Obj_021BC730 *)r4);
-    func_021BC75C((Obj_021BC75C *)r4);
-    func_021BC794((Obj_021BC794 *)r4);
-    func_021BC7BC((Obj_021BC7BC *)r4, 0);
-    func_021BC998((Obj_021BC998 *)r4);
+    func_021BC75C((FieldPlaceNameWork4 *)r4);
+    func_021BC794((FieldPlaceNameWork5 *)r4);
+    func_021BC7BC((FieldPlaceNameWork *)r4, 0);
+    func_021BC998((FieldPlaceNameWork5 *)r4);
     func_021BC7D4((Obj_021BC7D4 *)r4);
     func_0203FCA0(3, (const struct BgTemplate *)0x021DE334, 0);
-    func_021BC664((S_021BC388 *)((struct S_021BC388 *)r4));
-    func_021BC6E8((Obj_021BC704 *)r4);
-    func_021BD01C((Obj_021BD01C *)r4);
+    func_021BC664((FieldPlaceNameWork *)((FieldPlaceNameWork *)r4));
+    func_021BC6E8((FieldPlaceNameWork *)r4);
+    func_021BD01C((FieldPlaceNameWork5 *)r4);
     func_021BCB9C((void *)r4, 0);
     return r4;
 }
@@ -1996,17 +1882,17 @@ int func_021BC388(int a, int b, int c)
 void func_021BC424(u32 a)
 {
     func_021BD0FC(a);
-    func_021BC6B4((Obj_021BC6B4 *)a);
-    func_021BC7F8((Obj_021BC7F8 *)a);
+    func_021BC6B4((FieldPlaceNameWork5 *)a);
+    func_021BC7F8((FieldPlaceNameWork *)a);
     func_021BD068((u8 *)a);
-    func_021BC9AC((Obj_021BC9AC *)a);
+    func_021BC9AC((FieldPlaceNameWork *)a);
     func_021BC7B0((u8 *)a);
     func_021BC788((u8 *)a);
     func_021BC748((u8 *)a);
     func_021BD040((Obj_021BCFE0 *)a);
     func_021BD054((u8 *)a);
-    func_021BD07C((Obj_021BD01C *)a);
-    func_021BC704((Obj_021BC704 *)a);
+    func_021BD07C((FieldPlaceNameWork5 *)a);
+    func_021BC704((FieldPlaceNameWork *)a);
     func_021BC824((u8 *)a);
     func_020403F4(3);
     func_021BCFD8(a);
@@ -2028,7 +1914,7 @@ void func_021BC424(u32 a)
 
 void func_021BC484(u32 a)
 {
-    func_021BD0B0((Obj_021BD0B0 *)a);
+    func_021BD0B0((FieldPlaceNameWork *)a);
     switch (func_021BD0A4((u8 *)a)) {
     case 0:
         func_021BCC3C((void *)a);
@@ -2037,10 +1923,10 @@ void func_021BC484(u32 a)
         func_021BCC80((char *)a);
         break;
     case 2:
-        func_021BCD34((Obj_021BD0B0 *)a);
+        func_021BCD34((FieldPlaceNameWork *)a);
         break;
     case 3:
-        func_021BCD70((Obj_021BD0B0 *)a);
+        func_021BCD70((FieldPlaceNameWork *)a);
         break;
     case 4:
         func_021BCD84((char *)a);
@@ -2052,7 +1938,7 @@ void func_021BC484(u32 a)
         func_021BCE88((char *)a);
         break;
     }
-    func_021BC970((Obj_021BC970 *)a);
+    func_021BC970((FieldPlaceNameWork *)a);
 }
 
 
@@ -2201,7 +2087,7 @@ return (int)func_021BCA6C(a);
 void func_021BC5D4(u8 *p)
 {
     func_021BC654(p);
-    func_021BC720((Obj_021BD01C *)p);
+    func_021BC720((FieldPlaceNameWork5 *)p);
 }
 
 
@@ -2222,9 +2108,9 @@ void func_021BC5E4(int *p)
 {
     int r4;
 
-    func_021BC6D0((Obj_021BC6D0 *)((int)p));
-    func_021BC6E8((Obj_021BC704 *)((int)p));
-    func_021BD01C((Obj_021BD01C *)((int)p));
+    func_021BC6D0((FieldPlaceNameWork3 *)((int)p));
+    func_021BC6E8((FieldPlaceNameWork *)((int)p));
+    func_021BD01C((FieldPlaceNameWork5 *)((int)p));
     r4 = p[9];
     func_02045334((struct Descriptor *)r4);
     func_02045374((struct Cfg *)r4);
@@ -2251,8 +2137,8 @@ void func_021BC5E4(int *p)
 void func_021BC63C(void *p)
 {
     func_020414AC(3);
-    func_021BC704((Obj_021BC704 *)p);
-    func_021BD07C((Obj_021BD01C *)p);
+    func_021BC704((FieldPlaceNameWork *)p);
+    func_021BD07C((FieldPlaceNameWork5 *)p);
 }
 
 
@@ -2289,16 +2175,16 @@ void func_021BC654(u8 *p)
 
 
 
-void func_021BC664(S_021BC388 *p)
+void func_021BC664(FieldPlaceNameWork *p)
 {
     int r4, r6, h;
 
     r4 = func_021BD090((u8 *)((int)p));
     r6 = func_021BD094((u8 *)((int)p));
     h = (int)func_02030734(r4, func_020493D4((struct ArcFile *)r6, 1), 0, (const char *)0x021DE354, 0x2c8);
-    p->a = h;
+    p->f14C = h;
     func_0204932C((struct ArcFile *)r6, 1, (void *)h);
-    func_02062A98((struct NitroFileHeader *)p->a, (void **)((int)&p->b));
+    func_02062A98((struct NitroFileHeader *)p->f14C, (void **)((int)&p->f150));
 }
 
 
@@ -2315,7 +2201,7 @@ void func_021BC664(S_021BC388 *p)
 
 
 
-void func_021BC6B4(Obj_021BC6B4 *p)
+void func_021BC6B4(FieldPlaceNameWork5 *p)
 {
     if (p->f14C != 0) {
         func_020307B0(p->f14C);
@@ -2338,7 +2224,7 @@ void func_021BC6B4(Obj_021BC6B4 *p)
 
 
 
-void func_021BC6D0(Obj_021BC6D0 *p)
+void func_021BC6D0(FieldPlaceNameWork3 *p)
 {
     func_02040E78(3, (void *)p->f150->fC, 0x20, 0);
 }
@@ -2357,7 +2243,7 @@ void func_021BC6D0(Obj_021BC6D0 *p)
 
 
 
-void func_021BC6E8(Obj_021BC704 *p)
+void func_021BC6E8(FieldPlaceNameWork *p)
 {
     if (p->f28 == -1) {
         p->f28 = func_0203FA08(3, 0x20, 0);
@@ -2377,7 +2263,7 @@ void func_021BC6E8(Obj_021BC704 *p)
 
 
 
-void func_021BC704(Obj_021BC704 *p)
+void func_021BC704(FieldPlaceNameWork *p)
 {
     if (p->f28 != -1) {
         func_0203FB44(3, p->f28, 0x20);
@@ -2398,7 +2284,7 @@ void func_021BC704(Obj_021BC704 *p)
 
 
 
-void func_021BC720(Obj_021BD01C *p)
+void func_021BC720(FieldPlaceNameWork5 *p)
 {
     func_02043B5C(func_02045770(p->f24), 3);
 }
@@ -2461,7 +2347,7 @@ void func_021BC748(u8 *p)
 
 
 
-void func_021BC75C(Obj_021BC75C *p)
+void func_021BC75C(FieldPlaceNameWork4 *p)
 {
     u16 a = func_021BD090((u8 *)p);
     u32 b = func_021BD094((u8 *)p);
@@ -2505,7 +2391,7 @@ void func_021BC788(u8 *p)
 
 
 
-void func_021BC794(Obj_021BC794 *p)
+void func_021BC794(FieldPlaceNameWork5 *p)
 {
     p->f34 = func_0204B100(0x1E, 1, func_021BD090((unsigned char *)p));
     func_0204B22C(p->f34, 1);
@@ -2547,7 +2433,7 @@ void func_021BC7B0(u8 *p)
 
 
 
-void func_021BC7BC(Obj_021BC7BC *p, int i)
+void func_021BC7BC(FieldPlaceNameWork *p, int i)
 {
     if (p->f38 != 0) {
         func_0204B258(p->f34[i], p->f38);
@@ -2589,7 +2475,7 @@ void func_021BC7D4(Obj_021BC7D4 *p)
 
 
 
-void func_021BC7F8(Obj_021BC7F8 *p)
+void func_021BC7F8(FieldPlaceNameWork *p)
 {
     int i;
 
@@ -2680,14 +2566,14 @@ void func_021BC838(char *p)
  * The call argument is the assignment itself: `f(p->fC8[n] = v, &prm)`
  * gives the `str r0, [r2, r1]` with the fC8 base hoisted.
  */
-void func_021BC848(Obj_021BC848 *p)
+void func_021BC848(FieldPlaceNameWork5 *p)
 {
     int n;
     int i;
     u16 buf[32];
     Params prm;
 
-    n = p->count;
+    n = p->f148;
     func_02045A38((struct U16Vec *)func_021BD134((u8 *)p), buf, 32);
     prm = d_021D9B88;
     prm.f20 = p->f18;
@@ -2702,11 +2588,11 @@ void func_021BC848(Obj_021BC848 *p)
     }
     if (prm.ch == 0x20) {
         p->fC8[n] = 0;
-        p->skip++;
+        p->f14B++;
     } else {
-        func_021BD19C(p->fC8[n] = p->f50[n - p->skip], (u32)(&prm));
+        func_021BD19C(p->fC8[n] = p->f50[n - p->f14B], (u32)(&prm));
     }
-    p->count++;
+    p->f148++;
 }
 
 
@@ -2722,7 +2608,7 @@ void func_021BC848(Obj_021BC848 *p)
 
 
 
-int func_021BC910(Obj_021BC910 *p)
+int func_021BC910(FieldPlaceNameWork *p)
 {
     if (func_021BD138((u8 *)p) <= p->b148) {
         return 1;
@@ -2743,7 +2629,7 @@ int func_021BC910(Obj_021BC910 *p)
 
 
 
-void func_021BC92C(Obj_021BC7F8 *p)
+void func_021BC92C(FieldPlaceNameWork *p)
 {
     int i;
 
@@ -2765,7 +2651,7 @@ void func_021BC92C(Obj_021BC7F8 *p)
 
 
 
-void func_021BC948(Obj_021BC948 *p)
+void func_021BC948(FieldPlaceNameWork *p)
 {
     u8 i = p->b149++;
 
@@ -2788,7 +2674,7 @@ void func_021BC948(Obj_021BC948 *p)
 
 
 
-void func_021BC970(Obj_021BC970 *p)
+void func_021BC970(FieldPlaceNameWork *p)
 {
     int n = func_021BD138((u8 *)p);
     int i;
@@ -2813,7 +2699,7 @@ void func_021BC970(Obj_021BC970 *p)
 
 
 
-void func_021BC998(Obj_021BC998 *p)
+void func_021BC998(FieldPlaceNameWork5 *p)
 {
     p->f30 = func_02025538(func_021BD090((u8 *)p), p->f34);
 }
@@ -2832,7 +2718,7 @@ void func_021BC998(Obj_021BC998 *p)
 
 
 
-void func_021BC9AC(Obj_021BC9AC *p)
+void func_021BC9AC(FieldPlaceNameWork *p)
 {
     if (p->f30 != 0) {
         func_02025588(p->f30);
@@ -2905,7 +2791,7 @@ void func_021BC9CC(char *p)
 
 
 
-int func_021BCA48(Obj_021BCA48 *p)
+int func_021BCA48(FieldPlaceNameWork *p)
 {
     if ((int)func_021BD138((u8 *)p) <= p->b14A) {
         return 1;
@@ -3048,7 +2934,7 @@ u32 func_021BCA88(u8 *p)
 
 
 
-int func_021BCA8C(Obj_021BCA8C *p)
+int func_021BCA8C(FieldPlaceNameWork *p)
 {
     int a = func_02013E4C(p->h44);
 
@@ -3150,12 +3036,12 @@ int func_021BCB48(int *p, int b)
 
 void func_021BCB9C(void *p, int keep)
 {
-    func_021BD0A0((Obj_021BD0A0 *)p, keep);
+    func_021BD0A0((FieldPlaceNameWork *)p, keep);
     func_021BD0A8(p);
     func_021BD0C8(p);
     if (keep == 0) {
         func_02040588(3, 0);
-        func_021BC92C((Obj_021BC7F8 *)p);
+        func_021BC92C((FieldPlaceNameWork *)p);
     }
 }
 
@@ -3252,16 +3138,16 @@ void func_021BCC80(char *p)
     switch (func_021BD0C0((u8 *)p)) {
     case 0:
         func_021BCAB0((int *)p);
-        func_021BD0D0((Obj_021BD0D0 *)p);
+        func_021BD0D0((FieldPlaceNameWork *)p);
         break;
     case 1:
         func_020414C4(3);
         func_020414EC(3);
-        func_021BC6D0((Obj_021BC6D0 *)p);
-        func_021BD0D0((Obj_021BD0D0 *)p);
+        func_021BC6D0((FieldPlaceNameWork3 *)p);
+        func_021BD0D0((FieldPlaceNameWork *)p);
         break;
     case 2:
-        func_021BC720((Obj_021BD01C *)p);
+        func_021BC720((FieldPlaceNameWork5 *)p);
         w = *(u32 *)&((struct Obj00183 *)p)->f24;
         func_02045334((struct Descriptor *)w);
         func_02045374((struct Cfg *)w);
@@ -3270,11 +3156,11 @@ void func_021BCC80(char *p)
         func_02040588(3, 0);
         func_0207D63C(0x04000050, 8, 0x11, 0x10, 4);
         func_021BC838(p);
-        func_021BD0D0((Obj_021BD0D0 *)p);
+        func_021BD0D0((FieldPlaceNameWork *)p);
         break;
     case 3:
-        func_021BC848((Obj_021BC848 *)p);
-        if (func_021BC910((Obj_021BC910 *)p)) {
+        func_021BC848((FieldPlaceNameWork5 *)p);
+        if (func_021BC910((FieldPlaceNameWork *)p)) {
             func_021BCB9C(p, 2);
         }
         break;
@@ -3292,13 +3178,13 @@ void func_021BCC80(char *p)
 
 
 
-void func_021BCD34(Obj_021BD0B0 *p)
+void func_021BCD34(FieldPlaceNameWork *p)
 {
     switch (func_021BD0C0((u8 *)p)) {
     case 0:
         func_021BCEB4((char *)p);
         func_02040588(3, 1);
-        func_021BD0D0((Obj_021BD0D0 *)p);
+        func_021BD0D0((FieldPlaceNameWork *)p);
         break;
     case 1:
         if (p->h42 > 10) {
@@ -3319,7 +3205,7 @@ void func_021BCD34(Obj_021BD0B0 *p)
 
 
 
-void func_021BCD70(Obj_021BD0B0 *p)
+void func_021BCD70(FieldPlaceNameWork *p)
 {
     if (p->h42 > 10) {
         func_021BCB9C(p, 4);
@@ -3341,11 +3227,11 @@ void func_021BCD84(char *p)
     switch (func_021BD0C0((u8 *)p)) {
     case 0:
         p[0x149] = 0;
-        func_021BD0D0((Obj_021BD0D0 *)p);
+        func_021BD0D0((FieldPlaceNameWork *)p);
         break;
     case 1:
         if (((struct Obj01123 *)p)->f42 % 3 == 0) {
-            func_021BC948((Obj_021BC948 *)p);
+            func_021BC948((FieldPlaceNameWork *)p);
             if (((struct Obj01123 *)p)->f20 <= ((struct Obj01123 *)p)->f149) {
                 func_021BCB9C(p, 5);
             }
@@ -3380,22 +3266,22 @@ void func_021BCDD8(char *p)
         }
         if (r6 != 0) {
             func_021BC9C0(p);
-            func_021BD0D0((Obj_021BD0D0 *)p);
+            func_021BD0D0((FieldPlaceNameWork *)p);
         }
         break;
     case 1:
         func_021BC9CC(p);
-        if (func_021BCA48((Obj_021BCA48 *)p) != 0) {
-            func_021BD0D0((Obj_021BD0D0 *)p);
+        if (func_021BCA48((FieldPlaceNameWork *)p) != 0) {
+            func_021BD0D0((FieldPlaceNameWork *)p);
         }
         break;
     case 2:
         func_02045334((struct Descriptor *)((struct Obj01123 *)p)->f24);
-        func_021BD0D0((Obj_021BD0D0 *)p);
+        func_021BD0D0((FieldPlaceNameWork *)p);
         break;
     case 3:
-        func_021BC92C((Obj_021BC7F8 *)p);
-        func_021BD0D0((Obj_021BD0D0 *)p);
+        func_021BC92C((FieldPlaceNameWork *)p);
+        func_021BD0D0((FieldPlaceNameWork *)p);
         break;
     case 4:
         if (((struct Obj01123 *)p)->f42 > 0x1e) {
@@ -3420,7 +3306,7 @@ void func_021BCE88(char *p)
     if (((struct Obj01123 *)p)->f42 > 0x14) {
         func_021BCB9C(p, 0);
         func_02040588(3, 0);
-        func_021BC92C((Obj_021BC7F8 *)p);
+        func_021BC92C((FieldPlaceNameWork *)p);
     }
 }
 
@@ -3611,7 +3497,7 @@ void func_021BCFE0(Obj_021BCFE0 *p)
 
 
 
-void func_021BCFF0(Obj_021BCFF0 *p)
+void func_021BCFF0(FieldPlaceNameWork5 *p)
 {
     p->f14 = func_02045B38(0, 2, 0x59, func_021BD090((u8 *)p));
 }
@@ -3639,7 +3525,7 @@ void func_021BD008(Obj_021BD008 *p)
 
 
 
-void func_021BD01C(Obj_021BD01C *p)
+void func_021BD01C(FieldPlaceNameWork5 *p)
 {
     func_021BD090((unsigned char *)p);
     p->f24 = (void *)func_020450F0(3, 0, 1, 0x20, 2, 0, 0);
@@ -3712,7 +3598,7 @@ void func_021BD068(u8 *p)
 
 
 
-void func_021BD07C(Obj_021BD01C *p)
+void func_021BD07C(FieldPlaceNameWork5 *p)
 {
     if (p->f24 != 0) {
         func_020452E8(p->f24);
@@ -3793,7 +3679,7 @@ void func_021BD09C(u8 *p, u32 v)
 
 
 
-void func_021BD0A0(Obj_021BD0A0 *p, int v)
+void func_021BD0A0(FieldPlaceNameWork *p, int v)
 {
     p->f3C = v;
 }
@@ -3835,7 +3721,7 @@ void func_021BD0A8(char *p)
 
 
 
-void func_021BD0B0(Obj_021BD0B0 *p)
+void func_021BD0B0(FieldPlaceNameWork *p)
 {
     p->h42++;
 }
@@ -3877,7 +3763,7 @@ void func_021BD0C8(char *p)
 
 
 
-void func_021BD0D0(Obj_021BD0D0 *p)
+void func_021BD0D0(FieldPlaceNameWork *p)
 {
     p->b40++;
 }
@@ -3938,7 +3824,7 @@ u16 func_021BD118(u8 *p)
 
 
 
-void func_021BD120(Obj_021BCA8C *p, u16 v)
+void func_021BD120(FieldPlaceNameWork *p, u16 v)
 {
     p->h44 = p->h46;
     p->h46 = v;
@@ -4001,7 +3887,7 @@ u32 func_021BD140(u32 a)
 void *func_021BD148(int a0, int a1, u16 a2, int a3)
 {
     void *p = func_021BD214(a0);
-    func_021BD234((Obj_021BD234 *)p);
+    func_021BD234((FieldPlaceNameWork5 *)p);
     func_021BD2BC(p, a0);
     func_021BD250((Obj_021BD250 *)p);
     func_021BD278(p, a1, a2, a3);
@@ -4074,7 +3960,7 @@ void func_021BD1CC(void *a)
 
 void func_021BD1D4(void *a)
 {
-    func_021BD474((Obj_021BD474 *)a);
+    func_021BD474((FieldPlaceNameWork5 *)a);
 }
 
 
@@ -4261,7 +4147,7 @@ u32 func_021BD22C(void *a0)
 
 
 
-void func_021BD234(Obj_021BD234 *p)
+void func_021BD234(FieldPlaceNameWork5 *p)
 {
     func_02082BCC(p, 0, 0x4C);
     p->f44 = 0;
@@ -4656,12 +4542,12 @@ return 0;
 
 int func_021BD36C(void *p)
 {
-    Inner_021BD36C *q = (Inner_021BD36C *)func_021BD304(p);
+    FieldPlaceNameWork *q = (FieldPlaceNameWork *)func_021BD304(p);
 
     if (func_021BD2D8(p) == 0) {
         return 1;
     }
-    if (q->f <= 0) {
+    if (q->f28 <= 0) {
         return 1;
     }
     return 0;
@@ -4679,12 +4565,12 @@ int func_021BD36C(void *p)
 
 int func_021BD394(void *p)
 {
-    Inner_021BD394 *q = (Inner_021BD394 *)func_021BD304(p);
+    FieldPlaceNameWork *q = (FieldPlaceNameWork *)func_021BD304(p);
 
     if (func_021BD2D8(p) == 0) {
         return 1;
     }
-    if (q->f <= 0) {
+    if (q->f2C <= 0) {
         return 1;
     }
     return 0;
@@ -4719,7 +4605,7 @@ void func_021BD3BC(void *p)
 
 void func_021BD3EC(S_021BD3EC_021BBDD4 *p)
 {
-    T_021BD3EC *q;
+    FieldPlaceNameWork *q;
 
     if (func_021BD36C(p) == 1) {
         return;
@@ -4742,7 +4628,7 @@ void func_021BD3EC(S_021BD3EC_021BBDD4 *p)
 
 void func_021BD430(S_021BD3EC_021BD430 *p)
 {
-    T_021BD430 *q;
+    FieldPlaceNameWork *q;
 
     if (func_021BD394(p) == 1) {
         return;
@@ -4750,8 +4636,8 @@ void func_021BD430(S_021BD3EC_021BD430 *p)
     q = &p->t;
     q->f04 = q->f04 + (q->f0c + q->f14 / 2.0f);
     q->f0c = q->f0c + q->f14;
-    q->f2c = q->f2c - 1;
-    if (q->f2c == 0) {
+    q->f2C = q->f2C - 1;
+    if (q->f2C == 0) {
         q->f04 = q->f1c;
     }
 }
@@ -4764,7 +4650,7 @@ void func_021BD430(S_021BD3EC_021BD430 *p)
 
 
 
-void func_021BD474(Obj_021BD474 *p)
+void func_021BD474(FieldPlaceNameWork5 *p)
 {
     p->f44 = 1;
 }
@@ -4794,23 +4680,23 @@ void func_021BD484(Obj_021BD484 *obj)
 {
     float dx;
     float dy;
-    Sub_021BD484 *s;
+    FieldPlaceNameWork *s;
 
     s = &obj->s;
-    dx = s->f18 - obj->s.f0;
-    dy = s->f1C - s->f4;
+    dx = s->f18 - obj->s.f00;
+    dy = s->f1c - s->f04;
 
     if (dx != 0.0f) {
-        s->f10 = (s->f20 * s->f20 - s->f8 * s->f8) / (2.0f * dx);
+        s->f10 = (s->f20 * s->f20 - s->f08 * s->f08) / (2.0f * dx);
     }
     if (dy != 0.0f) {
-        s->f14 = (s->f24 * s->f24 - s->fC * s->fC) / (2.0f * dy);
+        s->f14 = (s->f24 * s->f24 - s->f0c * s->f0c) / (2.0f * dy);
     }
     if (s->f10 != 0.0f) {
-        s->f28 = (s->f20 - s->f8) / s->f10;
+        s->f28 = (s->f20 - s->f08) / s->f10;
     }
     if (s->f14 != 0.0f) {
-        s->f2C = (s->f24 - s->fC) / s->f14;
+        s->f2C = (s->f24 - s->f0c) / s->f14;
     }
 }
 
@@ -5588,7 +5474,7 @@ void *func_021BDC94(void *a)
 
 void func_021BDCB8(u8 *p)
 {
-    func_021BDDAC((Obj_021BDDAC *)p);
+    func_021BDDAC((FieldPlaceNameWork3 *)p);
     func_021BDD74(p);
 }
 
@@ -5599,7 +5485,7 @@ void func_021BDCB8(u8 *p)
 
 void func_021BDCC8(char *a, int *b)
 {
-    func_021BE184((Obj_021BDCC8 *)a, (V3 *)b);
+    func_021BE184((FieldPlaceNameWork3 *)a, (V3 *)b);
     func_0218FEA0(((struct Obj00282 *)a)->f54, (u32)(a + 8));
     if (func_021BE1A0((u32)a) != 0) {
         switch (b[1]) {
@@ -5628,7 +5514,7 @@ void func_021BDCC8(char *a, int *b)
 
 
 
-void func_021BDD20(Obj_021BDDAC *p)
+void func_021BDD20(FieldPlaceNameWork3 *p)
 {
     if (func_021BE1C4((u32)p)) {
         func_0218FF00((u32)p->f54);
@@ -5726,7 +5612,7 @@ void func_021BDD9C(Obj_021BDD9C *p, void *x)
 
 
 
-void func_021BDDAC(Obj_021BDDAC *p)
+void func_021BDDAC(FieldPlaceNameWork3 *p)
 {
     if (p->f54 != 0) {
         func_0218FE98();
@@ -5747,9 +5633,9 @@ void func_021BDDAC(Obj_021BDDAC *p)
  */
 void func_021BDDC0(Obj_021BDDC0 *p)
 {
-    Sub_021BDC2C *s = &p->s;
-    Rot *t = &s->t;
-    Vec_021BBDD4_021BBDD4 out;
+    FieldPlaceNameWork4 *s = &p->s;
+    Rot *t = &s->f24;
+    FieldPlaceNameWork2 out;
     void *h;
     int mode;
 
@@ -5781,7 +5667,7 @@ void func_021BDDC0(Obj_021BDDC0 *p)
     func_0218FEA4(p->f54);
     func_0218FE78(p->f4, &s->f4);
     {
-        Vec_021BBDD4_021BBDD4 zero = {0, 0, 0};
+        FieldPlaceNameWork2 zero = {0, 0, 0};
         func_0218FE78(p->f4, t);
     }
     switch (mode) {
@@ -6052,9 +5938,9 @@ u8 *func_021BE180(u8 *p)
 
 
 
-void func_021BE184(Obj_021BDCC8 *p, const V3 *v)
+void func_021BE184(FieldPlaceNameWork3 *p, const V3 *v)
 {
-    p->v58 = *v;
+    p->f58 = *v;
 }
 
 

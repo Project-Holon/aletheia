@@ -43,7 +43,18 @@
  *   func_021CC810  0x021CC810  thumb  ov021
  *   func_021CC7B4  0x021CC7B4  thumb  ov021
  */
-#include "../../matched/include/Obj03600.h"
+
+typedef struct BattleTaskWork {
+    unsigned int sys;
+    unsigned int f4;
+    unsigned char pad8[4];
+    unsigned int party;
+    unsigned int w;
+    unsigned char rulesFlag;
+    unsigned char r2Flag;
+    unsigned short k;
+    unsigned int out;
+} BattleTaskWork;
 
 struct WordSet;
 struct Blk37;
@@ -213,7 +224,7 @@ void *func_021B58B0(void *sys, int flag, void *rules, u16 *out, u16 k)
     int r2;
     void *q;
     void *task;
-    u32 *e;
+    BattleTaskWork *e;
     u32 b;
     int r1;
     int tmp;
@@ -254,17 +265,17 @@ void *func_021B58B0(void *sys, int flag, void *rules, u16 *out, u16 k)
     task = func_020122C0(sys, 0, (void *)func_021B59B0, 0x1c);
     b = 0;
     e = func_020124E8(task);
-    e[0] = (u32)sys;
-    e[1] = (u32)func_0201210C(sys);
-    e[6] = (u32)out;
-    ((struct Obj03600 *)e)->f16 = k;
-    e[3] = (u32)party;
-    e[4] = (u32)w;
+    e->sys = (u32)sys;
+    e->f4 = (u32)func_0201210C(sys);
+    e->out = (u32)out;
+    e->k = k;
+    e->party = (u32)party;
+    e->w = (u32)w;
     if (r1) {
         b = 1;
     }
-    *((u8 *)e + 0x14) = b;
-    *((u8 *)e + 0x15) = r2 ? 1 : 0;
+    e->rulesFlag = b;
+    e->r2Flag = r2 ? 1 : 0;
     return task;
 }
 

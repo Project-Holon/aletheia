@@ -229,7 +229,7 @@ struct BbActRec;
 struct X;
 struct Actor;
 struct VecFx32;
-struct P_021C4B28;
+struct Res_021C48A0;
 struct IcaAnime;
 struct Obj11245;
 struct Rec12;
@@ -280,7 +280,11 @@ typedef struct {
 
 typedef struct Src { u32 f0; V3 v; } Src;
 
-typedef struct Res_021C48A0 { u32 f0; u16 h4; } Res_021C48A0;
+typedef struct Res_021C48A0 {
+    u32 f0;
+    u16 h4;
+    u16 h6;
+} Res_021C48A0;
 
 typedef struct Head { u8 pad[4]; u32 f4; u16 h8; } Head;
 
@@ -327,7 +331,6 @@ typedef struct {
     u32 f4;
 } R_021C4B28;
 
-typedef struct P_021C4B28 { u32 f0; u16 h4; u16 h6; } P_021C4B28;
 
 typedef struct {
     u32 owner;
@@ -670,7 +673,7 @@ void func_021C4B04(void *a, S_021C4AE8 *s);
 void func_021C4B24(void);
 R_021C4B28 *func_021C4B28(void *owner, u32 heap);
 void func_021C4B50(u32 a, u8 *p);
-void func_021C4B64(P_021C4B28 *p);
+void func_021C4B64(Res_021C48A0 *p);
 void func_021C4BC4(S_021C4BC4 *s);
 void func_021C4BE0(void *a, u32 b);
 void func_021C4C0C(int a, int *b);
@@ -1050,7 +1053,7 @@ R_021C4B28 *func_021C4B28(void *owner, u32 heap)
     R_021C4B28 *r = func_02030734(heap, 8, 1, d_021DE47C, 0x163);
 
     r->owner = owner;
-    func_021C4B64((P_021C4B28 *)((struct P_021C4B28 *)r));
+    func_021C4B64((Res_021C48A0 *)((struct Res_021C48A0 *)r));
     return r;
 }
 
@@ -1085,7 +1088,7 @@ void func_021C4B50(u32 a, u8 *p)
 
 
 
-void func_021C4B64(P_021C4B28 *p)
+void func_021C4B64(Res_021C48A0 *p)
 {
     u32 buf[9];
     u32 x = func_021ABE18((unsigned char *)p->f0);

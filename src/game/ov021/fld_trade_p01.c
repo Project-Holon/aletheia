@@ -173,7 +173,6 @@ struct Big;
 struct Blk34;
 struct Bank;
 struct GfFont;
-struct Obj_021CCA00;
 struct WordSet;
 struct Handle;
 struct Pair;
@@ -217,22 +216,6 @@ typedef struct {
     u32 f68;
 } Spec;
 
-typedef struct {
-    void *sys;      /* 0x00 */
-    void *f4;       /* 0x04 */
-    void *f8;       /* 0x08 */
-    u8 fC;          /* 0x0C */
-    u8 fD;          /* 0x0D */
-    u8 padE[2];
-    Obj_021CC390 *obj;       /* 0x10 */
-    u8 f14[0x30];   /* 0x14 */
-    void *f44;
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-} Work_021CC23C;
 
 typedef struct {
     void *a;
@@ -283,43 +266,31 @@ typedef struct Obj_021CC720 {
     u8 padBC[0xc4 - 0xbc];
 } Obj_021CC720;
 
-typedef struct Obj_021CC7B4 {
-    u8 pad0[0x18];
-    u32 f18;
-    u8 pad1C[0xb8 - 0x1c];
-    u32 fB8;
-    u8 padBC[0xc1 - 0xbc];
-    u8 fC1;
-} Obj_021CC7B4;
 
-typedef struct Obj_021CC810 {
-    u8 pad0[0xa4];
+typedef struct FldTradeWork {
+    void *f0;
+    void *f4;
+    void *f8;
+    u8 fC;
+    u8 fD;
+    u8 pad0E[0x10 - 0xE];
+    Obj_021CC390 *f10;
+    u8 f14[0x30];
+    void *f44;
+    void *f48;
+    void *f4C;
+    void *f50;
+    void *f54;
+    void *f58;
+    u8 pad5C[0xA4 - 0x5C];
     u32 fA4;
-    u8 padA8[0xbc - 0xa8];
+    u8 padA8[0xBC - 0xA8];
     u32 fBC;
     u8 fC0;
     u8 fC1;
-} Obj_021CC810;
+} FldTradeWork;
 
-typedef struct Obj_021CC8B0 {
-    u8 pad0[0x10];
-    u32 f10;
-    u32 f14;
-    u8 pad18[0xbc - 0x18];
-    u32 fBC;
-} Obj_021CC8B0;
 
-typedef struct {
-    u32 f0;
-    void *f4;
-    void *f8;
-    u16 heap;
-    u16 padE[(0x7C - 0xE) / 2];
-    u16 f7C;
-    u16 f7E;
-    u16 f80[6];
-    u16 f8C[6];
-} Obj_021CC8DC;
 
 typedef signed int s32;
 
@@ -330,23 +301,6 @@ typedef struct {
     u16 f6;
 } Pos;
 
-typedef struct {
-    u32 f0;
-    void *f4;
-    void *f8;
-    u16 heap;
-    u16 padE;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1C[6];
-    u32 f34[6];
-    u32 pad4C[(0x7C - 0x4C) / 4];
-    u16 f7C;
-    u16 f7E;
-    u16 f80[6];
-    u16 f8C[6];
-} Obj_021CCA00;
 
 typedef struct {
     u16 x;
@@ -384,14 +338,33 @@ typedef struct {
     int f10;
 } Info;
 
-typedef struct {
-    u8 pad0[0xa4];
+typedef struct FldTradeWork2 {
+    u32 f0;
+    void *f4;
+    void *f8;
+    u16 fC;
+    u8 pad0E[0x10 - 0xE];
+    u32 f10;
+    u32 f14;
+    u32 f18;
+    u32 f1C[6];
+    u32 f34[6];
+    u8 pad4C[0x7C - 0x4C];
+    u16 f7C;
+    u16 f7E;
+    u16 f80[6];
+    u16 f8C[6];
+    u8 pad98[0xA4 - 0x98];
     void *fA4;
     void *fA8;
-    u8 padAC[4];
+    u8 padAC[0xB0 - 0xAC];
     void *fB0;
     void *fB4;
-} Work_021CCBE0;
+    u32 fB8;
+    u32 fBC;
+    u8 padC0[0xC1 - 0xC0];
+    u8 fC1;
+} FldTradeWork2;
 
 extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
 extern void *func_02048F88(u32 archive_id, u32 member, u32 heap, u32 mode, u32 *size_out);
@@ -461,7 +434,7 @@ extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201D83C(void *ptr);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern int func_0219049C(u8 *p);
-extern void func_021CD1AC(Work_021CCBE0 *w);
+extern void func_021CD1AC(FldTradeWork2 *w);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
@@ -477,9 +450,9 @@ extern void func_0204A8D4(u32 v);
 extern void func_0204AFD8(u32 v);
 extern u32 func_0204ADA4(u32 v);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
-extern struct Obj_021CCA00 *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
-extern void func_0204B6F4(struct Obj_021CCA00 *o, u32 v, u32 flag);
-extern void func_0204B3DC(struct Obj_021CCA00 *p, unsigned int v);
+extern FldTradeWork2 *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
+extern void func_0204B6F4(FldTradeWork2 *o, u32 v, u32 flag);
+extern void func_0204B3DC(FldTradeWork2 *p, unsigned int v);
 extern void func_0204B3B4(struct Obj_021CC390 *p);
 extern u32 func_02027694(void);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -513,7 +486,7 @@ void *func_021CC070(u32 file, u32 index);
 void func_021CC098(void *sys, u16 b, void *mon, Spec *d, u32 e);
 void func_021CC23C(int obj);
 void func_021CC38C(void *p);
-int func_021CC390(void *a, u32 *state, Work_021CC23C *w);
+int func_021CC390(void *a, u32 *state, FldTradeWork *w);
 void *func_021CC500(void *a, u32 b, u32 c);
 int func_021CC544(void *task, void *p);
 int func_021CC570(u32 unused, u32 a);
@@ -522,12 +495,12 @@ int func_021CC614(u32 a, u32 b);
 int func_021CC6A8(void *vm, void *ctx);
 int func_021CC6FC(u32 a, u32 b, u32 c, u32 d);
 Obj_021CC720 *func_021CC720(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
-u32 func_021CC7B4(Obj_021CC7B4 *p, u32 *out);
-int func_021CC810(Obj_021CC810 *p);
-u32 func_021CC8B0(Obj_021CC8B0 *p, u32 *out);
-void func_021CC8DC(Obj_021CC8DC *p);
+u32 func_021CC7B4(FldTradeWork2 *p, u32 *out);
+int func_021CC810(FldTradeWork *p);
+u32 func_021CC8B0(FldTradeWork2 *p, u32 *out);
+void func_021CC8DC(FldTradeWork2 *p);
 void func_021CC9A4(u8 *p);
-void func_021CCA00(Obj_021CCA00 *p);
+void func_021CCA00(FldTradeWork2 *p);
 void func_021CCB98(u8 *p);
 void func_021CCBE0(u8 *s, int flag);
 void func_021CCC50(u8 *p);
@@ -542,12 +515,12 @@ void func_021CCF48(u8 *p);
 u32 func_021CCF54(u8 *p);
 void func_021CCF60(void *a, u32 sel);
 void func_021CCF7C(void *p, int k);
-void func_021CCFC0(Work_021CCBE0 *w);
+void func_021CCFC0(FldTradeWork2 *w);
 void func_021CCFD8(u8 *p);
 int func_021CCFE4(u32 a, u32 b);
 int func_021CCFF8(u8 *p);
-void func_021CD004(Work_021CCBE0 *w);
-void func_021CD038(Work_021CCBE0 *w);
+void func_021CD004(FldTradeWork2 *w);
+void func_021CD038(FldTradeWork2 *w);
 extern const char d_021DE59C[];
 extern const u8 ov119_id[];
 extern const u8 ov195_id[];
@@ -773,9 +746,9 @@ void func_021CC38C(void *p)
  *
  * Addresses are Black-image addresses.
  */
-int func_021CC390(void *a, u32 *state, Work_021CC23C *w)
+int func_021CC390(void *a, u32 *state, FldTradeWork *w)
 {
-    void *sys = w->sys;
+    void *sys = w->f0;
     void *f4 = w->f4;
     void *f8 = w->f8;
     void *h = func_0201210C(sys);
@@ -790,10 +763,10 @@ int func_021CC390(void *a, u32 *state, Work_021CC23C *w)
     switch (*state) {
     case 0:
         o = func_021CBFB0(4, w->fC);
-        w->obj = o;
+        w->f10 = o;
         func_021CC098(f4, 4, o->fC, o->f8, w->fC);
-        func_021CC23C((int)w->obj->fC);
-        func_021CC38C(w->obj->f8);
+        func_021CC23C((int)w->f10->fC);
+        func_021CC38C(w->f10->f8);
         *state = 1;
         break;
     case 1:
@@ -801,16 +774,16 @@ int func_021CC390(void *a, u32 *state, Work_021CC23C *w)
         w->f44 = f4;
         w->f50 = func_02012944(f4);
         w->f48 = m;
-        w->f54 = w->obj->f10;
-        w->f4C = w->obj->fC;
+        w->f54 = w->f10->f10;
+        w->f4C = w->f10->fC;
         func_02012374(a, func_020146F8(sys, (int)t, (int)ov119_id, (int)d_021E75A8, (int)w->f14));
         *state = 2;
         break;
     case 2:
-        func_0201AB48(f8, w->fD, w->obj->fC);
+        func_0201AB48(f8, w->fD, w->f10->fC);
         box = func_0200CA1C(f4);
-        func_0200CFA0(box, w->obj->fC);
-        func_0200CDE0(box, w->obj->fC);
+        func_0200CFA0(box, w->f10->fC);
+        func_0200CDE0(box, w->f10->fC);
         *state = 4;
         break;
     case 3:
@@ -832,7 +805,7 @@ int func_021CC390(void *a, u32 *state, Work_021CC23C *w)
     case 4:
         if (w->f58 != 0)
             func_020307B0(w->f58);
-        func_021CC040(w->obj);
+        func_021CC040(w->f10);
         return 1;
     }
     return 0;
@@ -1065,8 +1038,8 @@ Obj_021CC720 *func_021CC720(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap)
     p->f18 = (u32)func_0204B100(0x20, 0xa, p->fC);
     p->fB8 = (u32)func_0201D7EC(0x17, 3, 0, 0, p->fC);
     func_021CCEB8((Work_021CCEB8 *)p);
-    func_021CC8DC((Obj_021CC8DC *)p);
-    func_021CCA00((Obj_021CCA00 *)p);
+    func_021CC8DC((FldTradeWork2 *)p);
+    func_021CCA00((FldTradeWork2 *)p);
     func_021CCC50((u8 *)p);
     func_021CCCE4((Work_021CCCE4 *)p);
     return p;
@@ -1077,11 +1050,11 @@ Obj_021CC720 *func_021CC720(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap)
 
 
 
-u32 func_021CC7B4(Obj_021CC7B4 *p, u32 *out)
+u32 func_021CC7B4(FldTradeWork2 *p, u32 *out)
 {
     u32 r;
 
-    r = func_021CC8B0((Obj_021CC8B0 *)p, out);
+    r = func_021CC8B0((FldTradeWork2 *)p, out);
     if (p->fC1 != 1)
         func_02034714(d_021DE5BC, 0, d_021DE5BC);
     func_021CCDF8((u8 *)p);
@@ -1104,13 +1077,13 @@ u32 func_021CC7B4(Obj_021CC7B4 *p, u32 *out)
  * result (cases 2, -2, -1) is what gives the compare order 2, -2, -1 and
  * the dead second -1 test.
  */
-int func_021CC810(Obj_021CC810 *p)
+int func_021CC810(FldTradeWork *p)
 {
     u32 r;
 
     switch (p->fC0) {
     case 0:
-        func_021CCFC0((Work_021CCBE0 *)p);
+        func_021CCFC0((FldTradeWork2 *)p);
         func_021CCFE4((u32)p, 3);
         p->fC0 = p->fC0 + 1;
         break;
@@ -1126,7 +1099,7 @@ int func_021CC810(Obj_021CC810 *p)
             if (r == -1)
                 break;
             func_021CCF48((u8 *)p);
-            func_021CD1AC((Work_021CCBE0 *)p);
+            func_021CD1AC((FldTradeWork2 *)p);
             func_021CCFD8((u8 *)p);
             switch (r) {
             case 2:
@@ -1154,7 +1127,7 @@ int func_021CC810(Obj_021CC810 *p)
 
 
 
-u32 func_021CC8B0(Obj_021CC8B0 *p, u32 *out)
+u32 func_021CC8B0(FldTradeWork2 *p, u32 *out)
 {
     u32 m;
 
@@ -1171,23 +1144,23 @@ u32 func_021CC8B0(Obj_021CC8B0 *p, u32 *out)
 
 
 
-void func_021CC8DC(Obj_021CC8DC *p)
+void func_021CC8DC(FldTradeWork2 *p)
 {
     void *arc;
     int i;
     int n;
 
-    arc = func_020490F4(7, p->heap);
-    p->f7C = func_0204ACEC(arc, func_0201BC3C(), 0, 0x60, p->heap);
-    p->f7E = func_0204AF28(arc, func_0201BC40(), func_0201BCB4(), p->heap);
+    arc = func_020490F4(7, p->fC);
+    p->f7C = func_0204ACEC(arc, func_0201BC3C(), 0, 0x60, p->fC);
+    p->f7E = func_0204AF28(arc, func_0201BC40(), func_0201BCB4(), p->fC);
     n = func_0201AA18(p->f4);
     for (i = 0; i < n; i++) {
-        p->f80[i] = func_0204A6C8(arc, func_0201BA68((void *)func_020185F0(func_0201AB28(p->f4, i))), 0, 0, p->heap);
+        p->f80[i] = func_0204A6C8(arc, func_0201BA68((void *)func_020185F0(func_0201AB28(p->f4, i))), 0, 0, p->fC);
     }
     if (p->f8 != 0) {
         n = func_0201AA18(p->f8);
         for (i = 0; i < n; i++) {
-            p->f8C[i] = func_0204A6C8(arc, func_0201BA68((void *)func_020185F0(func_0201AB28(p->f8, i))), 0, 0, p->heap);
+            p->f8C[i] = func_0204A6C8(arc, func_0201BA68((void *)func_020185F0(func_0201AB28(p->f8, i))), 0, 0, p->fC);
         }
     }
     func_02049238(arc);
@@ -1218,7 +1191,7 @@ void func_021CC9A4(u8 *p)
 
 
 
-void func_021CCA00(Obj_021CCA00 *p)
+void func_021CCA00(FldTradeWork2 *p)
 {
     Pos pos = d_021DB404;
     int n1;
@@ -1233,27 +1206,27 @@ void func_021CCA00(Obj_021CCA00 *p)
     n1 = func_0201AA18(p->f4);
     for (i = 0; i < n1; i++) {
         pos.x = i * 0x28 + 0x18;
-        p->f1C[i] = (u32)func_0204B294((void *)p->f18, p->f80[i], p->f7C, p->f7E, &pos, 0, p->heap);
+        p->f1C[i] = (u32)func_0204B294((void *)p->f18, p->f80[i], p->f7C, p->f7E, &pos, 0, p->fC);
         mon = func_0201AB28(p->f4, i);
         s = func_02017E1C(mon, 5, 0);
         f = func_02017E1C(mon, 0x6f, 0);
         e = (func_02017E1C(mon, 0xab, 0) == 0x28a) ? 1 : 0;
         r = func_0201BB5C(s, f, func_02017E1C(mon, 0x6e, 0), e);
-        func_0204B6F4((struct Obj_021CCA00 *)p->f1C[i], (u8)r, 1);
-        func_0204B3DC((struct Obj_021CCA00 *)p->f1C[i], 0);
+        func_0204B6F4((FldTradeWork2 *)p->f1C[i], (u8)r, 1);
+        func_0204B3DC((FldTradeWork2 *)p->f1C[i], 0);
     }
     if (p->f8 != 0) {
         n2 = func_0201AA18(p->f8);
         for (i = 0; i < n2; i++) {
             pos.x = i * 0x28 + 0x18;
-            p->f34[i] = (u32)func_0204B294((void *)p->f18, p->f8C[i], p->f7C, p->f7E, &pos, 0, p->heap);
+            p->f34[i] = (u32)func_0204B294((void *)p->f18, p->f8C[i], p->f7C, p->f7E, &pos, 0, p->fC);
             mon = func_0201AB28(p->f8, i);
             s = func_02017E1C(mon, 5, 0);
             f = func_02017E1C(mon, 0x6f, 0);
             e = (func_02017E1C(mon, 0xab, 0) == 0x28a) ? 1 : 0;
             r = func_0201BB5C(s, f, func_02017E1C(mon, 0x6e, 0), e);
-            func_0204B6F4((struct Obj_021CCA00 *)p->f34[i], (u8)r, 1);
-            func_0204B3DC((struct Obj_021CCA00 *)p->f34[i], 0);
+            func_0204B6F4((FldTradeWork2 *)p->f34[i], (u8)r, 1);
+            func_0204B3DC((FldTradeWork2 *)p->f34[i], 0);
         }
     }
 }
@@ -1288,19 +1261,19 @@ void func_021CCBE0(u8 *s, int flag)
 
     for (i = 0; i < 6; i++) {
         if (*(void **)(s + i * 4 + 0x1c) != 0)
-            func_0204B3DC((struct Obj_021CCA00 *)(*(void **)(s + i * 4 + 0x1c)), 0);
+            func_0204B3DC((FldTradeWork2 *)(*(void **)(s + i * 4 + 0x1c)), 0);
         if (*(void **)(s + i * 4 + 0x34) != 0)
-            func_0204B3DC((struct Obj_021CCA00 *)(*(void **)(s + i * 4 + 0x34)), 0);
+            func_0204B3DC((FldTradeWork2 *)(*(void **)(s + i * 4 + 0x34)), 0);
     }
     if (flag == 0) {
         for (i = 0; i < 6; i++) {
             if (*(void **)(s + i * 4 + 0x1c) != 0)
-                func_0204B3DC((struct Obj_021CCA00 *)(*(void **)(s + i * 4 + 0x1c)), 1);
+                func_0204B3DC((FldTradeWork2 *)(*(void **)(s + i * 4 + 0x1c)), 1);
         }
     } else if (flag == 1) {
         for (i = 0; i < 6; i++) {
             if (*(void **)(s + i * 4 + 0x34) != 0)
-                func_0204B3DC((struct Obj_021CCA00 *)(*(void **)(s + i * 4 + 0x34)), 1);
+                func_0204B3DC((FldTradeWork2 *)(*(void **)(s + i * 4 + 0x34)), 1);
         }
     }
 }
@@ -1371,7 +1344,7 @@ void func_021CCCE4(Work_021CCCE4 *w)
             }
             pos.x = i * 0x28 + 0x20;
             w->icon[0][i] = (struct Obj_021CC390 *)func_0204B294(w->sys, w->h9C, w->h98, w->h9A, &pos, 0, w->hC);
-            func_0204B3DC((struct Obj_021CCA00 *)(w->icon[0][i]), 0);
+            func_0204B3DC((FldTradeWork2 *)(w->icon[0][i]), 0);
         }
     }
     if (w->party[1] != 0) {
@@ -1386,7 +1359,7 @@ void func_021CCCE4(Work_021CCCE4 *w)
             }
                 pos.x = i * 0x28 + 0x20;
                 w->icon[1][i] = (struct Obj_021CC390 *)func_0204B294(w->sys, w->h9C, w->h98, w->h9A, &pos, 0, w->hC);
-                func_0204B3DC((struct Obj_021CCA00 *)(w->icon[1][i]), 0);
+                func_0204B3DC((FldTradeWork2 *)(w->icon[1][i]), 0);
             }
         }
     }
@@ -1427,19 +1400,19 @@ void func_021CCE48(u8 *s, int flag)
 
     for (i = 0; i < 6; i++) {
         if (*(void **)(s + i * 4 + 0x4c) != 0)
-            func_0204B3DC((struct Obj_021CCA00 *)(*(void **)(s + i * 4 + 0x4c)), 0);
+            func_0204B3DC((FldTradeWork2 *)(*(void **)(s + i * 4 + 0x4c)), 0);
         if (*(void **)(s + i * 4 + 0x64) != 0)
-            func_0204B3DC((struct Obj_021CCA00 *)(*(void **)(s + i * 4 + 0x64)), 0);
+            func_0204B3DC((FldTradeWork2 *)(*(void **)(s + i * 4 + 0x64)), 0);
     }
     if (flag == 0) {
         for (i = 0; i < 6; i++) {
             if (*(void **)(s + i * 4 + 0x4c) != 0)
-                func_0204B3DC((struct Obj_021CCA00 *)(*(void **)(s + i * 4 + 0x4c)), 1);
+                func_0204B3DC((FldTradeWork2 *)(*(void **)(s + i * 4 + 0x4c)), 1);
         }
     } else if (flag == 1) {
         for (i = 0; i < 6; i++) {
             if (*(void **)(s + i * 4 + 0x64) != 0)
-                func_0204B3DC((struct Obj_021CCA00 *)(*(void **)(s + i * 4 + 0x64)), 1);
+                func_0204B3DC((FldTradeWork2 *)(*(void **)(s + i * 4 + 0x64)), 1);
         }
     }
 }
@@ -1528,7 +1501,7 @@ void func_021CCF60(void *a, u32 sel)
     if (sel < 2)
         func_021CD184(p, sel);
     else
-        func_021CD1AC((Work_021CCBE0 *)p);
+        func_021CD1AC((FldTradeWork2 *)p);
 }
 
 
@@ -1561,7 +1534,7 @@ void func_021CCF7C(void *p, int k)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CCFC0(Work_021CCBE0 *w)
+void func_021CCFC0(FldTradeWork2 *w)
 {
     w->fB0 = func_02190F64(w->fA4, (u32)w->fA8);
 }
@@ -1611,7 +1584,7 @@ int func_021CCFF8(u8 *p)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CD004(Work_021CCBE0 *w)
+void func_021CD004(FldTradeWork2 *w)
 {
     if (w->fB4 == 0)
         w->fB4 = func_02190708(w->fA4, (u32)w->fA8, 1, 2, 0x1e, 6);
@@ -1625,7 +1598,7 @@ void func_021CD004(Work_021CCBE0 *w)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CD038(Work_021CCBE0 *w)
+void func_021CD038(FldTradeWork2 *w)
 {
     if (w->fB4 != 0) {
         func_02190728((void *)w->fB4);
