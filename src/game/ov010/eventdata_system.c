@@ -174,55 +174,12 @@
  *   func_02012B28  0x02012B28  thumb
  *   d_021714DC     0x021714DC  data
  */
-#include "../../matched/include/Obj17710.h"
-#include "../../matched/include/Obj12331.h"
-#include "../../matched/include/Obj17711.h"
-#include "../../matched/include/Obj18948.h"
-#include "../../matched/include/Obj18949.h"
-#include "../../matched/include/Obj18951.h"
-#include "../../matched/include/Obj18952.h"
-#include "../../matched/include/Obj17712.h"
-#include "../../matched/include/Obj18954.h"
-#include "../../matched/include/Obj07292.h"
-#include "../../matched/include/Obj03062.h"
-#include "../../matched/include/Obj18955.h"
-#include "../../matched/include/Obj18956.h"
-#include "../../matched/include/Obj07202.h"
-#include "../../matched/include/Obj12334.h"
-#include "../../matched/include/Obj09161.h"
-#include "../../matched/include/Obj04155.h"
-#include "../../matched/include/Obj17713.h"
-#include "../../matched/include/Obj17714.h"
-#include "../../matched/include/Obj18957.h"
-#include "../../matched/include/Obj12335.h"
-#include "../../matched/include/Obj01639.h"
-#include "../../matched/include/Obj12337.h"
-#include "../../matched/include/Obj02059.h"
-#include "../../matched/include/Obj18958.h"
-#include "../../matched/include/Obj12338.h"
-#include "../../matched/include/Obj07293.h"
-#include "../../matched/include/Obj07294.h"
-#include "../../matched/include/Obj00193.h"
-#include "../../matched/include/Obj07295.h"
-#include "../../matched/include/Obj17715.h"
-#include "../../matched/include/Obj17716.h"
-#include "../../matched/include/Obj17717.h"
-#include "../../matched/include/Obj07296.h"
-#include "../../matched/include/Obj18964.h"
-#include "../../matched/include/Obj18972.h"
-#include "../../matched/include/Obj04156.h"
-#include "../../matched/include/Obj05891.h"
-#include "../../matched/include/Obj09310.h"
-#include "../../matched/include/Obj05896.h"
-#include "../../matched/include/Obj05897.h"
 
 struct R;
 struct ArcFile;
-struct Box;
 struct Q;
 struct Out;
-struct Ctx_02162744;
-struct Rec_0216242C;
+struct EventRec;
 struct Ctx;
 struct CellKey;
 struct VecFx32;
@@ -244,7 +201,9 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct { unsigned x; u16 b; u16 t; } S_02161E60;
+typedef short s16;
+
+typedef struct EventSlot { unsigned x; u16 b; u16 t; } EventSlot;
 
 typedef struct {
     u8 lo : 4;
@@ -257,15 +216,11 @@ typedef struct {
 
 typedef int (*Fn)(int, int, u16 *, u16 *);
 
-typedef struct { unsigned x; u16 b; u16 t; } S_0216208C;
 
-typedef signed short   s16_02161E60;
 
 typedef signed char    s8;
 
-typedef struct { unsigned char pad[0x3f]; unsigned char low:7; unsigned char flag:1; } Flags_02161E60;
 
-typedef signed short   s16_02162450;
 
 typedef struct {
     u16 a;
@@ -278,98 +233,55 @@ typedef struct {
     u8 data[1];
 } H;
 
-typedef struct {
-    int pad0;
-    struct ArcFile *f4;
-    u8 pad8[0xA];
-    u16 c12;
-    u16 c14;
-    u16 c16;
-    u16 c18;
-    u16 pad1A;
-    char *p1C;
-    char *p20;
-    char *p24;
-    char *p28;
-    u16 c2C;
-    u16 c2E;
-    u16 c30;
-    u16 c32;
-    u8 pad34[0x120 - 0x34];
-    char *p120;
-    int size;
-    H hdr;
-} O;
 
 typedef struct { u16 h0; u16 h2; } R;
 
-typedef short s16_021625FC;
 
-typedef struct { u16 a, b; s16_021625FC c; u16 d; } B;
+typedef struct { u16 a, b; s16 c; u16 d; } B;
 
 typedef struct { int x, y, z; } A;
 
-typedef signed short   s16_021626E8;
 
-struct Ent {
-    u16 pad0[3];
-    u16 f6;
-    u16 f8;
-    u16 fa;
-    u16 fc;
-    u16 pad[3];
-};
 
-struct Ctx_0216242C {
-    u16 pad0[11];
-    u16 f16;
-    u16 pad18[6];
-    struct Ent *f24;
-};
 
-typedef signed short   s16_02162740;
 
-typedef signed short   s16_0216242C;
 
 typedef struct {
     u16 x;
     u16 h;
     u32 w;
-} Sub_02161E60;
+} EventLinkSub;
 
-typedef struct {
+typedef struct EventLink {
     u8 pad0[0xC];
     u16 a;
     u8 pad1[0xA];
     u32 busy;
-    Sub_02161E60 s;
-} Rec_0216242C;
+    EventLinkSub s;
+} EventLink;
 
-typedef struct {
-    u8 pad0[0x14];
-    u16 n;
-    u8 pad1[0xA];
-    Rec_0216242C *tbl;
-} Own;
 
-struct Rec_0216242C {
+struct EventRec {
     u16 f0;
     u16 f2;
     u16 f4;
     u16 f6;
-    u16 pad[7];
+    u16 f8;
+    u16 area[6];     /* 0x0A: x, z, w, h, ... */
 };
 
-struct Ctx_02162744 {
-    u16 pad0[12];
-    u16 f18;
-    u16 pad1a[7];
-    struct Rec_0216242C *f28;
-};
 
 typedef int s32;
 
-typedef short s16_02162E9C;
+
+struct Sub {
+    u16 f0;
+    u16 f2;
+    s16 f4;
+    u16 f6;
+    u16 f8;
+    u16 fa;
+};
 
 typedef struct TrigPos {
     s32 x;              /* 0x08 */
@@ -380,13 +292,14 @@ typedef struct TrigPos {
 typedef struct TrigCell {
     u16 a;              /* 0x08 */
     u16 b;              /* 0x0A */
-    s16_02162E9C c;              /* 0x0C */
+    s16 c;              /* 0x0C */
 } TrigCell;
 
 typedef union TrigData {
     s32 data[3];
     TrigPos pos;
     TrigCell cell;
+    struct Sub sub;
 } TrigData;
 
 typedef struct Trigger {
@@ -397,12 +310,62 @@ typedef struct Trigger {
     TrigData u;         /* 0x08 */
 } Trigger;
 
-typedef struct TriggerSet {
-    u8 pad00[0x12];
-    u16 count;          /* 0x12 */
-    u8 pad14[8];
-    Trigger *list;      /* 0x1C */
-} TriggerSet;
+typedef struct EventSlots {
+    u16 f0;
+    u16 flags;              /* bit i: slot i valid, bits 0-9 */
+    u16 f4;
+    u8 pad6[2];
+    EventSlot slot[10];     /* 0x08 */
+} EventSlots;
+
+typedef struct EventState {
+    u8 pad0[4];
+    u8 f4;
+    u8 f5;
+} EventState;
+
+typedef struct EventMsgSrc {
+    u8 pad0[0xC];
+    s16 fC;
+    u8 padE[0xA];
+    int f18;
+    u16 f1C[3];
+} EventMsgSrc;
+
+typedef struct EventMark {
+    u32 magic;
+    u16 v[4];
+} EventMark;
+
+typedef struct EventData {
+    u32 f0;
+    struct ArcFile *arc;    /* 0x04 */
+    void *f8;
+    void *fC;
+    u16 f10;
+    u16 trigCount;          /* 0x12 */
+    u16 linkCount;          /* 0x14 */
+    u16 boxCount;           /* 0x16 */
+    u16 recCount;           /* 0x18 */
+    u16 pad1A;
+    Trigger *trig;          /* 0x1C */
+    EventLink *link;        /* 0x20 */
+    Trigger *box;           /* 0x24 */
+    struct EventRec *rec;   /* 0x28 */
+    u16 saveTrigCount;      /* 0x2C */
+    u16 saveLinkCount;
+    u16 saveBoxCount;
+    u16 saveRecCount;
+    u32 f34;
+    u8 pad38[7];
+    u8 low : 7;
+    u8 flag : 1;            /* 0x3F */
+    u8 pad40[0x120 - 0x40];
+    char *p120;
+    int size;
+    H hdr;
+} EventData;
+
 
 typedef struct {
     int a;
@@ -414,44 +377,25 @@ typedef struct { u32 e,f,g; } Payload;
 
 typedef struct { u16 a,b,c,d; Payload data; } Rec_02162A74;
 
-typedef struct { u8 pad[18]; u16 n; u8 pad14[8]; Rec_02162A74 *r; } Ctx;
 
-typedef short s16_02162A74;
 
-typedef short s16_02162BCC;
 
-struct Sub {
-    u16 f0;
-    u16 f2;
-    s16_02162BCC f4;
-    u16 f6;
-    u16 f8;
-    u16 fa;
-};
 
-struct Box {
-    u16 pad0[3];
-    u16 f6;
-    struct Sub s;
-};
 
 struct Q {
     u16 f0;
     u16 pad2;
-    s16_02162BCC f4;
+    s16 f4;
     u16 f6;
 };
 
-typedef signed short s16_02162C54;
 
-typedef short s16_02162C84;
 
-typedef signed short   s16_02162CE8;
 
 typedef struct {
-    s16_02162CE8 x;
-    s16_02162CE8 y;
-    s16_02162CE8 z;
+    s16 x;
+    s16 y;
+    s16 z;
     u16 w;
     u16 h;
 } Box_02162CE8;
@@ -461,13 +405,10 @@ typedef struct {
     Box_02162CE8 box;
 } Obj_02161E60;
 
-typedef short s16_02162D2C;
 
-typedef short s16_02162D90;
 
-struct Out { u16 f0; u8 f2; u8 f3; s16_02162D90 f4; u16 f6; };
+struct Out { u16 f0; u8 f2; u8 f3; s16 f4; u16 f6; };
 
-typedef short s16_02162E00;
 
 typedef s32 fx32;
 
@@ -480,15 +421,12 @@ typedef struct VecFx32 {
 typedef struct CellKey {
     u16 a;              /* 0x00 */
     u16 pad02;
-    s16_02162E9C c;              /* 0x04 */
+    s16 c;              /* 0x04 */
     u16 b;              /* 0x06 */
 } CellKey;
 
-typedef short s16_02162ECC;
 
-typedef short s16_02162F0C;
 
-typedef short s16_02162FC8;
 
 typedef struct EventTarget {
     u8 pad0[4];
@@ -516,15 +454,13 @@ typedef struct Obj_021636F0 {
     fx32 f04;           /* 0x04 */
 } Obj_021636F0;
 
-typedef short s16_021639C0;
 
-typedef struct { s16_021639C0 x0, y0, x1, y1; } Rect;
+typedef struct { s16 x0, y0, x1, y1; } Rect;
 
 typedef int (*AttrTest)(u16 attr);
 
 typedef struct { u16 a,b,c,d; int p,q; } E;
 
-typedef signed short s16_02164240;
 
 typedef struct {
     u8 a;
@@ -533,13 +469,12 @@ typedef struct {
     u8 d;
 } Quad;
 
-typedef short s16_02164304;
 
 typedef struct {
     u16 a;
     u8 b;
     u8 c;
-    s16_02164304 d;
+    s16 d;
     u16 e;
 } Msg;
 
@@ -570,8 +505,8 @@ extern unsigned func_02013ECC(unsigned);
 extern unsigned func_020493D4(struct ArcFile *, unsigned);
 extern void func_0204944C(struct ArcFile *, unsigned, unsigned, unsigned, void *);
 extern void func_020140F8(int p0);
-extern void func_02014110(int *, u16, s16_021625FC, u16, int, unsigned, unsigned, unsigned);
-extern void func_02014134(int *, u16, s16_021625FC, u16, int, u16, u16, s16_021625FC);
+extern void func_02014110(int *, u16, s16, u16, int, unsigned, unsigned, unsigned);
+extern void func_02014134(int *, u16, s16, u16, int, u16, u16, s16);
 extern int func_0201416C(int a0, int a1, int a2, int a3);
 extern u32 func_020143CC(u32 a, u32 b);
 extern u16 func_02164708(u16 id);
@@ -650,7 +585,7 @@ extern int func_021C8F7C(void *p, int h);
 extern u32 func_0216D52C(void *p);
 extern int func_0218DC04(struct Grid *g, VecFx32 *pos);
 extern void func_0216D88C(const struct Actor *p, VecFx32 *out);
-extern s16_021639C0 func_0216D854(void *p);
+extern s16 func_0216D854(void *p);
 extern u8 func_0216D91C(int a0);
 extern u8 func_0216D924(int a0);
 extern int func_0216D55C(int a0, int a1);
@@ -710,7 +645,7 @@ void func_02161F68(void *p);
 void func_02161F74(int a0, int a1, int a2);
 void func_02161F90(int unused, u16 *x, char *y, int z, u16 w, u16 v);
 void func_02161FEC(char *p, u16 v);
-void func_02161FF0(u16 *p, S_02161E60 *s);
+void func_02161FF0(u16 *p, EventSlot *s);
 void func_02162008(char *p, int index, void *s);
 int func_02162024(char *p, int index, void *out);
 int func_0216202C(char *p, void *out, u8 *index);
@@ -723,14 +658,14 @@ void func_021620A0(char *p);
 void func_021620B0(char *p);
 int func_0216210C(int a0);
 void func_02162120(int a, int b, int c);
-int func_02162198(int unused, char *p, const S_0216208C *s, S_0216208C *out);
-int func_021621C0(int unused, char *p, const S_0216208C *s, S_0216208C *out);
-int func_021621E8(int unused, char *p, struct Obj17712 *q);
-void func_0216220C(u16 *p, S_02161E60 *s);
+int func_02162198(int unused, char *p, const EventSlot *s, EventSlot *out);
+int func_021621C0(int unused, char *p, const EventSlot *s, EventSlot *out);
+int func_021621E8(int unused, char *p, EventSlots *q);
+void func_0216220C(u16 *p, EventSlot *s);
 void func_02162230(char *p, int index, void *s);
 int func_02162254(char *p, u16 index, u16 *out);
 void func_02162278(char *p, int index, u16 a, u16 b);
-void func_02162298(struct Obj03062 *s, int x, int y);
+void func_02162298(EventSlots *s, int x, int y);
 int func_021622AC(char *p, int index, void *out);
 int func_021622D8(char *p, void *out);
 void func_021622F4(char *p);
@@ -739,7 +674,7 @@ void func_02162330(char *p, unsigned i);
 void func_02162358(char *p);
 int func_02162370(int a);
 int func_0216237C(int a);
-void func_021623BC(struct Obj09161 *p);
+void func_021623BC(EventData *p);
 void func_021623DC(char *p);
 void func_02162408(char *p, u16 a1, u8 a2);
 void func_0216242C(void *a0, u16 a1, u8 a2);
@@ -748,7 +683,7 @@ u32 func_02162450(void *p);
 u32 func_02162458(u8 *p);
 void func_0216245C(u8 *o, u16 idx);
 int func_02162478(char *p, int *v);
-void func_021624B0(O *o, int x);
+void func_021624B0(EventData *o, int x);
 void func_02162530(char *p);
 u32 func_0216255C(u32 a);
 u16 func_02162560(u8 *p);
@@ -757,41 +692,41 @@ int func_02162598(char *p, struct Q *q);
 void *func_021625CC(char *p, unsigned i);
 int func_021625E8(R *p);
 int func_021625FC(const u8 *q, int *out, int id, int k);
-void func_02162694(struct Obj00193 *b, int a1, int a2);
+void func_02162694(Trigger *b, int a1, int a2);
 u16 func_021626A8(void *b, void *pos);
 u16 func_021626B0(void *b, void *q);
 int func_021626B8(char *a0, int a1);
 u8 func_021626E8(u8 *p);
 int func_021626EC(u16 *p);
-void func_02162708(struct Ctx_0216242C *c, u32 idx, u16 a, u32 b, u16 e);
+void func_02162708(EventData *c, u32 idx, u16 a, u32 b, u16 e);
 u32 func_02162740(u8 *p);
 u16 func_02162744(u8 *p);
-void func_02162748(Own *o, u32 idx, u16 a, u16 b, u32 w, u16 h);
+void func_02162748(EventData *o, u32 idx, u16 a, u16 b, u32 w, u16 h);
 void func_02162774(char *p, unsigned i, u16 v);
 void func_02162788(char *p, unsigned i, u16 v);
 u16 func_0216279C(int mode);
-struct Rec_0216242C *func_021627C8(struct Ctx_02162744 *c, void *a, int key, int mode);
-struct Rec_0216242C *func_0216282C(struct Ctx_02162744 *c, void *a, int *key, int mode);
-struct Rec_0216242C *func_02162890(struct Ctx_02162744 *c, void *a, int key);
-struct Rec_0216242C *func_021628E4(struct Ctx_02162744 *c, void *a, int key);
+struct EventRec *func_021627C8(EventData *c, void *a, int key, int mode);
+struct EventRec *func_0216282C(EventData *c, void *a, int *key, int mode);
+struct EventRec *func_02162890(EventData *c, void *a, int key);
+struct EventRec *func_021628E4(EventData *c, void *a, int key);
 u16 func_02162928(void *p, void *q, int key, int mode);
 u16 func_02162940(void *p, void *q, int key);
 u16 func_02162958(void *c, void *a, int key);
-u16 func_02162970(TriggerSet *set, void *flags, const void *where, u16 type);
+u16 func_02162970(EventData *set, void *flags, const void *where, u16 type);
 u16 func_02162A54(void *set, void *flags, const void *where, u16 type);
 u16 func_02162A5C(void *set, void *flags, const void *where, u16 type);
 void func_02162A64(const void *p, V3 *out);
 void func_02162A6C(int a, int b);
-void func_02162A74(const Ctx *c, u32 i, u32 a, u32 b, u16 d);
+void func_02162A74(const EventData *c, u32 i, u32 a, u32 b, u16 d);
 u16 func_02162AA4(int v, int m, int flag, int dir, u16 n);
-u16 func_02162B68(struct Box *b, int *pos);
-u16 func_02162BCC(struct Box *b, struct Q *q);
+u16 func_02162B68(Trigger *b, int *pos);
+u16 func_02162BCC(Trigger *b, struct Q *q);
 int func_02162C54(u8 *p);
-void func_02162C84(struct Box *b, int q, int *out);
+void func_02162C84(Trigger *b, int q, int *out);
 void func_02162CE8(const Obj_02161E60 *p, V3 *out);
-int func_02162D2C(const struct Box *b, const int *pos);
-void func_02162D90(const struct Box *b, int q, struct Out *o);
-int func_02162E00(struct Box *b, struct Q *q);
+int func_02162D2C(const Trigger *b, const int *pos);
+void func_02162D90(const Trigger *b, int q, struct Out *o);
+int func_02162E00(Trigger *b, struct Q *q);
 int func_02162E48(Trigger *t, const VecFx32 *pos);
 int func_02162E9C(Trigger *t, const CellKey *k);
 void func_02162ECC(const char *p, int *out);
@@ -833,13 +768,13 @@ void func_021637E4(void *p, EventInfo *s);
 void func_02163868(void *p, EventInfo *s);
 void func_021638AC(void *p, EventInfo *s);
 void func_021638C8(void *p, EventInfo *s);
-u32 func_021638CC(void *m, Obj_021636F0 *o, s16_02161E60 x, s16_02161E60 y, int z, u16 kind);
-u32 func_02163994(void *p, s16_02161E60 x, s16_02161E60 y, int z, u16 kind);
+u32 func_021638CC(void *m, Obj_021636F0 *o, s16 x, s16 y, int z, u16 kind);
+u32 func_02163994(void *p, s16 x, s16 y, int z, u16 kind);
 void func_021639C0(int a, u16 b);
 void func_02163A08(int p, int x, int y, Rect *out);
-int func_02163A40(s16_021639C0 *a, s16_021639C0 *b);
-int func_02163AF0(int a, int b, int c, int d, s16_021639C0 e, int g);
-int func_02163BAC(int a, int b, int c, s16_021639C0 d);
+int func_02163A40(s16 *a, s16 *b);
+int func_02163AF0(int a, int b, int c, int d, s16 e, int g);
+int func_02163BAC(int a, int b, int c, s16 d);
 int func_02163C04(int a, int x, int y, int flag);
 int func_02163C9C(int a, int b, int c);
 int func_02163D04(void *m, u32 kind, VecFx32 pos);
@@ -858,7 +793,7 @@ void func_021641C8(void *a);
 int func_021641E8(int a);
 int func_021641F8(int a);
 void func_02164208(int dir, int *p, int amt);
-void func_02164240(int dir, s16_02164240 *x, s16_02164240 *z, s16_02164240 amt);
+void func_02164240(int dir, s16 *x, s16 *z, s16 amt);
 void func_02164280(int x, int y, int *p);
 void func_02164294(int x, int y, int z, int *out);
 u16 func_021642A4(int i);
@@ -1029,7 +964,7 @@ void func_02161EEC(u16 *buf)
 void func_02161F00(void *p)
 {
     func_02082BCC(p, 0, 4);
-    ((struct Obj17710 *)p)->f2 = 10;
+    ((EventSlots *)p)->flags = 10;
 }
 
 
@@ -1049,7 +984,7 @@ void func_02161F14(u16 *out, u8 *in, int c)
 {
     int h;
     u16 *q;
-    if (((struct Obj12331 *)in)->f2 == 1) {
+    if (((EventSlots *)in)->flags == 1) {
         h = func_021867C4(in[9], (u16)((c & 0x7FFF) | 0x8000));
         q = func_0218682C(h);
         out[0] = q[0x24 / 2];
@@ -1170,7 +1105,7 @@ void func_02161F90(int unused, u16 *x, char *y, int z, u16 w, u16 v)
  */
 void func_02161FEC(char *p, u16 v)
 {
-    ((struct Obj18948 *)p)->f4 = v;
+    ((EventSlots *)p)->f4 = v;
 }
 
 
@@ -1185,7 +1120,7 @@ void func_02161FEC(char *p, u16 v)
 
 
 
-void func_02161FF0(u16 *p, S_02161E60 *s)
+void func_02161FF0(u16 *p, EventSlot *s)
 {
     if (func_0216210C((int)p) == 0)
         func_0216220C(p, s);
@@ -1238,7 +1173,7 @@ int func_02162024(char *p, int index, void *out)
 
 int func_0216202C(char *p, void *out, u8 *index)
 {
-    *index = ((struct Obj18949 *)p)->f4;
+    *index = ((EventSlots *)p)->f4;
     return func_021622D8(p, out);
 }
 
@@ -1289,11 +1224,11 @@ void func_02162040(char *p)
 
 void func_02162048(u16 *a, int b, int c)
 {
-    S_02161E60 s;
+    EventSlot s;
     int t;
 
     if (func_0216210C((int)a) == 0) {
-        func_02162298((struct Obj03062 *)a, b, c);
+        func_02162298((EventSlots *)a, b, c);
         return;
     }
     t = d_0217144C[c];
@@ -1321,7 +1256,7 @@ void func_02162048(u16 *a, int b, int c)
  */
 int func_0216208C(char *p, int unused)
 {
-    if (((struct Obj18951 *)p)->f2 & 8)
+    if (((EventSlots *)p)->flags & 8)
         return 1;
     return 0;
 }
@@ -1338,7 +1273,7 @@ int func_0216208C(char *p, int unused)
 
 u16 func_0216209C(char *p)
 {
-    return ((struct Obj18952 *)p)->f26;
+    return ((EventSlots *)p)->slot[3].t;
 }
 
 
@@ -1474,7 +1409,7 @@ void func_02162120(int a, int b, int c)
 
 
 
-int func_02162198(int unused, char *p, const S_0216208C *s, S_0216208C *out)
+int func_02162198(int unused, char *p, const EventSlot *s, EventSlot *out)
 {
     out->x = s->x;
     out->b = s->b;
@@ -1492,7 +1427,7 @@ int func_02162198(int unused, char *p, const S_0216208C *s, S_0216208C *out)
 
 
 
-int func_021621C0(int unused, char *p, const S_0216208C *s, S_0216208C *out)
+int func_021621C0(int unused, char *p, const EventSlot *s, EventSlot *out)
 {
     out->x = s->x;
     out->b = s->b;
@@ -1514,7 +1449,7 @@ int func_021621C0(int unused, char *p, const S_0216208C *s, S_0216208C *out)
 
 
 
-int func_021621E8(int unused, char *p, struct Obj17712 *q)
+int func_021621E8(int unused, char *p, EventSlots *q)
 {
     char *s;
 
@@ -1538,7 +1473,7 @@ int func_021621E8(int unused, char *p, struct Obj17712 *q)
 
 
 
-void func_0216220C(u16 *p, S_02161E60 *s)
+void func_0216220C(u16 *p, EventSlot *s)
 {
     if (s->x == *p) {
         func_02082D44(s, (char *)p + 0x20, 8);
@@ -1586,8 +1521,8 @@ void func_02162230(char *p, int index, void *s)
 int func_02162254(char *p, u16 index, u16 *out)
 {
     int result = 0;
-    if (((struct Obj18954 *)p)->f2 & (1 << index)) {
-        func_02082D44(p + 8 + index * 8, out, 8);
+    if (((EventSlots *)p)->flags & (1 << index)) {
+        func_02082D44(&((EventSlots *)p)->slot[index], out, 8);
         result = 1;
     }
     return result;
@@ -1607,10 +1542,11 @@ int func_02162254(char *p, u16 index, u16 *out)
 
 void func_02162278(char *p, int index, u16 a, u16 b)
 {
+    /* stand-in: slot[index + 5].x/b/t stores compile 2 bytes shorter */
     *(int *)(p + 0x30 + index * 8) = index;
     *(u16 *)(p + 0x34 + index * 8) = a;
     *(u16 *)(p + 0x36 + index * 8) = b;
-    ((struct Obj07292 *)p)->f2 = (u16)(((struct Obj07292 *)p)->f2 | (1 << (index + 5)));
+    ((EventSlots *)p)->flags = (u16)(((EventSlots *)p)->flags | (1 << (index + 5)));
 }
 
 
@@ -1628,17 +1564,17 @@ void func_02162278(char *p, int index, u16 a, u16 b)
 
 
 
-void func_02162298(struct Obj03062 *s, int x, int y)
+void func_02162298(EventSlots *s, int x, int y)
 {
     int link;
     int flags;
 
-    s->f2E = y;
+    s->slot[4].t = y;
     link = s->f4;
-    s->f2C = x;
-    flags = s->f2;
-    s->f28 = link;
-    s->f2 = flags | 0x10;
+    s->slot[4].b = x;
+    flags = s->flags;
+    s->slot[4].x = link;
+    s->flags = flags | 0x10;
 }
 
 
@@ -1656,7 +1592,7 @@ void func_02162298(struct Obj03062 *s, int x, int y)
 int func_021622AC(char *p, int index, void *out)
 {
     int result = 0;
-    if (((struct Obj18955 *)p)->f2 & (1 << (index + 5))) {
+    if (((EventSlots *)p)->flags & (1 << (index + 5))) {
         func_02082D44(p + 0x30 + index * 8, out, 8);
         result = 1;
     }
@@ -1678,8 +1614,8 @@ int func_021622AC(char *p, int index, void *out)
 int func_021622D8(char *p, void *out)
 {
     int result = 0;
-    if (((struct Obj18956 *)p)->f2 & 16) {
-        func_02082D44(p + 0x28, out, 8);
+    if (((EventSlots *)p)->flags & 16) {
+        func_02082D44(&((EventSlots *)p)->slot[4], out, 8);
         result = 1;
     }
     return result;
@@ -1700,8 +1636,8 @@ int func_021622D8(char *p, void *out)
 
 void func_021622F4(char *p)
 {
-    func_02082BCC(p + 0x20, 0, 8);
-    ((struct Obj07202 *)p)->f2 = ((struct Obj07202 *)p)->f2 & ~8;
+    func_02082BCC(&((EventSlots *)p)->slot[3], 0, 8);
+    ((EventSlots *)p)->flags = ((EventSlots *)p)->flags & ~8;
 }
 
 
@@ -1724,7 +1660,7 @@ void func_021622F4(char *p)
  *   with 02161F54. The clear spans offsets 8..31; the mask reads offset 2.
  *   Thus primary shift counts 0..2 are defined; no arbitrary-u32 domain claim.
  */
-void func_0216230C(char *p, unsigned i) { func_02082BCC(p+8+i*8,0,8); ((struct Obj07292 *)p)->f2 = ((struct Obj07292 *)p)->f2 & ~(1<<i); }
+void func_0216230C(char *p, unsigned i) { func_02082BCC(&((EventSlots *)p)->slot[i],0,8); ((EventSlots *)p)->flags = ((EventSlots *)p)->flags & ~(1<<i); }
 
 
 
@@ -1747,7 +1683,7 @@ void func_0216230C(char *p, unsigned i) { func_02082BCC(p+8+i*8,0,8); ((struct O
  *   Clears cover offsets 0x30..0x47; mask halfword offset 2 is initialized.
  *   No arbitrary-u32 domain claim: all primary arithmetic stays in range.
  */
-void func_02162330(char *p, unsigned i) { func_02082BCC(p+0x30+i*8,0,8); ((struct Obj12334 *)p)->f2 = ((struct Obj12334 *)p)->f2 & ~(1<<(i+5)); }
+void func_02162330(char *p, unsigned i) { func_02082BCC(p+0x30+i*8,0,8); ((EventSlots *)p)->flags = ((EventSlots *)p)->flags & ~(1<<(i+5)); }
 
 
 
@@ -1764,8 +1700,8 @@ void func_02162330(char *p, unsigned i) { func_02082BCC(p+0x30+i*8,0,8); ((struc
 
 void func_02162358(char *p)
 {
-    func_02082BCC(p + 0x28, 0, 8);
-    ((struct Obj07202 *)p)->f2 = ((struct Obj07202 *)p)->f2 & ~0x10;
+    func_02082BCC(&((EventSlots *)p)->slot[4], 0, 8);
+    ((EventSlots *)p)->flags = ((EventSlots *)p)->flags & ~0x10;
 }
 
 
@@ -1822,9 +1758,9 @@ int func_0216237C(int a)
 
 
 
-void func_021623BC(struct Obj09161 *p)
+void func_021623BC(EventData *p)
 {
-    func_02049238((void *)p->f4);
+    func_02049238((void *)p->arc);
     func_02049238((void *)p->f8);
     func_02049238((void *)p->fC);
     func_020307B0(p);
@@ -1839,7 +1775,7 @@ void func_021623BC(struct Obj09161 *p)
 
 
 
-void func_021623DC(char *p) { func_02162530(p); *(char * *)&((struct Obj04155 *)p)->f120=p+0x2328; ((struct Obj04155 *)p)->f34=0; ((Flags_02161E60 *)p)->flag=0; }
+void func_021623DC(char *p) { func_02162530(p); (((EventData *)p)->p120)=p+0x2328; ((EventData *)p)->f34=0; ((EventData *)p)->flag=0; }
 
 
 
@@ -1885,7 +1821,7 @@ void func_02162408(char *p, u16 a1, u8 a2)
  */
 void func_0216242C(void *a0, u16 a1, u8 a2)
 {
-    ((struct Obj17713 *)a0)->f10 = a1;
+    ((EventData *)a0)->f10 = a1;
     func_021624B0(a0, a1);
 }
 
@@ -1904,8 +1840,8 @@ void func_0216242C(void *a0, u16 a1, u8 a2)
 
 void func_02162438(char *p, int a1, int a2)
 {
-    func_0215E2B8((struct R *)(p + 0x38), (int)((struct Obj04155 *)p)->f8, a1, a2);
-    ((struct Obj04155 *)p)->f34 = 1;
+    func_0215E2B8((struct R *)(p + 0x38), (int)((EventData *)p)->f8, a1, a2);
+    ((EventData *)p)->f34 = 1;
 }
 
 
@@ -1933,7 +1869,7 @@ void func_02162438(char *p, int a1, int a2)
  *   python tools/match.py one --src src/matched/func_02162450.c \
  *       --func func_02162450 --addr 0x02162450 --region ov010 --cc dsi/1.1p1 --thumb
  */
-u32 func_02162450(void *p) { return ((struct Obj17714 *)p)->f120; }
+u32 func_02162450(void *p) { return (u32)((EventData *)p)->p120; }
 
 
 
@@ -1960,7 +1896,7 @@ u32 func_02162450(void *p) { return ((struct Obj17714 *)p)->f120; }
  */
 u32 func_02162458(u8 *p)
 {
-    return ((struct Obj18957 *)p)->f34;
+    return ((EventData *)p)->f34;
 }
 
 
@@ -1985,11 +1921,11 @@ u32 func_02162458(u8 *p)
  */
 void func_0216245C(u8 *o, u16 idx)
 {
-    Rec14 *t = *(Rec14 * *)&((struct Obj12335 *)o)->f24;
+    Trigger *t = ((EventData *)o)->box;
 
-    if (((struct Obj12335 *)o)->f16 > idx) {
-        t[idx].a = 0xFFFF;
-        t[idx].b = 0xFFFF;
+    if (((EventData *)o)->boxCount > idx) {
+        t[idx].id = 0xFFFF;
+        t[idx].kind2 = 0xFFFF;
     }
 }
 
@@ -2005,7 +1941,7 @@ void func_0216245C(u8 *o, u16 idx)
 
 
 
-int func_02162478(char *p, int *v) { char *r=*(char * *)&((struct Obj12337 *)p)->f28; u16 n,i; if(r) { n=((struct Obj12337 *)p)->f18; for(i=0;i<n;i++,r+=22) { if(func_02162F0C(r,v) && ((struct Obj01639 *)r)->f6==6) return 1; } } return 0; }
+int func_02162478(char *p, int *v) { struct EventRec *r=((EventData *)p)->rec; u16 n,i; if(r) { n=((EventData *)p)->recCount; for(i=0;i<n;i++,r++) { if(func_02162F0C((char *)r,v) && r->f6==6) return 1; } } return 0; }
 
 
 
@@ -2031,7 +1967,7 @@ int func_02162478(char *p, int *v) { char *r=*(char * *)&((struct Obj12337 *)p)-
  * per count, steps before the pointer stores, enum offset local) stayed at 54/126 or 102/128 in passes
  * 1 to 4.
  */
-void func_021624B0(O *o, int x)
+void func_021624B0(EventData *o, int x)
 {
     int a;
     unsigned r;
@@ -2040,39 +1976,39 @@ void func_021624B0(O *o, int x)
     const H *h;
 
     a = func_02013ECC(x);
-    r = func_020493D4(o->f4, a);
-    func_0204944C(o->f4, a, 0, r, &o->size);
+    r = func_020493D4(o->arc, a);
+    func_0204944C(o->arc, a, 0, r, &o->size);
     off = 0;
     h = &o->hdr;
     d = (unsigned)h + 4;
     o->p120 = (char *)h + o->size;
     {
         u8 n = h->n[0];
-        o->c12 = n;
-        o->p1C = (char *)(d + off);
+        o->trigCount = n;
+        o->trig = (Trigger *)(d + off);
         off += n * 0x14;
     }
     {
         u8 n = h->n[1];
-        o->c14 = n;
-        o->p20 = (char *)(d + off);
+        o->linkCount = n;
+        o->link = (EventLink *)(d + off);
         off += n * 0x24;
     }
     {
         u8 n = h->n[2];
-        o->c16 = n;
-        o->p24 = (char *)(d + off);
+        o->boxCount = n;
+        o->box = (Trigger *)(d + off);
         off += n * 0x14;
     }
     {
         u8 n = h->n[3];
-        o->c18 = n;
-        o->p28 = (char *)(d + off);
+        o->recCount = n;
+        o->rec = (struct EventRec *)(d + off);
     }
-    o->c2C = o->c12;
-    o->c2E = o->c14;
-    o->c30 = o->c16;
-    o->c32 = o->c18;
+    o->saveTrigCount = o->trigCount;
+    o->saveLinkCount = o->linkCount;
+    o->saveBoxCount = o->boxCount;
+    o->saveRecCount = o->recCount;
 }
 
 
@@ -2087,7 +2023,7 @@ void func_021624B0(O *o, int x)
 
 
 
-void func_02162530(char *p) { ((struct Obj02059 *)p)->f2C=0; ((struct Obj02059 *)p)->f2E=0; ((struct Obj02059 *)p)->f30=0; ((struct Obj02059 *)p)->f32=0; ((struct Obj02059 *)p)->f12=0; ((struct Obj02059 *)p)->f14=0; ((struct Obj02059 *)p)->f16=0; ((struct Obj02059 *)p)->f18=0; ((struct Obj02059 *)p)->f1C=0; ((struct Obj02059 *)p)->f20=0; ((struct Obj02059 *)p)->f24=0; ((struct Obj02059 *)p)->f28=0; func_02082BCC(p+0x128,0,0x880); }
+void func_02162530(char *p) { ((EventData *)p)->saveTrigCount=0; ((EventData *)p)->saveLinkCount=0; ((EventData *)p)->saveBoxCount=0; ((EventData *)p)->saveRecCount=0; ((EventData *)p)->trigCount=0; ((EventData *)p)->linkCount=0; ((EventData *)p)->boxCount=0; ((EventData *)p)->recCount=0; ((EventData *)p)->trig=0; ((EventData *)p)->link=0; ((EventData *)p)->box=0; ((EventData *)p)->rec=0; func_02082BCC(p+0x128,0,0x880); }
 
 
 
@@ -2129,7 +2065,7 @@ u32 func_0216255C(u32 a)
  */
 u16 func_02162560(u8 *p)
 {
-    return ((struct Obj18958 *)p)->f16;
+    return ((EventData *)p)->boxCount;
 }
 
 
@@ -2147,7 +2083,7 @@ u16 func_02162560(u8 *p)
 /*
  * note: same shape as func_02162598 with the callee func_02162D2C.
  */
-int func_02162564(char *p, struct Q *q) { int i; char *r; i=0; r=*(char * *)&((struct Obj12338 *)p)->f24; for(;i<((struct Obj12338 *)p)->f16;i++,r+=20) { if(func_02162D2C((struct Box *)r,(const int *)q)) return i; } return 0xffff; }
+int func_02162564(char *p, struct Q *q) { int i; Trigger *r; i=0; r=((EventData *)p)->box; for(;i<((EventData *)p)->boxCount;i++,r++) { if(func_02162D2C(r,(const int *)q)) return i; } return 0xffff; }
 
 
 
@@ -2157,7 +2093,7 @@ int func_02162564(char *p, struct Q *q) { int i; char *r; i=0; r=*(char * *)&((s
 
 
 
-int func_02162598(char *p, struct Q *q) { int i; char *r; i=0; r=*(char * *)&((struct Obj12338 *)p)->f24; for(;i<((struct Obj12338 *)p)->f16;i++,r+=20) { if(func_02162E00((struct Box *)r,q)) return i; } return 0xffff; }
+int func_02162598(char *p, struct Q *q) { int i; Trigger *r; i=0; r=((EventData *)p)->box; for(;i<((EventData *)p)->boxCount;i++,r++) { if(func_02162E00(r,q)) return i; } return 0xffff; }
 
 
 
@@ -2167,7 +2103,7 @@ int func_02162598(char *p, struct Q *q) { int i; char *r; i=0; r=*(char * *)&((s
 
 
 
-void *func_021625CC(char *p, unsigned i) { char *r=*(char * *)&((struct Obj07293 *)p)->f24; if(!r) return 0; if(i>=((struct Obj07293 *)p)->f16) return 0; return r+i*20; }
+void *func_021625CC(char *p, unsigned i) { Trigger *r=((EventData *)p)->box; if(!r) return 0; if(i>=((EventData *)p)->boxCount) return 0; return r+i; }
 
 
 
@@ -2201,7 +2137,7 @@ int func_021625E8(R *p)
  * extent: 150-byte function followed by two alignment bytes at 02162692.
  * lever: read-only const source parameter schedules the final signed-id
  * truncation after the argument loads; exact callee widths keep B on r1.
- * interface: callee argument id is s16_0216242C as caller's explicit asrs shows;
+ * interface: callee argument id is s16 as caller's explicit asrs shows;
  * k stays full-width because the original forwards it without truncation.
  */
 int func_021625FC(const u8 *q, int *out, int id, int k)
@@ -2212,14 +2148,14 @@ int func_021625FC(const u8 *q, int *out, int id, int k)
     r = func_021625CC((char *)q, id);
     if (r == 0) return 0;
     func_020140F8((int)out);
-    if (((struct Obj07294 *)r)->f2 == 0x100) *out = 3;
+    if (((Trigger *)r)->kind2 == 0x100) *out = 3;
     else *out = 2;
-    if (((struct Obj07294 *)r)->f6 == 0) {
-        func_02162C84((struct Box *)r, k, (int *)(&s));
-        func_02014110(out, ((struct Obj07293 *)q)->f10, id, r[4], k, s.x, s.y, s.z);
+    if (((Trigger *)r)->mode == 0) {
+        func_02162C84((Trigger *)r, k, (int *)(&s));
+        func_02014110(out, ((EventData *)q)->f10, id, r[4], k, s.x, s.y, s.z);
     } else {
-        func_02162D90((const struct Box *)r, k, (struct Out *)(&t));
-        func_02014134(out, ((struct Obj07293 *)q)->f10, id, r[4], k, t.a, t.d, t.c);
+        func_02162D90((const Trigger *)r, k, (struct Out *)(&t));
+        func_02014134(out, ((EventData *)q)->f10, id, r[4], k, t.a, t.d, t.c);
     }
     return 1;
 }
@@ -2233,9 +2169,9 @@ int func_021625FC(const u8 *q, int *out, int id, int k)
 
 
 
-void func_02162694(struct Obj00193 *b, int a1, int a2)
+void func_02162694(Trigger *b, int a1, int a2)
 {
-    func_0201416C(a1, *(u16 *)&b->f0, *(u16 *)((char *)b + 2), a2);
+    func_0201416C(a1, b->id, b->kind2, a2);
 }
 
 
@@ -2295,10 +2231,10 @@ u16 func_021626B0(void *b, void *q)
  */
 int func_021626B8(char *a0, int a1)
 {
-    if ((a1 == 0 && ((struct Obj07295 *)a0)->f4 == 2) ||
-        (a1 == 1 && ((struct Obj07295 *)a0)->f4 == 1) ||
-        (a1 == 2 && ((struct Obj07295 *)a0)->f4 == 4) ||
-        (a1 == 3 && ((struct Obj07295 *)a0)->f4 == 3))
+    if ((a1 == 0 && ((EventState *)a0)->f4 == 2) ||
+        (a1 == 1 && ((EventState *)a0)->f4 == 1) ||
+        (a1 == 2 && ((EventState *)a0)->f4 == 4) ||
+        (a1 == 3 && ((EventState *)a0)->f4 == 3))
         return 1;
     return 0;
 }
@@ -2320,7 +2256,7 @@ int func_021626B8(char *a0, int a1)
  */
 u8 func_021626E8(u8 *p)
 {
-    return ((struct Obj17715 *)p)->f5;
+    return ((EventState *)p)->f5;
 }
 
 
@@ -2353,16 +2289,17 @@ int func_021626EC(u16 *p)
 
 
 
-void func_02162708(struct Ctx_0216242C *c, u32 idx, u16 a, u32 b, u16 e)
+void func_02162708(EventData *c, u32 idx, u16 a, u32 b, u16 e)
 {
-    struct Ent *p;
-    if (c->f16 >= idx && c->f24 != 0) {
-        p = &c->f24[idx];
-        if (p->f6 == 0) {
+    Trigger *p;
+    if (c->boxCount >= idx && c->box != 0) {
+        p = &c->box[idx];
+        if (p->mode == 0) {
+            /* stand-in: p->u.cell.b/c stores compile 4 bytes shorter */
             u16 *q;
             u16 t = (a << 4) + 8;
-            q = (u16 *)p + 4;
-            p->f8 = t;
+            q = &p->u.cell.a;
+            p->u.cell.a = t;
             q[1] = b << 4;
             q[2] = (e << 4) + 8;
         }
@@ -2386,7 +2323,7 @@ void func_02162708(struct Ctx_0216242C *c, u32 idx, u16 a, u32 b, u16 e)
  */
 u32 func_02162740(u8 *p)
 {
-    return ((struct Obj17716 *)p)->f20;
+    return (u32)((EventData *)p)->link;
 }
 
 
@@ -2407,7 +2344,7 @@ u32 func_02162740(u8 *p)
  */
 u16 func_02162744(u8 *p)
 {
-    return ((struct Obj17717 *)p)->f14;
+    return ((EventData *)p)->linkCount;
 }
 
 
@@ -2432,12 +2369,12 @@ u16 func_02162744(u8 *p)
  *
  * Addresses are Black-image addresses.
  */
-void func_02162748(Own *o, u32 idx, u16 a, u16 b, u32 w, u16 h)
+void func_02162748(EventData *o, u32 idx, u16 a, u16 b, u32 w, u16 h)
 {
-    if (idx < o->n) {
-        if (o->tbl[idx].busy == 0) {
-            Rec_0216242C *r = &o->tbl[idx];
-            Sub_02161E60 *s = &r->s;
+    if (idx < o->linkCount) {
+        if (o->link[idx].busy == 0) {
+            EventLink *r = &o->link[idx];
+            EventLinkSub *s = &r->s;
             r->a = a;
             s->x = b;
             s->w = w;
@@ -2455,7 +2392,7 @@ void func_02162748(Own *o, u32 idx, u16 a, u16 b, u32 w, u16 h)
 
 
 
-void func_02162774(char *p, unsigned i, u16 v) { if(i < ((struct Obj07296 *)p)->f14) *(u16 *)(*(char * *)&((struct Obj07296 *)p)->f20+i*0x24+2)=v; }
+void func_02162774(char *p, unsigned i, u16 v) { if(i < ((EventData *)p)->linkCount) *(u16 *)((char *)((EventData *)p)->link+i*0x24+2)=v; }
 
 
 
@@ -2466,7 +2403,7 @@ void func_02162774(char *p, unsigned i, u16 v) { if(i < ((struct Obj07296 *)p)->
 
 
 
-void func_02162788(char *p, unsigned i, u16 v) { if(i < ((struct Obj07296 *)p)->f14) *(u16 *)(*(char * *)&((struct Obj07296 *)p)->f20+i*0x24+10)=v; }
+void func_02162788(char *p, unsigned i, u16 v) { if(i < ((EventData *)p)->linkCount) *(u16 *)((char *)((EventData *)p)->link+i*0x24+10)=v; }
 
 
 
@@ -2491,9 +2428,9 @@ u16 func_0216279C(int mode) {
 
 
 
-struct Rec_0216242C *func_021627C8(struct Ctx_02162744 *c, void *a, int key, int mode)
+struct EventRec *func_021627C8(EventData *c, void *a, int key, int mode)
 {
-    struct Rec_0216242C *r = c->f28;
+    struct EventRec *r = c->rec;
     u16 v;
     u16 t;
     u16 i;
@@ -2501,7 +2438,7 @@ struct Rec_0216242C *func_021627C8(struct Ctx_02162744 *c, void *a, int key, int
     if (r != 0) {
         t = func_0216279C(mode);
         i = 0;
-        n = c->f18;
+        n = c->recCount;
         for (; i < n; i++, r++) {
             if (func_02162F0C((char *)r, (int *)key) != 0 && r->f6 == t) {
                 if (r->f4 == 0)
@@ -2524,9 +2461,9 @@ struct Rec_0216242C *func_021627C8(struct Ctx_02162744 *c, void *a, int key, int
 
 
 
-struct Rec_0216242C *func_0216282C(struct Ctx_02162744 *c, void *a, int *key, int mode)
+struct EventRec *func_0216282C(EventData *c, void *a, int *key, int mode)
 {
-    struct Rec_0216242C *r = c->f28;
+    struct EventRec *r = c->rec;
     u16 v;
     u16 t;
     u16 i;
@@ -2534,7 +2471,7 @@ struct Rec_0216242C *func_0216282C(struct Ctx_02162744 *c, void *a, int *key, in
     if (r != 0) {
         t = func_0216279C(mode);
         i = 0;
-        n = c->f18;
+        n = c->recCount;
         for (; i < n; i++, r++) {
             if (func_02162F74((char *)r, key) != 0 && r->f6 == t) {
                 if (r->f4 == 0)
@@ -2557,14 +2494,14 @@ struct Rec_0216242C *func_0216282C(struct Ctx_02162744 *c, void *a, int *key, in
 
 
 
-struct Rec_0216242C *func_02162890(struct Ctx_02162744 *c, void *a, int key)
+struct EventRec *func_02162890(EventData *c, void *a, int key)
 {
-    struct Rec_0216242C *r = c->f28;
+    struct EventRec *r = c->rec;
     u16 i;
     u16 n;
     u16 v;
     if (r != 0) {
-        n = c->f18;
+        n = c->recCount;
         for (i = 0; i < n; i++, r++) {
             if (func_02162F0C((char *)r, (int *)key) != 0 && r->f6 == 6) {
                 if (r->f4 == 0)
@@ -2587,14 +2524,14 @@ struct Rec_0216242C *func_02162890(struct Ctx_02162744 *c, void *a, int key)
 
 
 
-struct Rec_0216242C *func_021628E4(struct Ctx_02162744 *c, void *a, int key)
+struct EventRec *func_021628E4(EventData *c, void *a, int key)
 {
-    struct Rec_0216242C *r = c->f28;
+    struct EventRec *r = c->rec;
     u16 i;
     u16 n;
     u16 v;
     if (r != 0) {
-        n = c->f18;
+        n = c->recCount;
         for (i = 0; i < n; i++, r++) {
             if (func_02162FC8((char *)r, (u16 *)key) != 0) {
                 v = *((u16 *)func_020143CC((u32)a, r->f4));
@@ -2663,15 +2600,15 @@ u16 func_02162958(void *c, void *a, int key)
  * which 1.1p1 folds to a loop-hoisted `(u16)(type + 0xFFFE) <= 1`
  * (`(u16)(type - 2) <= 1` gives `subs 2` instead).
  */
-u16 func_02162970(TriggerSet *set, void *flags, const void *where, u16 type)
+u16 func_02162970(EventData *set, void *flags, const void *where, u16 type)
 {
     Trigger *t;
     u16 i;
     u32 count;
 
-    t = set->list;
+    t = set->trig;
     if (t != 0) {
-    count = set->count;
+    count = set->trigCount;
     for (i = 0; i < count; i++, t++) {
         if (t->mode == 0) {
             if (!func_02162E48(t, where))
@@ -2807,12 +2744,12 @@ void func_02162A6C(int a, int b)
 
 
 
-static inline void set(Rec_02162A74 *r, u32 a, u32 b, u16 d)
+static inline void set(Trigger *r, u32 a, u32 b, u16 d)
 {
-    Payload *p = &r->data;
-    ((struct Obj18964 *)r)->f8 = a;
-    p->f = d;
-    p->g = b << 4;
+    s32 *p = (s32 *)((u8 *)r + 8);
+    r->u.data[0] = a;
+    p[1] = d;
+    p[2] = b << 4;
 }
 
 
@@ -2830,12 +2767,12 @@ static inline void set(Rec_02162A74 *r, u32 a, u32 b, u16 d)
  * its own Payload pointer preserves the parent base and explicit +8 copy.
  * domain: unsigned index comparison and modular word address arithmetic.
  */
-void func_02162A74(const Ctx *c, u32 i, u32 a, u32 b, u16 d)
+void func_02162A74(const EventData *c, u32 i, u32 a, u32 b, u16 d)
 {
-    Rec_02162A74 *r;
-    if (c->n >= i && c->r != 0) {
-        r = (Rec_02162A74 *)((u32)c->r + i * 20u);
-        if (r->d == 0) {
+    Trigger *r;
+    if (c->trigCount >= i && c->trig != 0) {
+        r = (Trigger *)((u32)c->trig + i * 20u);
+        if (r->mode == 0) {
             set(r, a, b, d);
         }
     }
@@ -2928,13 +2865,13 @@ clamp:
 
 
 
-u16 func_02162B68(struct Box *b, int *pos)
+u16 func_02162B68(Trigger *b, int *pos)
 {
     struct Sub *s;
     int m = func_02162C54((u8 *)b);
-    s = &b->s;
+    s = &b->u.sub;
     if (s->f6 > 1)
-        return (s->f6 << 4) | (((pos[0] >> 12) - (s16_02162BCC)s->f0) / 16) | (m << 8);
+        return (s->f6 << 4) | (((pos[0] >> 12) - (s16)s->f0) / 16) | (m << 8);
     if (s->f8 > 1)
         return (s->f8 << 4) | (((pos[2] >> 12) - s->f4) / 16) | (m << 8);
     return (m << 8) | 0x10;
@@ -2946,9 +2883,9 @@ u16 func_02162B68(struct Box *b, int *pos)
 
 
 
-u16 func_02162BCC(struct Box *b, struct Q *q)
+u16 func_02162BCC(Trigger *b, struct Q *q)
 {
-    struct Sub *s = &b->s;
+    struct Sub *s = &b->u.sub;
     int a = 0;
     int c = 0;
     int m = func_02162C54((u8 *)b);
@@ -3014,12 +2951,12 @@ int func_02162C54(u8 *p)
 
 
 
-void func_02162C84(struct Box *b, int q, int *out)
+void func_02162C84(Trigger *b, int q, int *out)
 {
-    struct Sub *s = &b->s;
+    struct Sub *s = &b->u.sub;
     int m = func_02162C54((u8 *)b);
-    out[0] = (s16_02162BCC)b->s.f0 << 12;
-    out[1] = (s16_02162BCC)s->f2 << 12;
+    out[0] = (s16)b->u.sub.f0 << 12;
+    out[1] = (s16)s->f2 << 12;
     out[2] = s->f4 << 12;
     if (s->f6 > 1) {
         out[0] += func_02162AA4(q, m, 0, 0, s->f6) << 16;
@@ -3066,23 +3003,23 @@ void func_02162CE8(const Obj_02161E60 *p, V3 *out)
 /*
  * following: two-byte alignment padding at 02162D8E.
  * lever: assign the Sub_02162C54 pointer before the position loads; signed x0 has
- * the field's s16_02161E60 width. Bounded permuter first closed this spelling.
+ * the field's s16 width. Bounded permuter first closed this spelling.
  */
-int func_02162D2C(const struct Box *b, const int *pos)
+int func_02162D2C(const Trigger *b, const int *pos)
 {
     const struct Sub *s;
-    s16_02162D2C x0;
+    s16 x0;
     int z;
     int y;
     int x;
-    if ((int)(b->f6 == 1)) return 0;
-    s = &b->s;
+    if ((int)(b->mode == 1)) return 0;
+    s = &b->u.sub;
     x = pos[0] >> 12;
     y = pos[1] >> 12;
     z = pos[2] >> 12;
-    x0 = (s16_02162BCC)b->s.f0;
+    x0 = (s16)b->u.sub.f0;
     if (x0 <= x && x0 + (s->f6 - 1) * 16 >= x
-        && (s16_02162BCC)s->f2 - 2 <= y && (s16_02162BCC)s->f2 + 2 >= y
+        && (s16)s->f2 - 2 <= y && (s16)s->f2 + 2 >= y
         && s->f4 <= z && s->f4 + (s->f8 - 1) * 16 >= z)
         return 1;
     return 0;
@@ -3098,19 +3035,19 @@ int func_02162D2C(const struct Box *b, const int *pos)
  * lever: const source pointer schedules fa between the signed load and output store.
  * following: two-byte alignment padding at 0x02162DFE.
  */
-void func_02162D90(const struct Box *b, int q, struct Out *o)
+void func_02162D90(const Trigger *b, int q, struct Out *o)
 {
-    const struct Sub *s = &b->s;
+    const struct Sub *s = &b->u.sub;
     int m = func_02162C54((u8 *)b);
     u16 fa;
-    o->f0 = b->s.f0;
+    o->f0 = b->u.sub.f0;
     o->f2 = 1;
     o->f3 = func_0201441C(m);
     o->f4 = s->f4;
     fa = s->fa;
     o->f6 = s->f2;
     if (s->f8 > 1) {
-        o->f4 = o->f4 + (s16_02162D90)func_02162AA4(q, m, 1, fa, s->f8);
+        o->f4 = o->f4 + (s16)func_02162AA4(q, m, 1, fa, s->f8);
     } else if (s->f6 > 1) {
         o->f6 = o->f6 + func_02162AA4(q, m, 1, fa, s->f6);
     }
@@ -3123,12 +3060,12 @@ void func_02162D90(const struct Box *b, int q, struct Out *o)
 
 
 
-int func_02162E00(struct Box *b, struct Q *q)
+int func_02162E00(Trigger *b, struct Q *q)
 {
     struct Sub *s;
-    if (b->f6 == 0)
+    if (b->mode == 0)
         return 0;
-    s = &b->s;
+    s = &b->u.sub;
     if (s->f0 == q->f0 && s->f2 <= q->f6 && s->f2 + s->f6 > q->f6
         && s->f4 <= q->f4 && s->f4 + s->f8 > q->f4)
         return 1;
@@ -3202,10 +3139,10 @@ void func_02162ECC(const char *p, int *out)
     int y, x, z;
     z = func_0207C768(q[3] << 16, 0x2000);
     z = ((unsigned)q[1] << 16) + z;
-    y = ((const s16_02162ECC *)q)[4] << 12;
+    y = ((const s16 *)q)[4] << 12;
     x = func_0207C768(q[2] << 16, 0x2000);
     out[2] = z;
-    out[0] = ((unsigned)((struct Obj18972 *)p)->fA << 16) + x;
+    out[0] = ((unsigned)((struct EventRec *)p)->area[0] << 16) + x;
     out[1] = y;
 }
 
@@ -3221,16 +3158,16 @@ int func_02162F0C(char *p, int *v)
     u16 *q;
     int x, y, z;
 
-    if (((struct Obj01639 *)p)->f8 == 1) {
+    if (((struct EventRec *)p)->f8 == 1) {
         return 0;
     }
     q = (u16 *)(p + 10);
     x = (v[0] >> 4) / 0x1000;
     z = (v[2] >> 4) / 0x1000;
     y = v[1] >> 12;
-    if (((struct Obj01639 *)p)->fA <= x && ((struct Obj01639 *)p)->fA + q[2] > x
+    if (((struct EventRec *)p)->area[0] <= x && ((struct EventRec *)p)->area[0] + q[2] > x
         && q[1] <= z && q[1] + q[3] > z
-        && ((s16_02162F0C *)q)[4] - 2 <= y && ((s16_02162F0C *)q)[4] + 2 > y) {
+        && ((s16 *)q)[4] - 2 <= y && ((s16 *)q)[4] + 2 > y) {
         return 1;
     }
     return 0;
@@ -3248,13 +3185,13 @@ int func_02162F74(char *p, int *v)
     u16 *q;
     int x, z;
 
-    if (((struct Obj04156 *)p)->f8 == 1) {
+    if (((struct EventRec *)p)->f8 == 1) {
         return 0;
     }
     q = (u16 *)(p + 10);
     x = (v[0] >> 4) / 0x1000;
     z = (v[2] >> 4) / 0x1000;
-    if (((struct Obj04156 *)p)->fA <= x && ((struct Obj04156 *)p)->fA + q[2] > x
+    if (((struct EventRec *)p)->area[0] <= x && ((struct EventRec *)p)->area[0] + q[2] > x
         && q[1] <= z && q[1] + q[3] > z) {
         return 1;
     }
@@ -3272,12 +3209,12 @@ int func_02162FC8(char *p, u16 *v)
 {
     u16 *q;
 
-    if (((struct Obj05891 *)p)->f8 == 0) {
+    if (((struct EventRec *)p)->f8 == 0) {
         return 0;
     }
     q = (u16 *)(p + 10);
-    if (((struct Obj05891 *)p)->fA == v[0] && q[1] <= v[3] && q[1] + q[3] > v[3]
-        && ((s16_02162FC8 *)q)[2] <= ((s16_02162FC8 *)v)[2] && ((s16_02162FC8 *)q)[2] + q[4] > ((s16_02162FC8 *)v)[2]) {
+    if (((struct EventRec *)p)->area[0] == v[0] && q[1] <= v[3] && q[1] + q[3] > v[3]
+        && ((s16 *)q)[2] <= ((s16 *)v)[2] && ((s16 *)q)[2] + q[4] > ((s16 *)v)[2]) {
         return 1;
     }
     return 0;
@@ -4014,12 +3951,12 @@ void func_021638C8(void *p, EventInfo *s)
  * 0x14000 or more from the object's height, 4 from func_02163BAC, 0x10
  * from the ov021 test at 0x0218DC04.
  *
- * x and y are s16_02161E60 register parameters (their spill homes are stored at
- * entry); z is read as `*(s16_02161E60 *)&z` from an int stack parameter: an s16_02161E60
+ * x and y are s16 register parameters (their spill homes are stored at
+ * entry); z is read as `*(s16 *)&z` from an int stack parameter: an s16
  * z is copied into a fresh spill slot, while this spelling keeps the
  * incoming slot as its home and reloads it with ldrsh after the calls.
  */
-u32 func_021638CC(void *m, Obj_021636F0 *o, s16_02161E60 x, s16_02161E60 y, int z, u16 kind)
+u32 func_021638CC(void *m, Obj_021636F0 *o, s16 x, s16 y, int z, u16 kind)
 {
     u32 flags = 0;
     VecFx32 pos;
@@ -4027,8 +3964,8 @@ u32 func_021638CC(void *m, Obj_021636F0 *o, s16_02161E60 x, s16_02161E60 y, int 
 
     pos.x = (x << 16) + 0x8000;
     pos.y = o->f04;
-    pos.z = (*(s16_02161E60 *)&z << 16) + 0x8000;
-    if (func_02163C9C((int)m, x, *(s16_02161E60 *)&z) == 1)
+    pos.z = (*(s16 *)&z << 16) + 0x8000;
+    if (func_02163C9C((int)m, x, *(s16 *)&z) == 1)
         flags |= 1;
     if (func_02163D04(m, kind, pos) == 1)
         flags |= 2;
@@ -4042,7 +3979,7 @@ u32 func_021638CC(void *m, Obj_021636F0 *o, s16_02161E60 x, s16_02161E60 y, int 
     } else {
         flags |= 8;
     }
-    if (func_02163BAC((int)m, x, y, *(s16_02161E60 *)&z) == 1)
+    if (func_02163BAC((int)m, x, y, *(s16 *)&z) == 1)
         flags |= 4;
     if (func_0218DC04((struct Grid *)func_0216D52C(func_0216D67C(m)), &pos) == 1)
         flags |= 0x10;
@@ -4055,7 +3992,7 @@ u32 func_021638CC(void *m, Obj_021636F0 *o, s16_02161E60 x, s16_02161E60 y, int 
 /*
  * trailing: two-byte zero alignment at 0x021639BE before func_021639C0.
  */
-u32 func_02163994(void *p, s16_02161E60 x, s16_02161E60 y, int z, u16 kind)
+u32 func_02163994(void *p, s16 x, s16 y, int z, u16 kind)
 {
     VecFx32 pos;
     func_0216D88C((const struct Actor *)p, &pos);
@@ -4068,7 +4005,7 @@ u32 func_02163994(void *p, s16_02161E60 x, s16_02161E60 y, int z, u16 kind)
 
 void func_021639C0(int a, u16 b)
 {
-    s16_021639C0 x, y, z;
+    s16 x, y, z;
 
     x = func_0216D83C((void *)a) + func_021641E8(b);
     y = func_0216D854((void *)a);
@@ -4080,7 +4017,7 @@ void func_021639C0(int a, u16 b)
 
 
 /*
- * Builds a rectangle (s16_021639C0 x0, y0, x1, y1) from a map object's width and
+ * Builds a rectangle (s16 x0, y0, x1, y1) from a map object's width and
  * height getters: x spans x .. x + (w - 1), y spans y - (h - 1) .. y, each
  * size clamped at 0. EXACT* only for the 2-byte pad after the function
  * (54 of 56).
@@ -4092,8 +4029,8 @@ void func_021639C0(int a, u16 b)
  */
 void func_02163A08(int p, int x, int y, Rect *out)
 {
-    s16_021639C0 w;
-    s16_021639C0 h;
+    s16 w;
+    s16 h;
     w = func_0216D91C(p) - 1;
     if (w < 0) w = 0;
     out->x0 = x;
@@ -4108,7 +4045,7 @@ void func_02163A08(int p, int x, int y, Rect *out)
 
 
 /*
- * Tests whether two rectangles (s16_021639C0 x0, y0, x1, y1) overlap: per axis the
+ * Tests whether two rectangles (s16 x0, y0, x1, y1) overlap: per axis the
  * longer interval comes first, then either end of the shorter one must lie
  * inside it. Leaf, no calls. EXACT* only for the 2-byte pad after the
  * function (174 of 176).
@@ -4119,10 +4056,10 @@ void func_02163A08(int p, int x, int y, Rect *out)
  * axis (d1 after lo2); the first block keeps d1, d2, lo1, ... order.
  * Earlier 15 B residue (shared locals) was only the d1/lo2 register swap.
  */
-int func_02163A40(s16_021639C0 *a, s16_021639C0 *b)
+int func_02163A40(s16 *a, s16 *b)
 {
     {
-        s16_021639C0 d1, d2, lo1, hi1, lo2, hi2, big0, big1, sm0, sm1;
+        s16 d1, d2, lo1, hi1, lo2, hi2, big0, big1, sm0, sm1;
         lo1 = a[0]; hi1 = a[2]; d1 = hi1 - lo1; if (d1 < 0) { d1 = -d1; }
         lo2 = b[0]; hi2 = b[2]; d2 = hi2 - lo2; if (d2 < 0) { d2 = -d2; }
         if (d1 > d2) { big0 = lo1; big1 = hi1; sm0 = lo2; sm1 = hi2; }
@@ -4130,7 +4067,7 @@ int func_02163A40(s16_021639C0 *a, s16_021639C0 *b)
         if (!((big0 <= sm0 && big1 >= sm0) || (big0 <= sm1 && big1 >= sm1))) goto fail;
     }
     {
-        s16_021639C0 big0, big1, sm0, sm1, lo1, hi1, lo2, hi2, d1, d2;
+        s16 big0, big1, sm0, sm1, lo1, hi1, lo2, hi2, d1, d2;
         lo1 = a[1]; hi1 = a[3]; d1 = hi1 - lo1; if (d1 < 0) { d1 = -d1; }
         lo2 = b[1]; hi2 = b[3]; d2 = hi2 - lo2; if (d2 < 0) { d2 = -d2; }
         if (d1 > d2) { big0 = lo1; big1 = hi1; sm0 = lo2; sm1 = hi2; }
@@ -4145,16 +4082,16 @@ fail:
 
 
 
-int func_02163AF0(int a, int b, int c, int d, s16_021639C0 e, int g)
+int func_02163AF0(int a, int b, int c, int d, s16 e, int g)
 {
     Rect v1;
     Rect v0;
-    s16_021639C0 t;
+    s16 t;
 
     func_02163A08(a, c, e, &v1);
     if (func_0216D55C(b, 0x80) == 0) {
         func_02163A08(b, func_0216D83C((void *)b), func_0216D86C((void *)b), &v0);
-        if (func_02163A40((s16_021639C0 *)&v1, (s16_021639C0 *)&v0) != 0) {
+        if (func_02163A40((s16 *)&v1, (s16 *)&v0) != 0) {
             t = d - func_0216D854((void *)b);
             if (t < 0) {
                 t = -t;
@@ -4165,7 +4102,7 @@ int func_02163AF0(int a, int b, int c, int d, s16_021639C0 e, int g)
         }
         if (g == 1) {
             func_02163A08(b, func_0216D804((void *)b), func_0216D81C((void *)b), &v0);
-            if (func_02163A40((s16_021639C0 *)&v1, (s16_021639C0 *)&v0) != 0) {
+            if (func_02163A40((s16 *)&v1, (s16 *)&v0) != 0) {
                 t = d - func_0216D810((void *)b);
                 if (t < 0) {
                     t = -t;
@@ -4188,7 +4125,7 @@ int func_02163AF0(int a, int b, int c, int d, s16_021639C0 e, int g)
 
 
 
-int func_02163BAC(int a, int b, int c, s16_021639C0 d)
+int func_02163BAC(int a, int b, int c, s16 d)
 {
     int v;
     int cur;
@@ -4251,16 +4188,16 @@ int func_02163C9C(int a, int b, int c)
     base = func_0216D7E8((void *)a);
     d = func_0216D660((void *)a);
     if (d != -1) {
-        hi = (s16_021639C0)(base + d);
-        lo = (s16_021639C0)(base - d);
+        hi = (s16)(base + d);
+        lo = (s16)(base - d);
         if (lo > b || hi < b)
             return 1;
     }
     base = func_0216D7F8((void *)a);
     d = func_0216D66C((void *)a);
     if (d != -1) {
-        hi = (s16_021639C0)(base + d);
-        lo = (s16_021639C0)(base - d);
+        hi = (s16)(base + d);
+        lo = (s16)(base - d);
         if (lo > c || hi < c)
             return 1;
     }
@@ -4389,7 +4326,7 @@ void func_02163E7C(int a, int b)
     func_02164280(func_0216D83C((void *)a), func_0216D86C((void *)a), buf);
     buf[1] = func_0216D8AC((void *)a);
     func_02163E58((void *)a, (VecFx32 *)buf, &v);
-    func_0216D85C((void *)a, (s16_021639C0)((v >> 4) / 4096));
+    func_0216D85C((void *)a, (s16)((v >> 4) / 4096));
 }
 
 
@@ -4488,7 +4425,7 @@ int func_02164010(int a)
         cur.y = out;
         func_0216D89C((void *)a, &cur);
         func_0216D818(a, func_0216D854((void *)a));
-        func_0216D85C((void *)a, (s16_021639C0)((out >> 4) / 4096));
+        func_0216D85C((void *)a, (s16)((out >> 4) / 4096));
         func_0216D570((void *)a, 0x1000);
     } else {
         func_0216D568((void *)a, 0x1000);
@@ -4522,7 +4459,7 @@ int func_021640B0(int a)
         rect[1] = y << 16;
         rect[2] = z << 16;
         r1 = func_02163E34((void *)a, (VecFx32 *)rect, (u32 *)&o1);
-        func_02164280((s16_021639C0)func_0216D83C((void *)a), (s16_021639C0)func_0216D86C((void *)a), rect);
+        func_02164280((s16)func_0216D83C((void *)a), (s16)func_0216D86C((void *)a), rect);
         rect[1] = func_0216D8AC((void *)a);
         r2 = func_02163E34((void *)a, (VecFx32 *)rect, (u32 *)&o2);
     }
@@ -4551,10 +4488,10 @@ int func_02164168(int a)
     int ty;
     int x;
     int y;
-    s16_021639C0 x0;
-    s16_021639C0 y0;
-    s16_021639C0 x1;
-    s16_021639C0 y1;
+    s16 x0;
+    s16 y0;
+    s16 x1;
+    s16 y1;
 
     t = (int)func_0216DEE0(func_0216D67C((void *)a));
     if (t != 0) {
@@ -4636,7 +4573,7 @@ void func_02164208(int dir, int *p, int amt)
  * Halfword sibling of the word version func_02164208.  Filed as the sole
  * blocker of ov021 func_021A40A8.
  */
-void func_02164240(int dir, s16_02164240 *x, s16_02164240 *z, s16_02164240 amt)
+void func_02164240(int dir, s16 *x, s16 *z, s16 amt)
 {
     switch (dir) {
     case 0:
@@ -4780,12 +4717,12 @@ void func_02164304(int a, u8 *p)
     Msg m;
     u16 *q;
 
-    m.a = ((struct Obj09310 *)p)->f1C;
+    m.a = ((EventMsgSrc *)p)->f1C[0];
     m.b = 1;
-    q = (u16 *)(p + 0x1c);
-    m.c = func_0201441C(((struct Obj09310 *)p)->fC);
+    q = ((EventMsgSrc *)p)->f1C;
+    m.c = func_0201441C(((EventMsgSrc *)p)->fC);
     m.e = q[1];
-    m.d = ((s16_02164304 *)q)[2];
+    m.d = ((s16 *)q)[2];
     if (func_0216D4D4((int)func_0216D67C((void *)a), 0x10) != 0) {
         func_0219E2C0(a, &m);
         return;
@@ -4798,7 +4735,7 @@ void func_02164304(int a, u8 *p)
 
 
 
-void func_0216435C(void *a, const u16 *b) { u16 *p=func_0216D69C(a); p[2]=b[0]; p[3]=b[1]; p[4]=b[2]; p[5]=b[3]; ((struct Obj05896 *)p)->f0=0xEFEFEFEF; }
+void func_0216435C(void *a, const u16 *b) { u16 *p=func_0216D69C(a); ((EventMark *)p)->v[0]=b[0]; ((EventMark *)p)->v[1]=b[1]; ((EventMark *)p)->v[2]=b[2]; ((EventMark *)p)->v[3]=b[3]; ((EventMark *)p)->magic=0xEFEFEFEF; }
 
 
 
@@ -4809,7 +4746,7 @@ void func_0216435C(void *a, const u16 *b) { u16 *p=func_0216D69C(a); p[2]=b[0]; 
  * at +4,+6,+8,+10 before publishing 0xEFEFEFEF at +0;
  * this reader loads those halfwords only after the sentinel comparison.
  */
-int func_02164380(void *a, u16 *b) { u16 *p=func_0216D69C(a); if (((struct Obj05897 *)p)->f0==0xEFEFEFEF) { b[0]=p[2]; b[1]=p[3]; b[2]=p[4]; b[3]=p[5]; return 1; } return 0; }
+int func_02164380(void *a, u16 *b) { u16 *p=func_0216D69C(a); if (((EventMark *)p)->magic==0xEFEFEFEF) { b[0]=((EventMark *)p)->v[0]; b[1]=((EventMark *)p)->v[1]; b[2]=((EventMark *)p)->v[2]; b[3]=((EventMark *)p)->v[3]; return 1; } return 0; }
 
 
 

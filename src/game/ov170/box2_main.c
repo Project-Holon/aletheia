@@ -217,10 +217,9 @@
  *   d_021EF7B4 0x021EF7B4 data a1
  *   d_021EF79C 0x021EF79C data a1
  */
-#include "../../matched/include/Obj12146.h"
+#include "box2_types.h"
 #include "../../matched/include/Obj18439.h"
 #include "../../matched/include/Obj18440.h"
-#include "../../matched/include/Obj00000.h"
 #include "../../matched/include/Obj23825.h"
 #include "../../matched/include/Obj23826.h"
 #include "../../matched/include/Obj23827.h"
@@ -234,17 +233,14 @@
 #include "../../matched/include/Obj18447.h"
 #include "../../matched/include/Obj23829.h"
 #include "../../matched/include/Obj18451.h"
-#include "../../matched/include/Obj10646.h"
 #include "../../matched/include/Obj23832.h"
 #include "../../matched/include/Obj23834.h"
 #include "../../matched/include/Obj18452.h"
-#include "../../matched/include/Obj06551.h"
 #include "../../matched/include/Obj23835.h"
 #include "../../matched/include/Obj23836.h"
 #include "../../matched/include/Obj23837.h"
 #include "../../matched/include/Obj23838.h"
 #include "../../matched/include/Obj23839.h"
-#include "../../matched/include/Obj00000.h"
 #include "../../matched/include/Obj23841.h"
 #include "../../matched/include/Obj23843.h"
 #include "../../matched/include/Obj01418.h"
@@ -258,11 +254,9 @@
 #include "../../matched/include/Obj23851.h"
 #include "../../matched/include/Obj09222.h"
 #include "../../matched/include/Obj18454.h"
-#include "../../matched/include/Obj10648.h"
 #include "../../matched/include/Obj10649.h"
 #include "../../matched/include/Obj23852.h"
 #include "../../matched/include/Obj12153.h"
-#include "../../matched/include/Obj14262.h"
 #include "../../matched/include/Obj23854.h"
 #include "../../matched/include/Obj23855.h"
 #include "../../matched/include/Obj23856.h"
@@ -270,18 +264,12 @@
 #include "../../matched/include/Obj23858.h"
 #include "../../matched/include/Obj23859.h"
 #include "../../matched/include/Obj23860.h"
-#include "../../matched/include/Obj18455.h"
 #include "../../matched/include/Obj18456.h"
 #include "../../matched/include/Obj18457.h"
-#include "../../matched/include/Obj18458.h"
-#include "../../matched/include/Obj14263.h"
-#include "../../matched/include/Obj05437.h"
 #include "../../matched/include/Obj04901.h"
 #include "../../matched/include/Obj12155.h"
 #include "../../matched/include/Obj12156.h"
 #include "../../matched/include/Obj18460.h"
-#include "../../matched/include/Obj10650.h"
-#include "../../matched/include/Obj06546.h"
 #include "../../matched/include/Obj23861.h"
 #include "../../matched/include/Obj23862.h"
 #include "../../matched/include/Obj23863.h"
@@ -407,7 +395,7 @@ typedef signed char s8;
 
 typedef signed int     s32;
 
-typedef struct {
+typedef struct BoxMover {
     unsigned short id;
     unsigned short slot;
     unsigned short src;
@@ -418,138 +406,48 @@ typedef struct {
     short dy;
     short x;
     short y;
-} Entry;
+} BoxMover;
 
-typedef struct {
-    Entry e[7];
-    int count;
-    unsigned a;
-    unsigned b;
-} Move;
-
-typedef struct {
-    unsigned short id;
-    unsigned short slot;
-    unsigned short f4;
-    unsigned short used;
-    int vx;
-    int vy;
-    short dx;
-    short dy;
-    short x;
-    short y;
-} Entry_021DD684;
-
-typedef struct {
-    Entry_021DD684 e[7];
-    int count;
-} Move_021DD684;
-
-typedef struct {
-    unsigned short idx;
-    unsigned short slot;
-    unsigned short f4;
-    unsigned short f6;
-    int vx;
-    int vy;
-    short dx;
-    short dy;
-    short x;
-    short y;
-} Obj;
-
-typedef struct {
-    unsigned short idx, slot, f4, f6;
-    int vx,vy;
-    short dx,dy,x,y;
-} Obj_021DDFD4;
-
-typedef struct {
-    unsigned short idx;
-    unsigned short slot;
-    unsigned short f4;
-    unsigned short f6;
-    int vx;
-    int vy;
-    short dx;
-    short dy;
-    short x;
-    short y;
-} Obj_021DE07C;
-
-typedef struct {
-    unsigned short id;
-    unsigned short slot;
-    unsigned short src;
-    unsigned short used;
-    int vx;
-    int vy;
-    short dx;
-    short dy;
-    short x;
-    short y;
-} Entry_021DE158;
-
-typedef struct {
-    Entry_021DE158 e[7];
+typedef struct BoxMove {
+    BoxMover e[7];
     int count;
     unsigned a;
     unsigned b;
     unsigned req;
-} Move_021DE158;
+} BoxMove;
 
-typedef struct {
-    unsigned short idx;
-    unsigned short slot;
-    unsigned short f4;
-    unsigned short f6;
-    int vx;
-    int vy;
-    short dx;
-    short dy;
-    short x;
-    short y;
-} Obj_021DE530;
 
-typedef struct {
-    unsigned short id;
-    unsigned short val;
-    unsigned short f4;
-    unsigned short used;
-    unsigned char pad[0x10];
-} Entry_021DE530;
 
-typedef struct {
-    unsigned short idx,slot,f4,f6;
-    int vx,vy;
-    short dx,dy,x,y;
-} Obj_021DE5F8;
 
-typedef struct {
-    unsigned short id;
-    unsigned short slot;
-    unsigned short src;
-    unsigned short used;
-    int vx;
-    int vy;
-    short dx;
-    short dy;
-    short x;
-    short y;
-} Entry_021DE5F8;
 
-typedef struct {void *p;unsigned short f4;unsigned char flags;unsigned char pad[5];} State_021DE728;
 
-typedef struct {void *p;unsigned short index;unsigned char flags;unsigned char pad[5];} State_021DE7C8;
 
-typedef struct {
-    unsigned short idx, slot;
-    int mode, x, y, vx, vy;
-    unsigned left:1;
-    unsigned up:1;
-} Mover_021DE8B4;
 
-typedef struct {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+typedef struct BoxCursor {
+    void *p;
+    unsigned short index;
+    unsigned char flags;
+    unsigned char pad[5];
+} BoxCursor;
+
+
+
+typedef struct BoxMotor {
     unsigned short idx;
     unsigned short slot;
     int mode;
@@ -559,7 +457,9 @@ typedef struct {
     int vy;
     unsigned int left : 1;
     unsigned int up : 1;
-} Mover_021DE980;
+} BoxMotor;
+
+
 
 typedef struct {
     unsigned short index;
@@ -850,16 +750,16 @@ int func_021DDAE8(unsigned char *p);
 int func_021DDC00(unsigned char *p, unsigned a, unsigned b);
 int func_021DDE20(unsigned char *p,unsigned a,unsigned b);
 int func_021DDE80(unsigned char *p, unsigned a, unsigned b);
-void func_021DDEFC(unsigned char *p, Obj *o);
-void func_021DDFD4(unsigned char *p,Obj_021DDFD4 *o);
-void func_021DE07C(unsigned char *p, Obj_021DE07C *o);
+void func_021DDEFC(unsigned char *p, BoxMover *o);
+void func_021DDFD4(unsigned char *p,BoxMover *o);
+void func_021DE07C(unsigned char *p, BoxMover *o);
 void func_021DE120(char *p, int a, int b);
 int func_021DE158(unsigned char *p, unsigned a, unsigned b);
 void func_021DE428(unsigned char *p, unsigned a, unsigned b);
 void func_021DE530(unsigned char *p, int a, int b);
 int func_021DE5C8(char *p, unsigned id);
 void func_021DE5F8(unsigned char *p,unsigned a);
-void func_021DE66C(char *p, Entry_021DE5F8 *e);
+void func_021DE66C(char *p, BoxMover *e);
 int func_021DE720(unsigned short a);
 void func_021DE728(unsigned char *p);
 void func_021DE7B4(char *p);
@@ -1068,8 +968,8 @@ void func_021DCDB8(char *p)
 {
     int v = (int)func_02021518(0x4c);
 
-    ((struct Obj18439 *)(*(char * *)&((struct Obj12146 *)p)->f2C))->f6C = v;
-    func_0202155C((struct PalAnmSlot *)(((struct Obj18440 *)(*(char * *)&((struct Obj12146 *)p)->f2C))->f6C), 0, 0x200, 0x4c);
+    ((struct Obj18439 *)(*(char * *)&((BoxTask *)p)->f2C))->f6C = v;
+    func_0202155C((struct PalAnmSlot *)(((struct Obj18440 *)(*(char * *)&((BoxTask *)p)->f2C))->f6C), 0, 0x200, 0x4c);
 }
 
 
@@ -1081,8 +981,8 @@ void func_021DCDB8(char *p)
 
 void func_021DCDD8(int *p)
 {
-    func_020215A0((struct PalAnmSlot *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x6c)), 0);
-    func_02021540((void *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x6c)));
+    func_020215A0((struct PalAnmSlot *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 0x6c)), 0);
+    func_02021540((void *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 0x6c)));
 }
 
 
@@ -1286,9 +1186,9 @@ void func_021DCEC0(char *p)
  */
 void func_021DCF30(char *p)
 {
-    func_02027FD8((struct TaskMenuState *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x19C)));
-    func_02045808((struct U16Vec *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x190)));
-    func_02045808((struct U16Vec *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x184)));
+    func_02027FD8((struct TaskMenuState *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 0x19C)));
+    func_02045808((struct U16Vec *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 0x190)));
+    func_02045808((struct U16Vec *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 0x184)));
 }
 
 
@@ -1363,11 +1263,11 @@ void func_021DCF58(unsigned char *p, int sel)
 
 int func_021DCFC0(char *p)
 {
-    Fade *f = (Fade *)(*(char * *)&((struct Obj00000 *)p)->f2C + 0x1A6);
+    Fade *f = (Fade *)(*(char * *)&((BoxTask *)p)->f2C + 0x1A6);
     switch (f->state) {
     case 0:
         if (f->flag == 0) {
-            func_021EBFCC(*(char * *)&((struct Obj00000 *)p)->f2C, f->id, f->lo);
+            func_021EBFCC(*(char * *)&((BoxTask *)p)->f2C, f->id, f->lo);
         } else {
             func_020413B0(f->id, f->x, f->y, f->w, f->h, f->lo);
             func_02041B6C(f->id);
@@ -1376,7 +1276,7 @@ int func_021DCFC0(char *p)
         break;
     case 1:
         if (f->flag == 0) {
-            if (func_021EBFEC(*(char * *)&((struct Obj00000 *)p)->f2C, f->id) == 0)
+            if (func_021EBFEC(*(char * *)&((BoxTask *)p)->f2C, f->id) == 0)
                 return 0;
         } else {
             f->count++;
@@ -1431,9 +1331,9 @@ void func_021DD090(Sys *p, unsigned idx)
 
 void func_021DD14C(char *p)
 {
-    func_021EE038(p, ((struct Obj00000 *)p)->f1F, ((struct Obj00000 *)p)->f20,
-                  ((struct Obj00000 *)p)->f21);
-    func_021EF660(*(struct WinMgr **)(*(int *)&((struct Obj00000 *)p)->f2C + 0x74));
+    func_021EE038(p, ((BoxTask *)p)->f1F, ((BoxTask *)p)->f20,
+                  ((BoxTask *)p)->f21);
+    func_021EF660(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74));
 }
 
 
@@ -1447,10 +1347,10 @@ void func_021DD16C(unsigned char *p, int dir)
 {
     if (dir == 0) {
         p[0x14] = p[0x14] == 0 ? p[0x15] - 1 : p[0x14] - 1;
-        func_021EBFA8(*(char * *)&((struct Obj00000 *)p)->f2C, 0, 2);
+        func_021EBFA8(*(char * *)&((BoxTask *)p)->f2C, 0, 2);
     } else {
         p[0x14] = p[0x14] == p[0x15] - 1 ? 0 : p[0x14] + 1;
-        func_021EBFA8(*(char * *)&((struct Obj00000 *)p)->f2C, 1, 4);
+        func_021EBFA8(*(char * *)&((BoxTask *)p)->f2C, 1, 4);
     }
     func_021EC35C((char **)p, p[0x14]);
     func_021DEC98((char *)p, (void *)func_021DEDCC((char *)p, p[0x14]), dir);
@@ -1468,7 +1368,7 @@ void func_021DD16C(unsigned char *p, int dir)
  */
 void func_021DD1C4(char *p, int a)
 {
-    ((struct Obj00000 *)p)->f19 = func_021DEB14((unsigned char *)p, (signed char)a);
+    ((BoxTask *)p)->f19 = func_021DEB14((unsigned char *)p, (signed char)a);
     func_021EDECC((unsigned char *)p, a);
     func_021EE008(p, 0, 0);
 }
@@ -1486,10 +1386,10 @@ void func_021DD1C4(char *p, int a)
 void func_021DD1E8(char *p)
 {
     func_021ED904((unsigned char *)p);
-    func_021ED9B4(*(int *)&((struct Obj00000 *)p)->f2C);
+    func_021ED9B4(*(int *)&((BoxTask *)p)->f2C);
     func_021EDF5C((unsigned char *)p);
     func_021EB85C((unsigned char *)p, 0);
-    func_021EF738(*(struct WinMgr **)(*(int *)&((struct Obj00000 *)p)->f2C + 0x74));
+    func_021EF738(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74));
 }
 
 
@@ -1525,8 +1425,8 @@ int func_021DD210(unsigned char *p, unsigned a, unsigned b)
 void func_021DD238(char *p)
 {
     func_020355D8(0);
-    if (func_020260F0(((struct Obj18441 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70) == 0)
-        func_020260F4(((struct Obj18442 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70, 1);
+    if (func_020260F0(((struct Obj18441 *)(*(char * *)&((BoxTask *)p)->f2C))->f70) == 0)
+        func_020260F4(((struct Obj18442 *)(*(char * *)&((BoxTask *)p)->f2C))->f70, 1);
 }
 
 
@@ -1655,12 +1555,12 @@ void func_021DD39C(unsigned char *p, unsigned short *q)
  */
 void func_021DD3DC(char *p, unsigned char *a)
 {
-    int x = (int)func_020185F4(func_0201AB28(*(void **)(*(int *)&((struct Obj00000 *)p)->f0 + 8),
+    int x = (int)func_020185F4(func_0201AB28(*(void **)(*(int *)&((BoxTask *)p)->f0 + 8),
                                         ((struct Obj09221 *)a)->f4 - 0x1e));
-    func_020075B0((void *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f0 + 4)), ((struct Obj00000 *)p)->f14,
+    func_020075B0((void *)(*(int *)(*(int *)&((BoxTask *)p)->f0 + 4)), ((BoxTask *)p)->f14,
                   ((struct Obj09221 *)a)->f2, (const struct Sub020075B0Entry *)x);
-    func_021DD314((char **)p, ((struct Obj00000 *)p)->f14, ((struct Obj09221 *)a)->f4);
-    func_021EDAB0(p, ((struct Obj00000 *)p)->f14);
+    func_021DD314((char **)p, ((BoxTask *)p)->f14, ((struct Obj09221 *)a)->f4);
+    func_021EDAB0(p, ((BoxTask *)p)->f14);
 }
 
 
@@ -1753,11 +1653,11 @@ void func_021DD4B8(unsigned char *p,unsigned a,unsigned b)
 
 void func_021DD530(unsigned char *p)
 {
-    Move *m = *(Move * *)&((struct Obj23829 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60;
+    BoxMove *m = *(BoxMove * *)&((struct Obj23829 *)(*(char * *)&((BoxTask *)p)->f2C))->f60;
     unsigned short n;
     if (m->a == 0xFF)
         return;
-    n = func_0201AA18(((void **)((struct Obj00000 *)p)->f0)[2]);
+    n = func_0201AA18(((void **)((BoxTask *)p)->f0)[2]);
     if (m->b >= 0x24) {
         if (m->a < 0x1E)
             func_021DD464(p, p[0x17], m->a, m->b - 0x24);
@@ -1767,7 +1667,7 @@ void func_021DD530(unsigned char *p)
     }
     if (m->a < 0x1E) {
         if (m->b < 0x1E) {
-            func_02007610(((void **)((struct Obj00000 *)p)->f0)[1], p[0x17], m->a, p[0x14], m->b);
+            func_02007610(((void **)((BoxTask *)p)->f0)[1], p[0x17], m->a, p[0x14], m->b);
             func_021EDAB0((char *)p, p[0x14]);
             func_021EDB34((char *)p, p[0x14]);
             if (p[0x14] != p[0x17]) {
@@ -1954,7 +1854,7 @@ void func_021DD810(unsigned char *p,unsigned a,unsigned b,unsigned box)
     func_021DD6E8((void **)p,(void *)func_021DD2D0((void ***)p,box,a),0);
     func_021DD8A8((void **)p,a);
     if(box==p[0x14])
-        func_021EC48C(p,box,a,*(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C+a+0x3dd2));
+        func_021EC48C(p,box,a,*(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C+a+0x3dd2));
     if(p[0x16]==a) func_021DEFEC((char *)p,a);
 }
 
@@ -1994,7 +1894,7 @@ void func_021DD8A8(void **pp, u32 idx)
 
 
 
-void func_021DD8D0(char *p) { *(u16 * *)&((struct Obj23832 *)(*(char * *)&((struct Obj10646 *)p)->f2C))->f180=func_0201AF80(76,0);((struct Obj23834 *)(*(char * *)&((struct Obj10646 *)p)->f2C))->f17C=func_0200CA38(func_0200CA1C(**(void ** *)&((struct Obj10646 *)p)->f0)); }
+void func_021DD8D0(char *p) { *(u16 * *)&((struct Obj23832 *)(*(char * *)&((BoxTask *)p)->f2C))->f180=func_0201AF80(76,0);((struct Obj23834 *)(*(char * *)&((BoxTask *)p)->f2C))->f17C=func_0200CA38(func_0200CA1C(**(void ** *)&((BoxTask *)p)->f0)); }
 
 
 
@@ -2013,7 +1913,7 @@ void func_021DD8D0(char *p) { *(u16 * *)&((struct Obj23832 *)(*(char * *)&((stru
  */
 void func_021DD8F8(char *p)
 {
-    func_020307B0(((struct Obj18452 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f180);
+    func_020307B0(((struct Obj18452 *)(*(char * *)&((BoxTask *)p)->f2C))->f180);
 }
 
 
@@ -2027,7 +1927,7 @@ void func_021DD8F8(char *p)
 
 
 
-int func_021DD908(char *p, u32 a) { u16 n;n=func_021DD25C((void ***)p,a,((struct Obj06551 *)p)->f14,5,0);return func_020092AC(*(u8 * *)&((struct Obj23835 *)(*(char * *)&((struct Obj06551 *)p)->f0))->f20,n); }
+int func_021DD908(char *p, u32 a) { u16 n;n=func_021DD25C((void ***)p,a,((BoxTask *)p)->f14,5,0);return func_020092AC(*(u8 * *)&((struct Obj23835 *)(*(char * *)&((BoxTask *)p)->f0))->f20,n); }
 
 
 
@@ -2043,8 +1943,8 @@ int func_021DD908(char *p, u32 a) { u16 n;n=func_021DD25C((void ***)p,a,((struct
 
 int func_021DD930(unsigned char *p)
 {
-    Move_021DD684 *m = *(Move_021DD684 * *)&((struct Obj23836 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60;
-    Entry_021DD684 *e;
+    BoxMove *m = *(BoxMove * *)&((struct Obj23836 *)(*(char * *)&((BoxTask *)p)->f2C))->f60;
+    BoxMover *e;
     unsigned i;
     int k;
     short t[2];
@@ -2053,30 +1953,30 @@ int func_021DD930(unsigned char *p)
             e = &m->e[i];
             if (e->used == 0)
                 continue;
-            func_021EC7B8(*(char * *)&((struct Obj00000 *)p)->f2C, e->id, e->slot, 1);
-            k = *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + e->id + 0x3DD2);
+            func_021EC7B8(*(char * *)&((BoxTask *)p)->f2C, e->id, e->slot, 1);
+            k = *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + e->id + 0x3DD2);
             if (e->slot < 0x1E) {
                 func_021EC548(e->slot, &t[1], &t[0], p[0x1A]);
             } else if (e->slot < 0x24) {
                 func_021EC548(e->slot, &t[1], &t[0], p[0x1A]);
-                if (p[0x1A] == 2 && func_021EF4A4(*(struct WinMgr * *)&((struct Obj23837 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74) == 0)
+                if (p[0x1A] == 2 && func_021EF4A4(*(struct WinMgr * *)&((struct Obj23837 *)(*(char * *)&((BoxTask *)p)->f2C))->f74) == 0)
                     t[0] += 0xC0;
             } else {
                 if (e->id >= 0x1E) {
                     func_021EC548(0x24, &t[1], &t[0], p[0x1A]);
-                    if (p[0x1A] == 2 && func_021EF4A4(*(struct WinMgr * *)&((struct Obj23838 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74) == 0)
+                    if (p[0x1A] == 2 && func_021EF4A4(*(struct WinMgr * *)&((struct Obj23838 *)(*(char * *)&((BoxTask *)p)->f2C))->f74) == 0)
                         t[0] += 0xC0;
                 } else {
                     func_021EC548(e->id, &t[1], &t[0], p[0x1A]);
                 }
-                func_021EC000(*(char * *)&((struct Obj00000 *)p)->f2C, k, 0);
+                func_021EC000(*(char * *)&((BoxTask *)p)->f2C, k, 0);
             }
-            func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, k, t[1], t[0], 0);
+            func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, k, t[1], t[0], 0);
             if (e->used == 2)
-                func_021EC000(*(char * *)&((struct Obj00000 *)p)->f2C, k, 0);
+                func_021EC000(*(char * *)&((BoxTask *)p)->f2C, k, 0);
         }
         func_021ED75C((char **)p, p[0x16]);
-        func_021ED7C4(*(char * *)&((struct Obj00000 *)p)->f2C, 0x24);
+        func_021ED7C4(*(char * *)&((BoxTask *)p)->f2C, 0x24);
         return 0;
     }
     m->count++;
@@ -2084,14 +1984,14 @@ int func_021DD930(unsigned char *p)
         e = &m->e[i];
         if (e->used == 0)
             continue;
-        k = *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + e->id + 0x3DD2);
+        k = *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + e->id + 0x3DD2);
         t[1] = e->x + ((unsigned)(m->count * e->vx) >> 16) * e->dx;
         t[0] = e->y + ((unsigned)(m->count * e->vy) >> 16) * e->dy;
-        func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, k, t[1], t[0], 0);
-        func_021EC768(*(char * *)&((struct Obj00000 *)p)->f2C, e->id, 0);
+        func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, k, t[1], t[0], 0);
+        func_021EC768(*(char * *)&((BoxTask *)p)->f2C, e->id, 0);
     }
     func_021ED75C((char **)p, p[0x16]);
-    func_021ED7C4(*(char * *)&((struct Obj00000 *)p)->f2C, 0x24);
+    func_021ED7C4(*(char * *)&((BoxTask *)p)->f2C, 0x24);
     return 1;
 }
 
@@ -2112,8 +2012,8 @@ int func_021DD930(unsigned char *p)
  */
 int func_021DDAE8(unsigned char *p)
 {
-    Move_021DD684 *m = *(Move_021DD684 * *)&((struct Obj23839 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60;
-    Entry_021DD684 *e;
+    BoxMove *m = *(BoxMove * *)&((struct Obj23839 *)(*(char * *)&((BoxTask *)p)->f2C))->f60;
+    BoxMover *e;
     unsigned i;
     int k;
     short t[2];
@@ -2122,13 +2022,13 @@ int func_021DDAE8(unsigned char *p)
             e = &m->e[i];
             if (e->used == 0)
                 continue;
-            k = *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + e->id + 0x3DD2);
+            k = *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + e->id + 0x3DD2);
             func_021EC548(e->slot, &t[1], &t[0], p[0x1A]);
             if (e->slot >= 0x1E)
                 t[0] += 0x90;
-            func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, k, t[1], t[0], 0);
+            func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, k, t[1], t[0], 0);
         }
-        func_021ED7C4(*(char * *)&((struct Obj00000 *)p)->f2C, 0x24);
+        func_021ED7C4(*(char * *)&((BoxTask *)p)->f2C, 0x24);
         return 0;
     }
     m->count++;
@@ -2136,15 +2036,15 @@ int func_021DDAE8(unsigned char *p)
         e = &m->e[i];
         if (e->used == 0)
             continue;
-        k = *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + e->id + 0x3DD2);
+        k = *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + e->id + 0x3DD2);
         t[1] = e->x + ((unsigned)(m->count * e->vx) >> 16) * e->dx;
         t[0] = e->y + ((unsigned)(m->count * e->vy) >> 16) * e->dy;
-        func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, k, t[1], t[0], 0);
-        func_021EC768(*(char * *)&((struct Obj00000 *)p)->f2C, e->id, 0);
+        func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, k, t[1], t[0], 0);
+        func_021EC768(*(char * *)&((BoxTask *)p)->f2C, e->id, 0);
         break;
     }
     func_021ED75C((char **)p, p[0x16]);
-    func_021ED7C4(*(char * *)&((struct Obj00000 *)p)->f2C, 0x24);
+    func_021ED7C4(*(char * *)&((BoxTask *)p)->f2C, 0x24);
     return 1;
 }
 
@@ -2287,19 +2187,19 @@ int func_021DDE80(unsigned char *p, unsigned a, unsigned b)
 
 
 
-void func_021DDEFC(unsigned char *p, Obj *o)
+void func_021DDEFC(unsigned char *p, BoxMover *o)
 {
     short t[2];
-    func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + o->idx + 0x3DD2), &o->x, &o->y, 0);
-    if (o->f6 != 2) {
+    func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + o->id + 0x3DD2), &o->x, &o->y, 0);
+    if (o->used != 2) {
         if (o->slot < 0x24)
             func_021EC548(o->slot, &t[1], &t[0], p[0x1A]);
         else
-            func_021EDA70((int)(*(char * *)&((struct Obj00000 *)p)->f2C), o->slot - 0x24, &t[1], &t[0]);
+            func_021EDA70((int)(*(char * *)&((BoxTask *)p)->f2C), o->slot - 0x24, &t[1], &t[0]);
     } else if (p[0x14] > p[0x17]) {
-        func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, 0, &t[1], &t[0], 0);
+        func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, 0, &t[1], &t[0], 0);
     } else {
-        func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, 1, &t[1], &t[0], 0);
+        func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, 1, &t[1], &t[0], 0);
     }
     if (o->x <= t[1]) {
         o->dx = 1;
@@ -2326,13 +2226,13 @@ void func_021DDEFC(unsigned char *p, Obj *o)
 
 
 
-void func_021DDFD4(unsigned char *p,Obj_021DDFD4 *o)
+void func_021DDFD4(unsigned char *p,BoxMover *o)
 {
     short t[2];
     unsigned i;
-    i=*(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C+o->slot+0x3dd2);
-    func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C,*(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C+o->idx+0x3dd2),&o->x,&o->y,0);
-    func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C,i,&t[1],&t[0],0);
+    i=*(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C+o->slot+0x3dd2);
+    func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C,*(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C+o->id+0x3dd2),&o->x,&o->y,0);
+    func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C,i,&t[1],&t[0],0);
     if(o->x<=t[1]){
         o->dx=1;
         o->vx=((t[1]-o->x)<<16)/8;
@@ -2359,10 +2259,10 @@ void func_021DDFD4(unsigned char *p,Obj_021DDFD4 *o)
 
 
 
-void func_021DE07C(unsigned char *p, Obj_021DE07C *o)
+void func_021DE07C(unsigned char *p, BoxMover *o)
 {
     short t[2];
-    func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + o->idx + 0x3DD2), &o->x, &o->y, 0);
+    func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + o->id + 0x3DD2), &o->x, &o->y, 0);
     func_021EC548(o->slot, &t[1], &t[0], p[0x1A]);
     t[0] += 0xC0;
     if (o->x <= t[1]) {
@@ -2394,17 +2294,17 @@ void func_021DE07C(unsigned char *p, Obj_021DE07C *o)
  */
 void func_021DE120(char *p, int a, int b)
 {
-    unsigned short *q = *(unsigned short **)(*(int *)&((struct Obj00000 *)p)->f2C + 0x60);
+    unsigned short *q = *(unsigned short **)(*(int *)&((BoxTask *)p)->f2C + 0x60);
     q[0] = 0x24;
     q[1] = b;
     q[2] = a;
     q[3] = 1;
-    func_021DDEFC((unsigned char *)p, (Obj *)q);
+    func_021DDEFC((unsigned char *)p, (BoxMover *)q);
     q[12] = (unsigned short)b;
     q[13] = a;
     q[14] = (unsigned short)b;
     q[15] = 1;
-    func_021DDEFC((unsigned char *)p, (Obj *)(q + 12));
+    func_021DDEFC((unsigned char *)p, (BoxMover *)(q + 12));
 }
 
 
@@ -2416,11 +2316,11 @@ void func_021DE120(char *p, int a, int b)
 
 int func_021DE158(unsigned char *p, unsigned a, unsigned b)
 {
-    Move_021DE158 *m = *(Move_021DE158 * *)&((struct Obj23841 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60;
+    BoxMove *m = *(BoxMove * *)&((struct Obj23841 *)(*(char * *)&((BoxTask *)p)->f2C))->f60;
     unsigned i;
     unsigned n;
     unsigned short t;
-    Entry_021DE158 *e;
+    BoxMover *e;
     for (i = 0; i < 7; i++) {
         m->e[i].id = 0;
         m->e[i].slot = 0;
@@ -2442,7 +2342,7 @@ int func_021DE158(unsigned char *p, unsigned a, unsigned b)
             m->e[1].src = t;
             m->e[1].used = 1;
         }
-        func_021DDEFC(p, (Obj *)(&m->e[0]));
+        func_021DDEFC(p, (BoxMover *)(&m->e[0]));
         return 0;
     }
     if ((a == b && (a >= 0x1E || p[0x14] == p[0x17])) || func_021DDC00(p, a, b) == 0) {
@@ -2457,18 +2357,18 @@ int func_021DE158(unsigned char *p, unsigned a, unsigned b)
         m->e[1].slot = t;
         m->e[1].src = t;
         m->e[1].used = 1;
-        func_021DDEFC(p, (Obj *)(&m->e[0]));
+        func_021DDEFC(p, (BoxMover *)(&m->e[0]));
         return 0;
     }
     m->a = a;
     m->b = b;
-    n = func_0201AA18(((void **)((struct Obj00000 *)p)->f0)[2]);
+    n = func_0201AA18(((void **)((BoxTask *)p)->f0)[2]);
     if (b >= 0x24) {
         m->e[0].id = 0x24;
         m->e[0].slot = b;
         m->e[0].src = 0x24;
         m->e[0].used = 1;
-        func_021DDEFC(p, (Obj *)(&m->e[0]));
+        func_021DDEFC(p, (BoxMover *)(&m->e[0]));
         if (a >= 0x1E) {
             for (i = a - 0x1D; i < n; i++) {
                 e = &m->e[i];
@@ -2477,7 +2377,7 @@ int func_021DE158(unsigned char *p, unsigned a, unsigned b)
                 e->slot = i + 0x1D;
                 e->src = t;
                 e->used = 1;
-                func_021DE07C(p, (Obj_021DE07C *)e);
+                func_021DE07C(p, (BoxMover *)e);
             }
             e = &m->e[n];
             t = a;
@@ -2485,7 +2385,7 @@ int func_021DE158(unsigned char *p, unsigned a, unsigned b)
             e->slot = n + 0x1D;
             e->src = t;
             e->used = 1;
-            func_021DE07C(p, (Obj_021DE07C *)e);
+            func_021DE07C(p, (BoxMover *)e);
         }
         return 1;
     }
@@ -2501,8 +2401,8 @@ int func_021DE158(unsigned char *p, unsigned a, unsigned b)
         m->e[1].slot = t;
         m->e[1].src = t;
         m->e[1].used = 2;
-        func_021DDEFC(p, (Obj *)(&m->e[0]));
-        func_021DDEFC(p, (Obj *)(&m->e[1]));
+        func_021DDEFC(p, (BoxMover *)(&m->e[0]));
+        func_021DDEFC(p, (BoxMover *)(&m->e[1]));
         return 1;
     }
     if (a < 0x1E) {
@@ -2524,20 +2424,20 @@ int func_021DE158(unsigned char *p, unsigned a, unsigned b)
                 e->slot = i + 0x1D;
                 e->src = t;
                 e->used = 1;
-                func_021DDEFC(p, (Obj *)e);
+                func_021DDEFC(p, (BoxMover *)e);
             }
             m->e[k].id = 0x24;
             m->e[k].slot = b;
             m->e[k].src = a;
             m->e[k].used = 1;
-            func_021DDEFC(p, (Obj *)(&m->e[k]));
+            func_021DDEFC(p, (BoxMover *)(&m->e[k]));
             e = &m->e[n];
             t = b;
             e->id = t;
             e->slot = n + 0x1D;
             e->src = t;
             e->used = 1;
-            func_021DDEFC(p, (Obj *)e);
+            func_021DDEFC(p, (BoxMover *)e);
         }
     } else if (b - 0x1E < n) {
         func_021DE120((char *)p, a, b);
@@ -2550,13 +2450,13 @@ int func_021DE158(unsigned char *p, unsigned a, unsigned b)
             e->slot = i + 0x1D;
             e->src = t;
             e->used = 1;
-            func_021DDEFC(p, (Obj *)e);
+            func_021DDEFC(p, (BoxMover *)e);
         }
         m->e[k].id = 0x24;
         m->e[k].slot = n + 0x1D;
         m->e[k].src = a;
         m->e[k].used = 1;
-        func_021DDEFC(p, (Obj *)(&m->e[k]));
+        func_021DDEFC(p, (BoxMover *)(&m->e[k]));
     }
     return 1;
 }
@@ -2572,11 +2472,11 @@ int func_021DE158(unsigned char *p, unsigned a, unsigned b)
  */
 void func_021DE428(unsigned char *p, unsigned a, unsigned b)
 {
-    Move *m = *(Move * *)&((struct Obj23843 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60;
+    BoxMove *m = *(BoxMove * *)&((struct Obj23843 *)(*(char * *)&((BoxTask *)p)->f2C))->f60;
     unsigned i;
     unsigned n;
     unsigned short t;
-    Entry *e;
+    BoxMover *e;
     for (i = 0; i < 7; i++) {
         m->e[i].id = 0;
         m->e[i].slot = 0;
@@ -2595,12 +2495,12 @@ void func_021DE428(unsigned char *p, unsigned a, unsigned b)
         m->e[1].slot = t;
         m->e[1].src = t;
         m->e[1].used = 1;
-        func_021DDEFC(p, (Obj *)(&m->e[0]));
+        func_021DDEFC(p, (BoxMover *)(&m->e[0]));
         return;
     }
     m->a = a;
     m->b = b;
-    n = func_0201AA18(((void **)((struct Obj00000 *)p)->f0)[2]);
+    n = func_0201AA18(((void **)((BoxTask *)p)->f0)[2]);
     if (b < 0x1E) {
         unsigned k = a - 0x1E;
         for (i = k + 1; i < n; i++) {
@@ -2610,20 +2510,20 @@ void func_021DE428(unsigned char *p, unsigned a, unsigned b)
             e->slot = i + 0x1D;
             e->src = t;
             e->used = 1;
-            func_021DDFD4(p, (Obj_021DDFD4 *)e);
+            func_021DDFD4(p, (BoxMover *)e);
         }
         m->e[k].id = 0x24;
         m->e[k].slot = b;
         m->e[k].src = a;
         m->e[k].used = 1;
-        func_021DDFD4(p, (Obj_021DDFD4 *)(&m->e[k]));
+        func_021DDFD4(p, (BoxMover *)(&m->e[k]));
         e = &m->e[n];
         t = b;
         e->id = t;
         e->slot = n + 0x1D;
         e->src = t;
         e->used = 1;
-        func_021DDFD4(p, (Obj_021DDFD4 *)e);
+        func_021DDFD4(p, (BoxMover *)e);
     }
 }
 
@@ -2655,30 +2555,30 @@ void func_021DE428(unsigned char *p, unsigned a, unsigned b)
  */
 void func_021DE530(unsigned char *p, int a, int b)
 {
-    Obj_021DE530 *o = *(Obj_021DE530 **)(WORK(p) + 0x60);
+    BoxMover *o = *(BoxMover **)(WORK(p) + 0x60);
     unsigned i;
     for (i = 0; i < 7; i++) {
-        o[i].idx = 0;
+        o[i].id = 0;
         o[i].slot = 0;
-        o[i].f4 = 0;
-        o[i].f6 = 0;
+        o[i].src = 0;
+        o[i].used = 0;
     }
     if (b == 0xFF || func_021DD25C((void ***)p, b, p[0x14], 0xA9, 0)) {
         ((struct Obj01418 *)o)->fAC = 0xFF;
         ((struct Obj01418 *)o)->fB0 = 0xFF;
-        o[0].idx = 0x24;
+        o[0].id = 0x24;
         o[0].slot = a;
-        o[0].f4 = a;
-        o[0].f6 = 1;
-        o[1].idx = a;
+        o[0].src = a;
+        o[0].used = 1;
+        o[1].id = a;
         o[1].slot = a;
-        o[1].f4 = a;
-        o[1].f6 = 1;
-        func_021DDEFC(p, (Obj *)((Obj_021DE530 *)o));
+        o[1].src = a;
+        o[1].used = 1;
+        func_021DDEFC(p, (BoxMover *)((BoxMover *)o));
     } else {
         ((struct Obj01418 *)o)->fAC = a;
         ((struct Obj01418 *)o)->fB0 = b;
-        func_021DE120((char *)p, a, func_0201AA18(((struct Obj23845 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8) + 0x1E);
+        func_021DE120((char *)p, a, func_0201AA18(((struct Obj23845 *)(*(char * *)&((BoxTask *)p)->f0))->f8) + 0x1E);
     }
 }
 
@@ -2690,11 +2590,11 @@ void func_021DE530(unsigned char *p, int a, int b)
 
 int func_021DE5C8(char *p, unsigned id)
 {
-    Entry_021DE530 *e = *(Entry_021DE530 * *)&((struct Obj23846 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60;
+    BoxMover *e = *(BoxMover * *)&((struct Obj23846 *)(*(char * *)&((BoxTask *)p)->f2C))->f60;
     unsigned i;
     for (i = 0; i < 7; i++) {
         if (e[i].used != 0 && id == e[i].id)
-            return e[i].val;
+            return e[i].slot;
     }
     return ((unsigned char *)p)[0x16];
 }
@@ -2706,26 +2606,26 @@ int func_021DE5C8(char *p, unsigned id)
 
 void func_021DE5F8(unsigned char *p,unsigned a)
 {
-    Obj_021DE5F8 *o;
+    BoxMover *o;
     unsigned i;
     unsigned slot;
-    o=*(Obj_021DE5F8 * *)&((struct Obj23847 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60;
+    o=*(BoxMover * *)&((struct Obj23847 *)(*(char * *)&((BoxTask *)p)->f2C))->f60;
     slot=a-30;
     for(i=0;i<6;i++){
-        o[i].idx=i+30;
+        o[i].id=i+30;
         o[i].slot=i+30;
-        o[i].f4=i+30;
-        o[i].f6=0;
+        o[i].src=i+30;
+        o[i].used=0;
     }
-    o[i].f6=0;
+    o[i].used=0;
     for(i=slot+1;i<6;i++){
         o[i].slot=i+29;
-        o[i].f6=1;
-        func_021DDEFC(p, (Obj *)((Obj_021DE530 *)(&o[i])));
+        o[i].used=1;
+        func_021DDEFC(p, (BoxMover *)((BoxMover *)(&o[i])));
     }
     o[slot].slot=35;
-    o[slot].f6=1;
-    func_021DDEFC(p, (Obj *)((Obj_021DE530 *)(&o[slot])));
+    o[slot].used=1;
+    func_021DDEFC(p, (BoxMover *)((BoxMover *)(&o[slot])));
 }
 
 
@@ -2734,32 +2634,32 @@ void func_021DE5F8(unsigned char *p,unsigned a)
 
 
 
-void func_021DE66C(char *p, Entry_021DE5F8 *e)
+void func_021DE66C(char *p, BoxMover *e)
 {
     unsigned char buf[7];
     unsigned short i;
     unsigned short save = 0xFFFF;
     for (i = 0; i < 7; i++) {
         if (e[i].used != 0)
-            buf[i] = *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + e[i].src + 0x3DD2);
+            buf[i] = *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + e[i].src + 0x3DD2);
     }
     for (i = 0; i < 7; i++) {
         if (e[i].used == 0)
             continue;
         if (e[i].slot <= 0x24) {
-            *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + e[i].slot + 0x3DD2) = buf[i];
+            *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + e[i].slot + 0x3DD2) = buf[i];
             if (e[i].id == 0x24)
                 save = e[i].slot;
         } else {
-            ((struct Obj23848 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f3DF6 = buf[i];
+            ((struct Obj23848 *)(*(char * *)&((BoxTask *)p)->f2C))->f3DF6 = buf[i];
             if (e[i].id == 0x24)
                 save = 0x24;
         }
     }
     if (save != 0xFFFF)
-        func_021ECBD8((unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C), save);
+        func_021ECBD8((unsigned char *)(*(char * *)&((BoxTask *)p)->f2C), save);
     for (i = 0; i < 0x24; i++)
-        func_021EC768(*(char * *)&((struct Obj00000 *)p)->f2C, i, 1);
+        func_021EC768(*(char * *)&((BoxTask *)p)->f2C, i, 1);
 }
 
 
@@ -2794,14 +2694,14 @@ int func_021DE720(unsigned short a)
 
 void func_021DE728(unsigned char *p)
 {
-    State_021DE728 *s;
+    BoxCursor *s;
     void *m;
     unsigned i;
     int r;
-    *(State_021DE728 * *)&((struct Obj23849 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA190=func_02030734(0x804c,12,0,d_021F1400,0xa70);
-    s=*(State_021DE728 * *)&((struct Obj23850 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA190;
-    s->p=*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C+*(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C+p[0x16]+0x3dd2)*4+0x9e74);
-    s->f4=0;
+    *(BoxCursor * *)&((struct Obj23849 *)(*(char * *)&((BoxTask *)p)->f2C))->fA190=func_02030734(0x804c,12,0,d_021F1400,0xa70);
+    s=*(BoxCursor * *)&((struct Obj23850 *)(*(char * *)&((BoxTask *)p)->f2C))->fA190;
+    s->p=*(void **)(*(char * *)&((BoxTask *)p)->f2C+*(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C+p[0x16]+0x3dd2)*4+0x9e74);
+    s->index=0;
     s->flags=0;
     m=(void *)func_021DD2D0((void ***)p,p[0x14],p[0x16]);
     for(i=0;i<4;i++){
@@ -2821,7 +2721,7 @@ void func_021DE728(unsigned char *p)
  */
 void func_021DE7B4(char *p)
 {
-    func_020307B0(((struct Obj18453 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA190);
+    func_020307B0(((struct Obj18453 *)(*(char * *)&((BoxTask *)p)->f2C))->fA190);
 }
 
 
@@ -2834,7 +2734,7 @@ void func_021DE7B4(char *p)
  */
 int func_021DE7C8(unsigned char *p)
 {
-    State_021DE7C8 *s=*(State_021DE7C8 * *)&((struct Obj23851 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA190;
+    BoxCursor *s=*(BoxCursor * *)&((struct Obj23851 *)(*(char * *)&((BoxTask *)p)->f2C))->fA190;
     unsigned short n=s->index;
     unsigned j,i;
     void *m;
@@ -2892,11 +2792,11 @@ void func_021DE898(int *q)
 
 void func_021DE8B4(unsigned char *p, int slot, unsigned idx, int mode, int flag)
 {
-    Mover_021DE8B4 *o = *(Mover_021DE8B4 * *)&((struct Obj23852 *)(*(char * *)&((struct Obj10648 *)p)->f2C))->f60;
+    BoxMotor *o = *(BoxMotor * *)&((struct Obj23852 *)(*(char * *)&((BoxTask *)p)->f2C))->f60;
     short pos[2];
     short to[2];
     int d;
-    func_021EC0B0(*(char * *)&((struct Obj10648 *)p)->f2C,10,&pos[1],&pos[0],0);
+    func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C,10,&pos[1],&pos[0],0);
     func_021EC548(idx,&to[1],&to[0],mode);
     if(flag==1){to[1]+=8;to[0]+=8;}else{to[0]+=4;}
     o->idx=idx;
@@ -2928,7 +2828,7 @@ void func_021DE8B4(unsigned char *p, int slot, unsigned idx, int mode, int flag)
 
 void func_021DE980(unsigned char *p, int mode)
 {
-    Mover_021DE980 *o = *(Mover_021DE980 **)(WORK(p) + 0x60);
+    BoxMotor *o = *(BoxMotor **)(WORK(p) + 0x60);
     short pos[2];
     short to[2];
     int d;
@@ -2989,7 +2889,7 @@ void func_021DEA3C(int a, int b, int c, int d)
 
 void func_021DEA4C(char *p, int a, int b)
 {
-    func_021DE8B4((unsigned char *)p, *(unsigned char *)(*(int *)&((struct Obj10648 *)p)->f2C + 0xA17E), a, b, 0);
+    func_021DE8B4((unsigned char *)p, *(unsigned char *)(*(int *)&((BoxTask *)p)->f2C + 0xA17E), a, b, 0);
 }
 
 
@@ -3197,35 +3097,35 @@ void func_021DEC98(char *p, void *a, int dir)
     int d, e, i;
     char *q;
     if (dir == 0) {
-        ((struct Obj23854 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178 -= 0x17;
-        if (((struct Obj23855 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178 < 0)
-            ((struct Obj23856 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178 += 0x40;
+        ((struct Obj23854 *)(*(char * *)&((BoxTask *)p)->f2C))->fA178 -= 0x17;
+        if (((struct Obj23855 *)(*(char * *)&((BoxTask *)p)->f2C))->fA178 < 0)
+            ((struct Obj23856 *)(*(char * *)&((BoxTask *)p)->f2C))->fA178 += 0x40;
     } else if (dir == 1) {
-        ((struct Obj23857 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178 += 0x17;
-        if (((struct Obj23858 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178 >= 0x40)
-            ((struct Obj23859 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178 -= 0x40;
+        ((struct Obj23857 *)(*(char * *)&((BoxTask *)p)->f2C))->fA178 += 0x17;
+        if (((struct Obj23858 *)(*(char * *)&((BoxTask *)p)->f2C))->fA178 >= 0x40)
+            ((struct Obj23859 *)(*(char * *)&((BoxTask *)p)->f2C))->fA178 -= 0x40;
     }
-    q = *(char * *)&((struct Obj00000 *)p)->f2C;
-    if (((struct Obj14262 *)q)->fA179 == 0) {
+    q = *(char * *)&((BoxTask *)p)->f2C;
+    if (((BoxWork *)q)->fA179 == 0) {
         d = 0x25C;
         e = 0xE;
     } else {
         d = 0xB8;
         e = 0xF;
     }
-    ((struct Obj14262 *)q)->fA179 ^= 1;
-    func_021DEC64((void *)p, a, ((struct Obj23860 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178, (void *)d, e);
+    ((BoxWork *)q)->fA179 ^= 1;
+    func_021DEC64((void *)p, a, ((struct Obj23860 *)(*(char * *)&((BoxTask *)p)->f2C))->fA178, (void *)d, e);
     if (dir == 2) {
         func_021EB7E8((char **)p, (unsigned char)p[0x14], 7);
-        func_021EE224(*(char * *)&((struct Obj00000 *)p)->f2C, 8, 0);
+        func_021EE224(*(char * *)&((BoxTask *)p)->f2C, 8, 0);
         return;
     }
     i = 7;
-    if (func_021EE234((int *)(*(char * *)&((struct Obj00000 *)p)->f2C), 7) == 1)
+    if (func_021EE234((int *)(*(char * *)&((BoxTask *)p)->f2C), 7) == 1)
         i = 8;
     func_021EB7E8((char **)p, (unsigned char)p[0x14], i);
-    func_021EE244(*(char * *)&((struct Obj00000 *)p)->f2C, i, dir);
-    func_021EE224(*(char * *)&((struct Obj00000 *)p)->f2C, i, 1);
+    func_021EE244(*(char * *)&((BoxTask *)p)->f2C, i, dir);
+    func_021EE224(*(char * *)&((BoxTask *)p)->f2C, i, 1);
 }
 
 
@@ -3290,7 +3190,7 @@ void func_021DED58(char *p, int a)
  */
 int func_021DEDCC(char *p, int box)
 {
-    return func_0200781C(((struct Obj18456 *)(*(char * *)&((struct Obj18455 *)p)->f0))->f4, box);
+    return func_0200781C(((struct Obj18456 *)(*(char * *)&((BoxTask *)p)->f0))->f4, box);
 }
 
 
@@ -3367,10 +3267,10 @@ void func_021DEF58(void *s)
 void func_021DEF60(char *p, int a)
 {
     func_021ECCCC(p, (void **)a, 0xb);
-    func_021ED028((char *)(*(int *)&((struct Obj00000 *)p)->f2C), (unsigned char *)a);
+    func_021ED028((char *)(*(int *)&((BoxTask *)p)->f2C), (unsigned char *)a);
     func_021EB2A4((u8 *)p, a);
     func_021DF11C(p, ((struct Obj18457 *)a)->f10);
-    func_021DF144((char *)*(int *)&((struct Obj00000 *)p)->f2C, (Summary *)a);
+    func_021DF144((char *)*(int *)&((BoxTask *)p)->f2C, (Summary *)a);
     func_02041EE4(5, 3, 0);
 }
 
@@ -3413,7 +3313,7 @@ int func_021DEF98(char *p, int a, unsigned b)
  */
 void func_021DEFEC(char *p, int b)
 {
-    func_021DEF98(p, ((struct Obj18458 *)p)->f14, b);
+    func_021DEF98(p, ((BoxTask *)p)->f14, b);
 }
 
 
@@ -3425,11 +3325,11 @@ void func_021DEFF8(char *p, unsigned b)
     void *mon;
     void *s;
     int state;
-    mon = (void *)func_021DD2D0((void ***)p, ((struct Obj00000 *)p)->f14, b);
+    mon = (void *)func_021DD2D0((void ***)p, ((BoxTask *)p)->f14, b);
     state = func_02017DBC(mon);
     s = func_021DEDD8(mon);
     func_021ECCCC(p, s, 11);
-    func_021ED028(((struct Obj00000 *)p)->f2C, s);
+    func_021ED028(((BoxTask *)p)->f2C, s);
     func_021EB2A4((u8 *)p, (int)s);
     func_021DEF58(s);
     func_02017DE4(mon, state);
@@ -3485,7 +3385,7 @@ void func_021DF0BC(unsigned char *p)
 
 
 
-void func_021DF0D4(char *p,int base,u32 bits) { u16 i,v;for(i=0;i<6;i++){if(bits & (1<<i))v=i*2+1;else v=i*2;func_021EBFA8(*(char * *)&((struct Obj14263 *)p)->f2C,base+i,v);func_021EC000(*(char * *)&((struct Obj14263 *)p)->f2C,base+i,1);} }
+void func_021DF0D4(char *p,int base,u32 bits) { u16 i,v;for(i=0;i<6;i++){if(bits & (1<<i))v=i*2+1;else v=i*2;func_021EBFA8(*(char * *)&((BoxTask *)p)->f2C,base+i,v);func_021EC000(*(char * *)&((BoxTask *)p)->f2C,base+i,1);} }
 
 
 
@@ -3619,8 +3519,8 @@ int func_021DF228(short x, short y, const unsigned char *r)
  */
 int func_021DF254(unsigned char *p, short x, short y)
 {
-    int v = func_021EF224(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA180),
-                          *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA184));
+    int v = func_021EF224(*(int *)(*(int *)&((BoxTask *)p)->f2C + 0xA180),
+                          *(int *)(*(int *)&((BoxTask *)p)->f2C + 0xA184));
     unsigned w;
     if (v == 0xff)
         return v;
@@ -3642,16 +3542,16 @@ int func_021DF288(char *p)
     Request_021DF040 *r;
     unsigned mode;
     r = func_02030734(0x4B, 0x28, 0, d_021F1400, 0xEAC);
-    if (((struct Obj05437 *)p)->f16 < 30) {
-        r->mon = (void *)func_021DD2D0((void ***)p, ((struct Obj05437 *)p)->f17, 0);
+    if (((BoxTask *)p)->f16 < 30) {
+        r->mon = (void *)func_021DD2D0((void ***)p, ((BoxTask *)p)->f17, 0);
         r->kind = 2;
         r->count = 30;
-        r->slot = ((struct Obj05437 *)p)->f16;
+        r->slot = ((BoxTask *)p)->f16;
     } else {
         r->mon = (*(void ***)p)[2];
         r->kind = 1;
         r->count = func_0201AA18((*(void ***)p)[2]);
-        r->slot = ((struct Obj05437 *)p)->f16 - 30;
+        r->slot = ((BoxTask *)p)->f16 - 30;
     }
     mode = 0;
     r->zero = 0;
@@ -3663,8 +3563,8 @@ int func_021DF288(char *p)
     } else {
         r->mode = 0;
     }
-    func_02031348(((struct Obj05437 *)p)->f4, (int)ov131_id, d_021DC800, r);
-    *(Request_021DF040 * *)&((struct Obj05437 *)p)->fC = r;
+    func_02031348(((BoxTask *)p)->f4, (int)ov131_id, d_021DC800, r);
+    *(Request_021DF040 * *)&((BoxTask *)p)->fC = r;
     return 0;
 }
 
@@ -3681,11 +3581,11 @@ int func_021DF288(char *p)
 int func_021DF324(char *p)
 {
     int q = ((struct Obj04901 *)p)->fC;
-    if (((struct Obj04901 *)p)->f18 == 0) {
-        if (((struct Obj04901 *)p)->f16 < 0x1e)
-            ((struct Obj04901 *)p)->f16 = ((struct Obj12155 *)q)->fF;
+    if (((BoxTask *)p)->f18 == 0) {
+        if (((BoxTask *)p)->f16 < 0x1e)
+            ((BoxTask *)p)->f16 = ((struct Obj12155 *)q)->fF;
         else
-            ((struct Obj04901 *)p)->f16 = ((struct Obj12155 *)q)->fF + 0x1e;
+            ((BoxTask *)p)->f16 = ((struct Obj12155 *)q)->fF + 0x1e;
     }
     func_020307B0((void *)(((struct Obj04901 *)p)->fC));
     return 0;
@@ -3713,7 +3613,7 @@ int func_021DF348(void **p)
  */
 int func_021DF378(char *p)
 {
-    char *q = *(char * *)&((struct Obj12156 *)p)->fC;
+    char *q = *(char * *)&((BoxTask *)p)->fC;
 
     ((struct Obj12156 *)p)->f10 = ((struct Obj18460 *)q)->f38;
     func_020307B0(q);
@@ -3733,10 +3633,10 @@ int func_021DF38C(char *p)
     value = (int)func_0200C0F0(func_02012EBC((*(void ***)p)[0]));
     r = func_02030734(0x4B, 8, 1, d_021F1400, 0xF1F);
     r->text = func_020457B0(20, 0x4B);
-    func_0200785C((*(void ***)p)[1], ((struct Obj10650 *)p)->f14, r->text);
+    func_0200785C((*(void ***)p)[1], ((BoxTask *)p)->f14, r->text);
     r->task = func_0216BFD4(0x4B, 2, 0, 0, 8, (int)r->text, value);
-    func_02031348(((struct Obj10650 *)p)->f4, (int)ov194_id, d_021F5580, r->task);
-    *(Request_021DF378 * *)&((struct Obj10650 *)p)->fC = r;
+    func_02031348(((BoxTask *)p)->f4, (int)ov194_id, d_021F5580, r->task);
+    *(Request_021DF378 * *)&((BoxTask *)p)->fC = r;
     return 0;
 }
 
@@ -3745,16 +3645,16 @@ int func_021DF38C(char *p)
 #define WORK(p) (*(char **)((p) + 0x2C))
 
 
-int func_021DF404(u8 *p){char **q;q=*(char ** *)&((struct Obj06546 *)p)->fC;if(((struct Obj23861 *)(*q))->f1C==0)func_02007898(((struct Obj23862 *)(*(char * *)&((struct Obj06546 *)p)->f0))->f4,p[0x14],((struct Obj23863 *)(*q))->f20);((struct Obj06546 *)p)->f10=((struct Obj23864 *)(*q))->f1C;func_0216C0C0((int)*q);func_02045808((struct U16Vec *)q[1]);func_020307B0(((struct Obj06546 *)p)->fC);return 0;}
+int func_021DF404(u8 *p){char **q;q=*(char ** *)&((BoxTask *)p)->fC;if(((struct Obj23861 *)(*q))->f1C==0)func_02007898(((struct Obj23862 *)(*(char * *)&((BoxTask *)p)->f0))->f4,p[0x14],((struct Obj23863 *)(*q))->f20);((BoxTask *)p)->f10=((struct Obj23864 *)(*q))->f1C;func_0216C0C0((int)*q);func_02045808((struct U16Vec *)q[1]);func_020307B0(((BoxTask *)p)->fC);return 0;}
 
 
 
 void func_021DF43C(char *p, int x, int y)
 {
-    func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, ((struct Obj23865 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f3DF6, (short)x, (short)((short)y - 8), 0);
-    func_021ED7C4(*(char * *)&((struct Obj00000 *)p)->f2C, 0x24);
-    ((struct Obj23866 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA180 = x;
-    ((struct Obj23867 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA184 = y;
+    func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, ((struct Obj23865 *)(*(char * *)&((BoxTask *)p)->f2C))->f3DF6, (short)x, (short)((short)y - 8), 0);
+    func_021ED7C4(*(char * *)&((BoxTask *)p)->f2C, 0x24);
+    ((struct Obj23866 *)(*(char * *)&((BoxTask *)p)->f2C))->fA180 = x;
+    ((struct Obj23867 *)(*(char * *)&((BoxTask *)p)->f2C))->fA184 = y;
 }
 
 
@@ -3962,7 +3862,7 @@ int func_021DF484(unsigned char *p)
             func_021DF43C((char *)p, x, y);
         break;
     case 16:
-        func_021DE66C((char *)p, (Entry_021DE5F8 *)b->moves);
+        func_021DE66C((char *)p, (BoxMover *)b->moves);
         if (func_021EF480(MGR(p)) == 1) {
             func_021ED7C4(WORK(p), p[0x16]);
             func_021ED6E4((char **)p, 1);
@@ -4235,7 +4135,7 @@ int func_021DFA30(unsigned char *p)
         }
         break;
     case 16:
-        func_021DE66C((char *)p, (Entry_021DE5F8 *)b->moves);
+        func_021DE66C((char *)p, (BoxMover *)b->moves);
         if (func_021EF770(MGR(p)) == 0 && func_021EF45C(MGR(p)) == 0) {
             func_021ED7C4(WORK(p), p[0x16]);
             func_021ED6E4((char **)p, 1);

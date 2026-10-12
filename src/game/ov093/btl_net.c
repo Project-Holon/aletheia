@@ -115,40 +115,11 @@
  *   _dsub   0x0209AF34  arm
  *   _dfix   0x0209C508  arm
  */
-#include "../../matched/include/Obj18389.h"
-#include "../../matched/include/Obj21193.h"
-#include "../../matched/include/Obj21195.h"
-#include "../../matched/include/Obj21197.h"
-#include "../../matched/include/Obj13422.h"
-#include "../../matched/include/Obj21198.h"
-#include "../../matched/include/Obj18391.h"
-#include "../../matched/include/Obj06231.h"
-#include "../../matched/include/Obj13426.h"
-#include "../../matched/include/Obj18393.h"
-#include "../../matched/include/Obj21200.h"
-#include "../../matched/include/Obj21201.h"
-#include "../../matched/include/Obj21202.h"
-#include "../../matched/include/Obj18395.h"
-#include "../../matched/include/Obj21204.h"
-#include "../../matched/include/Obj21205.h"
-#include "../../matched/include/Obj18396.h"
-#include "../../matched/include/Obj21206.h"
-#include "../../matched/include/Obj21207.h"
-#include "../../matched/include/Obj18397.h"
-#include "../../matched/include/Obj13429.h"
 #include "../../matched/include/Obj13430.h"
-#include "../../matched/include/Obj03696.h"
-#include "../../matched/include/Obj18407.h"
-#include "../../matched/include/Obj10048.h"
-#include "../../matched/include/Obj00041.h"
-#include "../../matched/include/Obj18410.h"
 
-struct UtilWork;
 struct QK;
 struct QJ;
-struct QI;
 struct BtlNet;
-struct Work;
 struct Arr;
 struct UtilSlots;
 struct Q1;
@@ -157,18 +128,7 @@ struct Link;
 struct Entry;
 struct U16Vec;
 struct Sav;
-struct S;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
+#include "btl_net_types.h"
 
 typedef struct { u32 v; } Slot;
 
@@ -182,45 +142,6 @@ typedef struct {
 } Pair_021D3E70;
 
 typedef struct { u8 a,b; } Pair_021D3EC8;
-
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 f0 : 1;
-    u8 f1 : 1;
-    u8 f2 : 1;
-    u8 f3 : 1;
-    u8 f4 : 1;
-    u8 f5 : 1;
-    u8 pad3;
-    u16 h4;
-    u16 h6;
-    u16 h8;
-    u16 h10;
-    u16 h12;
-} S_021D3F04;
-
-typedef struct { u8 pad[2]; unsigned char f0:2; unsigned char flag:1; unsigned char rest:5; } Flags;
-
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 f0 : 1;
-    u8 f1 : 1;
-    u8 f2 : 1;
-    u8 pad3;
-    u16 h4;
-    u16 h6;
-    u16 h8;
-    u16 h10;
-    u16 h12;
-} S_021D3F64;
-
-struct S_021D3F88 { u8 a,b; u8 bit:1; u8 rest:7; };
-
-typedef struct { u8 pad[2]; u8 f0:1,f1:1,f2:1,f3:1,f4:1,rest:3; } Flags_021D3FAC;
-
-typedef struct { u8 pad[2]; u8 low:4,flag:1,rest:3; } Flags_021D3FC4;
 
 struct Q {
     u8 state, mode;
@@ -297,242 +218,12 @@ typedef struct {
     u32 size : 24;
 } Hdr_021D4CB8;
 
-union Slot {
-    u32 raw;
-    struct { u32 kind : 3; u32 lo : 6; u32 hi : 6; u32 rest : 17; } s;
-};
-
-typedef struct S {
-    void *f00;
-    u32 f04;
-    u8 pad08[4];
-    u16 f0c;
-    u16 f0e;
-    u16 f10;
-    u16 f12;
-    u16 f14;
-    u16 f16;
-    u8 f18;
-    u8 f19;
-    u8 f1a;
-    u8 lo : 5;
-    u8 b5 : 1;
-    u8 b6 : 1;
-    u8 b7 : 1;
-    union Slot w1c[40];
-    u8 pad_bc[0xfc - 0xbc];
-    u8 f0fc[8];
-    u8 pad104[0x140 - 0x104];
-    u8 f140;
-    u8 f141;
-    u8 f142;
-    u8 f143;
-    u8 f144;
-    u8 pad145;
-    u16 f146;
-    u16 f148;
-    u16 f14a;
-    u16 f14c;
-    u16 f14e;
-    u8 pad150[2];
-    u8 f152;
-    u8 f153[2];
-    u8 f155[2];
-    u8 pad157[0x1f2 - 0x157];
-    u16 f1f2;
-    u16 f1f4;
-    u8 f1f6;
-    u8 pad1f7;
-} S;
-
-struct S_021D4EFC {
-    u8 pad00[8];
-    u32 f08;
-    u16 f0c;
-    u16 f0e;
-    u16 f10;
-    u8 pad12[0x13c - 0x12];
-    u16 f13c;
-    u16 f13e;
-    u8 pad140;
-    u8 f141;
-};
-
-struct Ent_021D4EFC {u16 h[6]; u8 fC,fD;};
-
-struct Bits {u8 lo:4,hi:4;};
-
-struct E {
-    u16 f00;
-    u8 f02;
-    u8 pad03;
-    u8 f04;
-    u8 pad05[9];
-};
-
-struct A {
-    void *f00;
-    u8 pad04[0x100];
-    struct E e[4];
-};
-
-struct Ent_021D505C {
-    u16 h[6];
-    u8 fC;
-    u8 fD;
-};
-
-struct Work_021D50B4 {
-    void *h;
-    u8 pad4[0x100];
-    struct Ent_021D505C e[4];
-    u8 pad13C[4];
-    u8 n140;
-};
-
-struct Work_021D5150 {
-    u8 pad0[0x104];
-    struct Ent_021D505C e[4];
-    u8 pad13C[4];
-    u8 n140;
-};
-
-struct S_021D51CC { u16 h[6]; u8 f0c; };
-
-struct S_021D5208 { u16 f00; u8 f02; u8 f03; u8 f04; u8 lo : 4; u8 hi : 4; };
-
-struct Ent_021D5208 {
-    u16 id;
-    u8 b2;
-    u8 b3;
-    u8 b4;
-    u8 lo5:4;
-    u8 hi5:4;
-};
-
-struct S_021D533C { void *f00; u8 pad04[0x17]; u8 lo : 5; u8 flag : 1; };
-
-struct UtilEntry {
-    u8 f0;
-    u8 f1;
-    u8 f2;
-    u8 f3;
-    u16 f4;
-    u16 f6;
-    u8 f8;
-    u8 f9;
-    u16 fA;
-    u8 fC;
-    u8 fD;
-};
-
-struct UtilWork {
-    void *f0;
-    u8 pad4[0x100];
-    struct UtilEntry e[4];
-    u8 pad13C[4];
-    u8 n140;
-    u8 pad141[3];
-    u8 f144;
-    u8 pad145[5];
-    u16 f14A;
-    u16 f14C;
-    u16 f14E;
-    u8 pad150[3];
-    u8 bits153[2];
-    u8 bits155[2];
-    u8 f157[5];
-};
-
-/* 021D5444  ldrh r0,[r0,#0xc] */
-struct QF { u8 pad[0xc]; u16 v; };
-
-/* 021D5448  movs r1,#5; lsls r1,#6; ldrb r0,[r0,r1] */
-struct QG { u8 pad[0x140]; u8 v; };
-
-struct Ent_021D5450 {
-    u16 h0;
-    u8 pad2[9];
-    u8 lo11:4;
-    u8 hi11:4;
-    u8 fC;
-    u8 fD;
-};
-
-struct Work {
-    u8 pad0[0x104];
-    struct Ent_021D5450 e[4];
-    u8 pad13C[4];
-    u8 n140;
-};
-
-typedef struct { u16 a; u8 b; u8 c; u8 pad[10]; } Ent_021D54C0;
-
-struct NB { u8 lo : 4; u8 hi : 4; };
-
-struct Ent_021D54F4 {
-    u16 h0;
-    u16 h1;
-    u16 h2;
-    u16 h3;
-    u8 b8;
-    u8 b9;
-    u16 hA;
-    u8 fC;
-    u8 fD;
-};
-
-typedef struct { u16 a; u8 b; u8 c; u8 pad[10]; } Ent_021D554C;
-
-struct Entry_021D5640 { u8 pad0[2]; u8 a; u8 pad3[9]; u8 flag; u8 rest; };
-
-struct Work_021D5640 { void *obj; u8 pad4[0x100]; struct Entry_021D5640 e[]; };
-
-struct Entry_021D5674 { u16 id; u8 a; u8 b; u16 c; u16 other; u8 x; u8 y; u16 z; u8 flag; u8 rest; };
-
-struct Entry_021D56A0 { u16 id; u8 a; u8 b; u16 c; u16 other; u8 x; u8 y; u16 z; u8 flag; u8 rest; };
-
-struct Ent_021D554C {
-    u8 pad0[5];
-    u8 lo5:4;
-    u8 hi5:4;
-    u8 pad6[5];
-    u8 lo11:4;
-    u8 hi11:4;
-    u8 c;
-    u8 padD;
-};
-
-struct Work_021D56CC {
-    u8 pad0[0x104];
-    struct Ent_021D554C e[4];
-    u8 pad13C[7];
-    u8 c143;
-};
-
-/* 021D5848  ldrb r2,[r0,#0x1b]; str r1,[r0,#4]; movs r1,#0x40; orrs r1,r2;
- *           strb r1,[r0,#0x1b] */
-struct QH { u8 pad[4]; void *v; u8 pad2[0x1b - 8]; u8 flags; };
-
-struct Work_021D5854 { void *a; void *b; u8 pad[0x13]; u8 low:6; u8 flag:1; u8 high:1; };
-
-struct Work_021D5864 { void *a; void *b; u8 pad[0x13]; u8 low:6; u8 flag:1; u8 high:1; };
-
-/* 021D5B40  ldrh r0,[r0,#0x12] */
-struct QI { u8 pad[0x12]; u16 v; };
-
-struct Rat {
-    u8 pad0[0xe];
-    u16 den;
-    u16 num;
-};
-
 extern u8 *func_021B9934(char *p, int i);
 extern void func_021D6730(struct QK *p, u16 v);
 extern void func_021D6744(u8 *p, u8 a, int f, u8 b, u16 c, u16 d);
 extern void func_021D5FE4(u8 *, u32);
 extern void func_021D6008(u8 *, u32);
-extern void func_021D5FC0(struct UtilWork *, u32);
+extern void func_021D5FC0(struct BtlMon *, u32);
 extern void func_021D6440(u8 *, u32);
 extern void func_021D66D0(struct QJ *p, u32 v);
 extern void func_021D64F0(void *p);
@@ -541,7 +232,7 @@ extern int func_021EFAD8(char *a, u32 b, u32 c);
 extern void func_021EFB34(struct BtlNet *, u8);
 extern int func_021EFA94(void *, int);
 extern void func_021D69A0(u8 *, int, u8);
-extern void func_021D65C8(struct Work *, struct Work *);
+extern void func_021D65C8(struct BtlMon *, struct BtlMon *);
 extern void func_021D6D5C(u8 *, u16);
 extern void func_021D6D70(unsigned char *p);
 extern void func_021CD9F4(u8 *p, u8 n);
@@ -560,7 +251,7 @@ extern u8 func_021B9B94(struct Q1 *p);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern u32 func_021D805C(void *p, u32 n);
 extern u32 func_021D7B60(void *p, u32 b);
-extern u8 func_021D5F14(struct UtilWork *p);
+extern u8 func_021D5F14(struct BtlMon *p);
 extern void func_021EAE74(char *p, u32 a, u32 b);
 extern int func_021EAE64(void *);
 extern void func_021EAE04(u32 *p);
@@ -599,7 +290,7 @@ extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_02019C90(u16, u16, u32);
 extern u32 func_02017F90(void *);
 extern void func_021D63B8(u8 *p, int all);
-extern union Slot func_021D7D18(int);
+extern union BtlMonSlot func_021D7D18(int);
 extern void func_021D67F4(u8 *p);
 extern void func_021D6DC4(u8 *p);
 extern u32 func_02017D30(struct Sav *p);
@@ -646,17 +337,17 @@ void func_021D3D9C(u8 *p);
 u32 func_021D3DC4(u8 *a, void *b, void *c);
 int func_021D3E70(void *s, void *m);
 int func_021D3EC8(void *s,struct Unk021D62A8 *m);
-void func_021D3F04(S_021D3F04 *p);
+void func_021D3F04(struct BtlNetEntry *p);
 void func_021D3F48(u8 *p, u32 v);
-int func_021D3F4C(Flags *p);
+int func_021D3F4C(struct BtlNetEntry *p);
 void func_021D3F54(u8 *p);
 u8 func_021D3F60(u8 *p);
-void func_021D3F64(S_021D3F64 *p, u16 v);
-void func_021D3F88(struct S_021D3F88 *p);
+void func_021D3F64(struct BtlNetEntry *p, u16 v);
+void func_021D3F88(struct BtlNetEntry *p);
 int func_021D3F98(u8 *p);
 u16 func_021D3FA8(u8 *p);
-int func_021D3FAC(Flags_021D3FAC *p);
-void func_021D3FC4(Flags_021D3FC4 *p);
+int func_021D3FAC(struct BtlNetEntry *p);
+void func_021D3FC4(struct BtlNetEntry *p);
 void func_021D3FD0(unsigned char *p);
 void func_021D3FDC(u8 *p, struct Q *q);
 void func_021D4150(void *link, u16 mask, u16 heap);
@@ -722,72 +413,72 @@ void func_021D4CEC(void);
 void *func_021D4D24(u32 a, u16 b);
 void func_021D4D5C(void *p);
 void func_021D4D64(u32 *p, const void *src, u32 a);
-S *func_021D4D84(void *a, u8 b, u32 c);
-void func_021D4EFC(struct S_021D4EFC *a, void *mon, u32 c, u32 d);
-int func_021D4F84(u8 *p, void *h, int reset);
-void func_021D505C(struct A *a);
-void func_021D50B4(struct Work_021D50B4 *p);
-void func_021D5150(struct Work_021D5150 *p);
+struct BtlMon *func_021D4D84(void *a, u8 b, u32 c);
+void func_021D4EFC(struct BtlMon *a, void *mon, u32 c, u32 d);
+int func_021D4F84(struct BtlMon *p, void *h, int reset);
+void func_021D505C(struct BtlMon *a);
+void func_021D50B4(struct BtlMon *p);
+void func_021D5150(struct BtlMon *p);
 void func_021D51CC(u8 *p);
-void func_021D51DC(struct S_021D51CC *p, u32 a, u32 b, u32 c);
-void func_021D5208(struct S_021D5208 *p, u32 a, u32 b);
-int func_021D5244(struct Ent_021D5208 *e, void *h, u8 k);
-void func_021D52B4(u8 *p, void *h, u32 flag);
-void func_021D533C(struct S_021D533C *p);
-void func_021D5364(struct UtilWork *p);
-void func_021D539C(struct UtilWork *p);
+void func_021D51DC(struct BtlMoveSlot *p, u32 a, u32 b, u32 c);
+void func_021D5208(struct BtlMoveInfo *p, u32 a, u32 b);
+int func_021D5244(struct BtlMoveInfo *e, void *h, u8 k);
+void func_021D52B4(struct BtlMon *p, void *h, u32 flag);
+void func_021D533C(struct BtlMon *p);
+void func_021D5364(struct BtlMon *p);
+void func_021D539C(struct BtlMon *p);
 void func_021D53B8(void *p);
 void func_021D53C0(unsigned char *p);
 void func_021D53C8(unsigned char *p);
 int func_021D53DC(signed char *p);
 u8 func_021D5440(u8 *p);
-u16 func_021D5444(struct QF *p);
-u8 func_021D5448(struct QG *p);
-u8 func_021D5450(struct Work *p);
-u8 func_021D5478(struct Work *p);
+u16 func_021D5444(struct BtlMon *p);
+u8 func_021D5448(struct BtlMon *p);
+u8 func_021D5450(struct BtlMon *p);
+u8 func_021D5478(struct BtlMon *p);
 u8 func_021D54B4(u8 *p);
-u16 func_021D54C0(u8 *p, int i);
-u32 func_021D54D0(u8 *p, u8 i);
-u32 func_021D54E0(u8 *p, u32 i);
-void func_021D54F4(struct Work *src, struct Work *dst);
-u16 func_021D5528(u8 *p, u8 i, u8 *a, u8 *b);
-u8 func_021D554C(u8 *p, u8 i);
-u8 func_021D5568(u8 *p, u32 i);
-u8 func_021D5584(struct UtilWork *p, u32 i);
-int func_021D55A0(struct UtilWork *p, int id);
-int func_021D55D8(u8 *p, int i, int s);
-void func_021D5608(struct UtilWork *p, int i, u8 n);
-void func_021D5640(struct Work_021D5640 *p, u32 i, u32 n);
-u16 func_021D5674(u8 *p, u32 i, u8 n);
-u16 func_021D56A0(u8 *p, u32 i, u8 n);
-void func_021D56CC(struct Work_021D56CC *p, int i);
-void func_021D5734(u8 *p, u8 i, u16 a, u8 b, u32 c);
-int func_021D5750(u8 *p, u16 id);
-u8 func_021D5778(struct UtilWork *p, u16 id);
+u16 func_021D54C0(struct BtlMon *p, int i);
+u32 func_021D54D0(struct BtlMon *p, u8 i);
+u32 func_021D54E0(struct BtlMon *p, u32 i);
+void func_021D54F4(struct BtlMon *src, struct BtlMon *dst);
+u16 func_021D5528(struct BtlMon *p, u8 i, u8 *a, u8 *b);
+u8 func_021D554C(struct BtlMon *p, u8 i);
+u8 func_021D5568(struct BtlMon *p, u32 i);
+u8 func_021D5584(struct BtlMon *p, u32 i);
+int func_021D55A0(struct BtlMon *p, int id);
+int func_021D55D8(struct BtlMon *p, int i, int s);
+void func_021D5608(struct BtlMon *p, int i, u8 n);
+void func_021D5640(struct BtlMon *p, u32 i, u32 n);
+u16 func_021D5674(struct BtlMon *p, u32 i, u8 n);
+u16 func_021D56A0(struct BtlMon *p, u32 i, u8 n);
+void func_021D56CC(struct BtlMon *p, int i);
+void func_021D5734(struct BtlMon *p, u8 i, u16 a, u8 b, u32 c);
+int func_021D5750(struct BtlMon *p, u16 id);
+u8 func_021D5778(struct BtlMon *p, u16 id);
 void func_021D57A8(u8 *p, u8 *a, u8 *b);
 u16 func_021D57FC(void *p);
 int func_021D5814(void *p, int k);
 void *func_021D5844(void *m);
-void func_021D5848(struct QH *p, void *v);
-void func_021D5854(struct Work_021D5854 *p);
-void *func_021D5864(struct Work_021D5864 *p);
+void func_021D5848(struct BtlMon *p, void *v);
+void func_021D5854(struct BtlMon *p);
+void *func_021D5864(struct BtlMon *p);
 int func_021D587C(void *p, int k);
 int func_021D58A8(u8 *p, int k);
 void func_021D590C(void **p, u16 *out);
 void func_021D5970(u8 *p, int k, u16 v);
 int func_021D59B4(u8 *p, int k);
 int func_021D5AD8(u8 *p, int k);
-u16 func_021D5B40(struct QI *p);
-void func_021D5B44(struct QI *p, u16 v);
+u16 func_021D5B40(struct BtlMon *p);
+void func_021D5B44(struct BtlMon *p, u16 v);
 int func_021D5B48(u8 *p);
 int func_021D5B68(void *p);
 int func_021D5B7C(void *m);
 unsigned short func_021D5BA4(int *p);
-int func_021D5BB0(struct UtilWork *p, u32 n);
-int func_021D5BDC(struct UtilWork *p, u32 n);
-u32 func_021D5C08(struct UtilWork *p);
-int func_021D5C30(struct UtilWork *p);
-int func_021D5C44(struct Rat *p);
+int func_021D5BB0(struct BtlMon *p, u32 n);
+int func_021D5BDC(struct BtlMon *p, u32 n);
+u32 func_021D5C08(struct BtlMon *p);
+int func_021D5C30(struct BtlMon *p);
+int func_021D5C44(struct BtlMon *p);
 s8 *func_021D5CB4(s8 *p, int i, u8 *a, u8 *b);
 int func_021D5D14(s8 *p, int i, int sign);
 int func_021D5D50(s8 *p, int i);
@@ -992,7 +683,7 @@ int func_021D3AB4(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5FC0((struct UtilWork *)x, c[1]);
+    func_021D5FC0((struct BtlMon *)x, c[1]);
     return 1;
 }
 
@@ -1109,7 +800,7 @@ int func_021D3B08(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5B44((struct QI *)x, c[1]);
+    func_021D5B44((struct BtlMon *)x, c[1]);
     return 1;
 }
 
@@ -1148,7 +839,7 @@ int func_021D3B28(u32 *a, int *b, const u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5734(x, c[1], c[4], c[2], c[3]);
+    func_021D5734((struct BtlMon *)x, c[1], c[4], c[2], c[3]);
     return 1;
 }
 
@@ -1189,7 +880,7 @@ int func_021D3B28(u32 *a, int *b, const u32 *c)
  */
 int func_021D3B5C(u8 *p, int b, u32 *q)
 {
-    func_021D64F0(func_021B9934(*(char * *)&((struct Obj18389 *)p)->f4, (u8)*q));
+    func_021D64F0(func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
     return 1;
 }
 
@@ -1306,7 +997,7 @@ int func_021D3B88(u32 *a, int *b, u32 *c)
  */
 int func_021D3B9C(char *p, int unused, unsigned int *a)
 {
-    func_021EFB34(*(struct BtlNet * *)&((struct Obj21193 *)p)->f34, a[0]);
+    func_021EFB34(*(struct BtlNet * *)&((struct BtlNetCtx *)p)->f34, a[0]);
     return 1;
 }
 
@@ -1347,7 +1038,7 @@ int func_021D3B9C(char *p, int unused, unsigned int *a)
  */
 int func_021D3BB0(char *p, int unused, unsigned int *a)
 {
-    func_021EFA94(((struct Obj21195 *)p)->f34, a[0]);
+    func_021EFA94(((struct BtlNetCtx *)p)->f34, a[0]);
     return 1;
 }
 
@@ -1387,7 +1078,7 @@ int func_021D3BB0(char *p, int unused, unsigned int *a)
  */
 int func_021D3BC0(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char * *)&((struct Obj21197 *)p)->f4, (u8)a[0]);
+    u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     func_021D69A0(obj, a[1], a[2]);
     return 1;
 }
@@ -1425,9 +1116,9 @@ int func_021D3BC0(char *p, int unused, unsigned int *a)
 
 int func_021D3BE0(char *p, int unused, unsigned int *a)
 {
-    u8 *first = func_021B9934(*(char * *)&((struct Obj13422 *)p)->f4, (u8)a[0]);
-    u8 *second = func_021B9934(*(char * *)&((struct Obj13422 *)p)->f4, (u8)a[1]);
-    func_021D65C8((struct Work *)second, (struct Work *)first);
+    u8 *first = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
+    u8 *second = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[1]);
+    func_021D65C8((struct BtlMon *)second, (struct BtlMon *)first);
     return 1;
 }
 
@@ -1464,7 +1155,7 @@ int func_021D3BE0(char *p, int unused, unsigned int *a)
 
 int func_021D3C0C(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char * *)&((struct Obj21198 *)p)->f4, (u8)a[0]);
+    u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     func_021D6D5C(obj, a[1]);
     return 1;
 }
@@ -1506,7 +1197,7 @@ int func_021D3C0C(char *p, int unused, unsigned int *a)
  */
 int func_021D3C2C(u8 *p, int b, u32 *q)
 {
-    func_021D6D70(func_021B9934(*(char * *)&((struct Obj18391 *)p)->f4, (u8)*q));
+    func_021D6D70(func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
     return 1;
 }
 
@@ -1546,7 +1237,7 @@ int func_021D3C44(u8 *p, int unused, unsigned int *a)
     u8 index = a[0];
     u8 value = a[1];
     if (index == p[0x1a6]) func_021CD9F4(p, value);
-    else func_021B9B10(*(u8 * *)&((struct Obj06231 *)p)->f0, index, value);
+    else func_021B9B10(*(u8 * *)&((struct BtlNetCtx *)p)->f00, index, value);
     return 1;
 }
 
@@ -1584,8 +1275,8 @@ int func_021D3C44(u8 *p, int unused, unsigned int *a)
 int func_021D3C70(char *p, int unused, unsigned int *a)
 {
     u8 index = a[0];
-    struct Arr *obj = (struct Arr *)func_021B9AEC(*(char * *)&((struct Obj13426 *)p)->f4, index);
-    func_021B9D10(*(char * *)&((struct Obj13426 *)p)->f0, obj, index);
+    struct Arr *obj = (struct Arr *)func_021B9AEC(*(char * *)&((struct BtlNetCtx *)p)->f04, index);
+    func_021B9D10(*(char * *)&((struct BtlNetCtx *)p)->f00, obj, index);
     return 1;
 }
 
@@ -1626,7 +1317,7 @@ int func_021D3C70(char *p, int unused, unsigned int *a)
  */
 int func_021D3C90(u8 *p, int b, u32 *q)
 {
-    func_021D6738(func_021B9934(*(char * *)&((struct Obj18393 *)p)->f4, (u8)*q));
+    func_021D6738(func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
     return 1;
 }
 
@@ -1663,7 +1354,7 @@ int func_021D3C90(u8 *p, int b, u32 *q)
 
 int func_021D3CA8(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char * *)&((struct Obj21200 *)p)->f4, (u8)a[0]);
+    u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     func_021D6264((struct UtilSlots *)obj, (u8)a[1]);
     return 1;
 }
@@ -1710,7 +1401,7 @@ int func_021D3CC8(char *p, int unused, const unsigned int *a)
     u8 *obj;
     u16 x, y;
     u8 z, w, v;
-    obj = func_021B9934(*(char * *)&((struct Obj21201 *)p)->f4, (u8)a[0]);
+    obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     x = a[4]; y = a[5]; z = a[3]; w = a[2]; v = a[1];
     r.a = x; r.b = y; r.c = z; r.d = v; r.e = w;
     func_021D6848(obj, (struct Rec *)((struct HalfRec *)&r));
@@ -1750,7 +1441,7 @@ int func_021D3CC8(char *p, int unused, const unsigned int *a)
 
 int func_021D3CFC(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char * *)&((struct Obj21202 *)p)->f4, (u8)a[0]);
+    u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     func_021D6408(obj);
     func_021D6E88(obj);
     return 1;
@@ -1794,7 +1485,7 @@ int func_021D3CFC(char *p, int unused, unsigned int *a)
  */
 int func_021D3D1C(u8 *p)
 {
-    func_021EFC78(((struct Obj18395 *)p)->f34, 0, 0);
+    func_021EFC78(((struct BtlNetCtx *)p)->f34, 0, 0);
     return 1;
 }
 
@@ -1832,7 +1523,7 @@ int func_021D3D1C(u8 *p)
 int func_021D3D2C(char *p, int unused, unsigned int *a)
 {
     int index = a[1];
-    u8 *obj = func_021B9934(*(char * *)&((struct Obj21204 *)p)->f4, (u8)a[0]);
+    u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     func_021D5970(obj, index, a[2]);
     return 1;
 }
@@ -1870,7 +1561,7 @@ int func_021D3D2C(char *p, int unused, unsigned int *a)
 
 int func_021D3D50(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char * *)&((struct Obj21205 *)p)->f4, (u8)a[0]);
+    u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     func_021D67D8(obj, (u16)a[1]);
     return 1;
 }
@@ -1912,7 +1603,7 @@ int func_021D3D50(char *p, int unused, unsigned int *a)
  */
 u8 func_021D3D70(u8 *p)
 {
-    return ((struct Obj18396 *)p)->f1A6;
+    return ((struct BtlNetCtx *)p)->f1a6;
 }
 
 
@@ -1949,7 +1640,7 @@ u8 func_021D3D70(u8 *p)
 /*
  * Claimed follower 021D3D84 is included; target byte accessor has a verified shard.
  */
-u32 func_021D3D7C(u8 *p) { return ((struct Obj21206 *)p)->f118; }
+u32 func_021D3D7C(u8 *p) { return ((struct BtlNetCtx *)p)->f118; }
 
 
 
@@ -1982,7 +1673,7 @@ u32 func_021D3D7C(u8 *p) { return ((struct Obj21206 *)p)->f118; }
 
 
 
-u8 func_021D3D84(u8 *p) { return func_021EF9A8(*(u32 * *)&((struct Obj21207 *)p)->f34); }
+u8 func_021D3D84(u8 *p) { return func_021EF9A8(*(u32 * *)&((struct BtlNetCtx *)p)->f34); }
 
 
 
@@ -2021,7 +1712,7 @@ u8 func_021D3D84(u8 *p) { return func_021EF9A8(*(u32 * *)&((struct Obj21207 *)p)
  */
 u8 func_021D3D90(u8 *p)
 {
-    return ((struct Obj18397 *)p)->f1AB;
+    return ((struct BtlNetCtx *)p)->f1ab;
 }
 
 
@@ -2060,7 +1751,7 @@ u8 func_021D3D90(u8 *p)
  */
 void func_021D3D9C(u8 *p) {
     u32 i;
-    for(i=0;i<4;i++) *(u16 *)(p+i*2+0xe8)=func_021B9F84(*(char * *)&((struct Obj13429 *)p)->f0,p[0x1a6],(u8)i);
+    for(i=0;i<4;i++) *(u16 *)(p+i*2+0xe8)=func_021B9F84(*(char * *)&((struct BtlNetCtx *)p)->f00,p[0x1a6],(u8)i);
 }
 
 
@@ -2245,7 +1936,7 @@ int func_021D3EC8(void *s,struct Unk021D62A8 *m) { u32 i; for(i=0;i<7;i++) if(fu
 
 
 
-void func_021D3F04(S_021D3F04 *p)
+void func_021D3F04(struct BtlNetEntry *p)
 {
     p->b1 = 0;
     p->f3 = 0;
@@ -2333,9 +2024,9 @@ void func_021D3F48(u8 *p, u32 v)
 
 
 
-int func_021D3F4C(Flags *p)
+int func_021D3F4C(struct BtlNetEntry *p)
 {
-    return p->flag;
+    return p->f2;
 }
 
 
@@ -2451,7 +2142,7 @@ u8 func_021D3F60(u8 *p)
  *   Sets h8 = v, bit0 = 1, h12 = 0, clears bits 1 and 2. Source order h12 = 0 before h8 = v:
  *   the scheduler hoists the strh, and r1 (v) stays live so the zero takes r2.
  */
-void func_021D3F64(S_021D3F64 *p, u16 v)
+void func_021D3F64(struct BtlNetEntry *p, u16 v)
 {
     p->f0 = 1;
     p->h12 = 0;
@@ -2494,7 +2185,7 @@ void func_021D3F64(S_021D3F64 *p, u16 v)
 /*
  * Extent follower 021D3F98 is already filed separately; bitfield clear produces bics.
  */
-void func_021D3F88(struct S_021D3F88 *p) { p->a=0; p->bit=0; }
+void func_021D3F88(struct BtlNetEntry *p) { p->b0=0; p->f0=0; }
 
 
 
@@ -2608,7 +2299,7 @@ u16 func_021D3FA8(u8 *p)
  * extent: Twenty-two code bytes plus two zero padding bytes at 021D3FC2;
  * the approved separate 021D3FC4 leaf and existing 021D3FD0 follow.
  */
-int func_021D3FAC(Flags_021D3FAC *p)
+int func_021D3FAC(struct BtlNetEntry *p)
 {
     if (p->f1) return 0;
     p->f4 = 1;
@@ -2652,9 +2343,9 @@ int func_021D3FAC(Flags_021D3FAC *p)
  * extent: Ten bytes of code, two zero padding bytes at 021D3FCE, then
  * existing matched func_021D3FD0 at 021D3FD0; no follower included.
  */
-void func_021D3FC4(Flags_021D3FC4 *p)
+void func_021D3FC4(struct BtlNetEntry *p)
 {
-    p->flag = 0;
+    p->f4 = 0;
 }
 
 
@@ -4461,9 +4152,9 @@ void func_021D4D64(u32 *p, const void *src, u32 a)
  * the whole earlier DIFF. With a u32 return every spelling of the body
  * keeps the constant chain (push r3-r7).
  */
-S *func_021D4D84(void *a, u8 b, u32 c)
+struct BtlMon *func_021D4D84(void *a, u8 b, u32 c)
 {
-    S *p;
+    struct BtlMon *p;
     u32 n;
 
     p = sub_02030734(c, 0x1f8, 1, d_021F3AA4, 0xe3);
@@ -4483,8 +4174,8 @@ S *func_021D4D84(void *a, u8 b, u32 c)
     p->f16 = func_02017E1C(a, 0xa, 0);
     p->f18 = func_02017E1C(a, 0x9e, 0);
     p->f1a = func_02019C90(p->f0c, p->lo, 1);
-    func_021D4EFC((struct S_021D4EFC *)p, a, 1, 1);
-    p->f140 = func_021D4F84((u8 *)p, a, 1);
+    func_021D4EFC(p, a, 1, 1);
+    p->n140 = func_021D4F84(p, a, 1);
     p->f143 = 0;
     func_021D53C0(p->f0fc);
     func_021D63B8((u8 *)p, 1);
@@ -4515,14 +4206,14 @@ S *func_021D4D84(void *a, u8 b, u32 c)
 
 
 
-void func_021D4EFC(struct S_021D4EFC *a, void *mon, u32 c, u32 d)
+void func_021D4EFC(struct BtlMon *a, void *mon, u32 c, u32 d)
 {
     if (c != 0) {
         a->f10 = func_02017E1C(mon, 0xa0, 0);
         a->f0e = func_02017E1C(mon, 0xa1, 0);
     }
     a->f08 = func_02017E1C(mon, 8, 0);
-    func_021D52B4((u8 *)a, mon, d);
+    func_021D52B4(a, mon, d);
     if (d != 0) {
         a->f13c = func_02017E1C(mon, 0xa, 0);
     }
@@ -4537,26 +4228,26 @@ void func_021D4EFC(struct S_021D4EFC *a, void *mon, u32 c, u32 d)
 
 
 
-int func_021D4F84(u8 *p, void *h, int reset)
+int func_021D4F84(struct BtlMon *p, void *h, int reset)
 {
     u8 t = func_02017D30(h);
     u32 count = 0;
     u32 i;
     if (reset) {
         for (i = 0; i < 4; i++) {
-            ((struct Bits *)(p + 0x109 + i * 14))->lo = 0;
-            ((struct Bits *)(p + 0x109 + i * 14))->hi = 0;
+            p->e[i].cur.lo = 0;
+            p->e[i].cur.hi = 0;
         }
     }
     for (i = 0; i < 4; i++) {
-        if (func_021D5244((struct Ent_021D5208 *)((struct Ent_021D4EFC *)(&((struct Ent_021D4EFC *)(p + 0x104))[i])), h, i)) count++;
+        if (func_021D5244(&p->e[i].cur, h, i)) count++;
     }
     if (reset) {
         for (i = 0; i < 4; i++) {
-            *(u16 *)(p + i * 14 + 0x10a) = *(u16 *)(p + i * 14 + 0x104);
-            *(u16 *)(p + i * 14 + 0x10c) = *(u16 *)(p + i * 14 + 0x106);
-            *(u16 *)(p + i * 14 + 0x10e) = *(u16 *)(p + i * 14 + 0x108);
-            (p + i * 14)[0x110] = 1;
+            p->e[i].h[3] = p->e[i].h[0];
+            p->e[i].h[4] = p->e[i].h[1];
+            p->e[i].h[5] = p->e[i].h[2];
+            p->e[i].fC = 1;
         }
     }
     func_02017D70(h,t);
@@ -4568,15 +4259,15 @@ int func_021D4F84(u8 *p, void *h, int reset)
 
 
 
-void func_021D505C(struct A *a)
+void func_021D505C(struct BtlMon *a)
 {
     void *mon = a->f00;
     u32 i;
 
     for (i = 0; i < 4; i++) {
-        func_020181F4(mon, a->e[i].f00, (u8)i);
-        func_02017E40(mon, 0x3a + i, a->e[i].f02);
-        func_02017E40(mon, 0x3e + i, a->e[i].f04);
+        func_020181F4(mon, a->e[i].cur.id, (u8)i);
+        func_02017E40(mon, 0x3a + i, a->e[i].cur.pp);
+        func_02017E40(mon, 0x3e + i, a->e[i].cur.ppUp);
     }
 }
 
@@ -4585,13 +4276,13 @@ void func_021D505C(struct A *a)
 
 
 
-void func_021D50B4(struct Work_021D50B4 *p)
+void func_021D50B4(struct BtlMon *p)
 {
-    void *h = p->h;
+    void *h = p->f00;
     u32 i;
     p->n140 = 0;
     for (i = 0; i < 4; i++) {
-        if (func_021D5244((struct Ent_021D5208 *)((struct Ent_021D4EFC *)(&p->e[i])), h, i)) p->n140++;
+        if (func_021D5244(&p->e[i].cur, h, i)) p->n140++;
         if (p->e[i].fC != 0) {
             p->e[i].h[3] = p->e[i].h[0];
             p->e[i].h[4] = p->e[i].h[1];
@@ -4605,7 +4296,7 @@ void func_021D50B4(struct Work_021D50B4 *p)
 
 
 
-void func_021D5150(struct Work_021D5150 *p)
+void func_021D5150(struct BtlMon *p)
 {
     u32 i;
     p->n140 = 0;
@@ -4641,18 +4332,18 @@ void func_021D51CC(u8 *p)
 
 
 
-void func_021D51DC(struct S_021D51CC *p, u32 a, u32 b, u32 c)
+void func_021D51DC(struct BtlMoveSlot *p, u32 a, u32 b, u32 c)
 {
     if (c != 0) {
-        func_021D5208((struct S_021D5208 *)p, a, b);
-        if (p->f0c != 0) {
+        func_021D5208(&p->cur, a, b);
+        if (p->fC != 0) {
             p->h[3] = p->h[0];
             p->h[4] = p->h[1];
             p->h[5] = p->h[2];
         }
     } else {
-        func_021D5208((struct S_021D5208 *)((struct S_021D51CC *)(p->h + 3)), a, b);
-        p->f0c = 0;
+        func_021D5208(&p->saved, a, b);
+        p->fC = 0;
     }
 }
 
@@ -4660,15 +4351,15 @@ void func_021D51DC(struct S_021D51CC *p, u32 a, u32 b, u32 c)
 
 
 
-void func_021D5208(struct S_021D5208 *p, u32 a, u32 b)
+void func_021D5208(struct BtlMoveInfo *p, u32 a, u32 b)
 {
-    p->f00 = a;
+    p->id = a;
     p->lo = 0;
     p->hi = 0;
-    if (a != 0) p->f03 = func_0201C158(a, 0);
-    else p->f03 = 0;
-    if (b != 0 && p->f03 > b) p->f03 = b;
-    p->f02 = p->f03;
+    if (a != 0) p->ppMax = func_0201C158(a, 0);
+    else p->ppMax = 0;
+    if (b != 0 && p->ppMax > b) p->ppMax = b;
+    p->pp = p->ppMax;
 }
 
 
@@ -4676,24 +4367,24 @@ void func_021D5208(struct S_021D5208 *p, u32 a, u32 b)
 
 
 
-int func_021D5244(struct Ent_021D5208 *e, void *h, u8 k)
+int func_021D5244(struct BtlMoveInfo *e, void *h, u8 k)
 {
     int r = 1;
     u16 v = func_02017E1C(h, k + 0x36, 0);
     if (e->id != v) {
-        e->lo5 = 0;
-        e->hi5 = 0;
+        e->lo = 0;
+        e->hi = 0;
     }
     e->id = v;
     if (e->id != 0) {
-        e->b2 = func_02017E1C(h, k + 0x3a, 0);
-        e->b3 = func_02017E1C(h, k + 0x42, 0);
-        e->b4 = func_02017E1C(h, k + 0x3e, 0);
+        e->pp = func_02017E1C(h, k + 0x3a, 0);
+        e->ppMax = func_02017E1C(h, k + 0x42, 0);
+        e->ppUp = func_02017E1C(h, k + 0x3e, 0);
     } else {
         r = 0;
-        e->b2 = 0;
-        e->b3 = 0;
-        e->b4 = 0;
+        e->pp = 0;
+        e->ppMax = 0;
+        e->ppUp = 0;
     }
     return r;
 }
@@ -4703,30 +4394,30 @@ int func_021D5244(struct Ent_021D5208 *e, void *h, u8 k)
 
 
 
-void func_021D52B4(u8 *p, void *h, u32 flag)
+void func_021D52B4(struct BtlMon *p, void *h, u32 flag)
 {
     if (flag) {
-        p[0xf8] = func_02017E1C(h, 0xae, 0);
-        p[0xf9] = func_02017E1C(h, 0xaf, 0);
+        p->ff8 = func_02017E1C(h, 0xae, 0);
+        p->ff9 = func_02017E1C(h, 0xaf, 0);
     }
-    p[0xfa] = func_02017F00(h);
-    ((struct Obj03696 *)p)->fEE = func_02017E1C(h, 0xa2, 0);
-    ((struct Obj03696 *)p)->fF0 = func_02017E1C(h, 0xa3, 0);
-    ((struct Obj03696 *)p)->fF2 = func_02017E1C(h, 0xa5, 0);
-    ((struct Obj03696 *)p)->fF4 = func_02017E1C(h, 0xa6, 0);
-    ((struct Obj03696 *)p)->fF6 = func_02017E1C(h, 0xa4, 0);
+    p->ffa = func_02017F00(h);
+    ((struct BtlMon *)p)->fee = func_02017E1C(h, 0xa2, 0);
+    ((struct BtlMon *)p)->ff0 = func_02017E1C(h, 0xa3, 0);
+    ((struct BtlMon *)p)->ff2 = func_02017E1C(h, 0xa5, 0);
+    ((struct BtlMon *)p)->ff4 = func_02017E1C(h, 0xa6, 0);
+    ((struct BtlMon *)p)->ff6 = func_02017E1C(h, 0xa4, 0);
 }
 
 
 
 
 
-void func_021D533C(struct S_021D533C *p)
+void func_021D533C(struct BtlMon *p)
 {
-    if (p->flag != 0) {
-        func_021D4EFC((struct S_021D4EFC *)p, p->f00, 0, 1);
-        func_021D5150((struct Work_021D5150 *)((struct Work *)p));
-        p->flag = 0;
+    if (p->b5 != 0) {
+        func_021D4EFC(p, p->f00, 0, 1);
+        func_021D5150(p);
+        p->b5 = 0;
     }
 }
 
@@ -4735,14 +4426,14 @@ void func_021D533C(struct S_021D533C *p)
 
 
 
-void func_021D5364(struct UtilWork *p)
+void func_021D5364(struct BtlMon *p)
 {
     u32 i;
     for (i = 0; i < 4; i++) func_021D51CC((u8 *)(&p->e[i]));
-    p->f14A = 0;
-    p->f14C = 0;
+    p->f14a = 0;
+    p->f14c = 0;
     p->f144 = 0x11;
-    p->f14E = 0;
+    p->f14e = 0;
 }
 
 
@@ -4750,7 +4441,7 @@ void func_021D5364(struct UtilWork *p)
 
 
 
-void func_021D539C(struct UtilWork *p)
+void func_021D539C(struct BtlMon *p)
 {
     u32 i;
     for (i = 0; i < 5; i++) p->f157[i] = 0;
@@ -4840,7 +4531,7 @@ u8 func_021D5440(u8 *p) { return p[0x19]; }
 /*
  * Reads the u16 field at #0xc of the argument and returns it.
  */
-u16 func_021D5444(struct QF *p) { return p->v; }
+u16 func_021D5444(struct BtlMon *p) { return p->f0c; }
 
 
 
@@ -4848,7 +4539,7 @@ u16 func_021D5444(struct QF *p) { return p->v; }
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: movs r1, #5; lsls r1, r1, #6; ldrb r0, [r0, r1]; bx lr.
  */
-u8 func_021D5448(struct QG *p) { return p->v; }
+u8 func_021D5448(struct BtlMon *p) { return p->n140; }
 
 
 
@@ -4857,14 +4548,14 @@ u8 func_021D5448(struct QG *p) { return p->v; }
 /*
  * volatile: 0x021D54A6 (n140 re-read as the loop bound of func_021D5478)
  */
-u8 func_021D5450(struct Work *p)
+u8 func_021D5450(struct BtlMon *p)
 {
     u32 n;
     u32 i;
     i = 0;
     n = 0;
     for (; i < 4; i++) {
-        if (p->e[i].h0 == 0) break;
+        if (p->e[i].cur.id == 0) break;
         n++;
     }
     return n;
@@ -4874,14 +4565,14 @@ u8 func_021D5450(struct Work *p)
 
 
 
-u8 func_021D5478(struct Work *p)
+u8 func_021D5478(struct BtlMon *p)
 {
     u8 n;
     u8 i;
     i = 0;
     n = 0;
     for (; i < *(volatile u8 *)&p->n140; i++) {
-        if (p->e[i].lo11 != 0) n++;
+        if (p->e[i].saved.lo != 0) n++;
     }
     return n;
 }
@@ -4895,7 +4586,7 @@ u8 func_021D5478(struct Work *p)
  */
 u8 func_021D54B4(u8 *p)
 {
-    return ((struct Obj18407 *)p)->f143;
+    return ((struct BtlMon *)p)->f143;
 }
 
 
@@ -4907,15 +4598,15 @@ u8 func_021D54B4(u8 *p)
  * at +0x10a; the image's `adds r2,#0xfc` is the constant 0x10a folded with
  * the stride, not a +0xa field.
  */
-u16 func_021D54C0(u8 *p, int i)
+u16 func_021D54C0(struct BtlMon *p, int i)
 {
-    return ((Ent_021D54C0 *)(p + 0x10a))[i].a;
+    return p->e[i].saved.id;
 }
 
 
 
 
-u32 func_021D54D0(u8 *p, u8 i) { return *(u16 *)((u32)p + i * 14 + 0x104); }
+u32 func_021D54D0(struct BtlMon *p, u8 i) { return p->e[i].cur.id; }
 
 
 
@@ -4923,16 +4614,16 @@ u32 func_021D54D0(u8 *p, u8 i) { return *(u16 *)((u32)p + i * 14 + 0x104); }
 /* 021D54E0  the image extracts with lsls #0x1c / lsrs #0x1c, which is a 4-bit
  * unsigned bitfield read -- neither `& 0xf` nor the shift pair written out in
  * C reproduces it (both narrow to a mask). */
-u32 func_021D54E0(u8 *p, u32 i)
+u32 func_021D54E0(struct BtlMon *p, u32 i)
 {
-    return ((struct NB *)(p + i * 0xe + 0x10f))->lo;
+    return p->e[i].saved.lo;
 }
 
 
 
 
 
-void func_021D54F4(struct Work *src, struct Work *dst)
+void func_021D54F4(struct BtlMon *src, struct BtlMon *dst)
 {
     u32 i;
     for (i = 0; i < 4; i++) dst->e[i] = src->e[i];
@@ -4943,39 +4634,38 @@ void func_021D54F4(struct Work *src, struct Work *dst)
 
 
 
-u16 func_021D5528(u8 *p, u8 i, u8 *a, u8 *b)
+u16 func_021D5528(struct BtlMon *p, u8 i, u8 *a, u8 *b)
 {
-    u8 *q = p + i * 14;
-    *a = q[0x10c];
-    *b = q[0x10d];
-    return ((struct Obj10048 *)q)->f10A;
+    *a = p->e[i].saved.pp;
+    *b = p->e[i].saved.ppMax;
+    return p->e[i].saved.id;
 }
 
 
 
-u8 func_021D554C(u8 *p, u8 i) { u8 *q = (u8 *)((u32)p + i * 14); return q[0x10d] - q[0x10c]; }
+u8 func_021D554C(struct BtlMon *p, u8 i) { return p->e[i].saved.ppMax - p->e[i].saved.pp; }
 
 
 
-u8 func_021D5568(u8 *p, u32 i) { u8 *q = (u8 *)((u32)p + i * 14); return q[0x107] - q[0x106]; }
+u8 func_021D5568(struct BtlMon *p, u32 i) { return p->e[i].cur.ppMax - p->e[i].cur.pp; }
 
 
 
 
-u8 func_021D5584(struct UtilWork *p, u32 i)
+u8 func_021D5584(struct BtlMon *p, u32 i)
 {
-    if (i < p->n140) return p->e[i].f8;
+    if (i < p->n140) return p->e[i].saved.pp;
     return 0;
 }
 
 
 
 
-int func_021D55A0(struct UtilWork *p, int id)
+int func_021D55A0(struct BtlMon *p, int id)
 {
     u32 i;
     for (i = 0; i < *(volatile u8 *)&p->n140; i++) {
-        if (id == p->e[i].f6) return p->e[i].f8;
+        if (id == p->e[i].saved.id) return p->e[i].saved.pp;
     }
     return 0;
 }
@@ -4986,98 +4676,98 @@ int func_021D55A0(struct UtilWork *p, int id)
  * lever: the index is added in each arm of the table select, so the sum is
  * formed once and shared by the halfword and byte loads.
  */
-int func_021D55D8(u8 *p, int i, int s)
+int func_021D55D8(struct BtlMon *p, int i, int s)
 {
-    Ent_021D554C *e;
-    if (s) e = (Ent_021D554C *)(p + 0x104) + i; else e = (Ent_021D554C *)(p + 0x10a) + i;
-    if (e->a != 0 && e->b == e->c) return 1;
+    struct BtlMoveInfo *e;
+    if (s) e = &p->e[i].cur; else e = &p->e[i].saved;
+    if (e->id != 0 && e->pp == e->ppMax) return 1;
     return 0;
 }
 
 
 
 
-void func_021D5608(struct UtilWork *p, int i, u8 n)
+void func_021D5608(struct BtlMon *p, int i, u8 n)
 {
-    if (p->e[i].f8 >= n) p->e[i].f8 -= n;
-    else p->e[i].f8 = 0;
+    if (p->e[i].saved.pp >= n) p->e[i].saved.pp -= n;
+    else p->e[i].saved.pp = 0;
     if (p->e[i].fC != 0) {
-        p->e[i].f2 = p->e[i].f8;
-        func_02017E40(p->f0, i + 0x3A, p->e[i].f2);
+        p->e[i].cur.pp = p->e[i].saved.pp;
+        func_02017E40(p->f00, i + 0x3A, p->e[i].cur.pp);
     }
 }
 
 
 
-void func_021D5640(struct Work_021D5640 *p, u32 i, u32 n)
+void func_021D5640(struct BtlMon *p, u32 i, u32 n)
 {
     int v;
-    if (p->e[i].flag == 0) {
-        v = (int)((u32)p->e[i].a - n);
+    if (p->e[i].fC == 0) {
+        v = (int)((u32)p->e[i].cur.pp - n);
         if (v < 0) v = 0;
-        p->e[i].a = v;
-        func_02017E40(p->obj, i + 0x3a, p->e[i].a);
+        p->e[i].cur.pp = v;
+        func_02017E40(p->f00, i + 0x3a, p->e[i].cur.pp);
     }
 }
 
 
 
-u16 func_021D5674(u8 *p, u32 i, u8 n)
+u16 func_021D5674(struct BtlMon *p, u32 i, u8 n)
 {
-    struct Entry_021D5674 *e = (struct Entry_021D5674 *)((u32)p + 0x104 + i * 14);
-    e->x += n;
-    if (e->x > e->y) e->x = e->y;
-    if (e->flag) e->a = e->x;
-    return e->other;
+    struct BtlMoveSlot *e = &p->e[i];
+    e->saved.pp += n;
+    if (e->saved.pp > e->saved.ppMax) e->saved.pp = e->saved.ppMax;
+    if (e->fC) e->cur.pp = e->saved.pp;
+    return e->saved.id;
 }
 
 
 
-u16 func_021D56A0(u8 *p, u32 i, u8 n)
+u16 func_021D56A0(struct BtlMon *p, u32 i, u8 n)
 {
-    struct Entry_021D56A0 *e = (struct Entry_021D56A0 *)((u32)p + 0x104 + i * 14);
-    e->a += n;
-    if (e->a > e->b) e->a = e->b;
-    if (e->flag) e->x = e->a;
-    return e->id;
+    struct BtlMoveSlot *e = &p->e[i];
+    e->cur.pp += n;
+    if (e->cur.pp > e->cur.ppMax) e->cur.pp = e->cur.ppMax;
+    if (e->fC) e->saved.pp = e->cur.pp;
+    return e->cur.id;
 }
 
 
 
 
-void func_021D56CC(struct Work_021D56CC *p, int i)
+void func_021D56CC(struct BtlMon *p, int i)
 {
-    struct Ent_021D554C *e = &p->e[i];
-    if (e->hi11 == 0) {
-        e->hi11 = 1;
-        p->c143++;
+    struct BtlMoveSlot *e = &p->e[i];
+    if (e->saved.hi == 0) {
+        e->saved.hi = 1;
+        p->f143++;
     }
-    e->lo11 = 1;
-    if (e->c != 0) {
-        e->lo5 = e->lo11;
-        e->hi5 = e->hi11;
+    e->saved.lo = 1;
+    if (e->fC != 0) {
+        e->cur.lo = e->saved.lo;
+        e->cur.hi = e->saved.hi;
     }
 }
 
 
 
-void func_021D5734(u8 *p, u8 i, u16 a, u8 b, u32 c)
-{ func_021D51DC((struct S_021D51CC *)((void *)((u32)p + 0x104 + i * 14)), a, b, c); }
+void func_021D5734(struct BtlMon *p, u8 i, u16 a, u8 b, u32 c)
+{ func_021D51DC(&p->e[i], a, b, c); }
 
 
 
-int func_021D5750(u8 *p, u16 id)
-{ u32 i; for(i=0;i<4;i++) if(id == *(u16 *)((u32)p + i * 14 + 0x10a)) return 1; return 0; }
+int func_021D5750(struct BtlMon *p, u16 id)
+{ u32 i; for(i=0;i<4;i++) if(id == p->e[i].saved.id) return 1; return 0; }
 
 
 
 
-u8 func_021D5778(struct UtilWork *p, u16 id)
+u8 func_021D5778(struct BtlMon *p, u16 id)
 {
     u32 i;
     if (id != 0) {
         for (i = 0; i < 4; i++) {
-            if (id == p->e[i].f6) return (u8)i;
+            if (id == p->e[i].saved.id) return (u8)i;
         }
     }
     return 4;
@@ -5136,27 +4826,26 @@ int func_021D5814(void *p, int k)
 /*
  * Reads the u32 field at offset 0 of the argument and returns it.
  */
-void *func_021D5844(void *m) { return ((struct Obj00041 *)m)->f0; }
+void *func_021D5844(void *m) { return ((struct BtlMon *)m)->f00; }
 
 
 
 /*
  * Leaf with no calls and no pool; 6 instructions, 12 bytes: ldrb r2, [r0, #0x1b]; str r1, [r0, #4]; movs r1, #0x40; orrs r1, r2; strb r1, [r0, #0x1b]; bx lr.
  */
-void func_021D5848(struct QH *p, void *v)
+void func_021D5848(struct BtlMon *p, void *v)
 {
-    u8 f = p->flags;
-    p->v = v;
-    p->flags = f | 0x40;
+    p->f04 = v;
+    p->b6 = 1;
 }
 
 
 
-void func_021D5854(struct Work_021D5854 *p) { p->b = 0; p->flag = 0; }
+void func_021D5854(struct BtlMon *p) { p->f04 = 0; p->b6 = 0; }
 
 
 
-void *func_021D5864(struct Work_021D5864 *p) { if (p->b && p->flag) return p->b; return p->a; }
+void *func_021D5864(struct BtlMon *p) { if (p->f04 && p->b6) return p->f04; return p->f00; }
 
 
 
@@ -5177,15 +4866,15 @@ int func_021D58A8(u8 *p, int k)
     int v = func_021D587C(p, k);
     switch (v) {
     case 8:
-        return ((struct Obj00041 *)p)->fEE;
+        return ((struct BtlMon *)p)->fee;
     case 9:
-        return ((struct Obj00041 *)p)->fF0;
+        return ((struct BtlMon *)p)->ff0;
     case 10:
-        return ((struct Obj00041 *)p)->fF2;
+        return ((struct BtlMon *)p)->ff2;
     case 11:
-        return ((struct Obj00041 *)p)->fF4;
+        return ((struct BtlMon *)p)->ff4;
     case 12:
-        return ((struct Obj00041 *)p)->fF6;
+        return ((struct BtlMon *)p)->ff6;
     case 6:
         return 6;
     case 7:
@@ -5216,19 +4905,19 @@ void func_021D5970(u8 *p, int k, u16 v)
 {
     switch (func_021D587C(p, k)) {
     case 8:
-        ((struct Obj00041 *)p)->fEE = v;
+        ((struct BtlMon *)p)->fee = v;
         break;
     case 9:
-        ((struct Obj00041 *)p)->fF0 = v;
+        ((struct BtlMon *)p)->ff0 = v;
         break;
     case 10:
-        ((struct Obj00041 *)p)->fF2 = v;
+        ((struct BtlMon *)p)->ff2 = v;
         break;
     case 11:
-        ((struct Obj00041 *)p)->fF4 = v;
+        ((struct BtlMon *)p)->ff4 = v;
         break;
     case 12:
-        ((struct Obj00041 *)p)->fF6 = v;
+        ((struct BtlMon *)p)->ff6 = v;
         break;
     }
 }
@@ -5248,48 +4937,48 @@ int func_021D59B4(u8 *p, int k)
 
     switch (v) {
     case 8:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFC);
+        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct BtlMon *)p)->ffc);
     case 9:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFD);
+        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct BtlMon *)p)->ffd);
     case 10:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFE);
+        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct BtlMon *)p)->ffe);
     case 11:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFF);
+        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct BtlMon *)p)->fff);
     case 12:
-        return func_021D78E4(func_021D58A8(p, v), ((struct Obj00041 *)p)->f100);
+        return func_021D78E4(func_021D58A8(p, v), ((struct BtlMon *)p)->f100);
     case 1:
-        return ((struct Obj00041 *)p)->fFC;
+        return ((struct BtlMon *)p)->ffc;
     case 2:
-        return ((struct Obj00041 *)p)->fFD;
+        return ((struct BtlMon *)p)->ffd;
     case 3:
-        return ((struct Obj00041 *)p)->fFE;
+        return ((struct BtlMon *)p)->ffe;
     case 4:
-        return ((struct Obj00041 *)p)->fFF;
+        return ((struct BtlMon *)p)->fff;
     case 5:
-        return *(s8 *)&((struct Obj00041 *)p)->f100;
+        return *(s8 *)&((struct BtlMon *)p)->f100;
     case 6:
-        return ((struct Obj00041 *)p)->f101;
+        return ((struct BtlMon *)p)->f101;
     case 7:
-        return ((struct Obj00041 *)p)->f102;
+        return ((struct BtlMon *)p)->f102;
     case 15:
-        return ((struct Obj00041 *)p)->f18;
+        return ((struct BtlMon *)p)->f18;
     case 18:
-        return ((struct Obj00041 *)p)->fFA;
+        return ((struct BtlMon *)p)->ffa;
     case 13:
-        return ((struct Obj00041 *)p)->f10;
+        return ((struct BtlMon *)p)->f10;
     case 14:
-        return ((struct Obj00041 *)p)->fE;
+        return ((struct BtlMon *)p)->f0e;
     case 21:
-        return ((struct Obj00041 *)p)->f1A;
+        return ((struct BtlMon *)p)->f1a;
     case 17:
         if (func_021D62C4((struct Unk021D62A8 *)p, 0x10) != 0)
             return 0;
     case 16:
-        return ((struct Obj00041 *)p)->f13C;
+        return ((struct BtlMon *)p)->f13c;
     case 19:
-        return ((struct Obj00041 *)p)->f141;
+        return ((struct BtlMon *)p)->f141;
     case 20:
-        return ((struct Obj00041 *)p)->f8;
+        return ((struct BtlMon *)p)->f08;
     case 0:
         break;
     }
@@ -5304,16 +4993,16 @@ int func_021D5AD8(u8 *p, int k)
     int r = 0;
     switch (func_021D587C(p, k)) {
     case 8:
-        if (((struct Obj00041 *)p)->fFC < 6) r = 1;
+        if (((struct BtlMon *)p)->ffc < 6) r = 1;
         break;
     case 10:
-        if (((struct Obj00041 *)p)->fFE < 6) r = 1;
+        if (((struct BtlMon *)p)->ffe < 6) r = 1;
         break;
     case 9:
-        if (((struct Obj00041 *)p)->fFD > 6) r = 1;
+        if (((struct BtlMon *)p)->ffd > 6) r = 1;
         break;
     case 11:
-        if (((struct Obj00041 *)p)->fFF > 6) r = 1;
+        if (((struct BtlMon *)p)->fff > 6) r = 1;
         break;
     }
     if (r) return func_021D58A8(p, k);
@@ -5325,7 +5014,7 @@ int func_021D5AD8(u8 *p, int k)
 /*
  * Reads the u16 field at #0x12 of the argument and returns it.
  */
-u16 func_021D5B40(struct QI *p) { return p->v; }
+u16 func_021D5B40(struct BtlMon *p) { return p->f12; }
 
 
 
@@ -5333,7 +5022,7 @@ u16 func_021D5B40(struct QI *p) { return p->v; }
 /*
  * Stores the second argument (a u16) into the field at #0x12.
  */
-void func_021D5B44(struct QI *p, u16 v) { p->v = v; }
+void func_021D5B44(struct BtlMon *p, u16 v) { p->f12 = v; }
 
 
 
@@ -5361,7 +5050,7 @@ int func_021D5B7C(void *m)
 {
     int ok;
     ok = 0;
-    if (func_02017E1C(((struct Obj00041 *)m)->f0, 0x4c, 0)) return ok;
+    if (func_02017E1C(((struct BtlMon *)m)->f00, 0x4c, 0)) return ok;
     if (func_021D5B68(m) == 0) ok = 1;
     return ok;
 }
@@ -5376,29 +5065,29 @@ int func_021D5B7C(void *m)
  */
 unsigned short func_021D5BA4(int *p)
 {
-    return ((struct Obj18410 *)p)->f146;
+    return ((struct BtlMon *)p)->f146;
 }
 
 
 
 
-int func_021D5BB0(struct UtilWork *p, u32 n)
+int func_021D5BB0(struct BtlMon *p, u32 n)
 {
-    return (p->bits153[(u8)(n >> 3)] & (u8)(1 << (n & 7))) ? 1 : 0;
+    return (p->f153[(u8)(n >> 3)] & (u8)(1 << (n & 7))) ? 1 : 0;
 }
 
 
 
 
-int func_021D5BDC(struct UtilWork *p, u32 n)
+int func_021D5BDC(struct BtlMon *p, u32 n)
 {
-    return (p->bits155[(u8)(n >> 3)] & (u8)(1 << (n & 7))) ? 1 : 0;
+    return (p->f155[(u8)(n >> 3)] & (u8)(1 << (n & 7))) ? 1 : 0;
 }
 
 
 
 
-u32 func_021D5C08(struct UtilWork *p)
+u32 func_021D5C08(struct BtlMon *p)
 {
     u32 i;
     for (i = 0; i < 4; i++) {
@@ -5409,7 +5098,7 @@ u32 func_021D5C08(struct UtilWork *p)
 
 
 
-int func_021D5C30(struct UtilWork *p)
+int func_021D5C30(struct BtlMon *p)
 {
     if (func_021D5C08(p) != 16) return 1;
     return 0;
@@ -5418,9 +5107,9 @@ int func_021D5C30(struct UtilWork *p)
 
 
 
-int func_021D5C44(struct Rat *p)
+int func_021D5C44(struct BtlMon *p)
 {
-    double x = (double)(100 * p->num) / (double)p->den;
+    double x = (double)(100 * p->f10) / (double)p->f0e;
     double y;
     if (x > 0)
         y = 4096.0 * x + 0.5;

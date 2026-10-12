@@ -31,14 +31,11 @@
  *   func_0204335C  0x0204335C  arm  arm9
  *   func_020433E0  0x020433E0  arm  arm9
  */
-#include "../../matched/include/Obj01948.h"
+#include "box2_types.h"
 #include "../../matched/include/Obj09220.h"
 #include "../../matched/include/Obj18436.h"
-#include "../../matched/include/Obj00000.h"
 #include "../../matched/include/Obj18437.h"
 #include "../../matched/include/Obj12145.h"
-#include "../../matched/include/Obj05868.h"
-#include "../../matched/include/Obj18438.h"
 
 struct Obj0203159C;
 struct S020314B8;
@@ -97,11 +94,11 @@ int func_021DC860(void *manager, int unused, void **context)
     func_0203064C(1,75,0x10000);
     p = func_0203159C(manager,0x30,75);
     func_02082BCC(p,0,0x30);
-    *(void ** *)&((struct Obj01948 *)p)->f0 = context;
+    *(void ** *)&((BoxTask *)p)->f0 = context;
     p[0x14] = func_02007698(context[1]);
     p[0x15] = func_020076A4((*(void ***)p)[1]);
     p[0x17] = 255;
-    ((struct Obj01948 *)p)->f28 = 11;
+    ((BoxTask *)p)->f28 = 11;
     if ((u8)p[0x15] != 24) {
         if ((u8)p[0x15] == 8) max = B8;
         else if ((u8)p[0x15] == 16) max = B16;
@@ -113,7 +110,7 @@ int func_021DC860(void *manager, int unused, void **context)
     p[0x20] = 0;
     p[0x1f] = 0;
     p[0x21] = 1;
-    ((struct Obj01948 *)p)->f4 = func_02031324(75);
+    ((BoxTask *)p)->f4 = func_02031324(75);
     return 1;
 }
 
@@ -151,7 +148,7 @@ void func_021DC94C(char *p)
  */
 void func_021DC964(char *p)
 {
-    func_02030EAC(((struct Obj18437 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f54);
+    func_02030EAC(((struct Obj18437 *)(*(char * *)&((BoxTask *)p)->f2C))->f54);
 }
 
 
@@ -171,10 +168,10 @@ void func_021DC970(u32 a, char *p)
  */
 void func_021DC9A0(char *p, int v)
 {
-    ((struct Obj05868 *)p)->f64 = 0;
-    ((struct Obj05868 *)p)->f66 = 0;
-    ((struct Obj05868 *)p)->f58 = v;
-    ((struct Obj05868 *)p)->f5C = 0;
+    ((BoxWork *)p)->f64 = 0;
+    ((BoxWork *)p)->f66 = 0;
+    ((BoxWork *)p)->f58 = v;
+    ((BoxWork *)p)->f5C = 0;
 }
 
 
@@ -183,7 +180,7 @@ void func_021DC9A0(char *p, int v)
  */
 void func_021DC9B4(char *p, int v)
 {
-    ((struct Obj18438 *)p)->f5C = v;
+    ((BoxWork *)p)->f5C = v;
 }
 
 
@@ -192,7 +189,7 @@ void func_021DC9B4(char *p, int v)
  */
 void func_021DC9B8(char *p)
 {
-    func_021DC9A0(p, ((struct Obj05868 *)p)->f5C);
+    func_021DC9A0(p, ((BoxWork *)p)->f5C);
 }
 
 

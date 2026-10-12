@@ -213,57 +213,7 @@
  *   func_021FAAB8  0x021FAAB8  thumb
  *   func_021F4F10 0x021F4F10 thumb ov112
  */
-#include "../../matched/include/Obj00675.h"
-#include "../../matched/include/Obj00191.h"
-#include "../../matched/include/Obj23177.h"
-#include "../../matched/include/Obj23178.h"
-#include "../../matched/include/Obj00503.h"
-#include "../../matched/include/Obj14083.h"
-#include "../../matched/include/Obj23181.h"
-#include "../../matched/include/Obj01410.h"
-#include "../../matched/include/Obj10530.h"
-#include "../../matched/include/Obj14084.h"
-#include "../../matched/include/Obj08150.h"
-#include "../../matched/include/Obj05397.h"
-#include "../../matched/include/Obj10531.h"
-#include "../../matched/include/Obj01257.h"
-#include "../../matched/include/Obj23182.h"
-#include "../../matched/include/Obj23183.h"
-#include "../../matched/include/Obj02849.h"
-#include "../../matched/include/Obj00832.h"
-#include "../../matched/include/Obj03817.h"
-#include "../../matched/include/Obj10532.h"
-#include "../../matched/include/Obj23184.h"
-#include "../../matched/include/Obj10533.h"
-#include "../../matched/include/Obj23185.h"
-#include "../../matched/include/Obj23186.h"
-#include "../../matched/include/Obj23187.h"
-#include "../../matched/include/Obj23188.h"
-#include "../../matched/include/Obj23189.h"
-#include "../../matched/include/Obj23190.h"
-#include "../../matched/include/Obj08153.h"
-#include "../../matched/include/Obj14085.h"
-#include "../../matched/include/Obj08155.h"
-#include "../../matched/include/Obj00159.h"
-#include "../../matched/include/Obj10534.h"
-#include "../../matched/include/Obj23204.h"
-#include "../../matched/include/Obj08154.h"
-#include "../../matched/include/Obj03287.h"
-#include "../../matched/include/Obj14086.h"
-#include "../../matched/include/Obj14087.h"
-#include "../../matched/include/Obj14088.h"
-#include "../../matched/include/Obj23210.h"
-#include "../../matched/include/Obj23211.h"
-#include "../../matched/include/Obj23212.h"
-#include "../../matched/include/Obj23213.h"
-#include "../../matched/include/Obj23214.h"
-#include "../../matched/include/Obj23215.h"
-#include "../../matched/include/Obj23216.h"
-#include "../../matched/include/Obj23217.h"
-#include "../../matched/include/Obj23218.h"
-#include "../../matched/include/Obj23219.h"
-#include "../../matched/include/Obj23220.h"
-#include "../../matched/include/Obj23221.h"
+#include "ov132_types.h"
 
 #define FX(x) ((int)(((x) > 0) ? ((x) * 4096.0f + 0.5f) : ((x) * 4096.0f - 0.5f)))
 struct Descriptor;
@@ -675,34 +625,34 @@ u8 *func_021F8480(u8 *input, int heap)
  */
 void func_021F8640(char *p)
 {
-    if(((struct Obj00675 *)p)->f2C==1)func_02005D28();
-    if(((struct Obj00675 *)p)->f28==1)func_02006504();
-    if(((struct Obj00675 *)p)->f24==1)func_02006518();
+    if(((struct ActingScene *)p)->f2C.u==1)func_02005D28();
+    if(((struct ActingScene *)p)->f28.u==1)func_02006504();
+    if(((struct ActingScene *)p)->f24.u==1)func_02006518();
     func_0207D534((volatile u16 *)0x0400006c,-16);
     func_0207D534((volatile u16 *)0x0400106c,-16);
     func_0207D63C((void *)0x04000050,0,0,31,31);
     *(volatile u32_021F8640 *)0x04000000 &= 0xffff1fff;
     func_021F9D08(p);
-    func_021FAB58(((struct Obj00675 *)p)->fB0);
-    if(((struct Obj00675 *)p)->fE0!=0)func_02045808(((struct Obj00675 *)p)->fE0);
-    func_0201C6EC(((struct Obj00675 *)p)->fE8);
-    func_0201C4C0(((struct Obj00675 *)p)->fE8);
-    func_02045C04(((struct Obj00675 *)p)->fDC);
-    func_020452E8(((struct Obj00675 *)p)->fD0);
-    func_0201D83C(((struct Obj00675 *)p)->fD4);
-    func_02031140(((struct Obj00675 *)p)->fCC);
-    func_021FA64C(*(char * *)&((struct Obj00675 *)p)->fA4);
-    func_021FA04C(((struct Obj00675 *)p)->fB8);
-    func_021F6F4C(((struct Obj00675 *)p)->f3C);
-    func_021F6C7C(((struct Obj00675 *)p)->f90);
-    func_021F9E94(((struct Obj00675 *)p)->f6C);
-    func_021F6A24(((struct Obj00675 *)p)->f54);
-    func_021F7120(((struct Obj00675 *)p)->f40);
-    func_021F51B0((int)(((struct Obj00675 *)p)->f34));
-    func_021F4948(((struct Obj00675 *)p)->f38);
+    func_021FAB58(((struct ActingScene *)p)->fB0);
+    if(((struct ActingScene *)p)->fE0.p!=0)func_02045808(((struct ActingScene *)p)->fE0.p);
+    func_0201C6EC(((struct ActingScene *)p)->fE8.p);
+    func_0201C4C0(((struct ActingScene *)p)->fE8.p);
+    func_02045C04(((struct ActingScene *)p)->fDC.p);
+    func_020452E8(((struct ActingScene *)p)->fD0.p);
+    func_0201D83C(((struct ActingScene *)p)->fD4.p);
+    func_02031140(((struct ActingScene *)p)->fCC.p);
+    func_021FA64C(*(char * *)&((struct ActingScene *)p)->fA4);
+    func_021FA04C(((struct ActingScene *)p)->fB8);
+    func_021F6F4C(((struct ActingScene *)p)->f3C);
+    func_021F6C7C(((struct ActingScene *)p)->f90);
+    func_021F9E94(((struct ActingScene *)p)->f6C);
+    func_021F6A24(((struct ActingScene *)p)->f54);
+    func_021F7120(((struct ActingScene *)p)->f40);
+    func_021F51B0((int)(((struct ActingScene *)p)->f34));
+    func_021F4948(((struct ActingScene *)p)->f38);
     func_0204A5AC();
-    func_0204ED24(((struct Obj00675 *)p)->fAC);
-    func_02048AC4(((struct Obj00675 *)p)->fA8);
+    func_0204ED24(((struct ActingScene *)p)->fAC.p);
+    func_02048AC4(((struct ActingScene *)p)->fA8);
     func_02046788();
     func_020403F4(0);
     func_020403F4(1);
@@ -712,8 +662,8 @@ void func_021F8640(char *p)
     func_020403F4(7);
     func_020450C8();
     func_0203F9B4();
-    func_02030EAC(((struct Obj00675 *)p)->f20);
-    func_02049238(((struct Obj00675 *)p)->f18);
+    func_02030EAC(((struct ActingScene *)p)->f20);
+    func_02049238(((struct ActingScene *)p)->f18.p);
     func_020307B0(p);
 }
 
@@ -727,80 +677,80 @@ int func_021F879C(u8 *p)
 {
     u32_021F879C tick;
     tick=d_02FFFC3C;
-    ((struct Obj00191 *)p)->f1E8=tick-((struct Obj00191 *)p)->f1EC;
-    ((struct Obj00191 *)p)->f1EC=tick;
-    switch(((struct Obj00191 *)p)->f1C) {
+    ((struct ActingScene *)p)->f1E8=tick-((struct ActingScene *)p)->f1EC.u;
+    ((struct ActingScene *)p)->f1EC.u=tick;
+    switch(((struct ActingScene *)p)->f1C) {
     case 0:
-        func_0202208C(0,1,1,0,6,1,((struct Obj00191 *)p)->f0);
-        ((struct Obj00191 *)p)->f1C=1;
+        func_0202208C(0,1,1,0,6,1,((struct ActingScene *)p)->f0);
+        ((struct ActingScene *)p)->f1C=1;
         break;
     case 1:
         if(func_020221A4()==1) {
-            if(**(u32_021F879C * *)&((struct Obj00191 *)p)->f30!=0) {
-                ((struct Obj00191 *)p)->f1C=7;
-                func_021FCDEC(**(int * *)&((struct Obj00191 *)p)->f30,200);
-            } else ((struct Obj00191 *)p)->f1C=4;
+            if(**(u32_021F879C * *)&((struct ActingScene *)p)->f30!=0) {
+                ((struct ActingScene *)p)->f1C=7;
+                func_021FCDEC(**(int * *)&((struct ActingScene *)p)->f30,200);
+            } else ((struct ActingScene *)p)->f1C=4;
         }
         break;
     case 2:
         if(func_02006238()==0) {
-            func_0202208C(0,0,0,0,6,1,((struct Obj00191 *)p)->f0);
-            ((struct Obj00191 *)p)->f1C=3;
+            func_0202208C(0,0,0,0,6,1,((struct ActingScene *)p)->f0);
+            ((struct ActingScene *)p)->f1C=3;
         }
         break;
     case 3:
         if(func_020221A4()==1) return 1;
         break;
     case 4:
-        if((((struct Obj00191 *)p)->f2)++ >=60) ((struct Obj00191 *)p)->f1C=5;
+        if((((struct ActingScene *)p)->f2)++ >=60) ((struct ActingScene *)p)->f1C=5;
         break;
     case 5:
-        if(((struct Obj00191 *)p)->f164==0) {
-            ((struct Obj00191 *)p)->fB4=((struct Obj23178 *)(*(u8 * *)&((struct Obj23177 *)(*(u8 * *)&((struct Obj00191 *)p)->f30))->f18))->fC;
+        if(((struct ActingScene *)p)->f164==0) {
+            ((struct ActingScene *)p)->fB4.u=((struct ActingPartB *)(*(u8 * *)&((struct ActingPartA *)(*(u8 * *)&((struct ActingScene *)p)->f30))->f18))->fC;
             func_021F90E0(p);
-            ((struct Obj00191 *)p)->f1C=6;
+            ((struct ActingScene *)p)->f1C=6;
         }
         break;
     case 6:
-        if(func_021FAD7C(*(char * *)&((struct Obj00191 *)p)->fB0)==0) {
-            ((struct Obj00191 *)p)->fB4=0;
-            if(((struct Obj00191 *)p)->f164==0) ((struct Obj00191 *)p)->f1C=2;
-            else ((struct Obj00191 *)p)->f1C=255;
+        if(func_021FAD7C(*(char * *)&((struct ActingScene *)p)->fB0)==0) {
+            ((struct ActingScene *)p)->fB4.u=0;
+            if(((struct ActingScene *)p)->f164==0) ((struct ActingScene *)p)->f1C=2;
+            else ((struct ActingScene *)p)->f1C=255;
         }
         break;
     case 7:
-        if(func_021FCE00(*(void **)*(u8 * *)&((struct Obj00191 *)p)->f30,200)==1)
-            ((struct Obj00191 *)p)->f1C=4;
+        if(func_021FCE00(*(void **)*(u8 * *)&((struct ActingScene *)p)->f30,200)==1)
+            ((struct ActingScene *)p)->f1C=4;
         break;
     }
     func_021F8EA8(p);
-    func_021FA6CC((char *)(*(u8 * *)&((struct Obj00191 *)p)->fA4));
+    func_021FA6CC((char *)(*(u8 * *)&((struct ActingScene *)p)->fA4));
     func_021F9794((char *)p);
-    if(d_021FDE80==0) func_021FABD8((char *)(*(u8 * *)&((struct Obj00191 *)p)->fB0));
-    func_021F6F64(*(u8 * *)&((struct Obj00191 *)p)->f3C);
-    func_021F7160(*(u8 * *)&((struct Obj00191 *)p)->f40);
-    func_021F6A58((char *)(*(u8 * *)&((struct Obj00191 *)p)->f54));
-    func_021F9ECC(*(u8 * *)&((struct Obj00191 *)p)->f6C);
+    if(d_021FDE80==0) func_021FABD8((char *)(*(u8 * *)&((struct ActingScene *)p)->fB0));
+    func_021F6F64(*(u8 * *)&((struct ActingScene *)p)->f3C);
+    func_021F7160(*(u8 * *)&((struct ActingScene *)p)->f40);
+    func_021F6A58((char *)(*(u8 * *)&((struct ActingScene *)p)->f54));
+    func_021F9ECC(*(u8 * *)&((struct ActingScene *)p)->f6C);
     func_021F9374(p);
-    func_021F51E8(*(u8 * *)&((struct Obj00191 *)p)->f34);
-    func_021F6CB0((char *)(*(u8 * *)&((struct Obj00191 *)p)->f90));
+    func_021F51E8(*(u8 * *)&((struct ActingScene *)p)->f34);
+    func_021F6CB0((char *)(*(u8 * *)&((struct ActingScene *)p)->f90));
     func_021F94F8((char *)p);
-    func_021FA064((char *)(*(u8 * *)&((struct Obj00191 *)p)->fB8));
+    func_021FA064((char *)(*(u8 * *)&((struct ActingScene *)p)->fB8));
     func_021F91CC((Fade *)p);
     func_02047964(); func_020479D8();
-    func_021F6E74(*(u8 * *)&((struct Obj00191 *)p)->f90);
-    func_021F75A0(*(u8 * *)&((struct Obj00191 *)p)->f40);
-    func_021F51F4((void **)(*(u8 * *)&((struct Obj00191 *)p)->f34));
-    func_021F718C((char *)(*(u8 * *)&((struct Obj00191 *)p)->f40));
-    func_021F6F8C(*(u8 * *)&((struct Obj00191 *)p)->f3C);
-    func_0204F7DC(((struct Obj00191 *)p)->fAC,((struct Obj00191 *)p)->fA8,0);
-    func_021F9ED4(*(u8 * *)&((struct Obj00191 *)p)->f6C);
+    func_021F6E74(*(u8 * *)&((struct ActingScene *)p)->f90);
+    func_021F75A0(*(u8 * *)&((struct ActingScene *)p)->f40);
+    func_021F51F4((void **)(*(u8 * *)&((struct ActingScene *)p)->f34));
+    func_021F718C((char *)(*(u8 * *)&((struct ActingScene *)p)->f40));
+    func_021F6F8C(*(u8 * *)&((struct ActingScene *)p)->f3C);
+    func_0204F7DC(((struct ActingScene *)p)->fAC.p,((struct ActingScene *)p)->fA8,0);
+    func_021F9ED4(*(u8 * *)&((struct ActingScene *)p)->f6C);
     func_021F9E4C(p);
     func_02047970(); func_0204A600();
-    if(**(u32_021F879C * *)&((struct Obj00191 *)p)->f30!=0 && ((struct Obj00191 *)p)->f1C!=0 &&
-       ((struct Obj00191 *)p)->f1C!=1 && ((struct Obj00191 *)p)->f1C!=2 &&
-       ((struct Obj00191 *)p)->f1C!=3 && func_0200FB24()!=0)
-        ((struct Obj00191 *)p)->f1C=2;
+    if(**(u32_021F879C * *)&((struct ActingScene *)p)->f30!=0 && ((struct ActingScene *)p)->f1C!=0 &&
+       ((struct ActingScene *)p)->f1C!=1 && ((struct ActingScene *)p)->f1C!=2 &&
+       ((struct ActingScene *)p)->f1C!=3 && func_0200FB24()!=0)
+        ((struct ActingScene *)p)->f1C=2;
     return 0;
 }
 
@@ -896,18 +846,18 @@ void func_021F8BD4(u8 *p)
     u16 palette[16];
     u8 i=0;
     u16 old,new;
-    func_02049BDC((void *)(((struct Obj00503 *)p)->f18),2,0,32,32,32,((struct Obj00503 *)p)->f0);
-    func_02049658((void *)(((struct Obj00503 *)p)->f18),8,3,0,0,0,((struct Obj00503 *)p)->f0);
-    func_020498F4((void *)(((struct Obj00503 *)p)->f18),14,3,0,0,0,((struct Obj00503 *)p)->f0);
-    func_02049BDC((void *)(((struct Obj00503 *)p)->f18),3,0,0,0,32,((struct Obj00503 *)p)->f0);
-    func_02049658((void *)(((struct Obj00503 *)p)->f18),9,2,0,0,0,((struct Obj00503 *)p)->f0);
-    func_020498F4((void *)(((struct Obj00503 *)p)->f18),15,2,0,0,0,((struct Obj00503 *)p)->f0);
-    func_02049B68((void *)(((struct Obj00503 *)p)->f18),5,4,0,0,((struct Obj00503 *)p)->f0);
-    func_02049658((void *)(((struct Obj00503 *)p)->f18),13,5,0,0,0,((struct Obj00503 *)p)->f0);
-    func_020498F4((void *)(((struct Obj00503 *)p)->f18),17,5,0,0,0,((struct Obj00503 *)p)->f0);
-    func_02049658((void *)(((struct Obj00503 *)p)->f18),12,6,0,0,0,((struct Obj00503 *)p)->f0);
-    func_020498F4((void *)(((struct Obj00503 *)p)->f18),16,6,0,0,0,((struct Obj00503 *)p)->f0);
-    func_02049658((void *)(((struct Obj00503 *)p)->f18),11,4,0,0,0,((struct Obj00503 *)p)->f0);
+    func_02049BDC((void *)(((struct ActingScene *)p)->f18.u),2,0,32,32,32,((struct ActingScene *)p)->f0);
+    func_02049658((void *)(((struct ActingScene *)p)->f18.u),8,3,0,0,0,((struct ActingScene *)p)->f0);
+    func_020498F4((void *)(((struct ActingScene *)p)->f18.u),14,3,0,0,0,((struct ActingScene *)p)->f0);
+    func_02049BDC((void *)(((struct ActingScene *)p)->f18.u),3,0,0,0,32,((struct ActingScene *)p)->f0);
+    func_02049658((void *)(((struct ActingScene *)p)->f18.u),9,2,0,0,0,((struct ActingScene *)p)->f0);
+    func_020498F4((void *)(((struct ActingScene *)p)->f18.u),15,2,0,0,0,((struct ActingScene *)p)->f0);
+    func_02049B68((void *)(((struct ActingScene *)p)->f18.u),5,4,0,0,((struct ActingScene *)p)->f0);
+    func_02049658((void *)(((struct ActingScene *)p)->f18.u),13,5,0,0,0,((struct ActingScene *)p)->f0);
+    func_020498F4((void *)(((struct ActingScene *)p)->f18.u),17,5,0,0,0,((struct ActingScene *)p)->f0);
+    func_02049658((void *)(((struct ActingScene *)p)->f18.u),12,6,0,0,0,((struct ActingScene *)p)->f0);
+    func_020498F4((void *)(((struct ActingScene *)p)->f18.u),16,6,0,0,0,((struct ActingScene *)p)->f0);
+    func_02049658((void *)(((struct ActingScene *)p)->f18.u),11,4,0,0,0,((struct ActingScene *)p)->f0);
     func_02082A60((void *)0x05000400,p+0x16a,32);
     func_02082A60((void *)0x05000420,palette,32);
     for(i=0;i<16;i++){
@@ -919,7 +869,7 @@ void func_021F8BD4(u8 *p)
     }
     func_020409B4(3);
     func_020409B4(5);
-    ((struct Obj00503 *)p)->f3C=func_021F6F24(((struct Obj00503 *)p)->f0,(u32_021F8BD4)p);
+    ((struct ActingScene *)p)->f3C=func_021F6F24(((struct ActingScene *)p)->f0,(u32_021F8BD4)p);
 }
 
 
@@ -937,8 +887,8 @@ void func_021F8BD4(u8 *p)
  */
 void func_021F8D88(u8 *p, u32 a1)
 {
-    int v = func_02157364(((struct Obj23181 *)((u8 *)((struct Obj14083 *)p)->f30))->f14);
-    func_021F6FB0(((struct Obj14083 *)p)->f3C, v);
+    int v = func_02157364(((struct ActingPartA *)((u8 *)((struct ActingScene *)p)->f30))->f14);
+    func_021F6FB0(((struct ActingScene *)p)->f3C, v);
 }
 
 
@@ -956,14 +906,14 @@ void func_021F8DC4(u8 *p)
     struct Vec pos;
     u8 i;
     pos = d_021FDBE0;
-    ((struct Obj01410 *)p)->f34=func_021F5164(((struct Obj01410 *)p)->f0);
-    func_021F5438(((struct Obj01410 *)p)->f34,0x20000);
-    ((struct Obj01410 *)p)->f38=func_021F48C0(((struct Obj01410 *)p)->fAC,36,((struct Obj01410 *)p)->f0);
-    ((struct Obj01410 *)p)->f40=func_021F709C(((struct Obj01410 *)p)->f0,(u32)p,(u32)(((struct Obj01410 *)p)->f34),(u32)(((struct Obj01410 *)p)->f38),((struct Obj01410 *)p)->fAC);
+    ((struct ActingScene *)p)->f34=func_021F5164(((struct ActingScene *)p)->f0);
+    func_021F5438(((struct ActingScene *)p)->f34,0x20000);
+    ((struct ActingScene *)p)->f38=func_021F48C0(((struct ActingScene *)p)->fAC.u,36,((struct ActingScene *)p)->f0);
+    ((struct ActingScene *)p)->f40=func_021F709C(((struct ActingScene *)p)->f0,(u32)p,(u32)(((struct ActingScene *)p)->f34),(u32)(((struct ActingScene *)p)->f38),((struct ActingScene *)p)->fAC.u);
     for (i=0;i<4;i++) *(u32 *)(p+0x44+i*4)=0;
     for (i=0;i<4;i++) {
-        ((struct Slots *)p)->slots[i]=func_021F760C(((struct Obj01410 *)p)->f40,*(void **)(*(u8 * *)&((struct Obj01410 *)p)->f30+4+i*4));
-        func_021F8054(((struct Obj01410 *)p)->f40,((struct Slots *)p)->slots[i],(const u32 *)(&pos));
+        ((struct Slots *)p)->slots[i]=func_021F760C(((struct ActingScene *)p)->f40,*(void **)(*(u8 * *)&((struct ActingScene *)p)->f30+4+i*4));
+        func_021F8054(((struct ActingScene *)p)->f40,((struct Slots *)p)->slots[i],(const u32 *)(&pos));
         pos.z-=0x1e000;
     }
 }
@@ -972,13 +922,13 @@ void func_021F8DC4(u8 *p)
 
 
 
-void func_021F8E58(char *p){int tmp[3]={0};int i;for(i=0;i<5;i++)*(int *)((u32)p+i*4+0x58)=0;*(Object * *)&((struct Obj10530 *)p)->f54=func_021F69E4(((struct Obj10530 *)p)->f0,((struct Obj10530 *)p)->fAC);}
+void func_021F8E58(char *p){int tmp[3]={0};int i;for(i=0;i<5;i++)*(int *)((u32)p+i*4+0x58)=0;*(Object * *)&((struct ActingScene *)p)->f54=func_021F69E4(((struct ActingScene *)p)->f0,((struct ActingScene *)p)->fAC.p);}
 
 
 
 
 
-void func_021F8E88(char *p){int i;*(char * *)&((struct Obj14084 *)p)->f6C=func_021F9E50(((struct Obj14084 *)p)->f0);for(i=0;i<8;i++)*(int *)((u32)p+i*4+0x70)=0;}
+void func_021F8E88(char *p){int i;*(char * *)&((struct ActingScene *)p)->f6C=func_021F9E50(((struct ActingScene *)p)->f0);for(i=0;i<8;i++)*(int *)((u32)p+i*4+0x70)=0;}
 
 
 
@@ -1052,12 +1002,12 @@ void func_021F90E0(u8 *p)
     u8 i;
     u32 *table;
     struct Bytes order;
-    table = *(u32 * *)&((struct Obj08150 *)p)->fB4;
+    table = *(u32 * *)&((struct ActingScene *)p)->fB4;
     order = d_021FDBD0;
-    func_021FAC74(((struct Obj08150 *)p)->fB0, (u8 *)table + table[0], 1);
+    func_021FAC74(((struct ActingScene *)p)->fB0, (u8 *)table + table[0], 1);
     for (i = 0; i < 4; i++) {
         if (table[0] != table[((u8 *)&order)[i]]) {
-            func_021FAC74(((struct Obj08150 *)p)->fB0, *(u8 * *)&((struct Obj08150 *)p)->fB4 + table[((u8 *)&order)[i]], 1);
+            func_021FAC74(((struct ActingScene *)p)->fB0, *(u8 * *)&((struct ActingScene *)p)->fB4 + table[((u8 *)&order)[i]], 1);
         }
     }
 }
@@ -1070,14 +1020,14 @@ void func_021F9140(u8 *p, u8 n, u8 i)
 {
     void *table;
     u16 score;
-    table = func_0204A380((void *)(((struct Obj05397 *)p)->f18), n + 0x37, 0, ((struct Obj05397 *)p)->f0);
-    score = *(u16 *)(*(u8 **)(*(u8 * *)&((struct Obj05397 *)p)->f30 + i * 4 + 4) + 0x4a);
+    table = func_0204A380((void *)(((struct ActingScene *)p)->f18.u), n + 0x37, 0, ((struct ActingScene *)p)->f0);
+    score = *(u16 *)(*(u8 **)(*(u8 * *)&((struct ActingScene *)p)->f30 + i * 4 + 4) + 0x4a);
     if (score >= 70) {
-        func_021FAD0C(((struct Obj05397 *)p)->fB0, table, 0, (u8)(1 << i));
+        func_021FAD0C(((struct ActingScene *)p)->fB0, table, 0, (u8)(1 << i));
     } else if (score >= 40) {
-        func_021FAD0C(((struct Obj05397 *)p)->fB0, table, 1, (u8)(1 << i));
+        func_021FAD0C(((struct ActingScene *)p)->fB0, table, 1, (u8)(1 << i));
     } else {
-        func_021FAD0C(((struct Obj05397 *)p)->fB0, table, 2, (u8)(1 << i));
+        func_021FAD0C(((struct ActingScene *)p)->fB0, table, 2, (u8)(1 << i));
     }
 }
 
@@ -1085,7 +1035,7 @@ void func_021F9140(u8 *p, u8 n, u8 i)
 
 
 
-void func_021F91A8(char *p, u8 n, u8 mask){void *table;table=func_0204A380((void *)(((struct Obj10531 *)p)->f18),n+0x4b,0,((struct Obj10531 *)p)->f0);func_021FAD0C(((struct Obj10531 *)p)->fB0,table,0,mask);}
+void func_021F91A8(char *p, u8 n, u8 mask){void *table;table=func_0204A380((void *)(((struct ActingScene *)p)->f18.u),n+0x4b,0,((struct ActingScene *)p)->f0);func_021FAD0C(((struct ActingScene *)p)->fB0,table,0,mask);}
 
 
 
@@ -1130,19 +1080,19 @@ void func_021F91CC(Fade *p)
 void func_021F92CC(u8 *p)
 {
     int zero;
-    ((struct Obj01257 *)p)->fD0=func_020450F0(1,4,20,24,4,15,1);
-    func_02045334((struct Descriptor *)((struct Obj01257 *)p)->fD0);
-    func_02045374((struct Cfg *)(((struct Obj01257 *)p)->fD0));
+    ((struct ActingScene *)p)->fD0.u=func_020450F0(1,4,20,24,4,15,1);
+    func_02045334((struct Descriptor *)((struct ActingScene *)p)->fD0.u);
+    func_02045374((struct Cfg *)(((struct ActingScene *)p)->fD0.u));
     func_020409B4(1);
     zero=0;
-    ((struct Obj01257 *)p)->fD4=(u32)func_0201D7EC(23,0,0,0,((struct Obj01257 *)p)->f0);
-    ((struct Obj01257 *)p)->fDC=(u32)func_02045C44(((struct Obj23183 *)(*(u8 * *)&((struct Obj23182 *)(*(u8 * *)&((struct Obj01257 *)p)->f30))->f18))->f8,((struct Obj01257 *)p)->f0);
-    func_02049B40(23,5,0,480,32,((struct Obj01257 *)p)->f0);
-    ((struct Obj01257 *)p)->fCC=(u32)func_0203101C(((struct Obj01257 *)p)->f0,((struct Obj01257 *)p)->f0,3,256);
-    ((struct Obj01257 *)p)->fD8=zero;
-    ((struct Obj01257 *)p)->fE0=zero;
-    ((struct Obj01257 *)p)->fE4=zero;
-    ((struct Obj01257 *)p)->fE8=func_0201C440((void *)(u32)((struct Obj01257 *)p)->f0);
+    ((struct ActingScene *)p)->fD4.u=(u32)func_0201D7EC(23,0,0,0,((struct ActingScene *)p)->f0);
+    ((struct ActingScene *)p)->fDC.u=(u32)func_02045C44(((struct ActingPartB *)(*(u8 * *)&((struct ActingPartA *)(*(u8 * *)&((struct ActingScene *)p)->f30))->f18))->f8,((struct ActingScene *)p)->f0);
+    func_02049B40(23,5,0,480,32,((struct ActingScene *)p)->f0);
+    ((struct ActingScene *)p)->fCC.u=(u32)func_0203101C(((struct ActingScene *)p)->f0,((struct ActingScene *)p)->f0,3,256);
+    ((struct ActingScene *)p)->fD8.u=zero;
+    ((struct ActingScene *)p)->fE0.u=zero;
+    ((struct ActingScene *)p)->fE4.u=zero;
+    ((struct ActingScene *)p)->fE8.u=func_0201C440((void *)(u32)((struct ActingScene *)p)->f0);
 }
 
 
@@ -1150,16 +1100,16 @@ void func_021F92CC(u8 *p)
 
 void func_021F9374(u8 *p)
 {
-    func_020310C4(((struct Obj02849 *)p)->fCC);
-    if (((struct Obj02849 *)p)->fD8 && func_0201CE30(((struct Obj02849 *)p)->fD8) == 2) {
-        func_0201CE48(((struct Obj02849 *)p)->fD8);
-        ((struct Obj02849 *)p)->fD8 = 0;
+    func_020310C4(((struct ActingScene *)p)->fCC.p);
+    if (((struct ActingScene *)p)->fD8.p && func_0201CE30(((struct ActingScene *)p)->fD8.p) == 2) {
+        func_0201CE48(((struct ActingScene *)p)->fD8.p);
+        ((struct ActingScene *)p)->fD8.p = 0;
     }
-    if (((struct Obj02849 *)p)->fE4 == 1) {
-        func_0201C4E4(((struct Obj02849 *)p)->fE8);
-        if (func_0201C6B4(((struct Obj02849 *)p)->fE8) == 1) {
-            func_02045334(((struct Obj02849 *)p)->fD0);
-            ((struct Obj02849 *)p)->fE4 = 0;
+    if (((struct ActingScene *)p)->fE4.s == 1) {
+        func_0201C4E4(((struct ActingScene *)p)->fE8.p);
+        if (func_0201C6B4(((struct ActingScene *)p)->fE8.p) == 1) {
+            func_02045334(((struct ActingScene *)p)->fD0.p);
+            ((struct ActingScene *)p)->fE4.s = 0;
         }
     }
 }
@@ -1173,27 +1123,27 @@ void func_021F9374(u8 *p)
 void func_021F93D8(u8 *p, u16 index, u32 speed)
 {
     Zero zero;
-    if (((struct Obj00832 *)p)->fD8) {
-        func_0201CE48(((struct Obj00832 *)p)->fD8);
-        ((struct Obj00832 *)p)->fD8 = 0;
+    if (((struct ActingScene *)p)->fD8.p) {
+        func_0201CE48(((struct ActingScene *)p)->fD8.p);
+        ((struct ActingScene *)p)->fD8.p = 0;
     }
-    if (((struct Obj00832 *)p)->fE0) {
-        func_02045808(((struct Obj00832 *)p)->fE0);
-        ((struct Obj00832 *)p)->fE0 = 0;
+    if (((struct ActingScene *)p)->fE0.p) {
+        func_02045808(((struct ActingScene *)p)->fE0.p);
+        ((struct ActingScene *)p)->fE0.p = 0;
     }
-    func_02043B5C(func_02045770(((struct Obj00832 *)p)->fD0), 0);
+    func_02043B5C(func_02045770(((struct ActingScene *)p)->fD0.p), 0);
     zero = ZERO;
-    ((struct Obj00832 *)p)->fE0 = func_02045EC0(((struct Obj00832 *)p)->fDC, index);
+    ((struct ActingScene *)p)->fE0.p = func_02045EC0(((struct ActingScene *)p)->fDC.p, index);
     if (speed != 255) {
-        ((struct Obj00832 *)p)->fD8 = func_0201CCE4(((struct Obj00832 *)p)->fD0, zero, zero,
-            ((struct Obj00832 *)p)->fE0, ((struct Obj00832 *)p)->fD4, speed,
-            ((struct Obj00832 *)p)->fCC, 2, ((struct Obj00832 *)p)->f0, zero);
+        ((struct ActingScene *)p)->fD8.p = func_0201CCE4(((struct ActingScene *)p)->fD0.p, zero, zero,
+            ((struct ActingScene *)p)->fE0.p, ((struct ActingScene *)p)->fD4.p, speed,
+            ((struct ActingScene *)p)->fCC.p, 2, ((struct ActingScene *)p)->f0, zero);
     } else {
-        func_0201C6FC(((struct Obj00832 *)p)->fE8, (u32)func_02045770(((struct Obj00832 *)p)->fD0),
-            zero, zero, ((struct Obj00832 *)p)->fE0, *(u32 *)&((struct Obj00832 *)p)->fD4);
-        ((struct Obj00832 *)p)->fE4 = 1;
-        func_02045808(((struct Obj00832 *)p)->fE0);
-        ((struct Obj00832 *)p)->fE0 = (void *)zero;
+        func_0201C6FC(((struct ActingScene *)p)->fE8.p, (u32)func_02045770(((struct ActingScene *)p)->fD0.p),
+            zero, zero, ((struct ActingScene *)p)->fE0.p, *(u32 *)&((struct ActingScene *)p)->fD4);
+        ((struct ActingScene *)p)->fE4.s = 1;
+        func_02045808(((struct ActingScene *)p)->fE0.p);
+        ((struct ActingScene *)p)->fE0.p = (void *)zero;
     }
 }
 
@@ -1202,16 +1152,16 @@ void func_021F93D8(u8 *p, u16 index, u32 speed)
 
 void func_021F94B0(u8 *p)
 {
-    if (((struct Obj03817 *)p)->fD8) {
-        func_0201CE48(((struct Obj03817 *)p)->fD8);
-        ((struct Obj03817 *)p)->fD8 = 0;
+    if (((struct ActingScene *)p)->fD8.p) {
+        func_0201CE48(((struct ActingScene *)p)->fD8.p);
+        ((struct ActingScene *)p)->fD8.p = 0;
     }
-    if (((struct Obj03817 *)p)->fE0) {
-        func_02045808(((struct Obj03817 *)p)->fE0);
-        ((struct Obj03817 *)p)->fE0 = 0;
+    if (((struct ActingScene *)p)->fE0.p) {
+        func_02045808(((struct ActingScene *)p)->fE0.p);
+        ((struct ActingScene *)p)->fE0.p = 0;
     }
-    func_02043B5C(func_02045770(((struct Obj03817 *)p)->fD0), 0);
-    func_02045334(((struct Obj03817 *)p)->fD0);
+    func_02043B5C(func_02045770(((struct ActingScene *)p)->fD0.p), 0);
+    func_02045334(((struct ActingScene *)p)->fD0.p);
 }
 
 
@@ -1265,17 +1215,17 @@ void func_021F94F8(char *p)
 void func_021F95CC(char *p, u8 v, int c)
 {
     if (c == 1) {
-        ((struct Obj10532 *)p)->fF0 = v;
+        ((struct ActingScene *)p)->fF0 = v;
     } else {
-        ((struct Obj10532 *)p)->fF0 = 4;
+        ((struct ActingScene *)p)->fF0 = 4;
     }
-    ((struct Obj10532 *)p)->fEC = 1;
+    ((struct ActingScene *)p)->fEC = 1;
 }
 
 
 
 
-void func_021F95E8(char *p){((struct Obj23184 *)p)->fEC=1;}
+void func_021F95E8(char *p){((struct ActingScene *)p)->fEC=1;}
 
 
 
@@ -1304,8 +1254,8 @@ void func_021F95F0(u8 *p)
  */
 void func_021F9664(char *p, int a)
 {
-    ((struct Obj10533 *)p)->f24 = 1;
-    func_02006448(((struct Obj10533 *)p)->f1DC, ((struct Obj10533 *)p)->f1E0, a);
+    ((struct ActingScene *)p)->f24.s = 1;
+    func_02006448(((struct ActingScene *)p)->f1DC, ((struct ActingScene *)p)->f1E0, a);
 }
 
 
@@ -1314,14 +1264,14 @@ void func_021F9664(char *p, int a)
 
 void func_021F9680(char *p, int a)
 {
-    ((struct Obj23185 *)p)->f28 = 1;
+    ((struct ActingScene *)p)->f28.s = 1;
     func_020064F4(a);
 }
 
 
 
 
-void func_021F9690(char *p){((struct Obj23186 *)p)->f28=0;func_02006504();}
+void func_021F9690(char *p){((struct ActingScene *)p)->f28.s=0;func_02006504();}
 
 
 
@@ -1335,7 +1285,7 @@ void func_021F9690(char *p){((struct Obj23186 *)p)->f28=0;func_02006504();}
  */
 int func_021F969C(char *p, u32 a, u32 b, u32 d)
 {
-    return func_020064B8(a, b, ((struct Obj23187 *)p)->f1E4, d);
+    return func_020064B8(a, b, ((struct ActingScene *)p)->f1E4, d);
 }
 
 
@@ -1344,14 +1294,14 @@ int func_021F969C(char *p, u32 a, u32 b, u32 d)
 
 void func_021F96B0(char *p, int a)
 {
-    ((struct Obj23188 *)p)->f2C = 1;
+    ((struct ActingScene *)p)->f2C.s = 1;
     func_02005D90(a, 0xffff);
 }
 
 
 
 
-void func_021F96C4(char *p){((struct Obj23189 *)p)->f2C=0;func_02005D28();}
+void func_021F96C4(char *p){((struct ActingScene *)p)->f2C.s=0;func_02005D28();}
 
 
 
@@ -1360,7 +1310,7 @@ void func_021F96D0(char *p)
 {
     u8 i;
     u8 min = 255;
-    char *a = *(char * *)&((struct Obj23190 *)p)->f30;
+    char *a = *(char * *)&((struct ActingScene *)p)->f30;
     for (i = 0; i < 4; i++) {
         u16 v = *(u16 *)(*(char **)(a + i * 4 + 4) + 0x4a) + *(u8 *)(p + i + 0xf7);
         if (min > v) min = v;
@@ -1372,7 +1322,7 @@ void func_021F96D0(char *p)
 
 
 
-void func_021F9730(char *p,int value){if(!**(int * *)&((struct Obj08153 *)p)->f30)func_021F9754(p,((struct Obj08153 *)p)->fA,value);else{((struct Obj08153 *)p)->f15C=1;((struct Obj08153 *)p)->f160=value;}}
+void func_021F9730(char *p,int value){if(!**(int * *)&((struct ActingScene *)p)->f30)func_021F9754(p,((struct ActingScene *)p)->fA,value);else{((struct ActingScene *)p)->f15C=1;((struct ActingScene *)p)->f160=value;}}
 
 
 
@@ -1381,17 +1331,17 @@ void func_021F9754(char *p, u32 i, int v)
     Enabled one;
     one = ENABLED;
     i = (u32)p + i * 4;
-    ((struct Obj14085 *)i)->fFC = one;
-    ((struct Obj14085 *)i)->f10C = v;
+    ((struct ScriptOwner *)i)->fFC = one;
+    ((struct ScriptOwner *)i)->f10C = v;
 }
 
 
 
-int func_021F9768(char *p){return func_021F9774(p,((struct Obj08155 *)p)->fA);}
+int func_021F9768(char *p){return func_021F9774(p,((struct ActingScene *)p)->fA);}
 
 
 
-int func_021F9774(char *p,u32 i){if(func_021F7A80(*(char * *)&((struct Obj08155 *)p)->f40,*(char **)((u32)p+i*4+0x44))==1)return 1;return *(int *)((u32)p+0xfc+i*4);}
+int func_021F9774(char *p,u32 i){if(func_021F7A80(*(char * *)&((struct ActingScene *)p)->f40,*(char **)((u32)p+i*4+0x44))==1)return 1;return *(int *)((u32)p+0xfc+i*4);}
 
 
 
@@ -1407,14 +1357,14 @@ void func_021F9794(char *p)
     int index;
     int result;
     func_021F9A48(p);
-    if (**(void ** *)&((struct Obj00159 *)p)->f30 && ((struct Obj00159 *)p)->f15C == 1) {
-        if (func_021FD8C4(**(void ** *)&((struct Obj00159 *)p)->f30, (u8)((struct Obj00159 *)p)->f160) == 1)
-            ((struct Obj00159 *)p)->f15C = 0;
+    if (**(void ** *)&((struct ActingScene *)p)->f30 && ((struct ActingScene *)p)->f15C == 1) {
+        if (func_021FD8C4(**(void ** *)&((struct ActingScene *)p)->f30, (u8)((struct ActingScene *)p)->f160) == 1)
+            ((struct ActingScene *)p)->f15C = 0;
     }
-    if (!**(void ** *)&((struct Obj00159 *)p)->f30) {
+    if (!**(void ** *)&((struct ActingScene *)p)->f30) {
         for (i = 0; i < 4; i++) {
             if (*(int *)(p + i * 4 + 0xFC) == 1) {
-                func_021F79A8(*(char * *)&((struct Obj00159 *)p)->f40, *(char **)(p + i * 4 + 0x44), *(int *)(p + i * 4 + 0x10C));
+                func_021F79A8(*(char * *)&((struct ActingScene *)p)->f40, *(char **)(p + i * 4 + 0x44), *(int *)(p + i * 4 + 0x10C));
                 slots[count] = i;
                 count++;
                 *(int *)(p + i * 4 + 0xFC) = 0;
@@ -1424,54 +1374,54 @@ void func_021F9794(char *p)
             }
         }
         if (count != 0) {
-            if (((struct Obj00159 *)p)->f11C == 4) ((struct Obj00159 *)p)->f120 = 1;
-            else ((struct Obj00159 *)p)->f120 = 0;
-            ((struct Obj00159 *)p)->f11E = 180;
-            ((struct Obj00159 *)p)->f11C = slots[func_02005728(count)];
-            ((struct Obj00159 *)p)->f11D = *(int *)(p + ((struct Obj00159 *)p)->f11C * 4 + 0x10C);
-            ((struct Obj00159 *)p)->fEC = 1;
+            if (((struct ActingScene *)p)->f11C == 4) ((struct ActingScene *)p)->f120 = 1;
+            else ((struct ActingScene *)p)->f120 = 0;
+            ((struct ActingScene *)p)->f11E = 180;
+            ((struct ActingScene *)p)->f11C = slots[func_02005728(count)];
+            ((struct ActingScene *)p)->f11D = *(int *)(p + ((struct ActingScene *)p)->f11C * 4 + 0x10C);
+            ((struct ActingScene *)p)->fEC = 1;
         }
     } else {
-        index = func_021FD9FC(**(void ** *)&((struct Obj00159 *)p)->f30);
+        index = func_021FD9FC(**(void ** *)&((struct ActingScene *)p)->f30);
         if ((unsigned)index < 4) {
-            if (((struct Obj00159 *)p)->f11C == 4) ((struct Obj00159 *)p)->f120 = 1;
-            else ((struct Obj00159 *)p)->f120 = 0;
-            ((struct Obj00159 *)p)->f11E = 180;
-            ((struct Obj00159 *)p)->f11C = index;
-            ((struct Obj00159 *)p)->f11D = func_021FD9A0(**(void ** *)&((struct Obj00159 *)p)->f30, index);
-            ((struct Obj00159 *)p)->fEC = 1;
-            func_021FDA18(**(void ** *)&((struct Obj00159 *)p)->f30);
+            if (((struct ActingScene *)p)->f11C == 4) ((struct ActingScene *)p)->f120 = 1;
+            else ((struct ActingScene *)p)->f120 = 0;
+            ((struct ActingScene *)p)->f11E = 180;
+            ((struct ActingScene *)p)->f11C = index;
+            ((struct ActingScene *)p)->f11D = func_021FD9A0(**(void ** *)&((struct ActingScene *)p)->f30, index);
+            ((struct ActingScene *)p)->fEC = 1;
+            func_021FDA18(**(void ** *)&((struct ActingScene *)p)->f30);
         }
         for (i = 0; i < 4; i++) {
-            action = func_021FD9A0(**(void ** *)&((struct Obj00159 *)p)->f30, i);
+            action = func_021FD9A0(**(void ** *)&((struct ActingScene *)p)->f30, i);
             if (action != 10) {
-                func_021F79A8(*(char * *)&((struct Obj00159 *)p)->f40, *(char **)(p + i * 4 + 0x44), action);
-                func_021FD9D0(**(void ** *)&((struct Obj00159 *)p)->f30, i);
+                func_021F79A8(*(char * *)&((struct ActingScene *)p)->f40, *(char **)(p + i * 4 + 0x44), action);
+                func_021FD9D0(**(void ** *)&((struct ActingScene *)p)->f30, i);
                 if (action == 7) *(int *)(p + i * 8 + 0x13C) = 1;
                 else if (action == 8) *(int *)(p + i * 8 + 0x140) = 1;
                 func_021F9AD8(p, 2, i);
             }
         }
     }
-    if (((struct Obj00159 *)p)->f11E != 0) {
-        if (((struct Obj00159 *)p)->f11E > ((struct Obj00159 *)p)->f1E8) {
-            ((struct Obj00159 *)p)->f11E -= (u16)((struct Obj00159 *)p)->f1E8;
+    if (((struct ActingScene *)p)->f11E != 0) {
+        if (((struct ActingScene *)p)->f11E > ((struct ActingScene *)p)->f1E8) {
+            ((struct ActingScene *)p)->f11E -= (u16)((struct ActingScene *)p)->f1E8;
             return;
         }
-        ((struct Obj00159 *)p)->f11E = 0;
-        if (((struct Obj00159 *)p)->f120 == 1) {
-            if (!**(void ** *)&((struct Obj00159 *)p)->f30) {
-                result = func_021F99F4(p, ((struct Obj00159 *)p)->f11C, ((struct Obj00159 *)p)->f11D);
-                *(int *)(*(char **)(*(char * *)&((struct Obj00159 *)p)->f30 + ((struct Obj00159 *)p)->f11C * 4 + 4) + ((struct Obj00159 *)p)->f11D * 4 + 0x54) = 1;
+        ((struct ActingScene *)p)->f11E = 0;
+        if (((struct ActingScene *)p)->f120 == 1) {
+            if (!**(void ** *)&((struct ActingScene *)p)->f30) {
+                result = func_021F99F4(p, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D);
+                *(int *)(*(char **)(*(char * *)&((struct ActingScene *)p)->f30 + ((struct ActingScene *)p)->f11C * 4 + 4) + ((struct ActingScene *)p)->f11D * 4 + 0x54) = 1;
                 func_020061E4(result);
             } else if (func_0203D378() == 1) {
-                result = func_021F99F4(p, ((struct Obj00159 *)p)->f11C, ((struct Obj00159 *)p)->f11D);
-                if (result == 1580) func_021FDA24(**(void ** *)&((struct Obj00159 *)p)->f30, ((struct Obj00159 *)p)->f11C, ((struct Obj00159 *)p)->f11D, 1);
-                else func_021FDA24(**(void ** *)&((struct Obj00159 *)p)->f30, ((struct Obj00159 *)p)->f11C, ((struct Obj00159 *)p)->f11D, 2);
+                result = func_021F99F4(p, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D);
+                if (result == 1580) func_021FDA24(**(void ** *)&((struct ActingScene *)p)->f30, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D, 1);
+                else func_021FDA24(**(void ** *)&((struct ActingScene *)p)->f30, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D, 2);
             }
         }
-        ((struct Obj00159 *)p)->f11C = 4;
-        ((struct Obj00159 *)p)->fEC = 1;
+        ((struct ActingScene *)p)->f11C = 4;
+        ((struct ActingScene *)p)->fEC = 1;
     }
 }
 
@@ -1481,7 +1431,7 @@ int func_021F99F4(char *p, unsigned i, unsigned j)
 {
     u16 v;
     u8 old;
-    v = func_02157394((int)(((struct Obj23204 *)(*(char * *)&((struct Obj10534 *)p)->f30))->f14), (u8)(int)func_021F5140((void *)func_021F9E0C((u8 *)p), (u16)(*(u16 *)(*(char **)(*(char * *)&((struct Obj10534 *)p)->f30 + i * 4 + 4) + j * 6 + 0x14))));
+    v = func_02157394((int)(((struct ActingPartA *)(*(char * *)&((struct ActingScene *)p)->f30))->f14), (u8)(int)func_021F5140((void *)func_021F9E0C((u8 *)p), (u16)(*(u16 *)(*(char **)(*(char * *)&((struct ActingScene *)p)->f30 + i * 4 + 4) + j * 6 + 0x14))));
     old = *(u8 *)(p + 0xf7 + i);
     *(u8 *)(p + 0xf7 + i) = old + v;
     func_021F95F0((u8 *)p);
@@ -1493,13 +1443,13 @@ int func_021F99F4(char *p, unsigned i, unsigned j)
 void func_021F9A48(char *p)
 {
     u8 i;
-    if (**(void ** *)&((struct Obj08154 *)p)->f30 != 0 && func_0203D378() != 1) return;
+    if (**(void ** *)&((struct ActingScene *)p)->f30 != 0 && func_0203D378() != 1) return;
     for (i = 0; i < 4; i++) {
         if (*(u16 *)(p + i * 2 + 0x124) != 0) {
             *(u16 *)(p + i * 2 + 0x124) -= 1;
             if (*(u16 *)(p + i * 2 + 0x124) == 0) {
-                if (**(void ** *)&((struct Obj08154 *)p)->f30 == 0) func_021F9754(p, i, *(int *)(p + i * 4 + 0x12c));
-                else func_021FD974(**(void ** *)&((struct Obj08154 *)p)->f30, i, *(int *)(p + i * 4 + 0x12c));
+                if (**(void ** *)&((struct ActingScene *)p)->f30 == 0) func_021F9754(p, i, *(int *)(p + i * 4 + 0x12c));
+                else func_021FD974(**(void ** *)&((struct ActingScene *)p)->f30, i, *(int *)(p + i * 4 + 0x12c));
             }
         }
     }
@@ -1523,15 +1473,15 @@ static inline u32 random_below(u32 n)
 void func_021F9AD8(char *p, int mode, u8 slot)
 {
     u8 i;
-    if (**(void ** *)&((struct Obj08155 *)p)->f30 && func_0203D378() != 1) return;
+    if (**(void ** *)&((struct ActingScene *)p)->f30 && func_0203D378() != 1) return;
     for (i = 0; i < 4; i++) {
         int eligible[2] = {0, 0};
-        char *record = *(char **)(*(char * *)&((struct Obj08155 *)p)->f30 + i * 4 + 4);
+        char *record = *(char **)(*(char * *)&((struct ActingScene *)p)->f30 + i * 4 + 4);
         Action action;
         int value;
-        if (((struct Obj03287 *)record)->f0 != 2 || func_021F9774(p, i) == 1 || *(u16 *)(p + i * 2 + 0x124) != 0) continue;
-        if (((struct Obj03287 *)record)->f3E != 255 && !*(int *)(p + i * 8 + 0x13C)) eligible[0] = 1;
-        if (((struct Obj03287 *)record)->f44 != 255 && !*(int *)(p + i * 8 + 0x140)) eligible[1] = 1;
+        if (((struct ActingRecord *)record)->f0 != 2 || func_021F9774(p, i) == 1 || *(u16 *)(p + i * 2 + 0x124) != 0) continue;
+        if (((struct ActingRecord *)record)->f3E != 255 && !*(int *)(p + i * 8 + 0x13C)) eligible[0] = 1;
+        if (((struct ActingRecord *)record)->f44 != 255 && !*(int *)(p + i * 8 + 0x140)) eligible[1] = 1;
         if (!eligible[0] && !eligible[1]) continue;
         if (eligible[0] == 1 && eligible[1] == 0) action = ACTION7;
         else if (eligible[1] == 1 && eligible[0] == 0) action = ACTION8;
@@ -1540,24 +1490,24 @@ void func_021F9AD8(char *p, int mode, u8 slot)
         }
         switch (mode) {
         case 1:
-            if (((struct Obj03287 *)record)->f78 == 65533 && i == slot) {
+            if (((struct ActingRecord *)record)->f78 == 65533 && i == slot) {
                 *(u16 *)(p + i * 2 + 0x124) = random_below(30) + 30;
                 *(int *)(p + i * 4 + 0x12C) = action;
             }
             break;
         case 2:
-            if (((struct Obj03287 *)record)->f78 == 65535 && random_below(100) < 50) {
+            if (((struct ActingRecord *)record)->f78 == 65535 && random_below(100) < 50) {
                 *(u16 *)(p + i * 2 + 0x124) = random_below(60) + 60;
                 *(int *)(p + i * 4 + 0x12C) = action;
             }
-            if (((struct Obj03287 *)record)->f78 == 65534 && random_below(100) < 25) {
+            if (((struct ActingRecord *)record)->f78 == 65534 && random_below(100) < 25) {
                 *(u16 *)(p + i * 2 + 0x124) = random_below(60) + 60;
                 *(int *)(p + i * 4 + 0x12C) = action;
             }
             break;
         case 0:
-            if (((struct Obj03287 *)record)->f78 != 0 && ((struct Obj03287 *)record)->f78 < 65533) {
-                value = ((struct Obj03287 *)record)->f78 + (s8)(random_below(121) - 60);
+            if (((struct ActingRecord *)record)->f78 != 0 && ((struct ActingRecord *)record)->f78 < 65533) {
+                value = ((struct ActingRecord *)record)->f78 + (s8)(random_below(121) - 60);
                 if (value < 0) *(u16 *)(p + i * 2 + 0x124) = 0;
                 else *(u16 *)(p + i * 2 + 0x124) = value;
                 *(int *)(p + i * 4 + 0x12C) = action;
@@ -1572,7 +1522,7 @@ void func_021F9AD8(char *p, int mode, u8 slot)
 
 void func_021F9CF4(char *p)
 {
-    ((struct Obj14086 *)p)->fBC = func_021F9EDC(((struct Obj14086 *)p)->f6C, 0x36);
+    ((struct ActingScene *)p)->fBC = func_021F9EDC(((struct ActingScene *)p)->f6C, 0x36);
 }
 
 
@@ -1580,7 +1530,7 @@ void func_021F9CF4(char *p)
 
 void func_021F9D08(char *p)
 {
-    func_021F9F58(((struct Obj14087 *)p)->f6C, ((struct Obj14087 *)p)->fBC);
+    func_021F9F58(((struct ActingScene *)p)->f6C, ((struct ActingScene *)p)->fBC);
 }
 
 
@@ -1589,11 +1539,11 @@ void func_021F9D18(char *p, unsigned i)
 {
     Vec v;
     u8 j;
-    func_021F8044(((struct Obj14088 *)p)->f40, *(void **)(p + i * 4 + 0x44), (unsigned int *)(&v));
+    func_021F8044(((struct ActingScene *)p)->f40, *(void **)(p + i * 4 + 0x44), (unsigned int *)(&v));
     v.x /= 16;
     v.y = (0xc0000 - (v.y - 0x20000)) / 16;
     v.z = 0xb4000;
-    for (j = 0; j < 3; j++) func_021F9F74(*(char * *)&((struct Obj14088 *)p)->fBC, j, &v.x);
+    for (j = 0; j < 3; j++) func_021F9F74(*(char * *)&((struct ActingScene *)p)->fBC, j, &v.x);
     func_020061E4(1961);
 }
 
@@ -1602,16 +1552,16 @@ void func_021F9D18(char *p, unsigned i)
 
 void func_021F9D80(char *p)
 {
-    func_021FAAB8(((struct Obj23210 *)p)->fA4, 1);
+    func_021FAAB8(((struct ActingScene *)p)->fA4, 1);
 }
 
 
 
-void func_021F9D90(char *p){func_021FAAB8(((struct Obj23211 *)p)->fA4,0);}
+void func_021F9D90(char *p){func_021FAAB8(((struct ActingScene *)p)->fA4,0);}
 
 
 
-void *func_021F9DA0(char *p){return ((struct Obj23212 *)p)->f40;}
+void *func_021F9DA0(char *p){return ((struct ActingScene *)p)->f40;}
 
 
 
@@ -1619,7 +1569,7 @@ void *func_021F9DA4(char *p,u32 i){return *(void **)((u32)p+4*i+0x44);}
 
 
 
-void *func_021F9DAC(void *p){return ((struct Obj23213 *)p)->f54;}
+void *func_021F9DAC(void *p){return ((struct ActingScene *)p)->f54;}
 
 
 
@@ -1631,7 +1581,7 @@ void func_021F9DB8(void *p,void *v,u32 i){*(void **)((u8 *)p+i*4+0x58)=v;}
 
 
 
-void *func_021F9DC0(void *p){return ((struct Obj23214 *)p)->f6C;}
+void *func_021F9DC0(void *p){return ((struct ActingScene *)p)->f6C;}
 
 
 
@@ -1643,7 +1593,7 @@ void func_021F9DCC(void *p,void *v,u32 i){*(void **)((u8 *)p+i*4+0x70)=v;}
 
 
 
-void *func_021F9DD4(void *p){return ((struct Obj23215 *)p)->f90;}
+void *func_021F9DD4(void *p){return ((struct ActingScene *)p)->f90;}
 
 
 
@@ -1655,31 +1605,31 @@ void func_021F9DE8(void *p,void *v,u8 i){*(void **)((u8 *)p+(u32)i*4+0x94)=v;}
 
 
 
-void *func_021F9DF4(void *p){return ((struct Obj23216 *)p)->fB8;}
+void *func_021F9DF4(void *p){return ((struct ActingScene *)p)->fB8;}
 
 
 
-u16 func_021F9DFC(void *p){return ((struct Obj23217 *)p)->f8;}
+u16 func_021F9DFC(void *p){return ((struct ActingScene *)p)->f8;}
 
 
 
-void func_021F9E00(void *p,u16 v){((struct Obj23218 *)p)->f8=v;}
+void func_021F9E00(void *p,u16 v){((struct ActingScene *)p)->f8=v;}
 
 
 
-u16 func_021F9E04(u8 *p) { return ((struct Obj23219 *)p)->f4; }
+u16 func_021F9E04(u8 *p) { return ((struct ActingScene *)p)->f4; }
 
 
 
-void func_021F9E08(u8 *p,u16 v) { ((struct Obj23220 *)p)->f6=v; }
+void func_021F9E08(u8 *p,u16 v) { ((struct ActingScene *)p)->f6=v; }
 
 
 
-u32 func_021F9E0C(u8 *p) { return func_021F4F10(*(u8 * *)&((struct Obj10534 *)p)->f38); }
+u32 func_021F9E0C(u8 *p) { return func_021F4F10(*(u8 * *)&((struct ActingScene *)p)->f38); }
 
 
 
 /*
  * note: unlabelled getter witnessing ov112 021F6CE0.
  */
-int func_021F9E18(char *p) { return ((struct Obj23221 *)p)->f11C; }
+int func_021F9E18(char *p) { return ((struct ActingScene *)p)->f11C; }

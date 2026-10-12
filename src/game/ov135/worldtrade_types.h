@@ -52,7 +52,8 @@ typedef struct {
 
 /* ---- canonical work block (generated) ---- */
 
-typedef void (*Cb)(void *p);
+typedef struct Work Work;
+typedef void (*Cb)(Work *p);
 
 typedef struct {
     union { /* +0x0 */
@@ -212,7 +213,7 @@ typedef struct {
     void *f40; /* +0x40 */
 } Ctx;
 
-typedef struct {
+struct Work {
     union { /* +0x0 */
         Args *args;
         Ctx *ctx;
@@ -433,11 +434,11 @@ typedef struct {
     IconRec *icons; /* +0xEB8 */
     union { /* +0xEBC */
         Cb once;
-        void (*vblank_fn)(void *);
+        void (*vblank_fn)(Work *);
     };
     union { /* +0xEC0 */
         Cb every;
-        void (*vblank)(void *);
+        void (*vblank)(Work *);
     };
     SPos pos_spos8[8]; /* +0xEC4 */
     u8 padEE4[0xEEC - 0xEE4];
@@ -485,6 +486,6 @@ typedef struct {
     u32 flag; /* +0x12FC */
     u8 pad1300[0x1328 - 0x1300];
     u32 done; /* +0x1328 */
-} Work;
+};
 
 #endif

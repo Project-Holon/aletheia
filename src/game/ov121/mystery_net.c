@@ -421,7 +421,7 @@ extern int func_02157E8C(void *a0);
 extern void func_02157E78(u8 *p);
 extern unsigned char func_02157E6C(char *p);
 extern void func_02156DE0(int,int);
-extern int func_021C5928(void (*callback)(int, int, int), char *gamecd, char *passwd);
+extern int func_021C5928(void (*callback)(int, int), char *gamecd, char *passwd);
 extern int func_021C5C04(char *,char *,char *);
 extern int func_021C5C38(void *,u32,u32);
 extern int func_021C5CFC(void *,char *,u32);
@@ -1135,7 +1135,7 @@ void func_021DE958(void *task,int *state,char *p)
         func_02082BCC(q,0,0x734);
         Q(0x70c)=0;Q(0x710)=0;Q(0x724)=0;Q(0x728)=(u32)(p+0x7a4);
         W(0x17a4)=0;
-        if(!func_021C5928((void (*)(int,int,int))func_021DEED8,d_021DFBD0,d_021DFBD8)) {
+        if(!func_021C5928(func_021DEED8,d_021DFBD0,d_021DFBD8)) {
             W(0x17a4)=2;*state=9;
         } else {Q(0x730)=1;func_021DEE14(q,state,1);}
         break;

@@ -56,8 +56,8 @@
  *   func_021E01E0 0x021E01E0 thumb
  *   func_021E01B0 0x021E01B0 thumb
  */
+#include "box2_types.h"
 #include "../../matched/include/Obj18462.h"
-#include "../../matched/include/Obj02502.h"
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
@@ -282,28 +282,28 @@ int func_021E0778(u8 *p)
     char *s=W(p)+0x58;
     short xy[2];
     int k;
-    switch(((struct Obj02502 *)s)->fC) {
+    switch(((BoxSeq *)s)->fC) {
     case 0:
         func_021ED544((char *)p,7);
-        (((struct Obj02502 *)s)->fC)++;
+        (((BoxSeq *)s)->fC)++;
     case 1:
-        if(((struct Obj02502 *)s)->fE==4) {
-            ((struct Obj02502 *)s)->fE=0;
-            (((struct Obj02502 *)s)->fC)++;
+        if(((BoxSeq *)s)->fE==4) {
+            ((BoxSeq *)s)->fE=0;
+            (((BoxSeq *)s)->fC)++;
             break;
         }
         func_021EC0B0(W(p),4,&xy[1],&xy[0],0);
         func_021EC08C(W(p),4,(short)xy[1],(short)(xy[0]+2),(short)0);
-        (((struct Obj02502 *)s)->fE)++;
+        (((BoxSeq *)s)->fE)++;
         break;
     case 2:
         func_020061E4(0x666);
         func_021ED544((char *)p,8);
-        (((struct Obj02502 *)s)->fC)++;
+        (((BoxSeq *)s)->fC)++;
     case 3:
-        if(((struct Obj02502 *)s)->fE==4) {
-            ((struct Obj02502 *)s)->fE=0;
-            ((struct Obj02502 *)s)->fC=0;
+        if(((BoxSeq *)s)->fE==4) {
+            ((BoxSeq *)s)->fE=0;
+            ((BoxSeq *)s)->fC=0;
             return 0;
         }
         func_021EC0B0(W(p),4,&xy[1],&xy[0],0);
@@ -312,7 +312,7 @@ int func_021E0778(u8 *p)
         func_021EC0B0(W(p),k,&xy[1],&xy[0],0);
         func_021EC08C(W(p),k,(short)xy[1],(short)(xy[0]-2),(short)0);
         func_021ED7C4(W(p),0x24);
-        (((struct Obj02502 *)s)->fE)++;
+        (((BoxSeq *)s)->fE)++;
         break;
     }
     return 1;

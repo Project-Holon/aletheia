@@ -24,7 +24,6 @@
  *   MIi_CpuCopy32  0x02082A90  arm
  *   g_02149BB4     0x02149BB4  data
  */
-#include "../../matched/include/Obj08939.h"
 
 struct Obj_02070D18;
 typedef unsigned char u8;
@@ -126,7 +125,7 @@ typedef short          s16_02071104;
 
 typedef int            s32_02071104;
 
-struct SRC_02070D18 {
+struct XformSrc {
     u8  pad_00[0x18];
     s32_02071104 f18;
     s32_02071104 f1c;
@@ -138,7 +137,7 @@ struct SRC_02070D18 {
     u16 f2e;
 };
 
-struct DST_02070D18 {
+struct XformDst {
     s32_02071104 f00;
     s32_02071104 f04;
     u8  pad_08[8];
@@ -161,36 +160,6 @@ typedef struct {
 typedef struct { fx32_020712A8 _00,_01,_02,_03,_10,_11,_12,_13,_20,_21,_22,_23,_30,_31,_32,_33; } MtxFx44;
 
 typedef int            s32;
-
-struct SRC_02071360 {
-    u8  pad_00[0x18];
-    s32 f18;
-    s32 f1c;
-    u8  pad_20[0xe];
-    u16 f2e;
-};
-
-struct DST_02071360 {
-    s32 f00;
-    s32 f04;
-    u8  pad_08[8];
-    s32 f10;
-    s32 f14;
-    u8  pad_18[0x18];
-    s32 f30;
-    s32 f34;
-};
-
-struct DST {
-    s32 f00;
-    s32 f04;
-    u8  pad_08[8];
-    s32 f10;
-    s32 f14;
-    u8  pad_18[0x18];
-    s32 f30;
-    s32 f34;
-};
 
 typedef void (*Fn)(int *out, struct Obj_02070D18 *o);
 
@@ -256,11 +225,11 @@ void func_02070DDC(struct Owner_02070D18 *oo, s32_02070D18 *src, struct Desc *d,
 void func_02070F2C(struct Dst *d, struct Src *s);
 void func_02071034(struct Dst71034 *d, struct Src71034 *s);
 void func_02071104(struct Mtx44 *m, const struct MatAnm *anm);
-void func_02071180(struct DST_02070D18 *d, struct SRC_02070D18 *s);
-void func_020711C8(struct DST_02070D18 *d, struct SRC_02070D18 *s);
+void func_02071180(struct XformDst *d, struct XformSrc *s);
+void func_020711C8(struct XformDst *d, struct XformSrc *s);
 void func_020712A8(MtxFx44 *m, const MatAnmResult *anm);
-void func_02071360(struct DST_02071360 *d, struct SRC_02071360 *s);
-void func_020713A4(struct DST *d);
+void func_02071360(struct XformDst *d, struct XformSrc *s);
+void func_020713A4(struct XformDst *d);
 void func_020713C8(struct Obj_02070D18 *o);
 void func_02071510(struct Obj_02071510 *o);
 void func_0207163C(struct Obj_0207163C *o, s32 *m, struct Idx *idx, u32 flags);
@@ -297,7 +266,7 @@ void func_02070D18(u8 *a)
     u32 f;
     u32 first;
 
-    f = ((struct Obj08939 *)a)->f0;
+    f = *(u32 *)a;
     first = 0;
     if ((f & 4) == 0)
         first = 1;
@@ -308,7 +277,7 @@ void func_02070D18(u8 *a)
         }
         func_0206DDA4(0x1b, a + 0x10, 3);
     }
-    f = ((struct Obj08939 *)a)->f0;
+    f = *(u32 *)a;
     if ((f & 2) == 0) {
         if (first != 0)
             func_0206DDA4(0x19, a + 0x28, 0xc);
@@ -318,7 +287,7 @@ void func_02070D18(u8 *a)
         if (first != 0)
             func_0206DDA4(0x1c, a + 0x4c, 3);
     }
-    f = ((struct Obj08939 *)a)->f0;
+    f = *(u32 *)a;
     if ((f & 1) == 0)
         func_0206DDA4(0x1b, a + 4, 3);
 }
@@ -572,7 +541,7 @@ void func_02071104(struct Mtx44 *m, const struct MatAnm *anm)
  * the same C is 72 bytes, 0 mismatches. Same stall as the 0x02072320
  * near miss recorded in docs/notes/pkt_02071DD4.c.txt.
  */
-void func_02071180(struct DST_02070D18 *d, struct SRC_02070D18 *s)
+void func_02071180(struct XformDst *d, struct XformSrc *s)
 {
     s32_02071104 t;
 
@@ -698,7 +667,7 @@ void func_02071180(struct DST_02070D18 *d, struct SRC_02070D18 *s)
  * SEPARATE statement (L-H): the image's `sub r0, r1, r0` at 0x02071280 and
  * `add r0, r0, #0x2000` at 0x02071284 are two instructions, not a folded one.
  */
-void func_020711C8(struct DST_02070D18 *d, struct SRC_02070D18 *s)
+void func_020711C8(struct XformDst *d, struct XformSrc *s)
 {
     s32_02071104 f12, e12;
     s32_02071104 a, b, p, r;
@@ -803,7 +772,7 @@ void func_020712A8(MtxFx44 *m, const MatAnmResult *anm)
  *   python tools/match.py one --src src/matched/func_02071360.c \
  *       --func func_02071360 --addr 0x02071360 --arm
  */
-void func_02071360(struct DST_02071360 *d, struct SRC_02071360 *s)
+void func_02071360(struct XformDst *d, struct XformSrc *s)
 {
     d->f00 = s->f18;
     d->f14 = s->f1c;
@@ -829,7 +798,7 @@ void func_02071360(struct DST_02071360 *d, struct SRC_02071360 *s)
  * in either order, and writing f14 immediately after f00, all keep the
  * zero-first schedule. Under the pin the same C is 36 bytes, 0 mismatches.
  */
-void func_020713A4(struct DST *d)
+void func_020713A4(struct XformDst *d)
 {
     d->f00 = 0x1000;
     d->f04 = 0;

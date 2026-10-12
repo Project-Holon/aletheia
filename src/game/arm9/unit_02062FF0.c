@@ -15,7 +15,7 @@
  * symbols:
  *   func_02062F90  0x02062F90  arm
  */
-#include "../../matched/include/Obj00800.h"
+#include "cell_anim_types.h"
 
 struct NNSG2dAnimController;
 typedef unsigned char  u8;
@@ -25,31 +25,6 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 typedef signed int     s32;
-
-struct CellAnim_02062FF0 {
-    u8 pad00[0x1C];
-    void *bank;
-};
-
-struct CellAnim_02063018 {
-    u8 pad00[0x20];
-    u32 unk20;
-    u32 unk24;
-    u32 unk28;
-    u16 unk2C;
-};
-
-struct CellBank {
-    u32 unk00;
-    u32 unk04;
-    u32 attr;
-};
-
-struct CellAnim_02063030 {
-    u8 pad00[0x18];
-    u32 attrOverride;
-    struct CellBank *bank;
-};
 
 extern void func_02062F90(struct NNSG2dAnimController *pAnimCtrl);
 void func_02063000(int p0, int p1, int p2, int p3);
@@ -63,14 +38,21 @@ void func_02063000(int p0, int p1, int p2, int p3);
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02062FF0.c  *       --func func_02062FF0 --addr 0x02062FF0 --cc 1.1p1
  */
-void func_02062FF0(struct CellAnim_02062FF0 *anim, void *bank)
+void func_02062FF0(struct CellAnim *anim, void *bank)
 {
     anim->bank = bank;
     func_02062F90((struct NNSG2dAnimController *)anim);
 }
 
 
-void func_02063000(int p0, int p1, int p2, int p3){ *(int *)&((struct Obj00800 *)p0)->f28 = (int)p3; *(int *)&((struct Obj00800 *)p0)->f24 = (int)p2; *(int *)&((struct Obj00800 *)p0)->f20 = (int)p1; ((struct Obj00800 *)p0)->f2C = (unsigned short)0; }
+/* stand-in: p0 must be an int cast to the struct; a CellAnim * parameter changes the bytes */
+void func_02063000(int p0, int p1, int p2, int p3)
+{
+    ((struct CellAnim *)p0)->unk28 = (int)p3;
+    ((struct CellAnim *)p0)->unk24 = (int)p2;
+    ((struct CellAnim *)p0)->unk20 = (int)p1;
+    ((struct CellAnim *)p0)->unk2C = (unsigned short)0;
+}
 
 
 /*
@@ -81,7 +63,7 @@ void func_02063000(int p0, int p1, int p2, int p3){ *(int *)&((struct Obj00800 *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02063018.c  *       --func func_02063018 --addr 0x02063018 --cc 1.1p1
  */
-void func_02063018(struct CellAnim_02063018 *anim, u32 a, u32 b, u16 tag)
+void func_02063018(struct CellAnim *anim, u32 a, u32 b, u16 tag)
 {
     anim->unk20 = 2;
     anim->unk28 = b;
@@ -100,7 +82,7 @@ void func_02063018(struct CellAnim_02063018 *anim, u32 a, u32 b, u16 tag)
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02063030.c  *       --func func_02063030 --addr 0x02063030 --cc 1.1p1
  */
-s32 func_02063030(struct CellAnim_02063030 *anim)
+s32 func_02063030(struct CellAnim *anim)
 {
     u32 attr = anim->attrOverride;
 

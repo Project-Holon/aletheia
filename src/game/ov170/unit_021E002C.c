@@ -29,9 +29,7 @@
  *   func_021EF5C4 0x021EF5C4 thumb
  *   func_021EF6E0 0x021EF6E0 thumb ov170
  */
-#include "../../matched/include/Obj00000.h"
-#include "../../matched/include/Obj08232.h"
-#include "../../matched/include/Obj08233.h"
+#include "box2_types.h"
 #include "../../matched/include/Obj23868.h"
 #include "../../matched/include/Obj23869.h"
 #include "../../matched/include/Obj23870.h"
@@ -75,7 +73,7 @@ int func_021E0128(char *p);
 int func_021E0190(char *p);
 int func_021E01A8(char *p);
 
-int func_021E002C(u8 *p){char *s;s=*(char * *)&((struct Obj00000 *)p)->f2C+0x58;switch(((struct Obj08232 *)s)->fC){case 0:func_021DE5F8(p,p[0x16]);(((struct Obj08232 *)s)->fC)++;case 1:if(func_021DD930(p)==0){func_021DE66C((char *)p,*(Entry * *)&((struct Obj08232 *)s)->f8);((struct Obj08232 *)s)->fC=0;return 0;}break;}return 1;}
+int func_021E002C(u8 *p){char *s;s=*(char * *)&((BoxTask *)p)->f2C+0x58;switch(((BoxSeq *)s)->fC){case 0:func_021DE5F8(p,p[0x16]);(((BoxSeq *)s)->fC)++;case 1:if(func_021DD930(p)==0){func_021DE66C((char *)p,*(Entry * *)&((BoxSeq *)s)->f8);((BoxSeq *)s)->fC=0;return 0;}break;}return 1;}
 
 /*
  * lever: bind the full party-count-plus-30 expression to an int local.
@@ -84,19 +82,19 @@ int func_021E0068(char *p)
 {
     char *s;
     int count;
-    s = *(char * *)&((struct Obj00000 *)p)->f2C + 0x58;
-    switch (((struct Obj08233 *)s)->fC) {
+    s = *(char * *)&((BoxTask *)p)->f2C + 0x58;
+    switch (((BoxSeq *)s)->fC) {
     case 0:
         count = func_0201AA18((*(void *** )p)[2]) + 30;
-        func_021DE158((unsigned char *)p, ((struct Obj00000 *)p)->f16, count);
+        func_021DE158((unsigned char *)p, ((BoxTask *)p)->f16, count);
         func_021ED6E4((char **)p, 0);
-        (((struct Obj08233 *)s)->fC)++;
+        (((BoxSeq *)s)->fC)++;
         break;
     case 1:
         if (func_021DD930((unsigned char *)p) == 0) {
-            func_021DE66C(p, ((struct Obj08233 *)s)->f8);
+            func_021DE66C(p, ((BoxSeq *)s)->f8);
             func_020061E4(0x667);
-            ((struct Obj08233 *)s)->fC = 0;
+            ((BoxSeq *)s)->fC = 0;
             return 0;
         }
         break;
@@ -107,36 +105,36 @@ int func_021E0068(char *p)
 
 int func_021E00C4(char *p)
 {
-    if (((struct Obj23868 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f66 == 0x17) {
+    if (((struct Obj23868 *)(*(char * *)&((BoxTask *)p)->f2C))->f66 == 0x17) {
         func_021ED55C((char **)p, 1);
-        if (func_021EF770(*(struct WinMgr * *)&((struct Obj23869 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74) == 1)
+        if (func_021EF770(*(struct WinMgr * *)&((struct Obj23869 *)(*(char * *)&((BoxTask *)p)->f2C))->f74) == 1)
             func_021EDF5C((unsigned char *)p);
-        ((struct Obj23870 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f66 = 0;
+        ((struct Obj23870 *)(*(char * *)&((BoxTask *)p)->f2C))->f66 = 0;
         return 0;
     }
     func_02041EE4(3, 2, 8);
     func_021EC804((char **)p, 8);
-    func_021EE26C(*(char * *)&((struct Obj00000 *)p)->f2C, 8);
-    func_021EF5C4(*(struct WinMgr * *)&((struct Obj23871 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74);
-    (((struct Obj23872 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f66)++;
+    func_021EE26C(*(char * *)&((BoxTask *)p)->f2C, 8);
+    func_021EF5C4(*(struct WinMgr * *)&((struct Obj23871 *)(*(char * *)&((BoxTask *)p)->f2C))->f74);
+    (((struct Obj23872 *)(*(char * *)&((BoxTask *)p)->f2C))->f66)++;
     return 1;
 }
 
 
 int func_021E0128(char *p)
 {
-    if (((struct Obj23873 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f66 == 0x17) {
+    if (((struct Obj23873 *)(*(char * *)&((BoxTask *)p)->f2C))->f66 == 0x17) {
         func_021ED55C((char **)p, 1);
-        if (func_021EF770(*(struct WinMgr * *)&((struct Obj23874 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74) == 1)
+        if (func_021EF770(*(struct WinMgr * *)&((struct Obj23874 *)(*(char * *)&((BoxTask *)p)->f2C))->f74) == 1)
             func_021EDF5C((unsigned char *)p);
-        ((struct Obj23875 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f66 = 0;
+        ((struct Obj23875 *)(*(char * *)&((BoxTask *)p)->f2C))->f66 = 0;
         return 0;
     }
     func_02041EE4(3, 1, 8);
     func_021EC804((char **)p, -8);
-    func_021EE26C(*(char * *)&((struct Obj00000 *)p)->f2C, -8);
-    func_021EF5C4(*(struct WinMgr * *)&((struct Obj23876 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74);
-    (((struct Obj23877 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f66)++;
+    func_021EE26C(*(char * *)&((BoxTask *)p)->f2C, -8);
+    func_021EF5C4(*(struct WinMgr * *)&((struct Obj23876 *)(*(char * *)&((BoxTask *)p)->f2C))->f74);
+    (((struct Obj23877 *)(*(char * *)&((BoxTask *)p)->f2C))->f66)++;
     return 1;
 }
 

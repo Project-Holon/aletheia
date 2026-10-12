@@ -51,24 +51,7 @@
  *   func_02702364  0x02702364  arm
  *   func_027023CC  0x027023CC  arm
  *   d_021C88E4 0x021C88E4 data a4 ov172
- *   g_021C88E4  0x021C88E4  data  ov172
  */
-#include "../../matched/include/Obj00917.h"
-#include "../../matched/include/Obj01264.h"
-#include "../../matched/include/Obj01559.h"
-#include "../../matched/include/Obj02504.h"
-#include "../../matched/include/Obj14292.h"
-#include "../../matched/include/Obj03311.h"
-#include "../../matched/include/Obj02879.h"
-#include "../../matched/include/Obj14293.h"
-#include "../../matched/include/Obj08253.h"
-#include "../../matched/include/Obj24060.h"
-#include "../../matched/include/Obj24061.h"
-#include "../../matched/include/Obj24062.h"
-#include "../../matched/include/Obj08254.h"
-#include "../../matched/include/Obj24063.h"
-#include "../../matched/include/Obj24064.h"
-#include "../../matched/include/Obj14294.h"
 
 typedef unsigned short u16;
 
@@ -78,8 +61,39 @@ typedef unsigned char u8;
 
 typedef signed int     s32;
 
+typedef struct Camera {
+    u16 heapId;
+    u8 pad2[2];
+    void **frames;
+    u8 frameCount;
+    u8 pad9[3];
+    u32 allocated;
+    u32 f10;
+    u32 f14;
+    u8 frameIndex;
+    u8 pad19[3];
+    u32 f1C;
+    u32 f20;
+    u32 f24;
+    u32 f28;
+    u32 f2C;
+    u32 f30;
+    u16 x0;
+    u16 x1;
+    u16 y0;
+    u16 y1;
+    void (*frameCb)(u32, u32);
+    u32 f40;
+    u8 state;
+    u8 pad45[3];
+    void *buf;
+    u32 bufSize;
+} Camera;
+
 struct D021C88E4 {
-    u8 pad0[4];
+    u16 h0;
+    u8 b2;
+    u8 pad3;
     u16 h4;
     u8 b6;
 };
@@ -121,7 +135,7 @@ extern u32 func_02700FE4(u32 a, u32 b, u32 c);
 void func_027062C8(void);
 u32 func_0270234C(u32 a0);
 void func_0272FE54(u32 a0, u32 a1, u32 a2, u32 a3, int s0, void (*s1)(void), int s2);
-void func_02706174(int, int);
+void func_02706174(void *, int);
 void func_0270212C(void);
 void func_027021E4(void);
 void func_02702108(void);
@@ -131,44 +145,44 @@ void func_02702158(int);
 int func_027022F8(u32, u32);
 void func_0270229C(int);
 int func_02702364(u32 v);
-int func_027023CC(void *v);
-char *func_021B6100(int id);
-void func_021B6338(char *p);
-void func_021B63B8(char *p);
-void func_021B644C(char *p);
-void func_021B64AC(char *p);
-void func_021B657C(char *obj, int mode);
-void func_021B65C4(void *p);
+int func_027023CC(u32 v);
+Camera *func_021B6100(int id);
+void func_021B6338(Camera *p);
+void func_021B63B8(Camera *p);
+void func_021B644C(Camera *p);
+void func_021B64AC(Camera *p);
+void func_021B657C(Camera *obj, int mode);
+void func_021B65C4(Camera *p);
 void func_021B65D8(void);
 void func_021B6620(int x);
 void func_021B662C(void);
 void func_021B66B0(void);
-void func_021B6744(void *p, u32 a, u32 b);
-void func_021B674C(char *p, int count, u16 heap);
-void func_021B67BC(char *p);
-void func_021B6814(void *a0);
-void func_021B6868(char *p);
-int func_021B688C(void *p);
-void func_021B68A0(char *p);
-u16 func_021B6938(void *p);
-u16 func_021B6944(void *p);
-void func_021B6950(char *p, int v);
-int func_021B697C(void *p);
-int func_021B699C(void *p);
-void func_021B69BC(void *p, u32 v);
-void func_021B69D0(void *p);
-void func_021B69D8(void *p);
+void func_021B6744(Camera *p, void (*a)(u32, u32), u32 b);
+void func_021B674C(Camera *p, int count, u16 heap);
+void func_021B67BC(Camera *p);
+void func_021B6814(Camera *a0);
+void func_021B6868(Camera *p);
+int func_021B688C(Camera *p);
+void func_021B68A0(Camera *p);
+u16 func_021B6938(Camera *p);
+u16 func_021B6944(Camera *p);
+void func_021B6950(Camera *p, int v);
+int func_021B697C(Camera *p);
+int func_021B699C(Camera *p);
+void func_021B69BC(Camera *p, u32 v);
+void func_021B69D0(Camera *p);
+void func_021B69D8(Camera *p);
 void func_021B69E0(void);
 void func_021B69F0(void);
 extern const char d_021C71C0[];
-extern char *g_021C88E0;
+extern Camera *g_021C88E0;
 extern struct D021C88E4 d_021C88E4;
 
 
 
-char *func_021B6100(int id)
+Camera *func_021B6100(int id)
 {
-    char *p;
+    Camera *p;
     int r;
     int z;
     char buf[0x48];
@@ -176,20 +190,20 @@ char *func_021B6100(int id)
     z = 0;
     p = func_02030734(id, 0x50, 0, d_021C71C0, 0x6F);
     g_021C88E0 = p;
-    ((struct Obj00917 *)p)->f0 = id;
-    ((struct Obj00917 *)p)->f4 = z;
-    ((struct Obj00917 *)p)->f18 = z;
-    ((struct Obj00917 *)p)->f8 = z;
-    ((struct Obj00917 *)p)->fC = z;
-    ((struct Obj00917 *)p)->f10 = z;
-    ((struct Obj00917 *)p)->f14 = z;
-    ((struct Obj00917 *)p)->f2C = 1;
-    ((struct Obj00917 *)p)->f30 = 5;
-    ((struct Obj00917 *)p)->f1C = z;
-    ((struct Obj00917 *)p)->f20 = z;
-    ((struct Obj00917 *)p)->f24 = z;
-    ((struct Obj00917 *)p)->f3C = z;
-    ((struct Obj00917 *)p)->f40 = z;
+    p->heapId = id;
+    p->frames = 0;
+    p->frameIndex = z;
+    p->frameCount = z;
+    p->allocated = z;
+    p->f10 = z;
+    p->f14 = z;
+    p->f2C = 1;
+    p->f30 = 5;
+    p->f1C = z;
+    p->f20 = z;
+    p->f24 = z;
+    p->frameCb = 0;
+    p->f40 = z;
     func_02034F84(0x40);
     if (func_02085D3C() == 1) {
         r = func_02700938();
@@ -199,26 +213,26 @@ char *func_021B6100(int id)
     }
     if (r == 7) func_02088234();
     if (r == 6) return 0;
-    r = ((struct Obj00917 *)p)->f2C;
+    r = p->f2C;
     if (func_02085D3C() == 1) func_02701248(r, 3, 0);
-    r = ((struct Obj00917 *)p)->f2C;
+    r = p->f2C;
     if (func_02085D3C() == 1) func_027017DC(r, 1);
-    r = ((struct Obj00917 *)p)->f2C;
+    r = p->f2C;
     if (func_02085D3C() == 1) func_02701908(r, 1);
-    r = ((struct Obj00917 *)p)->f2C;
+    r = p->f2C;
     if (func_02085D3C() == 1) r = func_02700DB8(r);
     else r = 7;
     if (r == 7) func_02088234();
     if (r == 6) return 0;
-    ((struct Obj00917 *)p)->f28 = 0;
+    p->f28 = 0;
     func_02084968(0x20000000);
     if (func_02085D3C() == 1) func_027000F8((void *)func_021B662C);
     if (func_02085D3C() == 1) func_02700108((void *)func_021B65D8);
     if (func_02085D3C() == 1) func_02700118((void *)func_021B6620);
     func_021B68A0(p);
     if (func_02085D3C() == 1) func_0270218C(1);
-    ((struct Obj00917 *)p)->f48 = 0;
-    ((struct Obj00917 *)p)->f44 = 0;
+    p->buf = 0;
+    p->state = 0;
     func_02730B04(1, 0);
     func_02730FBC(1, 0);
     func_02730FBC(1, 1);
@@ -235,7 +249,7 @@ char *func_021B6100(int id)
 
 
 
-void func_021B6338(char *p)
+void func_021B6338(Camera *p)
 {
     int result;
     /* stand-in: the goto into the loop body gives the original block order; while/for forms differ */
@@ -255,7 +269,7 @@ test:
 
 
 
-void func_021B63B8(char *p)
+void func_021B63B8(Camera *p)
 {
     func_020351F8(0, 0);
     if (func_02085D3C() != 0) func_027062C8();
@@ -273,55 +287,55 @@ void func_021B63B8(char *p)
 
 
 
-void func_021B644C(char *p)
+void func_021B644C(Camera *p)
 {
     u32 width = func_021B6938(p);
     u32 height = func_021B6944(p);
     u32 offset = func_02085D3C() == 1 ? func_0270234C(width) : 0;
     width *= 2;
-    func_0272FE54(1, (*(u32 **)(p + 4))[((struct Obj01264 *)p)->f18], offset >> 2,
+    func_0272FE54(1, (u32)p->frames[p->frameIndex], offset >> 2,
                  width * height, 0, func_021B66B0, 0);
 }
 
 
 
 
-void func_021B64AC(char *p)
+void func_021B64AC(Camera *p)
 {
-    int b;
+    void *b;
     int a;
-    int d;
+    void *d;
     int c;
     int r;
-    switch (((struct Obj01559 *)p)->f44) {
+    switch (p->state) {
     case 1:
         func_021B657C(p, 1);
-        a = *(int *)&((struct Obj01559 *)p)->f4C;
-        b = *(int *)&((struct Obj01559 *)p)->f48;
+        a = p->bufSize;
+        b = p->buf;
         if (func_02085D3C() != 0) func_02706174(b, a);
-        ((struct Obj01559 *)p)->f44 = 2;
+        p->state = 2;
         break;
     case 2:
         r = 0;
         if (func_02085D3C() != 0) r = func_02706324();
         if (r == 0) {
             func_021B65C4(p);
-            ((struct Obj01559 *)p)->f44 = 3;
+            p->state = 3;
         }
         break;
     case 4:
         func_021B657C(p, 0);
-        c = *(int *)&((struct Obj01559 *)p)->f4C;
-        d = *(int *)&((struct Obj01559 *)p)->f48;
+        c = p->bufSize;
+        d = p->buf;
         if (func_02085D3C() != 0) func_02706174(d, c);
-        ((struct Obj01559 *)p)->f44 = 5;
+        p->state = 5;
         break;
     case 5:
         r = 0;
         if (func_02085D3C() != 0) r = func_02706324();
         if (r == 0) {
             func_021B65C4(p);
-            ((struct Obj01559 *)p)->f44 = 6;
+            p->state = 6;
         }
         break;
     case 0:
@@ -334,19 +348,19 @@ void func_021B64AC(char *p)
 
 
 
-void func_021B657C(char *obj, int mode)
+void func_021B657C(Camera *obj, int mode)
 {
-    char *p = obj;
+    Camera *p = obj;
     int which = 0;
     u32 size;
     if (mode != 1) which = 1;
     func_021B65C4(p);
     which = (u16)which;
     size = func_020490A8(0xD4, which);
-    ((struct Obj01559 *)p)->f4C = size;
-    ((struct Obj01559 *)p)->f48 = func_0203D7C8(((struct Obj01559 *)p)->f0, size, d_021C71C0, 0x13B);
-    func_02048F4C(((struct Obj01559 *)p)->f48, 0xD4, which);
-    func_020862F0(((struct Obj01559 *)p)->f48, ((struct Obj01559 *)p)->f4C);
+    p->bufSize = size;
+    p->buf = func_0203D7C8(p->heapId, size, d_021C71C0, 0x13B);
+    func_02048F4C(p->buf, 0xD4, which);
+    func_020862F0(p->buf, p->bufSize);
 }
 
 
@@ -356,12 +370,12 @@ void func_021B657C(char *obj, int mode)
  *
  * Addresses are Black-image addresses.
  */
-void func_021B65C4(void *p)
+void func_021B65C4(Camera *p)
 {
-    u32 v = ((struct Obj02504 *)p)->f48;
+    void *v = p->buf;
     if (v != 0) {
-        func_0203D7FC((void *)v);
-        ((struct Obj02504 *)p)->f48 = 0;
+        func_0203D7FC(v);
+        p->buf = 0;
     }
 }
 
@@ -369,15 +383,15 @@ void func_021B65C4(void *p)
 
 void func_021B65D8(void)
 {
-    u32 *p = (u32 *)g_021C88E0;
+    Camera *p = g_021C88E0;
 
     if (func_02085D3C() == 1)
         func_0270212C();
     func_0272FCE0(1);
     if (func_02085D3C() == 1)
         func_027021E4();
-    ((struct Obj14292 *)p)->f24 = 1;
-    ((struct Obj14292 *)p)->f1C = 1;
+    p->f24 = 1;
+    p->f1C = 1;
 }
 
 
@@ -398,22 +412,22 @@ void func_021B6620(int x)
 
 void func_021B662C(void)
 {
-    char *p = g_021C88E0;
+    Camera *p = g_021C88E0;
     u32 v;
-    if (((struct Obj03311 *)p)->f10 != 0) {
-        if (((struct Obj03311 *)p)->f28 <= 30) ++((struct Obj03311 *)p)->f28;
-        if (((struct Obj03311 *)p)->f20 != 0) {
-            v = ((struct Obj03311 *)p)->f2C;
+    if (p->f10 != 0) {
+        if (p->f28 <= 30) ++p->f28;
+        if (p->f20 != 0) {
+            v = p->f2C;
             if ((func_02085D3C() == 1 ? func_02700DB8(v) : 7) == 7)
                 func_02088234();
-            ((struct Obj03311 *)p)->f28 = 0;
-            ((struct Obj03311 *)p)->f20 = 0;
+            p->f28 = 0;
+            p->f20 = 0;
         }
-        if (((struct Obj03311 *)p)->f1C != 0) {
+        if (p->f1C != 0) {
             func_021B644C(p);
             if (func_02085D3C() == 1) func_027021E4();
             if (func_02085D3C() == 1) func_02702108();
-            ((struct Obj03311 *)p)->f1C = 0;
+            p->f1C = 0;
         }
     }
 }
@@ -422,88 +436,88 @@ void func_021B662C(void)
 
 void func_021B66B0(void)
 {
-    char *p = g_021C88E0;
+    Camera *p = g_021C88E0;
     int one;
     func_0272FCE0(1);
     if ((func_02085D3C() == 1 ? func_027020F0() : 0) == 1) {
         one = 1;
         if (func_0272FC90(one) != 0) func_0272FCE0(one);
-        if (((struct Obj02879 *)p)->f24 != 0) {
-            ((struct Obj02879 *)p)->f24 = 0;
-        } else if (((struct Obj02879 *)p)->f28 > 4) {
-            if (*(void (**)(u32, u32))(p + 0x3C) != 0)
-                (*(void (**)(u32, u32))(p + 0x3C))((*(u32 **)(p + 4))[((struct Obj02879 *)p)->f18], ((struct Obj02879 *)p)->f40);
-            ((struct Obj02879 *)p)->f18 = (((struct Obj02879 *)p)->f18 + 1) % ((struct Obj02879 *)p)->f8;
+        if (p->f24 != 0) {
+            p->f24 = 0;
+        } else if (p->f28 > 4) {
+            if (p->frameCb != 0)
+                p->frameCb((u32)p->frames[p->frameIndex], p->f40);
+            p->frameIndex = (p->frameIndex + 1) % p->frameCount;
         }
-        if (((struct Obj02879 *)p)->f10 == 1) func_021B644C(p);
+        if (p->f10 == 1) func_021B644C(p);
     }
 }
 
 
 
-void func_021B6744(void *p, u32 a, u32 b)
+void func_021B6744(Camera *p, void (*a)(u32, u32), u32 b)
 {
-    ((struct Obj14293 *)p)->f3C = a;
-    ((struct Obj14293 *)p)->f40 = b;
+    p->frameCb = a;
+    p->f40 = b;
 }
 
 
 
-void func_021B674C(char *p, int count, u16 heap)
+void func_021B674C(Camera *p, int count, u16 heap)
 {
     u32 width = func_021B6938(p);
     u32 height = func_021B6944(p);
     u8 i;
-    if (*(u32 *)&((struct Obj01264 *)p)->f4 == 0) {
-        ((struct Obj01264 *)p)->f4 = func_02030734(((struct Obj01264 *)p)->f0, count * 4, 0, d_021C71C0, 0x1D7);
-        ((struct Obj01264 *)p)->f8 = count;
+    if (p->frames == 0) {
+        p->frames = func_02030734(p->heapId, count * 4, 0, d_021C71C0, 0x1D7);
+        p->frameCount = count;
         for (i = 0; i < count; i++)
-            (*(void ***)(p + 4))[i] = func_0203D7C8(heap, height * (width * 2), d_021C71C0, 0x1DC);
-        ((struct Obj01264 *)p)->fC = 1;
+            p->frames[i] = func_0203D7C8(heap, height * (width * 2), d_021C71C0, 0x1DC);
+        p->allocated = 1;
     }
 }
 
 
 
-void func_021B67BC(char *p)
+void func_021B67BC(Camera *p)
 {
     u8 i;
-    if (((struct Obj02504 *)p)->f10 != 0) return;
+    if (p->f10 != 0) return;
     if ((func_02085D3C() == 1 ? func_027020F0() : 0) != 0) return;
-    if (((struct Obj02504 *)p)->fC == 1) {
-        for (i = 0; i < ((struct Obj02504 *)p)->f8; i++)
-            func_0203D7FC((void *)(*(u32 **)(p + 4))[i]);
+    if (p->allocated == 1) {
+        for (i = 0; i < p->frameCount; i++)
+            func_0203D7FC(p->frames[i]);
     }
-    func_020307B0(((struct Obj02504 *)p)->f4);
-    ((struct Obj02504 *)p)->f8 = 0;
-    *(u32 *)&((struct Obj02504 *)p)->f4 = 0;
+    func_020307B0(p->frames);
+    p->frameCount = 0;
+    p->frames = 0;
 }
 
 
 
-void func_021B6814(void *a0)
+void func_021B6814(Camera *a0)
 {
-    char *p = (char *)a0;
+    Camera *p = a0;
     int one = 1;
 
-    if (((struct Obj08253 *)p)->f10 != 0)
+    if (p->f10 != 0)
         return;
     if ((func_02085D3C() == 1 ? func_027020F0() : 0) != 0)
         return;
     if (func_0272FC90(one) == 1)
         func_0272FCE0(one);
-    ((struct Obj08253 *)p)->f10 = one;
-    ((struct Obj08253 *)p)->f1C = one;
-    ((struct Obj08253 *)p)->f28 = 0;
+    p->f10 = one;
+    p->f1C = one;
+    p->f28 = 0;
 }
 
 
 
-void func_021B6868(char *p)
+void func_021B6868(Camera *p)
 {
-    if (((struct Obj02504 *)p)->f10 == 1) {
-        ((struct Obj02504 *)p)->f10 = 0;
-        ((struct Obj02504 *)p)->f1C = 0;
+    if (p->f10 == 1) {
+        p->f10 = 0;
+        p->f1C = 0;
         if (func_02085D3C() == 1) {
             func_0270212C();
         }
@@ -512,39 +526,39 @@ void func_021B6868(char *p)
 
 
 
-int func_021B688C(void *p)
+int func_021B688C(Camera *p)
 {
-    u8 v = ((struct Obj24060 *)p)->f44;
+    u8 v = p->state;
     return v == 6 || v == 0;
 }
 
 
 
-void func_021B68A0(char *p)
+void func_021B68A0(Camera *p)
 {
     int result;
     u32 width;
     u32 height;
-    if (((struct Obj01264 *)p)->f10 != 0) return;
+    if (p->f10 != 0) return;
     if ((func_02085D3C() == 1 ? func_027020F0() : 0) != 0) return;
     if (func_02085D3C() == 1) func_02702158(0);
     result = 0;
-    ((struct Obj01264 *)p)->f34 = 0;
-    ((struct Obj01264 *)p)->f36 = func_021B697C(p);
-    ((struct Obj01264 *)p)->f38 = 0;
-    ((struct Obj01264 *)p)->f3A = func_021B699C(p);
+    p->x0 = 0;
+    p->x1 = func_021B697C(p);
+    p->y0 = 0;
+    p->y1 = func_021B699C(p);
     width = func_021B6938(p);
     height = func_021B6944(p);
     if (func_02085D3C() == 1) result = func_027022F8(width, height);
     if (func_02085D3C() == 1) func_0270229C(result);
-    ((struct Obj01264 *)p)->f14 = 0;
+    p->f14 = 0;
 }
 
 
 
-u16 func_021B6938(void *p)
+u16 func_021B6938(Camera *p)
 {
-    return (u16)(((struct Obj01264 *)p)->f36 - ((struct Obj01264 *)p)->f34);
+    return (u16)(p->x1 - p->x0);
 }
 
 
@@ -554,17 +568,17 @@ u16 func_021B6938(void *p)
  *
  * Addresses are Black-image addresses.
  */
-u16 func_021B6944(void *p)
+u16 func_021B6944(Camera *p)
 {
-    return (u16)(((struct Obj01264 *)p)->f3A - ((struct Obj01264 *)p)->f38);
+    return (u16)(p->y1 - p->y0);
 }
 
 
 
-void func_021B6950(char *p, int v)
+void func_021B6950(Camera *p, int v)
 {
     if (func_02085D3C() == 1) func_02700FE4(3, 3, v);
-    ((struct Obj01264 *)p)->f30 = v;
+    p->f30 = v;
     func_021B68A0(p);
 }
 
@@ -575,9 +589,9 @@ void func_021B6950(char *p, int v)
  *
  * Addresses are Black-image addresses.
  */
-int func_021B697C(void *p)
+int func_021B697C(Camera *p)
 {
-    u32 f = ((struct Obj24061 *)p)->f30;
+    u32 f = p->f30;
     if (func_02085D3C() == 1) {
         return func_02702364(f);
     }
@@ -586,9 +600,9 @@ int func_021B697C(void *p)
 
 
 
-int func_021B699C(void *p)
+int func_021B699C(Camera *p)
 {
-    void *v = ((struct Obj24062 *)p)->f30;
+    u32 v = p->f30;
     if (func_02085D3C() == 1) {
         return func_027023CC(v);
     }
@@ -597,30 +611,30 @@ int func_021B699C(void *p)
 
 
 
-void func_021B69BC(void *p, u32 v)
+void func_021B69BC(Camera *p, u32 v)
 {
-    if (((struct Obj08254 *)p)->f2C == v) {
+    if (p->f2C == v) {
         return;
     }
-    if (((struct Obj08254 *)p)->f20 != 0) {
+    if (p->f20 != 0) {
         return;
     }
-    ((struct Obj08254 *)p)->f2C = v;
-    ((struct Obj08254 *)p)->f20 = 1;
+    p->f2C = v;
+    p->f20 = 1;
 }
 
 
 
-void func_021B69D0(void *p)
+void func_021B69D0(Camera *p)
 {
-    ((struct Obj24063 *)p)->f44 = 1;
+    p->state = 1;
 }
 
 
 
-void func_021B69D8(void *p)
+void func_021B69D8(Camera *p)
 {
-    ((struct Obj24064 *)p)->f44 = 4;
+    p->state = 4;
 }
 
 
@@ -644,7 +658,6 @@ void func_021B69E0(void)
  */
 void func_021B69F0(void)
 {
-    u8 *p = (u8 *)0x021C88E4;
-    ((struct Obj14294 *)p)->f0 = 0;
-    ((struct Obj14294 *)p)->f2 = 0;
+    d_021C88E4.h0 = 0;
+    d_021C88E4.b2 = 0;
 }

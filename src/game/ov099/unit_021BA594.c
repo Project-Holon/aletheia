@@ -30,7 +30,7 @@
  *   sub_0203A5E4  0x0203A5E4  arm
  *   data_021C28F0  0x021C28F0  data  a4
  */
-#include "../../matched/include/Obj13682.h"
+#include "work_types.h"
 #include "../../matched/include/Obj06351.h"
 #include "../../matched/include/Obj22018.h"
 #include "../../matched/include/Obj18161.h"
@@ -171,7 +171,7 @@ void func_021BA594(char *p, int a, int b, int c)
     s.a = a;
     s.b = b;
     s.c = c;
-    func_021C5F44(((struct Obj13682 *)p)->f59C, &s);
+    func_021C5F44((void *)((Ov099Work *)p)->f59C, &s);
 }
 
 

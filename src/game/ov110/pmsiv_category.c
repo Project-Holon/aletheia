@@ -137,83 +137,15 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef signed short s16_021BB3F4;
-
-typedef short s16_021BB4F4;
-
-typedef short s16_021BB61C;
-
 typedef struct { int a,b,c; } Triple;
 
-typedef signed short s16_021BB6A0;
-
-typedef struct { s16_021BB6A0 x, y; } Vec2_021BB280;
-
-typedef short s16_021BB76C;
-
-typedef short s16_021BB784;
-
-typedef short s16_021BB7A0;
-
-typedef short s16_021BB814;
-
-typedef short s16_021BB838;
-
-typedef unsigned int u32_021BB838;
-
-typedef short s16_021BB854;
-
-typedef unsigned int u32_021BB854;
-
-typedef unsigned int   u32_021BB870;
-
-typedef short s16_021BB8B8;
-
-typedef unsigned int u32_021BB8B8;
-
-typedef unsigned int   u32_021BB8D8;
-
-typedef short s16_021BB954;
+typedef struct { short x, y; } Vec2_021BB280;
 
 typedef signed char s8;
 
-typedef unsigned int u32_021BB954;
-
 typedef int s32;
 
-typedef unsigned int u32_021BB958;
-
-typedef signed short   s16_021BB958;
-
-typedef short s16_021BB9C0;
-
-typedef unsigned int u32_021BB9C0;
-
-typedef short s16_021BB9E8;
-
-typedef unsigned int u32_021BB9E8;
-
-typedef short s16_021BBA10;
-
-typedef unsigned u32_021BBA10;
-
-typedef unsigned int   u32_021BBB0C;
-
-typedef signed short s16_021BBB84;
-
-typedef struct { s16_021BBB84 x, y; } Vec2_021BB82C;
-
-typedef unsigned int   u32_021BBB84;
-
-typedef unsigned int   u32_021BBC10;
-
-typedef unsigned int u32_021BBC5C;
-
-typedef unsigned int   u32_021BBCF0;
-
-typedef unsigned u32_021BBD60;
-
-typedef short s16_021BBD60;
+typedef struct { short x, y; } Vec2_021BB82C;
 
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u8 *func_021BF6D4(u8 *);
@@ -234,7 +166,7 @@ extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void func_0201C7A4(void *, s16_021BB3F4, s16_021BB3F4, void *, void *);
+extern void func_0201C7A4(void *, short, short, void *, void *);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045808(struct U16Vec *vec);
@@ -259,23 +191,23 @@ extern void func_021BC868(u8 *p, int a, int b, int start, int end, int frames);
 extern int func_021BC898(u8 *p);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(void *, int, int, int, int);
-extern void func_02041EE4(u32_021BB8B8,u32_021BB8B8,u32_021BB8B8);
+extern void func_02041EE4(u32,u32,u32);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32_021BB8D8 func_020499D4(void *a0, u32_021BB8D8 a1, u32_021BB8D8 a2, u32_021BB8D8 a3, u32_021BB8D8 a4, u32_021BB8D8 a5, u32_021BB8D8 a6, u16 a7);
+extern u32 func_020499D4(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void func_02049238(void *);
 extern void func_02041B6C(unsigned);
 extern void func_021BF7D4(u8 *p, void *q);
 extern u8 func_021BF7FC(u8 *p);
-extern u32_021BB9E8 func_02040804(unsigned);
-extern u32_021BBA10 func_021BAC4C(u8 *);
-extern void func_021BF814(u8 *p, u32_021BBA10 a, int b);
-extern void func_0201C724(void *,u32_021BBA10,u32_021BBA10,u32_021BBA10,u32_021BBA10,u32_021BBA10,u16);
-extern u32_021BBB0C func_0201C6C4(struct PrintSys *p, void *v);
-extern u32_021BBB84 func_0204B3F4(struct Obj *p);
+extern u32 func_02040804(unsigned);
+extern u32 func_021BAC4C(u8 *);
+extern void func_021BF814(u8 *p, u32 a, int b);
+extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 func_0204B3F4(struct Obj *p);
 extern u16 func_0204B898(struct Obj *p);
-extern u32_021BBC10 func_0204B98C(struct Actor *a);
+extern u32 func_0204B98C(struct Actor *a);
 extern void *func_02020D18(unsigned);
-extern struct WinMgr *func_0202C9B4(u32_021BBC5C a0, u32_021BBC5C a1, u32_021BBC5C heap);
+extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
 extern void func_0202CA0C(struct WinMgr *mgr);
 extern void func_02030EAC(struct Node *n);
 extern void func_02020D3C(struct D *p);
@@ -284,11 +216,11 @@ extern void func_021BC120(u8 *);
 extern void func_021BC160(void *);
 extern void func_021BC23C(void *);
 extern void func_021BC1B8(u8 *);
-extern void func_0202CA3C(struct WinMgr *mgr, u32_021BBD60 idx, u32_021BBD60 bg, u32_021BBD60 w, u32_021BBD60 h);
-extern void func_0202CB18(struct WinMgr *mgr, u32_021BBD60 idx, void *arc, u32_021BBD60 member, u32_021BBD60 alloc);
-extern void func_0202CB4C(struct WinMgr *mgr, u32_021BBD60 idx, s8 x, s8 y);
-extern void func_0202CEBC(struct WinMgr *mgr, u32_021BBD60 idx, void *a);
-extern void func_0202CC58(struct WinMgr *mgr, u32_021BBD60 idx);
+extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void func_0202CB18(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
+extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
+extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
 u8 func_021BB280(u32 i);
 u8 *func_021BB290(u32 a,u8 *b,u32 c);
 void func_021BB2CC(u8 *p);
@@ -316,14 +248,14 @@ void func_021BB8D8(u8 *p);
 int func_021BB954(u8 *a0);
 void func_021BB958(char *p);
 void func_021BB9C0(u8 *p,int flag);
-void func_021BB9E8(u8 *p,u32_021BB9E8 unused);
+void func_021BB9E8(u8 *p,u32 unused);
 void func_021BBA10(u8 *p,unsigned n);
 int func_021BBB0C(u8 *p, int a);
 void func_021BBB84(u8 *p, unsigned index);
 int func_021BBC10(u8 *p);
 u8 *func_021BBC5C(void *a, u8 *b, void *c);
 void func_021BBCF0(u8 *p);
-void func_021BBD60(u8 *p,u32_021BBD60 a);
+void func_021BBD60(u8 *p,u32 a);
 extern const u8 d_021C37B1[];
 extern const char d_021C3C44[];
 extern const u8 d_021C38C4[];
@@ -666,10 +598,10 @@ int func_021BB954(u8 *a0) { return 1; }
 
 void func_021BB958(char *p)
 {
-    u32_021BB958 r7 = func_021BAC44((u8 *)(*(u32_021BB958 *)p));
+    u32 r7 = func_021BAC44((u8 *)(*(u32 *)p));
     void *r4 = *(void **)(p + 0x94);
     void *r6 = func_020457B0(14, 42);
-    func_021BF7D4((u8 *)(*(u32_021BB958 *)(p + 4)), r6);
+    func_021BF7D4((u8 *)(*(u32 *)(p + 4)), r6);
     func_02043B5C(func_02045770(r4), 1);
     func_0201DD78(15, 14, 1);
     func_0201C7A4(func_02045770(r4), 0, 0, r6, (void *)r7);
@@ -684,7 +616,7 @@ void func_021BB958(char *p)
  * prototype-evidence: BF7FC's legacy source says void; this caller uses r0
  * at 0x021BB9CC/0x021BB9CE, so its observed unsigned result is retained.
  */
-void func_021BB9C0(u8 *p,int flag) { u32_021BB9C0 n=func_021BF7FC(*(u8 * *)&((struct Obj02460 *)p)->f4); if(n>22)n=22; if(flag)func_021BBA10(p,n);else func_021BB9E8(p,n); }
+void func_021BB9C0(u8 *p,int flag) { u32 n=func_021BF7FC(*(u8 * *)&((struct Obj02460 *)p)->f4); if(n>22)n=22; if(flag)func_021BBA10(p,n);else func_021BB9E8(p,n); }
 
 
 /*
@@ -692,12 +624,12 @@ void func_021BB9C0(u8 *p,int flag) { u32_021BB9C0 n=func_021BF7FC(*(u8 * *)&((st
  * lever: bind the step arithmetic to a local before the outer call; the
  * inline argument form adds a saved register and changes scheduling.
  */
-void func_021BB9E8(u8 *p,u32_021BB9E8 unused) { int step=-192-func_02040804(6); func_021BC78C(p+56,6,1,step,8); }
+void func_021BB9E8(u8 *p,u32 unused) { int step=-192-func_02040804(6); func_021BC78C(p+56,6,1,step,8); }
 
 
 void func_021BBA10(u8 *p,unsigned n)
 {
-    u32_021BBA10 owner,font;
+    u32 owner,font;
     void *str;
     int i,x,height,base;
     owner=func_021BAC4C(*(u8 * *)&((struct Obj02460 *)p)->f0);
@@ -709,7 +641,7 @@ void func_021BBA10(u8 *p,unsigned n)
     for(i=0;i<n;i++) {
         if(i%2==0) x=8; else x=128;
         func_021BF814(*(u8 * *)&((struct Obj02460 *)p)->f4,i,(int)str);
-        func_0201C724((void *)owner,(u32_021BBA10)func_02045770(((struct Obj02460 *)p)->f9C),(s16_021BBA10)x,(s16_021BBA10)((i/2)*16),(u32_021BBA10)str,font,1103);
+        func_0201C724((void *)owner,(u32)func_02045770(((struct Obj02460 *)p)->f9C),(short)x,(short)((i/2)*16),(u32)str,font,1103);
         p[0xa0]=1;
     }
     func_02045808(str);
@@ -834,7 +766,7 @@ void func_021BBCF0(u8 *p)
 /*
  * prototype: legacy 02040618 fourth input is unused by its full 02042360 target; caller sets only r0-r2.
  */
-void func_021BBD60(u8 *p,u32_021BBD60 a)
+void func_021BBD60(u8 *p,u32 a)
 {
     func_021BC068(p,(void *)a);
     func_020498F4((void *)a,25,0,0,0,0,42);
@@ -843,8 +775,8 @@ void func_021BBD60(u8 *p,u32_021BBD60 a)
     func_02040618(4,3,((struct Obj01922 *)p)->f19A);
     func_02049658((void *)a,14,0,0,0,0,42);
     func_02049658((void *)a,14,4,0,0,0,42);
-    *(u32_021BBD60 *)&((struct Obj01922 *)p)->fC=func_020450F0(0,3,1,28,4,0,1);
-    *(u32_021BBD60 *)&((struct Obj01922 *)p)->f10=func_020450F0(4,3,1,28,4,0,1);
+    *(u32 *)&((struct Obj01922 *)p)->fC=func_020450F0(0,3,1,28,4,0,1);
+    *(u32 *)&((struct Obj01922 *)p)->f10=func_020450F0(4,3,1,28,4,0,1);
     func_02045374(((struct Obj01922 *)p)->fC);
     func_02045374(((struct Obj01922 *)p)->f10);
     func_021BC120(p);

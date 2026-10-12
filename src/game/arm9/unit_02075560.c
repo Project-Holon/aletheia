@@ -42,24 +42,12 @@
  *   func_020605B4 0x020605B4  arm
  *   func_020604AC 0x020604AC  arm
  */
-#include "../../matched/include/Obj08950.h"
-#include "../../matched/include/Obj08951.h"
-#include "../../matched/include/Obj08952.h"
-#include "../../matched/include/Obj16685.h"
-#include "../../matched/include/Obj16686.h"
-#include "../../matched/include/Obj08953.h"
-#include "../../matched/include/Obj16687.h"
-#include "../../matched/include/Obj16688.h"
 
 struct Entry;
 struct Table;
 struct Node;
-struct Obj;
-struct A;
+struct SndTrack;
 struct LerpObj;
-struct Obj75994;
-struct SndObj2;
-struct X;
 struct DList;
 typedef unsigned char  u8;
 
@@ -71,55 +59,6 @@ typedef signed int     s32;
 
 typedef signed short s16;
 
-struct Slot {
-    u8  pad000[0xf0];
-    u8  lerp[0x118 - 0xf0];
-    s32 b0 : 1;
-    s32 b1 : 1;
-    s32 b2 : 1;
-    s32 b3 : 1;
-    s32 brest : 28;
-    s32 f11c;
-    s32 f120;
-    u8  pad124[0x15c - 0x124];
-    s32 f15c;
-    s32 f160;
-    s32 f164;
-    u8  pad168[0x17c - 0x168];
-};
-
-typedef struct {
-    u8  unk000[0x118];
-    s32  b0 : 1;
-    s32  b1 : 1;
-    s32  b2 : 1;
-    s32  rest : 29;
-    u8  unk11c[0x154 - 0x11c];
-    u32 *unk154;
-} Obj02075968;
-
-struct Obj75994 {
-    u8  pad_00[0x118];
-    s32 b0 : 1;
-    s32 b1 : 1;
-    s32 rest : 30;
-    u8  pad_11c[0x5c];
-    u32 cb;
-};
-
-struct Obj {
-    u8 pad000[0x118];
-    s32 b0:1;
-    s32 rest:31;
-    u8 pad11C[0x54];
-    void (*f170)(u8 *o);
-};
-
-struct SndObj2 {
-    char pad[0x128];
-    int ref_count;
-};
-
 struct LerpObj {
     int start;
     int target;
@@ -127,32 +66,78 @@ struct LerpObj {
     int duration;
 };
 
-struct Entry { u32 f0; u32 f4; u32 f8; };   /* 0xC bytes each */
+/* One of the four sound tracks at data_0214EAC0. */
+struct SndTrack {
+    u8  pad000[0xf0];
+    struct LerpObj lerp;
+    u8  pad100[0x118 - 0x100];
+    s32 b0 : 1;
+    s32 b1 : 1;
+    s32 b2 : 1;
+    s32 b3 : 1;
+    s32 brest : 28;
+    s32 f11c;
+    s32 f120;
+    u8  pad124[0x128 - 0x124];
+    int ref_count;
+    u8  pad12c[0x154 - 0x12c];
+    u32 *unk154;
+    u8  pad158[0x15c - 0x158];
+    s32 f15c;
+    s32 f160;
+    s32 f164;
+    u8  pad168[0x170 - 0x168];
+    void (*f170)(struct SndTrack *o);
+    u8  pad174[0x178 - 0x174];
+    void (*cb)(struct SndTrack *o);
+};
+
+struct SndMedia { u32 f0; };
+
+struct SndBlock {
+    u8  pad00[0x18];
+    u32 f18;
+};
+
+struct DListElem {
+    u8  pad00[8];
+    u32 f8;
+};
+
+struct Entry {   /* 0xC bytes each */
+    u32 f0;
+    u16 f4;
+    u8  f6;
+    u8  f7;
+    u8  f8;
+    u8  f9;
+    u8  padA[2];
+};
 
 struct Table { u8 pad00[0x1c]; u32 count; struct Entry arr[]; };
 
 extern void *func_02074324(int index);
 extern void *func_02074388(int index);
 extern u32   func_0207466C(u32 a);
-extern struct Node *func_02073344(struct Obj *o, s32 idx, s32 pri);
+extern struct Node *func_02073344(struct SndTrack *o, s32 idx, s32 pri);
 extern void *func_020734AC(s32 idx, void *owner);
 extern u32   func_02074CD0(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern void  func_020733DC(void *h);
-extern void func_020733E8(struct Obj *o, const void *seqBase, u32 seqOffset, const void *bankData);
-extern void func_02072F48(struct Obj *o, u8 v);
-extern void func_02072F88(struct Obj *o, u32 v);
+extern void func_020733E8(struct SndTrack *o, const void *seqBase, u32 seqOffset, const void *bankData);
+extern void func_02072F48(struct SndTrack *o, u8 v);
+extern void func_02072F88(struct SndTrack *o, u32 v);
 extern void  func_020730B8(u32 a, u32 b);
-extern void func_020730DC(struct Obj *o, u32 a, u32 b);
-extern void func_02073A60(struct A *a);
-extern void func_02073AD0(struct Slot *, s32);
-extern s32 func_02075BD4(struct Obj *o);
+extern void func_020730DC(struct SndTrack *o, u32 a, u32 b);
+extern void func_02073A60(struct SndTrack *a);
+extern void func_02073AD0(struct SndTrack *, s32);
+extern s32 func_02075BD4(struct LerpObj *o);
 extern void func_02075C08(struct LerpObj *obj);
 extern int func_02075C20(struct LerpObj *obj);
 extern void func_02086028(void *p);
 extern void func_02086078(void *p);
-extern void func_02073AB4(struct Obj75994 *o);
-extern void func_02073898(struct X *x);
+extern void func_02073AB4(struct SndTrack *o);
+extern void func_02073898(struct SndTrack *x);
 extern void func_020604AC(void *list, void *object);
 extern u32  func_02087988(void);
 extern void func_0208799C(u32);
@@ -161,18 +146,18 @@ extern void func_020605B4(volatile struct DList *list, void *elem);
 u32 func_02075560(u32 a, u32 b);
 u32 func_020755A8(u32 a, int b, int c, int d, u32 e);
 u32 func_02075618(u32 a, u32 b, u32 c);
-u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1);
-u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3);
+u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, u32 s1);
+u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, struct SndBlock *s1, u32 s2, u32 s3);
 void func_02075858(void);
-void func_02075968(Obj02075968 *o);
-void func_02075994(struct Obj75994 *o);
-void func_02075A2C(struct Obj *o);
-void func_02075A94(struct SndObj2 *obj);
+void func_02075968(struct SndTrack *o);
+void func_02075994(struct SndTrack *o);
+void func_02075A2C(struct SndTrack *o);
+void func_02075A94(struct SndTrack *obj);
 void func_02075AB8(void *a, u32 v);
 void func_02075B28(void *p);
 struct Entry *func_02075B54(struct Table *t, int idx);
 void func_02075B94(struct LerpObj *obj);
-extern struct Slot data_0214EAC0[4];
+extern struct SndTrack data_0214EAC0[4];
 extern const s16 data_020A5D08[];
 extern u8  g_02150178[];
 extern u8  g_0214EA90[];
@@ -183,11 +168,11 @@ extern u8  g_02150190[];
 
 u32 func_02075560(u32 a, u32 b)
 {
-    u8 *p = func_02074324(b);
+    struct Entry *p = func_02074324(b);
 
     if (p == 0) return 0;
-    return func_02075698(a, ((struct Obj08950 *)p)->f9, ((struct Obj08950 *)p)->f4, ((struct Obj08950 *)p)->f8,
-                         (u8 *)p, b);
+    return func_02075698(a, (p)->f9, (p)->f4, (p)->f8,
+                         p, b);
 }
 
 
@@ -195,13 +180,13 @@ u32 func_02075560(u32 a, u32 b)
 
 u32 func_020755A8(u32 a, int b, int c, int d, u32 e)
 {
-    u8 *p = func_02074324(e);
+    struct Entry *p = func_02074324(e);
 
     if (p == 0) return 0;
-    if (d < 0) d = ((struct Obj08951 *)p)->f8;
-    if (c < 0) c = ((struct Obj08951 *)p)->f4;
-    if (b < 0) b = ((struct Obj08951 *)p)->f9;
-    return func_02075698(a, (u32)b, (u32)c, (u32)d, (u8 *)p, e);
+    if (d < 0) d = p->f8;
+    if (c < 0) c = p->f4;
+    if (b < 0) b = p->f9;
+    return func_02075698(a, (u32)b, (u32)c, (u32)d, p, e);
 }
 
 
@@ -230,26 +215,26 @@ u32 func_020755A8(u32 a, int b, int c, int d, u32 e)
  */
 u32 func_02075618(u32 a, u32 b, u32 c)
 {
-    u8 *r;
+    struct SndMedia *r;
     u32 q;
-    u8 *st;
+    struct Entry *st;
 
-    r = (u8 *)func_02074388(b);
+    r = func_02074388(b);
     if (r == 0) {
         return 0;
     }
 
-    q = func_0207466C(((struct Obj16685 *)r)->f0);
+    q = func_0207466C(r->f0);
     if (q == 0) {
         return 0;
     }
 
-    st = (u8 *)func_02075B54((struct Table *)q, c);
+    st = func_02075B54((struct Table *)q, c);
     if (st == 0) {
         return 0;
     }
 
-    return func_02075794(a, st[9], ((struct Obj08952 *)st)->f4, st[8], st, (u8 *)q, b, c);
+    return func_02075794(a, st->f9, st->f4, st->f8, st, (struct SndBlock *)q, b, c);
 }
 
 
@@ -272,14 +257,14 @@ u32 func_02075618(u32 a, u32 b, u32 c)
  *   EXACT, 252 bytes, 10 of 10 relocation sites resolved (sp2p2 EXACT too,
  *   dsi/1.1p1 260 bytes DIFF).
  */
-u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1)
+u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, u32 s1)
 {
     void *h;
     u32 v;
-    u8 *blk;
+    struct SndBlock *blk;
     u32 slot;
 
-    h = func_02073344((struct Obj *)a0, a1, a3);
+    h = func_02073344((struct SndTrack *)a0, a1, a3);
     if (h == 0) {
         return 0;
     }
@@ -292,9 +277,9 @@ u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1)
         func_020733DC(h);
         return 0;
     }
-    func_020733E8(h, (u32 *)(blk + ((struct Obj16686 *)blk)->f18), 0, (const void *)slot);
-    func_02072F48((struct Obj *)a0, s0[6]);
-    func_02072F88((struct Obj *)a0, s0[7]);
+    func_020733E8(h, (u32 *)((u8 *)blk + blk->f18), 0, (const void *)slot);
+    func_02072F48((struct SndTrack *)a0, s0->f6);
+    func_02072F88((struct SndTrack *)a0, s0->f7);
     func_020730B8(a0, s1);
     return 1;
 }
@@ -338,13 +323,13 @@ u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1)
  *   python3 tools/match.py one --src src/matched/func_02075794.c \
  *       --func func_02075794 --addr 0x02075794 --arm --cc ../2.0/sp2
  */
-u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3)
+u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, struct SndBlock *s1, u32 s2, u32 s3)
 {
     void *h;
     u32 v;
     u32 slot;
 
-    h = func_02073344((struct Obj *)a0, a1, a3);
+    h = func_02073344((struct SndTrack *)a0, a1, a3);
     if (h == 0) {
         return 0;
     }
@@ -356,10 +341,10 @@ u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3
         return 0;
     }
 
-    func_020733E8(h, (u32 *)(s1 + ((struct Obj16687 *)s1)->f18), ((struct Obj08953 *)s0)->f0, (const void *)slot);
-    func_02072F48((struct Obj *)a0, s0[6]);
-    func_02072F88((struct Obj *)a0, s0[7]);
-    func_020730DC((struct Obj *)a0, s2, s3);
+    func_020733E8(h, (u32 *)((u8 *)s1 + s1->f18), s0->f0, (const void *)slot);
+    func_02072F48((struct SndTrack *)a0, s0->f6);
+    func_02072F88((struct SndTrack *)a0, s0->f7);
+    func_020730DC((struct SndTrack *)a0, s2, s3);
     return 1;
 }
 
@@ -401,23 +386,23 @@ void func_02075858(void)
     s32 i;
     s32 v;
     s32 a, b, c, d;
-    struct Slot *s = data_0214EAC0;
+    struct SndTrack *s = data_0214EAC0;
 
     for (i = 0; i < 4; i++) {
         if (s->b0) {
             if (s->f11c == 0) {
-                func_02075994((struct Obj75994 *)s);
+                func_02075994(s);
                 goto next;
             } else {
                 if (s->b2 && s->f120 != 0) {
-                    func_02073A60((struct A *)s);
+                    func_02073A60(s);
                     s->b1 = 1;
                     s->b2 = 0;
                 }
                 if (s->b1) {
-                    func_02075C08((struct LerpObj *)s->lerp);
+                    func_02075C08(&s->lerp);
                     a = data_020A5D08[s->f15c];
-                    b = func_02075BD4((struct Obj *)s->lerp) >> 8;
+                    b = func_02075BD4(&s->lerp) >> 8;
                     c = s->f160;
                     d = data_020A5D08[b];
                     v = data_020A5D08[c] + (d + a);
@@ -427,8 +412,8 @@ void func_02075858(void)
                         s->f164 = v;
                     }
                     if (s->b3) {
-                        if (func_02075C20((struct LerpObj *)s->lerp) != 0) {
-                            func_02075994((struct Obj75994 *)s);
+                        if (func_02075C20(&s->lerp) != 0) {
+                            func_02075994(s);
                         }
                     }
                 }
@@ -454,7 +439,7 @@ next:
  * anneal); ../2.0/sp2 and sp2p2 give the image's allocation for both the
  * bitfield and the three-statement mask spelling.
  */
-void func_02075968(Obj02075968 *o)
+void func_02075968(struct SndTrack *o)
 {
     if (o->unk154 != 0) {
         *o->unk154 = 0;
@@ -492,7 +477,7 @@ void func_02075968(Obj02075968 *o)
  *   python tools/match.py one --src src/pending/func_02075994.c \
  *       --func func_02075994 --addr 0x02075994 --arm --cc 1.1p1
  */
-void func_02075994(struct Obj75994 *o)
+void func_02075994(struct SndTrack *o)
 {
     u8 *p;
 
@@ -503,8 +488,8 @@ void func_02075994(struct Obj75994 *o)
     if (o->b1 != 0)
         func_02073AB4(o);
     if (o->b0 != 0)
-        ((void (*)(struct Obj75994 *))o->cb)(o);
-    func_02075A2C((struct Obj *)o);
+        o->cb(o);
+    func_02075A2C(o);
     func_02086078(g_02150178);
     p = *(u8 **)(g_0214EA90 + 4);
     if (p == 0)
@@ -525,27 +510,27 @@ void func_02075994(struct Obj75994 *o)
  *           (func_02075A94 and func_02075AB8 as `matched`, g_0214EA90 as
  *           `literal x5`).  The body is byte-correct.
  */
-void func_02075A2C(struct Obj *o)
+void func_02075A2C(struct SndTrack *o)
 {
     u8 *p;
 
     if (o->b0 == 0) return;
-    func_02075A94((struct SndObj2 *)o);
-    o->f170((u8 *)o);
-    func_02075AB8(g_02150190, (u32)((u8 *)o));
+    func_02075A94(o);
+    o->f170(o);
+    func_02075AB8(g_02150190, (u32)o);
     p = *(u8 **)(g_0214EA90 + 4);
-    if (p != 0) func_02075AB8(p + 0x10e0, (u32)((u8 *)o));
-    func_02075968((Obj02075968 *)((u8 *)o));
+    if (p != 0) func_02075AB8(p + 0x10e0, (u32)o);
+    func_02075968(o);
 }
 
 
 
 
-void func_02075A94(struct SndObj2 *obj)
+void func_02075A94(struct SndTrack *obj)
 {
     if (obj->ref_count != 0) {
         if (--obj->ref_count == 0) {
-            func_02073898((struct X *)obj);
+            func_02073898(obj);
         }
     }
 }
@@ -567,7 +552,7 @@ void func_02075AB8(void *a, u32 v)
     while (p != 0) {
         void *n = func_02060614(a, p);
 
-        if (((struct Obj16688 *)p)->f8 == v) {
+        if (((struct DListElem *)p)->f8 == v) {
             func_020605B4(a, p);
             func_02075B28(p);
         }

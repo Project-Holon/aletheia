@@ -24,35 +24,7 @@
  *   func_0203D1A4 0x0203D1A4 arm
  *   func_021FCDEC 0x021FCDEC thumb ov132
  */
-#include "../../matched/include/Obj02196.h"
-#include "../../matched/include/Obj23286.h"
-#include "../../matched/include/Obj23287.h"
-#include "../../matched/include/Obj10566.h"
-#include "../../matched/include/Obj23288.h"
-#include "../../matched/include/Obj04521.h"
-#include "../../matched/include/Obj05408.h"
-#include "../../matched/include/Obj10567.h"
-#include "../../matched/include/Obj14132.h"
-#include "../../matched/include/Obj23289.h"
-#include "../../matched/include/Obj14133.h"
-#include "../../matched/include/Obj23290.h"
-#include "../../matched/include/Obj23291.h"
-#include "../../matched/include/Obj23292.h"
-#include "../../matched/include/Obj23293.h"
-#include "../../matched/include/Obj23294.h"
-#include "../../matched/include/Obj14135.h"
-#include "../../matched/include/Obj23295.h"
-#include "../../matched/include/Obj14138.h"
-#include "../../matched/include/Obj23296.h"
-#include "../../matched/include/Obj14141.h"
-#include "../../matched/include/Obj23297.h"
-#include "../../matched/include/Obj23298.h"
-#include "../../matched/include/Obj23300.h"
-#include "../../matched/include/Obj10568.h"
-#include "../../matched/include/Obj14143.h"
-#include "../../matched/include/Obj23302.h"
-#include "../../matched/include/Obj23303.h"
-#include "../../matched/include/Obj23304.h"
+#include "ov132_types.h"
 
 struct Entry;
 struct Link;
@@ -168,23 +140,23 @@ void func_021FD52C(S *s)
 
 void func_021FD550(char *p)
 {
-    if(((struct Obj02196 *)p)->f150==1) {
-        switch(*(u32 *)&((struct Obj02196 *)p)->f17C) {
+    if(((struct ActingHost *)p)->f150==1) {
+        switch(*(u32 *)&((struct ActingHost *)p)->f17C) {
         case 0: break;
         case 1:
-            if(func_021FCEA8((int)p,7,((struct Obj23286 *)(*(char * *)&((struct Obj02196 *)p)->f140))->f2C,0xff)==1) ((struct Obj02196 *)p)->f17C=2;
+            if(func_021FCEA8((int)p,7,((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->f140))->f2C,0xff)==1) ((struct ActingHost *)p)->f17C=2;
             break;
         case 2: break;
         case 3:
-            if(func_021FD5E4(p,((struct Obj02196 *)p)->f14C)==1) {
-                ((struct Obj02196 *)p)->f154=1;
-                ((struct Obj02196 *)p)->f17C=4;
+            if(func_021FD5E4(p,((struct ActingHost *)p)->f14C)==1) {
+                ((struct ActingHost *)p)->f154=1;
+                ((struct ActingHost *)p)->f17C=4;
             }
             break;
         case 4:
-            if(((struct Obj02196 *)p)->f154==0) {
-                if((u32)(((struct Obj02196 *)p)->f14C*0x3800)>=((struct Obj23287 *)(*(char * *)&((struct Obj02196 *)p)->f140))->f2C) ((struct Obj02196 *)p)->f150=0;
-                else ((struct Obj02196 *)p)->f17C=3;
+            if(((struct ActingHost *)p)->f154==0) {
+                if((u32)(((struct ActingHost *)p)->f14C*0x3800)>=((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->f140))->f2C) ((struct ActingHost *)p)->f150=0;
+                else ((struct ActingHost *)p)->f17C=3;
             }
             break;
         }
@@ -199,10 +171,10 @@ int func_021FD5E4(char *p,u32 i)
     char *q;
     char *s;
     u16 n;
-    q=*(char * *)&((struct Obj23288 *)p)->f140;
+    q=*(char * *)&((struct ActingHost *)p)->f140;
     n=0x3800;
-    s=*(char * *)&((struct Obj10566 *)q)->f10+i*0x3800;
-    if((i+1)*0x3800>((struct Obj10566 *)q)->f2C) n=((struct Obj10566 *)q)->f2C%0x3800U;
+    s=*(char * *)&((struct HostEntry *)q)->f10+i*0x3800;
+    if((i+1)*0x3800>((struct HostEntry *)q)->f2C) n=((struct HostEntry *)q)->f2C%0x3800U;
     return func_0203D3F8((u32)func_0203996C(0xff),0xff,0x1105,n,(u32)s,0,1,1);
 }
 
@@ -211,28 +183,28 @@ void func_021FD634(int a,int b,int c,char *p)
     char *q;
     char *s;
     u32 v;
-    (((struct Obj05408 *)p)->f14C)++;
-    ((struct Obj05408 *)p)->f154=0;
-    q=*(char * *)&((struct Obj05408 *)p)->f140;
-    if((u32)(((struct Obj05408 *)p)->f14C*0x3800)>=((struct Obj04521 *)q)->f2C) {
-        s=*(char * *)&((struct Obj04521 *)q)->f10;
-        ((struct Obj04521 *)q)->f14=s+0xc;
-        q=*(char * *)&((struct Obj05408 *)p)->f140;
-        ((struct Obj04521 *)q)->f18=*(char * *)&((struct Obj04521 *)q)->f10+0xc+((struct Obj10567 *)s)->f0;
-        q=*(char * *)&((struct Obj05408 *)p)->f140;
+    (((struct ActingHost *)p)->f14C)++;
+    ((struct ActingHost *)p)->f154=0;
+    q=*(char * *)&((struct ActingHost *)p)->f140;
+    if((u32)(((struct ActingHost *)p)->f14C*0x3800)>=((struct HostEntry *)q)->f2C) {
+        s=*(char * *)&((struct HostEntry *)q)->f10;
+        ((struct HostEntry *)q)->f14=s+0xc;
+        q=*(char * *)&((struct ActingHost *)p)->f140;
+        ((struct HostEntry *)q)->f18=*(char * *)&((struct HostEntry *)q)->f10+0xc+((struct Obj10567 *)s)->f0;
+        q=*(char * *)&((struct ActingHost *)p)->f140;
         v=((struct Obj10567 *)s)->f4;
-        ((struct Obj04521 *)q)->f1C=v+(*(u32 *)&((struct Obj04521 *)q)->f10+0xc+((struct Obj10567 *)s)->f0);
+        ((struct HostEntry *)q)->f1C=v+(*(u32 *)&((struct HostEntry *)q)->f10+0xc+((struct Obj10567 *)s)->f0);
     }
 }
 
 void *func_021FD68C(int a,char *p)
 {
     char *q;
-    q=*(char * *)&((struct Obj14132 *)p)->f140;
-    return *(char * *)&((struct Obj23289 *)q)->f10+((struct Obj14132 *)p)->f14C*0x3800;
+    q=*(char * *)&((struct ActingHost *)p)->f140;
+    return *(char * *)&((struct HostEntry *)q)->f10+((struct ActingHost *)p)->f14C*0x3800;
 }
 
-int func_021FD6A4(char *p) {if(((struct Obj23290 *)(*(char * *)&((struct Obj14133 *)p)->f140))->f2C/0x3800u<((struct Obj14133 *)p)->f14C)return 1;return 0;}
+int func_021FD6A4(char *p) {if(((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->f140))->f2C/0x3800u<((struct ActingHost *)p)->f14C)return 1;return 0;}
 
 
 /*
@@ -240,25 +212,25 @@ int func_021FD6A4(char *p) {if(((struct Obj23290 *)(*(char * *)&((struct Obj1413
  */
 int func_021FD6C8(u8 *p)
 {
-    void *q = ((struct Obj23291 *)p)->f140;
-    return func_021FCEA8((int)p, 4, (u32)(((struct Obj23292 *)q)->f20), 0xff);
+    void *q = ((struct ActingHost *)p)->f140.p;
+    return func_021FCEA8((int)p, 4, (u32)(((struct HostEntry *)q)->f20), 0xff);
 }
 
 
 int func_021FD6DC(char *p)
 {
-    return func_021FCEA8((int)p, 5, *(int *)(((struct Obj23293 *)p)->f140 + 0x24), 0xff);
+    return func_021FCEA8((int)p, 5, *(int *)(((struct ActingHost *)p)->f140.s + 0x24), 0xff);
 }
 
 
 int func_021FD6F0(char *p)
 {
-    return func_021FCEA8((int)p, 6, *(int *)(((struct Obj23294 *)p)->f140 + 0x28), 0xff);
+    return func_021FCEA8((int)p, 6, *(int *)(((struct ActingHost *)p)->f140.s + 0x28), 0xff);
 }
 
 int func_021FD704(u8 *p)
 {
-    u32 *q = *(u32 * *)&((struct Obj23295 *)p)->f140;
+    u32 *q = *(u32 * *)&((struct ActingHost *)p)->f140;
     u32 id;
     func_021FDA74(q[1], q[8], 2);
     id = (u32)func_0203996C(255);
@@ -268,8 +240,8 @@ int func_021FD704(u8 *p)
 void func_021FD744(void *a, void *b, void *c, u8 *p)
 {
     u32 *q;
-    ((struct Obj14135 *)p)->f170 = 1;
-    q = *(u32 * *)&((struct Obj14135 *)p)->f140;
+    ((struct ActingHost *)p)->f170 = 1;
+    q = *(u32 * *)&((struct ActingHost *)p)->f140;
     func_021FDA74(q[1], q[8], 12);
 }
 
@@ -280,7 +252,7 @@ u32 func_021FD760(void *a, u8 *p)
 
 int func_021FD76C(u8 *p)
 {
-    u32 *q = *(u32 * *)&((struct Obj23296 *)p)->f140;
+    u32 *q = *(u32 * *)&((struct ActingHost *)p)->f140;
     u32 id;
     func_021FDA74(q[2], q[9], 1);
     id = (u32)func_0203996C(255);
@@ -290,8 +262,8 @@ int func_021FD76C(u8 *p)
 void func_021FD7AC(void *a, void *b, void *c, u8 *p)
 {
     u32 *q;
-    ((struct Obj14138 *)p)->f174 = 1;
-    q = *(u32 * *)&((struct Obj14138 *)p)->f140;
+    ((struct ActingHost *)p)->f174 = 1;
+    q = *(u32 * *)&((struct ActingHost *)p)->f140;
     func_021FDA74(q[2], q[9], 11);
 }
 
@@ -302,7 +274,7 @@ u32 func_021FD7C8(void *a, u8 *p)
 
 int func_021FD7D4(u8 *p)
 {
-    u32 *q = *(u32 * *)&((struct Obj23297 *)p)->f140;
+    u32 *q = *(u32 * *)&((struct ActingHost *)p)->f140;
     u32 id;
     func_021FDA74(q[3], q[10], 0);
     id = (u32)func_0203996C(255);
@@ -312,8 +284,8 @@ int func_021FD7D4(u8 *p)
 void func_021FD814(void *a, void *b, void *c, u8 *p)
 {
     u32 *q;
-    ((struct Obj14141 *)p)->f178 = 1;
-    q = *(u32 * *)&((struct Obj14141 *)p)->f140;
+    ((struct ActingHost *)p)->f178 = 1;
+    q = *(u32 * *)&((struct ActingHost *)p)->f140;
     func_021FDA74(q[3], q[10], 10);
 }
 
@@ -322,7 +294,7 @@ u32 func_021FD830(void *a, u8 *p)
     return (*(u32 **)(p + 0x140))[3];
 }
 
-u32 func_021FD83C(char *p) {return ((struct Obj23298 *)p)->f170;}
+u32 func_021FD83C(char *p) {return ((struct ActingHost *)p)->f170;}
 
 /*
  * Unlabelled ov132 leaf hidden in a .word run: returns element 0x5e of the
@@ -384,7 +356,7 @@ u32 func_021FD8F8(char *p,u32 index){return *(u32 *)((u32)p+index*0x30+0x80);}
  */
 int func_021FD904(int *p)
 {
-    return ((struct Obj23300 *)p)->f48;
+    return ((struct ActingHost *)p)->f48;
 }
 
 /*
@@ -405,15 +377,15 @@ int func_021FD910(int *p)
     return p[0x57];
 }
 
-void func_021FD918(char *p, u32 a, int b) {func_021FCDEC((int)p,0x40);((struct Obj10568 *)p)->f4C=6;((struct Obj10568 *)p)->f144=a;((struct Obj10568 *)p)->f148=b;}
+void func_021FD918(char *p, u32 a, int b) {func_021FCDEC((int)p,0x40);((struct ActingHost *)p)->f4C=6;((struct ActingHost *)p)->f144.s=a;((struct ActingHost *)p)->f148.s=b;}
 
-void func_021FD938(char *p) {func_021FCDEC((int)p,0x42);((struct Obj23302 *)p)->f4C=12;}
+void func_021FD938(char *p) {func_021FCDEC((int)p,0x42);((struct ActingHost *)p)->f4C=12;}
 
 /*
  * The larger indexed follower at 021FD964 is parked separately at DIFF.
  */
-void func_021FD948(char *p,u32 value){((struct Obj14143 *)p)->f4C=18;((struct Obj14143 *)p)->f120=value;}
+void func_021FD948(char *p,u32 value){((struct ActingHost *)p)->f4C=18;((struct ActingHost *)p)->f120=value;}
 
-u32 func_021FD954(char *p){return ((struct Obj23303 *)p)->f144;}
+u32 func_021FD954(char *p){return ((struct ActingHost *)p)->f144.u;}
 
-u32 func_021FD95C(char *p){return ((struct Obj23304 *)p)->f148;}
+u32 func_021FD95C(char *p){return ((struct ActingHost *)p)->f148.u;}

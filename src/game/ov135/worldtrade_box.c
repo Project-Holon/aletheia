@@ -871,7 +871,7 @@ extern const BoxItems2 data_02202BC8;
 extern const BoxItems3 data_02202C2C;
 extern u8 g_02202BFC[];
 extern const struct DispConfig_021F4580 tbl_02202BB8;
-extern void *g_02203B0C[];
+extern void (*g_02203B0C[])(u8 *);
 extern struct DispConfig_021F4580 g_02202C94;
 extern struct BgTemplate_021F4580 g_02202CE4;
 extern struct BgTemplate_021F4580 g_02202D04;
@@ -891,7 +891,7 @@ extern u8 d_021E75FC[];
 extern u8 ov119_id[];
 extern u8 d_02208C40[];
 extern u8 ov195_id[];
-extern void *g_02203BBC[];
+extern void (*g_02203BBC[])(u8 *);
 extern struct BgTemplate_021F4580 g_02202F64;
 extern struct BgTemplate_021F4580 g_02202F84;
 extern struct BgTemplate_021F4580 g_02202F44;
@@ -1649,7 +1649,7 @@ int func_021F5154(u8 *p)
  */
 void func_021F51F0(u8 *p)
 {
-    ((void (*)(u8 *))g_02203B0C[*(u32 *)(p + 0x28)])(p);
+    g_02203B0C[*(u32 *)(p + 0x28)](p);
 }
 
 
@@ -2788,7 +2788,7 @@ void func_021F68A4(Work *p, int box)
     if (p->kind == 6) {
         func_021F6DB4((Rec_p03 *)p->info_p, (u32)p->icon, p->arr[p->cur].key, (Entry_021F6DB4 *)icons);
     }
-    p->vblank_fn = (void (*)(void *))func_021F6754;
+    p->vblank_fn = func_021F6754;
 }
 
 
@@ -3344,7 +3344,7 @@ int func_021F73DC(u8 *p)
  */
 void func_021F74E4(u8 *p)
 {
-    ((void (*)(u8 *))g_02203BBC[*(u32 *)(p + 0x28)])(p);
+    g_02203BBC[*(u32 *)(p + 0x28)](p);
 }
 
 

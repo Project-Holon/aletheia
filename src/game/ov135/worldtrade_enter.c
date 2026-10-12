@@ -216,7 +216,7 @@ typedef struct {
     u32 f4, f8, fc;
     void *f10;
     u32 f14, f18, f1c;
-    void (*callback_021F88B0)(void *, void *);
+    int (*callback_021F88B0)(void *, u8 *);
     void *user;
 } State_p01;
 
@@ -225,7 +225,7 @@ typedef struct {
     int zero;
     int enabled;
     int pad[2];
-    void (*callback_021F8DA4)(void);
+    u32 (*callback_021F8DA4)(u8 *);
     void *context;
 } Req_p02;
 
@@ -955,7 +955,7 @@ int func_021F8D10(u8 *p)
     s->f8 = 1;
     s->f10 = p + 0x116C;
     s->fc = 30;
-    s->callback_021F88B0 = (void (*)(void *, void *))func_021F8E88;
+    s->callback_021F88B0 = func_021F8E88;
     s->user = p;
     ((struct Obj03294 *)p)->f12EC = 0;
     if (((struct Obj03294 *)p)->f20 == 21) s->f14 = 1;
@@ -999,7 +999,7 @@ int func_021F8DE4(u8 *p)
     r->save = func_020120F4(((struct Obj23403 *)(*(u8 * *)&((struct Obj04527 *)p)->f0))->f40);
     r->zero = 0;
     r->enabled = 1;
-    r->callback_021F8DA4 = (void (*)(void))func_021F8F5C;
+    r->callback_021F8DA4 = func_021F8F5C;
     r->context = p;
     func_02031348(((struct Obj04527 *)p)->f12F0, (u32)ov115_id, tbl_021D654C, *(Req_p02 * *)&((struct Obj04527 *)p)->f10DC);
     ((struct Obj04527 *)p)->f28 = 5;

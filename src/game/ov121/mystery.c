@@ -1985,11 +1985,11 @@ void func_021D8C1C(u8 *p,int mode)
     ((struct Obj04491 *)p)->f18=0;
     switch(mode) {
     case 0:
-        if (((struct Obj22867 *)(*(u8 * *)&((struct Obj04491 *)p)->f114))->f2CA) *(void (**)(void *))(p+44)=(void (*)(void *))func_021D8EA4;
-        else *(void (**)(void *))(p+44)=(void (*)(void *))func_021D8D1C;
+        if (((struct Obj22867 *)(*(u8 * *)&((struct Obj04491 *)p)->f114))->f2CA) *(void (**)(u8 *))(p+44)=func_021D8EA4;
+        else *(void (**)(u8 *))(p+44)=func_021D8D1C;
         break;
     case 1:
-        *(void (**)(void *))(p+44)=(void (*)(void *))func_021D9138;
+        *(void (**)(u8 *))(p+44)=func_021D9138;
         break;
     }
     GX_SetVisibleWnd(1);

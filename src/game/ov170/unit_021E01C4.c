@@ -43,7 +43,7 @@
  *   func_021EF5C4 0x021EF5C4 thumb
  *   func_021EF60C 0x021EF60C thumb
  */
-#include "../../matched/include/Obj03849.h"
+#include "box2_types.h"
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
@@ -93,14 +93,14 @@ int func_021E0200(unsigned char *p);
 
 int func_021E01C4(char *p)
 {
-    int v = func_0202CDD4(*(struct WinMgr **)(*(int *)&((struct Obj03849 *)p)->f2C + 0x74), 9);
+    int v = func_0202CDD4(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74), 9);
     func_021ED918(p, 8);
     return v;
 }
 
 int func_021E01E0(char *p)
 {
-    int x = func_0202CDD4(*(struct WinMgr **)(*(int *)&((struct Obj03849 *)p)->f2C + 0x74), 9);
+    int x = func_0202CDD4(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74), 9);
     func_021ED918(p, -8);
     return x;
 }

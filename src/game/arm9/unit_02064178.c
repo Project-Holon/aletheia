@@ -23,18 +23,10 @@
  *   func_02062F00  0x02062F00  arm
  *   func_02062F90  0x02062F90  arm
  */
-#include "../../matched/include/Obj07023.h"
-#include "../../matched/include/Obj00260.h"
-#include "../../matched/include/Obj03025.h"
-#include "../../matched/include/Obj16427.h"
-#include "../../matched/include/Obj16428.h"
-#include "../../matched/include/Obj11539.h"
-#include "../../matched/include/Obj08900.h"
-#include "../../matched/include/Obj16429.h"
+
+#include "cell_anim_types.h"
 
 struct O02064140;
-struct CellAnim;
-struct CellDataBank;
 struct Obj02064100;
 struct NNSG2dAnimController;
 typedef unsigned int u32;
@@ -45,9 +37,26 @@ typedef unsigned char  u8;
 
 typedef signed int     s32;
 
-struct CellAnim {
+struct CellAnimRec {
+    u16 f0;
+    u16 f2;
+    union {
+        int   w;
+        short h[2];
+    } f4;
+    int f8;
+    short fC;
+    short fE;
+};
+
+struct CellDataSub {
+    int f0;
+    u8 *f4;
+};
+
+struct CellDataBank {
     u8 pad00[0xC];
-    u32 active;
+    struct CellDataSub *fC;
 };
 
 struct MultiCellAnim {
@@ -69,10 +78,10 @@ extern void func_02062FF0(struct CellAnim *anim, void *bank);
 extern s32  func_02062D4C(struct CellAnim *anim, s32 frames);
 extern int func_02062F00(void *s, u32 i);
 extern void func_02062F90(struct NNSG2dAnimController *pAnimCtrl);
-void func_02064178(char *o, u32 a);
-void func_0206419C(char *self);
-void func_0206428C(char *self, int a1, char *c);
-void func_020642C8(char *self, int a1, char *c, int d, int e, int f, int g, int h, int i, int j);
+void func_02064178(struct CellAnim *o, u32 a);
+void func_0206419C(struct CellAnim *self);
+void func_0206428C(struct CellAnim *self, int a1, struct CellDataBank *c);
+void func_020642C8(struct CellAnim *self, int a1, struct CellDataBank *c, int d, int e, int f, int g, int h, int i, int j);
 void ENV_SetResourceSet(void *anim, void *seq);
 void func_02064364(struct CellAnim *anim, s32 frames);
 void func_02064384(struct CellAnim *anim, u32 i);
@@ -101,53 +110,62 @@ void func_020643C4(struct MultiCellAnim *mca, u32 value);
  * (docs/notes/pkt_02064178.c.txt).  Under the pin this SAME C is 36 bytes, 0
  * mismatches.
  */
-void func_02064178(char *o, u32 a)
+void func_02064178(struct CellAnim *o, u32 a)
 {
-    *(u32 *)&((struct Obj07023 *)o)->f0 = 0;
-    ((struct Obj07023 *)o)->f4 = a;
-    ((struct Obj07023 *)o)->f8 = 1;
-    func_02064140((struct O02064140 *)(o + 0xc), 1);
+    o->f00 = 0;
+    o->hdr = (struct CellAnimHdr *)a;
+    o->f08 = 1;
+    func_02064140((struct O02064140 *)&o->active, 1);
 }
 
 
 
 
-void func_0206419C(char *self)
+void func_0206419C(struct CellAnim *self)
 {
-    char *p;
-    char *o;
+    struct CellAnimRec *p;
+    struct CellDataBank *o;
     int kind;
-    int q;
+    struct CellDataSub *q;
     int r;
     int r2;
-    if (*(unsigned short *)(*(int *)&((struct Obj00260 *)self)->f4 + 4) == 0)
+
+    if (self->hdr->count == 0)
         return;
-    func_02062D40((struct CellAnim *)self);
-    p = func_02062D40((struct CellAnim *)self);
-    o = *(char * *)&((struct Obj00260 *)self)->f34;
-    ((struct Obj00260 *)self)->f30 = (int)func_0206285C((struct CellDataBank *)o, ((struct Obj03025 *)p)->f0);
-    kind = *(int *)(*(int *)&((struct Obj00260 *)self)->f1C + 4) & 0xff;
-    func_02064140((struct O02064140 *)(self + 0x3c), 1);
+
+    func_02062D40(self);
+    p = func_02062D40(self);
+
+    o = self->dataBank;
+    self->f30 = (int)func_0206285C(o, p->f0);
+
+    kind = self->bank->unk04 & 0xff;
+
+    func_02064140((struct O02064140 *)self->sub3c, 1);
+
     switch (kind) {
     case 0:
         break;
     case 2:
-        func_020640DC(self + 0x3c, *(short *)&((struct Obj03025 *)p)->f4, *(short *)(p + 6));
+        func_020640DC((char *)self->sub3c, p->f4.h[0], p->f4.h[1]);
         break;
     default:
-        func_02064120(self + 0x3c, ((struct Obj03025 *)p)->f4, ((struct Obj03025 *)p)->f8);
-        func_02064100((struct Obj02064100 *)(self + 0x3c), ((struct Obj03025 *)p)->f2);
-        func_020640DC(self + 0x3c, ((struct Obj03025 *)p)->fC, ((struct Obj03025 *)p)->fE);
+        func_02064120((char *)self->sub3c, p->f4.w, p->f8);
+        func_02064100((struct Obj02064100 *)self->sub3c, p->f2);
+        func_020640DC((char *)self->sub3c, p->fC, p->fE);
         break;
     }
-    q = ((struct Obj16427 *)o)->fC;
+
+    q = o->fC;
     r = !!q;
     if (r == 0) return;
-    if (*(volatile int *)&((struct Obj00260 *)self)->f38 != -1) r2 = 1; else r2 = 0;
+
+    if (*(volatile int *)&self->f38 != -1) r2 = 1; else r2 = 0;
     if (r2 == 0) return;
+
     {
-        int *t = (int *)(((struct Obj16428 *)q)->f4 + ((struct Obj03025 *)p)->f0 * 8);
-        func_02066ABC(((struct Obj00260 *)self)->f38, t[0], t[1]);
+        int *t = (int *)(q->f4 + p->f0 * 8);
+        func_02066ABC(self->f38, t[0], t[1]);
     }
 }
 
@@ -172,13 +190,13 @@ void func_0206419C(char *self)
  * and every one allocates r3 the same way (docs/notes/pkt_02064178.c.txt).
  * Under the pin this SAME C is 60 bytes, 0 mismatches, all three sites label.
  */
-void func_0206428C(char *self, int a1, char *c)
+void func_0206428C(struct CellAnim *self, int a1, struct CellDataBank *c)
 {
-    *(char * *)&((struct Obj11539 *)self)->f34 = c;
-    ((struct Obj11539 *)self)->f38 = -1;
-    func_02064140((struct O02064140 *)(self + 0x3c), 1);
+    self->dataBank = c;
+    self->f38 = -1;
+    func_02064140((struct O02064140 *)self->sub3c, 1);
     func_02062F38((int)self);
-    func_0206434C(self, a1);
+    func_0206434C((char *)self, a1);
 }
 
 
@@ -211,16 +229,16 @@ void func_0206428C(char *self, int a1, char *c)
  * caps at MATCH.  It promotes as soon as 0x02066890 or a second caller of it
  * is filed.
  */
-void func_020642C8(char *self, int a1, char *c, int d,
+void func_020642C8(struct CellAnim *self, int a1, struct CellDataBank *c, int d,
                    int e, int f, int g, int h, int i, int j)
 {
-    func_02066890(d, e, f, g, *(int *)*(int * *)&((struct Obj16429 *)c)->fC, h, i, j);
-    *(volatile int *)&((struct Obj08900 *)self)->f38 = d;
-    *(char *volatile *)&((struct Obj08900 *)self)->f34 = c;
-    *(volatile int *)&((struct Obj08900 *)self)->f38 = d;
-    func_02064140((struct O02064140 *)(self + 0x3c), 1);
+    func_02066890(d, e, f, g, c->fC->f0, h, i, j);
+    *(volatile int *)&self->f38 = d;
+    *(struct CellDataBank *volatile *)&self->dataBank = c;
+    *(volatile int *)&self->f38 = d;
+    func_02064140((struct O02064140 *)self->sub3c, 1);
     func_02062F38((int)self);
-    func_0206434C(self, a1);
+    func_0206434C((char *)self, a1);
 }
 
 
@@ -246,7 +264,7 @@ void ENV_SetResourceSet(void *anim, void *seq)
 void func_02064364(struct CellAnim *anim, s32 frames)
 {
     if (func_02062D4C(anim, frames) != 0) {
-        func_0206419C((char *)anim);
+        func_0206419C(anim);
     }
 }
 
@@ -262,7 +280,7 @@ void func_02064364(struct CellAnim *anim, s32 frames)
 void func_02064384(struct CellAnim *anim, u32 i)
 {
     if (func_02062F00(anim, i) != 0) {
-        func_0206419C((char *)anim);
+        func_0206419C(anim);
     }
 }
 
@@ -279,7 +297,7 @@ void func_020643A4(struct CellAnim *anim)
 {
     func_02062F90((struct NNSG2dAnimController *)anim);
     anim->active = 1;
-    func_0206419C((char *)anim);
+    func_0206419C(anim);
 }
 
 

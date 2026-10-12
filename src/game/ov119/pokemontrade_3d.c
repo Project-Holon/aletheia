@@ -480,45 +480,17 @@
  *   func_020403F4 0x020403F4 arm
  *   func_020433E0 0x020433E0 arm
  */
-#include "../../matched/include/Obj00251.h"
-#include "../../matched/include/Obj10363.h"
-#include "../../matched/include/Obj05337.h"
-#include "../../matched/include/Obj00001.h"
-#include "../../matched/include/Obj02171.h"
-#include "../../matched/include/Obj13900.h"
-#include "../../matched/include/Obj01927.h"
-#include "../../matched/include/Obj02827.h"
+#include "pokemontrade_types.h"
 #include "../../matched/include/Obj22746.h"
-#include "../../matched/include/Obj13901.h"
-#include "../../matched/include/Obj13902.h"
 #include "../../matched/include/Obj22747.h"
-#include "../../matched/include/Obj10364.h"
-#include "../../matched/include/Obj10365.h"
-#include "../../matched/include/Obj10366.h"
-#include "../../matched/include/Obj04479.h"
-#include "../../matched/include/Obj13904.h"
 #include "../../matched/include/Obj10368.h"
 #include "../../matched/include/Obj13906.h"
 #include "../../matched/include/Obj10369.h"
 #include "../../matched/include/Obj00826.h"
-#include "../../matched/include/Obj13907.h"
-#include "../../matched/include/Obj22748.h"
-#include "../../matched/include/Obj00906.h"
-#include "../../matched/include/Obj22749.h"
-#include "../../matched/include/Obj22750.h"
 #include "../../matched/include/Obj22751.h"
 #include "../../matched/include/Obj22752.h"
-#include "../../matched/include/Obj00985.h"
-#include "../../matched/include/Obj01252.h"
-#include "../../matched/include/Obj22753.h"
-#include "../../matched/include/Obj22754.h"
-#include "../../matched/include/Obj01536.h"
-#include "../../matched/include/Obj00589.h"
 #include "../../matched/include/Obj22755.h"
-#include "../../matched/include/Obj22756.h"
 #include "../../matched/include/Obj22758.h"
-#include "../../matched/include/Obj22759.h"
-#include "../../matched/include/Obj01537.h"
 #include "../../matched/include/Obj13908.h"
 #include "../../matched/include/Obj22760.h"
 #include "../../matched/include/Obj22761.h"
@@ -529,63 +501,18 @@
 #include "../../matched/include/Obj22766.h"
 #include "../../matched/include/Obj22767.h"
 #include "../../matched/include/Obj22768.h"
-#include "../../matched/include/Obj10371.h"
-#include "../../matched/include/Obj10372.h"
-#include "../../matched/include/Obj02828.h"
 #include "../../matched/include/Obj10373.h"
 #include "../../matched/include/Obj13909.h"
 #include "../../matched/include/Obj08064.h"
-#include "../../matched/include/Obj01055.h"
-#include "../../matched/include/Obj05330.h"
-#include "../../matched/include/Obj03775.h"
-#include "../../matched/include/Obj08065.h"
-#include "../../matched/include/Obj00001.h"
-#include "../../matched/include/Obj05331.h"
-#include "../../matched/include/Obj10374.h"
-#include "../../matched/include/Obj02172.h"
-#include "../../matched/include/Obj08066.h"
-#include "../../matched/include/Obj06427.h"
 #include "../../matched/include/Obj00673.h"
 #include "../../matched/include/Obj02173.h"
 #include "../../matched/include/Obj08067.h"
 #include "../../matched/include/Obj04480.h"
 #include "../../matched/include/Obj08068.h"
 #include "../../matched/include/Obj13911.h"
-#include "../../matched/include/Obj04482.h"
-#include "../../matched/include/Obj03778.h"
-#include "../../matched/include/Obj03779.h"
-#include "../../matched/include/Obj10375.h"
-#include "../../matched/include/Obj00907.h"
-#include "../../matched/include/Obj10376.h"
-#include "../../matched/include/Obj22794.h"
 #include "../../matched/include/Obj22795.h"
 #include "../../matched/include/Obj22796.h"
-#include "../../matched/include/Obj10377.h"
-#include "../../matched/include/Obj00252.h"
-#include "../../matched/include/Obj13914.h"
-#include "../../matched/include/Obj22798.h"
-#include "../../matched/include/Obj10378.h"
-#include "../../matched/include/Obj22799.h"
-#include "../../matched/include/Obj22800.h"
-#include "../../matched/include/Obj10379.h"
-#include "../../matched/include/Obj00908.h"
-#include "../../matched/include/Obj13916.h"
-#include "../../matched/include/Obj03780.h"
-#include "../../matched/include/Obj13917.h"
-#include "../../matched/include/Obj13918.h"
-#include "../../matched/include/Obj03781.h"
-#include "../../matched/include/Obj22805.h"
-#include "../../matched/include/Obj13921.h"
-#include "../../matched/include/Obj13922.h"
-#include "../../matched/include/Obj22806.h"
-#include "../../matched/include/Obj22807.h"
-#include "../../matched/include/Obj08070.h"
-#include "../../matched/include/Obj05334.h"
-#include "../../matched/include/Obj08071.h"
 #include "../../matched/include/Obj22808.h"
-#include "../../matched/include/Obj02829.h"
-#include "../../matched/include/Obj13923.h"
-#include "../../matched/include/Obj22814.h"
 
 #define W(p, o) (*(int *)((p) + (o)))
 #define H(p, o) (*(u16 *)((p) + (o)))
@@ -1795,17 +1722,17 @@ static inline int poll(void) { int v=func_020362DC(); if(v)func_020355D8(0); ret
 void func_021DEA24(char *p)
 {
     int idx,sentinel;
-    func_021B63D0(*(S_021DEA24 * *)&((struct Obj00251 *)p)->f9C0);
-    if(func_021B6448(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==1) {
-        func_02045CAC(*(struct MsgBank * *)&((struct Obj00251 *)p)->f720,148,((struct Obj00251 *)p)->f738);
+    func_021B63D0(*(S_021DEA24 * *)&((TradeWork *)p)->f9C0);
+    if(func_021B6448(*(u8 * *)&((TradeWork *)p)->f9C0)==1) {
+        func_02045CAC(*(struct MsgBank * *)&((TradeWork *)p)->f720,148,(*(void * *)&((TradeWork *)p)->f738));
         func_021E1024(p);
-        func_021B6548((unsigned char *)(*(int *)&((struct Obj00251 *)p)->f9C0),1,0);
+        func_021B6548((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
         func_021DD09C(p);
         func_021D8E84(p,(int)func_021DE9E8);
         return;
     }
     sentinel=-1;
-    if(func_021B6470(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==sentinel) {
+    if(func_021B6470(*(u8 * *)&((TradeWork *)p)->f9C0)==sentinel) {
         idx=func_02035C08(d_021E80C4);
         if(idx!=sentinel) {
             func_020355D8(1);
@@ -1814,17 +1741,17 @@ void func_021DEA24(char *p)
             if(func_021DE754(p,idx)) return;
         }
         if(func_020355C4() && poll()) {
-            ((struct Obj00251 *)p)->f10A0%=6;
-            if(((struct Obj00251 *)p)->f10A0<0) ((struct Obj00251 *)p)->f10A0=0;
-            func_021E68F4((int)p,((struct Obj00251 *)p)->f10A0);
+            ((TradeWork *)p)->f10A0%=6;
+            if(((TradeWork *)p)->f10A0<0) ((TradeWork *)p)->f10A0=0;
+            func_021E68F4((int)p,((TradeWork *)p)->f10A0);
             func_020061E4(0x548);
             return;
         }
         if(poll()==1) {
-            if(func_021DE754(p,((struct Obj00251 *)p)->f10A0)) return;
+            if(func_021DE754(p,((TradeWork *)p)->f10A0)) return;
         }
         if(func_021DE208(p)) {
-            func_021E68F4((int)p,((struct Obj00251 *)p)->f10A0);
+            func_021E68F4((int)p,((TradeWork *)p)->f10A0);
             func_020061E4(0x548);
         }
     }
@@ -1874,7 +1801,7 @@ void func_021DEB34(void *p)
 
 void func_021DEBA0(char *p)
 {
-    func_02045CAC(((struct Obj10363 *)p)->f720, 0x91, ((struct Obj10363 *)p)->f738);
+    func_02045CAC((*(void * *)&((TradeWork *)p)->f720), 0x91, (*(void * *)&((TradeWork *)p)->f738));
     func_021E1024(p);
     *(p + 0x11F1) = 0x78;
     func_021D8E84(p, (int)func_021DEB34);
@@ -1943,8 +1870,8 @@ void func_021DEBD4(void *p) {
 
 void func_021DEC4C(void *p) {
  if(func_021E69C0(p)) {
-  if(func_020355C4()) {func_021E68F4((int)p,-1);((struct Obj05337 *)p)->f10A0=0;}
-  else {func_021E68F4((int)p,0);((struct Obj05337 *)p)->f10A0=0;}
+  if(func_020355C4()) {func_021E68F4((int)p,-1);((TradeWork *)p)->f10A0=0;}
+  else {func_021E68F4((int)p,0);((TradeWork *)p)->f10A0=0;}
   if(func_020221A4()) {func_021DEBD4(p);func_021D8E84(p,(int)func_021DEBA0);}
  }
 }
@@ -1962,10 +1889,10 @@ void func_021DEC4C(void *p) {
 
 void func_021DECA0(char *p) {
  func_021E4000(p);func_021DF7D0(p);func_021DF8E0(p);func_021E64B8(p);func_021DD588(p);func_021E4570(p);func_021DD9DC((unsigned char *)p);func_021E4888(p);
- func_021DD528(p,1);func_02041570(6,0);func_0204B3DC((struct Obj *)*(int *)&((struct Obj00001 *)p)->fF04,0);
- func_021B6558((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),1,1);func_021B6548((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),1,0);func_021E24E8(p,6);
- ((struct Obj00001 *)p)->f108C=0;((struct Obj00001 *)p)->f1084=1;func_021E6B90(p);
- func_0202208C(0,1,1,0,6,1,((struct Obj00001 *)p)->f5F4);func_021D8E84(p,(int)func_021DEC4C);
+ func_021DD528(p,1);func_02041570(6,0);func_0204B3DC((struct Obj *)((TradeWork *)p)->fF04,0);
+ func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),1,1);func_021B6548((unsigned char *)(((TradeWork *)p)->f9C0),1,0);func_021E24E8(p,6);
+ ((TradeWork *)p)->f108C=0;((TradeWork *)p)->f1084=1;func_021E6B90(p);
+ func_0202208C(0,1,1,0,6,1,((TradeWork *)p)->f5F4);func_021D8E84(p,(int)func_021DEC4C);
 }
 
 
@@ -1999,8 +1926,8 @@ void func_021DED58(void *p)
 
 
 void func_021DED74(void *p) {
- if(!func_021D8A24(p) || ((struct Obj00001 *)p)->f1060) {
-  func_0202208C(0,0,0,0,6,1,((struct Obj00001 *)p)->f5F4);
+ if(!func_021D8A24(p) || ((TradeWork *)p)->f1060) {
+  func_0202208C(0,0,0,0,6,1,((TradeWork *)p)->f5F4);
   func_021D8E84(p,(int)func_021DED58);
  }
 }
@@ -2047,8 +1974,8 @@ void func_021DEE00(unsigned char *p) {
   else if((p[0x11e7]&0xf0)==0xf0) v=0xa1;
   else if(p[0x11e7]) v=0x8f;
   else v=0x90;
-  func_02045CAC((struct MsgBank *)(((struct Obj02171 *)p)->f720),v,(void *)(((struct Obj02171 *)p)->f738));
-  func_021E1024(p);p[0x11f1]=120;((struct Obj02171 *)p)->fF2C=0;
+  func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),v,(void *)(((TradeWork *)p)->f738));
+  func_021E1024(p);p[0x11f1]=120;((TradeWork *)p)->fF2C=0;
   func_021D8E84(p,(int)func_021DE8C0);
  }
 }
@@ -2066,10 +1993,10 @@ void func_021DEE00(unsigned char *p) {
 
 void func_021DEEA8(void *p) {
  void *h=func_020399A8();
- ((struct Obj13900 *)p)->f109A=0;
+ ((TradeWork *)p)->f109A=0;
  if(func_0203D3A8((void *)h,0xc11,1,(u32_021DEEA8)((char *)p+0x11e6))) {
   func_02039C68((struct Link *)func_020399A8(),21,8);
-  if(((struct Obj13900 *)p)->f118C==2) func_0215642C(0);
+  if(((TradeWork *)p)->f118C==2) func_0215642C(0);
   func_021D8E84(p,(int)func_021DEE00);
  }
 }
@@ -2122,11 +2049,11 @@ void func_021DEF1C(u8 *p)
     const u16 *heap;
     void *mon, *bank, *text, *name;
     u32_021DEF1C value;
-    status=func_021B99DC(*(u8 * *)&((struct Obj01927 *)p)->f0);
-    result=func_021B9790(*(u8 * *)&((struct Obj01927 *)p)->f0);
+    status=func_021B99DC(*(u8 * *)&((TradeWork *)p)->f0);
+    result=func_021B9790(*(u8 * *)&((TradeWork *)p)->f0);
     if(result==0) {
     if(status==200) {
-        data=func_021B97F4(*(u8 * *)&((struct Obj01927 *)p)->f0);
+        data=func_021B97F4(*(u8 * *)&((TradeWork *)p)->f0);
         p[0x11e6]=func_021B99F0(data);
         if(p[0x11e6]==1) {
             off1=0x109a;
@@ -2141,7 +2068,7 @@ void func_021DEF1C(u8 *p)
                         mon=*(void **)(p+i*4+off2);
                         if(func_021B99F4((u32_021DEF1C)data,n)) {
                             value=func_02017E1C(mon,6,0);
-                            bank=func_02045B38(0,2,81,((struct Obj01927 *)p)->f5F4);
+                            bank=func_02045B38(0,2,81,((TradeWork *)p)->f5F4);
                             text=func_02045EC0(bank,15);
                             func_02045C04(bank);
                             if(func_0202136C(value)) {
@@ -2159,7 +2086,7 @@ void func_021DEF1C(u8 *p)
                     }
                     i++;
                 } while(i<3);
-                ((struct Obj01927 *)p)->f109A=1;
+                ((TradeWork *)p)->f109A=1;
                 func_021D8E84(p,(int)func_021DF0B8);
                 goto cleanup;
             }
@@ -2178,14 +2105,14 @@ failed:
         default: error=255; break;
         }
         p[0x11e6]=error;
-        func_021B9774(*(u8 * *)&((struct Obj01927 *)p)->f0);
+        func_021B9774(*(u8 * *)&((TradeWork *)p)->f0);
     }
     func_021D8E84(p,(int)func_021DEEA8);
 cleanup:
-    if(*(u8 * *)&((struct Obj01927 *)p)->f0) {
-        func_021B99B8(*(u8 * *)&((struct Obj01927 *)p)->f0);
-        func_021B9838(*(u8 * *)&((struct Obj01927 *)p)->f0);
-        *(u8 * *)&((struct Obj01927 *)p)->f0=0;
+    if(*(u8 * *)&((TradeWork *)p)->f0) {
+        func_021B99B8(*(u8 * *)&((TradeWork *)p)->f0);
+        func_021B9838(*(u8 * *)&((TradeWork *)p)->f0);
+        *(u8 * *)&((TradeWork *)p)->f0=0;
         func_02156ED0();
         func_02156DC4(0,0);
     }
@@ -2205,13 +2132,13 @@ cleanup:
 void func_021DF0B8(char *p) {
  int n=0;
  int i;
- func_02156E24(13,0x10000,((struct Obj02827 *)p)->f5F4);
- *(u8 * *)&((struct Obj02827 *)p)->f0=func_021B9800(((struct Obj02827 *)p)->f5F4,func_0200853C(((struct Obj02827 *)p)->f830),((struct Obj22746 *)(*(char * *)&((struct Obj02827 *)p)->f8))->f24);
+ func_02156E24(13,0x10000,((TradeWork *)p)->f5F4);
+ *(u8 * *)&((TradeWork *)p)->f0=func_021B9800(((TradeWork *)p)->f5F4,func_0200853C((*(void * *)&((TradeWork *)p)->f830)),((struct Obj22746 *)(((TradeWork *)p)->f8))->f24);
  func_02156DC4((int)func_021DEEFC,(int)p);
  for(i=0;i<3;i++) if(func_021D89EC(*(void **)(p+0xfe4+i*4))) n++;
- func_021B98A0(*(u8 * *)&((struct Obj02827 *)p)->f0,((struct Obj02827 *)p)->f5F4,func_020173EC()*n,2);
- for(i=0;i<3;i++) if(func_021D89EC(*(void **)(p+i*4+0xfe4))) func_021B98D8(*(u8 * *)&((struct Obj02827 *)p)->f0,*(int *)(p+i*4+0xfe4),func_020173EC());
- func_021B98F8(*(u8 * *)&((struct Obj02827 *)p)->f0);func_021B9748(*(u8 * *)&((struct Obj02827 *)p)->f0);func_021D8E84(p,(int)func_021DEF1C);
+ func_021B98A0(*(u8 * *)&((TradeWork *)p)->f0,((TradeWork *)p)->f5F4,func_020173EC()*n,2);
+ for(i=0;i<3;i++) if(func_021D89EC(*(void **)(p+i*4+0xfe4))) func_021B98D8(*(u8 * *)&((TradeWork *)p)->f0,*(int *)(p+i*4+0xfe4),func_020173EC());
+ func_021B98F8(*(u8 * *)&((TradeWork *)p)->f0);func_021B9748(*(u8 * *)&((TradeWork *)p)->f0);func_021D8E84(p,(int)func_021DEF1C);
 }
 
 
@@ -2231,8 +2158,8 @@ void func_021DF0B8(char *p) {
 void func_021DF168(void *p) {
  if(func_020221A4()) {
   func_021E4888(p);func_020435F4(4);func_02022230(4);
-  ++*(volatile unsigned char *)&((struct Obj13901 *)p)->f11FA;
-  if(*(volatile unsigned char *)&((struct Obj13901 *)p)->f11FA>=3) {func_021D89CC(p);func_021D8E84(p,(int)func_021D9434);return;}
+  ++*(volatile unsigned char *)&((TradeWork *)p)->f11FA;
+  if(*(volatile unsigned char *)&((TradeWork *)p)->f11FA>=3) {func_021D89CC(p);func_021D8E84(p,(int)func_021D9434);return;}
   func_02039C68((struct Link *)func_020399A8(),31,8);func_021D8E84(p,(int)func_021DF0B8);
  }
 }
@@ -2249,8 +2176,8 @@ void func_021DF168(void *p) {
 
 
 void func_021DF1C8(void *p) {
- func_0202208C((void *)4,0,0,0,6,1,((struct Obj13902 *)p)->f5F4);
- if(((struct Obj13902 *)p)->f118C==2) func_0215642C(1);
+ func_0202208C((void *)4,0,0,0,6,1,((TradeWork *)p)->f5F4);
+ if(((TradeWork *)p)->f118C==2) func_0215642C(1);
  func_021D8E84(p,(int)func_021DF168);
 }
 
@@ -2282,13 +2209,13 @@ void func_021DF210(char *p)
         }
     }
     func_021DD294(p, 0, 0);
-    ((struct Obj00001 *)p)->f11EA = 0;
-    ((struct Obj00001 *)p)->f11E8 = 3;
-    ((struct Obj00001 *)p)->f11E9 = 3;
+    ((TradeWork *)p)->f11EA = 0;
+    ((TradeWork *)p)->f11E8 = 3;
+    ((TradeWork *)p)->f11E9 = 3;
     if (*(unsigned char *)(p + a + 0x11E0) == 10 && *(unsigned char *)(p + b + 0x11E0) == 10) {
         func_021DD90C((u8 *)p, 0, 1, 1);
         func_021DD90C((u8 *)p, 1, 1, 1);
-        if (((struct Obj00001 *)p)->f118C == 3) {
+        if (((TradeWork *)p)->f118C == 3) {
             func_021D8E84(p, (int)func_021DF1C8);
         } else {
             func_021D8E84(p, (int)func_021DEDBC);
@@ -2296,7 +2223,7 @@ void func_021DF210(char *p)
         return;
     }
     if (*(unsigned char *)(p + a + 0x11E0) == 4 && *(unsigned char *)(p + b + 0x11E0) == 4) {
-        ((struct Obj22747 *)(*(char * *)&((struct Obj00001 *)p)->f8))->f8 = 3;
+        ((struct Obj22747 *)(((TradeWork *)p)->f8))->f8 = 3;
         func_021D8E84(p, (int)func_021D9434);
         return;
     }
@@ -2305,12 +2232,12 @@ void func_021DF210(char *p)
     } else if (*(unsigned char *)(p + a + 0x11E0) == 4) {
         v = 0x66;
     }
-    func_02045CAC(((struct Obj00001 *)p)->f720, v, ((struct Obj00001 *)p)->f738);
+    func_02045CAC((*(void * *)&((TradeWork *)p)->f720), v, (*(void * *)&((TradeWork *)p)->f738));
     func_021E1024(p);
-    ((struct Obj00001 *)p)->f11E0 = 0;
-    ((struct Obj00001 *)p)->f11E1 = 0;
-    ((struct Obj00001 *)p)->f11E8 = 0;
-    ((struct Obj00001 *)p)->f11E9 = 0;
+    ((TradeWork *)p)->f11E0 = 0;
+    ((TradeWork *)p)->f11E1 = 0;
+    ((TradeWork *)p)->f11E8 = 0;
+    ((TradeWork *)p)->f11E9 = 0;
     func_021D8E84(p, (int)func_021DAEF0);
 }
 
@@ -2391,10 +2318,10 @@ void func_021DF3E4(void *p)
 
 void func_021DF404(char *p)
 {
-    func_02045CAC(((struct Obj10364 *)p)->f720, 0x88, ((struct Obj10364 *)p)->f738);
+    func_02045CAC((*(void * *)&((TradeWork *)p)->f720), 0x88, (*(void * *)&((TradeWork *)p)->f738));
     func_021E1024(p);
     func_021E1030(p);
-    ((struct Obj10364 *)p)->f11F1 = 0x78;
+    ((TradeWork *)p)->f11F1 = 0x78;
     func_021D8E84(p, (int)func_021DF37C);
 }
 
@@ -2412,11 +2339,11 @@ void func_021DF404(char *p)
 void func_021DF43C(void *p)
 {
     int v;
-    if (!func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))) return;
-    v=func_02027A04((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));
+    if (!func_020279E8((struct TaskMenu *)(((TradeWork *)p)->f64C))) return;
+    v=func_02027A04((const u8 *)(((TradeWork *)p)->f64C));
     func_021E12F8(p);
     func_021E1098(p);
-    *(int *)&((struct Obj00001 *)p)->f64C=0;
+    ((TradeWork *)p)->f64C=0;
     if (v==0) {func_021D8E84(p,(int)func_021DF404);return;}
     func_021E1098(p);
     func_021D8E84(p,(int)func_021DF3E4);
@@ -2458,7 +2385,7 @@ void func_021DF4CC(char *p)
 {
     func_0203D1A4((struct Link *)((unsigned)func_020399A8()));
     if (func_021E12AC(p) && func_021DD140(p)) {
-        func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),0x89,(void *)(*(int *)&((struct Obj00001 *)p)->f738));
+        func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),0x89,(void *)(((TradeWork *)p)->f738));
         func_021E1024(p);
         func_021D8E84(p,(int)func_021DF490);
     }
@@ -2477,10 +2404,10 @@ void func_021DF4CC(char *p)
 
 void func_021DF510(char *p)
 {
-    func_02045CAC(((struct Obj10365 *)p)->f720, 0x88, ((struct Obj10365 *)p)->f738);
+    func_02045CAC((*(void * *)&((TradeWork *)p)->f720), 0x88, (*(void * *)&((TradeWork *)p)->f738));
     func_021E1024(p);
     func_021E1030(p);
-    ((struct Obj10365 *)p)->f11F1 = 0x78;
+    ((TradeWork *)p)->f11F1 = 0x78;
     func_021D8E84(p, (int)func_021DF4CC);
 }
 
@@ -2498,11 +2425,11 @@ void func_021DF510(char *p)
 void func_021DF548(void *p)
 {
     int v;
-    if (!func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))) return;
-    v=func_02027A04((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));
+    if (!func_020279E8((struct TaskMenu *)(((TradeWork *)p)->f64C))) return;
+    v=func_02027A04((const u8 *)(((TradeWork *)p)->f64C));
     func_021E12F8(p);
     func_021E1098(p);
-    *(int *)&((struct Obj00001 *)p)->f64C=0;
+    ((TradeWork *)p)->f64C=0;
     if (v==0) {func_021D8E84(p,(int)func_021DF510);return;}
     func_021E1098(p);
     func_021D8E84(p,(int)func_021DBBD0);
@@ -2542,9 +2469,9 @@ void func_021DF59C(void *p)
 
 void func_021DF5D8(char *p)
 {
-    func_02045CAC(((struct Obj10366 *)p)->f720, 0x87, ((struct Obj10366 *)p)->f738);
+    func_02045CAC((*(void * *)&((TradeWork *)p)->f720), 0x87, (*(void * *)&((TradeWork *)p)->f738));
     func_021E1024(p);
-    func_021B6548(((struct Obj10366 *)p)->f9C0, 1, 0);
+    func_021B6548((*(void * *)&((TradeWork *)p)->f9C0), 1, 0);
     func_021D8E84(p, (int)func_021DF59C);
     func_021E26AC(p);
 }
@@ -2565,14 +2492,14 @@ int func_021DF614(char *p,int a,int b)
     int x,y,i;
     x=func_021D8AF4(a,p);
     y=func_021D8B0C(a,b);
-    if(((struct Obj04479 *)p)->fF7C==y && ((struct Obj04479 *)p)->fF80==x) return 1;
+    if(((TradeWork *)p)->fF7C==y && ((TradeWork *)p)->fF80==x) return 1;
     if(func_021D8AA8(p)) {
         for(i=0;i<3;i++) {
             if(*(int *)(p+i*4+0xfa4)==-1) continue;
             if(y==*(int *)(p+i*4+0xfa4) && x==*(int *)(p+i*4+0xfbc)) return 1;
         }
     } else {
-        if(((struct Obj04479 *)p)->fF84==y && ((struct Obj04479 *)p)->fF88==x && ((struct Obj04479 *)p)->fF7C==-1 && ((struct Obj04479 *)p)->fF80==-1) return 1;
+        if(((TradeWork *)p)->fF84==y && ((TradeWork *)p)->fF88==x && ((TradeWork *)p)->fF7C==-1 && ((TradeWork *)p)->fF80==-1) return 1;
     }
     return 0;
 }
@@ -2592,7 +2519,7 @@ int func_021DF6B4(char *p, int a, int b)
 {
     int x = func_021D8AF4(a, p);
     int y = func_021D8B0C(a, b);
-    if (((struct Obj13904 *)p)->fF94 == y && ((struct Obj13904 *)p)->fF98 == x) {
+    if (((TradeWork *)p)->fF94 == y && ((TradeWork *)p)->fF98 == x) {
         return 1;
     }
     return 0;
@@ -2630,17 +2557,17 @@ void func_021DF6EC(void *p)
 
 void func_021DF708(void *p)
 {
-    int v = func_021DD34C(p, ((struct Obj00001 *)p)->fF98,
-                          ((struct Obj00001 *)p)->fF94);
+    int v = func_021DD34C(p, ((TradeWork *)p)->fF98,
+                          ((TradeWork *)p)->fF94);
 
     if (func_021D8A24(p) == 0 ||
         func_0203D3A8(func_020399A8(), 0xc0b, 4, (u32_021DF708)(&v)) != 0) {
-        ((struct Obj00001 *)p)->fF84 = -1;
-        ((struct Obj00001 *)p)->fF88 = -1;
-        ((struct Obj00001 *)p)->fF7C = -1;
-        ((struct Obj00001 *)p)->fF80 = -1;
-        ((struct Obj00001 *)p)->fF94 = -1;
-        ((struct Obj00001 *)p)->fF98 = -1;
+        ((TradeWork *)p)->fF84 = -1;
+        ((TradeWork *)p)->fF88 = -1;
+        ((TradeWork *)p)->fF7C = -1;
+        ((TradeWork *)p)->fF80 = -1;
+        ((TradeWork *)p)->fF94 = -1;
+        ((TradeWork *)p)->fF98 = -1;
         if (v != -1) {
             func_021DD4F4(p, 0, v);
             func_021E62D4(p, 0, v);
@@ -2911,9 +2838,9 @@ int func_021DF9E8(char *p,void *src,int kind)
     int one;
     id=(unsigned)func_020399A8();
     if(((Flags *)(p+0x11fb))->low) return 0;
-    MI_CpuCopy8(src,((struct Obj00001 *)p)->f106C,func_020173EC());
+    MI_CpuCopy8(src,((TradeWork *)p)->f106C,func_020173EC());
     one=1;
-    if(!(int)func_0203D3F8(id,255,(u16)kind,func_020173EC(),(u32_021DF9E8)(((struct Obj00001 *)p)->f106C),(int)0,(int)0,(int)one)) return 0;
+    if(!(int)func_0203D3F8(id,255,(u16)kind,func_020173EC(),(u32_021DF9E8)(((TradeWork *)p)->f106C),(int)0,(int)0,(int)one)) return 0;
     ((Flags *)(p+0x11fb))->low=one;
     return one;
 }
@@ -3219,8 +3146,8 @@ void func_021DFC68(void *p, int a1)
 
 void func_021DFD0C(char *p)
 {
-    func_02015E04((void *)(((struct Obj13907 *)p)->f844));
-    ((struct Obj13907 *)p)->f854 = 1;
+    func_02015E04((void *)(((TradeWork *)p)->f844));
+    ((TradeWork *)p)->f854 = 1;
 }
 
 
@@ -3248,7 +3175,7 @@ void func_021DFD24(u32_021DFD24 *p) { if (p) { func_020307B0((void *)((u32_021DF
 
 
 
-void func_021DFD30(u8 *p, u32_021DFD30 v) { ((struct Obj22748 *)p)->fF2C = v; }
+void func_021DFD30(u8 *p, u32_021DFD30 v) { (*(unsigned int *)&((TradeWork *)p)->fF2C) = v; }
 
 
 
@@ -3273,9 +3200,9 @@ void func_021DFD3C(void *p)
 {
     u8 *b = p;
 
-    if (((struct Obj00906 *)b)->f11F8 != 0) {
+    if (((TradeWork *)b)->f11F8 != 0) {
         func_02005E9C();
-        ((struct Obj00906 *)b)->f11F8 -= 1;
+        ((TradeWork *)b)->f11F8 -= 1;
         func_02005DE4(0);
         func_02005DF8(0x3c);
     }
@@ -3298,7 +3225,7 @@ void func_021DFD64(void *p)
     u8 *b = p;
 
     func_02005E9C();
-    ((struct Obj22749 *)b)->f11F8 -= 1;
+    ((TradeWork *)b)->f11F8 -= 1;
 }
 
 
@@ -3318,7 +3245,7 @@ void func_021DFD7C(void *p)
     u8 *b = p;
 
     func_02005E9C();
-    ((struct Obj22750 *)b)->f11F8 -= 1;
+    ((TradeWork *)b)->f11F8 -= 1;
     func_02005DE4(0);
     func_02005DF8(0x18);
 }
@@ -3348,26 +3275,26 @@ void func_021DFDA0(void *p)
     u8 *b = p;
     int st;
 
-    func_0204B1CC(((struct Obj00906 *)b)->f9C4);
+    func_0204B1CC((*(void * *)&((TradeWork *)b)->f9C4));
     func_0204A5AC();
     func_021E3E60(p);
-    ((struct Obj00906 *)b)->f9C4 = func_0204B100(0x154, 0, ((struct Obj00906 *)b)->f5F4);
-    st = ((struct Obj00906 *)b)->f118C;
+    (*(void * *)&((TradeWork *)b)->f9C4) = func_0204B100(0x154, 0, ((TradeWork *)b)->f5F4);
+    st = ((TradeWork *)b)->f118C;
     if (st == 5) {
         func_021DFD3C(p);
-        ((struct Obj22751 *)(*(int * *)&((struct Obj00906 *)b)->f8))->f8 = 3;
+        ((struct Obj22751 *)(*(int * *)&((TradeWork *)b)->f8))->f8 = 3;
         func_021D8E84(p, (int)func_021D9434);
     } else if (st == 6) {
         func_021DFD3C(p);
-        ((struct Obj22752 *)(*(int * *)&((struct Obj00906 *)b)->f8))->f8 = 3;
+        ((struct Obj22752 *)(*(int * *)&((TradeWork *)b)->f8))->f8 = 3;
         func_021D8E84(p, 0);
     } else {
         func_021E10D8(p);
         func_02005DE4((void *)1);
         func_02005E64();
-        (((struct Obj00906 *)b)->f11F8)++;
+        (((TradeWork *)b)->f11F8)++;
         func_02005E30(6);
-        ((struct Obj00906 *)b)->fF2C = 0;
+        ((TradeWork *)b)->fF2C = 0;
         func_021D8E84(p, (int)func_021DFE48);
     }
 }
@@ -3390,25 +3317,25 @@ void func_021DFE48(char *p)
 {
     void *mon;
     int z,state;
-    if(((struct Obj00985 *)p)->fF2C<6) return;
+    if(((TradeWork *)p)->fF2C<6) return;
     func_02005D90(0x518,0xffff);
     func_02005DF8(6);
-    state=((struct Obj00985 *)p)->f118C;
-    if(state==7) func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),153,(void *)(((struct Obj00985 *)p)->f73C));
-    else if(state==8) func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),156,(void *)(((struct Obj00985 *)p)->f73C));
-    else if(((struct Obj00985 *)p)->f11EE) func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),131,(void *)(((struct Obj00985 *)p)->f73C));
-    else func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),48,(void *)(((struct Obj00985 *)p)->f73C));
+    state=((TradeWork *)p)->f118C;
+    if(state==7) func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),153,(void *)((*(int *)&((TradeWork *)p)->f73C)));
+    else if(state==8) func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),156,(void *)((*(int *)&((TradeWork *)p)->f73C)));
+    else if(((TradeWork *)p)->f11EE) func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),131,(void *)((*(int *)&((TradeWork *)p)->f73C)));
+    else func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),48,(void *)((*(int *)&((TradeWork *)p)->f73C)));
     if(func_021D8AA8(p)) mon=func_021D8FA4(p,0);
     else mon=func_021D8FA4(p,1);
-    func_0201EEF4(((struct Obj00985 *)p)->f724,1,mon);
+    func_0201EEF4((*(void * *)&((TradeWork *)p)->f724),1,mon);
     z=0;
-    func_0201F02C((struct WordSet *)(*(int *)&((struct Obj00985 *)p)->f724),0,(void *)(((struct Obj00985 *)p)->f834));
-    func_0201F250((struct WordSet *)(*(int *)&((struct Obj00985 *)p)->f724),(void *)(((struct Obj00985 *)p)->f738),(void *)(((struct Obj00985 *)p)->f73C));
-    ((struct Obj00985 *)p)->f644=(int)func_0201F5DC((void *)6,15,0,((struct Obj00985 *)p)->f5F4);
+    func_0201F02C((struct WordSet *)(((TradeWork *)p)->f724),0,(void *)(((TradeWork *)p)->f834));
+    func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f738),(void *)((*(int *)&((TradeWork *)p)->f73C)));
+    (*(int *)&((TradeWork *)p)->f644)=(int)func_0201F5DC((void *)6,15,0,((TradeWork *)p)->f5F4);
     func_021E0FF4(p,1,0);
     func_021DFD30((u8 *)p,0);
     func_02040588(6,1);
-    ((struct Obj00985 *)p)->fF2C=z;
+    ((TradeWork *)p)->fF2C=z;
     func_021D8E84(p,(int)func_021DFF40);
 }
 
@@ -3431,7 +3358,7 @@ void func_021DFE48(char *p)
 void func_021DFF40(char *p)
 {
     void *a;
-    if (((struct Obj01252 *)p)->fF2C < 0xC8) {
+    if (((TradeWork *)p)->fF2C < 0xC8) {
         return;
     }
     if (func_021D8AA8(p)) {
@@ -3439,16 +3366,16 @@ void func_021DFF40(char *p)
     } else {
         a = func_021D8FA4(p, 1);
     }
-    func_0201EEF4(((struct Obj01252 *)p)->f724, 1, a);
-    func_0201F02C(((struct Obj01252 *)p)->f724, 0, (void *)(((struct Obj01252 *)p)->f834));
-    if (((struct Obj01252 *)p)->f118C != 7 && ((struct Obj01252 *)p)->f118C != 8) {
-        if (((struct Obj01252 *)p)->f11EE) {
-            func_02045CAC(((struct Obj01252 *)p)->f720, 0x84, ((struct Obj01252 *)p)->f73C);
-            func_0201F250(((struct Obj01252 *)p)->f724, ((struct Obj01252 *)p)->f738, ((struct Obj01252 *)p)->f73C);
+    func_0201EEF4((*(void * *)&((TradeWork *)p)->f724), 1, a);
+    func_0201F02C((*(void * *)&((TradeWork *)p)->f724), 0, (void *)(((TradeWork *)p)->f834));
+    if (((TradeWork *)p)->f118C != 7 && ((TradeWork *)p)->f118C != 8) {
+        if (((TradeWork *)p)->f11EE) {
+            func_02045CAC((*(void * *)&((TradeWork *)p)->f720), 0x84, ((TradeWork *)p)->f73C);
+            func_0201F250((*(void * *)&((TradeWork *)p)->f724), (*(void * *)&((TradeWork *)p)->f738), ((TradeWork *)p)->f73C);
             func_021E0FF4(p, 1, 0);
         } else {
-            func_02045CAC(((struct Obj01252 *)p)->f720, 0x31, ((struct Obj01252 *)p)->f73C);
-            func_0201F250(((struct Obj01252 *)p)->f724, ((struct Obj01252 *)p)->f738, ((struct Obj01252 *)p)->f73C);
+            func_02045CAC((*(void * *)&((TradeWork *)p)->f720), 0x31, ((TradeWork *)p)->f73C);
+            func_0201F250((*(void * *)&((TradeWork *)p)->f724), (*(void * *)&((TradeWork *)p)->f738), ((TradeWork *)p)->f73C);
             func_021E0FF4(p, 1, 0);
         }
     }
@@ -3469,7 +3396,7 @@ void func_021DFF40(char *p)
 
 void func_021DFFE0(char *p)
 {
-    if (((struct Obj22753 *)p)->fF2C >= 0x10e) {
+    if (((TradeWork *)p)->fF2C >= 0x10e) {
         func_021DFD7C(p);
         func_021D8E84(p, (int)func_021E0008);
     }
@@ -3489,7 +3416,7 @@ void func_021DFFE0(char *p)
 
 void func_021E0008(char *p)
 {
-    if (((struct Obj22754 *)p)->fF2C >= 0x1a4) {
+    if (((TradeWork *)p)->fF2C >= 0x1a4) {
         func_021DFD30((u8 *)p, 0);
         func_021D8E84(p, (int)func_021E08E8);
     }
@@ -3529,7 +3456,7 @@ void func_021E0054(char *p)
 {
     struct Packet packet;
     void *saved,*first,*second;
-    saved=func_02009470(func_02012EBC(((struct Obj00001 *)p)->f82C));
+    saved=func_02009470(func_02012EBC(((TradeWork *)p)->f82C));
     if(func_021D8AA8(p)) {
         first=func_021D8FA4(p,0);
         second=func_021D8FA4(p,1);
@@ -3537,7 +3464,7 @@ void func_021E0054(char *p)
         first=func_021D8FA4(p,1);
         second=func_021D8FA4(p,0);
     }
-    func_02008494(func_02012944(((struct Obj00001 *)p)->f82C),&packet);
+    func_02008494(func_02012944(((TradeWork *)p)->f82C),&packet);
     packet.first=func_02017E1C(first,5,0);
     packet.second=func_02017E1C(second,5,0);
     packet.a=func_02009628(saved);
@@ -3698,13 +3625,13 @@ void func_021E0240(void **h, void *dst)
 void func_021E0260(char *p)
 {
     int zero;
-    if (((struct Obj01536 *)p)->f60C) func_020307B0(((struct Obj01536 *)p)->f60C);
-    if (((struct Obj01536 *)p)->f610) func_020307B0(((struct Obj01536 *)p)->f610);
-    if (((struct Obj01536 *)p)->f614) func_020307B0(((struct Obj01536 *)p)->f614);
-    if (((struct Obj01536 *)p)->f618) func_020307B0(((struct Obj01536 *)p)->f618);
-    if (((struct Obj01536 *)p)->f61C) func_020307B0(((struct Obj01536 *)p)->f61C);
-    if (((struct Obj01536 *)p)->f620) func_020307B0(((struct Obj01536 *)p)->f620);
-    if (((struct Obj01536 *)p)->f624) func_020307B0(((struct Obj01536 *)p)->f624);
+    if (((TradeWork *)p)->f60C) func_020307B0(((TradeWork *)p)->f60C);
+    if (((TradeWork *)p)->f610) func_020307B0(((TradeWork *)p)->f610);
+    if (((TradeWork *)p)->f614) func_020307B0(((TradeWork *)p)->f614);
+    if (((TradeWork *)p)->f618) func_020307B0(((TradeWork *)p)->f618);
+    if (((TradeWork *)p)->f61C) func_020307B0(((TradeWork *)p)->f61C);
+    if (((TradeWork *)p)->f620) func_020307B0(((TradeWork *)p)->f620);
+    if (((TradeWork *)p)->f624) func_020307B0(((TradeWork *)p)->f624);
     zero=0;
     func_02082BCC(p+0x60c,zero,36);
     p[0x11f7]=zero;
@@ -3725,38 +3652,38 @@ void func_021E02E8(char *p)
 {
     void *dest,*src;
     u32_021DEA24 n;
-    dest=((struct Obj00589 *)p)->f60C;
+    dest=((TradeWork *)p)->f60C;
     if(dest) {
-        src=((struct Obj00589 *)p)->f82C;
+        src=((TradeWork *)p)->f82C;
         func_02012EBC(src);
         src=func_02008FEC(src);
         n=func_02008FFC();
         func_02082D44(dest,src,n);
         func_020307B0(dest);
     }
-    dest=((struct Obj00589 *)p)->f610;
+    dest=((TradeWork *)p)->f610;
     if(dest) {
-        src=func_02012F2C(((struct Obj00589 *)p)->f82C);
+        src=func_02012F2C(((TradeWork *)p)->f82C);
         n=func_02008C20();
         func_02082D44(dest,src,n);
         func_020307B0(dest);
     }
-    if(((struct Obj00589 *)p)->f614) func_021E017C(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f614);
-    if(((struct Obj00589 *)p)->f618) func_021E01E0(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f618);
-    if(((struct Obj00589 *)p)->f61C) func_021E0240(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f61C);
-    if(((struct Obj00589 *)p)->f620) {
-        func_0201AC2C(((struct Obj00589 *)p)->f620,((struct Obj00589 *)p)->f838);
-        func_020086F8((void *)func_02012FCC((int)(((struct Obj00589 *)p)->f82C)),(const struct PlayTimeStamp *)(p+0x628));
-        func_020307B0(((struct Obj00589 *)p)->f620);
-        *(int *)&((struct Obj00589 *)p)->f620=0;
+    if(((TradeWork *)p)->f614) func_021E017C(((TradeWork *)p)->f82C,((TradeWork *)p)->f614);
+    if(((TradeWork *)p)->f618) func_021E01E0(((TradeWork *)p)->f82C,((TradeWork *)p)->f618);
+    if(((TradeWork *)p)->f61C) func_021E0240(((TradeWork *)p)->f82C,((TradeWork *)p)->f61C);
+    if(((TradeWork *)p)->f620) {
+        func_0201AC2C(((TradeWork *)p)->f620,((TradeWork *)p)->f838);
+        func_020086F8((void *)func_02012FCC((int)(((TradeWork *)p)->f82C)),(const struct PlayTimeStamp *)(p+0x628));
+        func_020307B0(((TradeWork *)p)->f620);
+        *(int *)&((TradeWork *)p)->f620=0;
     }
-    if(((struct Obj00589 *)p)->f624) {
+    if(((TradeWork *)p)->f624) {
         n=func_02007AEC();
-        src=func_02007AF4(((struct Obj00589 *)p)->f828,((struct Obj22755 *)(*(char * *)&((struct Obj00589 *)p)->f8))->f28);
-        func_02082D44(((struct Obj00589 *)p)->f624,src,n);
-        func_020307B0(((struct Obj00589 *)p)->f624);
+        src=func_02007AF4((*(void * *)&((TradeWork *)p)->f828),((struct Obj22755 *)(((TradeWork *)p)->f8))->f28);
+        func_02082D44(((TradeWork *)p)->f624,src,n);
+        func_020307B0(((TradeWork *)p)->f624);
     }
-    if(((struct Obj00589 *)p)->f62C) func_02007B5C((struct PerapVoice *)func_02012F98(((struct Obj00589 *)p)->f82C));
+    if(((TradeWork *)p)->f62C) func_02007B5C((struct PerapVoice *)func_02012F98(((TradeWork *)p)->f82C));
     func_02082BCC(p+0x60c,0,0x24);
 }
 
@@ -3776,7 +3703,7 @@ int func_021E0410(char *p, void *party, int idx)
 {
     int count = 0;
     int i, n;
-    void *voice = func_02012F98(((struct Obj22756 *)p)->f82C);
+    void *voice = func_02012F98(((TradeWork *)p)->f82C);
 
     if (!sub_02007B50(voice))
         return count;
@@ -3996,9 +3923,9 @@ void func_021E08E8(char *p)
     int state;
     func_021E36D8(p,0);func_021E36D8(p,1);
     func_021E36D8(p,2);func_021E36D8(p,3);
-    state=((struct Obj00906 *)p)->f118C;
+    state=((TradeWork *)p)->f118C;
     if(state==4 || (unsigned)(state-7)<=1) {
-        ((struct Obj22758 *)(*(char * *)&((struct Obj00906 *)p)->f8))->f8=3;
+        ((struct Obj22758 *)(((TradeWork *)p)->f8))->f8=3;
         func_021DFD3C(p);
         func_021D8E84(p,(int)func_021D9434);
         return;
@@ -4025,7 +3952,7 @@ void func_021E08E8(char *p)
 
 void func_021E0958(char *p)
 {
-    if (func_021E12AC(p) && ((struct Obj22759 *)p)->fF2C > 0xB4) {
+    if (func_021E12AC(p) && ((TradeWork *)p)->fF2C > 0xB4) {
         func_021D8E84(p, (int)func_021E0A64);
     }
 }
@@ -4048,26 +3975,26 @@ void func_021E0980(char *p)
     int z;
     char *t;
     if(func_021D8AA8(p)) {
-        i=((struct Obj01537 *)p)->fFA0%3;
+        i=((TradeWork *)p)->fFA0%3;
         mon=func_021D8FA4(p,0);
-        ((struct Obj22760 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f28=*(int *)(p+i*4+0xfbc);
-        ((struct Obj22761 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f2A=*(int *)(p+i*4+0xfa4);
+        ((struct Obj22760 *)(((TradeWork *)p)->f8))->f28=*(int *)(p+i*4+0xfbc);
+        ((struct Obj22761 *)(((TradeWork *)p)->f8))->f2A=*(int *)(p+i*4+0xfa4);
     } else {
         mon=func_021D8FA4(p,1);
-        ((struct Obj22762 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f28=((struct Obj01537 *)p)->fF88;
-        ((struct Obj22763 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f2A=((struct Obj01537 *)p)->fF84;
+        ((struct Obj22762 *)(((TradeWork *)p)->f8))->f28=((TradeWork *)p)->fF88;
+        ((struct Obj22763 *)(((TradeWork *)p)->f8))->f2A=((TradeWork *)p)->fF84;
     }
-    func_0201A954(((struct Obj22764 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f1C,6);
-    func_0201A98C(((struct Obj22765 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f1C,mon);
-    func_0200CDE0(func_0200CA1C(((struct Obj01537 *)p)->f82C),mon);
-    t=*(char * *)&((struct Obj01537 *)p)->f8;
-    if(((struct Obj13908 *)t)->f28!=func_020076A4(((struct Obj01537 *)p)->f828)) {
+    func_0201A954(((struct Obj22764 *)(((TradeWork *)p)->f8))->f1C,6);
+    func_0201A98C(((struct Obj22765 *)(((TradeWork *)p)->f8))->f1C,mon);
+    func_0200CDE0(func_0200CA1C(((TradeWork *)p)->f82C),mon);
+    t=((TradeWork *)p)->f8;
+    if(((struct Obj13908 *)t)->f28!=func_020076A4((*(void * *)&((TradeWork *)p)->f828))) {
         z=0;
         if(func_0202136C(func_02017E1C(func_0201AB28(((struct Obj13908 *)t)->f1C,0),6,0))) {
-            func_02045CAC((struct MsgBank *)(((struct Obj01537 *)p)->f720),106,(void *)(((struct Obj01537 *)p)->f738));
+            func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),106,(void *)(((TradeWork *)p)->f738));
             func_021E1024(p);
             func_021D8E84(p,(int)func_021E0958);
-            ((struct Obj01537 *)p)->fF2C=z;
+            ((TradeWork *)p)->fF2C=z;
             return;
         }
     }
@@ -4092,25 +4019,25 @@ void func_021E0A64(char *p)
 {
     void *a,*b;
     u32_021DEA24 out,result;
-    if(*(int *)&((struct Obj00906 *)p)->f82C==0) {
+    if(*(int *)&((TradeWork *)p)->f82C==0) {
         func_021D8E84(p,(int)func_021E0C78);
         goto exit;
     }
     else {
-    if(*(int *)&((struct Obj00906 *)p)->f8!=0) {
+    if(*(int *)&((TradeWork *)p)->f8!=0) {
         if(func_021D8AA8(p)) {a=func_021D8FA4(p,0);b=func_021D8FA4(p,1);}
         else {a=func_021D8FA4(p,1);b=func_021D8FA4(p,0);}
-        result=func_0201B2B0(0,a,1,(u32_021DEA24)b,func_02012984(((struct Obj00906 *)p)->f82C),&out,((struct Obj00906 *)p)->f5F4);
+        result=func_0201B2B0(0,a,1,(u32_021DEA24)b,func_02012984(((TradeWork *)p)->f82C),&out,((TradeWork *)p)->f5F4);
         if(result) {
-            ((struct Obj22766 *)(*(char * *)&((struct Obj00906 *)p)->f8))->f8=1;
-            ((struct Obj22767 *)(*(char * *)&((struct Obj00906 *)p)->f8))->fC=result;
-            ((struct Obj22768 *)(*(char * *)&((struct Obj00906 *)p)->f8))->f10=out;
+            ((struct Obj22766 *)(((TradeWork *)p)->f8))->f8=1;
+            ((struct Obj22767 *)(((TradeWork *)p)->f8))->fC=result;
+            ((struct Obj22768 *)(((TradeWork *)p)->f8))->f10=out;
             func_021D8E84(p,(int)func_021D9434);
             func_021DFD64(p);
             return;
         }
     }
-    func_02045CAC((struct MsgBank *)(((struct Obj00906 *)p)->f720),50,(void *)(((struct Obj00906 *)p)->f738));
+    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),50,(void *)(((TradeWork *)p)->f738));
     func_021E1024(p);func_021E1030(p);
     func_021D8E84(p,(int)func_021E0BA4);
     }
@@ -4129,7 +4056,7 @@ exit:
 
 
 
-void func_021E0B34(char *p) {func_021E10D8(p);func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),50,(void *)(*(int *)&((struct Obj00001 *)p)->f738));*(int *)&((struct Obj00001 *)p)->f644=(int)func_0201F5DC((void *)6,15,0,((struct Obj00001 *)p)->f5F4);func_021E1024(p);func_021E1030(p);func_021DFD30((u8 *)p,0);func_02040588(6,1);func_0203D34C(1,((struct Obj00001 *)p)->f5F4);func_0204E720(3,16,0,2);func_021D8E84(p,(int)func_021E0BA4);}
+void func_021E0B34(char *p) {func_021E10D8(p);func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),50,(void *)(((TradeWork *)p)->f738));*(int *)&((TradeWork *)p)->f644=(int)func_0201F5DC((void *)6,15,0,((TradeWork *)p)->f5F4);func_021E1024(p);func_021E1030(p);func_021DFD30((u8 *)p,0);func_02040588(6,1);func_0203D34C(1,((TradeWork *)p)->f5F4);func_0204E720(3,16,0,2);func_021D8E84(p,(int)func_021E0BA4);}
 
 
 
@@ -4177,7 +4104,7 @@ void func_021E0BC4(void *p)
 
 
 
-void func_021E0BE8(char *p) {if(func_021E12AC(p)) {if(func_021D8A24(p)) {func_021E049C(p);((struct Obj00001 *)p)->fEF8=(int)func_020108C4(((struct Obj00001 *)p)->f5F4,*(int *)&((struct Obj00001 *)p)->f82C,(u32_021DEA24)func_021E0260,(u32_021DEA24)p);func_021D8E84(p,(int)func_021E0C44);return;}func_021D8E84(p,(int)func_021E0C78);}}
+void func_021E0BE8(char *p) {if(func_021E12AC(p)) {if(func_021D8A24(p)) {func_021E049C(p);((TradeWork *)p)->fEF8=(int)func_020108C4(((TradeWork *)p)->f5F4,*(int *)&((TradeWork *)p)->f82C,(u32_021DEA24)func_021E0260,(u32_021DEA24)p);func_021D8E84(p,(int)func_021E0C44);return;}func_021D8E84(p,(int)func_021E0C78);}}
 
 
 
@@ -4196,10 +4123,10 @@ void func_021E0BE8(char *p) {if(func_021E12AC(p)) {if(func_021D8A24(p)) {func_02
  */
 void func_021E0C44(char *p)
 {
-    if (func_02010904(((struct Obj10371 *)p)->fEF8)) {
+    if (func_02010904((*(void * *)&((TradeWork *)p)->fEF8))) {
         func_021E02E8(p);
-        func_02010934(((struct Obj10371 *)p)->fEF8);
-        *(int *)&((struct Obj10371 *)p)->fEF8 = 0;
+        func_02010934((*(void * *)&((TradeWork *)p)->fEF8));
+        ((TradeWork *)p)->fEF8 = 0;
         func_021D8E84(p, (int)func_021E0C78);
     }
 }
@@ -4215,7 +4142,7 @@ void func_021E0C44(char *p)
 
 
 
-void func_021E0C78(char *p) {int z;func_0202208C(0,0,0,0,6,1,((struct Obj10372 *)p)->f5F4);z=0;((struct Obj10372 *)p)->fF2C=z;p[0x11f7]=z;func_021D8E84(p,(int)func_021E0CC0);}
+void func_021E0C78(char *p) {int z;func_0202208C(0,0,0,0,6,1,((TradeWork *)p)->f5F4);z=0;((TradeWork *)p)->fF2C=z;p[0x11f7]=z;func_021D8E84(p,(int)func_021E0CC0);}
 
 
 
@@ -4230,19 +4157,19 @@ void func_021E0C78(char *p) {int z;func_0202208C(0,0,0,0,6,1,((struct Obj10372 *
 
 void func_021E0CC0(char *p)
 {
-    if(((struct Obj02828 *)p)->fF2C>=6 && func_020221A4()) {
-        if(((struct Obj02828 *)p)->f644) func_0203FB44((int)6,(u16)(((struct Obj02828 *)p)->f644),(u16)(((struct Obj02828 *)p)->f644>>16));
-        *(int *)&((struct Obj02828 *)p)->f644=0;
+    if(((TradeWork *)p)->fF2C>=6 && func_020221A4()) {
+        if(((TradeWork *)p)->f644) func_0203FB44((int)6,(u16)(((TradeWork *)p)->f644),(u16)(((TradeWork *)p)->f644>>16));
+        *(int *)&((TradeWork *)p)->f644=0;
         func_02043534((int)0);func_020435F4((int)0);
-        func_0204B1CC(((struct Obj02828 *)p)->f9C4);
-        ((struct Obj02828 *)p)->f9C4=func_0204B100(0x154,0,((struct Obj02828 *)p)->f5F4);
+        func_0204B1CC((*(void * *)&((TradeWork *)p)->f9C4));
+        (*(void * *)&((TradeWork *)p)->f9C4)=func_0204B100(0x154,0,((TradeWork *)p)->f5F4);
         func_021E106C(p);func_021E57A4((int)p);func_021E53CC((int)p);
         func_021E57E8(0);func_021E5680(p);func_021E58A0((int)p);
         func_021E467C(p);func_021E4420(p);func_021E3E80(p);
         func_021E3FE4(p);func_021E3F74(p);func_021E3208(p,0);
         func_02043534((int)31);func_020435F4((int)30);func_021E3C20(p);
-        func_0203D34C(1,((struct Obj02828 *)p)->f5F4);
-        ((struct Obj02828 *)p)->f11FA=0;
+        func_0203D34C(1,((TradeWork *)p)->f5F4);
+        ((TradeWork *)p)->f11FA=0;
         func_021D8E84(p,(int)func_021DACE4);
     }
 }
@@ -4335,18 +4262,18 @@ void func_021E0EF4(char *p,int flag,int x,int y,int w,int h)
 {
     void *v;
     func_021E106C(p);
-    func_02049B40(23,5,4,448,32,((struct Obj01055 *)p)->f5F4);
+    func_02049B40(23,5,4,448,32,((TradeWork *)p)->f5F4);
     v=(void *)func_020450F0(6,(u8)x,(u8)y,(u8)w,h,(u32_021DEA24)14,(u32_021DEA24)0);
-    ((struct Obj01055 *)p)->f71C=v;
+    (*(void * *)&((TradeWork *)p)->f71C)=v;
     func_02043B5C(func_02045770(v),15);
     func_0201DD78(1,2,15);
     if(flag==0) {
-        ((struct Obj01055 *)p)->f72C=func_0201CCE4((u32_021DEA24)v,0,0,*(u32_021DEA24 *)&((struct Obj01055 *)p)->f738,*(u32_021DEA24 *)&((struct Obj01055 *)p)->f728,func_02012FFC(),((struct Obj01055 *)p)->f744,2,((struct Obj01055 *)p)->f5F4,15);
+        (*(unsigned int *)&((TradeWork *)p)->f72C)=func_0201CCE4((u32_021DEA24)v,0,0,*(u32_021DEA24 *)&((TradeWork *)p)->f738,*(u32_021DEA24 *)&((TradeWork *)p)->f728,func_02012FFC(),(*(unsigned int *)&((TradeWork *)p)->f744),2,((TradeWork *)p)->f5F4,15);
         func_02028470((u8 *)p+0x11d4,2);
     } else {
-        func_0201C7A4(func_02045770(v),0,0,((struct Obj01055 *)p)->f738,((struct Obj01055 *)p)->f728);
+        func_0201C7A4(func_02045770(v),0,0,(*(void * *)&((TradeWork *)p)->f738),((TradeWork *)p)->f728);
     }
-    func_0201F73C(v,1,(u16)(((struct Obj01055 *)p)->f644),15);
+    func_0201F73C(v,1,(u16)(((TradeWork *)p)->f644),15);
     func_02045334(v);func_02045374(v);func_02041B6C(6);
 }
 
@@ -4396,11 +4323,11 @@ void func_021E1024(void *p) { func_021E0FF4(p, 0, 0); }
 
 void func_021E1030(char *p)
 {
-    if (((struct Obj00001 *)p)->f5F0) {
-        func_0202F038(((struct Obj00001 *)p)->f5F0);
-        ((struct Obj00001 *)p)->f5F0 = 0;
+    if (((TradeWork *)p)->f5F0) {
+        func_0202F038(((TradeWork *)p)->f5F0);
+        ((TradeWork *)p)->f5F0 = 0;
     }
-    ((struct Obj00001 *)p)->f5F0 = func_0202EE8C((u32_021DEA24)(((struct Obj00001 *)p)->f744), ((struct Obj00001 *)p)->f71C, 0xF, 0x10, ((struct Obj00001 *)p)->f5F4);
+    ((TradeWork *)p)->f5F0 = func_0202EE8C((u32_021DEA24)(((TradeWork *)p)->f744), (*(void * *)&((TradeWork *)p)->f71C), 0xF, 0x10, ((TradeWork *)p)->f5F4);
 }
 
 
@@ -4416,13 +4343,13 @@ void func_021E1030(char *p)
 
 void func_021E106C(char *p)
 {
-    if (((struct Obj05330 *)p)->f5F0) {
-        func_0202F038(((struct Obj05330 *)p)->f5F0);
-        ((struct Obj05330 *)p)->f5F0 = 0;
+    if (((TradeWork *)p)->f5F0) {
+        func_0202F038(((TradeWork *)p)->f5F0);
+        ((TradeWork *)p)->f5F0 = 0;
     }
-    if (((struct Obj05330 *)p)->f71C) {
-        func_020452E8(((struct Obj05330 *)p)->f71C);
-        ((struct Obj05330 *)p)->f71C = 0;
+    if ((*(void * *)&((TradeWork *)p)->f71C)) {
+        func_020452E8((*(void * *)&((TradeWork *)p)->f71C));
+        (*(void * *)&((TradeWork *)p)->f71C) = 0;
     }
 }
 
@@ -4437,7 +4364,7 @@ void func_021E106C(char *p)
 
 
 
-void func_021E1098(char *p) { if(*(int *)&((struct Obj00001 *)p)->f5F0) {func_0202F038((u8 *)(*(int *)&((struct Obj00001 *)p)->f5F0));*(int *)&((struct Obj00001 *)p)->f5F0=0;} if(*(int *)&((struct Obj00001 *)p)->f71C) {func_020456F8((struct Descriptor *)(*(int *)&((struct Obj00001 *)p)->f71C));func_02041B6C(6);func_0201F7A8((void *)(*(int *)&((struct Obj00001 *)p)->f71C),2);func_020452E8((struct Descriptor *)(*(int *)&((struct Obj00001 *)p)->f71C));*(int *)&((struct Obj00001 *)p)->f71C=0;} }
+void func_021E1098(char *p) { if(*(int *)&((TradeWork *)p)->f5F0) {func_0202F038((u8 *)(*(int *)&((TradeWork *)p)->f5F0));*(int *)&((TradeWork *)p)->f5F0=0;} if(((TradeWork *)p)->f71C) {func_020456F8((struct Descriptor *)(((TradeWork *)p)->f71C));func_02041B6C(6);func_0201F7A8((void *)(((TradeWork *)p)->f71C),2);func_020452E8((struct Descriptor *)(((TradeWork *)p)->f71C));((TradeWork *)p)->f71C=0;} }
 
 
 
@@ -4452,18 +4379,18 @@ void func_021E1098(char *p) { if(*(int *)&((struct Obj00001 *)p)->f5F0) {func_02
 
 void func_021E10D8(char *p)
 {
-    ((struct Obj00001 *)p)->f724=func_0201EC64(((struct Obj00001 *)p)->f5F4);
-    ((struct Obj00001 *)p)->f720=func_02045B38(0,2,159,((struct Obj00001 *)p)->f5F4);
-    ((struct Obj00001 *)p)->f728=func_0201D7EC(23,0,0,0,((struct Obj00001 *)p)->f5F4);
-    ((struct Obj00001 *)p)->f730=func_020457B0(128,((struct Obj00001 *)p)->f5F4);
-    ((struct Obj00001 *)p)->f734=func_020457B0(128,((struct Obj00001 *)p)->f5F4);
-    ((struct Obj00001 *)p)->f738=func_020457B0(128,((struct Obj00001 *)p)->f5F4);
-    ((struct Obj00001 *)p)->f73C=func_020457B0(128,((struct Obj00001 *)p)->f5F4);
-    ((struct Obj00001 *)p)->f740=(void *)func_0201C440((void *)(((struct Obj00001 *)p)->f5F4));
+    (*(void * *)&((TradeWork *)p)->f724)=func_0201EC64(((TradeWork *)p)->f5F4);
+    (*(void * *)&((TradeWork *)p)->f720)=func_02045B38(0,2,159,((TradeWork *)p)->f5F4);
+    ((TradeWork *)p)->f728=func_0201D7EC(23,0,0,0,((TradeWork *)p)->f5F4);
+    (*(void * *)&((TradeWork *)p)->f730)=func_020457B0(128,((TradeWork *)p)->f5F4);
+    (*(void * *)&((TradeWork *)p)->f734)=func_020457B0(128,((TradeWork *)p)->f5F4);
+    (*(void * *)&((TradeWork *)p)->f738)=func_020457B0(128,((TradeWork *)p)->f5F4);
+    ((TradeWork *)p)->f73C=func_020457B0(128,((TradeWork *)p)->f5F4);
+    ((TradeWork *)p)->f740=(void *)func_0201C440((void *)(((TradeWork *)p)->f5F4));
     func_0201DD78(1,2,15);
-    ((struct Obj00001 *)p)->f744=func_0203101C(((struct Obj00001 *)p)->f5F4,((struct Obj00001 *)p)->f5F4,2,0);
-    ((struct Obj00001 *)p)->f74C=func_02028590(15,1,0,((struct Obj00001 *)p)->f5F4);
-    ((struct Obj00001 *)p)->f6B0=func_02027F60(6,9,*(u32_021DEA24 *)&((struct Obj00001 *)p)->f728,*(u32_021DEA24 *)&((struct Obj00001 *)p)->f740,((struct Obj00001 *)p)->f5F4);
+    ((TradeWork *)p)->f744=func_0203101C(((TradeWork *)p)->f5F4,((TradeWork *)p)->f5F4,2,0);
+    ((TradeWork *)p)->f74C=func_02028590(15,1,0,((TradeWork *)p)->f5F4);
+    ((TradeWork *)p)->f6B0=func_02027F60(6,9,*(u32_021DEA24 *)&((TradeWork *)p)->f728,*(u32_021DEA24 *)&((TradeWork *)p)->f740,((TradeWork *)p)->f5F4);
 }
 
 
@@ -4481,26 +4408,26 @@ void func_021E11A8(char *p)
 {
     int i;
     func_0200566C();
-    if(*(int *)&((struct Obj00001 *)p)->f744) {
-        func_02028604((int)(((struct Obj00001 *)p)->f74C));
+    if(*(int *)&((TradeWork *)p)->f744) {
+        func_02028604((int)(((TradeWork *)p)->f74C));
         func_021E106C(p);
         func_021E12F8(p);
-        if(((struct Obj00001 *)p)->f72C) {func_0201CE48((struct Rec3 *)(((struct Obj00001 *)p)->f72C));((struct Obj00001 *)p)->f72C=0;}
-        if(((struct Obj00001 *)p)->f648) {func_02028148(((struct Obj00001 *)p)->f648);((struct Obj00001 *)p)->f648=0;}
-        if(((struct Obj00001 *)p)->f6B0) {func_02027FD8(((struct Obj00001 *)p)->f6B0);((struct Obj00001 *)p)->f6B0=0;}
-        if(((struct Obj00001 *)p)->f6B4) {func_020452E8(((struct Obj00001 *)p)->f6B4);((struct Obj00001 *)p)->f6B4=0;}
+        if(((TradeWork *)p)->f72C) {func_0201CE48((struct Rec3 *)(((TradeWork *)p)->f72C));((TradeWork *)p)->f72C=0;}
+        if(((TradeWork *)p)->f648) {func_02028148(((TradeWork *)p)->f648);((TradeWork *)p)->f648=0;}
+        if(((TradeWork *)p)->f6B0) {func_02027FD8(((TradeWork *)p)->f6B0);((TradeWork *)p)->f6B0=0;}
+        if((*(void * *)&((TradeWork *)p)->f6B4)) {func_020452E8((*(void * *)&((TradeWork *)p)->f6B4));(*(void * *)&((TradeWork *)p)->f6B4)=0;}
         for(i=0;i<2;i++) {if(*(void **)(p+i*4+0x5bc)) {func_020452E8(*(void **)(p+i*4+0x5bc));*(void **)(p+i*4+0x5bc)=0;}}
-        func_0201ED04(((struct Obj00001 *)p)->f724);
-        func_02045C04(((struct Obj00001 *)p)->f720);
-        func_0201D83C(((struct Obj00001 *)p)->f728);
-        func_02045808(((struct Obj00001 *)p)->f730);
-        func_02045808(((struct Obj00001 *)p)->f734);
-        func_02045808(((struct Obj00001 *)p)->f738);
-        func_02045808(((struct Obj00001 *)p)->f73C);
-        func_0201C6EC((struct PrintSys *)(*(unsigned *)&((struct Obj00001 *)p)->f740));
-        func_0201C4C0((struct PrintSys *)(*(unsigned *)&((struct Obj00001 *)p)->f740));
-        func_02031140(((struct Obj00001 *)p)->f744);
-        *(int *)&((struct Obj00001 *)p)->f744=0;
+        func_0201ED04((*(void * *)&((TradeWork *)p)->f724));
+        func_02045C04((*(void * *)&((TradeWork *)p)->f720));
+        func_0201D83C(((TradeWork *)p)->f728);
+        func_02045808((*(void * *)&((TradeWork *)p)->f730));
+        func_02045808((*(void * *)&((TradeWork *)p)->f734));
+        func_02045808((*(void * *)&((TradeWork *)p)->f738));
+        func_02045808(((TradeWork *)p)->f73C);
+        func_0201C6EC((struct PrintSys *)(*(unsigned *)&((TradeWork *)p)->f740));
+        func_0201C4C0((struct PrintSys *)(*(unsigned *)&((TradeWork *)p)->f740));
+        func_02031140(((TradeWork *)p)->f744);
+        *(int *)&((TradeWork *)p)->f744=0;
     }
 }
 
@@ -4515,7 +4442,7 @@ void func_021E11A8(char *p)
 
 
 
-int func_021E12AC(char *p) {int v=1;if(((struct Obj00001 *)p)->f72C) {if(*(int *)&((struct Obj00001 *)p)->f71C)func_020286C4((struct Ctx *)(*(int *)&((struct Obj00001 *)p)->f74C),(void *)(((struct Obj00001 *)p)->f72C),(void *)(*(int *)&((struct Obj00001 *)p)->f71C));v=func_02028484((struct Blk *)(p+0x11d4),(void *)(((struct Obj00001 *)p)->f72C));if(v) {if(((struct Obj00001 *)p)->f72C) {func_0201CE48((struct Rec3 *)(((struct Obj00001 *)p)->f72C));((struct Obj00001 *)p)->f72C=0;}}}return v;}
+int func_021E12AC(char *p) {int v=1;if(((TradeWork *)p)->f72C) {if(((TradeWork *)p)->f71C)func_020286C4((struct Ctx *)(*(int *)&((TradeWork *)p)->f74C),(void *)(((TradeWork *)p)->f72C),(void *)(((TradeWork *)p)->f71C));v=func_02028484((struct Blk *)(p+0x11d4),(void *)(((TradeWork *)p)->f72C));if(v) {if(((TradeWork *)p)->f72C) {func_0201CE48((struct Rec3 *)(((TradeWork *)p)->f72C));((TradeWork *)p)->f72C=0;}}}return v;}
 
 
 
@@ -4530,10 +4457,10 @@ int func_021E12AC(char *p) {int v=1;if(((struct Obj00001 *)p)->f72C) {if(*(int *
 
 void func_021E12F8(char *p)
 {
-    if (((struct Obj00001 *)p)->f64C) {
+    if ((*(void * *)&((TradeWork *)p)->f64C)) {
         *(volatile unsigned short *)0x04000050 = 0;
-        func_02027858(((struct Obj00001 *)p)->f64C);
-        ((struct Obj00001 *)p)->f64C = 0;
+        func_02027858((*(void * *)&((TradeWork *)p)->f64C));
+        (*(void * *)&((TradeWork *)p)->f64C) = 0;
     }
 }
 
@@ -4552,19 +4479,19 @@ void func_021E131C(char *p,int *ids,int count,int x,int y)
 {
     Template_021DEA24 t;
     int i;
-    t.heap=((struct Obj00001 *)p)->f5F4;
+    t.heap=((TradeWork *)p)->f5F4;
     t.count=count;
     t.items=p+0x650;
     t.flag=1;
     t.x=x;t.y=y;t.a=13;t.b=3;
     for(i=0;i<count;i++) {
-        *(void **)(p+(u32_021DEA24)i*12+0x650)=func_020457B0(100,((struct Obj00001 *)p)->f5F4);
-        func_02045CAC(((struct Obj00001 *)p)->f720,ids[i],*(void **)(p+(u32_021DEA24)i*12+0x650));
+        *(void **)(p+(u32_021DEA24)i*12+0x650)=func_020457B0(100,((TradeWork *)p)->f5F4);
+        func_02045CAC((*(void * *)&((TradeWork *)p)->f720),ids[i],*(void **)(p+(u32_021DEA24)i*12+0x650));
         *(u16 *)(p+(u32_021DEA24)i*12+0x654)=0x39e3;
         if(ids[i]==5) *(int *)(p+(u32_021DEA24)i*12+0x658)=1;
         else *(int *)(p+(u32_021DEA24)i*12+0x658)=0;
     }
-    ((struct Obj00001 *)p)->f64C=func_02027778((struct TaskMenuTmpl *)(&t),((struct Obj00001 *)p)->f6B0);
+    (*(void * *)&((TradeWork *)p)->f64C)=func_02027778((struct TaskMenuTmpl *)(&t),((TradeWork *)p)->f6B0);
     for(i=0;i<count;i++) func_02045808(*(void **)(p+(u32_021DEA24)i*12+0x650));
 }
 
@@ -4599,7 +4526,7 @@ void func_021E1410(void *p, int *ids, int count)
 
 
 
-void func_021E1430(void *a,void *b,int x,int y,int flag,int mode,char *p) {if(!flag) {if(mode) {func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),28,(void *)(*(int *)&((struct Obj00001 *)p)->f734));func_0201EE84(((struct Obj00001 *)p)->f724,0,a);}else {func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),29,(void *)(*(int *)&((struct Obj00001 *)p)->f734));func_0201EEF4(((struct Obj00001 *)p)->f724,0,a);}func_0201F250((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f734));}else {func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),105,(void *)(*(int *)&((struct Obj00001 *)p)->f730));}func_0201C7A4(b,x,y,(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f728));}
+void func_021E1430(void *a,void *b,int x,int y,int flag,int mode,char *p) {if(!flag) {if(mode) {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),28,(void *)(((TradeWork *)p)->f734));func_0201EE84((*(void * *)&((TradeWork *)p)->f724),0,a);}else {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),29,(void *)(((TradeWork *)p)->f734));func_0201EEF4((*(void * *)&((TradeWork *)p)->f724),0,a);}func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));}else {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),105,(void *)(((TradeWork *)p)->f730));}func_0201C7A4(b,x,y,(void *)(((TradeWork *)p)->f730),(void *)(*(int *)&((TradeWork *)p)->f728));}
 
 
 
@@ -4612,7 +4539,7 @@ void func_021E1430(void *a,void *b,int x,int y,int flag,int mode,char *p) {if(!f
 
 
 
-void func_021E14DC(void *a,void *b,int x,int y,int flag,char *p) {int v;u16 *t;if(!flag) {v=func_02017E1C(a,171,0);if(!((struct Obj00001 *)p)->f11F6) {t=func_0201AF80(((struct Obj00001 *)p)->f5F4,0);v=t[v];func_020307B0(t);}if(v==999) {func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),162,(void *)(*(int *)&((struct Obj00001 *)p)->f730));}else {func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),1,v,3,1,1);func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),27,(void *)(*(int *)&((struct Obj00001 *)p)->f734));func_0201F250((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f734));}func_0201C7A4(b,x,y,(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f728));}}
+void func_021E14DC(void *a,void *b,int x,int y,int flag,char *p) {int v;u16 *t;if(!flag) {v=func_02017E1C(a,171,0);if(!((TradeWork *)p)->f11F6) {t=func_0201AF80(((TradeWork *)p)->f5F4,0);v=t[v];func_020307B0(t);}if(v==999) {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),162,(void *)(((TradeWork *)p)->f730));}else {func_0201EFA4((struct WordSet *)(((TradeWork *)p)->f724),1,v,3,1,1);func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),27,(void *)(((TradeWork *)p)->f734));func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));}func_0201C7A4(b,x,y,(void *)(((TradeWork *)p)->f730),(void *)(*(int *)&((TradeWork *)p)->f728));}}
 
 
 
@@ -4625,7 +4552,7 @@ void func_021E14DC(void *a,void *b,int x,int y,int flag,char *p) {int v;u16 *t;i
 
 
 
-void func_021E1594(void *a,void *b,int x,int y,int flag,char *p) {if(!flag) {func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),28,(void *)(*(int *)&((struct Obj00001 *)p)->f734));func_0201EE84(((struct Obj00001 *)p)->f724,0,a);func_0201F250((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f734));func_0201C7A4(b,x,y,(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f728));}}
+void func_021E1594(void *a,void *b,int x,int y,int flag,char *p) {if(!flag) {func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),28,(void *)(((TradeWork *)p)->f734));func_0201EE84((*(void * *)&((TradeWork *)p)->f724),0,a);func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));func_0201C7A4(b,x,y,(void *)(((TradeWork *)p)->f730),(void *)(*(int *)&((TradeWork *)p)->f728));}}
 
 
 
@@ -4638,7 +4565,7 @@ void func_021E1594(void *a,void *b,int x,int y,int flag,char *p) {if(!flag) {fun
 
 
 
-void func_021E15F8(void *a,void *b,int x,int y,char *p) {func_02017E1C(a,171,0);func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),18,(void *)(*(int *)&((struct Obj00001 *)p)->f734));func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),0,func_02017E1C(a,158,0),3,1,1);func_0201F250((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f734));func_0201C7A4(b,x,y,(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f728));}
+void func_021E15F8(void *a,void *b,int x,int y,char *p) {func_02017E1C(a,171,0);func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),18,(void *)(((TradeWork *)p)->f734));func_0201EFA4((struct WordSet *)(((TradeWork *)p)->f724),0,func_02017E1C(a,158,0),3,1,1);func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));func_0201C7A4(b,x,y,(void *)(((TradeWork *)p)->f730),(void *)(*(int *)&((TradeWork *)p)->f728));}
 
 
 
@@ -4651,7 +4578,7 @@ void func_021E15F8(void *a,void *b,int x,int y,char *p) {func_02017E1C(a,171,0);
 
 
 
-void func_021E1670(void *a,void *b,int x,int y,char *p,int mode,int guard) {int v,w,id,color;v=func_02017E1C(a,110,0);w=func_02017E1C(a,173,0);id=func_02017E1C(a,5,0);if(v<=1 && w!=0 && !(guard && id==29) && !(guard && id==32)) {if(mode) {if(v==1)color=0x31a0;else color=0x39e0;}else {if(v==1)color=0xc80;else color=0x14c0;}func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),v+46,(void *)(*(int *)&((struct Obj00001 *)p)->f730));func_0201C7D0(b,x,y,*(int *)&((struct Obj00001 *)p)->f730,*(int *)&((struct Obj00001 *)p)->f728,color);}}
+void func_021E1670(void *a,void *b,int x,int y,char *p,int mode,int guard) {int v,w,id,color;v=func_02017E1C(a,110,0);w=func_02017E1C(a,173,0);id=func_02017E1C(a,5,0);if(v<=1 && w!=0 && !(guard && id==29) && !(guard && id==32)) {if(mode) {if(v==1)color=0x31a0;else color=0x39e0;}else {if(v==1)color=0xc80;else color=0x14c0;}func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),v+46,(void *)(((TradeWork *)p)->f730));func_0201C7D0(b,x,y,((TradeWork *)p)->f730,*(int *)&((TradeWork *)p)->f728,color);}}
 
 
 
@@ -4668,8 +4595,8 @@ void func_021E1718(int a,int b,int x,int y,char *p)
 {
     int i;
     for(i=0;i<6;i++) {
-        func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),30+i,(void *)(*(int *)&((struct Obj00001 *)p)->f730));
-        func_0201C7A4(func_02045770((struct Descriptor *)b),x,y+16*i,((struct Obj00001 *)p)->f730,((struct Obj00001 *)p)->f728);
+        func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),30+i,(void *)(((TradeWork *)p)->f730));
+        func_0201C7A4(func_02045770((struct Descriptor *)b),x,y+16*i,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
     }
 }
 
@@ -4687,12 +4614,12 @@ void func_021E1718(int a,int b,int x,int y,char *p)
 void func_021E1778(int a,int b,int x,int y,char *p)
 {
     int v;
-    func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),43,(void *)(*(int *)&((struct Obj00001 *)p)->f734));
+    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),43,(void *)(((TradeWork *)p)->f734));
     v=func_02017E1C((void *)a,6,0);
     if(v) {
-        func_0201EF40((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),0,v);
-        func_0201F250((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f734));
-        func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,((struct Obj00001 *)p)->f730,((struct Obj00001 *)p)->f728);
+        func_0201EF40((struct WordSet *)(((TradeWork *)p)->f724),0,v);
+        func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));
+        func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
     }
 }
 
@@ -4710,13 +4637,13 @@ void func_021E1778(int a,int b,int x,int y,char *p)
 void func_021E17E8(int a,int b,int x,int y,char *p)
 {
     int v,w;
-    func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),39,(void *)(*(int *)&((struct Obj00001 *)p)->f734));
+    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),39,(void *)(((TradeWork *)p)->f734));
     v=func_02017E1C((void *)a,160,0);
     w=func_02017E1C((void *)a,161,0);
-    func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),0,v,3,1,1);
-    func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),1,w,3,1,1);
-    func_0201F250((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f734));
-    func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,((struct Obj00001 *)p)->f730,((struct Obj00001 *)p)->f728);
+    func_0201EFA4((struct WordSet *)(((TradeWork *)p)->f724),0,v,3,1,1);
+    func_0201EFA4((struct WordSet *)(((TradeWork *)p)->f724),1,w,3,1,1);
+    func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));
+    func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
 }
 
 
@@ -4735,10 +4662,10 @@ void func_021E1880(int a, int b, int c, int d, char *p)
     int i = 0;
     T5 t = d_021E7984;
     for (; i < 5; i++) {
-        func_02045CAC(((struct Obj00001 *)p)->f720, 0x28, ((struct Obj00001 *)p)->f734);
-        func_0201EFA4(((struct Obj00001 *)p)->f724, 0, func_02017E1C((void *)a, t.v[i], 0), 3, 1, 1);
-        func_0201F250(((struct Obj00001 *)p)->f724, ((struct Obj00001 *)p)->f730, ((struct Obj00001 *)p)->f734);
-        func_0201C7A4(func_02045770((struct Descriptor *)b), (s16_021E1880)c, (s16_021E1880)(d + i * 16), ((struct Obj00001 *)p)->f730, ((struct Obj00001 *)p)->f728);
+        func_02045CAC((*(void * *)&((TradeWork *)p)->f720), 0x28, (*(void * *)&((TradeWork *)p)->f734));
+        func_0201EFA4((*(void * *)&((TradeWork *)p)->f724), 0, func_02017E1C((void *)a, t.v[i], 0), 3, 1, 1);
+        func_0201F250((*(void * *)&((TradeWork *)p)->f724), (*(void * *)&((TradeWork *)p)->f730), (*(void * *)&((TradeWork *)p)->f734));
+        func_0201C7A4(func_02045770((struct Descriptor *)b), (s16_021E1880)c, (s16_021E1880)(d + i * 16), (*(void * *)&((TradeWork *)p)->f730), ((TradeWork *)p)->f728);
     }
 }
 
@@ -4755,8 +4682,8 @@ void func_021E1880(int a, int b, int c, int d, char *p)
 
 void func_021E194C(int a,int b,int x,int y,char *p)
 {
-    func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),44,(void *)(*(int *)&((struct Obj00001 *)p)->f730));
-    func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,((struct Obj00001 *)p)->f730,((struct Obj00001 *)p)->f728);
+    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),44,(void *)(((TradeWork *)p)->f730));
+    func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
 }
 
 
@@ -4775,10 +4702,10 @@ void func_021E198C(int a,int b,int x,int y,char *p)
     for(i=0;i<4;i++) {
         v=func_02017E1C((void *)a,54+i,0);
         if(v) {
-            func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),45,(void *)(*(int *)&((struct Obj00001 *)p)->f734));
-            func_0201EF34((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),0,v);
-            func_0201F250((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f734));
-            func_0201C7A4(func_02045770((struct Descriptor *)b),x,y+16*i,((struct Obj00001 *)p)->f730,((struct Obj00001 *)p)->f728);
+            func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),45,(void *)(((TradeWork *)p)->f734));
+            func_0201EF34((struct WordSet *)(((TradeWork *)p)->f724),0,v);
+            func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));
+            func_0201C7A4(func_02045770((struct Descriptor *)b),x,y+16*i,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
         }
     }
 }
@@ -4796,9 +4723,9 @@ void func_021E198C(int a,int b,int x,int y,char *p)
 void func_021E1A44(int a,int b,int x,int y,char *p)
 {
     int s;
-    s=(int)func_02045B38(0,2,24,((struct Obj00001 *)p)->f5F4);
-    func_02045CAC((struct MsgBank *)s,func_02018598((void *)a),(void *)(*(int *)&((struct Obj00001 *)p)->f730));
-    func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,((struct Obj00001 *)p)->f730,((struct Obj00001 *)p)->f728);
+    s=(int)func_02045B38(0,2,24,((TradeWork *)p)->f5F4);
+    func_02045CAC((struct MsgBank *)s,func_02018598((void *)a),(void *)(((TradeWork *)p)->f730));
+    func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
     func_02045C04((struct Rec *)s);
 }
 
@@ -4815,11 +4742,11 @@ void func_021E1A44(int a,int b,int x,int y,char *p)
 void func_021E1AA8(int a,int b,int x,int y,char *p)
 {
     int v;
-    func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),42,(void *)(*(int *)&((struct Obj00001 *)p)->f734));
+    func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),42,(void *)(((TradeWork *)p)->f734));
     v=func_02017E1C((void *)a,10,0);
-    func_0201EF8C((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),0,v);
-    func_0201F250((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f734));
-    func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,((struct Obj00001 *)p)->f730,((struct Obj00001 *)p)->f728);
+    func_0201EF8C((struct WordSet *)(((TradeWork *)p)->f724),0,v);
+    func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));
+    func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
 }
 
 
@@ -4847,7 +4774,7 @@ void func_021E1B14(char *p,int i,void *mon)
     u32_021DEA24 index;
     char *tmp;
     flag=func_02017E1C(mon,76,0);
-    func_02049B40(23,5,0,448,32,((struct Obj00001 *)p)->f5F4);
+    func_02049B40(23,5,0,448,32,((TradeWork *)p)->f5F4);
     old=p;
     old=old+0x5bc;
     index=i*4;
@@ -4866,7 +4793,7 @@ void func_021E1B14(char *p,int i,void *mon)
         func_021E15F8(mon,func_02045770((struct Descriptor *)*(int *)(items+index)),16,19,p);
         func_021E1778((int)mon,*(int *)(items+index),16,128,p);
         i++;
-        func_021E0E68(p+0x8c4+i*20,mon,((struct Obj00001 *)p)->f9C4,*(int *)((char *)&b+index)+16,16,0,((struct Obj00001 *)p)->f5F4,*(int *)((char *)&c+index));
+        func_021E0E68(p+0x8c4+i*20,mon,((TradeWork *)p)->f9C4,*(int *)((char *)&b+index)+16,16,0,((TradeWork *)p)->f5F4,*(int *)((char *)&c+index));
         func_0204B84C(*(void **)(p+i*20+0x8d4),1);
     } else {
         tmp=p+0x8c4;
@@ -4945,9 +4872,9 @@ void func_021E1CE8(void *p, int a1)
     func_021E5BE4((int)p);
     func_021E36D8(p, 0);
     func_021E36D8(p, 1);
-    func_020456F8((struct Descriptor *)(*(int *)&((struct Obj00001 *)p)->f6B4));
-    func_020452E8((struct Descriptor *)(*(int *)&((struct Obj00001 *)p)->f6B4));
-    *(int *)&((struct Obj00001 *)p)->f6B4 = 0;
+    func_020456F8((struct Descriptor *)(((TradeWork *)p)->f6B4));
+    func_020452E8((struct Descriptor *)(((TradeWork *)p)->f6B4));
+    ((TradeWork *)p)->f6B4 = 0;
     func_021E3F70(p);
 }
 
@@ -5034,7 +4961,7 @@ void func_021E1D68(char *p,void *a)
         p[0x11f9]=1;
         func_020056A0((void (*)(void *, void *))func_021E2A98,p,0);
     }
-    func_021B6558((unsigned char *)(((struct Obj03775 *)p)->f9C0),1,1);
+    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),1,1);
 }
 
 
@@ -5074,7 +5001,7 @@ void func_021E1E00(char *p,int mode,void *mon)
             func_021E1670(mon,func_02045770(P(0x6b4)),96,0,p,0,0);
             func_021E5DFC(p,side,mon);
             func_021E5F14(p,side,0,mon);
-            func_021E0E68(p+0x8c4,mon,I(0x9c4),b.v[side]+16,16,1,((struct Obj00001 *)p)->f5F4,13);
+            func_021E0E68(p+0x8c4,mon,I(0x9c4),b.v[side]+16,16,1,((TradeWork *)p)->f5F4,13);
         } else {
             func_021E0E4C(p+0x8c4);
         }
@@ -5112,8 +5039,8 @@ void func_021E1E00(char *p,int mode,void *mon)
 void func_021E2054(char *p, void *a, int b, int a3)
 {
     func_021E36D8(p, b);
-    if (((struct Obj00001 *)p)->f6B4) {
-        func_020452E8(((struct Obj00001 *)p)->f6B4);
+    if ((*(void * *)&((TradeWork *)p)->f6B4)) {
+        func_020452E8((*(void * *)&((TradeWork *)p)->f6B4));
     }
 }
 
@@ -5129,11 +5056,11 @@ void func_021E2070(char *p,void *mon,Quad_021DEA24 *t)
     u32_021DEA24 a,b;
     func_021E0DA0(p+0x900+t->a*20);
     func_021E0DA0(p+0x900+t->b*20);
-    func_021E0DBC(p+0x900+t->a*20,mon,0,((struct Obj08065 *)p)->f9C4,176,95,0,((struct Obj08065 *)p)->f5F4);
+    func_021E0DBC(p+0x900+t->a*20,mon,0,((TradeWork *)p)->f9C4,176,95,0,((TradeWork *)p)->f5F4);
     a=func_02017E1C(mon,174,0);
     b=func_02017E1C(mon,175,0);
     if(a!=b)
-        func_021E0DBC(p+0x900+t->b*20,mon,1,((struct Obj08065 *)p)->f9C4,210,95,0,((struct Obj08065 *)p)->f5F4);
+        func_021E0DBC(p+0x900+t->b*20,mon,1,((TradeWork *)p)->f9C4,210,95,0,((TradeWork *)p)->f5F4);
     if(*(void **)(p+t->c*20+0x910))
         func_0204B3DC(*(void **)(p+t->c*20+0x910),0);
     if(*(void **)(p+t->d*20+0x910))
@@ -5148,16 +5075,16 @@ void func_021E2070(char *p,void *mon,Quad_021DEA24 *t)
 
 void func_021E2140(char *p,int a)
 {
-    if(((struct Obj00001 *)p)->f1098) {
+    if(((TradeWork *)p)->f1098) {
         Quad_021DEA24 t;
         t=d_021E7954;
         func_021E2070((char *)p, (void *)a, &t);
-        ((struct Obj00001 *)p)->f1098=0;
+        ((TradeWork *)p)->f1098=0;
     } else {
         Quad_021DEA24 t;
         t=d_021E7964;
         func_021E2070((char *)p, (void *)a, &t);
-        ((struct Obj00001 *)p)->f1098=1;
+        ((TradeWork *)p)->f1098=1;
     }
 }
 
@@ -5206,7 +5133,7 @@ void func_021E219C(char *p,void *mon,int side,int flag)
     int i;
     flag76=func_02017E1C(mon,76,0);
     func_021E2054(p,mon,side,flag);
-    func_02049B40(23,5,0,448,32,((struct Obj00001 *)p)->f5F4);
+    func_02049B40(23,5,0,448,32,((TradeWork *)p)->f5F4);
     if(Q[side]==0)
         func_021E35A0((Work_021E3004 *)p,side,1,mon,0);
     else if(flag!=0)
@@ -5241,7 +5168,7 @@ void func_021E219C(char *p,void *mon,int side,int flag)
         func_021E198C((int)mon,(int)P(0x6b4),152,128,p);
         func_021E2140(p,(int)mon);
         func_021E5DFC(p,2,mon);
-        func_021E0E68(p+0x8c4,mon,I(0x9c4),12,7,0,((struct Obj00001 *)p)->f5F4,12);
+        func_021E0E68(p+0x8c4,mon,I(0x9c4),12,7,0,((TradeWork *)p)->f5F4,12);
     } else {
         if(P(0x960)) func_0204B3DC(P(0x960),i);
         func_021E1CC8(p);
@@ -5306,14 +5233,14 @@ void func_021E2484(char *p,int a)
     func_021E5EF8(p+0x950);
     func_021E5EF8(p+0x964);
     func_021E5EF8(p+0x978);
-    if (((struct Obj05331 *)p)->f6B4) {
-        func_02043B5C(func_02045770((struct Descriptor *)((struct Obj05331 *)p)->f6B4),0);
+    if (((TradeWork *)p)->f6B4) {
+        func_02043B5C(func_02045770((struct Descriptor *)((TradeWork *)p)->f6B4),0);
         if(a) {
-            func_020456F8((struct Descriptor *)(((struct Obj05331 *)p)->f6B4));
-            func_02045334((struct Descriptor *)((struct Obj05331 *)p)->f6B4);
+            func_020456F8((struct Descriptor *)(((TradeWork *)p)->f6B4));
+            func_02045334((struct Descriptor *)((TradeWork *)p)->f6B4);
         }
-        func_020452E8((struct Descriptor *)(((struct Obj05331 *)p)->f6B4));
-        ((struct Obj05331 *)p)->f6B4=0;
+        func_020452E8((struct Descriptor *)(((TradeWork *)p)->f6B4));
+        ((TradeWork *)p)->f6B4=0;
     }
 }
 
@@ -5377,9 +5304,9 @@ void func_021E2680(char *p)
     int i;
     for (i=0;i<4;i++) {
         char *q = p+i*4;
-        if (((struct Obj10374 *)q)->f1038) {
-            func_020452E8(((struct Obj10374 *)q)->f1038);
-            ((struct Obj10374 *)q)->f1038=0;
+        if (((TradeWork *)q)->f1038) {
+            func_020452E8(((TradeWork *)q)->f1038);
+            ((TradeWork *)q)->f1038=0;
         }
     }
     func_021E6DEC((int)p);
@@ -5461,7 +5388,7 @@ void func_021E272C(char *p,int i,void *mon)
         func_021E15F8(mon,func_02045770((struct Descriptor *)*(int *)(first+index)),16,19,p);
         func_0201DD78(1,2,(u8)col2);
         func_021E1778((int)mon,*(int *)(items2+index),0,0,p);
-        func_021E0E68(p+0x8c4+(i+1)*20,mon,((struct Obj00001 *)p)->f9C4,*(int *)((char *)&b+index)+16,16,0,((struct Obj00001 *)p)->f5F4,*(int *)((char *)&c+index));
+        func_021E0E68(p+0x8c4+(i+1)*20,mon,((TradeWork *)p)->f9C4,*(int *)((char *)&b+index)+16,16,0,((TradeWork *)p)->f5F4,*(int *)((char *)&c+index));
     } else func_021E1CA8(p);
     {
         char *first=p+0x5c4;
@@ -5501,16 +5428,16 @@ void func_021E293C(char *p,int i)
 
 void *func_021E2984(char *p,int a) {
     void *t;
-    t=func_020457B0(100,((struct Obj02172 *)p)->f5F4);
-    ((struct Obj02172 *)p)->f650=t;
-    func_02045CAC(((struct Obj02172 *)p)->f720,a,t);
-    ((struct Obj02172 *)p)->f654=0x39e3;
-    ((struct Obj02172 *)p)->f658=0;
-    ((struct Obj02172 *)p)->f648=func_0202800C((u32_021DEA24)(((struct Obj02172 *)p)->f6B0),(u32_021DEA24)(p+0x650),8,21,16,3,0,1,((struct Obj02172 *)p)->f5F4);
-    func_02045808(((struct Obj02172 *)p)->f650);
-    func_0204B3DC(((struct Obj02172 *)p)->fF04,0);
-    func_021B6558((unsigned char *)(((struct Obj02172 *)p)->f9C0),8,0);
-    return ((struct Obj02172 *)p)->f648;
+    t=func_020457B0(100,((TradeWork *)p)->f5F4);
+    ((TradeWork *)p)->f650=t;
+    func_02045CAC((*(void * *)&((TradeWork *)p)->f720),a,t);
+    ((TradeWork *)p)->f654=0x39e3;
+    ((TradeWork *)p)->f658=0;
+    ((TradeWork *)p)->f648=func_0202800C((u32_021DEA24)(((TradeWork *)p)->f6B0),(u32_021DEA24)(p+0x650),8,21,16,3,0,1,((TradeWork *)p)->f5F4);
+    func_02045808(((TradeWork *)p)->f650);
+    func_0204B3DC((*(void * *)&((TradeWork *)p)->fF04),0);
+    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),8,0);
+    return ((TradeWork *)p)->f648;
 }
 
 
@@ -5520,12 +5447,12 @@ void *func_021E2984(char *p,int a) {
 
 
 void func_021E2A1C(char *p,int a,int b) {
-    if (!func_0201C6B4(((struct Obj00001 *)p)->f740)) func_0201C6EC(((struct Obj00001 *)p)->f740);
-    if(a) func_0204B3DC(((struct Obj00001 *)p)->fF04,1);
-    if(b) func_021B6558((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),8,func_021DD2F4(p));
-    if(((struct Obj00001 *)p)->f648) {
-        func_02028148(((struct Obj00001 *)p)->f648);
-        ((struct Obj00001 *)p)->f648=0;
+    if (!func_0201C6B4(((TradeWork *)p)->f740)) func_0201C6EC(((TradeWork *)p)->f740);
+    if(a) func_0204B3DC((*(void * *)&((TradeWork *)p)->fF04),1);
+    if(b) func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),8,func_021DD2F4(p));
+    if(((TradeWork *)p)->f648) {
+        func_02028148(((TradeWork *)p)->f648);
+        ((TradeWork *)p)->f648=0;
         func_02041B6C(6);
     }
 }
@@ -5665,12 +5592,12 @@ void func_021E2B78(char *p) {
     Vec_021DEA24 b;
     a.x=0; a.y=0x2b000; a.z=0xf1000;
     b.x=0; b.y=0x2b000; b.z=0;
-    func_02048AFC(((struct Obj08066 *)p)->f83C,&a);
-    func_02048B44(((struct Obj08066 *)p)->f83C,&b);
+    func_02048AFC(((TradeWork *)p)->f83C,&a);
+    func_02048B44(((TradeWork *)p)->f83C,&b);
     a.z-=0x1000;
-    func_02048B6C(((struct Obj08066 *)p)->f83C,(const u32_021DEA24 *)(&a.z));
+    func_02048B6C(((TradeWork *)p)->f83C,(const u32_021DEA24 *)(&a.z));
     b.x=0; b.y=0x1000; b.z=0;
-    func_02048B20(((struct Obj08066 *)p)->f83C,&b);
+    func_02048B20(((TradeWork *)p)->f83C,&b);
 }
 
 
@@ -5686,12 +5613,12 @@ void func_021E2BD0(char *p) {
     int d=0x1000;
     a.x=0; a.y=0x3000; a.z=0xf000;
     b.x=0; b.y=0; b.z=0;
-    func_02048AFC(((struct Obj06427 *)p)->f83C,&a);
-    func_02048B44(((struct Obj06427 *)p)->f83C,&b);
-    func_02048B60(((struct Obj06427 *)p)->f83C,(const u32_021DEA24 *)(&d));
-    func_02048B6C(((struct Obj06427 *)p)->f83C,(const u32_021DEA24 *)(&c));
+    func_02048AFC(((TradeWork *)p)->f83C,&a);
+    func_02048B44(((TradeWork *)p)->f83C,&b);
+    func_02048B60(((TradeWork *)p)->f83C,(const u32_021DEA24 *)(&d));
+    func_02048B6C(((TradeWork *)p)->f83C,(const u32_021DEA24 *)(&c));
     b.x=0; b.y=0x10000; b.z=0x1000;
-    func_02048B20(((struct Obj06427 *)p)->f83C,&b);
+    func_02048B20(((TradeWork *)p)->f83C,&b);
 }
 
 
@@ -5975,20 +5902,20 @@ void func_021E3070(S *p)
 
 void func_021E30EC(char *p)
 {
-    ((struct Obj04482 *)p)->f824=0xffff;
-    ((struct Obj04482 *)p)->f109C=~0u;
+    ((TradeWork *)p)->f824=0xffff;
+    ((TradeWork *)p)->f109C=~0u;
     func_021E2B14(0x91);
-    ((struct Obj04482 *)p)->f820=func_02047CFC(20,20,0x91);
-    if (!((struct Obj04482 *)p)->f83C) {
+    ((TradeWork *)p)->f820=func_02047CFC(20,20,0x91);
+    if (!((TradeWork *)p)->f83C) {
         Vec_021E3004 a={0,0,0};
         Vec_021E3004 b={0,0,0};
         Vec_021E3004 c;
         u16 heap;
-        heap=((struct Obj04482 *)p)->f5F4;
+        heap=((TradeWork *)p)->f5F4;
         c=d_021E7AF4;
-        ((struct Obj04482 *)p)->f83C=func_02048A24(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&a,&c,&b,heap);
+        ((TradeWork *)p)->f83C=func_02048A24(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&a,&c,&b,heap);
     }
-    if (((struct Obj04482 *)p)->f109C!=~0u)
+    if (((TradeWork *)p)->f109C!=~0u)
         d_021E7AC4[*(u32_021DEA24 *)(p+0x109c)].call(p);
 }
 
@@ -6007,13 +5934,13 @@ void func_021E31B4(void *p) { func_021E32EC(p); }
 
 
 void func_021E31BC(char *p) {
-    if (((struct Obj03778 *)p)->f83C) func_02048AC4(((struct Obj03778 *)p)->f83C);
-    func_02047E54(((struct Obj03778 *)p)->f820);
-    if (((struct Obj03778 *)p)->fC) {
-        func_021E3034(((struct Obj03778 *)p)->fC,6);
-        func_021E2F2C(((struct Obj03778 *)p)->fC);
-        func_020307B0(((struct Obj03778 *)p)->fC);
-        ((struct Obj03778 *)p)->fC=0;
+    if (((TradeWork *)p)->f83C) func_02048AC4(((TradeWork *)p)->f83C);
+    func_02047E54(((TradeWork *)p)->f820);
+    if (((TradeWork *)p)->fC) {
+        func_021E3034(((TradeWork *)p)->fC,6);
+        func_021E2F2C(((TradeWork *)p)->fC);
+        func_020307B0(((TradeWork *)p)->fC);
+        ((TradeWork *)p)->fC=0;
     }
     func_021E2B68();
 }
@@ -6036,7 +5963,7 @@ void func_021E31FC(void *p) { func_021E3838(p, 0x19); }
 void func_021E3208(void *p, int a)
 {
     func_021E324C(p, a);
-    if (((struct Obj03779 *)p)->f109C != 0xFFFFFFFF) {
+    if (((TradeWork *)p)->f109C != 0xFFFFFFFF) {
         tbl_021E7AC4[*(u32_021DEA24 *)((char *)p + 0x109C) * 2](p);
     }
 }
@@ -6050,9 +5977,9 @@ void func_021E3208(void *p, int a)
 
 void func_021E3230(void *p)
 {
-    if (((struct Obj00001 *)p)->f109C != 0xFFFFFFFF) {
+    if (((TradeWork *)p)->f109C != 0xFFFFFFFF) {
         func_021E32C4(p);
-        ((struct Obj00001 *)p)->f109C = 0xFFFFFFFF;
+        ((TradeWork *)p)->f109C = 0xFFFFFFFF;
     }
 }
 
@@ -6065,14 +5992,14 @@ void func_021E3230(void *p)
 void func_021E324C(char *p,int n) {
     void *q;
     int i,count;
-    if(d_021E7B3C[n].d) ((struct Obj03779 *)p)->f824=func_02047E88(((struct Obj03779 *)p)->f820,&d_021E7B3C[n]);
-    else ((struct Obj03779 *)p)->f824=0xffff;
-    if(((struct Obj03779 *)p)->f824!=0xffff) {
-        q=(void *)func_02048A18(((struct Obj03779 *)p)->f820,((struct Obj03779 *)p)->f824);
+    if(d_021E7B3C[n].d) ((TradeWork *)p)->f824=func_02047E88(((TradeWork *)p)->f820,&d_021E7B3C[n]);
+    else ((TradeWork *)p)->f824=0xffff;
+    if(((TradeWork *)p)->f824!=0xffff) {
+        q=(void *)func_02048A18(((TradeWork *)p)->f820,((TradeWork *)p)->f824);
         count=func_0204779C(q);
         for(i=0;i<count;i++) func_020477A4(q,(u16)i);
     }
-    *(int *)&((struct Obj03779 *)p)->f109C=n;
+    *(int *)&((TradeWork *)p)->f109C=n;
 }
 
 
@@ -6086,10 +6013,10 @@ void func_021E32C4(char *p)
 {
     u16 v;
 
-    v = ((struct Obj10375 *)p)->f824;
+    v = ((TradeWork *)p)->f824;
     if (v != 0xFFFF)
-        func_020480E4(((struct Obj10375 *)p)->f820, v);
-    ((struct Obj10375 *)p)->f824 = 0xFFFF;
+        func_020480E4(((TradeWork *)p)->f820, v);
+    ((TradeWork *)p)->f824 = 0xFFFF;
 }
 
 
@@ -6107,37 +6034,37 @@ void func_021E32EC(char *p)
     int i;
     int idx;
 
-    idx = ((struct Obj00907 *)p)->f109C;
+    idx = (*(int *)&((TradeWork *)p)->f109C);
     if (idx == -1)
         return;
     if (d_021E7AC8[idx].fn != 0)
         d_021E7AC8[idx].fn(p, buf);
-    if (((struct Obj00907 *)p)->f824 != 0xFFFF) {
-        q = (void *)func_02048A18(((struct Obj00907 *)p)->f820, ((struct Obj00907 *)p)->f824);
+    if (((TradeWork *)p)->f824 != 0xFFFF) {
+        q = (void *)func_02048A18(((TradeWork *)p)->f820, ((TradeWork *)p)->f824);
         n = func_0204779C(q);
         for (i = 0; i < n; i++)
             func_02047910(q, (u16)i, d_021E8144.amount);
     }
     func_02047964();
-    func_02048AD0(((struct Obj00907 *)p)->f83C);
+    func_02048AD0(((TradeWork *)p)->f83C);
     func_020479D8();
-    if (((struct Obj00907 *)p)->fC != 0) {
+    if (((TradeWork *)p)->fC != 0) {
         func_02051534();
         func_02051574();
     }
-    if (((struct Obj00907 *)p)->f824 != 0xFFFF)
-        func_02047A60((void *)func_02048A18(((struct Obj00907 *)p)->f820, ((struct Obj00907 *)p)->f824), (struct Arg *)buf);
-    if (*(Sub_021E3004 * *)&((struct Obj00907 *)p)->fC != 0) {
-        if ((*(Sub_021E3004 * *)&((struct Obj00907 *)p)->fC)->a90 != 0) {
-            if ((*(Sub_021E3004 * *)&((struct Obj00907 *)p)->fC)->aA8 == 0)
-                (*(Sub_021E3004 * *)&((struct Obj00907 *)p)->fC)->aA8 = func_02011590((struct IcaAnime *)((*(Sub_021E3004 * *)&((struct Obj00907 *)p)->fC)->a90), d_021E8144.amount);
-            if ((*(Sub_021E3004 * *)&((struct Obj00907 *)p)->fC)->aAC == 0)
-                (*(Sub_021E3004 * *)&((struct Obj00907 *)p)->fC)->aAC = func_02011590((struct IcaAnime *)((*(Sub_021E3004 * *)&((struct Obj00907 *)p)->fC)->a94), d_021E8144.amount);
+    if (((TradeWork *)p)->f824 != 0xFFFF)
+        func_02047A60((void *)func_02048A18(((TradeWork *)p)->f820, ((TradeWork *)p)->f824), (struct Arg *)buf);
+    if (*(Sub_021E3004 * *)&((TradeWork *)p)->fC != 0) {
+        if ((*(Sub_021E3004 * *)&((TradeWork *)p)->fC)->a90 != 0) {
+            if ((*(Sub_021E3004 * *)&((TradeWork *)p)->fC)->aA8 == 0)
+                (*(Sub_021E3004 * *)&((TradeWork *)p)->fC)->aA8 = func_02011590((struct IcaAnime *)((*(Sub_021E3004 * *)&((TradeWork *)p)->fC)->a90), d_021E8144.amount);
+            if ((*(Sub_021E3004 * *)&((TradeWork *)p)->fC)->aAC == 0)
+                (*(Sub_021E3004 * *)&((TradeWork *)p)->fC)->aAC = func_02011590((struct IcaAnime *)((*(Sub_021E3004 * *)&((TradeWork *)p)->fC)->a94), d_021E8144.amount);
         }
-        if ((*(Sub_021E3004 * *)&((struct Obj00907 *)p)->fC)->a9C != 0)
-            func_02011590((struct IcaAnime *)((*(Sub_021E3004 * *)&((struct Obj00907 *)p)->fC)->a9C), d_021E8144.amount);
-        if ((*(Sub_021E3004 * *)&((struct Obj00907 *)p)->fC)->a98 != 0)
-            func_02011590((struct IcaAnime *)((*(Sub_021E3004 * *)&((struct Obj00907 *)p)->fC)->a98), d_021E8144.amount);
+        if ((*(Sub_021E3004 * *)&((TradeWork *)p)->fC)->a9C != 0)
+            func_02011590((struct IcaAnime *)((*(Sub_021E3004 * *)&((TradeWork *)p)->fC)->a9C), d_021E8144.amount);
+        if ((*(Sub_021E3004 * *)&((TradeWork *)p)->fC)->a98 != 0)
+            func_02011590((struct IcaAnime *)((*(Sub_021E3004 * *)&((TradeWork *)p)->fC)->a98), d_021E8144.amount);
     }
 }
 
@@ -6278,7 +6205,7 @@ void func_021E36D8(void *p, int idx)
 
     if (v != 0) {
         func_02015EA0((void *)v);
-        func_02015BA4((void *)(*(u32_021DEA24 *)&((struct Obj00001 *)p)->f840), (void *)(((u32_021DEA24 *)((char *)p + 0x844))[idx]));
+        func_02015BA4((void *)(*(u32_021DEA24 *)&((TradeWork *)p)->f840), (void *)(((u32_021DEA24 *)((char *)p + 0x844))[idx]));
         ((u32_021DEA24 *)((char *)p + 0x844))[idx] = 0;
     }
 }
@@ -6420,7 +6347,7 @@ void func_021E3838(char *p, int count)
     char *v;
     int i;
     func_0207F7A0();
-    v = func_02030734(((struct Obj10376 *)p)->f5F4, 0x200, 1, d_021E81C0, 0x510);
+    v = func_02030734(((TradeWork *)p)->f5F4, 0x200, 1, d_021E81C0, 0x510);
     for (i = 0; i < count; i++) {
         func_02082BCC(v, 0, 0x200);
         if (i == 0)
@@ -6517,7 +6444,7 @@ void func_021E3A40(const u8 *p)
     stage=func_021D8A18((u8 *)p);
     count=stage+1;
     total=count*160;
-    x=((struct Obj22794 *)p)->f107E;
+    x=((TradeWork *)p)->f107E;
     if(x<96) {
         if(x<48) x=x*112/48;
         else x=x+64;
@@ -6549,8 +6476,8 @@ void func_021E3B2C(char *p)
     void *allocation;
     void *descriptor;
     char *data;
-    v = func_020490F4(0x74, ((struct Obj10376 *)p)->f5F4);
-    allocation = func_02049F78(v, 0x48, (u32_021E3B2C)(&descriptor), ((struct Obj10376 *)p)->f5F4);
+    v = func_020490F4(0x74, ((TradeWork *)p)->f5F4);
+    allocation = func_02049F78(v, 0x48, (u32_021E3B2C)(&descriptor), ((TradeWork *)p)->f5F4);
     data = *(char * *)&((struct Obj22795 *)descriptor)->fC;
     func_020862F0(data + 32, 32);
     func_02083194(data + 32, data + 34, 30);
@@ -6579,13 +6506,13 @@ void func_021E3BB0(char *p)
     char *q;
     for (i = 0; i < 16; i++) {
         q = p + i * 2;
-        ((struct Obj10377 *)q)->f1154 = 0;
+        ((TradeWork *)q)->f1154 = 0;
         for (j = 0; j < 3; j++) {
             shift = j * 5;
-            component = (((struct Obj10377 *)q)->f1134 >> shift) & 31;
+            component = (((TradeWork *)q)->f1134 >> shift) & 31;
             if (component)
                 component--;
-            ((struct Obj10377 *)q)->f1154 |= (unsigned short)((component & 31) << shift);
+            ((TradeWork *)q)->f1154 |= (unsigned short)((component & 31) << shift);
         }
     }
     func_0207FA0C();
@@ -6607,17 +6534,17 @@ void func_021E3C20(char *p)
     func_02082BCC(&c, 0, 32);
     c.f0 = &t;
     c.f4 = 4;
-    c.f8 = *(int *)&((struct Obj00252 *)p)->f9C4;
+    c.f8 = ((TradeWork *)p)->f9C4;
     c.fC = 4;
     c.f1C = 1;
     c.f10 = 7;
     c.f14 = 0;
     c.f18 = 2;
-    a = *(u32 *)&((struct Obj00252 *)p)->f894;
+    a = *(u32 *)&((TradeWork *)p)->f894;
     t.e[1].f8 = a;
-    b = *(u32 *)&((struct Obj00252 *)p)->f880;
+    b = *(u32 *)&((TradeWork *)p)->f880;
     t.e[1].fA = b;
-    d = *(u32 *)&((struct Obj00252 *)p)->f8B0;
+    d = *(u32 *)&((TradeWork *)p)->f8B0;
     t.e[1].fC = d;
     t.e[1].fE = 6; t.e[1].f10 = 5; t.e[1].f12 = 4;
     t.e[1].f18 = 0; t.e[1].f1C = 0x54C;
@@ -6627,10 +6554,10 @@ void func_021E3C20(char *p)
     t.e[3].f8 = a; t.e[3].fA = b; t.e[3].fC = d;
     t.e[3].fE = 22; t.e[3].f10 = 21; t.e[3].f12 = 20;
     t.e[3].f18 = 48; t.e[3].f1C = 0x54C;
-    ((struct Obj00252 *)p)->f9C0 = func_021B62E0(&c, ((struct Obj00252 *)p)->f5F4);
-    func_021B6558(((struct Obj00252 *)p)->f9C0, 9, 0);
-    func_021B6558(((struct Obj00252 *)p)->f9C0, 8, 0);
-    func_021B6520(((struct Obj00252 *)p)->f9C0, 2);
+    (*(void * *)&((TradeWork *)p)->f9C0) = func_021B62E0(&c, ((TradeWork *)p)->f5F4);
+    func_021B6558((*(void * *)&((TradeWork *)p)->f9C0), 9, 0);
+    func_021B6558((*(void * *)&((TradeWork *)p)->f9C0), 8, 0);
+    func_021B6520((*(void * *)&((TradeWork *)p)->f9C0), 2);
 }
 
 
@@ -6677,7 +6604,7 @@ void func_021E3D88(char *p, int box, unsigned char *out)
     unsigned char i;
 
     for (i = 0; i < 30; i++)
-        out[i] = func_021E3D04(func_02007A18(((struct Obj13914 *)p)->f828, box, i), ((struct Obj13914 *)p)->f5F4);
+        out[i] = func_021E3D04(func_02007A18((*(void * *)&((TradeWork *)p)->f828), box, i), ((TradeWork *)p)->f5F4);
 }
 
 
@@ -6693,7 +6620,7 @@ void func_021E3DBC(char *p, void *party, unsigned char *out)
     count = func_0201AA18(party);
     for (i = 0; i < 6; i++) {
         if (count > i)
-            out[i] = func_021E3D04(func_020185F0(func_0201AB28(party, i)), ((struct Obj22798 *)p)->f5F4);
+            out[i] = func_021E3D04(func_020185F0(func_0201AB28(party, i)), ((TradeWork *)p)->f5F4);
         else
             out[i] = 0;
     }
@@ -6707,9 +6634,9 @@ void func_021E3DBC(char *p, void *party, unsigned char *out)
 
 int func_021E3E00(char *p, int i)
 {
-    while (i < ((struct Obj10378 *)p)->f630 + 1) {
-        if (i == ((struct Obj10378 *)p)->f630) {
-            func_021E3DBC(p, ((struct Obj10378 *)p)->f838, (unsigned char *)(p + 0x2E0));
+    while (i < ((TradeWork *)p)->f630 + 1) {
+        if (i == ((TradeWork *)p)->f630) {
+            func_021E3DBC(p, ((TradeWork *)p)->f838, (unsigned char *)(p + 0x2E0));
             return 1;
         }
         func_021E3D88(p, i, (unsigned char *)(p + 0x10 + i * 30));
@@ -6734,7 +6661,7 @@ int func_021E3E00(char *p, int i)
  */
 void func_021E3E40(char *p)
 {
-    func_0204A48C((const struct Cfg *)d_021E7CE4, (u32)d_021E7D40, ((struct Obj22799 *)p)->f5F4);
+    func_0204A48C((const struct Cfg *)d_021E7CE4, (u32)d_021E7D40, ((TradeWork *)p)->f5F4);
 }
 
 
@@ -6751,7 +6678,7 @@ void func_021E3E40(char *p)
  */
 void func_021E3E60(void *p)
 {
-    func_0204A48C((const struct Cfg *)(&d_021E7CC8), (u32)(&d_021E7D40), ((struct Obj22800 *)p)->f5F4);
+    func_0204A48C((const struct Cfg *)(&d_021E7CC8), (u32)(&d_021E7D40), ((TradeWork *)p)->f5F4);
 }
 
 
@@ -6764,15 +6691,15 @@ void func_021E3E80(char *p)
     void *v;
     int kind;
     int mode;
-    v = func_020490F4(0x66, ((struct Obj00001 *)p)->f5F4);
+    v = func_020490F4(0x66, ((TradeWork *)p)->f5F4);
     mode = func_021D8AA8(p);
     kind = 4;
     if (mode == 0)
         kind = 11;
-    func_02049B68(v, 9, 0, 0, 0, ((struct Obj00001 *)p)->f5F4);
-    if (*(int *)&((struct Obj00001 *)p)->f86C == 0)
-        *(int *)&((struct Obj00001 *)p)->f86C = func_02049740(v, 10, 2, 0, 0, ((struct Obj00001 *)p)->f5F4);
-    func_02049990(v, kind, (int)2, (int)0, (unsigned short)(((struct Obj00001 *)p)->f86C), (int)0, (int)0, (unsigned int)(((struct Obj00001 *)p)->f5F4));
+    func_02049B68(v, 9, 0, 0, 0, ((TradeWork *)p)->f5F4);
+    if (((TradeWork *)p)->f86C == 0)
+        ((TradeWork *)p)->f86C = func_02049740(v, 10, 2, 0, 0, ((TradeWork *)p)->f5F4);
+    func_02049990(v, kind, (int)2, (int)0, (unsigned short)((*(unsigned int *)&((TradeWork *)p)->f86C)), (int)0, (int)0, (unsigned int)(((TradeWork *)p)->f5F4));
     func_02049238(v);
 }
 
@@ -6786,10 +6713,10 @@ void func_021E3F08(char *p)
 {
     u32 v;
 
-    v = ((struct Obj00001 *)p)->f86C;
+    v = (*(unsigned int *)&((TradeWork *)p)->f86C);
     if (v != 0)
         func_0203FB44((int)2, (u16)v, (u16)(v >> 16));
-    ((struct Obj00001 *)p)->f86C = 0;
+    (*(unsigned int *)&((TradeWork *)p)->f86C) = 0;
 }
 
 
@@ -6800,8 +6727,8 @@ void func_021E3F08(char *p)
 void func_021E3F30(char *p)
 {
     void *v;
-    v = func_020490F4(0x66, ((struct Obj10379 *)p)->f5F4);
-    func_02049990(v, 12, (int)4, (int)0, (unsigned short)(((struct Obj10379 *)p)->f870), (int)0, (int)0, (unsigned int)(((struct Obj10379 *)p)->f5F4));
+    v = func_020490F4(0x66, ((TradeWork *)p)->f5F4);
+    func_02049990(v, 12, (int)4, (int)0, (unsigned short)(((TradeWork *)p)->f870), (int)0, (int)0, (unsigned int)(((TradeWork *)p)->f5F4));
     func_02049238(v);
 }
 
@@ -6827,12 +6754,12 @@ void func_021E3F74(char *p)
 {
     void *v;
 
-    v = func_020490F4(0x66, ((struct Obj00908 *)p)->f5F4);
-    func_02049B68(v, 0x11, 4, 0, 0xC0, ((struct Obj00908 *)p)->f5F4);
-    ((struct Obj00908 *)p)->f874 = (void *)func_02049740(v, 0xD, 7, 0, 0, ((struct Obj00908 *)p)->f5F4);
-    ((struct Obj00908 *)p)->f870 = (void *)func_02049740(v, 0xD, 5, 0, 0, ((struct Obj00908 *)p)->f5F4);
+    v = func_020490F4(0x66, ((TradeWork *)p)->f5F4);
+    func_02049B68(v, 0x11, 4, 0, 0xC0, ((TradeWork *)p)->f5F4);
+    (*(void * *)&((TradeWork *)p)->f874) = (void *)func_02049740(v, 0xD, 7, 0, 0, ((TradeWork *)p)->f5F4);
+    (*(void * *)&((TradeWork *)p)->f870) = (void *)func_02049740(v, 0xD, 5, 0, 0, ((TradeWork *)p)->f5F4);
     func_02049238(v);
-    func_021E4324(p, (int)(((struct Obj00908 *)p)->f874));
+    func_021E4324(p, (int)((*(void * *)&((TradeWork *)p)->f874)));
 }
 
 
@@ -6843,7 +6770,7 @@ void func_021E3F74(char *p)
 
 void func_021E3FE4(char *p)
 {
-    ((struct Obj13916 *)p)->f644 = func_0201F5DC((void *)6, 15, 0, ((struct Obj13916 *)p)->f5F4);
+    (*(void * *)&((TradeWork *)p)->f644) = func_0201F5DC((void *)6, 15, 0, ((TradeWork *)p)->f5F4);
 }
 
 
@@ -6854,17 +6781,17 @@ void func_021E3FE4(char *p)
 void func_021E4000(char *p)
 {
     func_021E43DC(p);
-    if (((struct Obj00001 *)p)->f870) {
-        func_0203FB44((int)5, (unsigned short)(((struct Obj00001 *)p)->f870), (unsigned short)(((struct Obj00001 *)p)->f870 >> 16));
-        *(int *)&((struct Obj00001 *)p)->f870 = 0;
+    if (((TradeWork *)p)->f870) {
+        func_0203FB44((int)5, (unsigned short)(((TradeWork *)p)->f870), (unsigned short)(((TradeWork *)p)->f870 >> 16));
+        *(int *)&((TradeWork *)p)->f870 = 0;
     }
-    if (((struct Obj00001 *)p)->f874) {
-        func_0203FB44((int)7, (unsigned short)(((struct Obj00001 *)p)->f874), (unsigned short)(((struct Obj00001 *)p)->f874 >> 16));
-        *(int *)&((struct Obj00001 *)p)->f874 = 0;
+    if (((TradeWork *)p)->f874) {
+        func_0203FB44((int)7, (unsigned short)(((TradeWork *)p)->f874), (unsigned short)(((TradeWork *)p)->f874 >> 16));
+        *(int *)&((TradeWork *)p)->f874 = 0;
     }
-    if (*(unsigned int *)&((struct Obj00001 *)p)->f644) {
-        func_0203FB44((int)6, (unsigned short)(*(unsigned int *)&((struct Obj00001 *)p)->f644), (unsigned short)(*(unsigned int *)&((struct Obj00001 *)p)->f644 >> 16));
-        *(int *)&((struct Obj00001 *)p)->f644 = 0;
+    if (((TradeWork *)p)->f644) {
+        func_0203FB44((int)6, (unsigned short)(((TradeWork *)p)->f644), (unsigned short)(((TradeWork *)p)->f644 >> 16));
+        *(int *)&((TradeWork *)p)->f644 = 0;
     }
 }
 
@@ -6877,12 +6804,12 @@ void func_021E4068(char *p)
 {
     void *v;
     int a;
-    if (((struct Obj03780 *)p)->f888 == 0) {
-        v = func_020490F4(func_020275E4(), ((struct Obj03780 *)p)->f5F4);
-        ((struct Obj03780 *)p)->f8A4 = func_0204A6C8(v, func_02027618(), 0, 1, ((struct Obj03780 *)p)->f5F4);
-        ((struct Obj03780 *)p)->f888 = func_0204AC18(v, func_02027614(), 1, 0, 0, 3, ((struct Obj03780 *)p)->f5F4);
+    if (((TradeWork *)p)->f888 == 0) {
+        v = func_020490F4(func_020275E4(), ((TradeWork *)p)->f5F4);
+        ((TradeWork *)p)->f8A4 = func_0204A6C8(v, func_02027618(), 0, 1, ((TradeWork *)p)->f5F4);
+        ((TradeWork *)p)->f888 = func_0204AC18(v, func_02027614(), 1, 0, 0, 3, ((TradeWork *)p)->f5F4);
         a = func_0202761C(2);
-        ((struct Obj03780 *)p)->f8B8 = func_0204AF28(v, a, func_02027620(2), ((struct Obj03780 *)p)->f5F4);
+        ((TradeWork *)p)->f8B8 = func_0204AF28(v, a, func_02027620(2), ((TradeWork *)p)->f5F4);
         func_02049238(v);
     }
 }
@@ -6896,14 +6823,14 @@ void func_021E40EC(char *p, int a1, int a2)
 {
     Tbl2 tbl = d_021E7DD0;
     void *v;
-    v = func_020490F4(0x66, ((struct Obj00001 *)p)->f5F4);
-    func_02049990(v, tbl.w[a2], 4, 0, (unsigned short)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
+    v = func_020490F4(0x66, ((TradeWork *)p)->f5F4);
+    func_02049990(v, tbl.w[a2], 4, 0, (unsigned short)((TradeWork *)p)->f870, 0, 0, ((TradeWork *)p)->f5F4);
     if (a1 != 0) {
         func_02040618(4, 0, 0x80);
     } else {
         func_02040618(4, 0, 0);
     }
-    func_0204B3DC((struct Obj *)*(int *)&((struct Obj00001 *)p)->fF04, 0);
+    func_0204B3DC((struct Obj *)((TradeWork *)p)->fF04, 0);
     func_02049238(v);
     func_02040588(4, 1);
 }
@@ -6929,8 +6856,8 @@ void func_021E4174(char *p)
 
 unsigned short func_021E41A0(int i, int row, char *p, int mode)
 {
-    if (i >= ((struct Obj13917 *)p)->f638)
-        i -= ((struct Obj13917 *)p)->f638;
+    if (i >= ((TradeWork *)p)->f638)
+        i -= ((TradeWork *)p)->f638;
     if (i < 12) {
         if (mode)
             return (*(unsigned short **)(p + 0x1180))[i + (row * 32 + 18)];
@@ -6964,8 +6891,8 @@ int func_021E421C(char *p, int x, int y)
         for (; j < 5; j++) {
             if (*(unsigned char *)(q + j + 0xebc)) {
                 r = s + j * 4;
-                a = ((struct Obj13918 *)r)->fDCC - 5;
-                b = ((struct Obj13918 *)r)->fDCE - 8;
+                a = ((TradeWork *)r)->fDCC - 5;
+                b = ((TradeWork *)r)->fDCE - 8;
                 if (a < 0) a -= 8;
                 a /= 8;
                 b /= 8;
@@ -6984,7 +6911,7 @@ int func_021E421C(char *p, int x, int y)
 void func_021E42B4(char *p)
 {
     int x, y, n, mode;
-    n = ((struct Obj00001 *)p)->f107C / 8;
+    n = ((TradeWork *)p)->f107C / 8;
     func_021E4DBC(p);
     for (y = 0; y < 24; y++) {
         for (x = 0; x < 52; x++) {
@@ -6992,8 +6919,8 @@ void func_021E42B4(char *p)
             func_02042FB0(7, x, y, func_021E41A0(n + x, y, p, mode));
         }
     }
-    ((struct Obj00001 *)p)->f108C = ((struct Obj00001 *)p)->f107C % 8;
-    ((struct Obj00001 *)p)->f1084 = 1;
+    ((TradeWork *)p)->f108C = ((TradeWork *)p)->f107C % 8;
+    ((TradeWork *)p)->f1084 = 1;
     func_02041B6C(7);
 }
 
@@ -7011,18 +6938,18 @@ void func_021E4324(char *p, int d)
     int i;
     u16 e;
 
-    *(Buf * *)&((struct Obj00908 *)p)->f1174 = func_02048F60(0x66, 0xE, ((struct Obj00908 *)p)->f5F4);
-    *(Buf * *)&((struct Obj00908 *)p)->f1178 = func_02048F60(0x66, 0xF, ((struct Obj00908 *)p)->f5F4);
-    *(Buf * *)&((struct Obj00908 *)p)->f117C = func_02048F60(0x66, 0x19, ((struct Obj00908 *)p)->f5F4);
-    *(Buf * *)&((struct Obj00908 *)p)->f1180 = func_02048F60(0x66, 0x1A, ((struct Obj00908 *)p)->f5F4);
+    *(Buf * *)&((TradeWork *)p)->f1174 = func_02048F60(0x66, 0xE, ((TradeWork *)p)->f5F4);
+    *(Buf * *)&((TradeWork *)p)->f1178 = func_02048F60(0x66, 0xF, ((TradeWork *)p)->f5F4);
+    *(Buf * *)&((TradeWork *)p)->f117C = func_02048F60(0x66, 0x19, ((TradeWork *)p)->f5F4);
+    *(Buf * *)&((TradeWork *)p)->f1180 = func_02048F60(0x66, 0x1A, ((TradeWork *)p)->f5F4);
     e = d;
     for (i = 0; i < 0x300; i++) {
-        (*(Buf * *)&((struct Obj00908 *)p)->f1174)->v[i] += (int)e;
+        (*(Buf * *)&((TradeWork *)p)->f1174)->v[i] += (int)e;
         (*(Buf **)(p + 0x1178))->v[i] += (int)e;
         (*(Buf **)(p + 0x117C))->v[i] += (int)e;
         (*(Buf **)(p + 0x1180))->v[i] += (int)e;
     }
-    ((struct Obj00908 *)p)->f107C = ((struct Obj00908 *)p)->f63C - 0x50;
+    (*(unsigned short *)&((TradeWork *)p)->f107C) = (*(unsigned int *)&((TradeWork *)p)->f63C) - 0x50;
     func_021E42B4(p);
 }
 
@@ -7032,15 +6959,15 @@ void func_021E4324(char *p, int d)
 
 void func_021E43DC(char *p)
 {
-    if (((struct Obj00001 *)p)->f1174) {
-        func_020307B0(((struct Obj00001 *)p)->f1174);
-        ((struct Obj00001 *)p)->f1174 = 0;
-        func_020307B0(((struct Obj00001 *)p)->f1178);
-        ((struct Obj00001 *)p)->f1178 = 0;
-        func_020307B0(((struct Obj00001 *)p)->f117C);
-        ((struct Obj00001 *)p)->f117C = 0;
-        func_020307B0(((struct Obj00001 *)p)->f1180);
-        ((struct Obj00001 *)p)->f1180 = 0;
+    if (((TradeWork *)p)->f1174) {
+        func_020307B0(((TradeWork *)p)->f1174);
+        ((TradeWork *)p)->f1174 = 0;
+        func_020307B0(((TradeWork *)p)->f1178);
+        ((TradeWork *)p)->f1178 = 0;
+        func_020307B0(((TradeWork *)p)->f117C);
+        ((TradeWork *)p)->f117C = 0;
+        func_020307B0(((TradeWork *)p)->f1180);
+        ((TradeWork *)p)->f1180 = 0;
     }
 }
 
@@ -7085,8 +7012,8 @@ void func_021E4420(char *p)
             if (*(u32 *)(q+h) == 0)
                 *(u32 *)(q+off1) = func_020450F0(5,0,0,15,2,14,0);
             if (i == *(int *)(p+off))
-                func_02045CAC(((struct Obj00001 *)p)->f720,16,*(void **)(p+off2));
-            else func_0200785C(((struct Obj00001 *)p)->f828,i,*(void **)(p+off3));
+                func_02045CAC((*(void * *)&((TradeWork *)p)->f720),16,*(void **)(p+off2));
+            else func_0200785C((*(void * *)&((TradeWork *)p)->f828),i,*(void **)(p+off3));
             func_0201DD78(15,2,zero);
             func_02043B5C(func_02045770(*(void **)(q+a)),zero);
             func_0201C7A4(func_02045770(*(void **)(q+b)),zero,1,*(void **)(p+d),*(void **)(p+c));
@@ -7129,14 +7056,14 @@ void func_021E4598(char *p)
     int x, y, scroll, first, i, n, pos, idx;
     int off1, off2, bound;
     char *q;
-    scroll = ((struct Obj00001 *)p)->f107C / 8;
+    scroll = ((TradeWork *)p)->f107C / 8;
     for (y = 0; y < 2; y++) {
         for (x = 0; x < 64; x++) {
             func_02042FB0(5, x, y, 0);
         }
     }
-    if (((struct Obj00001 *)p)->f107C < 96) first = ((struct Obj00001 *)p)->f630;
-    else first = (((struct Obj00001 *)p)->f107C - 96) / 160;
+    if (((TradeWork *)p)->f107C < 96) first = ((TradeWork *)p)->f630;
+    else first = (((TradeWork *)p)->f107C - 96) / 160;
     i = 0;
     off1 = 0x6B8;
     off2 = 0x6B8;
@@ -7147,8 +7074,8 @@ void func_021E4598(char *p)
         if (idx > n) idx = (int)((u32)idx-(u32)n-1u);
         else if (idx < 0) idx = (int)((u32)idx+(u32)n+1u);
         if (idx == n) {
-            pos = (int)(((struct Obj00001 *)p)->f638-(u32)scroll);
-            if (scroll > pos) scroll = (int)((u32)scroll-((struct Obj00001 *)p)->f638);
+            pos = (int)((*(unsigned int *)&((TradeWork *)p)->f638)-(u32)scroll);
+            if (scroll > pos) scroll = (int)((u32)scroll-(*(unsigned int *)&((TradeWork *)p)->f638));
             else pos = (int)(0u-(u32)scroll);
         } else pos = (int)((u32)idx*20u+12u-(u32)scroll);
         if (pos >= -10 && pos <= 33) {
@@ -7170,9 +7097,9 @@ void func_021E467C(char *p)
     void *arc;
     char *q;
     ObjTmpl t;
-    arc = func_020490F4(7, ((struct Obj00252 *)p)->f5F4);
-    ((struct Obj00252 *)p)->f87C = (void *)func_0204ACEC(arc, func_0201BC3C(), 1, 0x60, ((struct Obj00252 *)p)->f5F4);
-    ((struct Obj00252 *)p)->f8AC = (void *)func_0204AF28(arc, func_0201BC78(), func_0201BCB4(), ((struct Obj00252 *)p)->f5F4);
+    arc = func_020490F4(7, ((TradeWork *)p)->f5F4);
+    ((TradeWork *)p)->f87C = (void *)func_0204ACEC(arc, func_0201BC3C(), 1, 0x60, ((TradeWork *)p)->f5F4);
+    ((TradeWork *)p)->f8AC = (void *)func_0204AF28(arc, func_0201BC78(), func_0201BCB4(), ((TradeWork *)p)->f5F4);
     for (i = 0; i < 12; i++) {
         for (j = 0; j < 5; j++) {
             z = 0;
@@ -7182,17 +7109,17 @@ void func_021E467C(char *p)
             t.pal = 0x10;
             t.mode = 3;
             q = p + i * 20 + j * 4;
-            ((struct Obj03781 *)q)->f9CC = (void *)func_0204A6C8(arc, 0x51b, z, 1, ((struct Obj00252 *)p)->f5F4);
-            ((struct Obj03781 *)q)->fAC0 = func_0204B294(((struct Obj00252 *)p)->f9C4, (unsigned int)((struct Obj03781 *)q)->f9CC,
-                (unsigned int)((struct Obj00252 *)p)->f87C, (unsigned int)((struct Obj00252 *)p)->f8AC, &t, 1, ((struct Obj00252 *)p)->f5F4);
+            ((TradeWork *)q)->f9CC = (void *)func_0204A6C8(arc, 0x51b, z, 1, ((TradeWork *)p)->f5F4);
+            ((TradeWork *)q)->fAC0 = func_0204B294((*(void * *)&((TradeWork *)p)->f9C4), (unsigned int)((TradeWork *)q)->f9CC,
+                (unsigned int)((TradeWork *)p)->f87C, (unsigned int)((TradeWork *)p)->f8AC, &t, 1, ((TradeWork *)p)->f5F4);
             t.prio = z;
             t.pal = 0xf;
-            ((struct Obj03781 *)q)->fBB0 = func_0204B294(((struct Obj00252 *)p)->f9C4, (unsigned int)((struct Obj00252 *)p)->f894,
-                (unsigned int)((struct Obj00252 *)p)->f880, (unsigned int)((struct Obj00252 *)p)->f8B0, &t, 1, ((struct Obj00252 *)p)->f5F4);
-            func_0204B92C(((struct Obj03781 *)q)->fAC0, z);
-            func_0204B3DC(((struct Obj03781 *)q)->fAC0, z);
-            func_0204B3DC(((struct Obj03781 *)q)->fBB0, z);
-            func_0204B92C(((struct Obj03781 *)q)->fBB0, 1);
+            ((TradeWork *)q)->fBB0 = func_0204B294((*(void * *)&((TradeWork *)p)->f9C4), (unsigned int)(*(void * *)&((TradeWork *)p)->f894),
+                (unsigned int)(*(void * *)&((TradeWork *)p)->f880), (unsigned int)(*(void * *)&((TradeWork *)p)->f8B0), &t, 1, ((TradeWork *)p)->f5F4);
+            func_0204B92C(((TradeWork *)q)->fAC0, z);
+            func_0204B3DC(((TradeWork *)q)->fAC0, z);
+            func_0204B3DC(((TradeWork *)q)->fBB0, z);
+            func_0204B92C(((TradeWork *)q)->fBB0, 1);
         }
     }
     func_02049238(arc);
@@ -7233,16 +7160,16 @@ void func_021E4888(char *p)
     int i;
     func_021E69A4(p);
     for (i = 0; i < 12; i++) func_021E4810(p, i);
-    if (((struct Obj00001 *)p)->f87C) {
-        func_0204ADA4(((struct Obj00001 *)p)->f87C);
-        ((struct Obj00001 *)p)->f87C = 0;
+    if ((*(int *)&((TradeWork *)p)->f87C)) {
+        func_0204ADA4((*(int *)&((TradeWork *)p)->f87C));
+        (*(int *)&((TradeWork *)p)->f87C) = 0;
     }
-    if (((struct Obj00001 *)p)->f8AC) {
-        func_0204AFD8(((struct Obj00001 *)p)->f8AC);
-        ((struct Obj00001 *)p)->f8AC = 0;
+    if ((*(int *)&((TradeWork *)p)->f8AC)) {
+        func_0204AFD8((*(int *)&((TradeWork *)p)->f8AC));
+        (*(int *)&((TradeWork *)p)->f8AC) = 0;
     }
-    if (((struct Obj00001 *)p)->f1184) func_020307B0(((struct Obj00001 *)p)->f1184);
-    ((struct Obj00001 *)p)->f1184 = 0;
+    if (((TradeWork *)p)->f1184) func_020307B0(((TradeWork *)p)->f1184);
+    ((TradeWork *)p)->f1184 = 0;
 }
 
 
@@ -7305,7 +7232,7 @@ int func_021E4984(int v, int a, int b, char *p, int *out)
     }
     if (b < 3) {
         *out = 1;
-        return (int)func_021D8DD0((void *)v, ((struct Obj00001 *)p)->f630, a + b * 2, p);
+        return (int)func_021D8DD0((void *)v, ((TradeWork *)p)->f630, a + b * 2, p);
     }
     return 0;
 }
@@ -7322,7 +7249,7 @@ char *func_021E49DC(int a, int b, char *p)
         return func_021D8E24(n, func_021D8B0C(a, b), p);
     }
     if (b < 3)
-        return func_021D8E24(((struct Obj22805 *)p)->f630, a + b * 2, p);
+        return func_021D8E24(((TradeWork *)p)->f630, a + b * 2, p);
     return 0;
 }
 
@@ -7339,10 +7266,10 @@ void func_021E4A1C(char *p)
         q = p + i * 4;
         for (j = 0; j < 12; j++) {
             r = q + j * 20;
-            if (func_0204B3F4((struct Obj *)(((struct Obj13922 *)r)->fBB0))) {
-                func_0204B454((struct Actor *)((struct Obj13922 *)r)->fBB0, (struct PtS *)xy, 1);
-                ((struct Obj13921 *)p)->fF54 = xy[0];
-                ((struct Obj13921 *)p)->fF58 = xy[1];
+            if (func_0204B3F4((struct Obj *)((*(int *)&((TradeWork *)r)->fBB0)))) {
+                func_0204B454((struct Actor *)(*(int *)&((TradeWork *)r)->fBB0), (struct PtS *)xy, 1);
+                ((TradeWork *)p)->fF54 = xy[0];
+                ((TradeWork *)p)->fF58 = xy[1];
             }
         }
     }
@@ -7354,7 +7281,7 @@ void func_021E4A1C(char *p)
 
 int func_021E4A84(char *p, int i)
 {
-    int v = ((struct Obj22806 *)p)->f800;
+    int v = ((TradeWork *)p)->f800;
     if (v != 0 && v - 1 == d_021E82A4[i]) {
         return 1;
     }
@@ -7408,8 +7335,8 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
     u16 pos[2];
     Pt pt;
     enum { VRAM_BASE = 0x06600000 } vram;
-    if (a == ((struct Obj00001 *)p)->fF74 && func_020355C4() == 0) {
-        func_0204B3DC(((void **)(p + row * 20 + 0xbb0))[((struct Obj00001 *)p)->fF78], 1);
+    if (a == ((TradeWork *)p)->fF74 && func_020355C4() == 0) {
+        func_0204B3DC(((void **)(p + row * 20 + 0xbb0))[((TradeWork *)p)->fF78], 1);
     }
     for (j = 0; j < 5; j++) {
         rec = func_021E4984(v, a, j, p, &kind);
@@ -7449,7 +7376,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
                 }
             } else {
                 vram = VRAM_BASE;
-                func_02082D44((const void *)(*(int *)&((struct Obj00001 *)p)->f1184 + idx * 0x200), (void *)(vram + info.c), 0x200);
+                func_02082D44((const void *)(*(int *)&((TradeWork *)p)->f1184 + idx * 0x200), (void *)(vram + info.c), 0x200);
             }
             func_021E4AD0(p, a, j, rec, kind, row);
             func_0204B6F4(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), func_0201BBE8((void *)rec), 1);
@@ -7471,7 +7398,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
 int func_021E4DBC(char *p)
 {
     int x, q, r, v;
-    x = ((struct Obj22807 *)p)->f107C;
+    x = ((TradeWork *)p)->f107C;
     if (x < 48) x = 0;
     else if (x < 96) x = 1;
     else {
@@ -7496,15 +7423,15 @@ int func_021E4E0C(char *p, int *out)
     x = func_021E4DBC(p);
     *out = x + 2;
     hi = x + 10;
-    n = ((struct Obj08070 *)p)->f634;
+    n = ((TradeWork *)p)->f634;
     if (*out >= n) *out -= n;
-    n = ((struct Obj08070 *)p)->f634;
+    n = ((TradeWork *)p)->f634;
     if (hi >= n) {
-        t = ((struct Obj08070 *)p)->fF74;
+        t = ((TradeWork *)p)->fF74;
         if (t < 20) t = t + 1 + n;
         if (x <= t && t <= hi) return 1;
     } else {
-        t = ((struct Obj08070 *)p)->fF74;
+        t = ((TradeWork *)p)->fF74;
         if (x <= t && t <= hi) return 1;
     }
     return 0;
@@ -7520,20 +7447,20 @@ void func_021E4E64(int a, char *p, int b)
 {
     int i, n, j;
     n = func_021E4DBC(p);
-    if (((struct Obj00001 *)p)->f1080 != n) {
-        ((struct Obj00001 *)p)->f1080 = n;
+    if (((TradeWork *)p)->f1080 != n) {
+        ((TradeWork *)p)->f1080 = n;
         for (i = 0; i < 12; i++) {
             for (j = 0; j < 5; j++) {
                 func_0204B3DC((struct Obj *)*(int *)(p + i * 20 + j * 4 + 0xbb0), 0);
                 *(unsigned char *)(p + i * 5 + j + 0xebc) = 0;
             }
         }
-        ((struct Obj00001 *)p)->f1090 = n;
+        ((TradeWork *)p)->f1090 = n;
         func_021E5164((int)p);
         for (i = 0; i < 12; i++) {
-            func_021E4B00(p, a, n, func_021E5158(((struct Obj00001 *)p)->f1080 + i), b);
+            func_021E4B00(p, a, n, func_021E5158(((TradeWork *)p)->f1080 + i), b);
             n++;
-            if (n >= ((struct Obj00001 *)p)->f634) n = 0;
+            if (n >= ((TradeWork *)p)->f634) n = 0;
         }
     }
     func_021E4F28(p);
@@ -7549,12 +7476,12 @@ void func_021E4F28(char *p)
     int i, off, y, row, j, x, ty, col;
     Pt_021E4F28 b, a;
     off = 0;
-    y = ((struct Obj05334 *)p)->f1080;
+    y = ((TradeWork *)p)->f1080;
     for (i = 0; i < 12; i++) {
-        row = func_021E5158(((struct Obj05334 *)p)->f1080 + i);
-        if (y >= ((struct Obj05334 *)p)->f634) {
-            y -= ((struct Obj05334 *)p)->f634;
-            off = ((struct Obj05334 *)p)->f63C;
+        row = func_021E5158(((TradeWork *)p)->f1080 + i);
+        if (y >= ((TradeWork *)p)->f634) {
+            y -= ((TradeWork *)p)->f634;
+            off = ((TradeWork *)p)->f63C;
         }
         for (j = 0; j < 5; j++) {
             ty = j * 24 + 0x20;
@@ -7565,23 +7492,23 @@ void func_021E4F28(char *p)
                 col += (y - 2) % 6 * 24 + 0x14;
                 x = col + 0x60;
             }
-            b.x = off + (x - ((struct Obj05334 *)p)->f107C);
+            b.x = off + (x - ((TradeWork *)p)->f107C);
             b.y = ty;
             a = b;
             if (func_021DF6B4(p, y, j) && func_020355C4() == 1) {
                 b.y -= 8;
                 q = p + row * 20 + j * 4;
-                func_0204B800(((struct Obj08071 *)q)->fAC0, 11);
+                func_0204B800((*(int *)&((TradeWork *)q)->fAC0), 11);
             } else {
                 q = p + row * 20 + j * 4;
-                func_0204B800(((struct Obj08071 *)q)->fAC0, 0x1c - i);
+                func_0204B800((*(int *)&((TradeWork *)q)->fAC0), 0x1c - i);
             }
-            func_0204B404((struct Obj *)(((struct Obj08071 *)q)->fAC0), (const struct Vec2 *)(&b), 1);
+            func_0204B404((struct Obj *)((*(int *)&((TradeWork *)q)->fAC0)), (const struct Vec2 *)(&b), 1);
             if (*(u8 *)(p + row * 5 + j + 0xebc)) {
                 *(Pt_021E4F28 *)(q + 0xdcc) = a;
             }
             b.y = ty + 3;
-            func_0204B404((struct Obj *)(((struct Obj08071 *)q)->fBB0), (const struct Vec2 *)(&b), 1);
+            func_0204B404((struct Obj *)((*(int *)&((TradeWork *)q)->fBB0)), (const struct Vec2 *)(&b), 1);
         }
         y++;
     }
@@ -7595,19 +7522,19 @@ void func_021E5098(char *p, int b)
 {
     int i, n, x, t, out;
     void *a;
-    if (b == 0) *(int *)&((struct Obj00001 *)p)->f1184 = (int)func_02030734(((struct Obj00001 *)p)->f5F4, 0x5ac00, 0, d_021E8530, 0x50b);
-    a = func_020490F4(7, ((struct Obj00001 *)p)->f5F4);
+    if (b == 0) *(int *)&((TradeWork *)p)->f1184 = (int)func_02030734(((TradeWork *)p)->f5F4, 0x5ac00, 0, d_021E8530, 0x50b);
+    a = func_020490F4(7, ((TradeWork *)p)->f5F4);
     goto check;
 body:
     {
         n = b * 30;
         for (i = 0; i < 30; i++) {
             if (b == 24 && i == 6) break;
-            x = (int)func_021D8DD0((void *)(*(int *)&((struct Obj00001 *)p)->f828), b, i, p);
+            x = (int)func_021D8DD0((void *)(((TradeWork *)p)->f828), b, i, p);
             if (x) x = func_0201BA68((void *)x);
             else x = func_0201BABC(0, 0, 0, 0);
-            t = (int)func_02049DF4(a, x, 0, (u32)(&out), ((struct Obj00001 *)p)->f5F4);
-            func_02082D44(((struct Obj22808 *)out)->f14, (void *)(*(int *)&((struct Obj00001 *)p)->f1184 + n * 512), 512);
+            t = (int)func_02049DF4(a, x, 0, (u32)(&out), ((TradeWork *)p)->f5F4);
+            func_02082D44(((struct Obj22808 *)out)->f14, (void *)(*(int *)&((TradeWork *)p)->f1184 + n * 512), 512);
             n++;
             func_020307B0((void *)t);
         }
@@ -7693,16 +7620,16 @@ void func_021E5284(char *p,int mode)
  a=d_021E7E24;func_0203FCA0(6,&a,0);func_02040C14(6,0,1,0);func_02041300(6,0,0,0,32,24,17);func_020409B4(6);
  b=d_021E7F44;func_0203FCA0(7,&b,2);
  if(mode==0) {
-  v=func_020490F4(0x67,((struct Obj02829 *)p)->f5F4);
-  func_02049B68(v,5,6,0x6000,0,((struct Obj02829 *)p)->f5F4);
-  func_02049658((void *)((u32)v),4,7,0,0,0,((struct Obj02829 *)p)->f5F4);
-  func_020498F4((void *)((u32)v),6,7,0,0,0,((struct Obj02829 *)p)->f5F4);
+  v=func_020490F4(0x67,((TradeWork *)p)->f5F4);
+  func_02049B68(v,5,6,0x6000,0,((TradeWork *)p)->f5F4);
+  func_02049658((void *)((u32)v),4,7,0,0,0,((TradeWork *)p)->f5F4);
+  func_020498F4((void *)((u32)v),6,7,0,0,0,((TradeWork *)p)->f5F4);
   func_02040618(7,0,0);func_02049238(v);
  } else {
-  v=func_020490F4(0x68,((struct Obj02829 *)p)->f5F4);
-  func_02049B68(v,1,6,0x6000,0,((struct Obj02829 *)p)->f5F4);
-  func_02049658((void *)((u32)v),0,7,0,0,0,((struct Obj02829 *)p)->f5F4);
-  func_020498F4((void *)((u32)v),2,7,0,0,0,((struct Obj02829 *)p)->f5F4);
+  v=func_020490F4(0x68,((TradeWork *)p)->f5F4);
+  func_02049B68(v,1,6,0x6000,0,((TradeWork *)p)->f5F4);
+  func_02049658((void *)((u32)v),0,7,0,0,0,((TradeWork *)p)->f5F4);
+  func_020498F4((void *)((u32)v),2,7,0,0,0,((TradeWork *)p)->f5F4);
   func_02040618(7,0,0);func_02049238(v);
  }
 }
@@ -7710,11 +7637,11 @@ void func_021E5284(char *p,int mode)
 
 void func_021E53CC(int p)
 {
-    if (((struct Obj13923 *)p)->f11EC != 0) {
+    if (((TradeWork *)p)->f11EC != 0) {
         func_02040DA8(6, 1, 0);
         func_020403F4(6);
         func_020403F4(7);
-        ((struct Obj13923 *)p)->f11EC = 0;
+        ((TradeWork *)p)->f11EC = 0;
     }
 }
 
@@ -7722,7 +7649,7 @@ void func_021E53CC(int p)
 void func_021E53F8(char *p)
 {
     func_020433E0((const struct DispVram *)d_021E7D40);
-    func_0204A48C((const struct Cfg *)(&d_021E7CC8), (unsigned int)d_021E7D40, ((struct Obj22814 *)p)->f5F4);
+    func_0204A48C((const struct Cfg *)(&d_021E7CC8), (unsigned int)d_021E7D40, ((TradeWork *)p)->f5F4);
     func_021E57E8(0);
     func_02043534(0);
     func_020435F4(0);

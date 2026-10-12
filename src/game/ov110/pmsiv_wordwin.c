@@ -211,11 +211,7 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef short s16_021BEB78;
-
 typedef signed char s8;
-
-typedef int s32_021BEB78;
 
 typedef int (*Handler_021BEE60)(u8 *,void *);
 
@@ -239,19 +235,15 @@ typedef struct { unsigned char plane:5; unsigned char effect:1; unsigned char re
 
 typedef struct { u16 x,y; } Vec2_021BFC64;
 
-typedef signed short s16_021BFB58;
+typedef struct Vec2_021BFD94 { short x,y; } Vec2_021BFD94;
 
-typedef struct Vec2_021BFD94 { s16_021BFB58 x,y; } Vec2_021BFD94;
+typedef struct { short x,y; } Vec2_021BFB58;
 
-typedef struct { s16_021BFB58 x,y; } Vec2_021BFB58;
-
-typedef struct Vec2_021BFE24 { s16_021BFB58 x,y; } Vec2_021BFE24;
+typedef struct Vec2_021BFE24 { short x,y; } Vec2_021BFE24;
 
 struct Pt { u16 x, y; };
 
-typedef struct { s16_021BFB58 x,y; } Vec2_021BFF7C;
-
-typedef signed int     s32_021BFB58;
+typedef struct { short x,y; } Vec2_021BFF7C;
 
 extern u8 func_021BB240(u32 i);
 extern u8 func_021BB250(u32 i);
@@ -329,11 +321,11 @@ extern void func_02040618(u32,u32,u32);
 extern u32 func_021BAC44(u8 *);
 extern void func_0204B528(struct Actor *, const struct Pt *);
 extern void func_0201DD68(void);
-extern void func_0201C7A4(void *, s16_021BFB58, s16_021BFB58, void *, void *);
+extern void func_0201C7A4(void *, short, short, void *, void *);
 extern void func_020439A0(struct Bmp *, struct Bmp *, u32, u32, int, int, u32, u32, u32);
 extern u16 func_0204B898(struct Obj *p);
 extern u32 func_0204B98C(struct Actor *a);
-extern int func_02034AC4(s32_021BFB58 handle);
+extern int func_02034AC4(int handle);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_0203064C(u32,u32,u32);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
@@ -1737,7 +1729,7 @@ u32 func_021BFD94(u8 *p,Vec2_021BFD94 *out) { u32 result; result=func_0204B3F4((
  */
 void func_021BFDB0(u8 *p,unsigned a,unsigned n) {
     Vec2_021BFB58 pos;
-    s16_021BFB58 lo,hi;
+    short lo,hi;
     pos.x=244;
     if(a==0) { pos.y=18; goto apply; }
     else if(a==n) { pos.y=149; goto apply; }
@@ -1770,7 +1762,7 @@ unsigned func_021BFE60(u8 *p, unsigned n)
     int i;
     unsigned result;
     Vec2_021BFB58 pos;
-    s16_021BFB58 y;
+    short y;
     func_021BFD94(p, (Vec2_021BFD94 *)((struct Vec2_021BFB58 *)(&pos)));
     if (n == 0) goto zero;
     else {
@@ -1779,8 +1771,8 @@ unsigned func_021BFE60(u8 *p, unsigned n)
             if (y == 18) { result = 0; goto end; }
             else if (y == 149) result = n;
             else {
-                for (i = 0; i <= n; i = (s16_021BFB58)(i + 1)) {
-                    s16_021BFB58 lo, hi;
+                for (i = 0; i <= n; i = (short)(i + 1)) {
+                    short lo, hi;
                     lo = 132 * (unsigned)i / (n + 1) + 18;
                     hi = 132 * (unsigned)(i + 1) / (n + 1) + 17;
                     if (lo > hi) hi = lo;
@@ -1810,10 +1802,10 @@ void func_021BFED0(u8 *p,int amount) {
         start=(u8)(end+24*amount);
     }
     if(start<end) {
-        func_02043AF4(func_02045770((struct Descriptor *)((struct Obj06392 *)p)->fC),(s16_021BFB58)0,(s16_021BFB58)start,(u16)208,(u16)(end-start),(u8)0);
+        func_02043AF4(func_02045770((struct Descriptor *)((struct Obj06392 *)p)->fC),(short)0,(short)start,(u16)208,(u16)(end-start),(u8)0);
     } else {
-        func_02043AF4(func_02045770((struct Descriptor *)((struct Obj06392 *)p)->fC),(s16_021BFB58)0,(s16_021BFB58)start,(u16)208,(u16)(256-start),(u8)0);
-        func_02043AF4(func_02045770((struct Descriptor *)((struct Obj06392 *)p)->fC),(s16_021BFB58)0,(s16_021BFB58)0,(u16)208,(u16)end,(u8)0);
+        func_02043AF4(func_02045770((struct Descriptor *)((struct Obj06392 *)p)->fC),(short)0,(short)start,(u16)208,(u16)(256-start),(u8)0);
+        func_02043AF4(func_02045770((struct Descriptor *)((struct Obj06392 *)p)->fC),(short)0,(short)0,(u16)208,(u16)end,(u8)0);
     }
 }
 

@@ -1497,7 +1497,7 @@ extern u8 g_0220320E[];
 extern u8 g_0220320F[];
 extern u8 g_02203216[];
 extern u8 g_02203217[];
-extern void *g_02203CF0[];
+extern void (*g_02203CF0[])(u8 *);
 extern struct DispConfig g_022034AC;
 extern struct BgTemplate g_022034DC;
 extern struct BgTemplate g_022034BC;
@@ -1532,7 +1532,7 @@ extern const char str_02203E44[];
 extern char d_022038BE;
 extern const u16 d_02203884[];
 extern const u8 d_02203892[];
-extern void *g_02203E58[];
+extern void (*g_02203E58[])(u8 *);
 extern struct DispConfig g_02203914;
 extern struct BgTemplate g_022039A4;
 extern struct BgTemplate g_02203984;
@@ -1545,7 +1545,7 @@ extern const Pair_021FE93C d_022038E0[];
 extern char g_022038EC[];
 extern const Pos tbl_022038E0[];
 extern const u32 d_022038FC[][3];
-extern void *g_02203E94[];
+extern void (*g_02203E94[])(u8 *);
 extern struct DispConfig g_02203A04;
 extern struct BgTemplate g_02203A14;
 extern struct BgTemplate g_02203A54;
@@ -2038,7 +2038,7 @@ int func_021FC06C(u8 *p)
  */
 void func_021FC174(u8 *p)
 {
-    ((void (*)(u8 *))g_02203CF0[*(u32 *)(p + 0x28)])(p);
+    g_02203CF0[*(u32 *)(p + 0x28)](p);
 }
 
 
@@ -2571,7 +2571,7 @@ int func_021FCC40(Work *p)
     }
     func_021FD5F0(p);
     func_021FFD1C(p, p->cur, -p->scroll);
-    p->vblank = (void (*)(void *))func_021FD8BC;
+    p->vblank = func_021FD8BC;
     *(vu16 *)0x04000304 |= 0x8000;
     func_0203D34C(1, 0x48);
     if (p->kind == 0x11) {
@@ -3130,7 +3130,7 @@ int func_021FD924(Work *p)
     func_021F8098(p->win_p4[3], p->bank, p->rec.mode, 1, 0, 0, 0x3C40, p->fFA0);
     func_021F8154(p->wDA4, p->bank, func_021F886C(p->rec.key, p->rec.val, 1), 0, 0, 0x3C40, 1, p->fFA0);
     func_021F8010(p->win2[1], p->msg_p, p->bank, p->fF84, 0, 0, 0x3C40, p->fFA0);
-    p->vblank = (void (*)(void *))func_021FF50C;
+    p->vblank = func_021FF50C;
     if (p->kind == 0xd) {
         func_0202208C((void *)3, 1, 1, 0, 6, 1, 0x48);
     }
@@ -4896,7 +4896,7 @@ int func_021FFDA8(u8 *p)
  */
 void func_021FFEB4(u8 *p)
 {
-    ((void (*)(u8 *))g_02203E58[*(u32 *)(p + 0x28)])(p);
+    g_02203E58[*(u32 *)(p + 0x28)](p);
 }
 
 
@@ -5536,7 +5536,7 @@ int func_02200C0C(u8 *p) { func_02200EB0(p); func_02200CCC(); func_021FFFE8(p,0,
  */
 void func_02200C80(u8 *p)
 {
-    ((void (*)(u8 *))g_02203E94[*(u32 *)(p + 0x28)])(p);
+    g_02203E94[*(u32 *)(p + 0x28)](p);
 }
 
 

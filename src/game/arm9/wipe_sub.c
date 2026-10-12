@@ -34,10 +34,8 @@
  *   g_021467A4                0x021467A4  data
  *   CARD_GetBackupSectorSize  0x0204E6E0  arm
  *   _s32_div_f                0x0209C0A4  arm
- *   g_021468E4     0x021468E4  data
  *   func_0207D534  0x0207D534  arm
  *   g_0209F538  0x0209F538  data
- *   g_021468A4     0x021468A4  data
  *   func_02005624  0x02005624  thumb
  *   func_02030734  0x02030734  arm
  *   func_020056A0  0x020056A0  thumb
@@ -133,14 +131,10 @@
  *   func_02041300       0x02041300  arm
  *   func_0203F4CC       0x0203F4CC  arm
  */
-#include "../../matched/include/Obj06878.h"
-#include "../../matched/include/Obj08779.h"
-#include "../../matched/include/Obj15732.h"
 #include "../../matched/include/Obj16741.h"
 #include "../../matched/include/Obj11726.h"
 #include "../../matched/include/Obj15738.h"
 #include "../../matched/include/Obj04050.h"
-#include "../../matched/include/Obj00862.h"
 #include "../../matched/include/Obj15744.h"
 #include "../../matched/include/Obj05795.h"
 
@@ -174,28 +168,17 @@
 #define REG_DISPCNT_SUB (*(volatile u32 *)0x04001000)
 #define REG_BLDCNT     (*(volatile u16 *)0x0400004A)
 #define REG_BLDCNT_SUB (*(volatile u16 *)0x0400104A)
-struct Chan02021984;
-struct S02021944;
-struct S02021A84;
-struct S020219C4;
 struct Node;
-struct C02021C20;
-struct S;
-struct Sub;
+struct WinPanel;
 struct Slots;
-struct Mode;
-struct TextObj;
-struct Cluster;
 struct Obj;
 struct Q;
-struct Task;
 struct Rec_020225F0;
 struct AnimStep;
 struct WipeScan;
 struct Struct_02023CFC;
 struct WipeSubElem;
 struct S_02022E20;
-struct Obj_02022E20;
 struct Quad;
 struct Ctx;
 struct Par;
@@ -206,7 +189,7 @@ struct Desc;
 struct Args2;
 struct Args4;
 struct Args3;
-struct Sub020071CCCtrl;
+struct WinPanel020071CCCtrl;
 struct Rec8;
 struct Data;
 struct Obj_0202411C;
@@ -224,36 +207,46 @@ typedef unsigned int   u32;
 
 typedef signed int     s32;
 
-struct Sub {
+struct WinPanel {
     u32   f00;
     u32   f04;
     s32   f08;
-    u32   f0C;
+    u32   phase;
     u32   f10;
-    u32   f14;
-    void *f18;
-    void *f1C;
-    u32   f20;
+    void *obj;
+    u32   f18;
+    u32   f1C;
+    u32   heap;
     u16   f24;
     u16   f26;
     u32   f28;
     u32   f2C;
 };
 
-struct G_02021728 {
-    u8          pad00[4];
-    void       *f04;
-    void       *f08;
-    void       *f0C;
-    void       *f10;
-    struct Sub  f14;
-    struct Sub  f44;
-    u8          f74[0x18];
-    u8          f8C[0xC0];
-    u16         f14C;
-    u8          f14E;
-    u8          f14F;
-    u16         f150;
+typedef void (*Handler)(void *ctx);
+
+struct Slots {
+    void   *ctx[2];
+    Handler fn[2];
+    u32     arg[2];
+};
+
+struct DualWin {
+    u32            mode;
+    u32            top;
+    u32            bottom;
+    u32            f0C;
+    u32            f10;
+    struct WinPanel f14;
+    struct WinPanel f44;
+    struct Slots   f74;
+    u8             f8C[0xC0];
+    u16            f14C;
+    u8             f14E;
+    u8             f14F;
+    u16            f150;
+    u16            pad152;
+    void          *f154;
 };
 
 typedef signed   short s16;
@@ -261,11 +254,22 @@ typedef signed   short s16;
 typedef signed   char  s8;
 
 typedef struct {
+    u16 f0;
+    u16 lo     : 6;
+    u16 cur    : 5;
+    u16 max    : 5;
+    u16 target : 15;
+    u16 sign   : 1;
+    u16 step   : 5;
+    u16 copy   : 6;
+    u16 pad    : 5;
+} PalAnmSlot;
+
+typedef struct {
     u16 *src;
     u16 *dst;
     u32 f8;
-    u32 fc;
-    u32 f10;
+    PalAnmSlot slot;
 } PalAnmChan;
 
 typedef struct {
@@ -278,125 +282,6 @@ typedef struct {
     u8  latch;
 } PalAnmObj;
 
-struct S02021944 {
-    char pad[0x11a];
-    u16 lo : 14;
-    u16 hi : 2;
-};
-
-struct Chan02021984 {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-};
-
-struct S020219C4 {
-    u16 f0;
-    u16 lo  : 6;
-    u16 mid : 5;
-    u16 hi  : 5;
-    u16 val  : 15;
-    u16 flag : 1;
-    u16 step : 5;
-    u16 copy : 6;
-    u16 pad6 : 5;
-};
-
-struct S02021A84 {
-    char pad[0x118];
-    u16 a_mode : 2;
-    u16 a_big  : 14;
-    u16 b_lo : 14;
-    u16 b_x  : 1;
-    u16 b_hi : 1;
-    u8  latch;
-};
-
-struct Obj02021B18 {
-    u8  pad0[0x118];
-    u16 lo : 2;
-    u16 hi : 14;
-    u16 pad11a;
-    u8  flag;       /* +0x11c */
-};
-
-struct S02021B6C {
-    u8 pad0[0xe];
-    u16 cap : 6;
-    u16 padE : 10;
-    u16 pad10[1];
-    u16 pad12a : 5;
-    u16 cur : 6;
-    u16 pad12b : 5;
-};
-
-struct S02021B6C_hdr {
-    u16 pad118a : 2;
-    u16 flags118 : 14;
-};
-
-struct S02021BC8 {
-    u8  *p0;
-    u8  *p1;
-    u16  f8;
-    u16  fA;
-    u16  field0xc;
-};
-
-struct C02021C20 {
-    u16 f0;
-    u16 lo6 : 6;
-    u16 weight : 5;
-    u16 hi : 5;
-    u16 target : 15;
-    u16 sign : 1;
-};
-
-struct S {
-    u16 f0;
-    u16 lo6 : 6;
-    u16 cur : 5;
-    u16 max : 5;
-    u16 dir : 15;
-    u16 sign : 1;
-    u16 step : 5;
-};
-
-struct Chan {
-    u32 f0;
-    void *f4;
-    u32 f8;
-    u32 fc;
-    u32 f10;
-};
-
-struct S02021D50 {
-    struct Chan ch[14];
-    u16 a_mode : 2;
-    u16 a_big  : 14;
-    u16 b_lo : 14;
-    u16 b_x  : 1;
-    u16 b_hi : 1;
-};
-
-struct Obj02021EE4 {
-    u8  pad0[0x11a];
-    u16 lo  : 15;
-    u16 top : 1;
-};
-
-struct Obj02021F08 {
-    u8  pad0[0x118];
-    u16 a_mode : 2;
-    u16 a_big  : 14;
-};
-
-typedef struct {
-    u16 *a;
-    u16 *b;
-    int pad[3];
-} Slot;
-
 struct Rgb555 {
     u16 r : 5;
     u16 g : 5;
@@ -404,69 +289,7 @@ struct Rgb555 {
     u16 pad : 1;
 };
 
-struct Chan02021FD8 {
-    u16 *src;
-    u16 *dst;
-    u32 f8;
-    u32 fc;
-    u32 f10;
-};
-
-struct G021468E4 {
-    u8  pad[0x10];
-    u16 f10;
-};
-
-struct G021468A4 {
-    u8    pad00[0x54];
-    void *f54;
-};
-
-struct Cluster {
-    u32    mode;
-    void  *top;
-    void  *bottom;
-};
-
 typedef u32 (*FuncPtr)(void *);
-
-struct Mode {
-    u32 kind;
-    u32 a;
-    u32 b;
-    u32 a2;
-    u32 b2;
-};
-
-typedef void (*Handler)(void *ctx);
-
-struct Slots {
-    void   *ctx[2];
-    Handler fn[2];
-    u32     arg[2];
-};
-
-struct TextObj {
-    u8  pad00[0x150];
-    u16 f150;
-};
-
-struct Obj_0 {
-    u8  pad00[0xC];
-    u32 unk0C;
-    u8  pad10[0x150 - 0x10];
-    u16 unk150;
-};
-
-typedef void (*Task)(void *p);
-
-struct Obj_1 {
-    u8  pad00[0xC];
-    u32 unk0C;
-    u8  pad10[0x28 - 0x10];
-    u32 unk28;
-    u32 unk2C;
-};
 
 struct G_020225F0 {
     u32 f00;
@@ -498,36 +321,6 @@ typedef int           s32_02022940;
 
 typedef signed int     s32_020229A4;
 
-struct Obj_020229A4 {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-    void *f20;    /* 0x20 */
-};
-
-struct Task {
-    u32   f00;
-    u32   f04;
-    u32   f08;
-    u32   phase;  /* 0x0c */
-    u32   f10;
-    void *obj;    /* 0x14 */
-    u32   f18;
-    u32   f1c;
-    u32   heap;   /* 0x20 */
-    u16   f24;    /* 0x24 */
-};
-
-struct Obj_02022A44 {
-    u32 pad00[8];
-    u32 f20;      /* 0x20 */
-};
-
 typedef int s32_02022A88;
 
 struct AnimStep {
@@ -539,6 +332,7 @@ struct AnimStep {
     s32_02022A88 step_delta;
     s32_02022A88 pad18;
     s32_02022A88 scaled_val;
+    void *f20;
 };
 
 typedef signed int     s32_02022AD0;
@@ -579,41 +373,18 @@ struct S_02022E20 {
     u8 eng;
 };
 
-struct Obj_02022E20 {
-    u8  pad00[0x30];
-    u32 f30;      /* 0x30 */
-    u8  pad34[0x10];
-    u32 f44;      /* 0x44 */
-};
-
-struct Obj_0202350C {
-    u32 f00;
-    u8  pad04[0x0c];
-    u32 f10;       /* 0x10 */
-    u8  pad14[0x0c];
-    u32 f20;       /* 0x20 */
-    u8  pad24[0x0c];
-    u32 f30;       /* 0x30 */
-    u32 f34;
-    u32 f38;
-    u32 f3c;
-    u32 f40;
-    u32 f44;
-    u32 f48;
-};
-
 typedef signed int     s32_0202350C;
 
 typedef enum { Z0 } E;
 
 typedef int          s32_02023568;
 
-struct Obj_02023568 {
+struct WipeTiles {
     s32_02023568 x;       /* 0x00 */
     s32_02023568 y;       /* 0x04 */
     s32_02023568 z;       /* 0x08 */
     s32_02023568 w;       /* 0x0c */
-    u32 pad10[4];
+    struct Quad q10;
     u32 f20;     /* 0x20 */
     u32 f24;
     u32 f28;
@@ -992,8 +763,8 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern s32_1 FX_Sqrt(s32_1 x);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void *func_02012FE4(struct Sub020071CCCtrl *a0);
+extern void *func_020071CC(struct WinPanel020071CCCtrl *ctrl, u32 id);
+extern void *func_02012FE4(struct WinPanel020071CCCtrl *a0);
 extern u32 func_020142E8(void *bitmap, s32_02023EF4 id);
 extern u32 unit_020355C4(void);
 extern void func_020355D8(void *);
@@ -1037,25 +808,25 @@ int func_02021730(char *p, int i);
 int func_0202173C(PalAnmObj *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 int func_02021848(PalAnmObj *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 u8 func_02021930(u32 val, int bit);
-void func_02021944(struct S02021944 *p, int a1);
-void func_02021984(s32 idx, struct Chan02021984 *c, u16 *pv);
-void func_020219C4(struct S020219C4 *s, u16 f0, s32 a, u8 b, u8 c, u16 d);
-void func_02021A84(void *a, struct S02021A84 *p);
-void func_02021B18(struct Obj02021B18 *o);
-void func_02021B2C(u8 *p);
-void func_02021B4C(u8 *p);
-void func_02021B6C(u8 *p, u32 idx, u32 arg);
-void func_02021BC8(u8 *p, u32 idx, u32 arg);
-void func_02021C20(u16 *src, u16 *dst, struct C02021C20 *c, u32 count);
-void func_02021CA8(u8 *p, u32 idx, struct S *s);
-void func_02021D50(struct S02021D50 *p);
-u32 func_02021ED8(const char *ptr);
-void func_02021EE4(struct Obj02021EE4 *o, int v);
-void func_02021F08(struct Obj02021F08 *o, int v);
-u16 func_02021F3C(Slot *s, int idx, int which, u16 pos);
+void func_02021944(PalAnmObj *p, int a1);
+void func_02021984(s32 idx, PalAnmChan *c, u16 *pv);
+void func_020219C4(PalAnmSlot *s, u16 f0, s32 a, u8 b, u8 c, u16 d);
+void func_02021A84(void *a, PalAnmObj *p);
+void func_02021B18(PalAnmObj *o);
+void func_02021B2C(PalAnmObj *p);
+void func_02021B4C(PalAnmObj *p);
+void func_02021B6C(PalAnmObj *p, u32 idx, u32 arg);
+void func_02021BC8(PalAnmObj *p, u32 idx, u32 arg);
+void func_02021C20(u16 *src, u16 *dst, PalAnmSlot *c, u32 count);
+void func_02021CA8(PalAnmObj *p, u32 idx, PalAnmSlot *s);
+void func_02021D50(PalAnmObj *p);
+u32 func_02021ED8(const PalAnmObj *ptr);
+void func_02021EE4(PalAnmObj *o, int v);
+void func_02021F08(PalAnmObj *o, int v);
+u16 func_02021F3C(PalAnmChan *s, int idx, int which, u16 pos);
 void func_02021F64(u16 *src, u16 *dst, u32 count, int weight, u16 color);
-void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
-void func_02022004(struct Chan02021FD8 *a0, u32 a1, u16 m, u8 a3, u16 a4);
+void func_02021FD8(PalAnmChan *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+void func_02022004(PalAnmChan *a0, u32 a1, u16 m, u8 a3, u16 a4);
 void func_02022040(u16 *pal, int n, const u8 *table);
 void func_0202208C(void *p1, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7);
 void func_02022174(void);
@@ -1067,12 +838,12 @@ void func_0202223C(u32 a, u32 color);
 void func_02022268(u32 color);
 void func_020222A8(u32 a);
 void func_020222CC(u32 which, int brightness);
-void func_020222EC(struct G_02021728 *p);
-u32 func_02022340(struct Cluster *p, void *top, void *bottom);
+void func_020222EC(struct DualWin *p);
+u32 func_02022340(struct DualWin *p, void *top, void *bottom);
 void func_02022390(u32 *obj, void *arg);
 u32 func_020223AC(void *p);
-void func_020223C0(u32 mode, struct Mode *p);
-void func_02022430(struct Sub *s, u32 a, u32 b, s32 c, u32 d, u32 e, u32 f, void *g, void *h, u32 i, u16 j);
+void func_020223C0(u32 mode, struct DualWin *p);
+void func_02022430(struct WinPanel *s, u32 a, u32 b, s32 c, u32 d, u32 e, u32 f, void *g, void *h, u32 i, u16 j);
 void func_02022458(struct Slots *p);
 void func_02022478(void *task, struct Slots *p);
 void func_02022490(struct Slots *p, void *ctx, Handler fn, u32 idx);
@@ -1082,29 +853,29 @@ void func_02022568(u32 a0, u32 a1, u32 a2);
 void func_020225B4(void *a0, u32 *a1);
 void func_020225D4(struct Node *a0, u32 *a1);
 void func_020225F0(void *ctx);
-u16 func_020225F4(struct TextObj *obj, u16 value);
-u16 func_02022608(struct Obj_0 *p);
+u16 func_020225F4(struct DualWin *obj, u16 value);
+u16 func_02022608(struct DualWin *p);
 void func_0202262C(void *obj, struct Q *q);
-void func_02022640(struct Sub *s);
-void func_02022670(struct Sub *s);
-void func_020226A0(u8 *p);
-u32 func_020226E0(struct Obj_1 *p);
-u32 func_020226FC(struct Obj_1 *p);
-void func_0202271C(struct Sub *p);
-void func_02022758(struct Sub *p);
-void func_02022790(struct Sub *p);
-void func_020227CC(struct Sub *p);
-void func_02022804(struct Sub *p);
-void func_02022830(struct Sub *p);
-void func_0202285C(struct Sub *p);
-void func_02022888(struct Sub *p);
-void func_020228B4(struct Sub *p);
-void func_020228E0(struct Sub *p);
+void func_02022640(struct WinPanel *s);
+void func_02022670(struct WinPanel *s);
+void func_020226A0(struct DualWin *p);
+u32 func_020226E0(struct WinPanel *p);
+u32 func_020226FC(struct WinPanel *p);
+void func_0202271C(struct WinPanel *p);
+void func_02022758(struct WinPanel *p);
+void func_02022790(struct WinPanel *p);
+void func_020227CC(struct WinPanel *p);
+void func_02022804(struct WinPanel *p);
+void func_02022830(struct WinPanel *p);
+void func_0202285C(struct WinPanel *p);
+void func_02022888(struct WinPanel *p);
+void func_020228B4(struct WinPanel *p);
+void func_020228E0(struct WinPanel *p);
 s32_0202290C func_0202290C(s32_0202290C a, s32_0202290C b, s32_0202290C c);
 void func_0202291C(struct Quad *dst, struct Quad *src);
 void func_02022940(struct Quad *cur, struct Quad *end, struct Quad *step, const u8 *from, const u8 *to, s32_02022940 frames);
-void func_020229A4(struct Task *t, u32 dir);
-u32 func_02022A44(struct Task *t);
+void func_020229A4(struct WinPanel *t, u32 dir);
+u32 func_02022A44(struct WinPanel *t);
 int func_02022A88(struct AnimStep *p);
 void func_02022AC4(void *unused, u8 *o);
 void func_02022AD0(struct ctl *ctl);
@@ -1122,18 +893,18 @@ void func_02022F0C(u32 a0, u8 *a1, u32 a2);
 void func_02022F24(u32 a0, u8 *a1, u32 a2);
 void func_02022F34(void *p, struct WipeSubElem *elems);
 void func_02022F60(struct S_02022E20 *p);
-void func_02023464(struct Task *t, u8 *cfg);
-u32 func_020234C0(struct Task *t);
-void func_0202350C(struct Obj_0202350C *obj, const u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5);
-u32 func_02023568(struct Obj_02023568 *o);
-void func_020235F0(struct Task *p, u32 a1);
+void func_02023464(struct WinPanel *t, u8 *cfg);
+u32 func_020234C0(struct WinPanel *t);
+void func_0202350C(struct WipeTiles *obj, const u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5);
+u32 func_02023568(struct WipeTiles *o);
+void func_020235F0(struct WinPanel *p, u32 a1);
 u32 func_0202363C(struct Rec_020225F0 *r);
 void func_0202368C(Ctx *ctx, const Par *par, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7, u32 s8);
 u32 func_02023768(struct Wipe_02022E20 *w);
 void func_020237B8(s32_1 a0, s32_1 a1, s32_1 a2, s32_1 a3, s32_1 *out0, s32_1 *out1);
 void func_0202384C(struct Wipe_0202384C *w);
-void func_020238B4(struct Task *t, u32 a1);
-u32 func_0202390C(struct Task *t);
+void func_020238B4(struct WinPanel *t, u32 a1);
+u32 func_0202390C(struct WinPanel *t);
 void func_02023964(struct WipeScan *w, struct Desc *d, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 u32 func_02023A50(struct WipeScan *w);
 void func_02023AAC(void *obj);
@@ -1218,7 +989,7 @@ void *func_02024910(char *p, int idx);
 void func_02024918(struct Obj02024838 *p, s32_02024464 idx, const void *src);
 u32 func_02024934(void);
 void func_02024938(struct PmsWord *p);
-void *func_02024988(struct Sub020071CCCtrl *ctrl);
+void *func_02024988(struct WinPanel020071CCCtrl *ctrl);
 int func_02024994(const u32 *p, u32 idx);
 void func_020249A0(int *p, int bit);
 int func_020249B0(u32 a, u16 b);
@@ -1230,10 +1001,8 @@ void func_02025154(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h);
 int func_020251D8(int tile, const void *src, int count);
 void func_020251FC(u32 a, u32 b, u32 c);
 void func_020252A8(void);
-extern struct G_02021728 g_021467A4;
-extern struct G021468E4 g_021468E4;
+extern struct DualWin g_021467A4;
 extern FuncPtr g_0209F538[];
-extern struct G021468A4 g_021468A4;
 extern char  g_020A73C8[];
 /* stand-in: three names for the two records at 0x021468FC; the literal pool holds the base three times (see func_02023F98), one name per word */
 extern struct Interp g_wipe_main;
@@ -1348,13 +1117,13 @@ int func_0202173C(PalAnmObj *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, 
 
     for (i = 0; i < 14; i++) {
         if (func_02021930(mask, i) == 1 && func_02021930(p->a_big, i) == 0) {
-            func_02021984(i, (struct Chan02021984 *)(&p->ch[i]), &col);
-            func_020219C4((struct S020219C4 *)(&p->ch[i].fc), col, step, b, c, d);
-            func_02021944((struct S02021944 *)p, i);
+            func_02021984(i, &p->ch[i], &col);
+            func_020219C4(&p->ch[i].slot, col, step, b, c, d);
+            func_02021944(p, i);
             if (i >= 4) {
-                func_02021BC8((u8 *)p, i, 0x100);
+                func_02021BC8(p, i, 0x100);
             } else {
-                func_02021BC8((u8 *)p, i, 0x10);
+                func_02021BC8(p, i, 0x10);
             }
             col = keep;
             ret = 1;
@@ -1414,13 +1183,13 @@ int func_02021848(PalAnmObj *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, 
 
     for (i = 0; i < 14; i++) {
         if (func_02021930(mask, i) == 1) {
-            func_02021984(i, (struct Chan02021984 *)(&p->ch[i]), &col);
-            func_020219C4((struct S020219C4 *)(&p->ch[i].fc), col, step, b, c, d);
-            func_02021944((struct S02021944 *)p, i);
+            func_02021984(i, &p->ch[i], &col);
+            func_020219C4(&p->ch[i].slot, col, step, b, c, d);
+            func_02021944(p, i);
             if (i >= 4) {
-                func_02021BC8((u8 *)p, i, 0x100);
+                func_02021BC8(p, i, 0x100);
             } else {
-                func_02021BC8((u8 *)p, i, 0x10);
+                func_02021BC8(p, i, 0x10);
             }
             col = keep;
             ret = 1;
@@ -1470,11 +1239,11 @@ u8 func_02021930(u32 val, int bit)
 
 
 
-void func_02021944(struct S02021944 *p, int a1)
+void func_02021944(PalAnmObj *p, int a1)
 {
-    if (func_02021930(p->lo, a1) == 1)
+    if (func_02021930(p->b_lo, a1) == 1)
         return;
-    p->lo |= 1 << a1;
+    p->b_lo |= 1 << a1;
 }
 
 
@@ -1501,7 +1270,7 @@ void func_02021944(struct S02021944 *p, int a1)
  * EXACT* only: 62 bytes compiled, listing extent 64; the extra halfword at
  * 0x020219C2 is alignment padding, not an unlabelled follower.
  */
-void func_02021984(s32 idx, struct Chan02021984 *c, u16 *pv)
+void func_02021984(s32 idx, PalAnmChan *c, u16 *pv)
 {
     u32 t;
     u16 m;
@@ -1552,7 +1321,7 @@ void func_02021984(s32 idx, struct Chan02021984 *c, u16 *pv)
  * u32 or u16), or the 5-bit bitfield store costs an extra u16-truncation
  * shift pair -- 8 bytes over 192, and the whole tail shifts with it.
  */
-void func_020219C4(struct S020219C4 *s, u16 f0, s32 a, u8 b, u8 c, u16 d)
+void func_020219C4(PalAnmSlot *s, u16 f0, s32 a, u8 b, u8 c, u16 d)
 {
     u8 n;
 
@@ -1569,15 +1338,15 @@ void func_020219C4(struct S020219C4 *s, u16 f0, s32 a, u8 b, u8 c, u16 d)
     }
 
     s->f0 = f0;
-    s->mid = b;
-    s->hi = c;
-    s->val = d;
+    s->cur = b;
+    s->max = c;
+    s->target = d;
     s->copy = s->lo;
 
     if (b < c) {
-        s->flag = 0;
+        s->sign = 0;
     } else {
-        s->flag = 1;
+        s->sign = 1;
     }
 }
 
@@ -1606,7 +1375,7 @@ void func_020219C4(struct S020219C4 *s, u16 f0, s32 a, u8 b, u8 c, u16 d)
  * so disasm.py never labelled it). Worth seeding into
  * layout/function_starts.txt; reported rather than edited here.
  */
-void func_02021A84(void *a, struct S02021A84 *p)
+void func_02021A84(void *a, PalAnmObj *p)
 {
     if (p->latch == 1) {
         p->latch = 0;
@@ -1622,8 +1391,8 @@ void func_02021A84(void *a, struct S02021A84 *p)
     }
 
     p->b_lo = p->a_big;
-    func_02021B2C((u8 *)p);
-    func_02021B4C((u8 *)p);
+    func_02021B2C(p);
+    func_02021B4C(p);
     if (p->a_big == 0) {
         p->b_x = 0;
         func_02030EAC(a);
@@ -1650,10 +1419,10 @@ void func_02021A84(void *a, struct S02021A84 *p)
  *   python tools/match.py one --src src/matched/func_02021B18.c \
  *       --func func_02021B18 --addr 0x02021B18 --cc 1.1p1 --thumb
  */
-void func_02021B18(struct Obj02021B18 *o)
+void func_02021B18(PalAnmObj *o)
 {
-    if (o->hi)
-        o->flag = 1;
+    if (o->a_big)
+        o->latch = 1;
 }
 
 
@@ -1662,7 +1431,7 @@ void func_02021B18(struct Obj02021B18 *o)
 
 
 
-void func_02021B2C(u8 *p)
+void func_02021B2C(PalAnmObj *p)
 {
     u8 i;
 
@@ -1678,7 +1447,7 @@ void func_02021B2C(u8 *p)
 
 
 
-void func_02021B4C(u8 *p)
+void func_02021B4C(PalAnmObj *p)
 {
     u8 i;
 
@@ -1694,21 +1463,20 @@ void func_02021B4C(u8 *p)
 
 
 
-void func_02021B6C(u8 *p, u32 idx, u32 arg)
+void func_02021B6C(PalAnmObj *p, u32 idx, u32 arg)
 {
-    struct S02021B6C_hdr *hdr = (struct S02021B6C_hdr *)(p + 0x118);
 
-    if (func_02021930(hdr->flags118, idx) == 0) {
+    if (func_02021930(p->a_big, idx) == 0) {
         return;
     }
 
     {
-        struct S02021B6C *s = (struct S02021B6C *)(p + idx * 0x14);
+        PalAnmChan *s = &p->ch[idx];
 
-        if (s->cur < s->cap) {
-            s->cur = s->cur + 1;
+        if (s->slot.copy < s->slot.lo) {
+            s->slot.copy = s->slot.copy + 1;
         } else {
-            s->cur = 0;
+            s->slot.copy = 0;
             func_02021BC8(p, idx, arg);
         }
     }
@@ -1721,22 +1489,22 @@ void func_02021B6C(u8 *p, u32 idx, u32 arg)
 
 
 
-void func_02021BC8(u8 *p, u32 idx, u32 arg)
+void func_02021BC8(PalAnmObj *p, u32 idx, u32 arg)
 {
     u32 i;
-    struct S02021BC8 *s = (struct S02021BC8 *)(p + idx * 0x14);
+    PalAnmChan *s = &p->ch[idx];
 
     for (i = 0; i < 0x10; i++) {
-        if (func_02021930(s->field0xc, (u16)i)) {
+        if (func_02021930(s->slot.f0, (u16)i)) {
             u32 off = (i * arg) * 2;
-            func_02021C20((u16 *)(s->p0 + off),
-                          (u16 *)(s->p1 + off),
-                          (struct C02021C20 *)((u8 *)s + 0xc),
+            func_02021C20((u16 *)((u8 *)s->src + off),
+                          (u16 *)((u8 *)s->dst + off),
+                          &s->slot,
                           arg);
         }
     }
 
-    func_02021CA8(p, (u8)idx, (struct S *)((u8 *)s + 0xc));
+    func_02021CA8(p, (u8)idx, &s->slot);
 }
 
 
@@ -1760,7 +1528,7 @@ void func_02021BC8(u8 *p, u32 idx, u32 arg)
  * The earlier 69-byte reading (int px, t/w/sb/sg/sr locals) is in
  * docs/notes/func_02021C20.c.txt.
  */
-void func_02021C20(u16 *src, u16 *dst, struct C02021C20 *c, u32 count)
+void func_02021C20(u16 *src, u16 *dst, PalAnmSlot *c, u32 count)
 {
     u32 i;
     u16 a;
@@ -1772,9 +1540,9 @@ void func_02021C20(u16 *src, u16 *dst, struct C02021C20 *c, u32 count)
     for (i = 0; i < count; i++) {
         a = src[i];
         t = c->target;
-        r = (u8)((a & 0x1f) + ((((t & 0x1f) - (a & 0x1f)) * c->weight) >> 4));
-        b = (u8)(((a >> 10) & 0x1f) + (((((t >> 10) & 0x1f) - ((a >> 10) & 0x1f)) * c->weight) >> 4));
-        g = (u8)(((a >> 5) & 0x1f) + (((((t >> 5) & 0x1f) - ((a >> 5) & 0x1f)) * c->weight) >> 4));
+        r = (u8)((a & 0x1f) + ((((t & 0x1f) - (a & 0x1f)) * c->cur) >> 4));
+        b = (u8)(((a >> 10) & 0x1f) + (((((t >> 10) & 0x1f) - ((a >> 10) & 0x1f)) * c->cur) >> 4));
+        g = (u8)(((a >> 5) & 0x1f) + (((((t >> 5) & 0x1f) - ((a >> 5) & 0x1f)) * c->cur) >> 4));
         dst[i] = (u16)(r | ((b << 10) | (g << 5)));
     }
 }
@@ -1812,19 +1580,15 @@ void func_02021C20(u16 *src, u16 *dst, struct C02021C20 *c, u32 count)
  * The p[0x118] flag field is the same bits[2:16) register func_02021B6C
  * uses, as the note suspected.
  */
-void func_02021CA8(u8 *p, u32 idx, struct S *s)
+void func_02021CA8(PalAnmObj *p, u32 idx, PalAnmSlot *s)
 {
     u32 bit;
-    u32 flags;
     s32 v;
 
     if (s->cur == s->max) {
         bit = 1 << idx;
-        flags = ((u32)((struct Obj08779 *)p)->f118 << 0x10) >> 0x12;
-        if (flags & bit) {
-            ((struct Obj08779 *)p)->f118 =
-                (u16)((((struct Obj08779 *)p)->f118 & 0xFFFF0003)
-                      | (((flags ^ (u16)bit) << 0x12) >> 0x10));
+        if (p->a_big & bit) {
+            p->a_big ^= bit;
         }
         return;
     }
@@ -1834,17 +1598,13 @@ void func_02021CA8(u8 *p, u32 idx, struct S *s)
         if (v > (s32)s->max) {
             v = (s16)s->max;
         }
-        ((struct Obj06878 *)s)->f2 =
-            (u16)((((struct Obj06878 *)s)->f2 & 0xFFFFF83F)
-                  | (((u32)(u16)v << 0x1b) >> 0x15));
+        s->cur = v;
     } else {
         v = (s16)((s16)s->cur - (s32)s->step);
         if (v < (s32)s->max) {
             v = (s16)s->max;
         }
-        ((struct Obj06878 *)s)->f2 =
-            (u16)((((struct Obj06878 *)s)->f2 & 0xFFFFF83F)
-                  | (((u32)(u16)v << 0x1b) >> 0x15));
+        s->cur = v;
     }
 }
 
@@ -1879,9 +1639,9 @@ void func_02021CA8(u8 *p, u32 idx, struct S *s)
  * bx lr`). Worth seeding into layout/function_starts.txt; reported rather
  * than edited here.
  */
-void func_02021D50(struct S02021D50 *p)
+void func_02021D50(PalAnmObj *p)
 {
-    struct Chan *c;
+    PalAnmChan *c;
     u32 k;
     u32 i;
 
@@ -1892,7 +1652,7 @@ void func_02021D50(struct S02021D50 *p)
     k = 0x2000;
     for (i = 0; (int)i < 14; i++) {
         if (p->b_hi == 0) {
-            if (p->ch[i].f4 == 0) {
+            if (p->ch[i].dst == 0) {
                 continue;
             }
             if (func_02021930(p->b_lo, (u16)i) == 0) {
@@ -1900,68 +1660,68 @@ void func_02021D50(struct S02021D50 *p)
             }
         }
         c = &p->ch[i];
-        func_020862F0(c->f4, c->f8);
+        func_020862F0(c->dst, c->f8);
         switch (i) {
         case 0:
-            func_0207E3D0(c->f4, 0, c->f8);
+            func_0207E3D0(c->dst, 0, c->f8);
             break;
         case 1:
-            func_0207E468(c->f4, 0, c->f8);
+            func_0207E468(c->dst, 0, c->f8);
             break;
         case 2:
-            func_0207E51C(c->f4, 0, c->f8);
+            func_0207E51C(c->dst, 0, c->f8);
             break;
         case 3:
-            func_0207E5D0(c->f4, 0, c->f8);
+            func_0207E5D0(c->dst, 0, c->f8);
             break;
         case 4:
             func_0207F308();
-            func_0207F394(c->f4, 0, c->f8);
+            func_0207F394(c->dst, 0, c->f8);
             func_0207F428();
             break;
         case 5:
             func_0207F308();
-            func_0207F394(c->f4, k, c->f8);
+            func_0207F394(c->dst, k, c->f8);
             func_0207F428();
             break;
         case 6:
             func_0207F308();
-            func_0207F394(c->f4, 0x4000, c->f8);
+            func_0207F394(c->dst, 0x4000, c->f8);
             func_0207F428();
             break;
         case 7:
             func_0207F308();
-            func_0207F394(c->f4, 0x6000, c->f8);
+            func_0207F394(c->dst, 0x6000, c->f8);
             func_0207F428();
             break;
         case 8:
             func_0207F5B0();
-            func_0207F5C8(c->f4, 0, c->f8);
+            func_0207F5C8(c->dst, 0, c->f8);
             func_0207F65C();
             break;
         case 9:
             func_0207F5B0();
-            func_0207F5C8(c->f4, k, c->f8);
+            func_0207F5C8(c->dst, k, c->f8);
             func_0207F65C();
             break;
         case 10:
             func_0207F5B0();
-            func_0207F5C8(c->f4, 0x4000, c->f8);
+            func_0207F5C8(c->dst, 0x4000, c->f8);
             func_0207F65C();
             break;
         case 11:
             func_0207F5B0();
-            func_0207F5C8(c->f4, 0x6000, c->f8);
+            func_0207F5C8(c->dst, 0x6000, c->f8);
             func_0207F65C();
             break;
         case 12:
             func_0207F47C();
-            func_0207F4C4(c->f4, 0, c->f8);
+            func_0207F4C4(c->dst, 0, c->f8);
             func_0207F560();
             break;
         case 13:
             func_0207F6A8();
-            func_0207F6C0(c->f4, 0, c->f8);
+            func_0207F6C0(c->dst, 0, c->f8);
             func_0207F754();
             break;
         }
@@ -1980,10 +1740,9 @@ void func_02021D50(struct S02021D50 *p)
 
 
 
-u32 func_02021ED8(const char *ptr)
+u32 func_02021ED8(const PalAnmObj *ptr)
 {
-    u16 v = ((struct Obj15732 *)ptr)->f118;
-    return (u32)(v << 16) >> 18;
+    return ptr->a_big;
 }
 
 
@@ -2008,9 +1767,9 @@ u32 func_02021ED8(const char *ptr)
  *   python tools/match.py one --src src/matched/func_02021EE4.c \
  *       --func func_02021EE4 --addr 0x02021EE4 --cc 1.1p1 --thumb
  */
-void func_02021EE4(struct Obj02021EE4 *o, int v)
+void func_02021EE4(PalAnmObj *o, int v)
 {
-    o->top = (u16)v;
+    o->b_hi = (u16)v;
 }
 
 
@@ -2042,7 +1801,7 @@ void func_02021EE4(struct Obj02021EE4 *o, int v)
  *   python tools/match.py one --src src/matched/func_02021F08.c \
  *       --func func_02021F08 --addr 0x02021F08 --cc 1.1p1 --thumb
  */
-void func_02021F08(struct Obj02021F08 *o, int v)
+void func_02021F08(PalAnmObj *o, int v)
 {
     o->a_mode = (u16)(v & 1);
     o->a_big = 0x3FFF;
@@ -2057,13 +1816,13 @@ void func_02021F08(struct Obj02021F08 *o, int v)
 /*
  * Witness leaf for ov071 func_021B6C7C (tiny unlabelled arm9 leaf).
  */
-u16 func_02021F3C(Slot *s, int idx, int which, u16 pos)
+u16 func_02021F3C(PalAnmChan *s, int idx, int which, u16 pos)
 {
     if (which == 1) {
-        return s[idx].a[pos];
+        return s[idx].src[pos];
     }
     if (which == 0) {
-        return s[idx].b[pos];
+        return s[idx].dst[pos];
     }
     return 0;
 }
@@ -2132,7 +1891,7 @@ void func_02021F64(u16 *src, u16 *dst, u32 count, int weight,
  * EXACT* only: 42 bytes compiled, the listing extent is 44 -- the two extra
  * bytes are the `00 00` alignment halfword at 0x02022002, not a follower.
  */
-void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count,
+void func_02021FD8(PalAnmChan *p, u32 idx, u32 c, u32 count,
                    u8 weight, u16 color)
 {
     func_02021F64(p[idx].src + c, p[idx].dst + c, count, weight, color);
@@ -2143,7 +1902,7 @@ void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count,
 
 
 
-void func_02022004(struct Chan02021FD8 *a0, u32 a1, u16 m, u8 a3, u16 a4)
+void func_02022004(PalAnmChan *a0, u32 a1, u16 m, u8 a3, u16 a4)
 {
     u32 i = 0;
 
@@ -2226,29 +1985,29 @@ void func_02022040(u16 *pal, int n, const u8 *table)
 void func_0202208C(void *p1, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7)
 {
     s32    n;
-    struct G_02021728 *g;
+    struct DualWin *g;
     u16    obj;
 
     n = (s32)p6;
     n = n / (s32)CARD_GetBackupSectorSize();
     g = &g_021467A4;
-    func_020226A0((u8 *)g);
-    func_020223C0((u32)p1, (struct Mode *)g);
-    func_02022458((struct Slots *)g->f74);
-    obj = func_020225F4((struct TextObj *)g, p4);
+    func_020226A0(g);
+    func_020223C0((u32)p1, g);
+    func_02022458(&g->f74);
+    obj = func_020225F4(g, p4);
     func_02022430(&g->f14, p2, p5, n, 0, 0, 0,
-                  g->f8C, g->f74, p7, obj);
+                  g->f8C, &g->f74, p7, obj);
     func_02022430(&g->f44, p3, p5, n, 0, 0, 1,
-                  g->f8C, g->f74, p7, obj);
+                  g->f8C, &g->f74, p7, obj);
     g->f14C = 1;
-    func_02022390((u32 *)(&g->f04), &g->f14);
-    func_02022390((u32 *)(&g->f08), &g->f44);
+    func_02022390(&g->top, &g->f14);
+    func_02022390(&g->bottom, &g->f44);
     if (g->f0C != 0) {
-        func_02022640((struct Sub *)(&g->f14));
+        func_02022640(&g->f14);
         g->f14E = 1;
     }
     if (g->f10 != 0) {
-        func_02022640((struct Sub *)(&g->f44));
+        func_02022640(&g->f44);
         g->f14F = 1;
     }
 }
@@ -2281,11 +2040,11 @@ void func_0202208C(void *p1, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7)
  */
 void func_02022174(void)
 {
-    struct G_02021728 *g;
+    struct DualWin *g;
 
     g = &g_021467A4;
     if (g_021467A4.f14C != 0) {
-        if (func_02022340((struct Cluster *)g, &g->f14, &g->f44) == 1)
+        if (func_02022340(g, &g->f14, &g->f44) == 1)
             func_020222EC(g);
     }
 }
@@ -2345,18 +2104,18 @@ u32 func_020221A4(void)
  */
 void func_020221B8(void)
 {
-    func_020224DC((struct Slots *)g_021467A4.f74, 0);
-    func_020224DC((struct Slots *)g_021467A4.f74, 1);
-    if (g_021467A4.f04 != 0)
-        g_021467A4.f14.f0C = 2;
-    if (g_021467A4.f08 != 0)
-        g_021467A4.f44.f0C = 2;
-    func_02022390((u32 *)(&g_021467A4.f04), &g_021467A4.f14);
-    func_02022390((u32 *)(&g_021467A4.f08), &g_021467A4.f44);
+    func_020224DC(&g_021467A4.f74, 0);
+    func_020224DC(&g_021467A4.f74, 1);
+    if (g_021467A4.top != 0)
+        g_021467A4.f14.phase = 2;
+    if (g_021467A4.bottom != 0)
+        g_021467A4.f44.phase = 2;
+    func_02022390(&g_021467A4.top, &g_021467A4.f14);
+    func_02022390(&g_021467A4.bottom, &g_021467A4.f44);
     g_021467A4.f14C = 0;
     g_021467A4.f14E = 0;
     g_021467A4.f14F = 0;
-    func_020226A0((u8 *)(&g_021467A4));
+    func_020226A0(&g_021467A4);
 }
 
 
@@ -2419,7 +2178,7 @@ void func_02022230(u32 which)
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-
  * leftovers.md; func_020222CC's own file spells this out).
  *
- * The sentinel readback is `g_021468E4.f10`, a halfword sixteen bytes into
+ * The sentinel readback is `g_021467A4.f150`, a halfword sixteen bytes into
  * a fixed object.  Writing it as `*(u16 *)(0x021468E4 + 0x10)` folds the
  * base and the offset into a single pool word (a plain integer constant
  * has no reason not to), which does not reproduce the original's separate
@@ -2437,7 +2196,7 @@ void func_02022230(u32 which)
 void func_0202223C(u32 a, u32 color)
 {
     if (color == 0xFFFF) {
-        color = g_021468E4.f10;
+        color = g_021467A4.f150;
     }
     if (color == 0x7FFF) {
         color = 0x10;
@@ -2468,7 +2227,7 @@ void func_02022268(u32 color)
     u32 mapped;
 
     if (color == 0xFFFF) {
-        color = g_021468E4.f10;
+        color = g_021467A4.f150;
     }
     if (color == 0x7FFF) {
         mapped = 0x10;
@@ -2477,7 +2236,7 @@ void func_02022268(u32 color)
     }
     func_020222CC(0, mapped);
     func_020222CC(1, mapped);
-    g_021468E4.f10 = color;
+    g_021467A4.f150 = color;
 }
 
 
@@ -2551,21 +2310,21 @@ void func_020222CC(u32 which, int brightness)
  *   python tools/match.py one --src src/matched/func_020222EC.c \
  *       --func func_020222EC --addr 0x020222EC --cc 1.1p1 --thumb
  */
-void func_020222EC(struct G_02021728 *p)
+void func_020222EC(struct DualWin *p)
 {
     p->f14C = 0;
-    p->f150 = func_02022608((struct Obj_0 *)p);
+    p->f150 = func_02022608(p);
     if (p->f0C != 0) {
-        func_02022670((struct Sub *)(&p->f14));
+        func_02022670(&p->f14);
         if (p->f14.f28 == 0)
             g_021467A4.f14E = 0;
     }
     if (p->f10 != 0) {
-        func_02022670((struct Sub *)(&p->f44));
+        func_02022670(&p->f44);
         if (p->f14.f28 == 0)
             g_021467A4.f14F = 0;
     }
-    func_020226A0((u8 *)p);
+    func_020226A0(p);
 }
 
 
@@ -2597,24 +2356,24 @@ void func_020222EC(struct G_02021728 *p)
  *   python tools/match.py one --src src/matched/func_02022340.c \
  *       --func func_02022340 --addr 0x02022340 --cc 1.1p1 --thumb
  */
-u32 func_02022340(struct Cluster *p, void *top, void *bottom)
+u32 func_02022340(struct DualWin *p, void *top, void *bottom)
 {
     switch (p->mode) {
     case 0:
-        func_02022390((u32 *)(&p->top), top);
-        func_02022390((u32 *)(&p->bottom), bottom);
+        func_02022390(&p->top, top);
+        func_02022390(&p->bottom, bottom);
         break;
     case 1:
         if (p->top != 0)
-            func_02022390((u32 *)(&p->top), top);
+            func_02022390(&p->top, top);
         else
-            func_02022390((u32 *)(&p->bottom), bottom);
+            func_02022390(&p->bottom, bottom);
         break;
     case 2:
         if (p->bottom != 0)
-            func_02022390((u32 *)(&p->bottom), bottom);
+            func_02022390(&p->bottom, bottom);
         else
-            func_02022390((u32 *)(&p->top), top);
+            func_02022390(&p->top, top);
         break;
     }
     if (p->top == 0 && p->bottom == 0)
@@ -2652,7 +2411,7 @@ u32 func_020223AC(void *p)
 
 
 
-static void func_02022424(struct Mode *p, u32 kind, u32 a, u32 b);
+static void func_02022424(struct DualWin *p, u32 kind, u32 a, u32 b);
 
 
 
@@ -2678,7 +2437,7 @@ static void func_02022424(struct Mode *p, u32 kind, u32 a, u32 b);
  *   python tools/match.py tu --src src/matched/unit_020223C0.c \
  *       --addr 0x020223C0 --thumb
  */
-void func_020223C0(u32 mode, struct Mode *p)
+void func_020223C0(u32 mode, struct DualWin *p)
 {
     switch (mode) {
     case 0:
@@ -2703,13 +2462,13 @@ void func_020223C0(u32 mode, struct Mode *p)
 
 
 
-static void func_02022424(struct Mode *p, u32 kind, u32 a, u32 b)
+static void func_02022424(struct DualWin *p, u32 kind, u32 a, u32 b)
 {
-    p->kind = kind;
-    p->a = a;
-    p->b = b;
-    p->a2 = a;
-    p->b2 = b;
+    p->mode = kind;
+    p->top = a;
+    p->bottom = b;
+    p->f0C = a;
+    p->f10 = b;
 }
 
 
@@ -2738,18 +2497,18 @@ static void func_02022424(struct Mode *p, u32 kind, u32 a, u32 b)
  *   python tools/match.py one --src src/matched/func_02022430.c \
  *       --func func_02022430 --addr 0x02022430 --cc 1.1p1 --thumb
  */
-void func_02022430(struct Sub *s, u32 a, u32 b, s32 c, u32 d, u32 e,
+void func_02022430(struct WinPanel *s, u32 a, u32 b, s32 c, u32 d, u32 e,
                    u32 f, void *g, void *h, u32 i, u16 j)
 {
     s->f00 = a;
     s->f04 = b;
     s->f08 = c;
-    s->f0C = d;
-    s->f14 = e;
+    s->phase = d;
+    s->obj = (void *)e;
     s->f10 = f;
-    s->f18 = g;
-    s->f1C = h;
-    s->f20 = i;
+    s->f18 = (u32)g;
+    s->f1C = (u32)h;
+    s->heap = i;
     s->f24 = j;
 }
 
@@ -2825,7 +2584,7 @@ void func_02022478(void *task, struct Slots *p)
 void func_02022490(struct Slots *p, void *ctx, Handler fn, u32 idx)
 {
     if (p->arg[0] == 0 && p->arg[1] == 0)
-        g_021468A4.f54 = func_02005624((u32)func_02022478, (u32)p, 0);
+        g_021467A4.f154 = func_02005624((u32)func_02022478, (u32)p, 0);
 
     p->ctx[idx] = ctx;
     if (fn != 0)
@@ -2875,9 +2634,9 @@ void func_020224DC(struct Slots *p, u32 idx)
     u32 zero = 0;
 
     p->arg[idx] = zero;
-    if (p->arg[0] == 0 && p->arg[1] == 0 && g_021468A4.f54 != 0) {
-        func_02030EAC(g_021468A4.f54);
-        g_021468A4.f54 = (void *)zero;
+    if (p->arg[0] == 0 && p->arg[1] == 0 && g_021467A4.f154 != 0) {
+        func_02030EAC(g_021467A4.f154);
+        g_021467A4.f154 = (void *)zero;
     }
     p->fn[idx] = func_020225F0;
     p->ctx[idx] = 0;
@@ -2993,7 +2752,7 @@ void func_020225F0(void *ctx)
  *   python tools/match.py one --src src/matched/func_020225F4.c \
  *       --func func_020225F4 --addr 0x020225F4 --cc 1.1p1 --thumb
  */
-u16 func_020225F4(struct TextObj *obj, u16 value)
+u16 func_020225F4(struct DualWin *obj, u16 value)
 {
     if (value == 0xFFFF)
         value = obj->f150;
@@ -3030,19 +2789,19 @@ u16 func_020225F4(struct TextObj *obj, u16 value)
  *   python tools/match.py tu --src src/matched/unit_02022608.c \
  *       --addr 0x02022608 --thumb
  */
-u16 func_02022608(struct Obj_0 *p)
+u16 func_02022608(struct DualWin *p)
 {
-    struct Sub *b;
+    struct WinPanel *b;
 
-    if (p->unk0C == 1) {
-        b = (struct Sub *)((u8 *)p + 0x14);
+    if (p->f0C == 1) {
+        b = &p->f14;
     } else {
-        b = (struct Sub *)((u8 *)p + 0x44);
+        b = &p->f44;
     }
     if (b->f28 == 1) {
         return b->f24;
     }
-    return p->unk150;
+    return p->f150;
 }
 
 
@@ -3080,7 +2839,7 @@ void func_0202262C(void *obj, struct Q *q)
  *   python tools/match.py one --src src/matched/func_02022640.c \
  *       --func func_02022640 --addr 0x02022640 --cc 1.1p1 --thumb
  */
-void func_02022640(struct Sub *s)
+void func_02022640(struct WinPanel *s)
 {
     if (s->f28 == 0 && (s->f24 == 0x7FFF || s->f24 == 0) && s->f2C == 0)
         func_020056A0((void *)func_0202262C, s, 1 << 10);
@@ -3110,7 +2869,7 @@ void func_02022640(struct Sub *s)
  *   python tools/match.py one --src src/matched/func_02022670.c \
  *       --func func_02022670 --addr 0x02022670 --cc 1.1p1 --thumb
  */
-void func_02022670(struct Sub *s)
+void func_02022670(struct WinPanel *s)
 {
     if (s->f28 == 1 && (s->f24 == 0x7FFF || s->f24 == 0) && s->f2C == 0) {
         func_0202223C(s->f10, s->f24);
@@ -3138,7 +2897,7 @@ void func_02022670(struct Sub *s)
  * its result; the fall-through has to be written on the guard's
  * complement (`== 0`) with the delegate call left unconditional after it,
  * or the two blocks come out in the wrong order.  The fall-through sets
- * the flag pair at +0x28 and +0x2c to (1, 1) and calls func_020229A4((struct Task *)p, 1).
+ * the flag pair at +0x28 and +0x2c to (1, 1) and calls func_020229A4(p, 1).
  *
  * func_020226FC, immediately after this range, is the same shape again
  * with (0, 1) and mode 0 (src/matched/func_020226FC.c); it is kept in its
@@ -3159,13 +2918,13 @@ void func_02022670(struct Sub *s)
  *   python tools/match.py tu --src src/matched/unit_020226A0.c \
  *       --addr 0x020226A0 --thumb
  */
-void func_020226A0(u8 *p)
+void func_020226A0(struct DualWin *p)
 {
     MI_CpuFill8(p, 0, 0x14);
-    MI_CpuFill8(p + 0x14, 0, 0x30);
-    MI_CpuFill8(p + 0x44, 0, 0x30);
-    MI_CpuFill8(p + 0x74, 0, 0x18);
-    MI_CpuFill8(p + 0x8C, 0, 0xC0);
+    MI_CpuFill8(&p->f14, 0, 0x30);
+    MI_CpuFill8(&p->f44, 0, 0x30);
+    MI_CpuFill8(&p->f74, 0, 0x18);
+    MI_CpuFill8(p->f8C, 0, 0xC0);
 }
 
 
@@ -3174,15 +2933,15 @@ void func_020226A0(u8 *p)
 
 
 
-u32 func_020226E0(struct Obj_1 *p)
+u32 func_020226E0(struct WinPanel *p)
 {
-    if (p->unk0C == 0) {
-        p->unk28 = 1;
-        p->unk2C = 1;
-        func_020229A4((struct Task *)p, 1);
+    if (p->phase == 0) {
+        p->f28 = 1;
+        p->f2C = 1;
+        func_020229A4(p, 1);
         return 0;
     }
-    return func_02022A44((struct Task *)p);
+    return func_02022A44(p);
 }
 
 
@@ -3196,21 +2955,21 @@ u32 func_020226E0(struct Obj_1 *p)
  * its own file for the same reason: its calls to func_020229A4 and
  * func_02022A44 have to stay outside that unit's compared range to attest
  * its calls, and vice versa.  Sets the flag pair at +0x28 and +0x2c to
- * (0, 1) instead of (1, 1) and calls func_020229A4((struct Task *)p, 0).
+ * (0, 1) instead of (1, 1) and calls func_020229A4(p, 0).
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020226FC.c \
  *       --func func_020226FC --addr 0x020226FC --cc 1.1p1 --thumb
  */
-u32 func_020226FC(struct Obj_1 *p)
+u32 func_020226FC(struct WinPanel *p)
 {
-    if (p->unk0C == 0) {
-        p->unk28 = 0;
-        p->unk2C = 1;
-        func_020229A4((struct Task *)p, 0);
+    if (p->phase == 0) {
+        p->f28 = 0;
+        p->f2C = 1;
+        func_020229A4(p, 0);
         return 0;
     }
-    return func_02022A44((struct Task *)p);
+    return func_02022A44(p);
 }
 
 
@@ -3235,16 +2994,16 @@ u32 func_020226FC(struct Obj_1 *p)
  * original had one object or two declarations of it. For the other three
  * slots the two uses differ by the slot offset, so one name suffices there.
  */
-void func_0202271C(struct Sub *p)
+void func_0202271C(struct WinPanel *p)
 {
-    if (p->f0C == 0) {
+    if (p->phase == 0) {
         g_020A73D0.f00 = (u32)d_0209F570;
         func_020222A8(p->f24);
-        func_020238B4((struct Task *)p, (u32)(&g_wipe_slot0));
+        func_020238B4(p, (u32)(&g_wipe_slot0));
         p->f28 = 1;
         p->f2C = 0;
     } else {
-        func_0202390C((struct Task *)p);
+        func_0202390C(p);
     }
 }
 
@@ -3266,16 +3025,16 @@ void func_0202271C(struct Sub *p)
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02022758.c  *       --func func_02022758 --addr 0x02022758 --thumb --cc 1.1p1
  */
-void func_02022758(struct Sub *p)
+void func_02022758(struct WinPanel *p)
 {
-    if (p->f0C == 0) {
+    if (p->phase == 0) {
         g_020A73D0.f10 = (u32)d_0209F56C;
         func_020222A8(p->f24);
-        func_020238B4((struct Task *)p, (u32)(&g_020A73D0.f10));
+        func_020238B4(p, (u32)(&g_020A73D0.f10));
         p->f28 = 0;
         p->f2C = 0;
     } else {
-        func_0202390C((struct Task *)p);
+        func_0202390C(p);
     }
 }
 
@@ -3299,16 +3058,16 @@ void func_02022758(struct Sub *p)
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02022790.c  *       --func func_02022790 --addr 0x02022790 --thumb --cc 1.1p1
  */
-void func_02022790(struct Sub *p)
+void func_02022790(struct WinPanel *p)
 {
-    if (p->f0C == 0) {
+    if (p->phase == 0) {
         g_020A73D0.f20 = (u32)d_0209F574;
         func_020222A8(p->f24);
-        func_020238B4((struct Task *)p, (u32)(&g_020A73D0.f20));
+        func_020238B4(p, (u32)(&g_020A73D0.f20));
         p->f28 = 1;
         p->f2C = 0;
     } else {
-        func_0202390C((struct Task *)p);
+        func_0202390C(p);
     }
 }
 
@@ -3330,16 +3089,16 @@ void func_02022790(struct Sub *p)
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020227CC.c  *       --func func_020227CC --addr 0x020227CC --thumb --cc 1.1p1
  */
-void func_020227CC(struct Sub *p)
+void func_020227CC(struct WinPanel *p)
 {
-    if (p->f0C == 0) {
+    if (p->phase == 0) {
         g_020A73D0.f28 = (u32)d_0209F568;
         func_020222A8(p->f24);
-        func_020238B4((struct Task *)p, (u32)(&g_020A73D0.f28));
+        func_020238B4(p, (u32)(&g_020A73D0.f28));
         p->f28 = 0;
         p->f2C = 0;
     } else {
-        func_0202390C((struct Task *)p);
+        func_0202390C(p);
     }
 }
 
@@ -3372,16 +3131,16 @@ void func_020227CC(struct Sub *p)
  *   python tools/match.py one --src src/matched/func_02022804.c \
  *       --func func_02022804 --addr 0x02022804 --cc 1.1p1 --thumb
  */
-void func_02022804(struct Sub *p)
+void func_02022804(struct WinPanel *p)
 {
-    if (p->f0C == 0) {
+    if (p->phase == 0) {
         func_020222A8(p->f24);
-        func_02023464((struct Task *)p, (u8 *)0x0209F61C);
+        func_02023464(p, (u8 *)0x0209F61C);
         p->f28 = 1;
         p->f2C = 0;
         return;
     }
-    func_020234C0((struct Task *)p);
+    func_020234C0(p);
 }
 
 
@@ -3400,16 +3159,16 @@ void func_02022804(struct Sub *p)
  *   python tools/match.py one --src src/matched/func_02022830.c \
  *       --func func_02022830 --addr 0x02022830 --cc 1.1p1 --thumb
  */
-void func_02022830(struct Sub *p)
+void func_02022830(struct WinPanel *p)
 {
-    if (p->f0C == 0) {
+    if (p->phase == 0) {
         func_020222A8(p->f24);
-        func_02023464((struct Task *)p, (u8 *)0x0209F628);
+        func_02023464(p, (u8 *)0x0209F628);
         p->f28 = 0;
         p->f2C = 0;
         return;
     }
-    func_020234C0((struct Task *)p);
+    func_020234C0(p);
 }
 
 
@@ -3429,11 +3188,11 @@ void func_02022830(struct Sub *p)
  *   python tools/match.py one --src src/matched/func_0202285C.c \
  *       --func func_0202285C --addr 0x0202285C --cc 1.1p1 --thumb
  */
-void func_0202285C(struct Sub *p)
+void func_0202285C(struct WinPanel *p)
 {
-    if (p->f0C == 0) {
+    if (p->phase == 0) {
         func_020222A8(p->f24);
-        func_020235F0((struct Task *)p, 0x0209F6B8);
+        func_020235F0(p, 0x0209F6B8);
         p->f28 = 1;
         p->f2C = 0;
         return;
@@ -3457,11 +3216,11 @@ void func_0202285C(struct Sub *p)
  *   python tools/match.py one --src src/matched/func_02022888.c \
  *       --func func_02022888 --addr 0x02022888 --cc 1.1p1 --thumb
  */
-void func_02022888(struct Sub *p)
+void func_02022888(struct WinPanel *p)
 {
-    if (p->f0C == 0) {
+    if (p->phase == 0) {
         func_020222A8(p->f24);
-        func_020235F0((struct Task *)p, 0x0209F6C4);
+        func_020235F0(p, 0x0209F6C4);
         p->f28 = 0;
         p->f2C = 0;
         return;
@@ -3485,16 +3244,16 @@ void func_02022888(struct Sub *p)
  *   python tools/match.py one --src src/matched/func_020228B4.c \
  *       --func func_020228B4 --addr 0x020228B4 --cc 1.1p1 --thumb
  */
-void func_020228B4(struct Sub *p)
+void func_020228B4(struct WinPanel *p)
 {
-    if (p->f0C == 0) {
+    if (p->phase == 0) {
         func_020222A8(p->f24);
-        func_02023464((struct Task *)p, (u8 *)0x0209F5EC);
+        func_02023464(p, (u8 *)0x0209F5EC);
         p->f28 = 1;
         p->f2C = 0;
         return;
     }
-    func_020234C0((struct Task *)p);
+    func_020234C0(p);
 }
 
 
@@ -3513,16 +3272,16 @@ void func_020228B4(struct Sub *p)
  *   python tools/match.py one --src src/matched/func_020228E0.c \
  *       --func func_020228E0 --addr 0x020228E0 --cc 1.1p1 --thumb
  */
-void func_020228E0(struct Sub *p)
+void func_020228E0(struct WinPanel *p)
 {
-    if (p->f0C == 0) {
+    if (p->phase == 0) {
         func_020222A8(p->f24);
-        func_02023464((struct Task *)p, (u8 *)0x0209F640);
+        func_02023464(p, (u8 *)0x0209F640);
         p->f28 = 0;
         p->f2C = 0;
         return;
     }
-    func_020234C0((struct Task *)p);
+    func_020234C0(p);
 }
 
 
@@ -3646,13 +3405,13 @@ void func_02022940(struct Quad *cur, struct Quad *end, struct Quad *step,
  *   python tools/match.py one --src src/matched/func_020229A4.c \
  *       --func func_020229A4 --addr 0x020229A4 --cc 1.1p1 --thumb
  */
-void func_020229A4(struct Task *t, u32 dir)
+void func_020229A4(struct WinPanel *t, u32 dir)
 {
-    struct Obj_020229A4 *o;
+    struct AnimStep *o;
     s32_020229A4         a;
     s32_020229A4         b;
 
-    t->obj = (struct Obj_020229A4 *)func_02030734((u16)t->heap, 0x24, 0, (const char *)0x020A7450,
+    t->obj = (struct AnimStep *)func_02030734((u16)t->heap, 0x24, 0, (const char *)0x020A7450,
                                          0x09AC);
     func_02082BCC(t->obj, 0, 0x24);
     o = t->obj;
@@ -3677,14 +3436,14 @@ void func_020229A4(struct Task *t, u32 dir)
 
     func_020222CC(t->f10, a);
 
-    o->f00 = t->f04;
-    o->f04 = t->f08;
-    o->f08 = 0;
-    o->f0c = a << 7;
-    o->f10 = b << 7;
-    o->f14 = func_0202290C(a, b, t->f04);
-    o->f18 = t->f10;
-    o->f1c = a;
+    o->steps = t->f04;
+    o->limit = t->f08;
+    o->counter = 0;
+    o->val = a << 7;
+    o->target_val = b << 7;
+    o->step_delta = func_0202290C(a, b, t->f04);
+    o->pad18 = t->f10;
+    o->scaled_val = a;
     t->phase = t->phase + 1;
     o->f20 = func_020056A0((void *)func_02022AC4, o, 0x80);
 }
@@ -3730,9 +3489,9 @@ void func_020229A4(struct Task *t, u32 dir)
  *   python tools/match.py one --src src/matched/func_02022A44.c \
  *       --func func_02022A44 --addr 0x02022A44 --cc 1.1p1 --thumb
  */
-u32 func_02022A44(struct Task *t)
+u32 func_02022A44(struct WinPanel *t)
 {
-    struct Obj_02022A44 *obj;
+    struct AnimStep *obj;
     u32         ret;
 
     ret = 0;
@@ -3740,7 +3499,7 @@ u32 func_02022A44(struct Task *t)
 
     switch (t->phase) {
     case 1:
-        if (func_02022A88((struct AnimStep *)obj) == 1) {
+        if (func_02022A88(obj) == 1) {
             t->phase = t->phase + 1;
         }
         break;
@@ -4344,14 +4103,14 @@ void func_02022F60(struct S_02022E20 *p)
  * the if/else puts the test value in r1 and swaps r4/r6 for the whole
  * function (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md).
  */
-void func_02023464(struct Task *t, u8 *cfg)
+void func_02023464(struct WinPanel *t, u8 *cfg)
 {
-    struct Obj_02022E20 *o;
+    struct WipeTiles *o;
 
     o = func_02030734((u16)t->heap, 0x4c, 0, func_02023464_File, 0xc7c);
     t->obj = o;
 
-    func_0202350C((struct Obj_0202350C *)o, cfg, t->f04, t->f08, t->f10, t->f18);
+    func_0202350C(o, cfg, t->f04, t->f08, t->f10, t->f18);
 
     if (cfg[8] == 0) {
         func_02022E88((struct Struct_02023CFC *)t->f18, 1, o->f30, o->f44);
@@ -4405,7 +4164,7 @@ void func_02023464(struct Task *t, u8 *cfg)
  *   python tools/match.py one --src src/matched/func_020234C0.c \
  *       --func func_020234C0 --addr 0x020234C0 --cc 1.1p1 --thumb
  */
-u32 func_020234C0(struct Task *t)
+u32 func_020234C0(struct WinPanel *t)
 {
     void *obj;
     u32   ret;
@@ -4415,8 +4174,8 @@ u32 func_020234C0(struct Task *t)
 
     switch (t->phase) {
     case 1:
-        if (func_02023568((struct Obj_02023568 *)obj) == 1) {
-            func_02022DCC(((struct Obj00862 *)obj)->f44, (void *)t->f18, t->f10);
+        if (func_02023568(obj) == 1) {
+            func_02022DCC(((struct WipeTiles *)obj)->f44, (void *)t->f18, t->f10);
             t->phase = t->phase + 1;
         }
         break;
@@ -4456,23 +4215,23 @@ u32 func_020234C0(struct Task *t)
  *     zero does, while the f48 store stays last.  A plain copy of a5 is
  *     propagated back to the f48 store and does nothing (12 out).
  */
-void func_0202350C(struct Obj_0202350C *obj, const u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5)
+void func_0202350C(struct WipeTiles *obj, const u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5)
 {
     u32 k8;
     u32 kb;
     E z;
     u32 v5;
-    func_02022940((struct Quad *)obj, (struct Quad *)&obj->f20, (struct Quad *)&obj->f10, cfg, cfg + 4, a2);
+    func_02022940((struct Quad *)obj, (struct Quad *)&obj->f20, &obj->q10, cfg, cfg + 4, a2);
     k8 = cfg[8];
     z = Z0;
     kb = cfg[0x0b];
     obj->f30 = a4;
-    obj->f40 = z;
+    obj->tick = z;
     v5 = *(volatile u32 *)&a5;
     obj->f44 = kb;
     obj->f34 = k8;
-    obj->f38 = a2;
-    obj->f3c = a3;
+    obj->steps = a2;
+    obj->period = a3;
     obj->f48 = v5;
     func_02022E20(v5, cfg[9], cfg[0x0a], cfg[8], a4, cfg[0], cfg[1],
                   cfg[2], cfg[3], obj->f44);
@@ -4502,7 +4261,7 @@ void func_0202350C(struct Obj_0202350C *obj, const u8 *cfg, u32 a2, u32 a3, u32 
  *   python tools/match.py one --src src/matched/func_02023568.c \
  *       --func func_02023568 --addr 0x02023568 --cc 1.1p1 --thumb
  */
-u32 func_02023568(struct Obj_02023568 *o)
+u32 func_02023568(struct WipeTiles *o)
 {
     s32_02023568 n;
 
@@ -4513,7 +4272,7 @@ u32 func_02023568(struct Obj_02023568 *o)
         n = o->steps - 1;
         if (n > 0) {
             o->steps = n;
-            func_0202291C((struct Quad *)o, (struct Quad *)((char *)o + 0x10));
+            func_0202291C((struct Quad *)o, &o->q10);
             goto step;
         }
 
@@ -4544,10 +4303,10 @@ u32 func_02023568(struct Obj_02023568 *o)
  *      site (func_02030734) reproduce exactly.  Promotes to EXACT the moment
  *      func_0202368C has its own manifest entry.
  */
-void func_020235F0(struct Task *p, u32 a1)
+void func_020235F0(struct WinPanel *p, u32 a1)
 {
     p->obj = func_02030734((u16)p->heap, 0x38, 0, (const char *)0x020A7450, 0x0D63);
-    func_0202368C(p->obj, (const struct Par *)a1, p->f04, p->f08, p->f10, p->f18, p->f1c, p->heap);
+    func_0202368C(p->obj, (const struct Par *)a1, p->f04, p->f08, p->f10, p->f18, p->f1C, p->heap);
     p->phase = p->phase + 1;
 }
 
@@ -4844,11 +4603,11 @@ void func_0202384C(struct Wipe_0202384C *w)
  *   python tools/match.py one --src src/matched/func_020238B4.c \
  *       --func func_020238B4 --addr 0x020238B4 --cc 1.1p1 --thumb
  */
-void func_020238B4(struct Task *t, u32 a1)
+void func_020238B4(struct WinPanel *t, u32 a1)
 {
     t->obj = func_02030734((u16)t->heap, 0x334, 0, (const char *)0x020A7450, 0x1354);
     func_02082BCC(t->obj, 0, 0x334);
-    func_02023964(t->obj, (struct Desc *)a1, t->f04, t->f08, t->f10, t->f18, t->f1c,
+    func_02023964(t->obj, (struct Desc *)a1, t->f04, t->f08, t->f10, t->f18, t->f1C,
                   t->heap);
     t->phase = t->phase + 1;
 }
@@ -4897,7 +4656,7 @@ void func_020238B4(struct Task *t, u32 a1)
  *   python tools/match.py one --src src/matched/func_0202390C.c \
  *       --func func_0202390C --addr 0x0202390C --cc 1.1p1 --thumb
  */
-u32 func_0202390C(struct Task *t)
+u32 func_0202390C(struct WinPanel *t)
 {
     struct WipeScan *obj;
     u32         ret;
@@ -5525,7 +5284,7 @@ void func_02023E0C(struct Interp *p)
  *
  * Three spellings are load-bearing and were each isolated against the
  * bytes:
- *   - `p->f1c = 1;` must be the FIRST statement. The constant 1 has to
+ *   - `p->f1C = 1;` must be the FIRST statement. The constant 1 has to
  *     land in r0 before the two stack arguments are widened; written
  *     anywhere later in the block the allocator promotes it to r6 and the
  *     whole entry block shifts register bank (19 and 14 bytes wrong for
@@ -7278,7 +7037,7 @@ void func_02024938(struct PmsWord *p)
 
 
 
-void *func_02024988(struct Sub020071CCCtrl *ctrl)
+void *func_02024988(struct WinPanel020071CCCtrl *ctrl)
 {
     return func_020071CC(ctrl, 0x27);
 }

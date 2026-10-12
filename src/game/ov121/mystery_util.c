@@ -630,7 +630,7 @@ extern void func_0204A5AC(void);
 extern void func_0204A600(void);
 extern void func_0204A648(void);
 extern void func_021D9580(void);
-extern void func_02046440(int, int, int, int, int, u32, void (*)(void *));
+extern void func_02046440(int, int, int, int, int, u32, void (*)(void));
 extern void *func_02048A24(int, int, int, int, int, int, int, int, const void *, const void *, const void *, u32);
 extern u32 func_02048AC4(void *ptr);
 extern void func_02046788(void);
@@ -1195,7 +1195,7 @@ unsigned func_021D98F0(unsigned *p) { return *p; }
 
 void func_021D98F4(u32 *p, u32 heap)
 {
-    func_02046440(0, 1, 0, 1, 0, heap, (void (*)(void *))func_021D9580);
+    func_02046440(0, 1, 0, 1, 0, heap, func_021D9580);
     p[0] = (u32)func_02048A24(2, 0x18000, -0x18000, -0x20000, 0x20000, 0x1000, 0x400000, 0,
                          d_021DF574, d_021DF58C, d_021DF580, heap);
     p[1] = 1;
@@ -1947,6 +1947,7 @@ struct Out_021D9624 *func_021DA4DC(const struct In *in, u16 heap)
     }
     c = in->f26;
     w = in->f24;
+    /* stand-in: unprototyped call; the prototype's u16/u8 parameters narrow the arguments and change the bytes */
     out->f0 = ((void *(*)())func_021DA1BC)(0, (const char *)&t, out->fC, w, c, in->f8, (u32)in->bank, in->f4, heap);
     for (i = 0; i < out->fC; i++)
         if (t.r[i].h) func_02045808(t.r[i].h);
@@ -2387,6 +2388,7 @@ char *func_021DAC18(const Input *src,u16 heap)
     func_021DB478(out,1,0,((struct Obj00910 *)out)->fAC8,heap);
     if(count) {table=d_021DF8FC;n=3;}
     else {table=d_021DF890;n=2;}
+    /* stand-in: unprototyped call; the prototype's u16/u8 parameters narrow the arguments and change the bytes */
     ((struct Obj00910 *)out)->fAB8=((void *(*)())func_021DA1BC)(0,table,n,1,3,((struct Obj00910 *)out)->f14,((struct Obj00910 *)out)->f1C,*(int *)&((struct Obj00910 *)out)->f10,heap);
     func_02082BCC(&d,0,48);
     d.w[0]=6;d.w[1]=4;d.w[2]=14;d.w[3]=15;d.w[4]=11;d.w[5]=14;
@@ -3832,6 +3834,7 @@ void *func_021DCFC8(const Desc_021DCFC8 *p,u16 heap)
         ((struct Obj00237 *)out)->f84=0;
     }
     config=d_021DF99C;
+    /* stand-in: unprototyped call; the prototype's u16/u8 parameters narrow the arguments and change the bytes */
     ((struct Obj00237 *)out)->f0=((void *(*)())func_021DA1BC)((void *)1,(const char *)&config,5,(u16)((struct Obj00237 *)out)->fA4,(u8)((struct Obj00237 *)out)->fAC,((struct Obj00237 *)out)->fC8,((struct Obj00237 *)out)->fC0,((struct Obj00237 *)out)->fC4,heap);
     arc=func_020490F4(34,heap);
     *(int *)&((struct Obj00237 *)out)->f4=func_0204ABF0(arc,3,((struct Obj00237 *)out)->f98,(u16)(p->w[4]<<5),heap);

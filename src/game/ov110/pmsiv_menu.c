@@ -278,74 +278,36 @@ typedef unsigned char u8;
 
 typedef signed char s8;
 
-typedef signed short s16_021BBE8C;
-
 typedef unsigned int u32;
 
 typedef unsigned short u16;
 
-typedef short s16_021BBF54;
-
 typedef struct { u8 pad[0x14]; void *desc[2]; void *items[2][2]; } Obj_021BBF54;
-
-typedef short s16_021BC160;
 
 typedef struct { int a,b,c; } Triple;
 
 typedef struct { void *root; u8 pad[0x18]; void *items[2][2]; } Obj_021BC160;
 
-typedef struct { s16_021BBE8C x,y; } Pair;
+typedef struct { short x,y; } Pair;
 
 typedef struct { void *root; u8 *state; int pad; void *desc[2]; u8 gap0[8]; void *items[2][2]; u8 gap[12]; Pair pos[2]; int pad40; int count; } Obj_021BC1B8;
 
-typedef unsigned u32_021BC340;
-
 typedef struct { void *root; u8 *state; u8 pad[0x14]; void *items[2][2]; u8 gap[12]; Pair pos[2]; u16 ids[2]; int count; u8 parser[12]; u16 id; } Obj_021BC340;
-
-typedef unsigned int u32_021BC458;
-
-typedef unsigned int u32_021BC484;
 
 typedef int s32;
 
-typedef unsigned int u32_021BC490;
-
 typedef struct Cursor {
-    u32_021BC490 f00;
+    u32 f00;
     u16 *f04;
-    u32_021BC490 f08;
+    u32 f08;
     u16 f0c;
 } Cursor;
 
-typedef signed short s16_021BC578;
+typedef struct { short x, y; } Vec2_021BC58C;
 
-typedef short s16_021BC564;
+typedef struct Vec2_021BC5BC { short x,y; } Vec2_021BC5BC;
 
-typedef signed short s16_021BC58C;
-
-typedef struct { s16_021BC58C x, y; } Vec2_021BC58C;
-
-typedef signed short s16_021BC5BC;
-
-typedef struct Vec2_021BC5BC { s16_021BC5BC x,y; } Vec2_021BC5BC;
-
-typedef signed short s16_021BC69C;
-
-typedef signed short s16_021BC6D0;
-
-typedef short s16_021BC6EC;
-
-typedef short s16_021BC6F8;
-
-typedef signed short s16_021BC704;
-
-typedef short s16_021BC724;
-
-typedef short s16_021BC728;
-
-typedef signed short s16_021BC72C;
-
-struct Pt { s16_021BC72C a, b, x, y; };
+struct Pt { short a, b, x, y; };
 
 typedef struct { void *s; unsigned short x; unsigned short pad; int flag; } Record_021BC564;
 
@@ -365,75 +327,21 @@ typedef struct Object_021BCB50 {
     struct Obj *other[2];
 } Object_021BCB50;
 
-typedef signed short s16_021BCC88;
-
 typedef struct { u8 pad[0x70]; void *items[8]; } Object;
-
-typedef signed short s16_021BCD44;
-
-typedef signed short s16_021BCDE0;
-
-typedef short s16_021BCE48;
-
-typedef short s16_021BCF70;
-
-typedef int s32_021BCF70;
-
-typedef short s16_021BD028;
-
-typedef short s16_021BD044;
 
 typedef struct { void *root; u8 pad[0x6c]; void *items[8]; } Object_021BD044;
 
-typedef signed int     s32_021BD044;
-
-typedef short s16_021BD0D4;
-
-typedef short s16_021BD0F8;
-
 typedef struct { void *root; u8 pad[0x8c]; void *items[2]; } Object_021BD114;
 
-typedef short s16_021BD174;
-
 typedef struct { u16 x,y,z; u8 a,b; } Params;
-
-typedef signed int     s32_021BD194;
-
-typedef short s16_021BD248;
 
 typedef struct { void *s; u16 x,pad; int flag; } Record;
 
 typedef struct { u8 pad[0x30]; void *bank; void *a[3]; Record records[3]; void *windows[3]; } Object_021BD264;
 
-typedef short s16_021BD344;
+typedef struct { short a; s8 b; s8 c; } State_021BD6B4;
 
-typedef int s32_021BD344;
-
-typedef signed short s16_021BD348;
-
-typedef signed int     s32_021BD348;
-
-typedef short s16_021BD448;
-
-typedef short s16_021BD470;
-
-typedef signed int     s32_021BD484;
-
-typedef signed int     s32_021BD534;
-
-typedef short s16_021BD5A0;
-
-typedef short s16_021BD690;
-
-typedef short s16_021BD6B4;
-
-typedef struct { s16_021BD6B4 a; s8 b; s8 c; } State_021BD6B4;
-
-typedef short s16_021BD6F8;
-
-typedef struct { s16_021BD6F8 a; s8 b,c; } State_021BD6F8;
-
-typedef short s16_021BD740;
+typedef struct { short a; s8 b,c; } State_021BD6F8;
 
 typedef short s16;
 
@@ -457,8 +365,8 @@ extern void *func_02005624(u32 a, u32 b, u32 c);
 extern void *func_020056A0(void *, void *, unsigned);
 extern void func_021BBE80(void);
 extern void func_02040618(unsigned,unsigned,unsigned);
-extern s16_021BBF54 func_0204B4EC(void *,u16,unsigned);
-extern void func_0204B49C(void *,s16_021BBF54,u16,unsigned);
+extern short func_0204B4EC(void *,u16,unsigned);
+extern void func_0204B49C(void *,short,u16,unsigned);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082A60(const void *, void *, int);
@@ -479,15 +387,15 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u32 func_021BF6F0(u8 *p, u32 i);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02041B6C(unsigned);
-extern void *func_021BF708(u8 *,u32_021BC340);
+extern void *func_021BF708(u8 *,u32);
 extern u32 func_021BAC44(u8 *);
-extern void func_0201DD78(u32_021BC340,u32_021BC340,u32_021BC340);
-extern void func_0201C7A4(void *,s16_021BBE8C,s16_021BBE8C,void *,void *);
-extern u32_021BC340 func_0201D304(struct StrObj *s, u32_021BC340 a, u32_021BC340 b);
+extern void func_0201DD78(u32,u32,u32);
+extern void func_0201C7A4(void *,short,short,void *,void *);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_02045808(struct U16Vec *vec);
 extern u16 *func_02045A90(struct U16Vec *vec);
-extern void func_02045994(struct Strbuf *,const u16 *,u32_021BC490);
-extern u32_021BC490 func_0201D670(const u16 *,u32_021BC490);
+extern void func_02045994(struct Strbuf *,const u16 *,u32);
+extern u32 func_0201D670(const u16 *,u32);
 extern u16 *func_0201D688(u16 *);
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern u32 func_02024508(u32);
@@ -535,24 +443,24 @@ extern void func_0202822C(char *,int);
 extern u32 func_02028230(u8 *);
 extern u32 func_0204B3F4(struct Obj *p);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern s32_021BD044 func_0204A6C8(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
-extern s32_021BD044 func_0204AF28(void *owner, unsigned int first, unsigned int second, unsigned int mode);
+extern int func_0204A6C8(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
+extern int func_0204AF28(void *owner, unsigned int first, unsigned int second, unsigned int mode);
 extern void func_02049238(void *);
 extern unsigned int func_020275E4(void);
 extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
-extern s32_021BD194 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern int func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern void func_02082BCC(void *,int,unsigned);
 extern u32 func_021BAC40(u8 *p);
 extern struct Obj *func_0204B294(void *owner,u32 i,u32 j,u32 k,const void *position,u16 space,u16 heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *, void *, unsigned int);
-extern s32_021BD348 func_02061CA4(void *p, u32 a, u32 b, s32_021BD348 size);
+extern int func_02061CA4(void *p, u32 a, u32 b, int size);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern int func_02034AC4(s32_021BD484 handle);
+extern int func_02034AC4(int handle);
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern void func_021B9BEC(u8 *p, int id);
 extern int func_021B9C74(unsigned int a);
@@ -562,7 +470,7 @@ extern void func_02030D28(struct Ctx *c);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 extern unsigned int func_0203633C(void);
-extern s32_021BD534 func_02051C88(struct Ctx *c);
+extern int func_02051C88(struct Ctx *c);
 extern void func_020306F0(u32);
 extern void func_02034A5C(int);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
@@ -627,8 +535,8 @@ int func_021BC340(Obj_021BC340 *p,void *desc,u8 bank);
 void func_021BC458(u8 *p,u8 *a);
 void func_021BC484(u8 *p);
 int func_021BC490(Cursor *p,struct Strbuf *out);
-void func_021BC564(s16_021BC564 *p,s16_021BC564 *out);
-void func_021BC578(const s16_021BC578 *a, s16_021BC578 *b);
+void func_021BC564(short *p,short *out);
+void func_021BC578(const short *a, short *b);
 void func_021BC58C(void *p, const Vec2_021BC58C *a);
 void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2_021BC5BC *input,u32 id,struct Obj *sprite);
 void func_021BC69C(u8 *p, int flag);
@@ -736,7 +644,7 @@ extern const char d_021C3C68[];
 extern const u8 d_021C38DF[],d_021C38D4[];
 extern const u8 d_021C38DF[];
 extern const u8 d_021C38D9[];
-extern s16_021BD348 tbl_020A1B38[];
+extern short tbl_020A1B38[];
 extern const u8 d_00000043[];
 extern char ov067_id[];
 extern const u8 d_021C3908[];
@@ -801,10 +709,10 @@ int func_021BBF54(Obj_021BBF54 *p)
     ((struct Obj01053 *)b)->f198=((struct Obj01053 *)b)->f198+delta;
     func_02040618(4,3,((struct Obj01053 *)b)->f19A);
     for(i=0;i<2;i++) {
-        s16_021BBF54 pos=func_0204B4EC(p->desc[i],i,1)-delta;
+        short pos=func_0204B4EC(p->desc[i],i,1)-delta;
         func_0204B49C(p->desc[i],pos,i,1);
         for(j=0;j<2;j++) {
-            s16_021BBF54 pos=func_0204B4EC(p->items[j][i],i,1)-delta;
+            short pos=func_0204B4EC(p->items[j][i],i,1)-delta;
             func_0204B49C(p->items[j][i],pos,i,1);
         }
     }
@@ -898,7 +806,7 @@ void func_021BC1B8(u8 *p)
 {
     Triple t;
     Pair pos;
-    if (*(int *)&((struct Obj01393 *)p)->f44) func_021BC578((s16_021BC578 *)((const s16_021BBE8C *)(p+0x38)), (s16_021BC578 *)((s16_021BBE8C *)(&pos)));
+    if (*(int *)&((struct Obj01393 *)p)->f44) func_021BC578((short *)((const short *)(p+0x38)), (short *)((short *)(&pos)));
     else { pos.x=128; pos.y=24; }
     func_021BAC64(((struct Obj01393 *)p)->f0, &t, 1, 0);
     ((struct Obj01393 *)p)->f18=func_021BAC78(((struct Obj01393 *)p)->f0, &t, pos.x, pos.y+192, 0, 2);
@@ -954,7 +862,7 @@ void func_021BC23C(Obj_021BC1B8 *p)
 
 /*
  * Unlabelled Thumb leaf in a .word run.  Extent 0x021BC320..0x021BC340
- * (32 bytes).  Packs two s16_021BBE8C coordinates from a[n] into b.
+ * (32 bytes).  Packs two short coordinates from a[n] into b.
  */
 void func_021BC320(void *a, unsigned char *b, int n)
 {
@@ -976,9 +884,9 @@ int func_021BC340(Obj_021BC340 *p,void *desc,u8 bank)
     void *str;
     u16 id;
     int running,count,x,y;
-    u32_021BC340 font;
+    u32 font;
     str=func_021BF708(p->state,42);
-    font=(u32_021BC340)func_021BAC44(p->root);
+    font=(u32)func_021BAC44(p->root);
     running=1;
     count=0; y=0; x=0;
     func_021BC458(p->parser,(u8 *)p);
@@ -1080,7 +988,7 @@ int func_021BC490(Cursor *p,struct Strbuf *out)
 
 
 
-void func_021BC564(s16_021BC564 *p,s16_021BC564 *out) { out[0]=p[0]-48; out[1]=p[1]-8; }
+void func_021BC564(short *p,short *out) { out[0]=p[0]-48; out[1]=p[1]-8; }
 
 
 
@@ -1092,7 +1000,7 @@ void func_021BC564(s16_021BC564 *p,s16_021BC564 *out) { out[0]=p[0]-48; out[1]=p
 
 
 
-void func_021BC578(const s16_021BC578 *a, s16_021BC578 *b)
+void func_021BC578(const short *a, short *b)
 {
     b[0] = a[0] + 24;
     b[1] = a[1] + 8;
@@ -1110,7 +1018,7 @@ void func_021BC578(const s16_021BC578 *a, s16_021BC578 *b)
 void func_021BC58C(void *p, const Vec2_021BC58C *a)
 {
     Vec2_021BC58C pos;
-    func_021BC564((s16_021BC58C *)a, (s16_021BC58C *)(&pos));
+    func_021BC564((short *)a, (short *)(&pos));
     func_02043AF4(func_02045770(p), pos.x, pos.y, 0x60, 16, 14);
 }
 
@@ -1132,7 +1040,7 @@ void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2_021BC5BC *input,u3
     u32 layer;
     font=func_021BAC44(*(u8 * *)&((struct Obj10277 *)p)->f0);
     if(id==0xffff) return;
-    func_021BC564((s16_021BC5BC *)input,(s16_021BC5BC *)(&base));
+    func_021BC564((short *)input,(short *)(&base));
     if(func_02024508(id)!=0) {
         index=func_02024520(id)-1;
         layer=func_021BC6D0(func_02045730(window));
@@ -1145,8 +1053,8 @@ void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2_021BC5BC *input,u3
         func_0204B84C(sprite, (int)(func_020416D4(func_02045730(window))));
     } else {
         func_02024838(id,((struct Obj10277 *)p)->f30,42);
-        func_0201DD78((u32_021BC340)3, (u32_021BC340)4, (u32_021BC340)14);
-        func_0201C7A4(func_02045770(window), (s16_021BC564)base.x, (s16_021BC564)base.y, ((struct Obj10277 *)p)->f30, (void *)font);
+        func_0201DD78((u32)3, (u32)4, (u32)14);
+        func_0201C7A4(func_02045770(window), (short)base.x, (short)base.y, ((struct Obj10277 *)p)->f30, (void *)font);
     }
 }
 
@@ -1294,7 +1202,7 @@ void func_021BC72C(char *p, int i)
 {
     struct Pt t;
     if (*(u32 *)(p + 0x44) != 0) {
-        func_021BC578((const s16_021BC578 *)((const s16_021BC72C *)(p + 0x38 + i * 4)), (s16_021BC578 *)((s16_021BC72C *)(&t)));
+        func_021BC578((const short *)((const short *)(p + 0x38 + i * 4)), (short *)((short *)(&t)));
         t.x = t.a;
         t.y = t.b;
     } else {
@@ -1929,7 +1837,7 @@ int func_021BD028(u8 *p)
 void func_021BD044(Object_021BD044 *p) {
     void *h;
     int i;
-    s16_021BD044 x;
+    short x;
     h=func_020490F4(43,42);
     func_021BAC64(p->root, (Triple *)((u8 *)p+0x10), 0, 0);
     ((struct Obj01249 *)p)->f14=(void *)func_0204A6C8(h,13,0,0,42);
@@ -2120,7 +2028,7 @@ static inline void lerp(u16 *p, int n, u16 a, u16 b)
 void func_021BD348(char *p)
 {
     int j;
-    s16_021BD348 t;
+    short t;
     u8 i;
     if (F + 0x400 >= 0x10000)
         F = F - 0xFC00;
@@ -2304,8 +2212,8 @@ u8 *func_021BD5C4(struct Obj0203159C *owner,u8 *input)
  */
 void func_021BD690(u8 *p, u16 *out)
 {
-    *(s16_021BD690 *)p=func_0202452C(out);
-    p[3]=func_02024584(*(s16_021BD690 *)p);
+    *(short *)p=func_0202452C(out);
+    p[3]=func_02024584(*(short *)p);
     p[2]=func_02024530(out);
 }
 

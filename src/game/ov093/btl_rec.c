@@ -195,8 +195,10 @@ struct O {
     int fec;
 };
 
-struct C_021EE3E8 {
-    u8 pad00[8];
+
+
+struct C {
+    u8 pad00[0x8];
     void *f08;
     int f0c;
     u32 f10;
@@ -204,40 +206,11 @@ struct C_021EE3E8 {
     int f24;
     u8 pad28[0xc];
     u32 f34;
-    u8 pad38[0x138];
+    u8 pad38[0x134];
+    int f16c;
     u16 f170, f172, f174, f176, f178, f17a, f17c;
 };
 
-struct C_021EE4B4 {
-    u8 pad00[0x8];
-    int f08;
-    int f0c;
-    u8 pad10[0x14];
-    int f24;
-    u8 pad28[0xc];
-    int f34;
-    u8 pad38[0x134];
-    int f16c;
-    u16 f170;
-    u16 f172;
-    u16 f174;
-    u16 f176;
-    u16 f178;
-    u16 f17a;
-    u16 f17c;
-};
-
-struct C {
-    u8 pad00[0x8];
-    void *f08;
-};
-
-typedef struct {
-    u32 a;
-    u32 n : 31;
-    u32 flag : 1;
-    u32 w[4];
-} Q_021EE644;
 
 typedef struct {
     u32 a;
@@ -246,12 +219,6 @@ typedef struct {
     u32 w[4];
 } Q_021EE674;
 
-typedef struct {
-    u8 *buf;
-    u32 n : 31;
-    u32 flag : 1;
-    u32 pos[4];
-} Q_021EE688;
 
 typedef struct {
     u8 *data;          /* 0x00 */
@@ -261,19 +228,7 @@ typedef struct {
     u32 buf[4][16];    /* 0x18 */
 } Reader;
 
-typedef struct {
-    u8 *buf;
-    u32 n : 31;
-    u32 flag : 1;
-    u32 pos[4];
-} Q_021EE830;
 
-typedef struct {
-    u8 *buf;
-    u32 n : 31;
-    u32 flag : 1;
-    u32 pos[4];
-} Q_021EE894;
 
 typedef struct {
     u8 len;
@@ -346,39 +301,7 @@ typedef struct {
     int f8;
 } P_021EF460;
 
-typedef struct {
-    void ***f0;
-    u32 f4;
-    u32 f8;
-    u32 fc;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 pad[11];
-    u32 f54;
-    u16 f58;
-    u16 f5a;
-} D_021EF71C;
 
-typedef struct {
-    void ***f0;
-    u32 f4;
-    u32 f8;
-    u32 fc;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 pad[11];
-    u32 f54;
-    u16 f58;
-    u16 f5a;
-} D_021EF7AC;
 
 typedef struct { u32 v; } Slot;
 
@@ -397,25 +320,7 @@ typedef struct {
     u32 count;
 } Countdown;
 
-typedef struct {
-    u32 pad00[2];       /* 0x000 */
-    u32 t[8];           /* 0x008 */
-    Slot c[8];          /* 0x028 */
-    u32 z48[8];         /* 0x048 */
-    u32 w[8][6];        /* 0x068 */
-    u32 z128[8];        /* 0x128 */
-    u32 used[8];        /* 0x148 */
-} S_021EF988;
 
-typedef struct {
-    u32 pad00[2];       /* 0x000 */
-    u32 t[8];           /* 0x008 */
-    u32 c[8];           /* 0x028 */
-    u32 z48[8];         /* 0x048 */
-    u32 w[8][6];        /* 0x068 */
-    u32 z128[8];        /* 0x128 */
-    u32 used[8];        /* 0x148 */
-} S_021EF9F4;
 
 extern void func_02082BCC(void *, u8, u32);
 extern char *func_021B9AF8(char *p, int i);
@@ -522,20 +427,20 @@ void func_021EE2F8(struct O *o);
 int func_021EE318(struct O *o);
 void func_021EE370(struct O *o);
 int func_021EE390(struct O *o);
-int func_021EE3E8(int *st, struct C_021EE3E8 *c);
-int func_021EE4B4(int *st, struct C_021EE4B4 *c);
+int func_021EE3E8(int *st, struct C *c);
+int func_021EE4B4(int *st, struct C *c);
 int func_021EE544(int *st, struct C *c);
 void *func_021EE5E4(u32 heap);
 void func_021EE600(void *p);
 void func_021EE608(u8 *p, const u8 *src, int n);
 u8 func_021EE638(u8 *p);
 unsigned short *func_021EE63C(unsigned short *a, unsigned int *b);
-void func_021EE644(Q_021EE644 *q, u32 a, u32 n);
+void func_021EE644(Reader *q, u32 a, u32 n);
 void func_021EE674(Q_021EE674 *q);
-int func_021EE688(Q_021EE688 *q, int i);
+int func_021EE688(Reader *q, int i);
 u32 *func_021EE6B8(Reader *r, u32 idx, u8 *outLen, u8 *outFlag);
-int func_021EE830(Q_021EE830 *q);
-int func_021EE894(Q_021EE894 *q, int i);
+int func_021EE830(Reader *q);
+int func_021EE894(Reader *q, int i);
 void func_021EE8B4(B *p, int b);
 u8 *func_021EE8D8(u8 *p, u32 *out, int flag);
 void func_021EE8F4(u8 *p, u8 idx, const void *src, u32 n);
@@ -605,13 +510,13 @@ int func_021EF934(int a, int b);
 int func_021EF948(int a);
 S *func_021EF958(u32 heap);
 void func_021EF980(void *p);
-void func_021EF988(S_021EF988 *p, u32 v);
+void func_021EF988(S *p, u32 v);
 u8 func_021EF9A8(u32 *p);
 int func_021EF9B0(u32 *p);
 int *func_021EF9C0(int *p, int a, int b);
 void func_021EF9C8(int *p);
 u32 func_021EF9D0(Countdown *p);
-int func_021EF9F4(S_021EF9F4 *a, u32 b, Slot c, int d);
+int func_021EF9F4(S *a, u32 b, Slot c, int d);
 extern char d_021F3ADC[];
 extern void *d_021F6388[];
 extern int d_021F6384;
@@ -790,7 +695,7 @@ int func_021EE390(struct O *o)
 }
 
 
-int func_021EE3E8(int *st, struct C_021EE3E8 *c)
+int func_021EE3E8(int *st, struct C *c)
 {
     switch (*st) {
     case 0:
@@ -823,7 +728,7 @@ int func_021EE3E8(int *st, struct C_021EE3E8 *c)
 }
 
 
-int func_021EE4B4(int *st, struct C_021EE4B4 *c)
+int func_021EE4B4(int *st, struct C *c)
 {
     switch (*st) {
     case 0:
@@ -925,15 +830,15 @@ unsigned short *func_021EE63C(unsigned short *a, unsigned int *b)
 }
 
 
-void func_021EE644(Q_021EE644 *q, u32 a, u32 n)
+void func_021EE644(Reader *q, u32 a, u32 n)
 {
     u32 i;
 
-    q->a = a;
-    q->n = n;
-    q->flag = 0;
+    q->data = (u8 *)a;
+    q->len = n;
+    q->err = 0;
     for (i = 0; i < 4; i++)
-        q->w[i] = 0;
+        q->pos[i] = 0;
 }
 
 
@@ -953,12 +858,12 @@ void func_021EE674(Q_021EE674 *q)
  * fix the order: kind cannot be forwarded past the redefinition of v, and
  * the u8 cast lands at the assignment, not at the return.
  */
-int func_021EE688(Q_021EE688 *q, int i)
+int func_021EE688(Reader *q, int i)
 {
     int v;
     int kind;
 
-    v = q->buf[q->pos[i]];
+    v = q->data[q->pos[i]];
     kind = (v >> 4) & 7;
     v = (u8)((v >> 7) & 1);
     if (kind == 2) {
@@ -1051,7 +956,7 @@ u32 *func_021EE6B8(Reader *r, u32 idx, u8 *outLen, u8 *outFlag)
  * pos/size last; these set the register colours. pos++ sits right after
  * the byte load.
  */
-int func_021EE830(Q_021EE830 *q)
+int func_021EE830(Reader *q)
 {
     int count;
     u8 v;
@@ -1065,10 +970,10 @@ int func_021EE830(Q_021EE830 *q)
 
     pos = 0;
     count = 0;
-    size = q->n;
+    size = q->len;
     if (size != 0) {
         do {
-            v = q->buf[pos];
+            v = q->data[pos];
             pos++;
             n = v & 0xf;
             kind = (v >> 4) & 7;
@@ -1081,7 +986,7 @@ int func_021EE830(Q_021EE830 *q)
                 pos += n;
             } else {
                 for (j = 0; j < n; j++) {
-                    len = q->buf[pos] & 0x1f;
+                    len = q->data[pos] & 0x1f;
                     pos = pos + 1 + len * 4;
                     if (pos >= size)
                         break;
@@ -1093,13 +998,13 @@ int func_021EE830(Q_021EE830 *q)
 }
 
 
-int func_021EE894(Q_021EE894 *q, int i)
+int func_021EE894(Reader *q, int i)
 {
     u32 p;
 
-    if (q->flag == 0) {
+    if (q->err == 0) {
         p = q->pos[i];
-        if (p == q->n)
+        if (p == q->len)
             return 1;
         return 0;
     }
@@ -2001,7 +1906,7 @@ void func_021EF83C(S *a, u32 i)
 
 void func_021EF874(int a)
 {
-    func_021EF988((S_021EF988 *)&d_021F63F4, a);
+    func_021EF988((S *)&d_021F63F4, a);
 }
 
 
@@ -2038,7 +1943,7 @@ u32 func_021EF8B8(void)
 
 int func_021EF8C8(u32 a, Slot c)
 {
-    return func_021EF9F4((S_021EF9F4 *)&d_021F63F4, a, c, 1);
+    return func_021EF9F4((S *)&d_021F63F4, a, c, 1);
 }
 
 
@@ -2082,7 +1987,7 @@ S *func_021EF958(u32 heap)
 {
     S *p = func_02030734(heap, 0x168, 1, d_021F3AF8, 0x10c);
 
-    func_021EF988((S_021EF988 *)p, 0);
+    func_021EF988((S *)p, 0);
     return p;
 }
 
@@ -2090,7 +1995,7 @@ S *func_021EF958(u32 heap)
 void func_021EF980(void *p) { func_020307B0(p); }
 
 
-void func_021EF988(S_021EF988 *p, u32 v)
+void func_021EF988(S *p, u32 v)
 {
     u32 i;
 
@@ -2156,7 +2061,7 @@ u32 func_021EF9D0(Countdown *p)
  * swapped b and b*4: docs/notes/pkt_ov093_021EF9F4.c.txt).  The third
  * parameter is a one-word struct passed by value (push {r0-r3} frame).
  */
-int func_021EF9F4(S_021EF9F4 *a, u32 b, Slot c, int d)
+int func_021EF9F4(S *a, u32 b, Slot c, int d)
 {
     u32 i;
     u32 x;
@@ -2168,7 +2073,7 @@ int func_021EF9F4(S_021EF9F4 *a, u32 b, Slot c, int d)
                 return 0;
         }
         a->used[b] = 1;
-        a->c[b] = c.v;
+        a->c[b] = c;
         a->z48[b] = 0;
         a->z128[b] = 0;
         for (i = 0; i < 6; i++)

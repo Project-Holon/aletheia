@@ -15,7 +15,7 @@
  * symbols:
  *   d_021FDDEC 0x021FDDEC data a4
  */
-#include "../../matched/include/Obj23306.h"
+#include "ov132_types.h"
 
 typedef unsigned char u8;
 
@@ -53,7 +53,7 @@ void func_021FD9D0(unsigned char *p,unsigned char key) {unsigned char i;for(i=0;
 
 int func_021FD9FC(char *p)
 {
-    unsigned int i = ((struct Obj23306 *)p)->f180;
+    unsigned int i = ((struct ActingHost *)p)->f180;
 
     if (i < 4)
         return *(u8 *)(p + i * 0x30 + 0x72);
