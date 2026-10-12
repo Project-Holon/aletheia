@@ -19,6 +19,14 @@ files (a region, or a file range in a region). Read first: this brief,
    one already describes the object), and rewrite every access. Use a script
    for the bulk rewrite (map each view field to the canonical field by
    offset), not hand edits. Named unions where views really overlap.
+   Renaming copies (Obj_X -> FooObj17) without merging them is not progress:
+   the target is a handful of structs per file, as a developer would have.
+   Evidence that views are one object: the same pointer flows between them
+   (call, callback registration, a field that points to it), OR, inside one
+   file, they are views of the same parameter role (the work/task pointer
+   of that file's functions) and their layouts are compatible (no offset with
+   two different sizes or kinds). Merge compatible views into the largest
+   layout; keep two structs only where offsets really conflict.
 2. **Raw offsets** `*(T *)((u8 *)p + 0x..)` and `(char *)p + 0x..` where the
    struct is known: write the field. Keep the raw form only when the field
    form changes the bytes (`(p + i*stride) + const` can be the original).
