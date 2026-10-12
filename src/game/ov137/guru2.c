@@ -101,60 +101,35 @@
  *   d_021E1A44 0x021E1A44 data a4
  *   d_021E2268 0x021E2268 data a4
  */
-#include "../../matched/include/Obj10612.h"
-#include "../../matched/include/Obj23664.h"
-#include "../../matched/include/Obj23665.h"
-#include "../../matched/include/Obj23666.h"
-#include "../../matched/include/Obj14200.h"
-#include "../../matched/include/Obj14201.h"
-#include "../../matched/include/Obj23667.h"
-#include "../../matched/include/Obj08208.h"
-#include "../../matched/include/Obj08209.h"
-#include "../../matched/include/Obj23669.h"
-#include "../../matched/include/Obj23670.h"
-#include "../../matched/include/Obj23671.h"
-#include "../../matched/include/Obj14204.h"
-#include "../../matched/include/Obj14205.h"
-#include "../../matched/include/Obj10614.h"
-#include "../../matched/include/Obj23673.h"
-#include "../../matched/include/Obj03839.h"
-#include "../../matched/include/Obj23674.h"
-#include "../../matched/include/Obj23675.h"
-#include "../../matched/include/Obj23676.h"
-#include "../../matched/include/Obj23677.h"
-#include "../../matched/include/Obj23678.h"
-#include "../../matched/include/Obj14206.h"
-#include "../../matched/include/Obj23680.h"
-#include "../../matched/include/Obj23682.h"
-#include "../../matched/include/Obj23683.h"
-#include "../../matched/include/Obj23684.h"
-#include "../../matched/include/Obj23685.h"
-#include "../../matched/include/Obj23687.h"
-#include "../../matched/include/Obj23688.h"
-#include "../../matched/include/Obj23690.h"
-#include "../../matched/include/Obj23691.h"
-#include "../../matched/include/Obj23692.h"
-#include "../../matched/include/Obj23693.h"
-#include "../../matched/include/Obj23695.h"
-#include "../../matched/include/Obj23696.h"
-#include "../../matched/include/Obj23697.h"
-#include "../../matched/include/Obj23698.h"
-#include "../../matched/include/Obj23699.h"
-#include "../../matched/include/Obj23700.h"
-#include "../../matched/include/Obj23701.h"
-#include "../../matched/include/Obj23702.h"
-#include "../../matched/include/Obj01414.h"
-#include "../../matched/include/Obj23703.h"
-#include "../../matched/include/Obj23705.h"
-#include "../../matched/include/Obj00170.h"
-#include "../../matched/include/Obj23706.h"
-#include "../../matched/include/Obj23707.h"
-#include "../../matched/include/Obj23708.h"
-#include "../../matched/include/Obj02207.h"
-#include "../../matched/include/Obj23709.h"
-#include "../../matched/include/Obj23710.h"
-#include "../../matched/include/Obj23711.h"
-#include "../../matched/include/Obj10615.h"
+#include "ov137_types.h"
+struct Guru2Ctx;
+struct Guru2Ctx_f0;
+
+struct Guru2Ctx {
+    void *f0;
+    unsigned int f4;
+    unsigned char pad_8[4];
+    void *fC;
+    void *f10;
+    unsigned char pad_14[4];
+    void *f18;
+    unsigned char pad_1C[4];
+    void *f20;
+    unsigned char pad_24[28];
+    unsigned short f40;
+    unsigned short f42;
+    unsigned char pad_44[4];
+    unsigned short f48;
+    unsigned short f4A;
+    void *f4C;
+    void *f50;
+};
+
+struct Guru2Ctx_f0 {
+    unsigned char pad_0[28];
+    void *f1C;
+    void *f20;
+};
 
 struct Obj0203159C;
 struct S020314B8;
@@ -286,47 +261,47 @@ extern void func_020419E4(void);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_020310C4(struct Tcbl *p);
 extern void func_020433E0(const struct DispVram *c);
-int func_021DC860(void *obj,int a,u8 *ctx);
+int func_021DC860(void *obj,int a,struct Guru2Ctx *ctx);
 int func_021DC888(void *obj,int a,int b,u8 *p);
-int func_021DC8BC(void *obj,int a,int b,u8 *p);
+int func_021DC8BC(void *obj,int a,int b,struct Guru2Ctx *p);
 void *func_021DC8D0(void *q,int heap);
-void func_021DC90C(u8 *p);
-void *func_021DC924(u8 *p);
-int func_021DC928(u8 *p);
+void func_021DC90C(struct Guru2Ctx *p);
+void *func_021DC924(struct Guru2Ctx *p);
+int func_021DC928(struct Guru2MainCtx *p);
 struct DC950Obj *func_021DC950(struct DC950Src *p,int a,int b);
 int func_021DC9AC(u32 *p);
 int func_021DC9F4(u32 *p);
 int func_021DCAB4(u8 *p);
 int func_021DCAE8(u32 *p);
-int func_021DCAF0(u8 *p);
-void *func_021DCAFC(u8 *p);
+int func_021DCAF0(struct Guru2Ctx *p);
+void *func_021DCAFC(struct Guru2MainCtx2 *p);
 u32 *func_021DCB04(u32 a,int heap);
-void func_021DCB60(u8 *p);
+void func_021DCB60(struct Guru2Ctx *p);
 void func_021DCB78(u32 a);
 void func_021DCB90(void *p);
 void func_021DCB94(u8 *p,u32 id,const void *data,u32 size);
 void func_021DCBC4(void *p,u32 a,const void *b,u32 c);
-void func_021DCBCC(int i,int unused,void *q,char *p);
-void func_021DCBFC(int a,int b,int c,u8 *p);
-void func_021DCC24(int a,int b,u8 *c,u8 *p);
-void func_021DCCF0(int a,int b,int c,u8 *p);
+void func_021DCBCC(int i,int unused,void *q,struct Guru2MainCtx2 *p);
+void func_021DCBFC(int a,int b,int c,struct Guru2MainCtx *p);
+void func_021DCC24(int a,int b,u8 *c,struct Guru2MainCtx2 *p);
+void func_021DCCF0(int a,int b,int c,struct Guru2Ctx *p);
 int func_021DCD0C(void);
-void func_021DCD14(int a,int b,u8 *c,u8 *p);
-void func_021DCD34(int a,int b,u16 *c,u8 *p);
-void func_021DCD44(int a,int b,void *c,u8 *p);
-void func_021DCD5C(int a,int b,void *c,u8 *p);
-void func_021DCD6C(int a,int b,int *c,u8 *p);
-void func_021DCD7C(int a,int b,u8 *c,u8 *p);
-void func_021DCD8C(int a,int b,void *c,u8 *p);
-void func_021DCDA0(int a,int b,int *c,u8 *p);
-void func_021DCDB0(int a,int b,void *c,u8 *p);
-void func_021DCDC0(int a,int b,void *c,u8 *p);
-void func_021DCDD8(int a,int b,void *c,u8 *p);
-void *func_021DCDF0(int a,u8 *p);
-int func_021DCE00(char *p, int i);
+void func_021DCD14(int a,int b,u8 *c,struct Guru2MainCtx *p);
+void func_021DCD34(int a,int b,u16 *c,struct Guru2Ctx *p);
+void func_021DCD44(int a,int b,void *c,struct Guru2Ctx *p);
+void func_021DCD5C(int a,int b,void *c,struct Guru2Ctx *p);
+void func_021DCD6C(int a,int b,int *c,struct Guru2Ctx *p);
+void func_021DCD7C(int a,int b,u8 *c,struct Guru2Ctx *p);
+void func_021DCD8C(int a,int b,void *c,struct Guru2Ctx *p);
+void func_021DCDA0(int a,int b,int *c,struct Guru2Ctx *p);
+void func_021DCDB0(int a,int b,void *c,struct Guru2Ctx *p);
+void func_021DCDC0(int a,int b,void *c,struct Guru2Ctx *p);
+void func_021DCDD8(int a,int b,void *c,struct Guru2Ctx *p);
+void *func_021DCDF0(int a,struct Guru2Ctx *p);
+int func_021DCE00(struct Guru2MainCtx2 *p, int i);
 int func_021DCE10(void *a,u32 *state,u8 *ctx);
 void *func_021DCF50(u8 *p);
-void func_021DCF58(int a,int b,u8 *p);
+void func_021DCF58(int a,int b,struct Guru2Ctx *p);
 void func_021DCF7C(void);
 int func_021DCF80(int a,int b,int c,u8 *p);
 int func_021DD0B8(void *a,int b,void *c,u8 *p);
@@ -347,7 +322,7 @@ extern const u32 d_021E1B40[];
 
 
 
-int func_021DC860(void *obj,int a,u8 *ctx) { u8 *p=func_0203159C(obj,36,4); func_02082BCC(p,0,36); ((struct Obj10612 *)p)->f10=((struct Obj23664 *)ctx)->f4; ((struct Obj10612 *)p)->f8=ctx; ((struct Obj10612 *)p)->f20=func_02031324(1); return 1; }
+int func_021DC860(void *obj,int a,struct Guru2Ctx *ctx) { u8 *p=func_0203159C(obj,36,4); func_02082BCC(p,0,36); *(unsigned int *)&((struct Guru2MainCtx *)p)->f10=ctx->f4; ((struct Guru2MainCtx *)p)->f8=ctx; ((struct Guru2MainCtx *)p)->f20=func_02031324(1); return 1; }
 
 
 
@@ -355,27 +330,27 @@ extern int (* const d_021E1A50[])(u8 *);
 
 
 
-int func_021DC888(void *obj,int a,int b,u8 *p) { switch(func_02031330(((struct Obj23665 *)p)->f20)) { case 0: if(d_021E1A50[*(u32 *)p](p)==1) return 1; break; case 1: break; case 2: break; } return 0; }
+int func_021DC888(void *obj,int a,int b,u8 *p) { switch(func_02031330(((struct Guru2Ctx *)p)->f20)) { case 0: if(d_021E1A50[*(u32 *)p](p)==1) return 1; break; case 1: break; case 2: break; } return 0; }
 
 
 
-int func_021DC8BC(void *obj,int a,int b,u8 *p) { func_0203133C(((struct Obj23666 *)p)->f20); func_020315D4(obj); return 1; }
+int func_021DC8BC(void *obj,int a,int b,struct Guru2Ctx *p) { func_0203133C(p->f20); func_020315D4(obj); return 1; }
 
 
 
-void *func_021DC8D0(void *q,int heap) {u8 *p;p=func_02030734((u16)heap,36,0,(const char *)d_021E2260,171);func_02082BCC(p,0,36);((struct Obj14200 *)p)->f14=q;((struct Obj14200 *)p)->f18=func_021DCB04((u32)p,heap);return p;}
+void *func_021DC8D0(void *q,int heap) {u8 *p;p=func_02030734((u16)heap,36,0,(const char *)d_021E2260,171);func_02082BCC(p,0,36);*(void * *)&((struct Guru2MainCtx *)p)->f14=q;*(void * *)&((struct Guru2MainCtx *)p)->f18=func_021DCB04((u32)p,heap);return p;}
 
 
 
-void func_021DC90C(u8 *p) {func_021DCB90(((struct Obj14201 *)p)->f18);func_021DCB60(((struct Obj14201 *)p)->f18);func_020307B0(p);}
+void func_021DC90C(struct Guru2Ctx *p) {func_021DCB90(p->f18);func_021DCB60(p->f18);func_020307B0(p);}
 
 
 
-void *func_021DC924(u8 *p) { return ((struct Obj23667 *)p)->f10; }
+void *func_021DC924(struct Guru2Ctx *p) { return p->f10; }
 
 
 
-int func_021DC928(u8 *p) {void *v;v=func_021DC8D0(((struct Obj08208 *)p)->f8,4);((struct Obj08208 *)p)->f0=1;((struct Obj08208 *)p)->fC=v;func_02031348(((struct Obj08208 *)p)->f20,-1,d_021E1A38,v);return 0;}
+int func_021DC928(struct Guru2MainCtx *p) {void *v;v=func_021DC8D0(p->f8,4);*(unsigned int *)&p->f0=1;*(void * *)&p->fC=v;func_02031348(p->f20,-1,d_021E1A38,v);return 0;}
 
 
 
@@ -471,7 +446,7 @@ int func_021DC9F4(u32 *p)
 
 
 
-int func_021DCAB4(u8 *p) {u8 a;void *v;a=(*(u8 **)(p+28))[15];func_020307B0(((struct Obj08209 *)p)->f1C);v=func_021DC950((struct DC950Src *)p,21,a);((struct Obj08209 *)p)->f18=v;func_02031348(((struct Obj08209 *)p)->f20,(int)d_0000005B,d_021BED00,v);((struct Obj08209 *)p)->f0=2;return 0;}
+int func_021DCAB4(u8 *p) {u8 a;void *v;a=(*(u8 * *)&((struct Guru2MainCtx *)p)->f1C)[15];func_020307B0(*(void * *)&((struct Guru2MainCtx *)p)->f1C);v=func_021DC950((struct DC950Src *)p,21,a);*(void * *)&((struct Guru2MainCtx *)p)->f18=v;func_02031348(((struct Guru2MainCtx *)p)->f20,(int)d_0000005B,d_021BED00,v);*(unsigned int *)&((struct Guru2MainCtx *)p)->f0=2;return 0;}
 
 
 
@@ -479,11 +454,11 @@ int func_021DCAE8(u32 *p) {*p=5;return 0;}
 
 
 
-int func_021DCAF0(u8 *p) {func_021DC90C(((struct Obj23669 *)p)->fC);return 1;}
+int func_021DCAF0(struct Guru2Ctx *p) {func_021DC90C(p->fC);return 1;}
 
 
 
-void *func_021DCAFC(u8 *p) { return **(void ** *)&((struct Obj23671 *)(*(u8 * *)&((struct Obj23670 *)p)->f0))->f14; }
+void *func_021DCAFC(struct Guru2MainCtx2 *p) { return **(void ** *)&((struct Guru2MainCtx2_f0 *)p->f0)->f14; }
 
 
 
@@ -531,7 +506,7 @@ u32 *func_021DCB04(u32 a,int heap)
 
 
 
-void func_021DCB60(u8 *p) {func_020307B0(((struct Obj14204 *)p)->f4C);func_020307B0(((struct Obj14204 *)p)->f50);func_020307B0(p);}
+void func_021DCB60(struct Guru2Ctx *p) {func_020307B0(p->f4C);func_020307B0(p->f50);func_020307B0(p);}
 
 
 
@@ -620,7 +595,7 @@ void func_021DCBC4(void *p,u32 a,const void *b,u32 c) {func_021DCB94(p,a,b,c);}
 
 
 
-void func_021DCBCC(int i,int unused,void *q,char *p) {((struct Obj14205 *)p)->f46=((struct Obj14205 *)p)->f46|(s16)(1<<i);func_02082D44(q, (void *)(func_021DCE00(p,i)), 1428);}
+void func_021DCBCC(int i,int unused,void *q,struct Guru2MainCtx2 *p) {p->f46=p->f46|(s16)(1<<i);func_02082D44(q, (void *)(func_021DCE00(p,i)), 1428);}
 
 
 
@@ -635,7 +610,7 @@ void func_021DCBCC(int i,int unused,void *q,char *p) {((struct Obj14205 *)p)->f4
 
 
 
-void func_021DCBFC(int a,int b,int c,u8 *p) {if(func_02039338()!=0) {((struct Obj10614 *)p)->f20=0;((struct Obj10614 *)p)->f24=1;func_021DE08C(*(char * *)&((struct Obj23673 *)(*(u8 * *)&((struct Obj10614 *)p)->f0))->f20,27,(u8)a);}}
+void func_021DCBFC(int a,int b,int c,struct Guru2MainCtx *p) {if(func_02039338()!=0) {*(unsigned int *)&p->f20=0;*(unsigned int *)&p->f24=1;func_021DE08C(*(char * *)&((struct Guru2MainCtx_f0 *)p->f0)->f20,27,(u8)a);}}
 
 
 
@@ -649,18 +624,18 @@ void func_021DCBFC(int a,int b,int c,u8 *p) {if(func_02039338()!=0) {((struct Ob
 
 
 
-void func_021DCC24(int a,int b,u8 *c,u8 *p)
+void func_021DCC24(int a,int b,u8 *c,struct Guru2MainCtx2 *p)
 {
     struct Packet s;
     if(a!=0) {
         if(func_02039338()!=0) return;
         s=*(struct Packet *)c;
-        s.a=a; s.b=((struct Obj03839 *)p)->f2C;
+        s.a=a; s.b=p->f2C;
         switch(((struct Packet *)c)->c) {
         case 0:
-            if(((struct Obj03839 *)p)->f2C!=func_021841A4(func_021DCAFC(p)) ||
-               ((struct Obj03839 *)p)->f2C!=func_02080D24(func_021841A0(func_021DCAFC(p)))) s.d=0;
-            else { ((struct Obj03839 *)p)->f30|=1<<a; s.d=1; }
+            if(p->f2C!=func_021841A4(func_021DCAFC(p)) ||
+               p->f2C!=func_02080D24(func_021841A0(func_021DCAFC(p)))) s.d=0;
+            else { p->f30|=1<<a; s.d=1; }
             break;
         case 1: break;
         }
@@ -670,10 +645,10 @@ void func_021DCC24(int a,int b,u8 *c,u8 *p)
         case 0:
             a=c[0];
             if(a!=func_02039338()) return;
-            if(c[3]==0) func_021DE08C(*(char * *)&((struct Obj23674 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,8,a);
-            else { ((struct Obj03839 *)p)->f38=c[1]; func_021DE08C(*(char * *)&((struct Obj23675 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,7,a); }
+            if(c[3]==0) func_021DE08C(*(char * *)&((struct Guru2MainCtx2_f0 *)p->f0)->f20,8,a);
+            else { p->f38=c[1]; func_021DE08C(*(char * *)&((struct Guru2MainCtx2_f0 *)p->f0)->f20,7,a); }
             break;
-        case 1: func_021DE08C(*(char * *)&((struct Obj23676 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,19,c[0]); break;
+        case 1: func_021DE08C(*(char * *)&((struct Guru2MainCtx2_f0 *)p->f0)->f20,19,c[0]); break;
         }
     }
 }
@@ -689,7 +664,7 @@ void func_021DCC24(int a,int b,u8 *c,u8 *p)
 
 
 
-void func_021DCCF0(int a,int b,int c,u8 *p) {if(func_02039338()!=0) func_021DE08C(*(char * *)&((struct Obj23678 *)(*(u8 * *)&((struct Obj23677 *)p)->f0))->f20,13,0);}
+void func_021DCCF0(int a,int b,int c,struct Guru2Ctx *p) {if(func_02039338()!=0) func_021DE08C(*(char * *)&((struct Guru2Ctx_f0 *)p->f0)->f20,13,0);}
 
 
 
@@ -714,10 +689,10 @@ int func_021DCD0C(void) {return func_02039338();}
 
 
 
-void func_021DCD14(int a,int b,u8 *c,u8 *p)
+void func_021DCD14(int a,int b,u8 *c,struct Guru2MainCtx *p)
 {
-    func_021DE17C(((struct Obj23680 *)(*(u8 * *)&((struct Obj14206 *)p)->f0))->f20,1,*c);
-    if(!func_02039338()) ((struct Obj14206 *)p)->f34=0;
+    func_021DE17C(((struct Guru2MainCtx_f0 *)p->f0)->f20,1,*c);
+    if(!func_02039338()) p->f34=0;
 }
 
 
@@ -737,7 +712,7 @@ void func_021DCD14(int a,int b,u8 *c,u8 *p)
  * func_021E168C 0x021E168C thumb ov137
  * func_02039338 0x02039338 arm
  */
-void func_021DCD34(int a,int b,u16 *c,u8 *p) { ((struct Obj23682 *)p)->f40|=*c; }
+void func_021DCD34(int a,int b,u16 *c,struct Guru2Ctx *p) { p->f40|=*c; }
 
 
 
@@ -749,7 +724,7 @@ void func_021DCD34(int a,int b,u16 *c,u8 *p) { ((struct Obj23682 *)p)->f40|=*c; 
 
 
 
-void func_021DCD44(int a,int b,void *c,u8 *p) { ((struct Obj23683 *)p)->f42|=(u16)(1<<a); }
+void func_021DCD44(int a,int b,void *c,struct Guru2Ctx *p) { p->f42|=(u16)(1<<a); }
 
 
 
@@ -761,7 +736,7 @@ void func_021DCD44(int a,int b,void *c,u8 *p) { ((struct Obj23683 *)p)->f42|=(u1
 
 
 
-void func_021DCD5C(int a,int b,void *c,u8 *p) { func_021E172C(((struct Obj23685 *)(*(u8 * *)&((struct Obj23684 *)p)->f0))->f1C,c); }
+void func_021DCD5C(int a,int b,void *c,struct Guru2Ctx *p) { func_021E172C(((struct Guru2Ctx_f0 *)p->f0)->f1C,c); }
 
 
 
@@ -773,7 +748,7 @@ void func_021DCD5C(int a,int b,void *c,u8 *p) { func_021E172C(((struct Obj23685 
 
 
 
-void func_021DCD6C(int a,int b,int *c,u8 *p) { func_021E1758(((struct Obj23688 *)(*(u8 * *)&((struct Obj23687 *)p)->f0))->f1C,*c); }
+void func_021DCD6C(int a,int b,int *c,struct Guru2Ctx *p) { func_021E1758(((struct Guru2Ctx_f0 *)p->f0)->f1C,*c); }
 
 
 
@@ -785,7 +760,7 @@ void func_021DCD6C(int a,int b,int *c,u8 *p) { func_021E1758(((struct Obj23688 *
 
 
 
-void func_021DCD7C(int a,int b,u8 *c,u8 *p) { func_021E168C(((struct Obj23691 *)(*(u8 * *)&((struct Obj23690 *)p)->f0))->f1C,*c); }
+void func_021DCD7C(int a,int b,u8 *c,struct Guru2Ctx *p) { func_021E168C(((struct Guru2Ctx_f0 *)p->f0)->f1C,*c); }
 
 
 
@@ -801,7 +776,7 @@ void func_021DCD7C(int a,int b,u8 *c,u8 *p) { func_021E168C(((struct Obj23691 *)
  * func_021E180C 0x021E180C thumb ov137
  * func_021E1814 0x021E1814 thumb ov137
  */
-void func_021DCD8C(int a,int b,void *c,u8 *p) { if(a==0) func_021E1694(((struct Obj23693 *)(*(u8 * *)&((struct Obj23692 *)p)->f0))->f1C,c); }
+void func_021DCD8C(int a,int b,void *c,struct Guru2Ctx *p) { if(a==0) func_021E1694(((struct Guru2Ctx_f0 *)p->f0)->f1C,c); }
 
 
 
@@ -812,7 +787,7 @@ void func_021DCD8C(int a,int b,void *c,u8 *p) { if(a==0) func_021E1694(((struct 
 
 
 
-void func_021DCDA0(int a,int b,int *c,u8 *p) { func_021E180C(((struct Obj23696 *)(*(u8 * *)&((struct Obj23695 *)p)->f0))->f1C,a,*c); }
+void func_021DCDA0(int a,int b,int *c,struct Guru2Ctx *p) { func_021E180C(((struct Guru2Ctx_f0 *)p->f0)->f1C,a,*c); }
 
 
 
@@ -823,7 +798,7 @@ void func_021DCDA0(int a,int b,int *c,u8 *p) { func_021E180C(((struct Obj23696 *
 
 
 
-void func_021DCDB0(int a,int b,void *c,u8 *p) { func_021E1814(((struct Obj23698 *)(*(u8 * *)&((struct Obj23697 *)p)->f0))->f1C,c); }
+void func_021DCDB0(int a,int b,void *c,struct Guru2Ctx *p) { func_021E1814(((struct Guru2Ctx_f0 *)p->f0)->f1C,c); }
 
 
 
@@ -834,7 +809,7 @@ void func_021DCDB0(int a,int b,void *c,u8 *p) { func_021E1814(((struct Obj23698 
 
 
 
-void func_021DCDC0(int a,int b,void *c,u8 *p) { ((struct Obj23699 *)p)->f48|=(u16)(1<<a); }
+void func_021DCDC0(int a,int b,void *c,struct Guru2Ctx *p) { p->f48|=(u16)(1<<a); }
 
 
 
@@ -845,7 +820,7 @@ void func_021DCDC0(int a,int b,void *c,u8 *p) { ((struct Obj23699 *)p)->f48|=(u1
 
 
 
-void func_021DCDD8(int a,int b,void *c,u8 *p) { ((struct Obj23700 *)p)->f4A|=(u16)(1<<a); }
+void func_021DCDD8(int a,int b,void *c,struct Guru2Ctx *p) { p->f4A|=(u16)(1<<a); }
 
 
 
@@ -856,7 +831,7 @@ void func_021DCDD8(int a,int b,void *c,u8 *p) { ((struct Obj23700 *)p)->f4A|=(u1
 
 
 
-void *func_021DCDF0(int a,u8 *p) { return *(u8 * *)&((struct Obj23701 *)p)->f4C+a*0x594; }
+void *func_021DCDF0(int a,struct Guru2Ctx *p) { return *(u8 * *)&p->f4C+a*0x594; }
 
 
 
@@ -867,9 +842,9 @@ void *func_021DCDF0(int a,u8 *p) { return *(u8 * *)&((struct Obj23701 *)p)->f4C+
 
 
 
-int func_021DCE00(char *p, int i)
+int func_021DCE00(struct Guru2MainCtx2 *p, int i)
 {
-    return ((struct Obj23702 *)p)->f50 + i * 0x594;
+    return p->f50 + i * 0x594;
 }
 
 
@@ -961,7 +936,7 @@ int func_021DCE10(void *a,u32 *state,u8 *ctx)
 
 
 
-void *func_021DCF50(u8 *p) {return **(void ** *)&((struct Obj23703 *)(*(u8 * *)&((struct Obj01414 *)p)->fC))->f14;}
+void *func_021DCF50(u8 *p) {return **(void ** *)&((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->fC)->f14;}
 
 
 
@@ -970,7 +945,7 @@ void *func_021DCF50(u8 *p) {return **(void ** *)&((struct Obj23703 *)(*(u8 * *)&
 
 
 
-void func_021DCF58(int a,int b,u8 *p) {u8 v;if(func_02039338()==0) {v=a;func_021DCBC4(((struct Obj23705 *)p)->f10,10240,&v,1);}}
+void func_021DCF58(int a,int b,struct Guru2Ctx *p) {u8 v;if(func_02039338()==0) {v=a;func_021DCBC4(p->f10,10240,&v,1);}}
 
 
 
@@ -1016,34 +991,34 @@ extern int (*const d_021E1C20[])(u8 *,u32);
 int func_021DCF80(int a,int b,int c,u8 *p)
 {
     int v;
-    if(func_02039338()==0 && ((struct Obj23706 *)(*(u8 * *)&((struct Obj00170 *)p)->f10))->f30!=0)
-        ((struct Obj23707 *)(*(u8 * *)&((struct Obj00170 *)p)->f10))->f30&=func_021841A0(func_021DCF50(p));
-    switch(((struct Obj00170 *)p)->f0) {
+    if(func_02039338()==0 && ((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->f10)->f30!=0)
+        ((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->f10)->f30&=func_021841A0(func_021DCF50(p));
+    switch(*(unsigned int *)&((struct Guru2MainCtx *)p)->f0) {
     case 0:
         if(func_020221A4()) {
-            ((struct Obj00170 *)p)->f0=1;
+            *(unsigned int *)&((struct Guru2MainCtx *)p)->f0=1;
             func_02184134(func_021DCF50(p));
             func_021840FC(func_021DCF50(p),(Cb)func_021DCF58,func_021DCF7C,p);
         }
         break;
     case 1:
-        if(d_021E1C20[((struct Obj00170 *)p)->f118]) ((struct Obj00170 *)p)->f0=d_021E1C20[*(u32 *)(p+280)](p,((struct Obj00170 *)p)->f0);
-        if(((struct Obj23708 *)(*(u8 * *)&((struct Obj00170 *)p)->f10))->f24==0) func_021DE248(((struct Obj00170 *)p)->fD0,0,1152,p);
+        if(d_021E1C20[*(unsigned int *)&((struct Guru2MainCtx *)p)->f118]) *(unsigned int *)&((struct Guru2MainCtx *)p)->f0=d_021E1C20[*(u32 *)&((struct Guru2MainCtx *)p)->f118](p,*(unsigned int *)&((struct Guru2MainCtx *)p)->f0);
+        if(((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->f10)->f24==0) func_021DE248(((struct Guru2MainCtx *)p)->fD0,0,1152,p);
         func_021DE5D0(p);
         if(func_02039338()==0) {
             v=func_021DE738(p,1);
-            if(((struct Obj00170 *)p)->f0==1) ((struct Obj00170 *)p)->f0=v;
+            if(*(unsigned int *)&((struct Guru2MainCtx *)p)->f0==1) *(unsigned int *)&((struct Guru2MainCtx *)p)->f0=v;
         }
         break;
     case 2:
-        if(d_021E1C20[((struct Obj00170 *)p)->f118]) ((struct Obj00170 *)p)->f0=d_021E1C20[*(u32 *)(p+280)](p,((struct Obj00170 *)p)->f0);
+        if(d_021E1C20[*(unsigned int *)&((struct Guru2MainCtx *)p)->f118]) *(unsigned int *)&((struct Guru2MainCtx *)p)->f0=d_021E1C20[*(u32 *)&((struct Guru2MainCtx *)p)->f118](p,*(unsigned int *)&((struct Guru2MainCtx *)p)->f0);
         break;
     case 3:
         if(func_020221A4()) {
-            if(((struct Obj00170 *)p)->f8) return 1;
+            if(*(unsigned int *)&((struct Guru2MainCtx *)p)->f8) return 1;
             func_0203A5E4(10240);
             func_02184174(func_021DCF50(p));
-            ((struct Obj00170 *)p)->f0=4;
+            *(unsigned int *)&((struct Guru2MainCtx *)p)->f0=4;
         }
         break;
     case 4:
@@ -1075,15 +1050,15 @@ int func_021DCF80(int a,int b,int c,u8 *p)
  */
 int func_021DD0B8(void *a,int b,void *c,u8 *p)
 {
-    func_0203115C((struct Tcbl *)(((struct Obj02207 *)p)->fF4)); func_02031140((struct S02031140 *)(((struct Obj02207 *)p)->fF4));
-    func_0201C6EC((struct PrintSys *)(((struct Obj02207 *)p)->fEC)); func_0201C4C0((struct PrintSys *)(((struct Obj02207 *)p)->fEC));
+    func_0203115C((struct Tcbl *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4)); func_02031140((struct S02031140 *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4));
+    func_0201C6EC((struct PrintSys *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fEC)); func_0201C4C0((struct PrintSys *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fEC));
     func_021DD570(p); func_021DD3B0(func_021DD760(p));
-    func_02045C04((struct Rec *)(((struct Obj02207 *)p)->f40)); func_0201ED04((struct WordSet *)(((struct Obj02207 *)p)->f3C)); func_0201D83C((void *)(((struct Obj02207 *)p)->f38));
+    func_02045C04((struct Rec *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f40)); func_0201ED04((struct WordSet *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f3C)); func_0201D83C((void *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f38));
     *(volatile u16 *)0x04000304 |= 0x8000;
-    func_02030EAC((struct Node *)(((struct Obj02207 *)p)->f30));
-    ((struct Obj23709 *)(*(u8 * *)&((struct Obj02207 *)p)->fC))->f10=((struct Obj02207 *)p)->f8;
-    ((struct Obj23710 *)(*(u8 * *)&((struct Obj02207 *)p)->fC))->f8=func_021DE354(p);
-    ((struct Obj23711 *)(*(u8 * *)&((struct Obj02207 *)p)->fC))->fC=func_021DE37C(p);
+    func_02030EAC((struct Node *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f30));
+    *(unsigned int *)&((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->fC)->f10=*(unsigned int *)&((struct Guru2MainCtx *)p)->f8;
+    *(unsigned int *)&((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->fC)->f8=func_021DE354(p);
+    *(unsigned int *)&((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->fC)->fC=func_021DE37C(p);
     func_021DD380(p); func_020315D4(a); func_020306F0(114);
     return 1;
 }
@@ -1135,9 +1110,9 @@ void func_021DD1A4(void *a0, void *work)
 
 void func_021DD1B4(u8 *p)
 {
-    if (((struct Obj10615 *)p)->fEC)
-        func_0201C4E4(((struct Obj10615 *)p)->fEC);
-    func_020310C4(((struct Obj10615 *)p)->fF4);
+    if (((struct Guru2MainCtx *)p)->fEC)
+        func_0201C4E4(((struct Guru2MainCtx *)p)->fEC);
+    func_020310C4(((struct Guru2MainCtx *)p)->fF4);
 }
 
 

@@ -1,0 +1,84 @@
+#ifndef OV120_TYPES_H
+#define OV120_TYPES_H
+
+struct GtsnegoMsgCtx;
+
+struct GtsnegoMsgCtx {
+    unsigned int f0;
+    unsigned int f4;
+    void *f8;
+    void *fC;
+    void *f10;
+    void *f14;
+    void *f18;
+    void *f1C;
+    void *f20;
+    void *f24;
+    unsigned int f28;
+    void *f2C;
+    void *f30;
+    void *f34;
+    void *f38;
+    unsigned char pad_3C[2];
+    unsigned short f3E;
+    unsigned char pad_40[40];
+    void *f68;
+    void *f6C;
+    void *f70;
+    unsigned int f74;
+    void *f78;
+    unsigned char pad_7C[4];
+    void *f80;
+    void *f84;
+    void *f88;
+    void *f8C;
+    void *f90;
+    void *f94;
+    void *f98;
+    void *f9C;
+    void *fA0;
+    void *fA4;
+    void *fA8;
+    unsigned short fAC;
+    unsigned char pad_AE[2];
+    int fB0;
+    void *fB4;
+    unsigned short fB8;
+    unsigned char pad_BA[2];
+    void *fBC;
+    void *fC0;
+    void *fC4;
+    unsigned short fC8;
+    unsigned char pad_CA[2];
+    void *fCC;
+    unsigned char pad_D0[36];
+    unsigned short fF4;
+    unsigned char pad_F6[2];
+    void *fF8;
+    void *fFC;
+    int f100;
+    int f104;
+    int f108;
+    unsigned int f10C;
+    unsigned int f110;
+    unsigned int f114;
+    void *f118;
+    void *f11C;
+    void *f120;
+    void *f124;
+    void *f128;
+    void *f12C;
+    void *f130;
+    void *f134;
+    void *f138;
+    unsigned char pad_13C[4];
+    void *f140;
+    unsigned char pad_144[8];
+    void *f14C;
+    unsigned char pad_150[16];
+    void *f160;
+    unsigned char pad_164[72];
+    int f1AC;
+};
+
+#endif

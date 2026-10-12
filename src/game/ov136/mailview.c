@@ -124,23 +124,7 @@
  *   func_020306F0 0x020306F0 arm
  *   d_021C78E0 0x021C78E0 data a1
  */
-#include "../../matched/include/Obj14184.h"
-#include "../../matched/include/Obj01065.h"
-#include "../../matched/include/Obj00274.h"
-#include "../../matched/include/Obj02206.h"
-#include "../../matched/include/Obj01413.h"
-#include "../../matched/include/Obj00275.h"
-#include "../../matched/include/Obj06524.h"
-#include "../../matched/include/Obj00160.h"
-#include "../../matched/include/Obj02865.h"
-#include "../../matched/include/Obj01751.h"
-#include "../../matched/include/Obj00540.h"
-#include "../../matched/include/Obj05421.h"
-#include "../../matched/include/Obj14187.h"
-#include "../../matched/include/Obj23499.h"
-#include "../../matched/include/Obj06526.h"
-#include "../../matched/include/Obj23500.h"
-#include "../../matched/include/Obj06527.h"
+#include "ov136_types.h"
 
 struct T;
 struct Chan02021FD8;
@@ -345,7 +329,7 @@ void func_021C5470(u8 *p);
 int func_021C5480(void *a, int unused, void **arg);
 int func_021C54C8(void *a, void *b, void *c, void *p);
 int func_021C54DC(void *a, void *b, void *c, u32 *p);
-void func_021C54FC(void);
+void func_021C54FC(void *unused);
 void func_021C5508(void);
 extern const u8 d_021C77A0[][3];
 extern u8 d_021C7784[];
@@ -367,11 +351,11 @@ int func_021C446C(void *a)
     int c1 = 0;
     int i;
     for (i = 0; i < 3; i++) {
-        if (d_021C77A0[((u8 *)((struct Obj14184 *)a)->f1C)[0xb]][i] != 0xFF) n++;
+        if (d_021C77A0[((u8 *)((struct MailViewCtx *)a)->f1C)[0xb]][i] != 0xFF) n++;
     }
     if (n == 3) t = 0;
     for (i = 0; i < 3; i++) {
-        u8 *x = *(u8 * *)&((struct Obj14184 *)a)->f1C;
+        u8 *x = *(u8 * *)&((struct MailViewCtx *)a)->f1C;
         if (d_021C77A0[x[0xb]][i] != 0xFF) {
             if (func_02024464((struct T *)(x + 0x16 + i * 8), 0x64)) c1++;
         } else {
@@ -386,7 +370,7 @@ int func_021C446C(void *a)
 
 void func_021C44FC(u8 *p)
 {
-    func_02021FD8((struct Chan02021FD8 *)(*(u32 *)&((struct Obj01065 *)p)->f38), 0, (u16)(p[0x1b] + 0x21), 1, 0, 0x7FFF);
+    func_02021FD8((struct Chan02021FD8 *)(*(u32 *)&((struct MailViewCtx *)p)->f38), 0, (u16)(p[0x1b] + 0x21), 1, 0, 0x7FFF);
     p[0x19] = 0;
     p[0x18] = 0;
 }
@@ -460,11 +444,11 @@ int func_021C45C0(u8 *p)
                 p[0xB] = 2;
                 return 0;
             }
-            **(u16 * *)&((struct Obj00274 *)p)->f1C = 4;
+            **(u16 * *)&((struct MailViewCtx *)p)->f1C = 4;
             func_020061E4(0x54E);
-            (*(u8 **)(p + 0x1C))[2] = 0;
-            (*(u8 **)(p + 0x1C))[3] = 0;
-            func_0202822C(((struct Obj00274 *)p)->f128, 1);
+            (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[2] = 0;
+            (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[3] = 0;
+            func_0202822C(((struct MailViewCtx *)p)->f128, 1);
             return 1;
         }
         if (p[0x16] == 5) {
@@ -472,9 +456,9 @@ int func_021C45C0(u8 *p)
             p[0xB] = 3;
             return 0;
         }
-        (*(u8 **)(p + 0x1C))[2] = p[0x16];
-        **(u16 * *)&((struct Obj00274 *)p)->f1C = (*(u8 **)(p + 0x1C))[2];
-        (*(u8 **)(p + 0x1C))[3] = p[0x17];
+        (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[2] = p[0x16];
+        **(u16 * *)&((struct MailViewCtx *)p)->f1C = (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[2];
+        (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[3] = p[0x17];
         func_020061E4(0x54D);
         return 1;
     }
@@ -501,14 +485,14 @@ int func_021C45C0(u8 *p)
     }
     func_020061E4(0x54C);
     if (p[0x16] < 4) {
-        func_02028218(((struct Obj00274 *)p)->f128, 0);
-        func_02028218(((struct Obj00274 *)p)->f12C, 0);
+        func_02028218(((struct MailViewCtx *)p)->f128, 0);
+        func_02028218(((struct MailViewCtx *)p)->f12C, 0);
     } else if (p[0x16] == 4) {
-        func_02028218(((struct Obj00274 *)p)->f128, 1);
-        func_02028218(((struct Obj00274 *)p)->f12C, 0);
+        func_02028218(((struct MailViewCtx *)p)->f128, 1);
+        func_02028218(((struct MailViewCtx *)p)->f12C, 0);
     } else if (p[0x16] == 5) {
-        func_02028218(((struct Obj00274 *)p)->f128, 0);
-        func_02028218(((struct Obj00274 *)p)->f12C, 1);
+        func_02028218(((struct MailViewCtx *)p)->f128, 0);
+        func_02028218(((struct MailViewCtx *)p)->f12C, 1);
     }
     p[0x1A] = p[0x16];
     return 0;
@@ -527,9 +511,9 @@ int func_021C4700(u8 *p)
         return 0;
     }
     if (n < 4) {
-        (*(u8 **)(p + 0x1C))[2] = n;
-        *(u16 *)*(u8 * *)&((struct Obj00274 *)p)->f1C = (*(u8 **)(p + 0x1C))[2];
-        (*(u8 **)(p + 0x1C))[3] = p[0x17];
+        (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[2] = n;
+        *(u16 *)*(u8 * *)&((struct MailViewCtx *)p)->f1C = (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[2];
+        (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[3] = p[0x17];
         func_020061E4(0x54D);
         return 1;
     }
@@ -538,12 +522,12 @@ int func_021C4700(u8 *p)
         p[0xB] = 2;
         return 0;
     }
-    *(u16 *)*(u8 * *)&((struct Obj00274 *)p)->f1C = 4;
+    *(u16 *)*(u8 * *)&((struct MailViewCtx *)p)->f1C = 4;
     func_020061E4(0x54E);
-    (*(u8 **)(p + 0x1C))[2] = 0;
-    (*(u8 **)(p + 0x1C))[3] = 0;
-    func_0202822C(((struct Obj00274 *)p)->f128, 1);
-    func_02028218(((struct Obj00274 *)p)->f12C, 0);
+    (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[2] = 0;
+    (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[3] = 0;
+    func_0202822C(((struct MailViewCtx *)p)->f128, 1);
+    func_02028218(((struct MailViewCtx *)p)->f12C, 0);
     return 1;
 }
 
@@ -561,11 +545,11 @@ int func_021C479C(u8 *p)
 void func_021C47C4(u8 *p, int n)
 {
     void *q;
-    func_0201F73C(((struct Obj02206 *)p)->f5C, 2, 13, 4);
-    func_02043B5C(func_02045770(((struct Obj02206 *)p)->f5C), 255);
-    func_02045CAC(((struct Obj02206 *)p)->f20, n, ((struct Obj02206 *)p)->f34);
-    ((struct Obj02206 *)p)->f9C = func_0201CCE4(*(u32 *)&((struct Obj02206 *)p)->f5C, 0, 0, *(u32 *)&((struct Obj02206 *)p)->f34, ((struct Obj02206 *)p)->f24, ((struct Obj02206 *)p)->f15, ((struct Obj02206 *)p)->f100, 4, (u16)((struct Obj02206 *)p)->f0, 15);
-    q = ((struct Obj02206 *)p)->f5C;
+    func_0201F73C(((struct MailViewCtx *)p)->f5C, 2, 13, 4);
+    func_02043B5C(func_02045770(((struct MailViewCtx *)p)->f5C), 255);
+    func_02045CAC(((struct MailViewCtx *)p)->f20, n, ((struct MailViewCtx *)p)->f34);
+    *(unsigned int *)&((struct MailViewCtx *)p)->f9C = func_0201CCE4(*(u32 *)&((struct MailViewCtx *)p)->f5C, 0, 0, *(u32 *)&((struct MailViewCtx *)p)->f34, *(unsigned int *)&((struct MailViewCtx *)p)->f24, ((struct MailViewCtx *)p)->f15, *(unsigned int *)&((struct MailViewCtx *)p)->f100, 4, (u16)((struct MailViewCtx *)p)->f0, 15);
+    q = ((struct MailViewCtx *)p)->f5C;
     func_02045334(q);
     func_02045374(q);
     func_020409B4(func_02045730(q));
@@ -576,35 +560,35 @@ void func_021C47C4(u8 *p, int n)
 int func_021C483C(u8 *p)
 {
     void *q;
-    switch (((struct Obj01413 *)p)->f8) {
+    switch (((struct MailViewCtx *)p)->f8) {
     case 0:
-        func_0202822C(((struct Obj01413 *)p)->f128, 1);
-        func_02028218(((struct Obj01413 *)p)->f12C, 0);
-        ((struct Obj01413 *)p)->f8 = 1;
+        func_0202822C(((struct MailViewCtx *)p)->f128, 1);
+        func_02028218(((struct MailViewCtx *)p)->f12C, 0);
+        ((struct MailViewCtx *)p)->f8 = 1;
         break;
     case 1:
-        if (func_02028230(((struct Obj01413 *)p)->f128) != 0) {
-            func_020282A4(((struct Obj01413 *)p)->f128);
-            func_02028218(((struct Obj01413 *)p)->f128, 1);
+        if (func_02028230(((struct MailViewCtx *)p)->f128) != 0) {
+            func_020282A4(((struct MailViewCtx *)p)->f128);
+            func_02028218(((struct MailViewCtx *)p)->f128, 1);
             func_021C47C4(p, 2);
-            ((struct Obj01413 *)p)->f8 = 2;
+            ((struct MailViewCtx *)p)->f8 = 2;
         }
         break;
     case 2:
-        if (func_0201CE30(((struct Obj01413 *)p)->f9C) == 2) {
+        if (func_0201CE30(((struct MailViewCtx *)p)->f9C) == 2) {
             if ((func_020362DC() & 1) || func_02035C60()) {
-                func_0201CE48(((struct Obj01413 *)p)->f9C);
-                ((struct Obj01413 *)p)->f8 = 3;
+                func_0201CE48(((struct MailViewCtx *)p)->f9C);
+                ((struct MailViewCtx *)p)->f8 = 3;
             }
         }
         break;
     case 3:
-        func_0201F7A8(((struct Obj01413 *)p)->f5C, 2);
-        q = ((struct Obj01413 *)p)->f5C;
+        func_0201F7A8(((struct MailViewCtx *)p)->f5C, 2);
+        q = ((struct MailViewCtx *)p)->f5C;
         func_020456F8(q);
         func_020409B4(func_02045730(q));
         func_021C44FC(p);
-        ((struct Obj01413 *)p)->f8 = 0;
+        ((struct MailViewCtx *)p)->f8 = 0;
         p[0xB] = p[0xC];
         break;
     }
@@ -616,13 +600,13 @@ int func_021C483C(u8 *p)
 void func_021C48FC(u8 *p)
 {
     Template t;
-    ((struct Obj00275 *)p)->f110 = (u32)func_02045EC0(((struct Obj00275 *)p)->f20, 4);
-    ((struct Obj00275 *)p)->f114 = 0x39E3;
-    ((struct Obj00275 *)p)->f118 = 0;
-    ((struct Obj00275 *)p)->f11C = (u32)func_02045EC0(((struct Obj00275 *)p)->f20, 5);
-    ((struct Obj00275 *)p)->f120 = 0x39E3;
-    ((struct Obj00275 *)p)->f124 = 0;
-    t.heap = ((struct Obj00275 *)p)->f0;
+    *(unsigned int *)&((struct MailViewCtx *)p)->f110 = (u32)func_02045EC0(((struct MailViewCtx *)p)->f20, 4);
+    ((struct MailViewCtx *)p)->f114 = 0x39E3;
+    ((struct MailViewCtx *)p)->f118 = 0;
+    *(unsigned int *)&((struct MailViewCtx *)p)->f11C = (u32)func_02045EC0(((struct MailViewCtx *)p)->f20, 5);
+    ((struct MailViewCtx *)p)->f120 = 0x39E3;
+    ((struct MailViewCtx *)p)->f124 = 0;
+    t.heap = ((struct MailViewCtx *)p)->f0;
     t.count = 2;
     t.items = p + 0x110;
     t.zero = 0;
@@ -630,10 +614,10 @@ void func_021C48FC(u8 *p)
     t.y = 6;
     t.w = 8;
     t.h = 3;
-    ((struct Obj00275 *)p)->f10C = func_02027778((struct TaskMenuTmpl *)(&t), ((struct Obj00275 *)p)->f108);
-    func_02021FD8(((struct Obj00275 *)p)->f38, 0, 0, 48, 10, 0);
-    func_0202843C(((struct Obj00275 *)p)->f128);
-    func_0202843C(((struct Obj00275 *)p)->f12C);
+    ((struct MailViewCtx *)p)->f10C = func_02027778((struct TaskMenuTmpl *)(&t), ((struct MailViewCtx *)p)->f108);
+    func_02021FD8(((struct MailViewCtx *)p)->f38, 0, 0, 48, 10, 0);
+    func_0202843C(((struct MailViewCtx *)p)->f128);
+    func_0202843C(((struct MailViewCtx *)p)->f12C);
 }
 
 
@@ -641,11 +625,11 @@ void func_021C48FC(u8 *p)
 int func_021C4998(u8 *p)
 {
     int r = -1;
-    if (func_020279E8(((struct Obj06524 *)p)->f10C)) {
-        r = func_02027A04(((struct Obj06524 *)p)->f10C);
-        func_02027858(((struct Obj06524 *)p)->f10C);
-        func_02045808(((struct Obj06524 *)p)->f110);
-        func_02045808(((struct Obj06524 *)p)->f11C);
+    if (func_020279E8(((struct MailViewCtx *)p)->f10C)) {
+        r = func_02027A04(((struct MailViewCtx *)p)->f10C);
+        func_02027858(((struct MailViewCtx *)p)->f10C);
+        func_02045808(((struct MailViewCtx *)p)->f110);
+        func_02045808(((struct MailViewCtx *)p)->f11C);
     }
     return r;
 }
@@ -658,16 +642,16 @@ int func_021C49D0(u8 *p)
     int r;
     void *w;
 
-    switch (((struct Obj00275 *)p)->f8) {
+    switch (((struct MailViewCtx *)p)->f8) {
     case 0:
-        func_02028218(((struct Obj00275 *)p)->f128, 0);
-        func_0202822C(((struct Obj00275 *)p)->f12C, 1);
+        func_02028218(((struct MailViewCtx *)p)->f128, 0);
+        func_0202822C(((struct MailViewCtx *)p)->f12C, 1);
         break;
     case 1:
-        if (func_02028230(((struct Obj00275 *)p)->f12C)) {
-            func_020282A4(((struct Obj00275 *)p)->f12C);
-            func_02028218(((struct Obj00275 *)p)->f12C, 1);
-            ((struct Obj00275 *)p)->f10 = 1;
+        if (func_02028230(((struct MailViewCtx *)p)->f12C)) {
+            func_020282A4(((struct MailViewCtx *)p)->f12C);
+            func_02028218(((struct MailViewCtx *)p)->f12C, 1);
+            *(int *)&((struct MailViewCtx *)p)->f10 = 1;
             func_021C47C4(p, 3);
             func_021C44FC(p);
             p[0x1B] = p[0x1A];
@@ -675,35 +659,35 @@ int func_021C49D0(u8 *p)
         }
         return 0;
     case 2:
-        if (func_0201CE30(((struct Obj00275 *)p)->f9C) == 2) {
-            func_0201CE48(((struct Obj00275 *)p)->f9C);
+        if (func_0201CE30(((struct MailViewCtx *)p)->f9C) == 2) {
+            func_0201CE48(((struct MailViewCtx *)p)->f9C);
             func_021C48FC(p);
-            ((struct Obj00275 *)p)->f8 = 3;
+            ((struct MailViewCtx *)p)->f8 = 3;
         }
         return 0;
     case 3:
-        func_02027974(((struct Obj00275 *)p)->f10C);
+        func_02027974(((struct MailViewCtx *)p)->f10C);
         r = func_021C4998(p);
         if (r < 0)
             return 0;
-        func_0201F7A8(((struct Obj00275 *)p)->f5C, 2);
-        w = ((struct Obj00275 *)p)->f5C;
+        func_0201F7A8(((struct MailViewCtx *)p)->f5C, 2);
+        w = ((struct MailViewCtx *)p)->f5C;
         func_020456F8(w);
         func_020409B4(func_02045730(w));
-        ((struct Obj00275 *)p)->f8 = 0;
+        ((struct MailViewCtx *)p)->f8 = 0;
         if (r == 0) {
-            **(u16 * *)&((struct Obj00275 *)p)->f1C = 0xFFFF;
+            **(u16 * *)&((struct MailViewCtx *)p)->f1C = 0xFFFF;
             p[0xB] = p[0xC];
             return 1;
         }
-        ((struct Obj00275 *)p)->f10 = 0;
+        *(int *)&((struct MailViewCtx *)p)->f10 = 0;
         p[0xB] = p[0xC];
-        func_02021FD8(((struct Obj00275 *)p)->f38, 0, 0, 0x30, 0, 0);
-        func_02028454(((struct Obj00275 *)p)->f128);
-        func_02028454(((struct Obj00275 *)p)->f12C);
+        func_02021FD8(((struct MailViewCtx *)p)->f38, 0, 0, 0x30, 0, 0);
+        func_02028454(((struct MailViewCtx *)p)->f128);
+        func_02028454(((struct MailViewCtx *)p)->f12C);
         return 0;
     }
-    (((struct Obj00275 *)p)->f8)++;
+    (((struct MailViewCtx *)p)->f8)++;
     return 0;
 }
 
@@ -746,12 +730,12 @@ void func_021C4B88(void *unused, u8 *p)
 {
     u8 old;
     u8 direction;
-    if (((struct Obj01065 *)p)->f10 != 0 || p[0xA] == 0) return;
+    if (*(unsigned int *)&((struct MailViewCtx *)p)->f10 != 0 || p[0xA] == 0) return;
     if (p[0x1B] != p[0x1A]) {
         func_021C44FC(p);
         p[0x1B] = p[0x1A];
     }
-    func_02021FD8(((struct Obj01065 *)p)->f38, 0, (u16)(p[0x1A] + 33), 1, p[0x18] >> 1, 0x7FFF);
+    func_02021FD8(((struct MailViewCtx *)p)->f38, 0, (u16)(p[0x1A] + 33), 1, p[0x18] >> 1, 0x7FFF);
     direction = p[0x19];
     old = p[0x18];
     if (direction != 0) {
@@ -770,10 +754,10 @@ void func_021C4B88(void *unused, u8 *p)
  */
 int func_021C4BFC(u8 *p)
 {
-    switch (((struct Obj00160 *)p)->f8) {
+    switch (((struct MailViewCtx *)p)->f8) {
     case 0:
-        ((struct Obj00160 *)p)->f20 = func_02045B38(0, 2, 60, (u16)((struct Obj00160 *)p)->f0);
-        ((struct Obj00160 *)p)->f34 = func_020457B0(128, (u16)((struct Obj00160 *)p)->f0);
+        ((struct MailViewCtx *)p)->f20 = func_02045B38(0, 2, 60, (u16)((struct MailViewCtx *)p)->f0);
+        ((struct MailViewCtx *)p)->f34 = func_020457B0(128, (u16)((struct MailViewCtx *)p)->f0);
         func_021C4DE4((u32 *)p);
         break;
     case 1:
@@ -784,15 +768,15 @@ int func_021C4BFC(u8 *p)
         break;
     case 3:
         func_021C5420(p);
-        ((struct Obj00160 *)p)->f108 = func_02027F60(0, 8, (u32)(((struct Obj00160 *)p)->f24), (u32)(((struct Obj00160 *)p)->f98), (u16)((struct Obj00160 *)p)->f0);
-        ((struct Obj00160 *)p)->f8 = 0;
+        ((struct MailViewCtx *)p)->f108 = func_02027F60(0, 8, (u32)(((struct MailViewCtx *)p)->f24), (u32)(((struct MailViewCtx *)p)->f98), (u16)((struct MailViewCtx *)p)->f0);
+        ((struct MailViewCtx *)p)->f8 = 0;
         func_021C4D54(p);
         func_021C5360(p);
         func_021C5268(p);
         func_021C4C9C(p);
         return 1;
     }
-    (((struct Obj00160 *)p)->f8)++;
+    (((struct MailViewCtx *)p)->f8)++;
     return 0;
 }
 
@@ -801,15 +785,15 @@ int func_021C4BFC(u8 *p)
 void func_021C4C9C(u8 *p)
 {
     void *q;
-    func_02021FD8(((struct Obj02865 *)p)->f38, 0, 0, 112, 16, 0);
-    func_02021EE4(((struct Obj02865 *)p)->f38, 1);
-    func_02021D50(((struct Obj02865 *)p)->f38);
+    func_02021FD8(((struct MailViewCtx *)p)->f38, 0, 0, 112, 16, 0);
+    func_02021EE4(((struct MailViewCtx *)p)->f38, 1);
+    func_02021D50(((struct MailViewCtx *)p)->f38);
     p[0x18] = 0;
     p[0x19] = 0;
-    q = func_02030734((u16)((struct Obj02865 *)p)->f0, func_02030CB0(3), 0, d_021C7EF8, 0x4F3);
-    ((struct Obj02865 *)p)->fF4 = q;
-    ((struct Obj02865 *)p)->fF8 = func_02030CBC(3, q);
-    ((struct Obj02865 *)p)->fFC = func_02030DA8(((struct Obj02865 *)p)->fF8, func_021C4B88, p, 0);
+    q = func_02030734((u16)((struct MailViewCtx *)p)->f0, func_02030CB0(3), 0, d_021C7EF8, 0x4F3);
+    ((struct MailViewCtx *)p)->fF4 = q;
+    ((struct MailViewCtx *)p)->fF8 = func_02030CBC(3, q);
+    ((struct MailViewCtx *)p)->fFC = func_02030DA8(((struct MailViewCtx *)p)->fF8, func_021C4B88, p, 0);
 }
 
 
@@ -818,9 +802,9 @@ int func_021C4D14(u8 *p)
 {
     func_021C4DA8(p);
     func_021C5470(p);
-    if (p + 0x28) func_02045C04(((struct Obj01751 *)p)->f20);
-    func_02045808(((struct Obj01751 *)p)->f34);
-    func_02027FD8(((struct Obj01751 *)p)->f108);
+    if (p + 0x28) func_02045C04(((struct MailViewCtx *)p)->f20);
+    func_02045808(((struct MailViewCtx *)p)->f34);
+    func_02027FD8(((struct MailViewCtx *)p)->f108);
     func_021C52F8(p);
     func_021C5114(p);
     func_021C4EC4(p);
@@ -831,20 +815,20 @@ int func_021C4D14(u8 *p)
 
 void func_021C4D54(u8 *p)
 {
-    ((struct Obj00160 *)p)->f158 = (void *)func_0201C440((void *)((u16)((struct Obj00160 *)p)->f0));
-    ((struct Obj00160 *)p)->f154 = func_0204B100(8, 1, (u16)((struct Obj00160 *)p)->f0);
-    ((struct Obj00160 *)p)->f148 = func_0202DB0C(*(u32 *)&((struct Obj00160 *)p)->f154, 0, *(u32 *)&((struct Obj00160 *)p)->f158, *(u32 *)&((struct Obj00160 *)p)->f24, 0, 4, (u16)((struct Obj00160 *)p)->f0);
-    func_0202DE5C(((struct Obj00160 *)p)->f148, 0);
+    ((struct MailViewCtx *)p)->f158 = (void *)func_0201C440((void *)((u16)((struct MailViewCtx *)p)->f0));
+    ((struct MailViewCtx *)p)->f154 = func_0204B100(8, 1, (u16)((struct MailViewCtx *)p)->f0);
+    ((struct MailViewCtx *)p)->f148 = func_0202DB0C(*(u32 *)&((struct MailViewCtx *)p)->f154, 0, *(u32 *)&((struct MailViewCtx *)p)->f158, *(u32 *)&((struct MailViewCtx *)p)->f24, 0, 4, (u16)((struct MailViewCtx *)p)->f0);
+    func_0202DE5C(((struct MailViewCtx *)p)->f148, 0);
 }
 
 
 
 void func_021C4DA8(u8 *p)
 {
-    func_0202DC08(((struct Obj01751 *)p)->f148);
-    func_0201C4C0(((struct Obj01751 *)p)->f158);
-    ((struct Obj01751 *)p)->f158 = 0;
-    func_0204B1CC(((struct Obj01751 *)p)->f154);
+    func_0202DC08(((struct MailViewCtx *)p)->f148);
+    func_0201C4C0(((struct MailViewCtx *)p)->f158);
+    ((struct MailViewCtx *)p)->f158 = 0;
+    func_0204B1CC(((struct MailViewCtx *)p)->f154);
 }
 
 
@@ -906,30 +890,30 @@ void func_021C4EC4(void *p)
  */
 void func_021C4EEC(u8 *p)
 {
-    u32 k = (*(u8 **)(p + 0x1C))[0xB];
-    void *h = func_020490F4(0x9B, (u16)((struct Obj00540 *)p)->f0);
+    u32 k = (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[0xB];
+    void *h = func_020490F4(0x9B, (u16)((struct MailViewCtx *)p)->f0);
     u32 sz;
     u32 pal;
     u32 chr;
 
-    func_0201F5BC(0, 1, 4, 0, (u16)((struct Obj00540 *)p)->f0);
-    func_0201F5BC(0, 0xD, 6, 0, (u16)((struct Obj00540 *)p)->f0);
+    func_0201F5BC(0, 1, 4, 0, (u16)((struct MailViewCtx *)p)->f0);
+    func_0201F5BC(0, 0xD, 6, 0, (u16)((struct MailViewCtx *)p)->f0);
     pal = k + 0xC;
-    func_02049658(h, pal, 3, 0, 0, 1, (u16)((struct Obj00540 *)p)->f0);
-    func_02049658(h, pal, 4, 0, 0, 1, (u16)((struct Obj00540 *)p)->f0);
+    func_02049658(h, pal, 3, 0, 0, 1, (u16)((struct MailViewCtx *)p)->f0);
+    func_02049658(h, pal, 4, 0, 0, 1, (u16)((struct MailViewCtx *)p)->f0);
     chr = k + 0x18;
     sz = 0x800;
-    func_020498F4(h, chr, 3, 0, sz, 1, (u16)((struct Obj00540 *)p)->f0);
-    func_020498F4(h, chr, 4, 0, sz, 1, (u16)((struct Obj00540 *)p)->f0);
-    func_02049B68(h, k, 4, 0, 0, (u16)((struct Obj00540 *)p)->f0);
-    func_02049B40(0x17, 5, 0, 0xA0, 0x20, (u16)((struct Obj00540 *)p)->f0);
-    ((struct Obj00540 *)p)->f38 = (u32)func_02021518(((struct Obj00540 *)p)->f0);
-    func_0202155C((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 0, 0xE0, (u16)((struct Obj00540 *)p)->f0);
-    func_020216B4((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), h, k, (u16)((struct Obj00540 *)p)->f0, 0, 0x60, 0);
-    func_02021640((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 0x17, 7, (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x30);
-    func_02021640((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 0x17, 5, (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x50);
-    func_02021640((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 5, func_0201F548(0), (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x40);
-    func_02021640((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 5, func_0201F548(1), (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x60);
+    func_020498F4(h, chr, 3, 0, sz, 1, (u16)((struct MailViewCtx *)p)->f0);
+    func_020498F4(h, chr, 4, 0, sz, 1, (u16)((struct MailViewCtx *)p)->f0);
+    func_02049B68(h, k, 4, 0, 0, (u16)((struct MailViewCtx *)p)->f0);
+    func_02049B40(0x17, 5, 0, 0xA0, 0x20, (u16)((struct MailViewCtx *)p)->f0);
+    *(unsigned int *)&((struct MailViewCtx *)p)->f38 = (u32)func_02021518(((struct MailViewCtx *)p)->f0);
+    func_0202155C((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), 0, 0xE0, (u16)((struct MailViewCtx *)p)->f0);
+    func_020216B4((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), h, k, (u16)((struct MailViewCtx *)p)->f0, 0, 0x60, 0);
+    func_02021640((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), 0x17, 7, (u16)((struct MailViewCtx *)p)->f0, 0, 0x20, 0x30);
+    func_02021640((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), 0x17, 5, (u16)((struct MailViewCtx *)p)->f0, 0, 0x20, 0x50);
+    func_02021640((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), 5, func_0201F548(0), (u16)((struct MailViewCtx *)p)->f0, 0, 0x20, 0x40);
+    func_02021640((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), 5, func_0201F548(1), (u16)((struct MailViewCtx *)p)->f0, 0, 0x20, 0x60);
     func_0201DD68();
     func_02049238(h);
     func_02041300(4, 0x2001, 0, 0, 0x20, 0x20, 0x11);
@@ -938,11 +922,11 @@ void func_021C4EEC(u8 *p)
     func_020434DC(2, 1);
     func_020434DC(8, 1);
     if (p[0xB] != 0) {
-        h = func_020490F4(0x9B, (u16)((struct Obj00540 *)p)->f0);
-        func_020498F4(h, 0x24, 2, 0, sz, 1, (u16)((struct Obj00540 *)p)->f0);
+        h = func_020490F4(0x9B, (u16)((struct MailViewCtx *)p)->f0);
+        func_020498F4(h, 0x24, 2, 0, sz, 1, (u16)((struct MailViewCtx *)p)->f0);
         func_02049238(h);
-        ((struct Obj00540 *)p)->f3C = (void *)func_021C4534;
-        ((struct Obj00540 *)p)->f40 = (void *)func_021C4528;
+        ((struct MailViewCtx *)p)->f3C = (void *)func_021C4534;
+        ((struct MailViewCtx *)p)->f40 = (void *)func_021C4528;
         func_020434DC(4, 1);
     }
 }
@@ -951,12 +935,12 @@ void func_021C4EEC(u8 *p)
 
 void func_021C5114(u8 *p)
 {
-    func_020215A0(((struct Obj05421 *)p)->f38, 0);
-    func_02021540(((struct Obj05421 *)p)->f38);
-    ((struct Obj05421 *)p)->f38 = 0;
-    func_02030EAC(((struct Obj05421 *)p)->fFC);
-    func_02030DA4(((struct Obj05421 *)p)->fF8);
-    func_020307B0(((struct Obj05421 *)p)->fF4);
+    func_020215A0(((struct MailViewCtx *)p)->f38, 0);
+    func_02021540(((struct MailViewCtx *)p)->f38);
+    ((struct MailViewCtx *)p)->f38 = 0;
+    func_02030EAC(((struct MailViewCtx *)p)->fFC);
+    func_02030DA4(((struct MailViewCtx *)p)->fF8);
+    func_020307B0(((struct MailViewCtx *)p)->fF4);
     func_0207D63C((void *)0x04000050, 0, 0, 31, 0);
 }
 
@@ -996,14 +980,14 @@ void func_021C515C(Obj *p)
 void func_021C5268(u8 *p)
 {
     if (p[0xB] == 1) {
-        ((struct Obj00160 *)p)->f130 = (u32)func_02045EC0(((struct Obj00160 *)p)->f20, 0);
-        ((struct Obj00160 *)p)->f134 = 0x39E3;
-        ((struct Obj00160 *)p)->f138 = 0;
-        ((struct Obj00160 *)p)->f13C = (u32)func_02045EC0(((struct Obj00160 *)p)->f20, 1);
-        ((struct Obj00160 *)p)->f140 = 0x39E3;
-        ((struct Obj00160 *)p)->f144 = 1;
-        ((struct Obj00160 *)p)->f128 = func_02027FEC(*(u32 *)&((struct Obj00160 *)p)->f108, (u32)(p + 0x130), 21, 18, 10, (u16)((struct Obj00160 *)p)->f0);
-        ((struct Obj00160 *)p)->f12C = func_02027FEC(*(u32 *)&((struct Obj00160 *)p)->f108, (u32)(p + 0x13C), 21, 21, 10, (u16)((struct Obj00160 *)p)->f0);
+        *(unsigned int *)&((struct MailViewCtx *)p)->f130 = (u32)func_02045EC0(((struct MailViewCtx *)p)->f20, 0);
+        ((struct MailViewCtx *)p)->f134 = 0x39E3;
+        ((struct MailViewCtx *)p)->f138 = 0;
+        *(unsigned int *)&((struct MailViewCtx *)p)->f13C = (u32)func_02045EC0(((struct MailViewCtx *)p)->f20, 1);
+        ((struct MailViewCtx *)p)->f140 = 0x39E3;
+        ((struct MailViewCtx *)p)->f144 = 1;
+        *(unsigned int *)&((struct MailViewCtx *)p)->f128 = func_02027FEC(*(u32 *)&((struct MailViewCtx *)p)->f108, (u32)(p + 0x130), 21, 18, 10, (u16)((struct MailViewCtx *)p)->f0);
+        *(unsigned int *)&((struct MailViewCtx *)p)->f12C = func_02027FEC(*(u32 *)&((struct MailViewCtx *)p)->f108, (u32)(p + 0x13C), 21, 21, 10, (u16)((struct MailViewCtx *)p)->f0);
     }
 }
 
@@ -1017,13 +1001,13 @@ void func_021C52F8(u8 *p)
     int i;
     void *q;
     if (p[0xB] == 1) {
-        func_02028148(((struct Obj01751 *)p)->f128);
-        func_02028148(((struct Obj01751 *)p)->f12C);
-        func_02045808(((struct Obj01751 *)p)->f130);
-        func_02045808(((struct Obj01751 *)p)->f13C);
+        func_02028148(((struct MailViewCtx *)p)->f128);
+        func_02028148(((struct MailViewCtx *)p)->f12C);
+        func_02045808(((struct MailViewCtx *)p)->f130);
+        func_02045808(((struct MailViewCtx *)p)->f13C);
     }
-    func_0201C4C0(((struct Obj01751 *)p)->f98);
-    ((struct Obj01751 *)p)->f98 = 0;
+    func_0201C4C0(((struct MailViewCtx *)p)->f98);
+    ((struct MailViewCtx *)p)->f98 = 0;
     for (i = 0; i < 7; i++) {
         q = *(void **)(p + i * 4 + 0x44);
         func_020456F8(q);
@@ -1044,22 +1028,22 @@ void func_021C5360(u8 *p)
     u8 *q;
     u32 t;
     for (i = 0; i < 3; i++) {
-        if (func_02024450((u16 *)(*(u8 * *)&((struct Obj00160 *)p)->f1C + 0x16 + i * 8))) {
-            func_0202DC48(*(u32 *)&((struct Obj00160 *)p)->f148, *(u32 *)(p + i * 4 + 0x48), (u32)(*(u8 * *)&((struct Obj00160 *)p)->f1C + 0x16 + i * 8), (u8)i);
+        if (func_02024450((u16 *)(*(u8 * *)&((struct MailViewCtx *)p)->f1C + 0x16 + i * 8))) {
+            func_0202DC48(*(u32 *)&((struct MailViewCtx *)p)->f148, *(u32 *)(p + i * 4 + 0x48), (u32)(*(u8 * *)&((struct MailViewCtx *)p)->f1C + 0x16 + i * 8), (u8)i);
         }
     }
-    q = *(u8 * *)&((struct Obj00160 *)p)->f1C;
-    if (((struct Obj14187 *)q)->f32 != 0xFFFF) {
-        ((struct Obj00160 *)p)->f14C = 6;
-        ((struct Obj00160 *)p)->f14E = 0;
-        ((struct Obj00160 *)p)->f150 = ((struct Obj14187 *)q)->f32;
-        func_0202DC48(*(u32 *)&((struct Obj00160 *)p)->f148, ((struct Obj00160 *)p)->f54, (u32)(p + 0x14C), (u8)3);
+    q = *(u8 * *)&((struct MailViewCtx *)p)->f1C;
+    if (((struct MailViewCtx_f1C *)q)->f32 != 0xFFFF) {
+        ((struct MailViewCtx *)p)->f14C = 6;
+        ((struct MailViewCtx *)p)->f14E = 0;
+        ((struct MailViewCtx *)p)->f150 = ((struct MailViewCtx_f1C *)q)->f32;
+        func_0202DC48(*(u32 *)&((struct MailViewCtx *)p)->f148, ((struct MailViewCtx *)p)->f54, (u32)(p + 0x14C), (u8)3);
     }
     if (p[0xB] == 0) {
-        u32 a = *(u32 *)&((struct Obj00160 *)p)->f98;
-        func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)((struct Obj00160 *)p)->f88), 0, 2, (u32)(((struct Obj23499 *)(*(u8 * *)&((struct Obj00160 *)p)->f1C))->fC), *(u32 *)&((struct Obj00160 *)p)->f24, 0x440);
+        u32 a = *(u32 *)&((struct MailViewCtx *)p)->f98;
+        func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)((struct MailViewCtx *)p)->f88), 0, 2, (u32)(((struct MailViewCtx_f1C *)((struct MailViewCtx *)p)->f1C)->fC), *(u32 *)&((struct MailViewCtx *)p)->f24, 0x440);
         p[0x8C] = 1;
-        t = ((struct Obj00160 *)p)->f58;
+        t = ((struct MailViewCtx *)p)->f58;
         func_02045334((struct Descriptor *)t);
         func_02045374((struct Cfg *)t);
         func_020409B4(func_02045730((struct Descriptor *)t));
@@ -1069,18 +1053,18 @@ void func_021C5360(u8 *p)
 
 void func_021C5420(u8 *p)
 {
-    func_0204A48C((const struct Cfg *)d_020A1448,(unsigned int)d_021C77C4,(u16)(((struct Obj06526 *)p)->f0));
-    ((struct Obj06526 *)p)->fA0 = func_0204B100(4,(int)0,(u16)(((struct Obj06526 *)p)->f0));
-    func_0204B270(((struct Obj06526 *)p)->fA0);
+    func_0204A48C((const struct Cfg *)d_020A1448,(unsigned int)d_021C77C4,(u16)(*(int *)&((struct MailViewCtx *)p)->f0));
+    ((struct MailViewCtx *)p)->fA0 = func_0204B100(4,(int)0,(u16)(*(int *)&((struct MailViewCtx *)p)->f0));
+    func_0204B270(((struct MailViewCtx *)p)->fA0);
     func_020434DC(16,1);
     func_02043598(16,1);
-    func_0203D34C((int)0,(u16)(((struct Obj06526 *)p)->f0));
+    func_0203D34C((int)0,(u16)(*(int *)&((struct MailViewCtx *)p)->f0));
 }
 
 
 void func_021C5470(u8 *p)
 {
-    func_0204B1CC(((struct Obj23500 *)p)->fA0);
+    func_0204B1CC(((struct MailViewCtx *)p)->fA0);
     func_0204A5AC();
 }
 
@@ -1091,11 +1075,11 @@ int func_021C5480(void *a, int unused, void **arg)
     func_0203064C(1,101,65536);
     p = func_0203159C(a,52,101);
     func_02082AC0(0,p,52);
-    ((struct Obj06527 *)p)->f4 = arg;
-    ((struct Obj06527 *)p)->f0 = func_02008FEC(*arg);
-    ((struct Obj06527 *)p)->f28 = 8;
-    ((struct Obj06527 *)p)->f2C = 0;
-    ((struct Obj06527 *)p)->f30 = func_02031324(101);
+    ((struct MbSeqCtx *)p)->f4 = arg;
+    ((struct MbSeqCtx *)p)->f0 = func_02008FEC(*arg);
+    *(int *)&((struct MbSeqCtx *)p)->f28 = 8;
+    *(int *)&((struct MbSeqCtx *)p)->f2C = 0;
+    ((struct MbSeqCtx *)p)->f30 = func_02031324(101);
     return 1;
 }
 
@@ -1117,7 +1101,7 @@ int func_021C54DC(void *a, void *b, void *c, u32 *p)
 }
 
 
-void func_021C54FC(void)
+void func_021C54FC(void *unused)
 {
     func_020419E4();
     func_0204A648();

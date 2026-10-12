@@ -62,29 +62,15 @@
  *   func_02027FD8 0x02027FD8 thumb
  *   func_02027858 0x02027858 thumb
  */
-#include "../../matched/include/Obj14188.h"
-#include "../../matched/include/Obj23503.h"
-#include "../../matched/include/Obj04533.h"
-#include "../../matched/include/Obj23511.h"
-#include "../../matched/include/Obj10600.h"
-#include "../../matched/include/Obj10601.h"
-#include "../../matched/include/Obj08199.h"
-#include "../../matched/include/Obj23513.h"
-#include "../../matched/include/Obj23514.h"
-#include "../../matched/include/Obj02494.h"
-#include "../../matched/include/Obj23515.h"
-#include "../../matched/include/Obj23516.h"
-#include "../../matched/include/Obj23517.h"
-#include "../../matched/include/Obj23518.h"
-#include "../../matched/include/Obj08201.h"
-#include "../../matched/include/Obj23519.h"
-#include "../../matched/include/Obj23520.h"
-#include "../../matched/include/Obj23521.h"
-#include "../../matched/include/Obj10602.h"
-#include "../../matched/include/Obj23522.h"
-#include "../../matched/include/Obj23523.h"
-#include "../../matched/include/Obj23524.h"
-#include "../../matched/include/Obj23525.h"
+#include "ov136_types.h"
+struct MbUnitACtx;
+
+struct MbUnitACtx {
+    unsigned char pad_0[8];
+    void *f8;
+    unsigned char pad_C[8];
+    void *f14;
+};
 
 struct WinMgr;
 struct MsgBank;
@@ -149,18 +135,18 @@ extern void *func_02045EC0(struct MsgBank *, u32);
 extern u32 func_02027FD8(struct TaskMenuState *s);
 extern void func_02027858(struct TaskMenu *m);
 void func_021C5518(u8 *a0);
-void func_021C5714(void *a0);
-void func_021C574C(u8 *p);
-void func_021C5828(void *a0);
-void func_021C587C(u8 *p);
-void func_021C5918(u8 *p);
-void func_021C5924(u8 *p);
-void func_021C5954(u8 *p);
-void func_021C5974(u8 *p);
-void func_021C59B8(u8 *p);
+void func_021C5714(struct MbSeqCtx *a0);
+void func_021C574C(struct MbSeqCtx *p);
+void func_021C5828(struct MbSeqCtx *a0);
+void func_021C587C(struct MbSeqCtx *p);
+void func_021C5918(struct MbSeqCtx *p);
+void func_021C5924(struct MbUnitBCtx *p);
+void func_021C5954(struct MbUnitBCtx *p);
+void func_021C5974(struct MbSeqCtx *p);
+void func_021C59B8(struct MbSeqCtx *p);
 void func_021C5AA8(u8 *p);
-void func_021C5AEC(u8 *p);
-void func_021C5B30(u8 *p);
+void func_021C5AEC(struct MbUnitACtx *p);
+void func_021C5B30(struct MbSeqCtx *p);
 extern const struct DispConfig g_7910;
 extern const struct BgTemplate g_79E0;
 extern const struct BgTemplate g_79A0;
@@ -237,7 +223,7 @@ void func_021C5518(u8 *a0)
 }
 
 
-void func_021C5714(void *a0)
+void func_021C5714(struct MbSeqCtx *a0)
 {
     func_020403F4(3);
     func_020403F4(2);
@@ -251,7 +237,7 @@ void func_021C5714(void *a0)
 }
 
 
-void func_021C574C(u8 *p)
+void func_021C574C(struct MbSeqCtx *p)
 {
     void *h;
     void *buf;
@@ -266,14 +252,14 @@ void func_021C574C(u8 *p)
     func_020498F4(h, 0x25, 3, 0, 0, 1, 0x66);
     func_02049B68(h, 0x27, 0, 0, 0, 0x66);
     buf = func_02049DF4(h, 0x26, 1, (u32)(&out), 0x66);
-    dst = *(u8 * *)&((struct Obj23503 *)out)->f14;
-    func_02082B0C(dst + 0x100, *(u8 * *)&((struct Obj14188 *)p)->f8 + 4, 0x20);
-    func_02082B0C(dst + 0x100, *(u8 * *)&((struct Obj14188 *)p)->f8 + 0x24, 0x20);
+    dst = *(u8 * *)&((struct MbUnitACtx *)out)->f14;
+    func_02082B0C(dst + 0x100, *(u8 * *)&p->f8 + 4, 0x20);
+    func_02082B0C(dst + 0x100, *(u8 * *)&p->f8 + 0x24, 0x20);
     func_020307B0(buf);
     func_02049238(h);
 }
 
-void func_021C5828(void *a0)
+void func_021C5828(struct MbSeqCtx *a0)
 {
     func_0201F5BC(0,994,13,0,102);
     func_02049B40(23,5,0,448,32,102);
@@ -281,50 +267,50 @@ void func_021C5828(void *a0)
     func_02049B40(23,5,0,480,32,102);
 }
 
-void func_021C587C(u8 *p)
+void func_021C587C(struct MbSeqCtx *p)
 {
     u32 i;
     void *first;
-    **(void ** *)&((struct Obj04533 *)p)->f8 = func_0202C9B4(2,11,102);
-    for(i=0;i<10;i++) func_0202CA3C(**(void ** *)&((struct Obj04533 *)p)->f8,i,2,14,4);
-    func_0202CA3C(**(void ** *)&((struct Obj04533 *)p)->f8,10,1,14,4);
-    func_0202CAE4(**(void ** *)&((struct Obj04533 *)p)->f8,0,155,40,1);
-    first = (void *)func_0202CF84(**(void ** *)&((struct Obj04533 *)p)->f8,0);
-    for(i=1;i<=10;i++) func_02082D44(first,(void *)func_0202CF84(**(void ** *)&((struct Obj04533 *)p)->f8,i),112);
-    for(i=0;i<10;i++) func_0202CB4C(**(void ** *)&((struct Obj04533 *)p)->f8,i,(i%2)*16+1,(i/2)*4);
+    **(void ** *)&p->f8 = func_0202C9B4(2,11,102);
+    for(i=0;i<10;i++) func_0202CA3C(**(void ** *)&p->f8,i,2,14,4);
+    func_0202CA3C(**(void ** *)&p->f8,10,1,14,4);
+    func_0202CAE4(**(void ** *)&p->f8,0,155,40,1);
+    first = (void *)func_0202CF84(**(void ** *)&p->f8,0);
+    for(i=1;i<=10;i++) func_02082D44(first,(void *)func_0202CF84(**(void ** *)&p->f8,i),112);
+    for(i=0;i<10;i++) func_0202CB4C(**(void ** *)&p->f8,i,(i%2)*16+1,(i/2)*4);
 }
 
-void func_021C5918(u8 *p)
+void func_021C5918(struct MbSeqCtx *p)
 {
-    func_0202CA0C(**(struct WinMgr ** *)&((struct Obj23511 *)p)->f8);
+    func_0202CA0C(**(struct WinMgr ** *)&p->f8);
 }
 
-void func_021C5924(u8 *p)
+void func_021C5924(struct MbUnitBCtx *p)
 {
-    ((struct Obj10600 *)p)->f1D0 = func_02045B38(0, 2, 0x3b, 0x66);
-    ((struct Obj10600 *)p)->f1D4 = func_0201EC64(0x66);
-    ((struct Obj10600 *)p)->f1D8 = func_020457B0(0x400, 0x66);
+    p->f1D0 = func_02045B38(0, 2, 0x3b, 0x66);
+    p->f1D4 = func_0201EC64(0x66);
+    p->f1D8 = func_020457B0(0x400, 0x66);
 }
 
-void func_021C5954(u8 *p)
+void func_021C5954(struct MbUnitBCtx *p)
 {
-    func_02045808(((struct Obj10601 *)p)->f1D8);
-    func_0201ED04(((struct Obj10601 *)p)->f1D4);
-    func_02045C04(((struct Obj10601 *)p)->f1D0);
+    func_02045808(p->f1D8);
+    func_0201ED04(p->f1D4);
+    func_02045C04(p->f1D0);
 }
 
-void func_021C5974(u8 *p)
+void func_021C5974(struct MbSeqCtx *p)
 {
     Template t;
     t.heap = 102;
     t.count = 2;
-    t.items = *(u8 * *)&((struct Obj08199 *)p)->f8 + 0x344;
+    t.items = *(u8 * *)&p->f8 + 0x344;
     t.zero = 0;
     t.x = 21;
     t.y = 8;
     t.w = 10;
     t.h = 3;
-    ((struct Obj23514 *)(*(u8 * *)&((struct Obj08199 *)p)->f8))->f310 = func_02027778((struct TaskMenuTmpl *)(&t), ((struct Obj23513 *)(*(u8 * *)&((struct Obj08199 *)p)->f8))->f30C);
+    ((struct MbUnitBCtx *)p->f8)->f310 = func_02027778((struct TaskMenuTmpl *)(&t), ((struct MbUnitBCtx *)p->f8)->f30C);
 }
 
 
@@ -333,22 +319,22 @@ void func_021C5974(u8 *p)
  *   its live address keeps r7 and frees the far-offset constants into the original stack slots.
  * retry: wave77 R24 recovered in 3 scratch runs; own callee prototypes copied before matching.
  */
-void func_021C59B8(u8 *p)
+void func_021C59B8(struct MbSeqCtx *p)
 {
     u16 i;
     const struct Pair *t;
-    ((struct Obj23516 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f30C = func_02027F60(0, 5, ((struct Obj02494 *)p)->f18, ((struct Obj23515 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f1C4, 0x66);
+    ((struct MbUnitBCtx *)p->f8)->f30C = func_02027F60(0, 5, p->f18, *(unsigned int *)&((struct MbUnitBCtx *)p->f8)->f1C4, 0x66);
     for (i = 0; i < 4; i++) {
         t = &g_78C0[i];
-        *(u32 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x314) = (u32)func_02045EC0(((struct Obj23517 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f1D0, t->a);
-        *(u16 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x318) = 0x39E3;
-        *(u32 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x31C) = t->b;
+        *(u32 *)(*(u8 * *)&p->f8 + i * 12 + 0x314) = (u32)func_02045EC0(((struct MbUnitBCtx *)p->f8)->f1D0, t->a);
+        *(u16 *)(*(u8 * *)&p->f8 + i * 12 + 0x318) = 0x39E3;
+        *(u32 *)(*(u8 * *)&p->f8 + i * 12 + 0x31C) = t->b;
     }
     for (i = 0; i < 2; i++) {
         t = &g_78B0[i];
-        *(u32 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x344) = (u32)func_02045EC0(((struct Obj23518 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f1D0, t->a);
-        *(u16 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x348) = 0x39E3;
-        *(u32 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x34C) = t->b;
+        *(u32 *)(*(u8 * *)&p->f8 + i * 12 + 0x344) = (u32)func_02045EC0(((struct MbUnitBCtx *)p->f8)->f1D0, t->a);
+        *(u16 *)(*(u8 * *)&p->f8 + i * 12 + 0x348) = 0x39E3;
+        *(u32 *)(*(u8 * *)&p->f8 + i * 12 + 0x34C) = t->b;
     }
 }
 
@@ -356,27 +342,27 @@ void func_021C5AA8(u8 *p)
 {
     int i;
     for (i = 0; i < 4; i++)
-        func_02045808(*(void **)(*(u8 * *)&((struct Obj08201 *)p)->f8 + 0x314 + i * 12));
-    func_02045808(((struct Obj23519 *)(*(u8 * *)&((struct Obj08201 *)p)->f8))->f344);
-    func_02045808(((struct Obj23520 *)(*(u8 * *)&((struct Obj08201 *)p)->f8))->f350);
-    func_02027FD8(((struct Obj23521 *)(*(u8 * *)&((struct Obj08201 *)p)->f8))->f30C);
+        func_02045808(*(void **)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + 0x314 + i * 12));
+    func_02045808(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f344);
+    func_02045808(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f350);
+    func_02027FD8(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f30C);
 }
 
-void func_021C5AEC(u8 *p)
+void func_021C5AEC(struct MbUnitACtx *p)
 {
     Template t;
     t.heap = 102;
     t.count = 4;
-    t.items = *(u8 * *)&((struct Obj10602 *)p)->f8 + 0x314;
+    t.items = *(u8 * *)&p->f8 + 0x314;
     t.zero = 0;
     t.x = 20;
     t.y = 12;
     t.w = 12;
     t.h = 3;
-    ((struct Obj23523 *)(*(u8 * *)&((struct Obj10602 *)p)->f8))->f310 = func_02027778((struct TaskMenuTmpl *)(&t), ((struct Obj23522 *)(*(u8 * *)&((struct Obj10602 *)p)->f8))->f30C);
+    ((struct MbUnitBCtx *)p->f8)->f310 = func_02027778((struct TaskMenuTmpl *)(&t), ((struct MbUnitBCtx *)p->f8)->f30C);
 }
 
-void func_021C5B30(u8 *p)
+void func_021C5B30(struct MbSeqCtx *p)
 {
-    func_02027858(((struct Obj23525 *)(*(u8 * *)&((struct Obj23524 *)p)->f8))->f310);
+    func_02027858(((struct MbUnitBCtx *)p->f8)->f310);
 }
