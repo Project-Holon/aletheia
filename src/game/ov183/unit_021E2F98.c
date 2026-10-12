@@ -14,11 +14,7 @@
  *   SOCLi_Resource  0x021E3910  data  ov183
  */
 
-typedef struct SOCLResource
-{
-    int numDescTcp;
-    int numDescUdp;
-} SOCLResource;
+#include "soc_types.h"
 
 extern SOCLResource SOCLi_Resource;
 
